@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="10" skipped="0" tests="10" time="0.401" timestamp="2026-09-16T19:26:18.951350+03:00" hostname="DESKTOP-ELKUIO6"><testcase classname="tests.test_integration_audit" name="test_exact_constant_paired_effect_has_point_interval" time="0.002"><failure message="Failed: paired audit and protection gates not implemented">tests\test_integration_audit.py:9: in module
+    return importlib.import_module('integration.audit_stats')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Program Files\Python311\Lib\importlib\__init__.py:126: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+&lt;frozen importlib._bootstrap&gt;:1204: in _gcd_import
+    ???
+&lt;frozen importlib._bootstrap&gt;:1176: in _find_and_load
+    ???
+&lt;frozen importlib._bootstrap&gt;:1126: in _find_and_load_unlocked
+    ???
+&lt;frozen importlib._bootstrap&gt;:241: in _call_with_frames_removed
+    ???
+&lt;frozen importlib._bootstrap&gt;:1204: in _gcd_import
+    ???
+&lt;frozen importlib._bootstrap&gt;:1176: in _find_and_load
+    ???
+&lt;frozen importlib._bootstrap&gt;:1140: in _find_and_load_unlocked
+    ???
+E   ModuleNotFoundError: No module named 'integration'
+
+During handling of the above exception, another exception occurred:
+tests\test_integration_audit.py:15: in test_exact_constant_paired_effect_has_point_interval
+    audit = module()
+            ^^^^^^^^
+tests\test_integration_audit.py:11: in module
+    pytest.fail('paired audit and protection gates not implemented')
+E   Failed: paired audit and protection gates not implemented</failure></testcase><testcase classname="tests.test_integration_audit" name="test_correlated_seed_predictions_not_counted_as_more_examples" time="0.001"><failure message="Failed: paired audit and protection gates not implemented">tests\test_integration_audit.py:9: in module
+    return importlib.import_module('integration.audit_stats')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Program Files\Python311\Lib\importlib\__init__.py:126: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+&lt;frozen importlib._bootstrap&gt;:1204: in _gcd_import
+    ???
+&lt;frozen importlib._bootstrap&gt;:1176: in _find_and_load
+    ???
+&lt;frozen importlib._bootstrap&gt;:1126: in _find_and_load_unlocked
+    ???
+&lt;frozen importlib._bootstrap&gt;:241: in _call_with_frames_removed
+    ???
+&lt;frozen importlib._bootstrap&gt;:1204: in _gcd_import
+    ???
+&lt;frozen importlib._bootstrap&gt;:1176: in _find_and_load
+    ???
+&lt;frozen importlib._bootstrap&gt;:1140: in _find_and_load_unlocked
+    ???
+E   ModuleNotFoundError: No module named 'integration'
+
+During handling of the above exception, another exception occurred:
+tests\test_integration_audit.py:25: in test_correlated_seed_predictions_not_counted_as_more_examples
+    audit = module()
+            ^^^^^^^^
+tests\test_integration_audit.py:11: in module
+    pytest.fail('paired audit and protection gates not implemented')
+E   Failed: paired audit and protection gates not implemented</failure></testcase><testcase classname="tests.test_integration_audit" name="test_unaffected_final_error_blocks_misleading_revision_gain" time="0.002"><failure message="Failed: paired audit and protection gates not implemented">tests\test_integration_audit.py:9: in module
+    return importlib.import_module('integration.audit_stats')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Program Files\Python311\Lib\importlib\__init__.py:126: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+&lt;frozen importlib._bootstrap&gt;:1204: in _gcd_import
+    ???
+&lt;frozen importlib._bootstrap&gt;:1176: in _find_and_load
+    ???
+&lt;frozen importlib._bootstrap&gt;:1126: in _find_and_load_unlocked
+    ???
+&lt;frozen importlib._bootstrap&gt;:241: in _call_with_frames_removed
+    ???
+&lt;frozen importlib._bootstrap&gt;:1204: in _gcd_import
+    ???
+&lt;frozen importlib._bootstrap&gt;:1176: in _find_and_load
+    ???
+&lt;frozen importlib._bootstrap&gt;:1140: in _find_and_load_unlocked
+    ???
+E   ModuleNotFoundError: No module named 'integration'
+
+During handling of the above exception, another exception occurred:
+tests\test_integration_audit.py:33: in test_unaffected_final_error_blocks_misleading_revision_gain
+    audit = module()
+            ^^^^^^^^
+tests\test_integration_audit.py:11: in module
+    pytest.fail('paired audit and protection gates not implemented')
+E   Failed: paired audit and protection gates not implemented</failure></testcase><testcase classname="tests.test_integration_audit" name="test_revision_gate_requires_every_seed_to_improve" time="0.001"><failure message="Failed: paired audit and protection gates not implemented">tests\test_integration_audit.py:9: in module
+    return importlib.import_module('integration.audit_stats')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Program Files\Python311\Lib\importlib\__init__.py:126: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+&lt;frozen importlib._bootstrap&gt;:1204: in _gcd_import
+    ???
+&lt;frozen importlib._bootstrap&gt;:1176: in _find_and_load
+    ???
+&lt;frozen importlib._bootstrap&gt;:1126: in _find_and_load_unlocked
+    ???
+&lt;frozen importlib._bootstrap&gt;:241: in _call_with_frames_removed
+    ???
+&lt;frozen importlib._bootstrap&gt;:1204: in _gcd_import
+    ???
+&lt;frozen importlib._bootstrap&gt;:1176: in _find_and_load
+    ???
+&lt;frozen importlib._bootstrap&gt;:1140: in _find_and_load_unlocked
+    ???
+E   ModuleNotFoundError: No module named 'integration'
+
+During handling of the above exception, another exception occurred:
+tests\test_integration_audit.py:43: in test_revision_gate_requires_every_seed_to_improve
+    audit = module()
+            ^^^^^^^^
+tests\test_integration_audit.py:11: in module
+    pytest.fail('paired audit and protection gates not implemented')
+E   Failed: paired audit and protection gates not implemented</failure></testcase><testcase classname="tests.test_integration_audit" name="test_valid_revision_gate_passes_both_final_error_checks" time="0.001"><failure message="Failed: paired audit and protection gates not implemented">tests\test_integration_audit.py:9: in module
+    return importlib.import_module('integration.audit_stats')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Program Files\Python311\Lib\importlib\__init__.py:126: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+&lt;frozen importlib._bootstrap&gt;:1204: in _gcd_import
+    ???
+&lt;frozen importlib._bootstrap&gt;:1176: in _find_and_load
+    ???
+&lt;frozen importlib._bootstrap&gt;:1126: in _find_and_load_unlocked
+    ???
+&lt;frozen importlib._bootstrap&gt;:241: in _call_with_frames_removed
+    ???
+&lt;frozen importlib._bootstrap&gt;:1204: in _gcd_import
+    ???
+&lt;frozen importlib._bootstrap&gt;:1176: in _find_and_load
+    ???
+&lt;frozen importlib._bootstrap&gt;:1140: in _find_and_load_unlocked
+    ???
+E   ModuleNotFoundError: No module named 'integration'
+
+During handling of the above exception, another exception occurred:
+tests\test_integration_audit.py:53: in test_valid_revision_gate_passes_both_final_error_checks
+    audit = module()
+            ^^^^^^^^
+tests\test_integration_audit.py:11: in module
+    pytest.fail('paired audit and protection gates not implemented')
+E   Failed: paired audit and protection gates not implemented</failure></testcase><testcase classname="tests.test_integration_audit" name="test_invalid_loss_evidence_is_rejected[bad0]" time="0.002"><failure message="Failed: paired audit and protection gates not implemented">tests\test_integration_audit.py:9: in module
+    return importlib.import_module('integration.audit_stats')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Program Files\Python311\Lib\importlib\__init__.py:126: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+&lt;frozen importlib._bootstrap&gt;:1204: in _gcd_import
+    ???
+&lt;frozen importlib._bootstrap&gt;:1176: in _find_and_load
+    ???
+&lt;frozen importlib._bootstrap&gt;:1126: in _find_and_load_unlocked
+    ???
+&lt;frozen importlib._bootstrap&gt;:241: in _call_with_frames_removed
+    ???
+&lt;frozen importlib._bootstrap&gt;:1204: in _gcd_import
+    ???
+&lt;frozen importlib._bootstrap&gt;:1176: in _find_and_load
+    ???
+&lt;frozen importlib._bootstrap&gt;:1140: in _find_and_load_unlocked
+    ???
+E   ModuleNotFoundError: No module named 'integration'
+
+During handling of the above exception, another exception occurred:
+tests\test_integration_audit.py:62: in test_invalid_loss_evidence_is_rejected
+    audit=module()
+          ^^^^^^^^
+tests\test_integration_audit.py:11: in module
+    pytest.fail('paired audit and protection gates not implemented')
+E   Failed: paired audit and protection gates not implemented</failure></testcase><testcase classname="tests.test_integration_audit" name="test_invalid_loss_evidence_is_rejected[bad1]" time="0.002"><failure message="Failed: paired audit and protection gates not implemented">tests\test_integration_audit.py:9: in module
+    return importlib.import_module('integration.audit_stats')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Program Files\Python311\Lib\importlib\__init__.py:126: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+&lt;frozen importlib._bootstrap&gt;:1204: in _gcd_import
+    ???
+&lt;frozen importlib._bootstrap&gt;:1176: in _find_and_load
+    ???
+&lt;frozen importlib._bootstrap&gt;:1126: in _find_and_load_unlocked
+    ???
+&lt;frozen importlib._bootstrap&gt;:241: in _call_with_frames_removed
+    ???
+&lt;frozen importlib._bootstrap&gt;:1204: in _gcd_import
+    ???
+&lt;frozen importlib._bootstrap&gt;:1176: in _find_and_load
+    ???
+&lt;frozen importlib._bootstrap&gt;:1140: in _find_and_load_unlocked
+    ???
+E   ModuleNotFoundError: No module named 'integration'
+
+During handling of the above exception, another exception occurred:
+tests\test_integration_audit.py:62: in test_invalid_loss_evidence_is_rejected
+    audit=module()
+          ^^^^^^^^
+tests\test_integration_audit.py:11: in module
+    pytest.fail('paired audit and protection gates not implemented')
+E   Failed: paired audit and protection gates not implemented</failure></testcase><testcase classname="tests.test_integration_audit" name="test_invalid_loss_evidence_is_rejected[bad2]" time="0.002"><failure message="Failed: paired audit and protection gates not implemented">tests\test_integration_audit.py:9: in module
+    return importlib.import_module('integration.audit_stats')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Program Files\Python311\Lib\importlib\__init__.py:126: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+&lt;frozen importlib._bootstrap&gt;:1204: in _gcd_import
+    ???
+&lt;frozen importlib._bootstrap&gt;:1176: in _find_and_load
+    ???
+&lt;frozen importlib._bootstrap&gt;:1126: in _find_and_load_unlocked
+    ???
+&lt;frozen importlib._bootstrap&gt;:241: in _call_with_frames_removed
+    ???
+&lt;frozen importlib._bootstrap&gt;:1204: in _gcd_import
+    ???
+&lt;frozen importlib._bootstrap&gt;:1176: in _find_and_load
+    ???
+&lt;frozen importlib._bootstrap&gt;:1140: in _find_and_load_unlocked
+    ???
+E   ModuleNotFoundError: No module named 'integration'
+
+During handling of the above exception, another exception occurred:
+tests\test_integration_audit.py:62: in test_invalid_loss_evidence_is_rejected
+    audit=module()
+          ^^^^^^^^
+tests\test_integration_audit.py:11: in module
+    pytest.fail('paired audit and protection gates not implemented')
+E   Failed: paired audit and protection gates not implemented</failure></testcase><testcase classname="tests.test_integration_audit" name="test_no_acceptances_do_not_become_zero_risk_evidence" time="0.001"><failure message="Failed: paired audit and protection gates not implemented">tests\test_integration_audit.py:9: in module
+    return importlib.import_module('integration.audit_stats')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Program Files\Python311\Lib\importlib\__init__.py:126: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+&lt;frozen importlib._bootstrap&gt;:1204: in _gcd_import
+    ???
+&lt;frozen importlib._bootstrap&gt;:1176: in _find_and_load
+    ???
+&lt;frozen importlib._bootstrap&gt;:1126: in _find_and_load_unlocked
+    ???
+&lt;frozen importlib._bootstrap&gt;:241: in _call_with_frames_removed
+    ???
+&lt;frozen importlib._bootstrap&gt;:1204: in _gcd_import
+    ???
+&lt;frozen importlib._bootstrap&gt;:1176: in _find_and_load
+    ???
+&lt;frozen importlib._bootstrap&gt;:1140: in _find_and_load_unlocked
+    ???
+E   ModuleNotFoundError: No module named 'integration'
+
+During handling of the above exception, another exception occurred:
+tests\test_integration_audit.py:68: in test_no_acceptances_do_not_become_zero_risk_evidence
+    audit=module()
+          ^^^^^^^^
+tests\test_integration_audit.py:11: in module
+    pytest.fail('paired audit and protection gates not implemented')
+E   Failed: paired audit and protection gates not implemented</failure></testcase><testcase classname="tests.test_integration_audit" name="test_acceptance_risk_counts_conditional_errors_and_coverage" time="0.002"><failure message="Failed: paired audit and protection gates not implemented">tests\test_integration_audit.py:9: in module
+    return importlib.import_module('integration.audit_stats')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Program Files\Python311\Lib\importlib\__init__.py:126: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+&lt;frozen importlib._bootstrap&gt;:1204: in _gcd_import
+    ???
+&lt;frozen importlib._bootstrap&gt;:1176: in _find_and_load
+    ???
+&lt;frozen importlib._bootstrap&gt;:1126: in _find_and_load_unlocked
+    ???
+&lt;frozen importlib._bootstrap&gt;:241: in _call_with_frames_removed
+    ???
+&lt;frozen importlib._bootstrap&gt;:1204: in _gcd_import
+    ???
+&lt;frozen importlib._bootstrap&gt;:1176: in _find_and_load
+    ???
+&lt;frozen importlib._bootstrap&gt;:1140: in _find_and_load_unlocked
+    ???
+E   ModuleNotFoundError: No module named 'integration'
+
+During handling of the above exception, another exception occurred:
+tests\test_integration_audit.py:76: in test_acceptance_risk_counts_conditional_errors_and_coverage
+    audit=module()
+          ^^^^^^^^
+tests\test_integration_audit.py:11: in module
+    pytest.fail('paired audit and protection gates not implemented')
+E   Failed: paired audit and protection gates not implemented</failure></testcase></testsuite></testsuites>

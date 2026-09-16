@@ -26,7 +26,16 @@ Ruling: Finite local experiments provide scoped package outcomes, not proof of i
 
 ## Tasks
 
-- Task1 core: queued.
-- Task2 memory: queued.
-- Task3 learning: queued.
+- Task1 core: /root/e2e_core; 10 contract tests passed. Frozen primary21 runs of2000updates + separate final-only companion6 runs. CPU faster than GPU for tiny recurrent training. Early validation parity learned, final tests unopened.
+- Task2 memory: /root/e2e_memory; extractor3seeds measured. Seen-layout exact1.0 but held-out-layout exact .284/.180/.109; negative transfer retained. Engineering v1/v2 retained; v3 fixes resident summary payload and retrieval-decoy validity before new final engineering split.
+- Task3 learning: /root/e2e_learning; independent review found v1 GRU substitution does not satisfy RLT integration. Stopped early diagnostic; corrected v2 actual RLT core validated8tests;18paired600step trainings running.
 - Task4 integration/review/report: preflight in progress.
+
+## Root audit work
+
+- All424 upstream manifest files verified SHA256 unchanged; audit/upstream_preflight.json.
+- Independent paired-statistics/final-error/coverage safeguards: RED10 then GREEN10 tests; XML evidence retained. Never treat3model predictions of one case as3independent examples.
+- Source README and PDF copied at pinned commit to audit/sources with hashes, no upstream mutation.
+- Interface ruling: absolute observations and child-offset equations are different semantic facets. Memory compact/retrieval must preserve both for backward evidence. Version-by-child alone loses constraints.
+- Interface ruling: a residual certificate proves consistency with parsed constraints, not faithfulness of the learned parse to the original text. End-to-end source-relative risk is measured separately.
+- Research-scope ruling: prefix-supervised TBPTT comparison cannot establish learning from delayed final error alone. Core worker adds a separate preregistered final-only companion; primary frozen protocol stays unchanged.

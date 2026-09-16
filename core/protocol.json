@@ -1,0 +1,79 @@
+{
+  "version": 1,
+  "source_pin": "cc05cfe0b24bc5eb353c6f3c14990ea4e7be0a39",
+  "source_url": "https://raw.githubusercontent.com/yifanzhang-pro/recurrent-looped-tranformer/cc05cfe0b24bc5eb353c6f3c14990ea4e7be0a39/README.md",
+  "seeds": [
+    17,
+    43,
+    91
+  ],
+  "tasks": [
+    "parity",
+    "five"
+  ],
+  "width": 32,
+  "scale_width": 48,
+  "heads": 2,
+  "window": 4,
+  "encoder_layers": 1,
+  "decoder_layers": 1,
+  "ff_multiplier": 2,
+  "alpha": 0.1,
+  "train_tokens": 32,
+  "train_operation_includes_identity": true,
+  "token_probabilities": [
+    0.4375,
+    0.4375,
+    0.125
+  ],
+  "batch": 32,
+  "max_steps": 2000,
+  "lr": 0.003,
+  "weight_decay": 0.01,
+  "clip": 1.0,
+  "loss": "mean prefix cross entropy",
+  "validation_n": 256,
+  "validation_every": 100,
+  "selection": "minimum validation prefix cross entropy over steps100..2000; no early stopping; final-state accuracy is primary reporting",
+  "test_n": 512,
+  "test_lengths": [
+    32,
+    64,
+    128,
+    256,
+    512,
+    1024
+  ],
+  "tbptt": 8,
+  "tbptt_route": "detach s and decoder SWA every8; encoder and projected global memory retained",
+  "conditions": "width32: both tasks full RLT and matched nofeedback; parity also TBPTT8. width48: parity full RLT and nofeedback. all3seeds. 21runs",
+  "split_seeds": {
+    "train_offset": 100000,
+    "validation_offset": 200000,
+    "test_offset": 900000
+  },
+  "neutral_slots": [
+    0,
+    8,
+    32,
+    128
+  ],
+  "neutral_task_tokens": 32,
+  "k": 0,
+  "state_noise_std": [
+    0,
+    0.001,
+    0.01,
+    0.1
+  ],
+  "diagnostic_lags": [
+    1,
+    4,
+    8,
+    16,
+    31
+  ],
+  "energy": "UNMEASURED",
+  "device": "cpu",
+  "threads": 1
+}

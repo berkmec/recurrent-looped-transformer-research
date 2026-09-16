@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="4" skipped="0" tests="4" time="2.520" timestamp="2026-09-16T19:39:49.749980+03:00" hostname="DESKTOP-ELKUIO6"><testcase classname="tests.test_integration_scale" name="test_checkpoint_selection_uses_validation_prefix_loss_not_test_or_accuracy" time="0.003"><failure message="Failed: larger-scale evidence harness not implemented">E   ModuleNotFoundError: No module named 'integration.run_scale'
+
+During handling of the above exception, another exception occurred:
+E   Failed: larger-scale evidence harness not implemented</failure></testcase><testcase classname="tests.test_integration_scale" name="test_weight_hash_ignores_mapping_order_but_detects_values" time="0.001"><failure message="Failed: larger-scale evidence harness not implemented">E   ModuleNotFoundError: No module named 'integration.run_scale'
+
+During handling of the above exception, another exception occurred:
+E   Failed: larger-scale evidence harness not implemented</failure></testcase><testcase classname="tests.test_integration_scale" name="test_scale_batches_match_core_training_stream_exactly" time="0.001"><failure message="Failed: larger-scale evidence harness not implemented">E   ModuleNotFoundError: No module named 'integration.run_scale'
+
+During handling of the above exception, another exception occurred:
+E   Failed: larger-scale evidence harness not implemented</failure></testcase><testcase classname="tests.test_integration_scale" name="test_protocol_write_never_overwrites_prior_evidence" time="0.009"><failure message="Failed: larger-scale evidence harness not implemented">E   ModuleNotFoundError: No module named 'integration.run_scale'
+
+During handling of the above exception, another exception occurred:
+E   Failed: larger-scale evidence harness not implemented</failure></testcase></testsuite></testsuites>
