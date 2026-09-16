@@ -10,6 +10,18 @@ def freeze():
  p=json.loads(pp.read_text());assert sha(pp)==(ROOT/'final-only-protocol.sha256').read_text();return p
 def run():
  p=freeze();pp=ROOT/'final-only-protocol.json';records=[]
+ if any(CK.glob('finalonly-*.pt')) or any(RES.glob('finalonly-*.json')) or (RES/'final-only-metrics.json').exists():
+  raise RuntimeError('Existing final-only evidence: refuse rerun or partial resume; use read-only binding verification')
+ environment=dict(torch=torch.__version__,device='cpu',threads=torch.get_num_threads(),protocol_hash=sha(pp),source_hashes={name:sha(ROOT/name) for name in ['model.py','run.py','run_final_only.py']})
+ envpath=ROOT/'final-only-environment.json'
+ if envpath.exists():
+  if json.loads(envpath.read_text())!=environment:raise RuntimeError('final-only environment/source drift; refuse reuse')
+ else:
+  with envpath.open('x',encoding='utf8') as f:json.dump(environment,f,indent=2)
+ for name,h in environment['source_hashes'].items():
+  path=ROOT/'source-snapshots'/h/name;path.parent.mkdir(exist_ok=True,parents=True)
+  if not path.exists():
+   with path.open('xb') as f:f.write((ROOT/name).read_bytes())
  for seed in p['seeds']:
   for mode in p['modes']:
    c=dict(task='parity',seed=seed,width=32,mode=mode);name=f'finalonly-parity-w32-{mode}-s{seed}';rp=RES/(name+'.json')

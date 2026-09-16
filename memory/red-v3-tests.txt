@@ -1,0 +1,13 @@
+.F.............
+======================================================================
+FAIL: test_compact_payload_disk_backed_and_hash_verified (test_memory_contracts.MemoryContracts.test_compact_payload_disk_backed_and_hash_verified)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\rlt-research\2026-09-16-e2e\tests\test_memory_contracts.py", line 61, in test_compact_payload_disk_backed_and_hash_verified
+    self.assertNotIn('conditions',c.summaries[('T','A')])
+AssertionError: 'conditions' unexpectedly found in {'version': 3, 'conditions': {'absolute:x': ('x', None, 1.0), 'edge:y': ('y', 'x', 2.0), 'edge:z': ('z', 'y', 3.0)}, 'sha': '720d20a04efc14f017278dddb9d8442b1fcfcbdc6a03946b49bc081cda5f311e', 'valid': False}
+
+----------------------------------------------------------------------
+Ran 15 tests in 0.378s
+
+FAILED (failures=1)

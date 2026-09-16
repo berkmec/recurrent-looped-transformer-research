@@ -1,0 +1,23 @@
+{
+  "repeats": 3,
+  "width": 32,
+  "seed": 17,
+  "checkpoint": "parity-w32-rlt-s17-selected.pt",
+  "length": 32,
+  "batch": 32,
+  "modes": [
+    "full",
+    "tbptt8",
+    "checkpoint"
+  ],
+  "losses": [
+    "prefix",
+    "final_only"
+  ],
+  "data_seed": 7900017,
+  "optimizer": "AdamW lr.003 weight_decay.01 clip1",
+  "threads": 1,
+  "warmup": "one no-grad forward",
+  "memory": "Windows native whole-process PeakWorkingSetSize; not activation-only allocation",
+  "purpose": "real one-step gradient/update and process-memory comparison from paired weights/data in fresh processes"
+}

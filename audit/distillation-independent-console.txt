@@ -1,0 +1,100 @@
+{
+  "status": "FAIL",
+  "checks": 111,
+  "failures": [
+    "independent16_episode_actual_teacher_replay_17",
+    "independent16_episode_actual_teacher_replay_43",
+    "independent16_episode_actual_teacher_replay_91"
+  ],
+  "reference_effects": [
+    {
+      "split": "iid",
+      "arm": "answer_only",
+      "reference": "initial_feedback600",
+      "mean_candidate_minus_reference": 0.0006079463090316947,
+      "per_seed_candidate_minus_reference": [
+        0.0028800923787800805,
+        0.0011697347146126663,
+        -0.002225988166297663
+      ],
+      "seed_t95": [
+        -0.005848288555929076,
+        0.007064181173992466
+      ],
+      "crossed_bootstrap95": [
+        -0.002023065768725545,
+        0.002874636301052669
+      ],
+      "bootstrap_reps": 2000,
+      "bootstrap_seed": 170043,
+      "unit": "candidate minus reference squared final error; negative is improvement; common examples shared across resampled seed rows"
+    },
+    {
+      "split": "iid",
+      "arm": "trajectory",
+      "reference": "initial_feedback600",
+      "mean_candidate_minus_reference": 0.009699387341174428,
+      "per_seed_candidate_minus_reference": [
+        0.009399067524823067,
+        0.007484780605196181,
+        0.012214313893504032
+      ],
+      "seed_t95": [
+        0.0037895588411281786,
+        0.015609215841220676
+      ],
+      "crossed_bootstrap95": [
+        0.006859526769753079,
+        0.0130370678684573
+      ],
+      "bootstrap_reps": 2000,
+      "bootstrap_seed": 170043,
+      "unit": "candidate minus reference squared final error; negative is improvement; common examples shared across resampled seed rows"
+    },
+    {
+      "split": "depth8",
+      "arm": "answer_only",
+      "reference": "initial_feedback600",
+      "mean_candidate_minus_reference": -0.051458325578708906,
+      "per_seed_candidate_minus_reference": [
+        -0.024461225171857906,
+        -0.06105160394588691,
+        -0.06886214761838189
+      ],
+      "seed_t95": [
+        -0.11034254099414711,
+        0.007425889836729309
+      ],
+      "crossed_bootstrap95": [
+        -0.07220630537982593,
+        -0.02483497123475814
+      ],
+      "bootstrap_reps": 2000,
+      "bootstrap_seed": 170043,
+      "unit": "candidate minus reference squared final error; negative is improvement; common examples shared across resampled seed rows"
+    },
+    {
+      "split": "depth8",
+      "arm": "trajectory",
+      "reference": "initial_feedback600",
+      "mean_candidate_minus_reference": -0.19136283420380076,
+      "per_seed_candidate_minus_reference": [
+        -0.24962521229881326,
+        -0.21609223634095961,
+        -0.10837105397162948
+      ],
+      "seed_t95": [
+        -0.3746989597386764,
+        -0.008026708668925131
+      ],
+      "crossed_bootstrap95": [
+        -0.27504017249829876,
+        -0.10917966868925758
+      ],
+      "bootstrap_reps": 2000,
+      "bootstrap_seed": 170043,
+      "unit": "candidate minus reference squared final error; negative is improvement; common examples shared across resampled seed rows"
+    }
+  ],
+  "seconds": 8.948418000014499
+}

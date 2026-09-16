@@ -1,0 +1,39 @@
+{
+  "frozen_before_diagnostic_evaluation": true,
+  "task": "parity",
+  "width": 32,
+  "seeds": [
+    17,
+    43,
+    91
+  ],
+  "modes": [
+    "rlt",
+    "nofeedback",
+    "tbptt"
+  ],
+  "lags": [
+    1,
+    4,
+    8,
+    16,
+    31
+  ],
+  "gradient_examples": 8,
+  "gradient_length": 32,
+  "gradient_split": 2900000,
+  "influence_dtype": "float64 cast of frozen FP32 checkpoint",
+  "finite_difference_epsilon": 0.001,
+  "noise_std": [
+    0,
+    0.001,
+    0.01,
+    0.1
+  ],
+  "noise_examples": 512,
+  "noise_length": 32,
+  "noise_split": 3900000,
+  "checkpoint": "seed17 RLT length32 batch32 3 repeats after warmup; real AdamW update",
+  "memory": "UNMEASURED",
+  "k": 0
+}

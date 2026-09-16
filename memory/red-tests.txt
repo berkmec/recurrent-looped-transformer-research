@@ -1,0 +1,20 @@
+E
+======================================================================
+ERROR: test_memory_contracts (unittest.loader._FailedTest.test_memory_contracts)
+----------------------------------------------------------------------
+ImportError: Failed to import test module: test_memory_contracts
+Traceback (most recent call last):
+  File "C:\Program Files\Python311\Lib\unittest\loader.py", line 419, in _find_test_path
+    module = self._get_module_from_name(name)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python311\Lib\unittest\loader.py", line 362, in _get_module_from_name
+    __import__(name)
+  File "E:\rlt-research\2026-09-16-e2e\tests\test_memory_contracts.py", line 3, in <module>
+    from memory.api import Archive, TitleController, verify_candidate, halt_candidates, symbolic_values
+ModuleNotFoundError: No module named 'memory.api'
+
+
+----------------------------------------------------------------------
+Ran 1 test in 0.000s
+
+FAILED (errors=1)

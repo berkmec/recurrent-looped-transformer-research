@@ -20,7 +20,7 @@ Başlık mekanizmasında bir güncelleme yaklaşık olarak
 z_i^{k+1}=U_\theta(z_i^k,a_i,\{m_{j\rightarrow i}^k\}_{j\in N(i)})
 \]
 
-şeklindedir. a_i gözlenen kısıtları, N(i) kullanılan yönlü veya çift yönlü ilişkiyi temsil eder. Bu ifade düşüncenin kendisini açıklayan bir teori değildir; uygulamadaki mesaj geçişinin sözleşmesidir. Çift yönlü güncelleme, sonraki kanıt geldiğinde önceki başlığın yeni sürümünü üretir. Daha önce üretilmiş bir tokenı geçmişe dönük değiştirmez.
+şeklindedir. a_i gözlenen kısıtları, N(i) kullanılan yönlü veya çift yönlü ilişkiyi temsil eder. Bu ifade düşüncenin kendisini açıklayan bir teori değildir; uygulamadaki mesaj geçişinin sözleşmesidir. Çift yönlü güncelleme, sonraki kanıt geldiğinde önceki başlığın gizli durumunu günceller. Başlık sicilindeki anlamsal sürüm yalnız doğrudan gözlenen bir kısıt değiştiğinde artar. Daha önce üretilmiş bir token geçmişe dönük değiştirilmez.
 
 ## “Sonsuz derinlik” hangi iddiadır?
 
@@ -29,6 +29,8 @@ Sabit sayıda ağırlıkla yinelenen bir dönüşümün yürütme zinciri, matem
 Bu yapıdan şu sonuçlar çıkmaz: her ek adımın doğruluğu artırması; sonsuz bağımlılığın öğrenilebilmesi; hata birikiminin durması; bilgi kapasitesinin sınırsızlaşması; eğitimin veya çıkarımın ücretsiz olması. Bunlar ayrı hipotezlerdir. Sonlu örneklerde ve en fazla1024tokenlık bir ızgarada ölçülen başarı, bütün uzunluklarda başarı teoremi değildir.
 
 Operasyonel etkin ufuk, önceden belirlenmiş uzunluk ızgarasında bir modelin bütün önceki uzunluklarla birlikte en az%95 nihai doğruluk sağladığı en büyük ölçülmüş uzunluktur. İlk noktada bile bu eşiğe erişmeyen modele bu protokol altında etkin ufuk atanmamalıdır. Izgaradaki son noktayı geçen model için yalnız “1024'e kadar bu testte geçti” denebilir; üst sınır keşfedilmiş olmaz.
+
+Parite iki durumlu, diğer çekirdek görevi beş durumlu bir süreçtir. Doğru güncelleme kuralı öğrenilirse geçmişin sonraki adım için yeterli bilgisi sırasıyla bir bit veya beş olasılıklı bir durumla taşınabilir. Uzun girdide başarı bu sonlu durum kuralının genellemesini ölçer; taşınması gereken bilginin uzunlukla sınırsız büyüdüğü bir problemi çözmüş olmaz. Uzun bağımlılık, büyük bilgi kapasitesi ve zor kavramsal akıl yürütme aynı deney değişkeni değildir.
 
 ## Daha fazla hesaplama neden bozulabilir?
 
@@ -41,6 +43,10 @@ Bir geçişin yerel doğrusal yaklaşımında küçük bir durum farkı
 olarak taşınır. Jacobian çarpımları bazı yönleri bastırabilir, bazılarını büyütebilir. Modelde genel dikkat yolları bulunduğundan yalnız gizli durum zincirindeki türeve bakıp bütün geçmiş bilgisinin silindiği söylenemez. Aynı nedenle gizli durum/SWA bağlantılarını sekiz adımda kesmek, encoder belleğinden geçen bütün uzun menzilli gradyanları kesmek değildir.
 
 Prefix kaybı, her adımın doğru hedefini verir; son adım kaybı ise gecikmiş hata atfını daha doğrudan sınar. Bu yüzden iki eğitim karşılaştırması ayrıldı. Sıfır olmayan bir son-kayıp türevi, sonucun doğru öğrenildiği anlamına gelmez. Sonlu fark, otomatik türevin sayısal kontrolüdür; öğrenme kanıtı ayrı test doğruluğudur.
+
+Küçük yerel türev de tek başına bilginin unutulduğu anlamına gelmez. Bunu gösteren, elle tanımlanmış bir matematik örneği kurulabilir: `s_next=tanh(2*(-1)^x*s)`, `x∈{0,1}`. Pozitif `a=tanh(2a)` çözümü yaklaşık0,957504'tür. Başlangıç durumu+a ise giriş0 işareti korur, giriş1 işareti değiştirir; ideal modelde durum her adımda±a üzerinde kalır ve parite işaretle saklanır. Buna karşılık durumun yerel türev büyüklüğü `2*(1-a²)≈0,166372` olur;31adımda çarpım yaklaşık7,14e-25'e iner. Ayrık iki durumun kimliği korunurken sonsuz küçük pertürbasyonlara duyarlılık sönmüştür.
+
+Bu örnek eğitim sonucu, RLT'nin gerçek iç mekanizması veya gürültü altında sınırsız dayanıklılık iddiası değildir. Yalnız “türev küçük ⇒ bilgi yok” çıkarımına bir karşı örnektir. Öğrenilmiş doğru ve doygun bir sınıflandırıcının küçük kayıp türevi de beklenebilir. Bu yüzden gradyan büyüklüğü, ayrık girdide karşı-olgusal etki, elde tutulan bilgi ve sondaki hatadan kuralı öğrenme başarısı ayrı değerlendirilir.
 
 ## Başlık, sürüm ve sıkıştırma sözleşmesi
 

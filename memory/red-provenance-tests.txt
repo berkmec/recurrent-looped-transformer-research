@@ -1,0 +1,14 @@
+.......E........
+======================================================================
+ERROR: test_original_text_and_abstention_are_preserved (test_memory_contracts.MemoryContracts.test_original_text_and_abstention_are_preserved)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\rlt-research\2026-09-16-e2e\tests\test_memory_contracts.py", line 69, in test_original_text_and_abstention_are_preserved
+    result=c.observe_text('T','A','x is initially one',parsed)
+           ^^^^^^^^^^^^^^
+AttributeError: 'TitleController' object has no attribute 'observe_text'
+
+----------------------------------------------------------------------
+Ran 16 tests in 0.562s
+
+FAILED (errors=1)

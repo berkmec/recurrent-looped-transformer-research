@@ -1,0 +1,20 @@
+....E...
+======================================================================
+ERROR: test_parallel_no_feedback_matches_stream (test_core_contract.Contract.test_parallel_no_feedback_matches_stream)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\rlt-research\2026-09-16-e2e\tests\test_core_contract.py", line 35, in test_parallel_no_feedback_matches_stream
+    self.m.feedback=False;a=self.m(self.x,parallel_control=True);b=self.m(self.x,stream_encoder=True);torch.testing.assert_close(a,b,atol=1e-9,rtol=1e-8)
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\Documents\ChatGPT\DaxDream\.venv\Lib\site-packages\torch\nn\modules\module.py", line 1778, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pc\Documents\ChatGPT\DaxDream\.venv\Lib\site-packages\torch\nn\modules\module.py", line 1789, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: Core.forward() got an unexpected keyword argument 'parallel_control'
+
+----------------------------------------------------------------------
+Ran 8 tests in 1.182s
+
+FAILED (errors=1)

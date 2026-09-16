@@ -1,0 +1,63 @@
+{
+  "version": 1,
+  "package": 14,
+  "scope": "larger local parity model, not unrestricted language or author-scale reproduction",
+  "source_pin": "cc05cfe0b24bc5eb353c6f3c14990ea4e7be0a39",
+  "seeds": [
+    17,
+    43,
+    91
+  ],
+  "modes": [
+    "rlt",
+    "nofeedback"
+  ],
+  "width": 256,
+  "heads": 4,
+  "window": 4,
+  "classes": 2,
+  "encoder_layers": 1,
+  "decoder_layers": 1,
+  "train_length": 32,
+  "batch": 32,
+  "steps": 2000,
+  "lr": 0.003,
+  "weight_decay": 0.01,
+  "clip_norm": 1.0,
+  "loss": "prefix cross entropy",
+  "validation_n": 256,
+  "validation_every": 100,
+  "selection": "minimum validation prefix cross entropy; earliest step on tie",
+  "test_n": 512,
+  "test_lengths": [
+    32,
+    64,
+    128,
+    256,
+    512,
+    1024
+  ],
+  "training_offset": "100000+step*1009",
+  "validation_offset": 200000,
+  "test_offset": 900000,
+  "generator_seed": "offset+model_seed+length*101; matched with core module per model seed",
+  "neutral_slots": [
+    0,
+    8,
+    32,
+    128
+  ],
+  "neutral_offset": 1900000,
+  "k": 0,
+  "device": "cuda",
+  "precision": "float32",
+  "cpu_threads": 1,
+  "energy": "UNMEASURED",
+  "comparisons": "paired same-width shared initialization/batches; active parameter and executed-compute differences reported",
+  "scale_boundary": "width and head configuration grow together vs smaller core runs; no fitted scaling law",
+  "classification": "report final accuracy per length/seed; short-fit threshold95%, effective horizon requires all preceding tested lengths meet95%",
+  "code_hashes": {
+    "model": "121f11fcb3c1308b7f67d898f2aa09c37226d3b0db27dd4e5bf1ebeaea281f43",
+    "runner": "c3ec6914f010757d83384b76258d5f7a36035db067fd9858c42e51e1d0e4d9ae"
+  }
+}

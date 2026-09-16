@@ -1,0 +1,14 @@
+test_corrupted_intermediate_target_is_rejected (test_learning_traces.TraceVerification.test_corrupted_intermediate_target_is_rejected) ... FAIL
+
+======================================================================
+FAIL: test_corrupted_intermediate_target_is_rejected (test_learning_traces.TraceVerification.test_corrupted_intermediate_target_is_rejected)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\rlt-research\2026-09-16-e2e\tests\test_learning_traces.py", line 7, in test_corrupted_intermediate_target_is_rejected
+    self.assertIsNotNone(importlib.util.find_spec('learning.verify_traces'),'independent trace archive verifier absent')
+AssertionError: unexpectedly None : independent trace archive verifier absent
+
+----------------------------------------------------------------------
+Ran 1 test in 0.003s
+
+FAILED (failures=1)

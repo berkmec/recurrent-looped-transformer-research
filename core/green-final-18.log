@@ -1,0 +1,23 @@
+test_causal_future (test_core_contract.Contract.test_causal_future) ... ok
+test_invalid_budgets (test_core_contract.Contract.test_invalid_budgets) ... ok
+test_no_feedback_hidden_independent_cache_present (test_core_contract.Contract.test_no_feedback_hidden_independent_cache_present) ... ok
+test_oracles (test_core_contract.Contract.test_oracles) ... ok
+test_parallel_no_feedback_matches_stream (test_core_contract.Contract.test_parallel_no_feedback_matches_stream) ... ok
+test_stream_output_gradient (test_core_contract.Contract.test_stream_output_gradient) ... ok
+test_swa_boundary (test_core_contract.Contract.test_swa_boundary) ... ok
+test_tbptt_changes_recurrent_grad_not_forward (test_core_contract.Contract.test_tbptt_changes_recurrent_grad_not_forward) ... ok
+test_vector_generator_independent_reference (test_core_contract.Contract.test_vector_generator_independent_reference) ... ok
+test_checkpoint_real_grad_equivalence (test_core_diagnostics.Diagnostics.test_checkpoint_real_grad_equivalence) ... ok
+test_state_influence_oracle_and_finite_difference (test_core_diagnostics.Diagnostics.test_state_influence_oracle_and_finite_difference) ... ok
+test_read_utf8_bom_receipt (test_core_reporting.Reporting.test_read_utf8_bom_receipt) ... ok
+test_swap_can_fix_the_current_five_state (test_core_reporting.Reporting.test_swap_can_fix_the_current_five_state) ... ok
+test_binding_drift_refused (test_core_safe_entrypoint.SafeEntry.test_binding_drift_refused) ... ok
+test_binding_not_created_for_fake_complete_status (test_core_safe_entrypoint.SafeEntry.test_binding_not_created_for_fake_complete_status) ... ok
+test_no_evidence_is_new (test_core_safe_entrypoint.SafeEntry.test_no_evidence_is_new) ... ok
+test_partial_refused_without_writes (test_core_safe_entrypoint.SafeEntry.test_partial_refused_without_writes) ... ok
+test_prebinding_npz_and_checkpoint_drift (test_core_safe_entrypoint.SafeEntry.test_prebinding_npz_and_checkpoint_drift) ... ok
+
+----------------------------------------------------------------------
+Ran 18 tests in 1.934s
+
+OK

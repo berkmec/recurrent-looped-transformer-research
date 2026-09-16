@@ -1,0 +1,21 @@
+test_causal_global_encoder_matches_streamed_core (test_learning.LearningContracts.test_causal_global_encoder_matches_streamed_core) ... ok
+test_feedback_changes_future_only_and_preserves_clocks (test_learning.LearningContracts.test_feedback_changes_future_only_and_preserves_clocks) ... ok
+test_final_error_gate_rejects_no_drift_but_wrong_answer (test_learning.LearningContracts.test_final_error_gate_rejects_no_drift_but_wrong_answer) ... ok
+test_forward_one_step_cannot_read_child (test_learning.LearningContracts.test_forward_one_step_cannot_read_child) ... ok
+test_incremental_refinement_preserves_cache_values_and_single_commit (test_learning.LearningContracts.test_incremental_refinement_preserves_cache_values_and_single_commit) ... ok
+test_labels_match_independent_linear_solve (test_learning.LearningContracts.test_labels_match_independent_linear_solve) ... ok
+test_lazy_candidate_iterator_does_not_execute_unrequested_rounds (test_learning.LearningContracts.test_lazy_candidate_iterator_does_not_execute_unrequested_rounds) ... ok
+test_oracle_unavailable_at_inference (test_learning.LearningContracts.test_oracle_unavailable_at_inference) ... ok
+test_rejects_mixed_query_alignment_and_fractional_ids (test_learning.LearningContracts.test_rejects_mixed_query_alignment_and_fractional_ids) ... ok
+test_revision_policy_has_no_target_or_effect_input (test_learning.LearningContracts.test_revision_policy_has_no_target_or_effect_input) ... ok
+test_unobserved_parent_is_active_for_inverse_evidence (test_learning.LearningContracts.test_unobserved_parent_is_active_for_inverse_evidence) ... ok
+test_combined_restart_guard_preserves_primary_and_combined_evidence (test_learning_combined.CombinedProtocol.test_combined_restart_guard_preserves_primary_and_combined_evidence) ... ok
+test_protocol_drift_fails_even_when_output_folder_is_empty (test_learning_runner.PreserveEvidence.test_protocol_drift_fails_even_when_output_folder_is_empty) ... ok
+test_restart_refuses_existing_evidence_without_changes (test_learning_runner.PreserveEvidence.test_restart_refuses_existing_evidence_without_changes) ... ok
+test_supplement_has_genuinely_unseen_depth_and_consistent_labels (test_learning_structural.StructuralTransfer.test_supplement_has_genuinely_unseen_depth_and_consistent_labels) ... ok
+test_corrupted_intermediate_target_is_rejected (test_learning_traces.TraceVerification.test_corrupted_intermediate_target_is_rejected) ... ok
+
+----------------------------------------------------------------------
+Ran 16 tests in 1.339s
+
+OK

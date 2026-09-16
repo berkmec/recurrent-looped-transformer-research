@@ -1,0 +1,14 @@
+E.
+======================================================================
+ERROR: test_checkpoint_real_grad_equivalence (test_core_diagnostics.Diagnostics.test_checkpoint_real_grad_equivalence)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\rlt-research\2026-09-16-e2e\tests\test_core_diagnostics.py", line 11, in test_checkpoint_real_grad_equivalence
+    torch.manual_seed(11);m=Core(width=16).double();x,y=generate('parity',3,5,19);r=checkpoint_check(m,x,y);self.assertLess(r['max_gradient_difference'],1e-9);self.assertLess(r['loss_difference'],1e-9);self.assertLess(r['max_parameter_update_difference'],1e-9)
+                                                                                                                                                                                                                          ~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+KeyError: 'max_parameter_update_difference'
+
+----------------------------------------------------------------------
+Ran 2 tests in 2.420s
+
+FAILED (errors=1)

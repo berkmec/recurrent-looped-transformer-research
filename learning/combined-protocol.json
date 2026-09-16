@@ -1,0 +1,27 @@
+{
+  "version": 1,
+  "requested_by": "root integration audit before primary held-out opening",
+  "primary_protocol_sha256": "2647a34ff4a0c23fe2f275d1ac99e76906046a69f96c5f6f1eedcefb43e1b62f",
+  "seeds": [
+    17,
+    43,
+    91
+  ],
+  "steps": 600,
+  "batch_size": 16,
+  "feedback": true,
+  "auxiliary_weight": 0.3,
+  "direction": "bidir",
+  "factorial": "bidir(no feedback,no methods), feedback(yes,no), method(no,yes), combined(yes,yes)",
+  "pairing": "same seed initialization, saved train arrays and saved primary batch indices, AdamW lr0.002 wd0.0001 clip1",
+  "selection": "fixed final600 checkpoint; all seeds reported; combined seed17 predeclared full-system integration checkpoint",
+  "evaluation": [
+    "iid",
+    "shift",
+    "depth8"
+  ],
+  "count_per_split": 512,
+  "rounds_per_query": 6,
+  "scope": "controlled affine tasks; title-feedback and exact intermediate supervision interaction; no oracle/archive during inference",
+  "source_sha256": "a0b4c49e550ca1eb8dae7dfb37d7ffc226a8d7d2a20db18065abe9e4e025e53f"
+}

@@ -39,6 +39,14 @@ def noise_predictions(m,x,std,seed):
  return z.argmax(-1).numpy(),time.perf_counter()-start
 def main():
  torch.set_num_threads(1);root=Path(__file__).parent;pp=root/'diagnostics-protocol.json'
+ environment=dict(torch=torch.__version__,device='cpu',threads=torch.get_num_threads(),source_hashes={name:hashlib.sha256((root/name).read_bytes()).hexdigest() for name in ['model.py','diagnostics.py']})
+ envpath=root/'diagnostics-environment.json'
+ if envpath.exists():raise RuntimeError('Existing diagnostic environment/evidence; refuse overwrite')
+ with envpath.open('x',encoding='utf8') as f:json.dump(environment,f,indent=2)
+ for name,h in environment['source_hashes'].items():
+  snapshot=root/'source-snapshots'/h/name;snapshot.parent.mkdir(exist_ok=True,parents=True)
+  if not snapshot.exists():
+   with snapshot.open('xb') as f:f.write((root/name).read_bytes())
  if not pp.exists():
   pp.write_text(json.dumps(dict(frozen_before_diagnostic_evaluation=True,task='parity',width=32,seeds=[17,43,91],modes=['rlt','nofeedback','tbptt'],lags=[1,4,8,16,31],gradient_examples=8,gradient_length=32,gradient_split=2900000,influence_dtype='float64 cast of frozen FP32 checkpoint',finite_difference_epsilon=.001,noise_std=[0,.001,.01,.1],noise_examples=512,noise_length=32,noise_split=3900000,checkpoint='seed17 RLT length32 batch32 3 repeats after warmup; real AdamW update',memory='UNMEASURED',k=0),indent=2));(root/'diagnostics-protocol.sha256').write_text(hashlib.sha256(pp.read_bytes()).hexdigest())
  p=json.loads(pp.read_text());assert hashlib.sha256(pp.read_bytes()).hexdigest()==(root/'diagnostics-protocol.sha256').read_text();rows=[]
@@ -46,7 +54,7 @@ def main():
   for mode in p['modes']:
    name=f'parity-w32-{mode}-s{seed}';m=Core(feedback=mode!='nofeedback');m.load_state_dict(torch.load(root/'checkpoints'/(name+'-selected.pt'),weights_only=True));x,y=generate('parity',8,32,p['gradient_split']+seed);r=influence(copy.deepcopy(m).double(),x,y,p['lags']);nx,ny=generate('parity',512,32,p['noise_split']+seed);noise=[]
    for std in p['noise_std']:
-    pred,seconds=noise_predictions(m,nx,std,4900000+seed);path=root/'results'/(name+f'-noise{std}.npz');np.savez_compressed(path,inputs=nx.numpy(),predictions=pred,targets=ny[:,-1].numpy());noise.append(dict(std=std,accuracy=float((pred==ny[:,-1].numpy()).mean()),seconds=seconds,file=str(path)))
+    pred,seconds=noise_predictions(m,nx,std,4900000+seed);path=root/'results'/(name+f'-noise{std}.npz');np.savez_compressed(path,inputs=nx.numpy(),predictions=pred,targets=ny[:,-1].numpy());noise.append(dict(std=std,accuracy=float((pred==ny[:,-1].numpy()).mean()),seconds=seconds,file=str(path),sha256=hashlib.sha256(path.read_bytes()).hexdigest()))
    row=dict(seed=seed,mode=mode,influence=r,noise=noise)
    if seed==17 and mode=='rlt':
     xx,yy=generate('parity',32,32,5900017);checkpoint_check(m,xx,yy);row['checkpoint_repeats']=[checkpoint_check(m,xx,yy) for _ in range(3)]

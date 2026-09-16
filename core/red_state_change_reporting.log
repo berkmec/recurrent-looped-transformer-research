@@ -1,0 +1,20 @@
+E
+======================================================================
+ERROR: test_core_reporting (unittest.loader._FailedTest.test_core_reporting)
+----------------------------------------------------------------------
+ImportError: Failed to import test module: test_core_reporting
+Traceback (most recent call last):
+  File "C:\Program Files\Python311\Lib\unittest\loader.py", line 419, in _find_test_path
+    module = self._get_module_from_name(name)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python311\Lib\unittest\loader.py", line 362, in _get_module_from_name
+    __import__(name)
+  File "E:\rlt-research\2026-09-16-e2e\tests\test_core_reporting.py", line 2, in <module>
+    from core.summarize import actual_state_changes
+ImportError: cannot import name 'actual_state_changes' from 'core.summarize' (E:\rlt-research\2026-09-16-e2e\core\summarize.py)
+
+
+----------------------------------------------------------------------
+Ran 1 test in 0.000s
+
+FAILED (errors=1)

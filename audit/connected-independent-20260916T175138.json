@@ -1,0 +1,1859 @@
+{
+  "status": "PASS_WITH_SCOPE_LIMITS",
+  "protocol_sha256": "0b61590618f799ecece783cac7d43c08521f7d2ae901228f293a1df1c5a4e2ac",
+  "executions": 6144,
+  "shared_source_tasks": 512,
+  "groups": [
+    {
+      "seed": 17,
+      "split": "iid",
+      "condition": "adaptive-replay-seen",
+      "episodes": 256,
+      "source_event_exact_accuracy": 1.0,
+      "source_episode_exact_accuracy": 1.0,
+      "spurious_query_outputs": 0,
+      "spurious_accepted_outputs": 0,
+      "all_certificate_outputs": {
+        "count": 283,
+        "source_failures": 0,
+        "source_failure_rate": 0.0
+      },
+      "final": {
+        "intended_queries": 256,
+        "emitted_count": 256,
+        "coverage": 0.32421875,
+        "accepted_count": 83,
+        "accepted_failures": 0,
+        "accepted_error_rate": 0.0,
+        "accepted_error_rate_ci95": [
+          3.469446951953614e-18,
+          0.04423530964197385
+        ],
+        "accuracy_all_intended": 0.9765625,
+        "mse_emitted": 0.0017585129402219605,
+        "missing_outputs": 0,
+        "mean_refinements_at_query": 5.84375
+      },
+      "all_queries": {
+        "intended_queries": 768,
+        "emitted_count": 768,
+        "coverage": 0.3684895833333333,
+        "accepted_count": 283,
+        "accepted_failures": 0,
+        "accepted_error_rate": 0.0,
+        "accepted_error_rate_ci95": null,
+        "accuracy_all_intended": 0.97265625,
+        "mse_emitted": 0.0020964756815711554,
+        "missing_outputs": 0,
+        "mean_refinements_at_query": 6.186197916666667
+      },
+      "certified_source_correct_yield": 0.32421875,
+      "diagnostic_candidate_accuracy": 0.9765625,
+      "status": "PASS",
+      "predictions_sha256": "6f5b888e23fdaaa3b0e8b7bb73763bfbd953d709bf07ac460aa45851fa64c3bc"
+    },
+    {
+      "seed": 17,
+      "split": "iid",
+      "condition": "fixed-replay-seen",
+      "episodes": 256,
+      "source_event_exact_accuracy": 1.0,
+      "source_episode_exact_accuracy": 1.0,
+      "spurious_query_outputs": 0,
+      "spurious_accepted_outputs": 0,
+      "all_certificate_outputs": {
+        "count": 165,
+        "source_failures": 0,
+        "source_failure_rate": 0.0
+      },
+      "final": {
+        "intended_queries": 256,
+        "emitted_count": 256,
+        "coverage": 0.19140625,
+        "accepted_count": 49,
+        "accepted_failures": 0,
+        "accepted_error_rate": 0.0,
+        "accepted_error_rate_ci95": [
+          6.938893903907228e-18,
+          0.07269781922049637
+        ],
+        "accuracy_all_intended": 0.9765625,
+        "mse_emitted": 0.0017241733414795628,
+        "missing_outputs": 0,
+        "mean_refinements_at_query": 8.0
+      },
+      "all_queries": {
+        "intended_queries": 768,
+        "emitted_count": 768,
+        "coverage": 0.21484375,
+        "accepted_count": 165,
+        "accepted_failures": 0,
+        "accepted_error_rate": 0.0,
+        "accepted_error_rate_ci95": null,
+        "accuracy_all_intended": 0.96875,
+        "mse_emitted": 0.0019586294243526792,
+        "missing_outputs": 0,
+        "mean_refinements_at_query": 8.0
+      },
+      "certified_source_correct_yield": 0.19140625,
+      "diagnostic_candidate_accuracy": 0.9765625,
+      "status": "PASS",
+      "predictions_sha256": "03dbf5c4b0c2afb15363d65a8459f7e38524d4bc3c0915fb6b1cb0ecb94fa0ef"
+    },
+    {
+      "seed": 17,
+      "split": "iid",
+      "condition": "adaptive-compact-seen",
+      "episodes": 256,
+      "source_event_exact_accuracy": 1.0,
+      "source_episode_exact_accuracy": 1.0,
+      "spurious_query_outputs": 0,
+      "spurious_accepted_outputs": 0,
+      "all_certificate_outputs": {
+        "count": 261,
+        "source_failures": 0,
+        "source_failure_rate": 0.0
+      },
+      "final": {
+        "intended_queries": 256,
+        "emitted_count": 256,
+        "coverage": 0.328125,
+        "accepted_count": 84,
+        "accepted_failures": 0,
+        "accepted_error_rate": 0.0,
+        "accepted_error_rate_ci95": [
+          0,
+          0.04373172841465989
+        ],
+        "accuracy_all_intended": 0.97265625,
+        "mse_emitted": 0.0026842924354070143,
+        "missing_outputs": 0,
+        "mean_refinements_at_query": 7.02734375
+      },
+      "all_queries": {
+        "intended_queries": 768,
+        "emitted_count": 768,
+        "coverage": 0.33984375,
+        "accepted_count": 261,
+        "accepted_failures": 0,
+        "accepted_error_rate": 0.0,
+        "accepted_error_rate_ci95": null,
+        "accuracy_all_intended": 0.9752604166666666,
+        "mse_emitted": 0.0025419976284774977,
+        "missing_outputs": 0,
+        "mean_refinements_at_query": 6.946614583333333
+      },
+      "certified_source_correct_yield": 0.328125,
+      "diagnostic_candidate_accuracy": 0.97265625,
+      "status": "PASS",
+      "predictions_sha256": "99c5f3d2b9cbf32d4261a0e48d62558f2838dc41933e30672d1908a34daa6372"
+    },
+    {
+      "seed": 17,
+      "split": "iid",
+      "condition": "adaptive-replay-heldout",
+      "episodes": 256,
+      "source_event_exact_accuracy": 0.18443080357142858,
+      "source_episode_exact_accuracy": 0.0,
+      "spurious_query_outputs": 235,
+      "spurious_accepted_outputs": 0,
+      "all_certificate_outputs": {
+        "count": 0,
+        "source_failures": 0,
+        "source_failure_rate": null
+      },
+      "final": {
+        "intended_queries": 256,
+        "emitted_count": 0,
+        "coverage": 0.0,
+        "accepted_count": 0,
+        "accepted_failures": 0,
+        "accepted_error_rate": null,
+        "accepted_error_rate_ci95": null,
+        "accuracy_all_intended": 0.0,
+        "mse_emitted": null,
+        "missing_outputs": 256,
+        "mean_refinements_at_query": 0.0
+      },
+      "all_queries": {
+        "intended_queries": 768,
+        "emitted_count": 0,
+        "coverage": 0.0,
+        "accepted_count": 0,
+        "accepted_failures": 0,
+        "accepted_error_rate": null,
+        "accepted_error_rate_ci95": null,
+        "accuracy_all_intended": 0.0,
+        "mse_emitted": null,
+        "missing_outputs": 768,
+        "mean_refinements_at_query": 0.0
+      },
+      "certified_source_correct_yield": 0.0,
+      "diagnostic_candidate_accuracy": 0.0,
+      "status": "PASS",
+      "predictions_sha256": "71a107b7dcd1e03936d909272753e952ba19572796f804f4ec69216425cf0fc6"
+    },
+    {
+      "seed": 17,
+      "split": "depth8",
+      "condition": "adaptive-replay-seen",
+      "episodes": 256,
+      "source_event_exact_accuracy": 1.0,
+      "source_episode_exact_accuracy": 1.0,
+      "spurious_query_outputs": 0,
+      "spurious_accepted_outputs": 0,
+      "all_certificate_outputs": {
+        "count": 0,
+        "source_failures": 0,
+        "source_failure_rate": null
+      },
+      "final": {
+        "intended_queries": 256,
+        "emitted_count": 256,
+        "coverage": 0.0,
+        "accepted_count": 0,
+        "accepted_failures": 0,
+        "accepted_error_rate": null,
+        "accepted_error_rate_ci95": null,
+        "accuracy_all_intended": 0.29296875,
+        "mse_emitted": 0.31230002869791385,
+        "missing_outputs": 0,
+        "mean_refinements_at_query": 8.0
+      },
+      "all_queries": {
+        "intended_queries": 768,
+        "emitted_count": 768,
+        "coverage": 0.0,
+        "accepted_count": 0,
+        "accepted_failures": 0,
+        "accepted_error_rate": null,
+        "accepted_error_rate_ci95": null,
+        "accuracy_all_intended": 0.23697916666666666,
+        "mse_emitted": 0.289933892851953,
+        "missing_outputs": 0,
+        "mean_refinements_at_query": 8.0
+      },
+      "certified_source_correct_yield": 0.0,
+      "diagnostic_candidate_accuracy": 0.29296875,
+      "status": "PASS",
+      "predictions_sha256": "3fc75284247005d11431ac5c726e443e52a11aa9d4c4145c121312c07e4778bc"
+    },
+    {
+      "seed": 17,
+      "split": "depth8",
+      "condition": "fixed-replay-seen",
+      "episodes": 256,
+      "source_event_exact_accuracy": 1.0,
+      "source_episode_exact_accuracy": 1.0,
+      "spurious_query_outputs": 0,
+      "spurious_accepted_outputs": 0,
+      "all_certificate_outputs": {
+        "count": 0,
+        "source_failures": 0,
+        "source_failure_rate": null
+      },
+      "final": {
+        "intended_queries": 256,
+        "emitted_count": 256,
+        "coverage": 0.0,
+        "accepted_count": 0,
+        "accepted_failures": 0,
+        "accepted_error_rate": null,
+        "accepted_error_rate_ci95": null,
+        "accuracy_all_intended": 0.29296875,
+        "mse_emitted": 0.31230002869791385,
+        "missing_outputs": 0,
+        "mean_refinements_at_query": 8.0
+      },
+      "all_queries": {
+        "intended_queries": 768,
+        "emitted_count": 768,
+        "coverage": 0.0,
+        "accepted_count": 0,
+        "accepted_failures": 0,
+        "accepted_error_rate": null,
+        "accepted_error_rate_ci95": null,
+        "accuracy_all_intended": 0.23697916666666666,
+        "mse_emitted": 0.289933892851953,
+        "missing_outputs": 0,
+        "mean_refinements_at_query": 8.0
+      },
+      "certified_source_correct_yield": 0.0,
+      "diagnostic_candidate_accuracy": 0.29296875,
+      "status": "PASS",
+      "predictions_sha256": "89f71cd842013e4e241ea9fc111b193169328ba45af9826369bf919615445ba2"
+    },
+    {
+      "seed": 17,
+      "split": "depth8",
+      "condition": "adaptive-compact-seen",
+      "episodes": 256,
+      "source_event_exact_accuracy": 1.0,
+      "source_episode_exact_accuracy": 1.0,
+      "spurious_query_outputs": 0,
+      "spurious_accepted_outputs": 0,
+      "all_certificate_outputs": {
+        "count": 0,
+        "source_failures": 0,
+        "source_failure_rate": null
+      },
+      "final": {
+        "intended_queries": 256,
+        "emitted_count": 256,
+        "coverage": 0.0,
+        "accepted_count": 0,
+        "accepted_failures": 0,
+        "accepted_error_rate": null,
+        "accepted_error_rate_ci95": null,
+        "accuracy_all_intended": 0.22265625,
+        "mse_emitted": 0.34255597642285757,
+        "missing_outputs": 0,
+        "mean_refinements_at_query": 8.0
+      },
+      "all_queries": {
+        "intended_queries": 768,
+        "emitted_count": 768,
+        "coverage": 0.0,
+        "accepted_count": 0,
+        "accepted_failures": 0,
+        "accepted_error_rate": null,
+        "accepted_error_rate_ci95": null,
+        "accuracy_all_intended": 0.2265625,
+        "mse_emitted": 0.3021566569853149,
+        "missing_outputs": 0,
+        "mean_refinements_at_query": 8.0
+      },
+      "certified_source_correct_yield": 0.0,
+      "diagnostic_candidate_accuracy": 0.22265625,
+      "status": "PASS",
+      "predictions_sha256": "bd880f08b2e674e731e6f448712a7f548b945434f8b87e9abbe59ec2c9608313"
+    },
+    {
+      "seed": 17,
+      "split": "depth8",
+      "condition": "adaptive-replay-heldout",
+      "episodes": 256,
+      "source_event_exact_accuracy": 0.17857142857142858,
+      "source_episode_exact_accuracy": 0.0,
+      "spurious_query_outputs": 256,
+      "spurious_accepted_outputs": 0,
+      "all_certificate_outputs": {
+        "count": 0,
+        "source_failures": 0,
+        "source_failure_rate": null
+      },
+      "final": {
+        "intended_queries": 256,
+        "emitted_count": 0,
+        "coverage": 0.0,
+        "accepted_count": 0,
+        "accepted_failures": 0,
+        "accepted_error_rate": null,
+        "accepted_error_rate_ci95": null,
+        "accuracy_all_intended": 0.0,
+        "mse_emitted": null,
+        "missing_outputs": 256,
+        "mean_refinements_at_query": 0.0
+      },
+      "all_queries": {
+        "intended_queries": 768,
+        "emitted_count": 0,
+        "coverage": 0.0,
+        "accepted_count": 0,
+        "accepted_failures": 0,
+        "accepted_error_rate": null,
+        "accepted_error_rate_ci95": null,
+        "accuracy_all_intended": 0.0,
+        "mse_emitted": null,
+        "missing_outputs": 768,
+        "mean_refinements_at_query": 0.0
+      },
+      "certified_source_correct_yield": 0.0,
+      "diagnostic_candidate_accuracy": 0.0,
+      "status": "PASS",
+      "predictions_sha256": "eaad2a1e76b452f26418142972bdc48fd3c4bc64334af9fb0408d24d2c9751ab"
+    },
+    {
+      "seed": 43,
+      "split": "iid",
+      "condition": "adaptive-replay-seen",
+      "episodes": 256,
+      "source_event_exact_accuracy": 1.0,
+      "source_episode_exact_accuracy": 1.0,
+      "spurious_query_outputs": 0,
+      "spurious_accepted_outputs": 0,
+      "all_certificate_outputs": {
+        "count": 358,
+        "source_failures": 0,
+        "source_failure_rate": 0.0
+      },
+      "final": {
+        "intended_queries": 256,
+        "emitted_count": 256,
+        "coverage": 0.4140625,
+        "accepted_count": 106,
+        "accepted_failures": 0,
+        "accepted_error_rate": 0.0,
+        "accepted_error_rate_ci95": [
+          0,
+          0.034972758573472214
+        ],
+        "accuracy_all_intended": 0.98828125,
+        "mse_emitted": 0.0013005425517352764,
+        "missing_outputs": 0,
+        "mean_refinements_at_query": 5.33203125
+      },
+      "all_queries": {
+        "intended_queries": 768,
+        "emitted_count": 768,
+        "coverage": 0.4661458333333333,
+        "accepted_count": 358,
+        "accepted_failures": 0,
+        "accepted_error_rate": 0.0,
+        "accepted_error_rate_ci95": null,
+        "accuracy_all_intended": 0.99609375,
+        "mse_emitted": 0.0013652421226192778,
+        "missing_outputs": 0,
+        "mean_refinements_at_query": 5.674479166666667
+      },
+      "certified_source_correct_yield": 0.4140625,
+      "diagnostic_candidate_accuracy": 0.98828125,
+      "status": "PASS",
+      "predictions_sha256": "2e37ab2b921150f2c48596892d614f1eb7ef54cc510704ea26b0689f0fe3f869"
+    },
+    {
+      "seed": 43,
+      "split": "iid",
+      "condition": "fixed-replay-seen",
+      "episodes": 256,
+      "source_event_exact_accuracy": 1.0,
+      "source_episode_exact_accuracy": 1.0,
+      "spurious_query_outputs": 0,
+      "spurious_accepted_outputs": 0,
+      "all_certificate_outputs": {
+        "count": 192,
+        "source_failures": 0,
+        "source_failure_rate": 0.0
+      },
+      "final": {
+        "intended_queries": 256,
+        "emitted_count": 256,
+        "coverage": 0.28125,
+        "accepted_count": 72,
+        "accepted_failures": 0,
+        "accepted_error_rate": 0.0,
+        "accepted_error_rate_ci95": [
+          0,
+          0.05065117259645781
+        ],
+        "accuracy_all_intended": 0.98828125,
+        "mse_emitted": 0.0011343296112253855,
+        "missing_outputs": 0,
+        "mean_refinements_at_query": 8.0
+      },
+      "all_queries": {
+        "intended_queries": 768,
+        "emitted_count": 768,
+        "coverage": 0.25,
+        "accepted_count": 192,
+        "accepted_failures": 0,
+        "accepted_error_rate": 0.0,
+        "accepted_error_rate_ci95": null,
+        "accuracy_all_intended": 0.99609375,
+        "mse_emitted": 0.0008184954207764457,
+        "missing_outputs": 0,
+        "mean_refinements_at_query": 8.0
+      },
+      "certified_source_correct_yield": 0.28125,
+      "diagnostic_candidate_accuracy": 0.98828125,
+      "status": "PASS",
+      "predictions_sha256": "93a966bf8581a05f025b00d05de551c12fc7b75ed07c530d816c7c2881c14c05"
+    },
+    {
+      "seed": 43,
+      "split": "iid",
+      "condition": "adaptive-compact-seen",
+      "episodes": 256,
+      "source_event_exact_accuracy": 1.0,
+      "source_episode_exact_accuracy": 1.0,
+      "spurious_query_outputs": 0,
+      "spurious_accepted_outputs": 0,
+      "all_certificate_outputs": {
+        "count": 353,
+        "source_failures": 0,
+        "source_failure_rate": 0.0
+      },
+      "final": {
+        "intended_queries": 256,
+        "emitted_count": 256,
+        "coverage": 0.44921875,
+        "accepted_count": 115,
+        "accepted_failures": 0,
+        "accepted_error_rate": 0.0,
+        "accepted_error_rate_ci95": [
+          0,
+          0.03232423144931307
+        ],
+        "accuracy_all_intended": 0.98828125,
+        "mse_emitted": 0.0014194001950331026,
+        "missing_outputs": 0,
+        "mean_refinements_at_query": 6.16015625
+      },
+      "all_queries": {
+        "intended_queries": 768,
+        "emitted_count": 768,
+        "coverage": 0.4596354166666667,
+        "accepted_count": 353,
+        "accepted_failures": 0,
+        "accepted_error_rate": 0.0,
+        "accepted_error_rate_ci95": null,
+        "accuracy_all_intended": 0.9921875,
+        "mse_emitted": 0.0013565719855363541,
+        "missing_outputs": 0,
+        "mean_refinements_at_query": 6.125
+      },
+      "certified_source_correct_yield": 0.44921875,
+      "diagnostic_candidate_accuracy": 0.98828125,
+      "status": "PASS",
+      "predictions_sha256": "68d35b05980201656bfecb95bb69cde79a17845d9e29091493c597f7a6168557"
+    },
+    {
+      "seed": 43,
+      "split": "iid",
+      "condition": "adaptive-replay-heldout",
+      "episodes": 256,
+      "source_event_exact_accuracy": 0.21428571428571427,
+      "source_episode_exact_accuracy": 0.0,
+      "spurious_query_outputs": 0,
+      "spurious_accepted_outputs": 0,
+      "all_certificate_outputs": {
+        "count": 0,
+        "source_failures": 0,
+        "source_failure_rate": null
+      },
+      "final": {
+        "intended_queries": 256,
+        "emitted_count": 0,
+        "coverage": 0.0,
+        "accepted_count": 0,
+        "accepted_failures": 0,
+        "accepted_error_rate": null,
+        "accepted_error_rate_ci95": null,
+        "accuracy_all_intended": 0.0,
+        "mse_emitted": null,
+        "missing_outputs": 256,
+        "mean_refinements_at_query": 0.0
+      },
+      "all_queries": {
+        "intended_queries": 768,
+        "emitted_count": 0,
+        "coverage": 0.0,
+        "accepted_count": 0,
+        "accepted_failures": 0,
+        "accepted_error_rate": null,
+        "accepted_error_rate_ci95": null,
+        "accuracy_all_intended": 0.0,
+        "mse_emitted": null,
+        "missing_outputs": 768,
+        "mean_refinements_at_query": 0.0
+      },
+      "certified_source_correct_yield": 0.0,
+      "diagnostic_candidate_accuracy": 0.0,
+      "status": "PASS",
+      "predictions_sha256": "e1693891e26db08570f18b59efafc40c9c8793a4e6536a32e8a427341d7fd8bf"
+    },
+    {
+      "seed": 43,
+      "split": "depth8",
+      "condition": "adaptive-replay-seen",
+      "episodes": 256,
+      "source_event_exact_accuracy": 1.0,
+      "source_episode_exact_accuracy": 1.0,
+      "spurious_query_outputs": 0,
+      "spurious_accepted_outputs": 0,
+      "all_certificate_outputs": {
+        "count": 0,
+        "source_failures": 0,
+        "source_failure_rate": null
+      },
+      "final": {
+        "intended_queries": 256,
+        "emitted_count": 256,
+        "coverage": 0.0,
+        "accepted_count": 0,
+        "accepted_failures": 0,
+        "accepted_error_rate": null,
+        "accepted_error_rate_ci95": null,
+        "accuracy_all_intended": 0.3359375,
+        "mse_emitted": 0.29173643299209584,
+        "missing_outputs": 0,
+        "mean_refinements_at_query": 8.0
+      },
+      "all_queries": {
+        "intended_queries": 768,
+        "emitted_count": 768,
+        "coverage": 0.0,
+        "accepted_count": 0,
+        "accepted_failures": 0,
+        "accepted_error_rate": null,
+        "accepted_error_rate_ci95": null,
+        "accuracy_all_intended": 0.28515625,
+        "mse_emitted": 0.2765825672343367,
+        "missing_outputs": 0,
+        "mean_refinements_at_query": 8.0
+      },
+      "certified_source_correct_yield": 0.0,
+      "diagnostic_candidate_accuracy": 0.3359375,
+      "status": "PASS",
+      "predictions_sha256": "6f7dfa31ec485f5db82d6dd557537c495c9f6c64f4423abce73561e7ed791462"
+    },
+    {
+      "seed": 43,
+      "split": "depth8",
+      "condition": "fixed-replay-seen",
+      "episodes": 256,
+      "source_event_exact_accuracy": 1.0,
+      "source_episode_exact_accuracy": 1.0,
+      "spurious_query_outputs": 0,
+      "spurious_accepted_outputs": 0,
+      "all_certificate_outputs": {
+        "count": 0,
+        "source_failures": 0,
+        "source_failure_rate": null
+      },
+      "final": {
+        "intended_queries": 256,
+        "emitted_count": 256,
+        "coverage": 0.0,
+        "accepted_count": 0,
+        "accepted_failures": 0,
+        "accepted_error_rate": null,
+        "accepted_error_rate_ci95": null,
+        "accuracy_all_intended": 0.3359375,
+        "mse_emitted": 0.29173643299209584,
+        "missing_outputs": 0,
+        "mean_refinements_at_query": 8.0
+      },
+      "all_queries": {
+        "intended_queries": 768,
+        "emitted_count": 768,
+        "coverage": 0.0,
+        "accepted_count": 0,
+        "accepted_failures": 0,
+        "accepted_error_rate": null,
+        "accepted_error_rate_ci95": null,
+        "accuracy_all_intended": 0.28515625,
+        "mse_emitted": 0.2765825672343367,
+        "missing_outputs": 0,
+        "mean_refinements_at_query": 8.0
+      },
+      "certified_source_correct_yield": 0.0,
+      "diagnostic_candidate_accuracy": 0.3359375,
+      "status": "PASS",
+      "predictions_sha256": "a003e44777e1bfa03e649ba6f0e39dea5c8bd2124461de87b1c2599e71ace02d"
+    },
+    {
+      "seed": 43,
+      "split": "depth8",
+      "condition": "adaptive-compact-seen",
+      "episodes": 256,
+      "source_event_exact_accuracy": 1.0,
+      "source_episode_exact_accuracy": 1.0,
+      "spurious_query_outputs": 0,
+      "spurious_accepted_outputs": 0,
+      "all_certificate_outputs": {
+        "count": 0,
+        "source_failures": 0,
+        "source_failure_rate": null
+      },
+      "final": {
+        "intended_queries": 256,
+        "emitted_count": 256,
+        "coverage": 0.0,
+        "accepted_count": 0,
+        "accepted_failures": 0,
+        "accepted_error_rate": null,
+        "accepted_error_rate_ci95": null,
+        "accuracy_all_intended": 0.2265625,
+        "mse_emitted": 0.3272192297051332,
+        "missing_outputs": 0,
+        "mean_refinements_at_query": 8.0
+      },
+      "all_queries": {
+        "intended_queries": 768,
+        "emitted_count": 768,
+        "coverage": 0.0,
+        "accepted_count": 0,
+        "accepted_failures": 0,
+        "accepted_error_rate": null,
+        "accepted_error_rate_ci95": null,
+        "accuracy_all_intended": 0.23046875,
+        "mse_emitted": 0.2899374718460776,
+        "missing_outputs": 0,
+        "mean_refinements_at_query": 8.0
+      },
+      "certified_source_correct_yield": 0.0,
+      "diagnostic_candidate_accuracy": 0.2265625,
+      "status": "PASS",
+      "predictions_sha256": "3475544dd7807b1fbf9b7596cba691eb54bc67d2789f09fd8a2f5bdd506903b0"
+    },
+    {
+      "seed": 43,
+      "split": "depth8",
+      "condition": "adaptive-replay-heldout",
+      "episodes": 256,
+      "source_event_exact_accuracy": 0.21428571428571427,
+      "source_episode_exact_accuracy": 0.0,
+      "spurious_query_outputs": 0,
+      "spurious_accepted_outputs": 0,
+      "all_certificate_outputs": {
+        "count": 0,
+        "source_failures": 0,
+        "source_failure_rate": null
+      },
+      "final": {
+        "intended_queries": 256,
+        "emitted_count": 0,
+        "coverage": 0.0,
+        "accepted_count": 0,
+        "accepted_failures": 0,
+        "accepted_error_rate": null,
+        "accepted_error_rate_ci95": null,
+        "accuracy_all_intended": 0.0,
+        "mse_emitted": null,
+        "missing_outputs": 256,
+        "mean_refinements_at_query": 0.0
+      },
+      "all_queries": {
+        "intended_queries": 768,
+        "emitted_count": 0,
+        "coverage": 0.0,
+        "accepted_count": 0,
+        "accepted_failures": 0,
+        "accepted_error_rate": null,
+        "accepted_error_rate_ci95": null,
+        "accuracy_all_intended": 0.0,
+        "mse_emitted": null,
+        "missing_outputs": 768,
+        "mean_refinements_at_query": 0.0
+      },
+      "certified_source_correct_yield": 0.0,
+      "diagnostic_candidate_accuracy": 0.0,
+      "status": "PASS",
+      "predictions_sha256": "ff15e99c149a983f5f5f7ce7a03542df3418a33d7caa51b8179269f4f5da8414"
+    },
+    {
+      "seed": 91,
+      "split": "iid",
+      "condition": "adaptive-replay-seen",
+      "episodes": 256,
+      "source_event_exact_accuracy": 1.0,
+      "source_episode_exact_accuracy": 1.0,
+      "spurious_query_outputs": 0,
+      "spurious_accepted_outputs": 0,
+      "all_certificate_outputs": {
+        "count": 351,
+        "source_failures": 0,
+        "source_failure_rate": 0.0
+      },
+      "final": {
+        "intended_queries": 256,
+        "emitted_count": 256,
+        "coverage": 0.4296875,
+        "accepted_count": 110,
+        "accepted_failures": 0,
+        "accepted_error_rate": 0.0,
+        "accepted_error_rate_ci95": [
+          0,
+          0.033743935298164184
+        ],
+        "accuracy_all_intended": 0.98046875,
+        "mse_emitted": 0.0015949189968969127,
+        "missing_outputs": 0,
+        "mean_refinements_at_query": 5.19140625
+      },
+      "all_queries": {
+        "intended_queries": 768,
+        "emitted_count": 768,
+        "coverage": 0.45703125,
+        "accepted_count": 351,
+        "accepted_failures": 0,
+        "accepted_error_rate": 0.0,
+        "accepted_error_rate_ci95": null,
+        "accuracy_all_intended": 0.9817708333333334,
+        "mse_emitted": 0.002109418435777974,
+        "missing_outputs": 0,
+        "mean_refinements_at_query": 5.828125
+      },
+      "certified_source_correct_yield": 0.4296875,
+      "diagnostic_candidate_accuracy": 0.98046875,
+      "status": "PASS",
+      "predictions_sha256": "4da479e960e40473f424f0cc0588c07019a32d77855bd8ae4051554972ce8236"
+    },
+    {
+      "seed": 91,
+      "split": "iid",
+      "condition": "fixed-replay-seen",
+      "episodes": 256,
+      "source_event_exact_accuracy": 1.0,
+      "source_episode_exact_accuracy": 1.0,
+      "spurious_query_outputs": 0,
+      "spurious_accepted_outputs": 0,
+      "all_certificate_outputs": {
+        "count": 200,
+        "source_failures": 0,
+        "source_failure_rate": 0.0
+      },
+      "final": {
+        "intended_queries": 256,
+        "emitted_count": 256,
+        "coverage": 0.28125,
+        "accepted_count": 72,
+        "accepted_failures": 0,
+        "accepted_error_rate": 0.0,
+        "accepted_error_rate_ci95": [
+          0,
+          0.05065117259645781
+        ],
+        "accuracy_all_intended": 0.98046875,
+        "mse_emitted": 0.0015992331498561696,
+        "missing_outputs": 0,
+        "mean_refinements_at_query": 8.0
+      },
+      "all_queries": {
+        "intended_queries": 768,
+        "emitted_count": 768,
+        "coverage": 0.2604166666666667,
+        "accepted_count": 200,
+        "accepted_failures": 0,
+        "accepted_error_rate": 0.0,
+        "accepted_error_rate_ci95": null,
+        "accuracy_all_intended": 0.98046875,
+        "mse_emitted": 0.0018045145320377336,
+        "missing_outputs": 0,
+        "mean_refinements_at_query": 8.0
+      },
+      "certified_source_correct_yield": 0.28125,
+      "diagnostic_candidate_accuracy": 0.98046875,
+      "status": "PASS",
+      "predictions_sha256": "aa0191c566af3d08d5a4c21c4124aea2bca7d43d0f811a0fad3e09ecc612659a"
+    },
+    {
+      "seed": 91,
+      "split": "iid",
+      "condition": "adaptive-compact-seen",
+      "episodes": 256,
+      "source_event_exact_accuracy": 1.0,
+      "source_episode_exact_accuracy": 1.0,
+      "spurious_query_outputs": 0,
+      "spurious_accepted_outputs": 0,
+      "all_certificate_outputs": {
+        "count": 349,
+        "source_failures": 0,
+        "source_failure_rate": 0.0
+      },
+      "final": {
+        "intended_queries": 256,
+        "emitted_count": 256,
+        "coverage": 0.4609375,
+        "accepted_count": 118,
+        "accepted_failures": 0,
+        "accepted_error_rate": 0.0,
+        "accepted_error_rate_ci95": [
+          0,
+          0.03152833902249433
+        ],
+        "accuracy_all_intended": 0.96875,
+        "mse_emitted": 0.002726907687596213,
+        "missing_outputs": 0,
+        "mean_refinements_at_query": 6.54296875
+      },
+      "all_queries": {
+        "intended_queries": 768,
+        "emitted_count": 768,
+        "coverage": 0.4544270833333333,
+        "accepted_count": 349,
+        "accepted_failures": 0,
+        "accepted_error_rate": 0.0,
+        "accepted_error_rate_ci95": null,
+        "accuracy_all_intended": 0.9765625,
+        "mse_emitted": 0.0026051920210702416,
+        "missing_outputs": 0,
+        "mean_refinements_at_query": 6.58203125
+      },
+      "certified_source_correct_yield": 0.4609375,
+      "diagnostic_candidate_accuracy": 0.96875,
+      "status": "PASS",
+      "predictions_sha256": "65e6aa9d9b425d744ac1128be0d403ee267c9195f37b83f08a1206e50b622a00"
+    },
+    {
+      "seed": 91,
+      "split": "iid",
+      "condition": "adaptive-replay-heldout",
+      "episodes": 256,
+      "source_event_exact_accuracy": 0.10714285714285714,
+      "source_episode_exact_accuracy": 0.0,
+      "spurious_query_outputs": 0,
+      "spurious_accepted_outputs": 0,
+      "all_certificate_outputs": {
+        "count": 0,
+        "source_failures": 0,
+        "source_failure_rate": null
+      },
+      "final": {
+        "intended_queries": 256,
+        "emitted_count": 0,
+        "coverage": 0.0,
+        "accepted_count": 0,
+        "accepted_failures": 0,
+        "accepted_error_rate": null,
+        "accepted_error_rate_ci95": null,
+        "accuracy_all_intended": 0.0,
+        "mse_emitted": null,
+        "missing_outputs": 256,
+        "mean_refinements_at_query": 0.0
+      },
+      "all_queries": {
+        "intended_queries": 768,
+        "emitted_count": 0,
+        "coverage": 0.0,
+        "accepted_count": 0,
+        "accepted_failures": 0,
+        "accepted_error_rate": null,
+        "accepted_error_rate_ci95": null,
+        "accuracy_all_intended": 0.0,
+        "mse_emitted": null,
+        "missing_outputs": 768,
+        "mean_refinements_at_query": 0.0
+      },
+      "certified_source_correct_yield": 0.0,
+      "diagnostic_candidate_accuracy": 0.0,
+      "status": "PASS",
+      "predictions_sha256": "7cd5c911f41efb5e0718d82f157eca2125d9368ad890df89eb14ece12485e360"
+    },
+    {
+      "seed": 91,
+      "split": "depth8",
+      "condition": "adaptive-replay-seen",
+      "episodes": 256,
+      "source_event_exact_accuracy": 1.0,
+      "source_episode_exact_accuracy": 1.0,
+      "spurious_query_outputs": 0,
+      "spurious_accepted_outputs": 0,
+      "all_certificate_outputs": {
+        "count": 1,
+        "source_failures": 0,
+        "source_failure_rate": 0.0
+      },
+      "final": {
+        "intended_queries": 256,
+        "emitted_count": 256,
+        "coverage": 0.00390625,
+        "accepted_count": 1,
+        "accepted_failures": 0,
+        "accepted_error_rate": 0.0,
+        "accepted_error_rate_ci95": [
+          0,
+          0.7934506856227626
+        ],
+        "accuracy_all_intended": 0.5,
+        "mse_emitted": 0.3000106294707666,
+        "missing_outputs": 0,
+        "mean_refinements_at_query": 7.99609375
+      },
+      "all_queries": {
+        "intended_queries": 768,
+        "emitted_count": 768,
+        "coverage": 0.0013020833333333333,
+        "accepted_count": 1,
+        "accepted_failures": 0,
+        "accepted_error_rate": 0.0,
+        "accepted_error_rate_ci95": null,
+        "accuracy_all_intended": 0.3098958333333333,
+        "mse_emitted": 0.28526016224555506,
+        "missing_outputs": 0,
+        "mean_refinements_at_query": 7.998697916666667
+      },
+      "certified_source_correct_yield": 0.00390625,
+      "diagnostic_candidate_accuracy": 0.5,
+      "status": "PASS",
+      "predictions_sha256": "b46d67838d98096846ca40b77ae3f5aeca1e5905b2574c364d720089a0d0c3a1"
+    },
+    {
+      "seed": 91,
+      "split": "depth8",
+      "condition": "fixed-replay-seen",
+      "episodes": 256,
+      "source_event_exact_accuracy": 1.0,
+      "source_episode_exact_accuracy": 1.0,
+      "spurious_query_outputs": 0,
+      "spurious_accepted_outputs": 0,
+      "all_certificate_outputs": {
+        "count": 0,
+        "source_failures": 0,
+        "source_failure_rate": null
+      },
+      "final": {
+        "intended_queries": 256,
+        "emitted_count": 256,
+        "coverage": 0.0,
+        "accepted_count": 0,
+        "accepted_failures": 0,
+        "accepted_error_rate": null,
+        "accepted_error_rate_ci95": null,
+        "accuracy_all_intended": 0.5,
+        "mse_emitted": 0.30001154420155474,
+        "missing_outputs": 0,
+        "mean_refinements_at_query": 8.0
+      },
+      "all_queries": {
+        "intended_queries": 768,
+        "emitted_count": 768,
+        "coverage": 0.0,
+        "accepted_count": 0,
+        "accepted_failures": 0,
+        "accepted_error_rate": null,
+        "accepted_error_rate_ci95": null,
+        "accuracy_all_intended": 0.3098958333333333,
+        "mse_emitted": 0.28526046715581777,
+        "missing_outputs": 0,
+        "mean_refinements_at_query": 8.0
+      },
+      "certified_source_correct_yield": 0.0,
+      "diagnostic_candidate_accuracy": 0.5,
+      "status": "PASS",
+      "predictions_sha256": "10a3d1472a144c0095047509d2f04d7993f3f320628db485ee49cc3075e19168"
+    },
+    {
+      "seed": 91,
+      "split": "depth8",
+      "condition": "adaptive-compact-seen",
+      "episodes": 256,
+      "source_event_exact_accuracy": 1.0,
+      "source_episode_exact_accuracy": 1.0,
+      "spurious_query_outputs": 0,
+      "spurious_accepted_outputs": 0,
+      "all_certificate_outputs": {
+        "count": 0,
+        "source_failures": 0,
+        "source_failure_rate": null
+      },
+      "final": {
+        "intended_queries": 256,
+        "emitted_count": 256,
+        "coverage": 0.0,
+        "accepted_count": 0,
+        "accepted_failures": 0,
+        "accepted_error_rate": null,
+        "accepted_error_rate_ci95": null,
+        "accuracy_all_intended": 0.16796875,
+        "mse_emitted": 0.3482410595163173,
+        "missing_outputs": 0,
+        "mean_refinements_at_query": 8.0
+      },
+      "all_queries": {
+        "intended_queries": 768,
+        "emitted_count": 768,
+        "coverage": 0.0,
+        "accepted_count": 0,
+        "accepted_failures": 0,
+        "accepted_error_rate": null,
+        "accepted_error_rate_ci95": null,
+        "accuracy_all_intended": 0.18489583333333334,
+        "mse_emitted": 0.3087247355583229,
+        "missing_outputs": 0,
+        "mean_refinements_at_query": 8.0
+      },
+      "certified_source_correct_yield": 0.0,
+      "diagnostic_candidate_accuracy": 0.16796875,
+      "status": "PASS",
+      "predictions_sha256": "5c178b3fb56e9380fa5aa05cbd2b6d71088bb6cd987fbe2a99542869428a9ee2"
+    },
+    {
+      "seed": 91,
+      "split": "depth8",
+      "condition": "adaptive-replay-heldout",
+      "episodes": 256,
+      "source_event_exact_accuracy": 0.10714285714285714,
+      "source_episode_exact_accuracy": 0.0,
+      "spurious_query_outputs": 0,
+      "spurious_accepted_outputs": 0,
+      "all_certificate_outputs": {
+        "count": 0,
+        "source_failures": 0,
+        "source_failure_rate": null
+      },
+      "final": {
+        "intended_queries": 256,
+        "emitted_count": 0,
+        "coverage": 0.0,
+        "accepted_count": 0,
+        "accepted_failures": 0,
+        "accepted_error_rate": null,
+        "accepted_error_rate_ci95": null,
+        "accuracy_all_intended": 0.0,
+        "mse_emitted": null,
+        "missing_outputs": 256,
+        "mean_refinements_at_query": 0.0
+      },
+      "all_queries": {
+        "intended_queries": 768,
+        "emitted_count": 0,
+        "coverage": 0.0,
+        "accepted_count": 0,
+        "accepted_failures": 0,
+        "accepted_error_rate": null,
+        "accepted_error_rate_ci95": null,
+        "accuracy_all_intended": 0.0,
+        "mse_emitted": null,
+        "missing_outputs": 768,
+        "mean_refinements_at_query": 0.0
+      },
+      "certified_source_correct_yield": 0.0,
+      "diagnostic_candidate_accuracy": 0.0,
+      "status": "PASS",
+      "predictions_sha256": "9e88f4426d3ff98433eb0dbf752747c2b97f02ce5914652e26e65b875a181b55"
+    }
+  ],
+  "archive_totals": {
+    "raw_records": 253746,
+    "observations": 86016,
+    "compacts": 53739,
+    "traces": 172082,
+    "archive_bytes": 1852268544
+  },
+  "max_independent_source_label_discrepancy": 7.105427357601002e-15,
+  "conditional_depth_curves": [
+    {
+      "seed": 17,
+      "split": "iid",
+      "k": 1,
+      "episodes": 256,
+      "emitted": 256,
+      "missing": 0,
+      "diagnostic_accuracy_all_intended": 0.9609375,
+      "diagnostic_mse_emitted": 0.0020165519215599066,
+      "prior_query_rounds": [
+        8,
+        8
+      ],
+      "scope": "conditional final-query depth curve from fixed replay actual traces; not whole-system k sweep; not certified answers"
+    },
+    {
+      "seed": 17,
+      "split": "iid",
+      "k": 2,
+      "episodes": 256,
+      "emitted": 256,
+      "missing": 0,
+      "diagnostic_accuracy_all_intended": 0.9765625,
+      "diagnostic_mse_emitted": 0.001976656023630515,
+      "prior_query_rounds": [
+        8,
+        8
+      ],
+      "scope": "conditional final-query depth curve from fixed replay actual traces; not whole-system k sweep; not certified answers"
+    },
+    {
+      "seed": 17,
+      "split": "iid",
+      "k": 3,
+      "episodes": 256,
+      "emitted": 256,
+      "missing": 0,
+      "diagnostic_accuracy_all_intended": 0.97265625,
+      "diagnostic_mse_emitted": 0.0019644071622344555,
+      "prior_query_rounds": [
+        8,
+        8
+      ],
+      "scope": "conditional final-query depth curve from fixed replay actual traces; not whole-system k sweep; not certified answers"
+    },
+    {
+      "seed": 17,
+      "split": "iid",
+      "k": 4,
+      "episodes": 256,
+      "emitted": 256,
+      "missing": 0,
+      "diagnostic_accuracy_all_intended": 0.97265625,
+      "diagnostic_mse_emitted": 0.0019161826996599081,
+      "prior_query_rounds": [
+        8,
+        8
+      ],
+      "scope": "conditional final-query depth curve from fixed replay actual traces; not whole-system k sweep; not certified answers"
+    },
+    {
+      "seed": 17,
+      "split": "iid",
+      "k": 5,
+      "episodes": 256,
+      "emitted": 256,
+      "missing": 0,
+      "diagnostic_accuracy_all_intended": 0.9765625,
+      "diagnostic_mse_emitted": 0.0018433231653550996,
+      "prior_query_rounds": [
+        8,
+        8
+      ],
+      "scope": "conditional final-query depth curve from fixed replay actual traces; not whole-system k sweep; not certified answers"
+    },
+    {
+      "seed": 17,
+      "split": "iid",
+      "k": 6,
+      "episodes": 256,
+      "emitted": 256,
+      "missing": 0,
+      "diagnostic_accuracy_all_intended": 0.9765625,
+      "diagnostic_mse_emitted": 0.0017762515686028514,
+      "prior_query_rounds": [
+        8,
+        8
+      ],
+      "scope": "conditional final-query depth curve from fixed replay actual traces; not whole-system k sweep; not certified answers"
+    },
+    {
+      "seed": 17,
+      "split": "iid",
+      "k": 7,
+      "episodes": 256,
+      "emitted": 256,
+      "missing": 0,
+      "diagnostic_accuracy_all_intended": 0.9765625,
+      "diagnostic_mse_emitted": 0.001732691797576511,
+      "prior_query_rounds": [
+        8,
+        8
+      ],
+      "scope": "conditional final-query depth curve from fixed replay actual traces; not whole-system k sweep; not certified answers"
+    },
+    {
+      "seed": 17,
+      "split": "iid",
+      "k": 8,
+      "episodes": 256,
+      "emitted": 256,
+      "missing": 0,
+      "diagnostic_accuracy_all_intended": 0.9765625,
+      "diagnostic_mse_emitted": 0.0017241733414795628,
+      "prior_query_rounds": [
+        8,
+        8
+      ],
+      "scope": "conditional final-query depth curve from fixed replay actual traces; not whole-system k sweep; not certified answers"
+    },
+    {
+      "seed": 17,
+      "split": "depth8",
+      "k": 1,
+      "episodes": 256,
+      "emitted": 256,
+      "missing": 0,
+      "diagnostic_accuracy_all_intended": 0.265625,
+      "diagnostic_mse_emitted": 0.31296230615053916,
+      "prior_query_rounds": [
+        8,
+        8
+      ],
+      "scope": "conditional final-query depth curve from fixed replay actual traces; not whole-system k sweep; not certified answers"
+    },
+    {
+      "seed": 17,
+      "split": "depth8",
+      "k": 2,
+      "episodes": 256,
+      "emitted": 256,
+      "missing": 0,
+      "diagnostic_accuracy_all_intended": 0.28515625,
+      "diagnostic_mse_emitted": 0.32073482842946777,
+      "prior_query_rounds": [
+        8,
+        8
+      ],
+      "scope": "conditional final-query depth curve from fixed replay actual traces; not whole-system k sweep; not certified answers"
+    },
+    {
+      "seed": 17,
+      "split": "depth8",
+      "k": 3,
+      "episodes": 256,
+      "emitted": 256,
+      "missing": 0,
+      "diagnostic_accuracy_all_intended": 0.3125,
+      "diagnostic_mse_emitted": 0.3097563212126782,
+      "prior_query_rounds": [
+        8,
+        8
+      ],
+      "scope": "conditional final-query depth curve from fixed replay actual traces; not whole-system k sweep; not certified answers"
+    },
+    {
+      "seed": 17,
+      "split": "depth8",
+      "k": 4,
+      "episodes": 256,
+      "emitted": 256,
+      "missing": 0,
+      "diagnostic_accuracy_all_intended": 0.31640625,
+      "diagnostic_mse_emitted": 0.3082521624938354,
+      "prior_query_rounds": [
+        8,
+        8
+      ],
+      "scope": "conditional final-query depth curve from fixed replay actual traces; not whole-system k sweep; not certified answers"
+    },
+    {
+      "seed": 17,
+      "split": "depth8",
+      "k": 5,
+      "episodes": 256,
+      "emitted": 256,
+      "missing": 0,
+      "diagnostic_accuracy_all_intended": 0.25390625,
+      "diagnostic_mse_emitted": 0.313369255410175,
+      "prior_query_rounds": [
+        8,
+        8
+      ],
+      "scope": "conditional final-query depth curve from fixed replay actual traces; not whole-system k sweep; not certified answers"
+    },
+    {
+      "seed": 17,
+      "split": "depth8",
+      "k": 6,
+      "episodes": 256,
+      "emitted": 256,
+      "missing": 0,
+      "diagnostic_accuracy_all_intended": 0.28125,
+      "diagnostic_mse_emitted": 0.31433671183773315,
+      "prior_query_rounds": [
+        8,
+        8
+      ],
+      "scope": "conditional final-query depth curve from fixed replay actual traces; not whole-system k sweep; not certified answers"
+    },
+    {
+      "seed": 17,
+      "split": "depth8",
+      "k": 7,
+      "episodes": 256,
+      "emitted": 256,
+      "missing": 0,
+      "diagnostic_accuracy_all_intended": 0.296875,
+      "diagnostic_mse_emitted": 0.31358708371367466,
+      "prior_query_rounds": [
+        8,
+        8
+      ],
+      "scope": "conditional final-query depth curve from fixed replay actual traces; not whole-system k sweep; not certified answers"
+    },
+    {
+      "seed": 17,
+      "split": "depth8",
+      "k": 8,
+      "episodes": 256,
+      "emitted": 256,
+      "missing": 0,
+      "diagnostic_accuracy_all_intended": 0.29296875,
+      "diagnostic_mse_emitted": 0.31230002869791385,
+      "prior_query_rounds": [
+        8,
+        8
+      ],
+      "scope": "conditional final-query depth curve from fixed replay actual traces; not whole-system k sweep; not certified answers"
+    },
+    {
+      "seed": 43,
+      "split": "iid",
+      "k": 1,
+      "episodes": 256,
+      "emitted": 256,
+      "missing": 0,
+      "diagnostic_accuracy_all_intended": 0.99609375,
+      "diagnostic_mse_emitted": 0.0010342168414298467,
+      "prior_query_rounds": [
+        8,
+        8
+      ],
+      "scope": "conditional final-query depth curve from fixed replay actual traces; not whole-system k sweep; not certified answers"
+    },
+    {
+      "seed": 43,
+      "split": "iid",
+      "k": 2,
+      "episodes": 256,
+      "emitted": 256,
+      "missing": 0,
+      "diagnostic_accuracy_all_intended": 0.98828125,
+      "diagnostic_mse_emitted": 0.0012882846607098885,
+      "prior_query_rounds": [
+        8,
+        8
+      ],
+      "scope": "conditional final-query depth curve from fixed replay actual traces; not whole-system k sweep; not certified answers"
+    },
+    {
+      "seed": 43,
+      "split": "iid",
+      "k": 3,
+      "episodes": 256,
+      "emitted": 256,
+      "missing": 0,
+      "diagnostic_accuracy_all_intended": 0.98828125,
+      "diagnostic_mse_emitted": 0.0012413176090403828,
+      "prior_query_rounds": [
+        8,
+        8
+      ],
+      "scope": "conditional final-query depth curve from fixed replay actual traces; not whole-system k sweep; not certified answers"
+    },
+    {
+      "seed": 43,
+      "split": "iid",
+      "k": 4,
+      "episodes": 256,
+      "emitted": 256,
+      "missing": 0,
+      "diagnostic_accuracy_all_intended": 0.9921875,
+      "diagnostic_mse_emitted": 0.0011674045591412519,
+      "prior_query_rounds": [
+        8,
+        8
+      ],
+      "scope": "conditional final-query depth curve from fixed replay actual traces; not whole-system k sweep; not certified answers"
+    },
+    {
+      "seed": 43,
+      "split": "iid",
+      "k": 5,
+      "episodes": 256,
+      "emitted": 256,
+      "missing": 0,
+      "diagnostic_accuracy_all_intended": 0.9921875,
+      "diagnostic_mse_emitted": 0.0011387611005259331,
+      "prior_query_rounds": [
+        8,
+        8
+      ],
+      "scope": "conditional final-query depth curve from fixed replay actual traces; not whole-system k sweep; not certified answers"
+    },
+    {
+      "seed": 43,
+      "split": "iid",
+      "k": 6,
+      "episodes": 256,
+      "emitted": 256,
+      "missing": 0,
+      "diagnostic_accuracy_all_intended": 0.9921875,
+      "diagnostic_mse_emitted": 0.0011232452607610442,
+      "prior_query_rounds": [
+        8,
+        8
+      ],
+      "scope": "conditional final-query depth curve from fixed replay actual traces; not whole-system k sweep; not certified answers"
+    },
+    {
+      "seed": 43,
+      "split": "iid",
+      "k": 7,
+      "episodes": 256,
+      "emitted": 256,
+      "missing": 0,
+      "diagnostic_accuracy_all_intended": 0.9921875,
+      "diagnostic_mse_emitted": 0.0011235601095275398,
+      "prior_query_rounds": [
+        8,
+        8
+      ],
+      "scope": "conditional final-query depth curve from fixed replay actual traces; not whole-system k sweep; not certified answers"
+    },
+    {
+      "seed": 43,
+      "split": "iid",
+      "k": 8,
+      "episodes": 256,
+      "emitted": 256,
+      "missing": 0,
+      "diagnostic_accuracy_all_intended": 0.98828125,
+      "diagnostic_mse_emitted": 0.0011343296112253855,
+      "prior_query_rounds": [
+        8,
+        8
+      ],
+      "scope": "conditional final-query depth curve from fixed replay actual traces; not whole-system k sweep; not certified answers"
+    },
+    {
+      "seed": 43,
+      "split": "depth8",
+      "k": 1,
+      "episodes": 256,
+      "emitted": 256,
+      "missing": 0,
+      "diagnostic_accuracy_all_intended": 0.30078125,
+      "diagnostic_mse_emitted": 0.30699408415060647,
+      "prior_query_rounds": [
+        8,
+        8
+      ],
+      "scope": "conditional final-query depth curve from fixed replay actual traces; not whole-system k sweep; not certified answers"
+    },
+    {
+      "seed": 43,
+      "split": "depth8",
+      "k": 2,
+      "episodes": 256,
+      "emitted": 256,
+      "missing": 0,
+      "diagnostic_accuracy_all_intended": 0.296875,
+      "diagnostic_mse_emitted": 0.3052535819038806,
+      "prior_query_rounds": [
+        8,
+        8
+      ],
+      "scope": "conditional final-query depth curve from fixed replay actual traces; not whole-system k sweep; not certified answers"
+    },
+    {
+      "seed": 43,
+      "split": "depth8",
+      "k": 3,
+      "episodes": 256,
+      "emitted": 256,
+      "missing": 0,
+      "diagnostic_accuracy_all_intended": 0.42578125,
+      "diagnostic_mse_emitted": 0.2964884135193118,
+      "prior_query_rounds": [
+        8,
+        8
+      ],
+      "scope": "conditional final-query depth curve from fixed replay actual traces; not whole-system k sweep; not certified answers"
+    },
+    {
+      "seed": 43,
+      "split": "depth8",
+      "k": 4,
+      "episodes": 256,
+      "emitted": 256,
+      "missing": 0,
+      "diagnostic_accuracy_all_intended": 0.3515625,
+      "diagnostic_mse_emitted": 0.29671103058342346,
+      "prior_query_rounds": [
+        8,
+        8
+      ],
+      "scope": "conditional final-query depth curve from fixed replay actual traces; not whole-system k sweep; not certified answers"
+    },
+    {
+      "seed": 43,
+      "split": "depth8",
+      "k": 5,
+      "episodes": 256,
+      "emitted": 256,
+      "missing": 0,
+      "diagnostic_accuracy_all_intended": 0.296875,
+      "diagnostic_mse_emitted": 0.29490206860161133,
+      "prior_query_rounds": [
+        8,
+        8
+      ],
+      "scope": "conditional final-query depth curve from fixed replay actual traces; not whole-system k sweep; not certified answers"
+    },
+    {
+      "seed": 43,
+      "split": "depth8",
+      "k": 6,
+      "episodes": 256,
+      "emitted": 256,
+      "missing": 0,
+      "diagnostic_accuracy_all_intended": 0.2578125,
+      "diagnostic_mse_emitted": 0.29424571332209004,
+      "prior_query_rounds": [
+        8,
+        8
+      ],
+      "scope": "conditional final-query depth curve from fixed replay actual traces; not whole-system k sweep; not certified answers"
+    },
+    {
+      "seed": 43,
+      "split": "depth8",
+      "k": 7,
+      "episodes": 256,
+      "emitted": 256,
+      "missing": 0,
+      "diagnostic_accuracy_all_intended": 0.2890625,
+      "diagnostic_mse_emitted": 0.2941163510150945,
+      "prior_query_rounds": [
+        8,
+        8
+      ],
+      "scope": "conditional final-query depth curve from fixed replay actual traces; not whole-system k sweep; not certified answers"
+    },
+    {
+      "seed": 43,
+      "split": "depth8",
+      "k": 8,
+      "episodes": 256,
+      "emitted": 256,
+      "missing": 0,
+      "diagnostic_accuracy_all_intended": 0.3359375,
+      "diagnostic_mse_emitted": 0.29173643299209584,
+      "prior_query_rounds": [
+        8,
+        8
+      ],
+      "scope": "conditional final-query depth curve from fixed replay actual traces; not whole-system k sweep; not certified answers"
+    },
+    {
+      "seed": 91,
+      "split": "iid",
+      "k": 1,
+      "episodes": 256,
+      "emitted": 256,
+      "missing": 0,
+      "diagnostic_accuracy_all_intended": 0.97265625,
+      "diagnostic_mse_emitted": 0.0017351187655474875,
+      "prior_query_rounds": [
+        8,
+        8
+      ],
+      "scope": "conditional final-query depth curve from fixed replay actual traces; not whole-system k sweep; not certified answers"
+    },
+    {
+      "seed": 91,
+      "split": "iid",
+      "k": 2,
+      "episodes": 256,
+      "emitted": 256,
+      "missing": 0,
+      "diagnostic_accuracy_all_intended": 0.96875,
+      "diagnostic_mse_emitted": 0.0016952376274255681,
+      "prior_query_rounds": [
+        8,
+        8
+      ],
+      "scope": "conditional final-query depth curve from fixed replay actual traces; not whole-system k sweep; not certified answers"
+    },
+    {
+      "seed": 91,
+      "split": "iid",
+      "k": 3,
+      "episodes": 256,
+      "emitted": 256,
+      "missing": 0,
+      "diagnostic_accuracy_all_intended": 0.96875,
+      "diagnostic_mse_emitted": 0.0016700514916011832,
+      "prior_query_rounds": [
+        8,
+        8
+      ],
+      "scope": "conditional final-query depth curve from fixed replay actual traces; not whole-system k sweep; not certified answers"
+    },
+    {
+      "seed": 91,
+      "split": "iid",
+      "k": 4,
+      "episodes": 256,
+      "emitted": 256,
+      "missing": 0,
+      "diagnostic_accuracy_all_intended": 0.97265625,
+      "diagnostic_mse_emitted": 0.0016351505688928325,
+      "prior_query_rounds": [
+        8,
+        8
+      ],
+      "scope": "conditional final-query depth curve from fixed replay actual traces; not whole-system k sweep; not certified answers"
+    },
+    {
+      "seed": 91,
+      "split": "iid",
+      "k": 5,
+      "episodes": 256,
+      "emitted": 256,
+      "missing": 0,
+      "diagnostic_accuracy_all_intended": 0.9765625,
+      "diagnostic_mse_emitted": 0.0016094454688939388,
+      "prior_query_rounds": [
+        8,
+        8
+      ],
+      "scope": "conditional final-query depth curve from fixed replay actual traces; not whole-system k sweep; not certified answers"
+    },
+    {
+      "seed": 91,
+      "split": "iid",
+      "k": 6,
+      "episodes": 256,
+      "emitted": 256,
+      "missing": 0,
+      "diagnostic_accuracy_all_intended": 0.98046875,
+      "diagnostic_mse_emitted": 0.001595121577899051,
+      "prior_query_rounds": [
+        8,
+        8
+      ],
+      "scope": "conditional final-query depth curve from fixed replay actual traces; not whole-system k sweep; not certified answers"
+    },
+    {
+      "seed": 91,
+      "split": "iid",
+      "k": 7,
+      "episodes": 256,
+      "emitted": 256,
+      "missing": 0,
+      "diagnostic_accuracy_all_intended": 0.98046875,
+      "diagnostic_mse_emitted": 0.0015960739495500006,
+      "prior_query_rounds": [
+        8,
+        8
+      ],
+      "scope": "conditional final-query depth curve from fixed replay actual traces; not whole-system k sweep; not certified answers"
+    },
+    {
+      "seed": 91,
+      "split": "iid",
+      "k": 8,
+      "episodes": 256,
+      "emitted": 256,
+      "missing": 0,
+      "diagnostic_accuracy_all_intended": 0.98046875,
+      "diagnostic_mse_emitted": 0.0015992331498561696,
+      "prior_query_rounds": [
+        8,
+        8
+      ],
+      "scope": "conditional final-query depth curve from fixed replay actual traces; not whole-system k sweep; not certified answers"
+    },
+    {
+      "seed": 91,
+      "split": "depth8",
+      "k": 1,
+      "episodes": 256,
+      "emitted": 256,
+      "missing": 0,
+      "diagnostic_accuracy_all_intended": 0.3203125,
+      "diagnostic_mse_emitted": 0.30825288535399864,
+      "prior_query_rounds": [
+        8,
+        8
+      ],
+      "scope": "conditional final-query depth curve from fixed replay actual traces; not whole-system k sweep; not certified answers"
+    },
+    {
+      "seed": 91,
+      "split": "depth8",
+      "k": 2,
+      "episodes": 256,
+      "emitted": 256,
+      "missing": 0,
+      "diagnostic_accuracy_all_intended": 0.3125,
+      "diagnostic_mse_emitted": 0.31627695750440105,
+      "prior_query_rounds": [
+        8,
+        8
+      ],
+      "scope": "conditional final-query depth curve from fixed replay actual traces; not whole-system k sweep; not certified answers"
+    },
+    {
+      "seed": 91,
+      "split": "depth8",
+      "k": 3,
+      "episodes": 256,
+      "emitted": 256,
+      "missing": 0,
+      "diagnostic_accuracy_all_intended": 0.41015625,
+      "diagnostic_mse_emitted": 0.3055292646728375,
+      "prior_query_rounds": [
+        8,
+        8
+      ],
+      "scope": "conditional final-query depth curve from fixed replay actual traces; not whole-system k sweep; not certified answers"
+    },
+    {
+      "seed": 91,
+      "split": "depth8",
+      "k": 4,
+      "episodes": 256,
+      "emitted": 256,
+      "missing": 0,
+      "diagnostic_accuracy_all_intended": 0.390625,
+      "diagnostic_mse_emitted": 0.3072133747614624,
+      "prior_query_rounds": [
+        8,
+        8
+      ],
+      "scope": "conditional final-query depth curve from fixed replay actual traces; not whole-system k sweep; not certified answers"
+    },
+    {
+      "seed": 91,
+      "split": "depth8",
+      "k": 5,
+      "episodes": 256,
+      "emitted": 256,
+      "missing": 0,
+      "diagnostic_accuracy_all_intended": 0.45703125,
+      "diagnostic_mse_emitted": 0.30356594568939627,
+      "prior_query_rounds": [
+        8,
+        8
+      ],
+      "scope": "conditional final-query depth curve from fixed replay actual traces; not whole-system k sweep; not certified answers"
+    },
+    {
+      "seed": 91,
+      "split": "depth8",
+      "k": 6,
+      "episodes": 256,
+      "emitted": 256,
+      "missing": 0,
+      "diagnostic_accuracy_all_intended": 0.50390625,
+      "diagnostic_mse_emitted": 0.3007044458746431,
+      "prior_query_rounds": [
+        8,
+        8
+      ],
+      "scope": "conditional final-query depth curve from fixed replay actual traces; not whole-system k sweep; not certified answers"
+    },
+    {
+      "seed": 91,
+      "split": "depth8",
+      "k": 7,
+      "episodes": 256,
+      "emitted": 256,
+      "missing": 0,
+      "diagnostic_accuracy_all_intended": 0.5078125,
+      "diagnostic_mse_emitted": 0.2994505834054916,
+      "prior_query_rounds": [
+        8,
+        8
+      ],
+      "scope": "conditional final-query depth curve from fixed replay actual traces; not whole-system k sweep; not certified answers"
+    },
+    {
+      "seed": 91,
+      "split": "depth8",
+      "k": 8,
+      "episodes": 256,
+      "emitted": 256,
+      "missing": 0,
+      "diagnostic_accuracy_all_intended": 0.5,
+      "diagnostic_mse_emitted": 0.30001154420155474,
+      "prior_query_rounds": [
+        8,
+        8
+      ],
+      "scope": "conditional final-query depth curve from fixed replay actual traces; not whole-system k sweep; not certified answers"
+    }
+  ],
+  "wall_seconds": 78.28499590000138,
+  "auditor_source_sha256": "a49d0da1ff9d613ee39669316e79194fb625c483cd910898df64d1062570100b",
+  "detail_path": "E:\\rlt-research\\2026-09-16-e2e\\audit\\connected-independent-20260916T175138-episodes.jsonl",
+  "limitations": [
+    "Read-only final-state integrity checks support append-only history but cannot prove no privileged actor rewrote complete DBs and all hash receipts.",
+    "Three joint parser/model seeds;6144 executions share512 tasks and are not6144 independent examples.",
+    "A diagnostic numeric candidate can be correct without being certified; source-certified yield requires both.",
+    "All certificate risk includes spurious query positions as source alignment failures.",
+    "k1..8 curve varies final-query refinement only with earlier query refinements fixed8,8.",
+    "No training or model execution performed by this audit."
+  ]
+}

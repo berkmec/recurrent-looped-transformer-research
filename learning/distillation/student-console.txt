@@ -1,0 +1,19 @@
+{"arm": "answer_only", "seed": 17, "step": 100}
+{"arm": "answer_only", "seed": 17, "step": 200}
+{"arm": "answer_only", "seed": 17, "step": 300}
+{"arm": "trajectory", "seed": 17, "step": 100}
+{"arm": "trajectory", "seed": 17, "step": 200}
+{"arm": "trajectory", "seed": 17, "step": 300}
+{"arm": "answer_only", "seed": 43, "step": 100}
+{"arm": "answer_only", "seed": 43, "step": 200}
+{"arm": "answer_only", "seed": 43, "step": 300}
+{"arm": "trajectory", "seed": 43, "step": 100}
+{"arm": "trajectory", "seed": 43, "step": 200}
+{"arm": "trajectory", "seed": 43, "step": 300}
+{"arm": "answer_only", "seed": 91, "step": 100}
+{"arm": "answer_only", "seed": 91, "step": 200}
+{"arm": "answer_only", "seed": 91, "step": 300}
+{"arm": "trajectory", "seed": 91, "step": 100}
+{"arm": "trajectory", "seed": 91, "step": 200}
+{"arm": "trajectory", "seed": 91, "step": 300}
+[{"split": "iid", "mean_difference": 0.009091441014997296, "per_seed_differences": [0.006518975116504677, 0.006315045809976105, 0.014440302118511106], "seed_t95_df2": [-0.0024184923069088798, 0.02060137433690347], "hierarchical_bootstrap95": [0.005312246821034905, 0.014305239903796407], "bootstrap_replicates": 1000, "unit": "squared final prediction error candidate minus baseline", "warning": "Only3 independent training seeds; percentile interval exploratory."}, {"split": "depth8", "mean_difference": -0.13990450800099552, "per_seed_differences": [-0.2251639825935854, -0.15504063575428972, -0.03950890565511145], "seed_t95_df2": [-0.3727886580828309, 0.09297964208083986], "hierarchical_bootstrap95": [-0.23867720921077476, -0.043096884319800216], "bootstrap_replicates": 1000, "unit": "squared final prediction error candidate minus baseline", "warning": "Only3 independent training seeds; percentile interval exploratory."}]

@@ -1,0 +1,68 @@
+{
+  "status": "PASS_WITH_SCOPE_LIMITS",
+  "checks": 39,
+  "failures": [],
+  "strict_revision": [
+    {
+      "split": "iid",
+      "condition": "local",
+      "passed": false,
+      "affected_relative_gain": 0.045800115615252324,
+      "per_seed_affected_improvement": [
+        0.0003367116992171666,
+        0.00011640536284885915,
+        -2.326159721659663e-06
+      ],
+      "all_seed_positive": false,
+      "unaffected_ratio": 1.0,
+      "unaffected_protected": true,
+      "overall_relative_gain": 0.03185793380682578
+    },
+    {
+      "split": "iid",
+      "condition": "all",
+      "passed": false,
+      "affected_relative_gain": -0.009839046318387723,
+      "per_seed_affected_improvement": [
+        -0.00024172113827502015,
+        0.00014720578333035197,
+        -2.326159721659663e-06
+      ],
+      "all_seed_positive": false,
+      "unaffected_ratio": 0.9861656397584376,
+      "unaffected_protected": true,
+      "overall_relative_gain": -0.0026325374733815465
+    },
+    {
+      "split": "shift",
+      "condition": "local",
+      "passed": false,
+      "affected_relative_gain": -0.014329212358099586,
+      "per_seed_affected_improvement": [
+        -0.00913167381865803,
+        -0.007781735444442364,
+        0.008225305530486353
+      ],
+      "all_seed_positive": false,
+      "unaffected_ratio": 1.0,
+      "unaffected_protected": true,
+      "overall_relative_gain": -0.009225109004487697
+    },
+    {
+      "split": "shift",
+      "condition": "all",
+      "passed": false,
+      "affected_relative_gain": -0.0015805160122730477,
+      "per_seed_affected_improvement": [
+        -0.002829504759767415,
+        -0.006354100970514928,
+        0.008225305530486353
+      ],
+      "all_seed_positive": false,
+      "unaffected_ratio": 0.9747809726108438,
+      "unaffected_protected": true,
+      "overall_relative_gain": 0.00796555225247575
+    }
+  ],
+  "wall_seconds": 6.792977700009942
+}

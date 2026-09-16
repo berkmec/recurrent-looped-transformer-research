@@ -9,3 +9,15 @@ Full gradients traverse recurrent s, decoder cache, encoder attention and global
 Parity oracle repeatedly XORs the state with binary operations; symbol 2 is neutral. Five-state oracle composes two explicit noncommuting permutations from initial state 0: cycle (0 1 2 3 4), transposition (0 1), and identity symbol 2. Targets are independently generated sequential states; no oracle is in learned inference. Training uses all prefix targets and final accuracy remains primary. One operation is one consumed token; added neutral tokens increase t but not useful operation count d. No k-like title refinement exists in this core; k=0 throughout.
 
 Independent deviations: one untied encoder/decoder layer, width32 or48, heads2, GELU FFN twice width, no dropout, small classification output, no tokenizer, no large-model reproduction. RoPE is used on self-attention and cross-memory query/keys.
+
+## Gradient-route clarification (append-only explanatory addendum)
+
+For the augmented decoder state, the recurrent-only derivative contains the ordered product J_T J_(T-1)...J_(i+1), where J_t = partial H_t / partial H_(t-1), holding encoder memory fixed. The total input derivative also includes encoder self-attention and global-memory paths; it is not equal to that product alone. Boundary detachment replaces the relevant s/cache derivative by zero, while partial L / partial M_i can remain nonzero. This is why truncating decoder recurrence does not imply every early-input gradient vanishes.
+
+Dense prefix loss is (1/T) sum_t CE(readout(s_t), y_t); delayed loss is CE(readout(s_T), y_T). Dense loss supplies many shorter credit-assignment paths and32times as many supervised targets at T=32. The separately frozen delayed-loss companion compares full and truncated gradients within that regime; it does not hold target count constant relative to dense supervision. No claim follows that nonzero, small or large gradient norms alone demonstrate learning or reasoning depth.
+
+The step object transports encoder/global caches alongside H for convenience. All training/evaluation forwards rebuild caches from fresh state under current weights. This small step API has no parameter-version stamp: external callers must not reuse state after updating weights. Current-policy RL replay and a production serving cache manager are outside this experiment.
+
+## Workload and depth terminology clarification (reporting addendum)
+
+The earlier phrase "useful operation count d" denotes only a workload count in this core experiment, not graph dependency depth or a proved lower bound on the shortest algorithm. Report actual consumed token count t, designated non-neutral input count, and actual oracle state-change count separately. Parity bit0 is an identity; the five-state transposition also fixes states2,3,4. Even the number of actual state changes is not a minimal sequential-depth theorem. Neutral suffixes leave the original task and its answer fixed, increase t, and keep k=0. Graph/title dependency depth used by the separate reasoning-window experiments is a distinct structural quantity and cannot be substituted for any of these counts.

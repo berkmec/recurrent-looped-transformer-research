@@ -1,0 +1,4944 @@
+{
+  "protocol_sha256": "2647a34ff4a0c23fe2f275d1ac99e76906046a69f96c5f6f1eedcefb43e1b62f",
+  "total_wall_seconds": 1509.5397103999858,
+  "runs": [
+    {
+      "arm": "forward",
+      "seed": 17,
+      "wall_seconds": 72.28116399998544,
+      "initial_tensor_sha256": "956db5f723bbaf0d4b74d0ca9900e88f00a19b5771bf7c7fdd8e3b64d4e9ae35",
+      "curve": [
+        {
+          "step": 150,
+          "examples_seen": 2400,
+          "wall_seconds": 17.717929499980528,
+          "validation": {
+            "mse": 0.14588649570941925,
+            "final_mse": 0.16473674774169922,
+            "affected_final_mse": 0.16144783794879913,
+            "unaffected_final_mse": 0.1680256426334381,
+            "delta_mse": 0.07137107104063034,
+            "accuracy_0.1": 0.2734375
+          },
+          "checkpoint_sha256": "a9709ceeacced6d211a2a20832bba59130607e88be047cd2c20d72649f59a7fe"
+        },
+        {
+          "step": 300,
+          "examples_seen": 4800,
+          "wall_seconds": 35.49462799995672,
+          "validation": {
+            "mse": 0.14512397348880768,
+            "final_mse": 0.16382130980491638,
+            "affected_final_mse": 0.14046140015125275,
+            "unaffected_final_mse": 0.18718120455741882,
+            "delta_mse": 0.07530446350574493,
+            "accuracy_0.1": 0.244140625
+          },
+          "checkpoint_sha256": "4eec2e8a8ac7ca3367266d2afd158a37f522225da786fd44591457894f499139"
+        },
+        {
+          "step": 600,
+          "examples_seen": 9600,
+          "wall_seconds": 72.27826359996106,
+          "validation": {
+            "mse": 0.14017991721630096,
+            "final_mse": 0.16042974591255188,
+            "affected_final_mse": 0.1424134373664856,
+            "unaffected_final_mse": 0.17844605445861816,
+            "delta_mse": 0.062403541058301926,
+            "accuracy_0.1": 0.3125
+          },
+          "checkpoint_sha256": "1992ba8f98b6c7216066e0ffa00c6ae95f518736f57ce404416a67ad06fca4f7"
+        }
+      ]
+    },
+    {
+      "arm": "bidir",
+      "seed": 17,
+      "wall_seconds": 70.92053110001143,
+      "initial_tensor_sha256": "956db5f723bbaf0d4b74d0ca9900e88f00a19b5771bf7c7fdd8e3b64d4e9ae35",
+      "curve": [
+        {
+          "step": 150,
+          "examples_seen": 2400,
+          "wall_seconds": 18.084152200026438,
+          "validation": {
+            "mse": 0.005479604471474886,
+            "final_mse": 0.00641490425914526,
+            "affected_final_mse": 0.009530307725071907,
+            "unaffected_final_mse": 0.0032995014917105436,
+            "delta_mse": 0.005600631237030029,
+            "accuracy_0.1": 0.8671875
+          },
+          "checkpoint_sha256": "32b5f5e72e9ad736ea2965fe05c427df8b3992b9aec23927313a5edac9d78006"
+        },
+        {
+          "step": 300,
+          "examples_seen": 4800,
+          "wall_seconds": 35.99181159998989,
+          "validation": {
+            "mse": 0.004952068906277418,
+            "final_mse": 0.004891248885542154,
+            "affected_final_mse": 0.0055017657577991486,
+            "unaffected_final_mse": 0.0042807310819625854,
+            "delta_mse": 0.0020585039164870977,
+            "accuracy_0.1": 0.890625
+          },
+          "checkpoint_sha256": "a40f1d00836c534b03362d658fa8e7941d6272eb3bca9d032f9d149b27a698c3"
+        },
+        {
+          "step": 600,
+          "examples_seen": 9600,
+          "wall_seconds": 70.917973899981,
+          "validation": {
+            "mse": 0.0012996358564123511,
+            "final_mse": 0.0013055915478616953,
+            "affected_final_mse": 0.0017835497856140137,
+            "unaffected_final_mse": 0.0008276334265246987,
+            "delta_mse": 0.001005922444164753,
+            "accuracy_0.1": 0.984375
+          },
+          "checkpoint_sha256": "0014566a675dc7b33e39127ba8bf4827a23266d49cc8f6a92310db2f22de1ee4"
+        }
+      ]
+    },
+    {
+      "arm": "wrong",
+      "seed": 17,
+      "wall_seconds": 72.5073062000447,
+      "initial_tensor_sha256": "956db5f723bbaf0d4b74d0ca9900e88f00a19b5771bf7c7fdd8e3b64d4e9ae35",
+      "curve": [
+        {
+          "step": 150,
+          "examples_seen": 2400,
+          "wall_seconds": 18.26061330002267,
+          "validation": {
+            "mse": 0.23953783512115479,
+            "final_mse": 0.2692420482635498,
+            "affected_final_mse": 0.2511999011039734,
+            "unaffected_final_mse": 0.2872841954231262,
+            "delta_mse": 0.10642511397600174,
+            "accuracy_0.1": 0.130859375
+          },
+          "checkpoint_sha256": "63fe92fe014586f59a9e00bc4daf600e018f1ec0406ddd1f75c83eaccdd8c66e"
+        },
+        {
+          "step": 300,
+          "examples_seen": 4800,
+          "wall_seconds": 35.93842190003488,
+          "validation": {
+            "mse": 0.2260507345199585,
+            "final_mse": 0.25565242767333984,
+            "affected_final_mse": 0.2014981359243393,
+            "unaffected_final_mse": 0.3098067343235016,
+            "delta_mse": 0.10405968129634857,
+            "accuracy_0.1": 0.14453125
+          },
+          "checkpoint_sha256": "061f0643db5d8e1a1fa6f26654c259a152ab498718b552680f87a5d8d1d16141"
+        },
+        {
+          "step": 600,
+          "examples_seen": 9600,
+          "wall_seconds": 72.50474100001156,
+          "validation": {
+            "mse": 0.24111194908618927,
+            "final_mse": 0.27753084897994995,
+            "affected_final_mse": 0.19683432579040527,
+            "unaffected_final_mse": 0.35822737216949463,
+            "delta_mse": 0.10906883329153061,
+            "accuracy_0.1": 0.15234375
+          },
+          "checkpoint_sha256": "8f951144c7c2fa578e81f493a14edaae9a9790b4c1431f21d5a662ba3463d419"
+        }
+      ]
+    },
+    {
+      "arm": "flat",
+      "seed": 17,
+      "wall_seconds": 74.17415059998166,
+      "initial_tensor_sha256": "956db5f723bbaf0d4b74d0ca9900e88f00a19b5771bf7c7fdd8e3b64d4e9ae35",
+      "curve": [
+        {
+          "step": 150,
+          "examples_seen": 2400,
+          "wall_seconds": 17.020301199983805,
+          "validation": {
+            "mse": 0.19836270809173584,
+            "final_mse": 0.22632910311222076,
+            "affected_final_mse": 0.24013438820838928,
+            "unaffected_final_mse": 0.21252380311489105,
+            "delta_mse": 0.0877072811126709,
+            "accuracy_0.1": 0.158203125
+          },
+          "checkpoint_sha256": "876147432b09d0a6f5cd866a321e9da20d6ef4e8fc7ba9ccb712c61f0db14569"
+        },
+        {
+          "step": 300,
+          "examples_seen": 4800,
+          "wall_seconds": 35.03175849997206,
+          "validation": {
+            "mse": 0.19743728637695312,
+            "final_mse": 0.22256596386432648,
+            "affected_final_mse": 0.2177795171737671,
+            "unaffected_final_mse": 0.22735239565372467,
+            "delta_mse": 0.08412304520606995,
+            "accuracy_0.1": 0.171875
+          },
+          "checkpoint_sha256": "d56961762776eeb1268961bdebb00bb7d4db78fdb89975ace9d605a99acb6ddb"
+        },
+        {
+          "step": 600,
+          "examples_seen": 9600,
+          "wall_seconds": 74.17122829996515,
+          "validation": {
+            "mse": 0.23256385326385498,
+            "final_mse": 0.2575249671936035,
+            "affected_final_mse": 0.2640695571899414,
+            "unaffected_final_mse": 0.2509803771972656,
+            "delta_mse": 0.08527551591396332,
+            "accuracy_0.1": 0.140625
+          },
+          "checkpoint_sha256": "730eca28f45e4f33ca95d1d4e16e0dc31384f5a84e3bcb5d1eb48e48d92a5b22"
+        }
+      ]
+    },
+    {
+      "arm": "feedback",
+      "seed": 17,
+      "wall_seconds": 87.56597530003637,
+      "initial_tensor_sha256": "956db5f723bbaf0d4b74d0ca9900e88f00a19b5771bf7c7fdd8e3b64d4e9ae35",
+      "curve": [
+        {
+          "step": 150,
+          "examples_seen": 2400,
+          "wall_seconds": 21.842512400005944,
+          "validation": {
+            "mse": 0.005480596330016851,
+            "final_mse": 0.0064169010147452354,
+            "affected_final_mse": 0.00953067746013403,
+            "unaffected_final_mse": 0.003303125500679016,
+            "delta_mse": 0.005599941127002239,
+            "accuracy_0.1": 0.8671875
+          },
+          "checkpoint_sha256": "de08b60cad6ce8203574c0476c39c587f49220577b28afd833ec85909c9ce1a7"
+        },
+        {
+          "step": 300,
+          "examples_seen": 4800,
+          "wall_seconds": 44.59062250005081,
+          "validation": {
+            "mse": 0.004959715064615011,
+            "final_mse": 0.004898488521575928,
+            "affected_final_mse": 0.0055085476487874985,
+            "unaffected_final_mse": 0.004288430325686932,
+            "delta_mse": 0.0020580007694661617,
+            "accuracy_0.1": 0.890625
+          },
+          "checkpoint_sha256": "e13b83092f8aed73d39f36a8f2788f46305b40ef4a2dda4cd4009438398ef6ba"
+        },
+        {
+          "step": 600,
+          "examples_seen": 9600,
+          "wall_seconds": 87.56334930000594,
+          "validation": {
+            "mse": 0.0012971513206139207,
+            "final_mse": 0.0013029978144913912,
+            "affected_final_mse": 0.001780286431312561,
+            "unaffected_final_mse": 0.0008257093140855432,
+            "delta_mse": 0.0010058803018182516,
+            "accuracy_0.1": 0.984375
+          },
+          "checkpoint_sha256": "66adfdbbf11ead0ff50f69f07cf0521442bb591d811a2962b476494f25ea796e"
+        }
+      ]
+    },
+    {
+      "arm": "method",
+      "seed": 17,
+      "wall_seconds": 82.53346740000416,
+      "initial_tensor_sha256": "956db5f723bbaf0d4b74d0ca9900e88f00a19b5771bf7c7fdd8e3b64d4e9ae35",
+      "curve": [
+        {
+          "step": 150,
+          "examples_seen": 2400,
+          "wall_seconds": 20.80188449996058,
+          "validation": {
+            "mse": 0.00786596816033125,
+            "final_mse": 0.00807405635714531,
+            "affected_final_mse": 0.010225225239992142,
+            "unaffected_final_mse": 0.005922887474298477,
+            "delta_mse": 0.008286330848932266,
+            "accuracy_0.1": 0.833984375
+          },
+          "checkpoint_sha256": "5ca6bbdce069f9f669be0c78551dcc6727dafd43bfae41c2c529a8b4dae95194"
+        },
+        {
+          "step": 300,
+          "examples_seen": 4800,
+          "wall_seconds": 42.597808599995915,
+          "validation": {
+            "mse": 0.0032241400331258774,
+            "final_mse": 0.0032802573405206203,
+            "affected_final_mse": 0.004416974727064371,
+            "unaffected_final_mse": 0.0021435399539768696,
+            "delta_mse": 0.0036817812360823154,
+            "accuracy_0.1": 0.939453125
+          },
+          "checkpoint_sha256": "570b27137c9618bd4dfa70fdd9d7f036850b38e82756413e12609febe31e223a"
+        },
+        {
+          "step": 600,
+          "examples_seen": 9600,
+          "wall_seconds": 82.5301521999645,
+          "validation": {
+            "mse": 0.002001884626224637,
+            "final_mse": 0.0024692912120372057,
+            "affected_final_mse": 0.003356626257300377,
+            "unaffected_final_mse": 0.0015819563996046782,
+            "delta_mse": 0.0015381199773401022,
+            "accuracy_0.1": 0.96484375
+          },
+          "checkpoint_sha256": "9342ccaa6396904a96af95228d0f84bb834d2f9751b2e5bc4c1139842dfd70e4"
+        }
+      ]
+    },
+    {
+      "arm": "forward",
+      "seed": 43,
+      "wall_seconds": 83.45775120001053,
+      "initial_tensor_sha256": "9836a025e122af6a785aa5a56334bac08ca08273338e0e007e00f964be9316f0",
+      "curve": [
+        {
+          "step": 150,
+          "examples_seen": 2400,
+          "wall_seconds": 22.05007190001197,
+          "validation": {
+            "mse": 0.15510143339633942,
+            "final_mse": 0.1756783425807953,
+            "affected_final_mse": 0.19045421481132507,
+            "unaffected_final_mse": 0.1609024852514267,
+            "delta_mse": 0.07099388539791107,
+            "accuracy_0.1": 0.279296875
+          },
+          "checkpoint_sha256": "4715dea2cac412327c5992a8e6e93ad82bae67f982bb9e8fff7e9fa31f4aadfa"
+        },
+        {
+          "step": 300,
+          "examples_seen": 4800,
+          "wall_seconds": 42.21682010003133,
+          "validation": {
+            "mse": 0.14007283747196198,
+            "final_mse": 0.16021177172660828,
+            "affected_final_mse": 0.16478729248046875,
+            "unaffected_final_mse": 0.1556362360715866,
+            "delta_mse": 0.06892842054367065,
+            "accuracy_0.1": 0.306640625
+          },
+          "checkpoint_sha256": "fc8931cfbec25da1dd89599802a5801ebac9a20e1c02bea3b27a802f70fd9520"
+        },
+        {
+          "step": 600,
+          "examples_seen": 9600,
+          "wall_seconds": 83.45490850001806,
+          "validation": {
+            "mse": 0.13605435192584991,
+            "final_mse": 0.1560213565826416,
+            "affected_final_mse": 0.15651178359985352,
+            "unaffected_final_mse": 0.1555308997631073,
+            "delta_mse": 0.0634445920586586,
+            "accuracy_0.1": 0.306640625
+          },
+          "checkpoint_sha256": "c0f5f7565bc3b71a9bcc9d73d55aeeeb8e04b63d126ce529e1fdbe339fd22f76"
+        }
+      ]
+    },
+    {
+      "arm": "bidir",
+      "seed": 43,
+      "wall_seconds": 84.24288569996133,
+      "initial_tensor_sha256": "9836a025e122af6a785aa5a56334bac08ca08273338e0e007e00f964be9316f0",
+      "curve": [
+        {
+          "step": 150,
+          "examples_seen": 2400,
+          "wall_seconds": 22.0257975999848,
+          "validation": {
+            "mse": 0.004349552560597658,
+            "final_mse": 0.004655294585973024,
+            "affected_final_mse": 0.006546893622726202,
+            "unaffected_final_mse": 0.0027636962477117777,
+            "delta_mse": 0.005411108955740929,
+            "accuracy_0.1": 0.90625
+          },
+          "checkpoint_sha256": "69007900df400ec2c0a4207ea98f7c68d2a53fd5e6680cab5e573e0d1cbb8b69"
+        },
+        {
+          "step": 300,
+          "examples_seen": 4800,
+          "wall_seconds": 41.90087939996738,
+          "validation": {
+            "mse": 0.0017084525898098946,
+            "final_mse": 0.0020690320525318384,
+            "affected_final_mse": 0.0031075964216142893,
+            "unaffected_final_mse": 0.0010304677998647094,
+            "delta_mse": 0.0016551307635381818,
+            "accuracy_0.1": 0.970703125
+          },
+          "checkpoint_sha256": "76768b687059b5b1f379171a375ce5b5d986ab3f6102d28a463d20cde20ed0c7"
+        },
+        {
+          "step": 600,
+          "examples_seen": 9600,
+          "wall_seconds": 84.23991790000582,
+          "validation": {
+            "mse": 0.0010408824309706688,
+            "final_mse": 0.001091905520297587,
+            "affected_final_mse": 0.0013584597036242485,
+            "unaffected_final_mse": 0.0008253512787632644,
+            "delta_mse": 0.0007034532027319074,
+            "accuracy_0.1": 0.99609375
+          },
+          "checkpoint_sha256": "e33b56ed802f91ea323584252fd195e11917f5df5d067123f910ec8dc9329f43"
+        }
+      ]
+    },
+    {
+      "arm": "wrong",
+      "seed": 43,
+      "wall_seconds": 84.36068189999787,
+      "initial_tensor_sha256": "9836a025e122af6a785aa5a56334bac08ca08273338e0e007e00f964be9316f0",
+      "curve": [
+        {
+          "step": 150,
+          "examples_seen": 2400,
+          "wall_seconds": 20.8460047999979,
+          "validation": {
+            "mse": 0.22985850274562836,
+            "final_mse": 0.2616521716117859,
+            "affected_final_mse": 0.2087704986333847,
+            "unaffected_final_mse": 0.3145338296890259,
+            "delta_mse": 0.10802565515041351,
+            "accuracy_0.1": 0.15625
+          },
+          "checkpoint_sha256": "1b5c987c205153ee55a6104c890c0d11149272e3ad14092bbbdf262bd35a8357"
+        },
+        {
+          "step": 300,
+          "examples_seen": 4800,
+          "wall_seconds": 42.038816699991,
+          "validation": {
+            "mse": 0.22207458317279816,
+            "final_mse": 0.25433963537216187,
+            "affected_final_mse": 0.22971060872077942,
+            "unaffected_final_mse": 0.2789686322212219,
+            "delta_mse": 0.09875574707984924,
+            "accuracy_0.1": 0.16015625
+          },
+          "checkpoint_sha256": "e9ffb193d1ef5959b368164ce0bdc1ab70a303f2dbec3b5c00094e55a8e07a1c"
+        },
+        {
+          "step": 600,
+          "examples_seen": 9600,
+          "wall_seconds": 84.35812160000205,
+          "validation": {
+            "mse": 0.2263917773962021,
+            "final_mse": 0.2588663697242737,
+            "affected_final_mse": 0.21317782998085022,
+            "unaffected_final_mse": 0.30455490946769714,
+            "delta_mse": 0.09720055758953094,
+            "accuracy_0.1": 0.15625
+          },
+          "checkpoint_sha256": "865d8b8aa1a1ee35644a2ebe621853f4d1404c90a53b645f0d2e846cb54f257e"
+        }
+      ]
+    },
+    {
+      "arm": "flat",
+      "seed": 43,
+      "wall_seconds": 83.2952401000075,
+      "initial_tensor_sha256": "9836a025e122af6a785aa5a56334bac08ca08273338e0e007e00f964be9316f0",
+      "curve": [
+        {
+          "step": 150,
+          "examples_seen": 2400,
+          "wall_seconds": 21.655157800007146,
+          "validation": {
+            "mse": 0.2023862600326538,
+            "final_mse": 0.22597073018550873,
+            "affected_final_mse": 0.23022809624671936,
+            "unaffected_final_mse": 0.2217133641242981,
+            "delta_mse": 0.08156679570674896,
+            "accuracy_0.1": 0.173828125
+          },
+          "checkpoint_sha256": "dfd6e8fad17494a86a3123147fc0601dfae779a97abd63fb5a735206e6eb4ce2"
+        },
+        {
+          "step": 300,
+          "examples_seen": 4800,
+          "wall_seconds": 43.63558030000422,
+          "validation": {
+            "mse": 0.1983640193939209,
+            "final_mse": 0.22436603903770447,
+            "affected_final_mse": 0.2480345368385315,
+            "unaffected_final_mse": 0.20069757103919983,
+            "delta_mse": 0.08208058774471283,
+            "accuracy_0.1": 0.150390625
+          },
+          "checkpoint_sha256": "38b87fde2095532c92cfec5828329bae14d9ca981e42f4c1d6c2338385e7b661"
+        },
+        {
+          "step": 600,
+          "examples_seen": 9600,
+          "wall_seconds": 83.29255309997825,
+          "validation": {
+            "mse": 0.21064211428165436,
+            "final_mse": 0.23552580177783966,
+            "affected_final_mse": 0.23135332763195038,
+            "unaffected_final_mse": 0.23969827592372894,
+            "delta_mse": 0.08346176892518997,
+            "accuracy_0.1": 0.14453125
+          },
+          "checkpoint_sha256": "57d8a4b55bc9c81117396a0ae5490aa1a486e7b871f200ea901a5af23933d292"
+        }
+      ]
+    },
+    {
+      "arm": "feedback",
+      "seed": 43,
+      "wall_seconds": 87.98036200000206,
+      "initial_tensor_sha256": "9836a025e122af6a785aa5a56334bac08ca08273338e0e007e00f964be9316f0",
+      "curve": [
+        {
+          "step": 150,
+          "examples_seen": 2400,
+          "wall_seconds": 22.558624600002076,
+          "validation": {
+            "mse": 0.00434888293966651,
+            "final_mse": 0.004654775373637676,
+            "affected_final_mse": 0.00654639583081007,
+            "unaffected_final_mse": 0.002763154450803995,
+            "delta_mse": 0.005410689394921064,
+            "accuracy_0.1": 0.90625
+          },
+          "checkpoint_sha256": "dc38667aa7a0fa84595b23de396f2fa3594c6f69946a1180295128739b164cf5"
+        },
+        {
+          "step": 300,
+          "examples_seen": 4800,
+          "wall_seconds": 44.22075330000371,
+          "validation": {
+            "mse": 0.001708483905531466,
+            "final_mse": 0.0020690266974270344,
+            "affected_final_mse": 0.003108290024101734,
+            "unaffected_final_mse": 0.001029763137921691,
+            "delta_mse": 0.0016550440341234207,
+            "accuracy_0.1": 0.970703125
+          },
+          "checkpoint_sha256": "7bbe9bb0cfa881005ffaa267613bd078c441ad924b9fa08fb2cd0a92662f8a96"
+        },
+        {
+          "step": 600,
+          "examples_seen": 9600,
+          "wall_seconds": 87.9784287000075,
+          "validation": {
+            "mse": 0.001043026801198721,
+            "final_mse": 0.0010944282403215766,
+            "affected_final_mse": 0.0013606984866783023,
+            "unaffected_final_mse": 0.0008281579939648509,
+            "delta_mse": 0.0007035838789306581,
+            "accuracy_0.1": 0.99609375
+          },
+          "checkpoint_sha256": "ece122835774d478c80559c61c4583b0615129da30e069c4fcf7d65a57465c90"
+        }
+      ]
+    },
+    {
+      "arm": "method",
+      "seed": 43,
+      "wall_seconds": 88.35773709998466,
+      "initial_tensor_sha256": "9836a025e122af6a785aa5a56334bac08ca08273338e0e007e00f964be9316f0",
+      "curve": [
+        {
+          "step": 150,
+          "examples_seen": 2400,
+          "wall_seconds": 21.916270999994595,
+          "validation": {
+            "mse": 0.008053787052631378,
+            "final_mse": 0.008383928798139095,
+            "affected_final_mse": 0.009952347725629807,
+            "unaffected_final_mse": 0.006815510801970959,
+            "delta_mse": 0.0058487895876169205,
+            "accuracy_0.1": 0.775390625
+          },
+          "checkpoint_sha256": "2f1cddc57764c5fe08409360e542721550565d53b37b0cc2f16d6e2d8096ec37"
+        },
+        {
+          "step": 300,
+          "examples_seen": 4800,
+          "wall_seconds": 45.698309499945026,
+          "validation": {
+            "mse": 0.002949901157990098,
+            "final_mse": 0.0033519109711050987,
+            "affected_final_mse": 0.004989675711840391,
+            "unaffected_final_mse": 0.0017141468124464154,
+            "delta_mse": 0.002352686133235693,
+            "accuracy_0.1": 0.95703125
+          },
+          "checkpoint_sha256": "56ca9532f933c4f00e4618482911c1e44d1931c4f4f65d9f040665d17deb7361"
+        },
+        {
+          "step": 600,
+          "examples_seen": 9600,
+          "wall_seconds": 88.3548451999668,
+          "validation": {
+            "mse": 0.0015192587161436677,
+            "final_mse": 0.0017022552201524377,
+            "affected_final_mse": 0.0022570183500647545,
+            "unaffected_final_mse": 0.0011474920902401209,
+            "delta_mse": 0.0010306962067261338,
+            "accuracy_0.1": 0.984375
+          },
+          "checkpoint_sha256": "8488377d0fafa727cc2a9a813e319c8e75e58e3580b30148a1375a9d42bcb19c"
+        }
+      ]
+    },
+    {
+      "arm": "forward",
+      "seed": 91,
+      "wall_seconds": 85.45969139999943,
+      "initial_tensor_sha256": "748b1d929d723fd3a1571f9f684f82571cdb38017bc8aacd1d6d4c70f358c9aa",
+      "curve": [
+        {
+          "step": 150,
+          "examples_seen": 2400,
+          "wall_seconds": 21.284484800009523,
+          "validation": {
+            "mse": 0.16358785331249237,
+            "final_mse": 0.18322739005088806,
+            "affected_final_mse": 0.16440951824188232,
+            "unaffected_final_mse": 0.202045276761055,
+            "delta_mse": 0.07052784413099289,
+            "accuracy_0.1": 0.240234375
+          },
+          "checkpoint_sha256": "61539abf0e8159c8786a0bb3865b12a667f25788fd78d0cb840d9d253bd19a16"
+        },
+        {
+          "step": 300,
+          "examples_seen": 4800,
+          "wall_seconds": 42.469832799979486,
+          "validation": {
+            "mse": 0.14843009412288666,
+            "final_mse": 0.16831019520759583,
+            "affected_final_mse": 0.1828802227973938,
+            "unaffected_final_mse": 0.15374018251895905,
+            "delta_mse": 0.06341462582349777,
+            "accuracy_0.1": 0.28515625
+          },
+          "checkpoint_sha256": "ffea1f6aba235aa78771b374deecad957c28640e305c6a2405b048b80193894e"
+        },
+        {
+          "step": 600,
+          "examples_seen": 9600,
+          "wall_seconds": 85.4571349999751,
+          "validation": {
+            "mse": 0.14181359112262726,
+            "final_mse": 0.16011860966682434,
+            "affected_final_mse": 0.1658206582069397,
+            "unaffected_final_mse": 0.15441656112670898,
+            "delta_mse": 0.0636323094367981,
+            "accuracy_0.1": 0.310546875
+          },
+          "checkpoint_sha256": "5e646a1ea672624c444ff46e38b48eb0745b00ce7540412724667462c4718323"
+        }
+      ]
+    },
+    {
+      "arm": "bidir",
+      "seed": 91,
+      "wall_seconds": 84.12577450001845,
+      "initial_tensor_sha256": "748b1d929d723fd3a1571f9f684f82571cdb38017bc8aacd1d6d4c70f358c9aa",
+      "curve": [
+        {
+          "step": 150,
+          "examples_seen": 2400,
+          "wall_seconds": 21.359091999998782,
+          "validation": {
+            "mse": 0.0051446519792079926,
+            "final_mse": 0.005671652499586344,
+            "affected_final_mse": 0.007860267534852028,
+            "unaffected_final_mse": 0.0034830360673367977,
+            "delta_mse": 0.006474018096923828,
+            "accuracy_0.1": 0.857421875
+          },
+          "checkpoint_sha256": "796963bc99bff8a99d98a9121ca6e1c8967185a351ccead189816279dc858f2d"
+        },
+        {
+          "step": 300,
+          "examples_seen": 4800,
+          "wall_seconds": 42.62042689998634,
+          "validation": {
+            "mse": 0.005148760508745909,
+            "final_mse": 0.0052739521488547325,
+            "affected_final_mse": 0.006034443154931068,
+            "unaffected_final_mse": 0.004513460677117109,
+            "delta_mse": 0.002978566102683544,
+            "accuracy_0.1": 0.8515625
+          },
+          "checkpoint_sha256": "d53bd6c5ec9ebfed2fda438757b66d0370e2ee81094d43343037ba100f4aed13"
+        },
+        {
+          "step": 600,
+          "examples_seen": 9600,
+          "wall_seconds": 84.12180019996595,
+          "validation": {
+            "mse": 0.0029553764034062624,
+            "final_mse": 0.003640897572040558,
+            "affected_final_mse": 0.004683983977884054,
+            "unaffected_final_mse": 0.002597811631858349,
+            "delta_mse": 0.0011105971643701196,
+            "accuracy_0.1": 0.908203125
+          },
+          "checkpoint_sha256": "88b9512b4ed1264a8ae32b8579861ced5e84791c63fc1e120c3a587e895a93c8"
+        }
+      ]
+    },
+    {
+      "arm": "wrong",
+      "seed": 91,
+      "wall_seconds": 85.6122875000001,
+      "initial_tensor_sha256": "748b1d929d723fd3a1571f9f684f82571cdb38017bc8aacd1d6d4c70f358c9aa",
+      "curve": [
+        {
+          "step": 150,
+          "examples_seen": 2400,
+          "wall_seconds": 21.092141000030097,
+          "validation": {
+            "mse": 0.23016078770160675,
+            "final_mse": 0.2628838121891022,
+            "affected_final_mse": 0.2339468002319336,
+            "unaffected_final_mse": 0.29182079434394836,
+            "delta_mse": 0.10238870233297348,
+            "accuracy_0.1": 0.125
+          },
+          "checkpoint_sha256": "004715931241d682ee64da81e2db3f4d02b357a20ecbce4f1f5a152cf0b57406"
+        },
+        {
+          "step": 300,
+          "examples_seen": 4800,
+          "wall_seconds": 42.229014400043525,
+          "validation": {
+            "mse": 0.21858663856983185,
+            "final_mse": 0.25191375613212585,
+            "affected_final_mse": 0.23491637408733368,
+            "unaffected_final_mse": 0.26891112327575684,
+            "delta_mse": 0.09273265302181244,
+            "accuracy_0.1": 0.1640625
+          },
+          "checkpoint_sha256": "5df05e2ec2cac0393e2e8c2cbc0ed6efd7a7476d645cb511480910782d20675c"
+        },
+        {
+          "step": 600,
+          "examples_seen": 9600,
+          "wall_seconds": 85.60925740003586,
+          "validation": {
+            "mse": 0.2483229637145996,
+            "final_mse": 0.2796190083026886,
+            "affected_final_mse": 0.23397931456565857,
+            "unaffected_final_mse": 0.32525867223739624,
+            "delta_mse": 0.09764169156551361,
+            "accuracy_0.1": 0.142578125
+          },
+          "checkpoint_sha256": "0147f5cf5aff648433fc5cee62028aaf1a660707c453a723c9243e5578d9e7fb"
+        }
+      ]
+    },
+    {
+      "arm": "flat",
+      "seed": 91,
+      "wall_seconds": 90.2440052999882,
+      "initial_tensor_sha256": "748b1d929d723fd3a1571f9f684f82571cdb38017bc8aacd1d6d4c70f358c9aa",
+      "curve": [
+        {
+          "step": 150,
+          "examples_seen": 2400,
+          "wall_seconds": 21.141432599979453,
+          "validation": {
+            "mse": 0.19127626717090607,
+            "final_mse": 0.21714544296264648,
+            "affected_final_mse": 0.200062096118927,
+            "unaffected_final_mse": 0.23422878980636597,
+            "delta_mse": 0.08629804104566574,
+            "accuracy_0.1": 0.1796875
+          },
+          "checkpoint_sha256": "4930f051d3fa88bcaf6eca327c302dfbeb8cb2b69e8595eff381cdf47b1eb08c"
+        },
+        {
+          "step": 300,
+          "examples_seen": 4800,
+          "wall_seconds": 44.31183959997725,
+          "validation": {
+            "mse": 0.19818294048309326,
+            "final_mse": 0.2267412543296814,
+            "affected_final_mse": 0.23601782321929932,
+            "unaffected_final_mse": 0.21746470034122467,
+            "delta_mse": 0.08427819609642029,
+            "accuracy_0.1": 0.16015625
+          },
+          "checkpoint_sha256": "2a5ae665df3b0cbd3b43876018b18a7fbd8d2c7dc9da5197ee82e749db9ce4ce"
+        },
+        {
+          "step": 600,
+          "examples_seen": 9600,
+          "wall_seconds": 90.24134830001276,
+          "validation": {
+            "mse": 0.22553731501102448,
+            "final_mse": 0.2500561475753784,
+            "affected_final_mse": 0.24683400988578796,
+            "unaffected_final_mse": 0.25327834486961365,
+            "delta_mse": 0.08394218981266022,
+            "accuracy_0.1": 0.169921875
+          },
+          "checkpoint_sha256": "c6700a1d81304e351329d5e5e068bc0e3678000f73aaa94eb558245ea8f74d6b"
+        }
+      ]
+    },
+    {
+      "arm": "feedback",
+      "seed": 91,
+      "wall_seconds": 68.43088880000869,
+      "initial_tensor_sha256": "748b1d929d723fd3a1571f9f684f82571cdb38017bc8aacd1d6d4c70f358c9aa",
+      "curve": [
+        {
+          "step": 150,
+          "examples_seen": 2400,
+          "wall_seconds": 17.83857809996698,
+          "validation": {
+            "mse": 0.00514490669593215,
+            "final_mse": 0.005671576596796513,
+            "affected_final_mse": 0.007859271951019764,
+            "unaffected_final_mse": 0.0034838803112506866,
+            "delta_mse": 0.006474797613918781,
+            "accuracy_0.1": 0.857421875
+          },
+          "checkpoint_sha256": "716b209fd2e32efe33d20243820b5ecb385dba7b04a39eda1f2d94867b55715e"
+        },
+        {
+          "step": 300,
+          "examples_seen": 4800,
+          "wall_seconds": 34.94899949996034,
+          "validation": {
+            "mse": 0.00514708086848259,
+            "final_mse": 0.005271436646580696,
+            "affected_final_mse": 0.006030675023794174,
+            "unaffected_final_mse": 0.004512197803705931,
+            "delta_mse": 0.002979749348014593,
+            "accuracy_0.1": 0.8515625
+          },
+          "checkpoint_sha256": "5b94d8dcfd706480f3826d8feb5c9f026979cc5192661e8f17d04e72b8b4e2c7"
+        },
+        {
+          "step": 600,
+          "examples_seen": 9600,
+          "wall_seconds": 68.42817580001429,
+          "validation": {
+            "mse": 0.002958005527034402,
+            "final_mse": 0.0036438091192394495,
+            "affected_final_mse": 0.004689533729106188,
+            "unaffected_final_mse": 0.002598084509372711,
+            "delta_mse": 0.0011119880946353078,
+            "accuracy_0.1": 0.908203125
+          },
+          "checkpoint_sha256": "527dfc9c7ce8f0a67a8cd42c274a22a23f8986340fa2aa2d12b52dcfc112c16d"
+        }
+      ]
+    },
+    {
+      "arm": "method",
+      "seed": 91,
+      "wall_seconds": 68.6525858999812,
+      "initial_tensor_sha256": "748b1d929d723fd3a1571f9f684f82571cdb38017bc8aacd1d6d4c70f358c9aa",
+      "curve": [
+        {
+          "step": 150,
+          "examples_seen": 2400,
+          "wall_seconds": 16.870663399982732,
+          "validation": {
+            "mse": 0.007090446073561907,
+            "final_mse": 0.0072935218922793865,
+            "affected_final_mse": 0.009375866502523422,
+            "unaffected_final_mse": 0.005211177747696638,
+            "delta_mse": 0.007970813661813736,
+            "accuracy_0.1": 0.84375
+          },
+          "checkpoint_sha256": "233faf9cd187df39034ee6ddefa384361e47eae1d3419eff0928d8877b8ecd8c"
+        },
+        {
+          "step": 300,
+          "examples_seen": 4800,
+          "wall_seconds": 35.28388519998407,
+          "validation": {
+            "mse": 0.0022434520069509745,
+            "final_mse": 0.0022118897177278996,
+            "affected_final_mse": 0.0033775316551327705,
+            "unaffected_final_mse": 0.0010462484788149595,
+            "delta_mse": 0.0027359179221093655,
+            "accuracy_0.1": 0.974609375
+          },
+          "checkpoint_sha256": "4762c57487a34c3283f03393bfe3aba4c4521f927cb7013ed1fb133b391e4d18"
+        },
+        {
+          "step": 600,
+          "examples_seen": 9600,
+          "wall_seconds": 68.65053799998714,
+          "validation": {
+            "mse": 0.0014629237120971084,
+            "final_mse": 0.0015220954082906246,
+            "affected_final_mse": 0.0021379850804805756,
+            "unaffected_final_mse": 0.0009062057361006737,
+            "delta_mse": 0.001096692867577076,
+            "accuracy_0.1": 0.990234375
+          },
+          "checkpoint_sha256": "e5bdaaf2afc0867ef065bf04307f0da666a6fd8e80dbbdc351cf87b65e79300d"
+        }
+      ]
+    }
+  ],
+  "rows": [
+    {
+      "arm": "forward",
+      "seed": 17,
+      "step": 600,
+      "split": "iid",
+      "condition": "retain",
+      "wall_seconds": 0.4648958000470884,
+      "raw_path": "E:\\rlt-research\\2026-09-16-e2e\\learning\\results\\pred-forward-17-600-iid-retain.npz",
+      "raw_sha256": "877e9cf1582a47208d8dea31530bb0a867a74f57442bf9e62e622d9172daba96",
+      "metrics": {
+        "mse": 0.1434011310338974,
+        "final_mse": 0.16413231194019318,
+        "affected_final_mse": 0.180974543094635,
+        "unaffected_final_mse": 0.14729008078575134,
+        "delta_mse": 0.06011307239532471,
+        "accuracy_0.1": 0.275390625
+      },
+      "forward_task": {
+        "mse": 0.03297825902700424,
+        "final_mse": 0.04250544309616089,
+        "affected_final_mse": 0.022490015253424644,
+        "unaffected_final_mse": 0.06252087652683258,
+        "delta_mse": 0.022933484986424446,
+        "accuracy_0.1": 0.39453125
+      },
+      "inverse_task": {
+        "mse": 0.25382402539253235,
+        "final_mse": 0.28575918078422546,
+        "affected_final_mse": 0.33945906162261963,
+        "unaffected_final_mse": 0.2320592999458313,
+        "delta_mse": 0.09729266166687012,
+        "accuracy_0.1": 0.15625
+      },
+      "shallow": {
+        "mse": 0.10210052132606506,
+        "final_mse": 0.11605231463909149,
+        "affected_final_mse": 0.11577517539262772,
+        "unaffected_final_mse": 0.11632944643497467,
+        "delta_mse": 0.054570555686950684,
+        "accuracy_0.1": 0.3203125
+      },
+      "deep": {
+        "mse": 0.18470174074172974,
+        "final_mse": 0.21221229434013367,
+        "affected_final_mse": 0.2461738884449005,
+        "unaffected_final_mse": 0.17825071513652802,
+        "delta_mse": 0.06565558910369873,
+        "accuracy_0.1": 0.23046875
+      }
+    },
+    {
+      "arm": "forward",
+      "seed": 17,
+      "step": 600,
+      "split": "shift",
+      "condition": "retain",
+      "wall_seconds": 0.47622720000799745,
+      "raw_path": "E:\\rlt-research\\2026-09-16-e2e\\learning\\results\\pred-forward-17-600-shift-retain.npz",
+      "raw_sha256": "9b6dfa259a37fd032370d0417476de28ca20c309d30a13119adbda803277e79d",
+      "metrics": {
+        "mse": 0.24781425297260284,
+        "final_mse": 0.26062315702438354,
+        "affected_final_mse": 0.2898333668708801,
+        "unaffected_final_mse": 0.23141297698020935,
+        "delta_mse": 0.07545971125364304,
+        "accuracy_0.1": 0.16796875
+      },
+      "forward_task": {
+        "mse": 0.1398778110742569,
+        "final_mse": 0.13941693305969238,
+        "affected_final_mse": 0.12025207281112671,
+        "unaffected_final_mse": 0.15858177840709686,
+        "delta_mse": 0.05716594308614731,
+        "accuracy_0.1": 0.1953125
+      },
+      "inverse_task": {
+        "mse": 0.35575070977211,
+        "final_mse": 0.3818293809890747,
+        "affected_final_mse": 0.45941463112831116,
+        "unaffected_final_mse": 0.30424410104751587,
+        "delta_mse": 0.09375347197055817,
+        "accuracy_0.1": 0.140625
+      },
+      "deep": {
+        "mse": 0.24781425297260284,
+        "final_mse": 0.26062315702438354,
+        "affected_final_mse": 0.2898333668708801,
+        "unaffected_final_mse": 0.23141297698020935,
+        "delta_mse": 0.07545971125364304,
+        "accuracy_0.1": 0.16796875
+      }
+    },
+    {
+      "arm": "bidir",
+      "seed": 17,
+      "step": 150,
+      "split": "iid",
+      "condition": "retain",
+      "wall_seconds": 0.5037770999479108,
+      "raw_path": "E:\\rlt-research\\2026-09-16-e2e\\learning\\results\\pred-bidir-17-150-iid-retain.npz",
+      "raw_sha256": "19e7d3d548f8f38e798ede9d6a0c6dbb6574654a63aabda049dac015d13054ff",
+      "metrics": {
+        "mse": 0.00662407698109746,
+        "final_mse": 0.008273817598819733,
+        "affected_final_mse": 0.013438122346997261,
+        "unaffected_final_mse": 0.0031095128506422043,
+        "delta_mse": 0.00605377834290266,
+        "accuracy_0.1": 0.869140625
+      },
+      "forward_task": {
+        "mse": 0.007860912941396236,
+        "final_mse": 0.010114272125065327,
+        "affected_final_mse": 0.017311442643404007,
+        "unaffected_final_mse": 0.0029171016067266464,
+        "delta_mse": 0.005595281720161438,
+        "accuracy_0.1": 0.86328125
+      },
+      "inverse_task": {
+        "mse": 0.0053872414864599705,
+        "final_mse": 0.006433363072574139,
+        "affected_final_mse": 0.009564802050590515,
+        "unaffected_final_mse": 0.003301924094557762,
+        "delta_mse": 0.006512274965643883,
+        "accuracy_0.1": 0.875
+      },
+      "shallow": {
+        "mse": 0.001818376942537725,
+        "final_mse": 0.002435987116768956,
+        "affected_final_mse": 0.0030706601683050394,
+        "unaffected_final_mse": 0.0018013138324022293,
+        "delta_mse": 0.0026814728043973446,
+        "accuracy_0.1": 0.9609375
+      },
+      "deep": {
+        "mse": 0.011429778300225735,
+        "final_mse": 0.014111648313701153,
+        "affected_final_mse": 0.023805584758520126,
+        "unaffected_final_mse": 0.004417711868882179,
+        "delta_mse": 0.009426083415746689,
+        "accuracy_0.1": 0.77734375
+      }
+    },
+    {
+      "arm": "bidir",
+      "seed": 17,
+      "step": 150,
+      "split": "shift",
+      "condition": "retain",
+      "wall_seconds": 0.4749807000043802,
+      "raw_path": "E:\\rlt-research\\2026-09-16-e2e\\learning\\results\\pred-bidir-17-150-shift-retain.npz",
+      "raw_sha256": "f9cc34367e174ee1318002d4da54ee7a0223a6e317fad9aa131af36f107fe687",
+      "metrics": {
+        "mse": 0.1597314178943634,
+        "final_mse": 0.1292102336883545,
+        "affected_final_mse": 0.1688510626554489,
+        "unaffected_final_mse": 0.08956938236951828,
+        "delta_mse": 0.12248942255973816,
+        "accuracy_0.1": 0.193359375
+      },
+      "forward_task": {
+        "mse": 0.13416193425655365,
+        "final_mse": 0.08655824512243271,
+        "affected_final_mse": 0.10709299892187119,
+        "unaffected_final_mse": 0.06602348387241364,
+        "delta_mse": 0.12239611893892288,
+        "accuracy_0.1": 0.20703125
+      },
+      "inverse_task": {
+        "mse": 0.18530090153217316,
+        "final_mse": 0.17186219990253448,
+        "affected_final_mse": 0.23060911893844604,
+        "unaffected_final_mse": 0.11311528086662292,
+        "delta_mse": 0.12258273363113403,
+        "accuracy_0.1": 0.1796875
+      },
+      "deep": {
+        "mse": 0.1597314178943634,
+        "final_mse": 0.1292102336883545,
+        "affected_final_mse": 0.1688510626554489,
+        "unaffected_final_mse": 0.08956938236951828,
+        "delta_mse": 0.12248942255973816,
+        "accuracy_0.1": 0.193359375
+      }
+    },
+    {
+      "arm": "bidir",
+      "seed": 17,
+      "step": 300,
+      "split": "iid",
+      "condition": "retain",
+      "wall_seconds": 0.43741250003222376,
+      "raw_path": "E:\\rlt-research\\2026-09-16-e2e\\learning\\results\\pred-bidir-17-300-iid-retain.npz",
+      "raw_sha256": "d84a80af2fba4b620edb7afd58c70901163275572e525daab5c4db5a6a51b8ed",
+      "metrics": {
+        "mse": 0.0055436328984797,
+        "final_mse": 0.005782299675047398,
+        "affected_final_mse": 0.007550337817519903,
+        "unaffected_final_mse": 0.004014261998236179,
+        "delta_mse": 0.0024077605921775103,
+        "accuracy_0.1": 0.87109375
+      },
+      "forward_task": {
+        "mse": 0.007320938631892204,
+        "final_mse": 0.007886134088039398,
+        "affected_final_mse": 0.010657967999577522,
+        "unaffected_final_mse": 0.005114300176501274,
+        "delta_mse": 0.0030107246711850166,
+        "accuracy_0.1": 0.8125
+      },
+      "inverse_task": {
+        "mse": 0.0037663273978978395,
+        "final_mse": 0.0036784661933779716,
+        "affected_final_mse": 0.004442708566784859,
+        "unaffected_final_mse": 0.0029142233543097973,
+        "delta_mse": 0.0018047965131700039,
+        "accuracy_0.1": 0.9296875
+      },
+      "shallow": {
+        "mse": 0.0027388669550418854,
+        "final_mse": 0.0027710567228496075,
+        "affected_final_mse": 0.0026997397653758526,
+        "unaffected_final_mse": 0.0028423736803233624,
+        "delta_mse": 0.0009381416020914912,
+        "accuracy_0.1": 0.9921875
+      },
+      "deep": {
+        "mse": 0.008348398841917515,
+        "final_mse": 0.008793543092906475,
+        "affected_final_mse": 0.012400936335325241,
+        "unaffected_final_mse": 0.005186149850487709,
+        "delta_mse": 0.003877379698678851,
+        "accuracy_0.1": 0.75
+      }
+    },
+    {
+      "arm": "bidir",
+      "seed": 17,
+      "step": 300,
+      "split": "shift",
+      "condition": "retain",
+      "wall_seconds": 0.49676650000037625,
+      "raw_path": "E:\\rlt-research\\2026-09-16-e2e\\learning\\results\\pred-bidir-17-300-shift-retain.npz",
+      "raw_sha256": "faf69c6a5decf8eef1ad54240a7f0f6f9b09fcbaf71284cb26689aa285a8f00d",
+      "metrics": {
+        "mse": 0.15199841558933258,
+        "final_mse": 0.1213051825761795,
+        "affected_final_mse": 0.16097883880138397,
+        "unaffected_final_mse": 0.08163151144981384,
+        "delta_mse": 0.10015618801116943,
+        "accuracy_0.1": 0.23046875
+      },
+      "forward_task": {
+        "mse": 0.10924278944730759,
+        "final_mse": 0.06798509508371353,
+        "affected_final_mse": 0.08418704569339752,
+        "unaffected_final_mse": 0.05178315192461014,
+        "delta_mse": 0.08730068057775497,
+        "accuracy_0.1": 0.26953125
+      },
+      "inverse_task": {
+        "mse": 0.19475404918193817,
+        "final_mse": 0.17462526261806488,
+        "affected_final_mse": 0.23777061700820923,
+        "unaffected_final_mse": 0.11147987842559814,
+        "delta_mse": 0.11301170289516449,
+        "accuracy_0.1": 0.19140625
+      },
+      "deep": {
+        "mse": 0.15199841558933258,
+        "final_mse": 0.1213051825761795,
+        "affected_final_mse": 0.16097883880138397,
+        "unaffected_final_mse": 0.08163151144981384,
+        "delta_mse": 0.10015618801116943,
+        "accuracy_0.1": 0.23046875
+      }
+    },
+    {
+      "arm": "bidir",
+      "seed": 17,
+      "step": 600,
+      "split": "iid",
+      "condition": "retain",
+      "wall_seconds": 0.4719670999911614,
+      "raw_path": "E:\\rlt-research\\2026-09-16-e2e\\learning\\results\\pred-bidir-17-600-iid-retain.npz",
+      "raw_sha256": "09e2af846fc50158320e2f9e51244f096ba07c4d79e43a7b907bd4a924d5660b",
+      "metrics": {
+        "mse": 0.0014922010013833642,
+        "final_mse": 0.0016485031228512526,
+        "affected_final_mse": 0.002591976895928383,
+        "unaffected_final_mse": 0.0007050293497741222,
+        "delta_mse": 0.0012155994772911072,
+        "accuracy_0.1": 0.9765625
+      },
+      "forward_task": {
+        "mse": 0.0022595131304115057,
+        "final_mse": 0.0025752359069883823,
+        "affected_final_mse": 0.004194002132862806,
+        "unaffected_final_mse": 0.0009564693318679929,
+        "delta_mse": 0.0016424206551164389,
+        "accuracy_0.1": 0.95703125
+      },
+      "inverse_task": {
+        "mse": 0.00072488869773224,
+        "final_mse": 0.0007217705715447664,
+        "affected_final_mse": 0.0009899516589939594,
+        "unaffected_final_mse": 0.00045358939678408206,
+        "delta_mse": 0.0007887785322964191,
+        "accuracy_0.1": 0.99609375
+      },
+      "shallow": {
+        "mse": 0.0004141865065321326,
+        "final_mse": 0.0004158912051934749,
+        "affected_final_mse": 0.0004382299375720322,
+        "unaffected_final_mse": 0.0003935525310225785,
+        "delta_mse": 0.00023604583111591637,
+        "accuracy_0.1": 1.0
+      },
+      "deep": {
+        "mse": 0.002570215379819274,
+        "final_mse": 0.0028811150696128607,
+        "affected_final_mse": 0.004745723679661751,
+        "unaffected_final_mse": 0.001016506226733327,
+        "delta_mse": 0.002195153385400772,
+        "accuracy_0.1": 0.953125
+      }
+    },
+    {
+      "arm": "bidir",
+      "seed": 17,
+      "step": 600,
+      "split": "iid",
+      "condition": "all",
+      "wall_seconds": 0.44011199998203665,
+      "raw_path": "E:\\rlt-research\\2026-09-16-e2e\\learning\\results\\pred-bidir-17-600-iid-all.npz",
+      "raw_sha256": "bc0e0ee0d5337e2ef789ebdb781a6400d751e5ee1063bc942862fc37f25eae4c",
+      "metrics": {
+        "mse": 0.0018422204302623868,
+        "final_mse": 0.001850028638727963,
+        "affected_final_mse": 0.0028336981777101755,
+        "unaffected_final_mse": 0.0008663592743687332,
+        "delta_mse": 0.0016945790266618133,
+        "accuracy_0.1": 0.9765625
+      },
+      "forward_task": {
+        "mse": 0.0029097869992256165,
+        "final_mse": 0.003027538303285837,
+        "affected_final_mse": 0.004750910215079784,
+        "unaffected_final_mse": 0.0013041666243225336,
+        "delta_mse": 0.0024639361072331667,
+        "accuracy_0.1": 0.95703125
+      },
+      "inverse_task": {
+        "mse": 0.0007746543269604445,
+        "final_mse": 0.0006725189741700888,
+        "affected_final_mse": 0.000916485907509923,
+        "unaffected_final_mse": 0.000428552069934085,
+        "delta_mse": 0.0009252221789211035,
+        "accuracy_0.1": 0.99609375
+      },
+      "shallow": {
+        "mse": 0.0005250241374596953,
+        "final_mse": 0.0004376398283056915,
+        "affected_final_mse": 0.0004962689126841724,
+        "unaffected_final_mse": 0.00037901074392721057,
+        "delta_mse": 0.00023541190603282303,
+        "accuracy_0.1": 0.99609375
+      },
+      "deep": {
+        "mse": 0.0031594168394804,
+        "final_mse": 0.0032624173909425735,
+        "affected_final_mse": 0.005171126686036587,
+        "unaffected_final_mse": 0.0013537078630179167,
+        "delta_mse": 0.0031537460163235664,
+        "accuracy_0.1": 0.95703125
+      }
+    },
+    {
+      "arm": "bidir",
+      "seed": 17,
+      "step": 600,
+      "split": "iid",
+      "condition": "local",
+      "wall_seconds": 0.5108480000053532,
+      "raw_path": "E:\\rlt-research\\2026-09-16-e2e\\learning\\results\\pred-bidir-17-600-iid-local.npz",
+      "raw_sha256": "1f100765f33939bf322e8f3089207b696defe440448d805d20f1c33386fc15f2",
+      "metrics": {
+        "mse": 0.0017541121924296021,
+        "final_mse": 0.0014801473589614034,
+        "affected_final_mse": 0.002255265135318041,
+        "unaffected_final_mse": 0.0007050293497741222,
+        "delta_mse": 0.00247777346521616,
+        "accuracy_0.1": 0.982421875
+      },
+      "forward_task": {
+        "mse": 0.0024117548018693924,
+        "final_mse": 0.0021151849068701267,
+        "affected_final_mse": 0.0032739010639488697,
+        "unaffected_final_mse": 0.0009564693318679929,
+        "delta_mse": 0.0035663628950715065,
+        "accuracy_0.1": 0.96484375
+      },
+      "inverse_task": {
+        "mse": 0.0010964696994051337,
+        "final_mse": 0.0008451094618067145,
+        "affected_final_mse": 0.0012366296723484993,
+        "unaffected_final_mse": 0.00045358939678408206,
+        "delta_mse": 0.0013891842681914568,
+        "accuracy_0.1": 1.0
+      },
+      "shallow": {
+        "mse": 0.00048031131154857576,
+        "final_mse": 0.00044491072185337543,
+        "affected_final_mse": 0.0004962689126841724,
+        "unaffected_final_mse": 0.0003935525310225785,
+        "delta_mse": 0.00024630947154946625,
+        "accuracy_0.1": 0.99609375
+      },
+      "deep": {
+        "mse": 0.0030279129277914762,
+        "final_mse": 0.0025153839960694313,
+        "affected_final_mse": 0.004014261998236179,
+        "unaffected_final_mse": 0.001016506226733327,
+        "delta_mse": 0.0047092377208173275,
+        "accuracy_0.1": 0.96875
+      }
+    },
+    {
+      "arm": "bidir",
+      "seed": 17,
+      "step": 600,
+      "split": "shift",
+      "condition": "retain",
+      "wall_seconds": 0.472755299997516,
+      "raw_path": "E:\\rlt-research\\2026-09-16-e2e\\learning\\results\\pred-bidir-17-600-shift-retain.npz",
+      "raw_sha256": "4eb3447f498e297005cbe75a82279f79a34b8a7ecb207921e85a9961f4e3b8d0",
+      "metrics": {
+        "mse": 0.1361500769853592,
+        "final_mse": 0.11726085841655731,
+        "affected_final_mse": 0.15860170125961304,
+        "unaffected_final_mse": 0.07592003047466278,
+        "delta_mse": 0.08600251376628876,
+        "accuracy_0.1": 0.22265625
+      },
+      "forward_task": {
+        "mse": 0.09059784561395645,
+        "final_mse": 0.05709128826856613,
+        "affected_final_mse": 0.0686831995844841,
+        "unaffected_final_mse": 0.04549938440322876,
+        "delta_mse": 0.06775727868080139,
+        "accuracy_0.1": 0.29296875
+      },
+      "inverse_task": {
+        "mse": 0.18170233070850372,
+        "final_mse": 0.17743045091629028,
+        "affected_final_mse": 0.24852019548416138,
+        "unaffected_final_mse": 0.106340691447258,
+        "delta_mse": 0.10424774140119553,
+        "accuracy_0.1": 0.15234375
+      },
+      "deep": {
+        "mse": 0.1361500769853592,
+        "final_mse": 0.11726085841655731,
+        "affected_final_mse": 0.15860170125961304,
+        "unaffected_final_mse": 0.07592003047466278,
+        "delta_mse": 0.08600251376628876,
+        "accuracy_0.1": 0.22265625
+      }
+    },
+    {
+      "arm": "bidir",
+      "seed": 17,
+      "step": 600,
+      "split": "shift",
+      "condition": "all",
+      "wall_seconds": 0.4901548999478109,
+      "raw_path": "E:\\rlt-research\\2026-09-16-e2e\\learning\\results\\pred-bidir-17-600-shift-all.npz",
+      "raw_sha256": "e21d50ce2bcf1372a3e527ff07c78b4e5d2b86742bfc21ec6babc7be08dbb2c6",
+      "metrics": {
+        "mse": 0.15512236952781677,
+        "final_mse": 0.12022102624177933,
+        "affected_final_mse": 0.1614311933517456,
+        "unaffected_final_mse": 0.07901085913181305,
+        "delta_mse": 0.06558191031217575,
+        "accuracy_0.1": 0.21875
+      },
+      "forward_task": {
+        "mse": 0.11366040259599686,
+        "final_mse": 0.061169106513261795,
+        "affected_final_mse": 0.06951199471950531,
+        "unaffected_final_mse": 0.05282621458172798,
+        "delta_mse": 0.03993351757526398,
+        "accuracy_0.1": 0.29296875
+      },
+      "inverse_task": {
+        "mse": 0.19658434391021729,
+        "final_mse": 0.17927294969558716,
+        "affected_final_mse": 0.2533504068851471,
+        "unaffected_final_mse": 0.10519550740718842,
+        "delta_mse": 0.09123030304908752,
+        "accuracy_0.1": 0.14453125
+      },
+      "deep": {
+        "mse": 0.15512236952781677,
+        "final_mse": 0.12022102624177933,
+        "affected_final_mse": 0.1614311933517456,
+        "unaffected_final_mse": 0.07901085913181305,
+        "delta_mse": 0.06558191031217575,
+        "accuracy_0.1": 0.21875
+      }
+    },
+    {
+      "arm": "bidir",
+      "seed": 17,
+      "step": 600,
+      "split": "shift",
+      "condition": "local",
+      "wall_seconds": 0.5245604999945499,
+      "raw_path": "E:\\rlt-research\\2026-09-16-e2e\\learning\\results\\pred-bidir-17-600-shift-local.npz",
+      "raw_sha256": "1df6d2946952c051ee29979f7e2c6eed7596384fef7c344f9edd6389ab3a272c",
+      "metrics": {
+        "mse": 0.14601296186447144,
+        "final_mse": 0.12182670831680298,
+        "affected_final_mse": 0.16773337125778198,
+        "unaffected_final_mse": 0.07592003047466278,
+        "delta_mse": 0.0810958743095398,
+        "accuracy_0.1": 0.22265625
+      },
+      "forward_task": {
+        "mse": 0.09941907972097397,
+        "final_mse": 0.060391802340745926,
+        "affected_final_mse": 0.07528422027826309,
+        "unaffected_final_mse": 0.04549938440322876,
+        "delta_mse": 0.05792088806629181,
+        "accuracy_0.1": 0.2890625
+      },
+      "inverse_task": {
+        "mse": 0.1926068514585495,
+        "final_mse": 0.18326160311698914,
+        "affected_final_mse": 0.26018252968788147,
+        "unaffected_final_mse": 0.106340691447258,
+        "delta_mse": 0.10427085310220718,
+        "accuracy_0.1": 0.15625
+      },
+      "deep": {
+        "mse": 0.14601296186447144,
+        "final_mse": 0.12182670831680298,
+        "affected_final_mse": 0.16773337125778198,
+        "unaffected_final_mse": 0.07592003047466278,
+        "delta_mse": 0.0810958743095398,
+        "accuracy_0.1": 0.22265625
+      }
+    },
+    {
+      "arm": "wrong",
+      "seed": 17,
+      "step": 600,
+      "split": "iid",
+      "condition": "retain",
+      "wall_seconds": 0.5116159999743104,
+      "raw_path": "E:\\rlt-research\\2026-09-16-e2e\\learning\\results\\pred-wrong-17-600-iid-retain.npz",
+      "raw_sha256": "2207c08bfbe9bbb66244f39c8325d2753b5f4b670ad4b011584137a986044c3d",
+      "metrics": {
+        "mse": 0.2421015352010727,
+        "final_mse": 0.2793552279472351,
+        "affected_final_mse": 0.22477169334888458,
+        "unaffected_final_mse": 0.3339387774467468,
+        "delta_mse": 0.11240573972463608,
+        "accuracy_0.1": 0.169921875
+      },
+      "forward_task": {
+        "mse": 0.23119670152664185,
+        "final_mse": 0.2726309597492218,
+        "affected_final_mse": 0.23412543535232544,
+        "unaffected_final_mse": 0.3111364543437958,
+        "delta_mse": 0.11286276578903198,
+        "accuracy_0.1": 0.171875
+      },
+      "inverse_task": {
+        "mse": 0.25300633907318115,
+        "final_mse": 0.2860795259475708,
+        "affected_final_mse": 0.21541795134544373,
+        "unaffected_final_mse": 0.3567411005496979,
+        "delta_mse": 0.11194871366024017,
+        "accuracy_0.1": 0.16796875
+      },
+      "shallow": {
+        "mse": 0.1853395700454712,
+        "final_mse": 0.21816286444664001,
+        "affected_final_mse": 0.14166739583015442,
+        "unaffected_final_mse": 0.294658362865448,
+        "delta_mse": 0.1056811660528183,
+        "accuracy_0.1": 0.2109375
+      },
+      "deep": {
+        "mse": 0.2988635003566742,
+        "final_mse": 0.3405475914478302,
+        "affected_final_mse": 0.30787599086761475,
+        "unaffected_final_mse": 0.37321919202804565,
+        "delta_mse": 0.11913031339645386,
+        "accuracy_0.1": 0.12890625
+      }
+    },
+    {
+      "arm": "wrong",
+      "seed": 17,
+      "step": 600,
+      "split": "shift",
+      "condition": "retain",
+      "wall_seconds": 0.4813258000067435,
+      "raw_path": "E:\\rlt-research\\2026-09-16-e2e\\learning\\results\\pred-wrong-17-600-shift-retain.npz",
+      "raw_sha256": "547a8b010fe6b25b098efeebcbaab02e3a827ba3c40e118493b4e0a148350a87",
+      "metrics": {
+        "mse": 0.3490658700466156,
+        "final_mse": 0.38127601146698,
+        "affected_final_mse": 0.33209824562072754,
+        "unaffected_final_mse": 0.4304537773132324,
+        "delta_mse": 0.10791998356580734,
+        "accuracy_0.1": 0.1015625
+      },
+      "forward_task": {
+        "mse": 0.35951635241508484,
+        "final_mse": 0.39784306287765503,
+        "affected_final_mse": 0.3066166341304779,
+        "unaffected_final_mse": 0.48906946182250977,
+        "delta_mse": 0.10207869112491608,
+        "accuracy_0.1": 0.08984375
+      },
+      "inverse_task": {
+        "mse": 0.33861541748046875,
+        "final_mse": 0.36470896005630493,
+        "affected_final_mse": 0.3575798571109772,
+        "unaffected_final_mse": 0.3718380630016327,
+        "delta_mse": 0.1137612834572792,
+        "accuracy_0.1": 0.11328125
+      },
+      "deep": {
+        "mse": 0.3490658700466156,
+        "final_mse": 0.38127601146698,
+        "affected_final_mse": 0.33209824562072754,
+        "unaffected_final_mse": 0.4304537773132324,
+        "delta_mse": 0.10791998356580734,
+        "accuracy_0.1": 0.1015625
+      }
+    },
+    {
+      "arm": "flat",
+      "seed": 17,
+      "step": 600,
+      "split": "iid",
+      "condition": "retain",
+      "wall_seconds": 0.4986810000264086,
+      "raw_path": "E:\\rlt-research\\2026-09-16-e2e\\learning\\results\\pred-flat-17-600-iid-retain.npz",
+      "raw_sha256": "fd5d94e04677929bc6de5086d02db758eda2826b0f2ee5cc0b651c289d46d78c",
+      "metrics": {
+        "mse": 0.23249183595180511,
+        "final_mse": 0.2580708861351013,
+        "affected_final_mse": 0.27825498580932617,
+        "unaffected_final_mse": 0.23788681626319885,
+        "delta_mse": 0.08683720231056213,
+        "accuracy_0.1": 0.15625
+      },
+      "forward_task": {
+        "mse": 0.2287699431180954,
+        "final_mse": 0.25891393423080444,
+        "affected_final_mse": 0.28569674491882324,
+        "unaffected_final_mse": 0.23213113844394684,
+        "delta_mse": 0.08969783782958984,
+        "accuracy_0.1": 0.16796875
+      },
+      "inverse_task": {
+        "mse": 0.23621369898319244,
+        "final_mse": 0.2572278678417206,
+        "affected_final_mse": 0.2708132565021515,
+        "unaffected_final_mse": 0.24364247918128967,
+        "delta_mse": 0.08397656679153442,
+        "accuracy_0.1": 0.14453125
+      },
+      "shallow": {
+        "mse": 0.16951628029346466,
+        "final_mse": 0.19453838467597961,
+        "affected_final_mse": 0.1882512867450714,
+        "unaffected_final_mse": 0.2008255124092102,
+        "delta_mse": 0.07970079779624939,
+        "accuracy_0.1": 0.16015625
+      },
+      "deep": {
+        "mse": 0.2954673767089844,
+        "final_mse": 0.3216034173965454,
+        "affected_final_mse": 0.36825868487358093,
+        "unaffected_final_mse": 0.2749481201171875,
+        "delta_mse": 0.09397360682487488,
+        "accuracy_0.1": 0.15234375
+      }
+    },
+    {
+      "arm": "flat",
+      "seed": 17,
+      "step": 600,
+      "split": "shift",
+      "condition": "retain",
+      "wall_seconds": 0.4815161000005901,
+      "raw_path": "E:\\rlt-research\\2026-09-16-e2e\\learning\\results\\pred-flat-17-600-shift-retain.npz",
+      "raw_sha256": "efbe6ef70057af4018af3e00322146d22107de88d7c3c33a22fed57497cedd0a",
+      "metrics": {
+        "mse": 0.3477400243282318,
+        "final_mse": 0.37383192777633667,
+        "affected_final_mse": 0.38478517532348633,
+        "unaffected_final_mse": 0.3628787398338318,
+        "delta_mse": 0.08802333474159241,
+        "accuracy_0.1": 0.119140625
+      },
+      "forward_task": {
+        "mse": 0.37079593539237976,
+        "final_mse": 0.3992807865142822,
+        "affected_final_mse": 0.36862361431121826,
+        "unaffected_final_mse": 0.4299379587173462,
+        "delta_mse": 0.08903801441192627,
+        "accuracy_0.1": 0.11328125
+      },
+      "inverse_task": {
+        "mse": 0.32468414306640625,
+        "final_mse": 0.3483830690383911,
+        "affected_final_mse": 0.4009466767311096,
+        "unaffected_final_mse": 0.2958194613456726,
+        "delta_mse": 0.08700864017009735,
+        "accuracy_0.1": 0.125
+      },
+      "deep": {
+        "mse": 0.3477400243282318,
+        "final_mse": 0.37383192777633667,
+        "affected_final_mse": 0.38478517532348633,
+        "unaffected_final_mse": 0.3628787398338318,
+        "delta_mse": 0.08802333474159241,
+        "accuracy_0.1": 0.119140625
+      }
+    },
+    {
+      "arm": "feedback",
+      "seed": 17,
+      "step": 600,
+      "split": "iid",
+      "condition": "retain",
+      "wall_seconds": 0.5003883999888785,
+      "raw_path": "E:\\rlt-research\\2026-09-16-e2e\\learning\\results\\pred-feedback-17-600-iid-retain.npz",
+      "raw_sha256": "3a1f7200afcbe72f2d80311425ed28ad5aac5e10a2d1f8a00c204b0affe2b979",
+      "metrics": {
+        "mse": 0.00148930458817631,
+        "final_mse": 0.0016449560644105077,
+        "affected_final_mse": 0.002586150309070945,
+        "unaffected_final_mse": 0.0007037618197500706,
+        "delta_mse": 0.0012150313705205917,
+        "accuracy_0.1": 0.9765625
+      },
+      "forward_task": {
+        "mse": 0.0022541305515915155,
+        "final_mse": 0.002568312454968691,
+        "affected_final_mse": 0.004182290751487017,
+        "unaffected_final_mse": 0.0009543343912810087,
+        "delta_mse": 0.0016411684919148684,
+        "accuracy_0.1": 0.95703125
+      },
+      "inverse_task": {
+        "mse": 0.0007244786829687655,
+        "final_mse": 0.0007215996738523245,
+        "affected_final_mse": 0.0009900100994855165,
+        "unaffected_final_mse": 0.00045318921911530197,
+        "delta_mse": 0.0007888944237492979,
+        "accuracy_0.1": 0.99609375
+      },
+      "shallow": {
+        "mse": 0.00041334377601742744,
+        "final_mse": 0.0004150353779550642,
+        "affected_final_mse": 0.0004372060648165643,
+        "unaffected_final_mse": 0.00039286469109356403,
+        "delta_mse": 0.00023620128922630101,
+        "accuracy_0.1": 1.0
+      },
+      "deep": {
+        "mse": 0.0025652656331658363,
+        "final_mse": 0.0028748768381774426,
+        "affected_final_mse": 0.004735094960778952,
+        "unaffected_final_mse": 0.0010146589484065771,
+        "delta_mse": 0.0021938616409897804,
+        "accuracy_0.1": 0.953125
+      }
+    },
+    {
+      "arm": "feedback",
+      "seed": 17,
+      "step": 600,
+      "split": "iid",
+      "condition": "zero",
+      "wall_seconds": 0.49315789999673143,
+      "raw_path": "E:\\rlt-research\\2026-09-16-e2e\\learning\\results\\pred-feedback-17-600-iid-zero.npz",
+      "raw_sha256": "34a994ffea5c4b1bf3148cd56221653a927f88f3d2e3adc4ed15937d04670c2e",
+      "metrics": {
+        "mse": 0.0014895051717758179,
+        "final_mse": 0.0016455105505883694,
+        "affected_final_mse": 0.0025877971202135086,
+        "unaffected_final_mse": 0.0007032235153019428,
+        "delta_mse": 0.0012153241550549865,
+        "accuracy_0.1": 0.9765625
+      },
+      "forward_task": {
+        "mse": 0.0022548099514096975,
+        "final_mse": 0.0025700777769088745,
+        "affected_final_mse": 0.004186487756669521,
+        "unaffected_final_mse": 0.0009536678553558886,
+        "delta_mse": 0.0016415563877671957,
+        "accuracy_0.1": 0.95703125
+      },
+      "inverse_task": {
+        "mse": 0.000724200566764921,
+        "final_mse": 0.0007209430914372206,
+        "affected_final_mse": 0.0009891069494187832,
+        "unaffected_final_mse": 0.0004527792043518275,
+        "delta_mse": 0.0007890918059274554,
+        "accuracy_0.1": 0.99609375
+      },
+      "shallow": {
+        "mse": 0.00041324764606542885,
+        "final_mse": 0.0004148327570874244,
+        "affected_final_mse": 0.0004372864787001163,
+        "unaffected_final_mse": 0.00039237900637090206,
+        "delta_mse": 0.00023639306891709566,
+        "accuracy_0.1": 1.0
+      },
+      "deep": {
+        "mse": 0.002565762959420681,
+        "final_mse": 0.002876188140362501,
+        "affected_final_mse": 0.004738308489322662,
+        "unaffected_final_mse": 0.0010140680242329836,
+        "delta_mse": 0.0021942551247775555,
+        "accuracy_0.1": 0.953125
+      }
+    },
+    {
+      "arm": "feedback",
+      "seed": 17,
+      "step": 600,
+      "split": "iid",
+      "condition": "permute",
+      "wall_seconds": 0.47221320000244305,
+      "raw_path": "E:\\rlt-research\\2026-09-16-e2e\\learning\\results\\pred-feedback-17-600-iid-permute.npz",
+      "raw_sha256": "7054ca8eb836849f1f77e9b0bcff8d832781e03f4314d7e9a05eba9106781079",
+      "metrics": {
+        "mse": 0.0014896352076902986,
+        "final_mse": 0.0016457481542602181,
+        "affected_final_mse": 0.0025882702320814133,
+        "unaffected_final_mse": 0.000703226076439023,
+        "delta_mse": 0.0012154730502516031,
+        "accuracy_0.1": 0.9765625
+      },
+      "forward_task": {
+        "mse": 0.002255174797028303,
+        "final_mse": 0.0025708903558552265,
+        "affected_final_mse": 0.004187661688774824,
+        "unaffected_final_mse": 0.0009541189065203071,
+        "delta_mse": 0.0016416744329035282,
+        "accuracy_0.1": 0.95703125
+      },
+      "inverse_task": {
+        "mse": 0.0007240955601446331,
+        "final_mse": 0.0007206059526652098,
+        "affected_final_mse": 0.0009888785425573587,
+        "unaffected_final_mse": 0.00045233327546156943,
+        "delta_mse": 0.0007892714347690344,
+        "accuracy_0.1": 0.99609375
+      },
+      "shallow": {
+        "mse": 0.0004132636822760105,
+        "final_mse": 0.0004148992011323571,
+        "affected_final_mse": 0.00043732469202950597,
+        "unaffected_final_mse": 0.0003924737102352083,
+        "delta_mse": 0.0002363759995205328,
+        "accuracy_0.1": 1.0
+      },
+      "deep": {
+        "mse": 0.0025660069659352303,
+        "final_mse": 0.0028765969909727573,
+        "affected_final_mse": 0.004739215597510338,
+        "unaffected_final_mse": 0.0010139785008504987,
+        "delta_mse": 0.0021945699118077755,
+        "accuracy_0.1": 0.953125
+      }
+    },
+    {
+      "arm": "feedback",
+      "seed": 17,
+      "step": 600,
+      "split": "shift",
+      "condition": "retain",
+      "wall_seconds": 0.5019031999981962,
+      "raw_path": "E:\\rlt-research\\2026-09-16-e2e\\learning\\results\\pred-feedback-17-600-shift-retain.npz",
+      "raw_sha256": "a2db7bd7890ef068faef3a738d1e76ccf0b145e03c324a9980d9efad211521d6",
+      "metrics": {
+        "mse": 0.1361374855041504,
+        "final_mse": 0.1172366514801979,
+        "affected_final_mse": 0.15856896340847015,
+        "unaffected_final_mse": 0.07590436190366745,
+        "delta_mse": 0.08601057529449463,
+        "accuracy_0.1": 0.22265625
+      },
+      "forward_task": {
+        "mse": 0.09057936817407608,
+        "final_mse": 0.05706042796373367,
+        "affected_final_mse": 0.06864219903945923,
+        "unaffected_final_mse": 0.04547865688800812,
+        "delta_mse": 0.0677698478102684,
+        "accuracy_0.1": 0.29296875
+      },
+      "inverse_task": {
+        "mse": 0.1816955804824829,
+        "final_mse": 0.17741289734840393,
+        "affected_final_mse": 0.24849571287631989,
+        "unaffected_final_mse": 0.10633005946874619,
+        "delta_mse": 0.10425131022930145,
+        "accuracy_0.1": 0.15234375
+      },
+      "deep": {
+        "mse": 0.1361374855041504,
+        "final_mse": 0.1172366514801979,
+        "affected_final_mse": 0.15856896340847015,
+        "unaffected_final_mse": 0.07590436190366745,
+        "delta_mse": 0.08601057529449463,
+        "accuracy_0.1": 0.22265625
+      }
+    },
+    {
+      "arm": "feedback",
+      "seed": 17,
+      "step": 600,
+      "split": "shift",
+      "condition": "zero",
+      "wall_seconds": 0.4995683000306599,
+      "raw_path": "E:\\rlt-research\\2026-09-16-e2e\\learning\\results\\pred-feedback-17-600-shift-zero.npz",
+      "raw_sha256": "90cb375812ad205a8e4d0c9d9b8260a6d699ac572824fb2033a33755eb38635c",
+      "metrics": {
+        "mse": 0.13614080846309662,
+        "final_mse": 0.11724475026130676,
+        "affected_final_mse": 0.15858101844787598,
+        "unaffected_final_mse": 0.07590848207473755,
+        "delta_mse": 0.08601093292236328,
+        "accuracy_0.1": 0.22265625
+      },
+      "forward_task": {
+        "mse": 0.09058275073766708,
+        "final_mse": 0.05706825479865074,
+        "affected_final_mse": 0.06865397095680237,
+        "unaffected_final_mse": 0.045482534915208817,
+        "delta_mse": 0.06776973605155945,
+        "accuracy_0.1": 0.29296875
+      },
+      "inverse_task": {
+        "mse": 0.18169887363910675,
+        "final_mse": 0.17742124199867249,
+        "affected_final_mse": 0.2485080361366272,
+        "unaffected_final_mse": 0.10633443295955658,
+        "delta_mse": 0.10425211489200592,
+        "accuracy_0.1": 0.15234375
+      },
+      "deep": {
+        "mse": 0.13614080846309662,
+        "final_mse": 0.11724475026130676,
+        "affected_final_mse": 0.15858101844787598,
+        "unaffected_final_mse": 0.07590848207473755,
+        "delta_mse": 0.08601093292236328,
+        "accuracy_0.1": 0.22265625
+      }
+    },
+    {
+      "arm": "feedback",
+      "seed": 17,
+      "step": 600,
+      "split": "shift",
+      "condition": "permute",
+      "wall_seconds": 0.48204819997772574,
+      "raw_path": "E:\\rlt-research\\2026-09-16-e2e\\learning\\results\\pred-feedback-17-600-shift-permute.npz",
+      "raw_sha256": "372df15852802fd2ba34a325cdb18fd7e41dca591ddbff544c36f78ba3271e46",
+      "metrics": {
+        "mse": 0.13614068925380707,
+        "final_mse": 0.11724475026130676,
+        "affected_final_mse": 0.15858204662799835,
+        "unaffected_final_mse": 0.07590743899345398,
+        "delta_mse": 0.08601130545139313,
+        "accuracy_0.1": 0.22265625
+      },
+      "forward_task": {
+        "mse": 0.0905827060341835,
+        "final_mse": 0.05706867575645447,
+        "affected_final_mse": 0.06865225732326508,
+        "unaffected_final_mse": 0.04548508673906326,
+        "delta_mse": 0.06776964664459229,
+        "accuracy_0.1": 0.29296875
+      },
+      "inverse_task": {
+        "mse": 0.18169867992401123,
+        "final_mse": 0.17742080986499786,
+        "affected_final_mse": 0.24851183593273163,
+        "unaffected_final_mse": 0.1063297837972641,
+        "delta_mse": 0.10425297170877457,
+        "accuracy_0.1": 0.15234375
+      },
+      "deep": {
+        "mse": 0.13614068925380707,
+        "final_mse": 0.11724475026130676,
+        "affected_final_mse": 0.15858204662799835,
+        "unaffected_final_mse": 0.07590743899345398,
+        "delta_mse": 0.08601130545139313,
+        "accuracy_0.1": 0.22265625
+      }
+    },
+    {
+      "arm": "method",
+      "seed": 17,
+      "step": 150,
+      "split": "iid",
+      "condition": "retain",
+      "wall_seconds": 0.4679217000375502,
+      "raw_path": "E:\\rlt-research\\2026-09-16-e2e\\learning\\results\\pred-method-17-150-iid-retain.npz",
+      "raw_sha256": "478ebd3a8a9af4f412e47805108e43304a334ac51ec95e221d49c7f5f4e7d18b",
+      "metrics": {
+        "mse": 0.008336449041962624,
+        "final_mse": 0.009486401453614235,
+        "affected_final_mse": 0.01383420079946518,
+        "unaffected_final_mse": 0.005138601176440716,
+        "delta_mse": 0.009293750859797001,
+        "accuracy_0.1": 0.828125
+      },
+      "forward_task": {
+        "mse": 0.008999361656606197,
+        "final_mse": 0.011347044259309769,
+        "affected_final_mse": 0.01766696199774742,
+        "unaffected_final_mse": 0.005027126055210829,
+        "delta_mse": 0.012517807073891163,
+        "accuracy_0.1": 0.81640625
+      },
+      "inverse_task": {
+        "mse": 0.007673536892980337,
+        "final_mse": 0.0076257577165961266,
+        "affected_final_mse": 0.010001438669860363,
+        "unaffected_final_mse": 0.005250076297670603,
+        "delta_mse": 0.0060696955770254135,
+        "accuracy_0.1": 0.83984375
+      },
+      "shallow": {
+        "mse": 0.00389032787643373,
+        "final_mse": 0.00477526243776083,
+        "affected_final_mse": 0.005932152736932039,
+        "unaffected_final_mse": 0.003618371905758977,
+        "delta_mse": 0.004964706487953663,
+        "accuracy_0.1": 0.8828125
+      },
+      "deep": {
+        "mse": 0.012782570905983448,
+        "final_mse": 0.014197539538145065,
+        "affected_final_mse": 0.021736249327659607,
+        "unaffected_final_mse": 0.006658830214291811,
+        "delta_mse": 0.013622796162962914,
+        "accuracy_0.1": 0.7734375
+      }
+    },
+    {
+      "arm": "method",
+      "seed": 17,
+      "step": 150,
+      "split": "shift",
+      "condition": "retain",
+      "wall_seconds": 0.43472429999383166,
+      "raw_path": "E:\\rlt-research\\2026-09-16-e2e\\learning\\results\\pred-method-17-150-shift-retain.npz",
+      "raw_sha256": "5c9700025eae3ee322b700df9441446dc6ca2fb5d21a0c10b8f3732b385bc1c1",
+      "metrics": {
+        "mse": 0.11926103383302689,
+        "final_mse": 0.07328185439109802,
+        "affected_final_mse": 0.09808274358510971,
+        "unaffected_final_mse": 0.04848095402121544,
+        "delta_mse": 0.16783477365970612,
+        "accuracy_0.1": 0.41015625
+      },
+      "forward_task": {
+        "mse": 0.0687902569770813,
+        "final_mse": 0.025638192892074585,
+        "affected_final_mse": 0.03642551973462105,
+        "unaffected_final_mse": 0.014850867912173271,
+        "delta_mse": 0.16680100560188293,
+        "accuracy_0.1": 0.60546875
+      },
+      "inverse_task": {
+        "mse": 0.16973181068897247,
+        "final_mse": 0.12092550098896027,
+        "affected_final_mse": 0.15973997116088867,
+        "unaffected_final_mse": 0.08211103826761246,
+        "delta_mse": 0.1688685417175293,
+        "accuracy_0.1": 0.21484375
+      },
+      "deep": {
+        "mse": 0.11926103383302689,
+        "final_mse": 0.07328185439109802,
+        "affected_final_mse": 0.09808274358510971,
+        "unaffected_final_mse": 0.04848095402121544,
+        "delta_mse": 0.16783477365970612,
+        "accuracy_0.1": 0.41015625
+      }
+    },
+    {
+      "arm": "method",
+      "seed": 17,
+      "step": 300,
+      "split": "iid",
+      "condition": "retain",
+      "wall_seconds": 0.49319379997905344,
+      "raw_path": "E:\\rlt-research\\2026-09-16-e2e\\learning\\results\\pred-method-17-300-iid-retain.npz",
+      "raw_sha256": "c8ddfeb80d3c37dbcb4e62074e969de202a73495e0d28cb89a00fdb985f3cf10",
+      "metrics": {
+        "mse": 0.004040728788822889,
+        "final_mse": 0.004478050861507654,
+        "affected_final_mse": 0.006391928065568209,
+        "unaffected_final_mse": 0.0025641736574470997,
+        "delta_mse": 0.004135508090257645,
+        "accuracy_0.1": 0.9140625
+      },
+      "forward_task": {
+        "mse": 0.003943291958421469,
+        "final_mse": 0.004403160884976387,
+        "affected_final_mse": 0.007472069002687931,
+        "unaffected_final_mse": 0.0013342518359422684,
+        "delta_mse": 0.0045176660642027855,
+        "accuracy_0.1": 0.92578125
+      },
+      "inverse_task": {
+        "mse": 0.00413816561922431,
+        "final_mse": 0.004552940838038921,
+        "affected_final_mse": 0.005311786197125912,
+        "unaffected_final_mse": 0.003794095478951931,
+        "delta_mse": 0.0037533510476350784,
+        "accuracy_0.1": 0.90234375
+      },
+      "shallow": {
+        "mse": 0.0019515109015628695,
+        "final_mse": 0.0019342273008078337,
+        "affected_final_mse": 0.002014847006648779,
+        "unaffected_final_mse": 0.001853607827797532,
+        "delta_mse": 0.0011982184369117022,
+        "accuracy_0.1": 0.984375
+      },
+      "deep": {
+        "mse": 0.006129946559667587,
+        "final_mse": 0.007021874189376831,
+        "affected_final_mse": 0.010769008658826351,
+        "unaffected_final_mse": 0.003274739719927311,
+        "delta_mse": 0.007072798442095518,
+        "accuracy_0.1": 0.84375
+      }
+    },
+    {
+      "arm": "method",
+      "seed": 17,
+      "step": 300,
+      "split": "shift",
+      "condition": "retain",
+      "wall_seconds": 0.47877849999349564,
+      "raw_path": "E:\\rlt-research\\2026-09-16-e2e\\learning\\results\\pred-method-17-300-shift-retain.npz",
+      "raw_sha256": "ade34b1d271b8a2450518d69ead953d0d77e3a2ba325acb2dfad0341b866e2dc",
+      "metrics": {
+        "mse": 0.09245428442955017,
+        "final_mse": 0.06303316354751587,
+        "affected_final_mse": 0.08163167536258698,
+        "unaffected_final_mse": 0.04443465545773506,
+        "delta_mse": 0.09286683052778244,
+        "accuracy_0.1": 0.5
+      },
+      "forward_task": {
+        "mse": 0.01761692203581333,
+        "final_mse": 0.010870091617107391,
+        "affected_final_mse": 0.01593007892370224,
+        "unaffected_final_mse": 0.005810103844851255,
+        "delta_mse": 0.026612740010023117,
+        "accuracy_0.1": 0.75
+      },
+      "inverse_task": {
+        "mse": 0.16729164123535156,
+        "final_mse": 0.11519623547792435,
+        "affected_final_mse": 0.1473332643508911,
+        "unaffected_final_mse": 0.08305920660495758,
+        "delta_mse": 0.15912091732025146,
+        "accuracy_0.1": 0.25
+      },
+      "deep": {
+        "mse": 0.09245428442955017,
+        "final_mse": 0.06303316354751587,
+        "affected_final_mse": 0.08163167536258698,
+        "unaffected_final_mse": 0.04443465545773506,
+        "delta_mse": 0.09286683052778244,
+        "accuracy_0.1": 0.5
+      }
+    },
+    {
+      "arm": "method",
+      "seed": 17,
+      "step": 600,
+      "split": "iid",
+      "condition": "retain",
+      "wall_seconds": 0.47789379995083436,
+      "raw_path": "E:\\rlt-research\\2026-09-16-e2e\\learning\\results\\pred-method-17-600-iid-retain.npz",
+      "raw_sha256": "d18190f51f2fc98884c610f9b3c36f3dc3f9211cac3cc7bebea8b23e4b2caa0c",
+      "metrics": {
+        "mse": 0.0021570792887359858,
+        "final_mse": 0.00254310411401093,
+        "affected_final_mse": 0.003766195382922888,
+        "unaffected_final_mse": 0.0013200129615142941,
+        "delta_mse": 0.0020123538561165333,
+        "accuracy_0.1": 0.955078125
+      },
+      "forward_task": {
+        "mse": 0.002070733578875661,
+        "final_mse": 0.0024243949446827173,
+        "affected_final_mse": 0.003923693671822548,
+        "unaffected_final_mse": 0.0009250962175428867,
+        "delta_mse": 0.0015574361896142364,
+        "accuracy_0.1": 0.9609375
+      },
+      "inverse_task": {
+        "mse": 0.002243425464257598,
+        "final_mse": 0.002661813283339143,
+        "affected_final_mse": 0.0036086966283619404,
+        "unaffected_final_mse": 0.0017149297054857016,
+        "delta_mse": 0.0024672711733728647,
+        "accuracy_0.1": 0.94921875
+      },
+      "shallow": {
+        "mse": 0.0008814100292511284,
+        "final_mse": 0.0009279820951633155,
+        "affected_final_mse": 0.0011310094268992543,
+        "unaffected_final_mse": 0.0007249548798426986,
+        "delta_mse": 0.0005467885639518499,
+        "accuracy_0.1": 0.9921875
+      },
+      "deep": {
+        "mse": 0.003432748606428504,
+        "final_mse": 0.00415822584182024,
+        "affected_final_mse": 0.006401381455361843,
+        "unaffected_final_mse": 0.0019150710431858897,
+        "delta_mse": 0.003477918915450573,
+        "accuracy_0.1": 0.91796875
+      }
+    },
+    {
+      "arm": "method",
+      "seed": 17,
+      "step": 600,
+      "split": "shift",
+      "condition": "retain",
+      "wall_seconds": 0.47049660002812743,
+      "raw_path": "E:\\rlt-research\\2026-09-16-e2e\\learning\\results\\pred-method-17-600-shift-retain.npz",
+      "raw_sha256": "59b1271d2bb56051becab4eb36c6f99c5f6438ea3379dcab412923881561c561",
+      "metrics": {
+        "mse": 0.11621467024087906,
+        "final_mse": 0.09748019278049469,
+        "affected_final_mse": 0.13070642948150635,
+        "unaffected_final_mse": 0.06425395607948303,
+        "delta_mse": 0.08282140642404556,
+        "accuracy_0.1": 0.505859375
+      },
+      "forward_task": {
+        "mse": 0.009507722221314907,
+        "final_mse": 0.006085282191634178,
+        "affected_final_mse": 0.007807927206158638,
+        "unaffected_final_mse": 0.004362637177109718,
+        "delta_mse": 0.021075012162327766,
+        "accuracy_0.1": 0.8125
+      },
+      "inverse_task": {
+        "mse": 0.22292165458202362,
+        "final_mse": 0.18887510895729065,
+        "affected_final_mse": 0.253604918718338,
+        "unaffected_final_mse": 0.12414528429508209,
+        "delta_mse": 0.14456778764724731,
+        "accuracy_0.1": 0.19921875
+      },
+      "deep": {
+        "mse": 0.11621467024087906,
+        "final_mse": 0.09748019278049469,
+        "affected_final_mse": 0.13070642948150635,
+        "unaffected_final_mse": 0.06425395607948303,
+        "delta_mse": 0.08282140642404556,
+        "accuracy_0.1": 0.505859375
+      }
+    },
+    {
+      "arm": "forward",
+      "seed": 43,
+      "step": 600,
+      "split": "iid",
+      "condition": "retain",
+      "wall_seconds": 0.4844337999820709,
+      "raw_path": "E:\\rlt-research\\2026-09-16-e2e\\learning\\results\\pred-forward-43-600-iid-retain.npz",
+      "raw_sha256": "c12aa2e9e3e751a52448e99c9c2ca20a3f20b55ddf0cb17a1a0544445108745d",
+      "metrics": {
+        "mse": 0.1417182832956314,
+        "final_mse": 0.1607385277748108,
+        "affected_final_mse": 0.18244816362857819,
+        "unaffected_final_mse": 0.1390288770198822,
+        "delta_mse": 0.059112299233675,
+        "accuracy_0.1": 0.2578125
+      },
+      "forward_task": {
+        "mse": 0.030880479142069817,
+        "final_mse": 0.03718815743923187,
+        "affected_final_mse": 0.01986907422542572,
+        "unaffected_final_mse": 0.054507236927747726,
+        "delta_mse": 0.02043268457055092,
+        "accuracy_0.1": 0.3984375
+      },
+      "inverse_task": {
+        "mse": 0.25255608558654785,
+        "final_mse": 0.2842888832092285,
+        "affected_final_mse": 0.34502726793289185,
+        "unaffected_final_mse": 0.22355049848556519,
+        "delta_mse": 0.09779192507266998,
+        "accuracy_0.1": 0.1171875
+      },
+      "shallow": {
+        "mse": 0.1032533124089241,
+        "final_mse": 0.11870477348566055,
+        "affected_final_mse": 0.1247025728225708,
+        "unaffected_final_mse": 0.1127069890499115,
+        "delta_mse": 0.05731091648340225,
+        "accuracy_0.1": 0.27734375
+      },
+      "deep": {
+        "mse": 0.18018324673175812,
+        "final_mse": 0.20277227461338043,
+        "affected_final_mse": 0.24019376933574677,
+        "unaffected_final_mse": 0.1653507649898529,
+        "delta_mse": 0.06091368570923805,
+        "accuracy_0.1": 0.23828125
+      }
+    },
+    {
+      "arm": "forward",
+      "seed": 43,
+      "step": 600,
+      "split": "shift",
+      "condition": "retain",
+      "wall_seconds": 0.44718310004100204,
+      "raw_path": "E:\\rlt-research\\2026-09-16-e2e\\learning\\results\\pred-forward-43-600-shift-retain.npz",
+      "raw_sha256": "c7023eceed3fe983c48e29c4b610c14e7196e0504cda1a6ada69913c228735db",
+      "metrics": {
+        "mse": 0.2342350035905838,
+        "final_mse": 0.24999690055847168,
+        "affected_final_mse": 0.29601550102233887,
+        "unaffected_final_mse": 0.20397832989692688,
+        "delta_mse": 0.07416055351495743,
+        "accuracy_0.1": 0.181640625
+      },
+      "forward_task": {
+        "mse": 0.1138315200805664,
+        "final_mse": 0.11634226888418198,
+        "affected_final_mse": 0.10713990032672882,
+        "unaffected_final_mse": 0.12554463744163513,
+        "delta_mse": 0.049205198884010315,
+        "accuracy_0.1": 0.21875
+      },
+      "inverse_task": {
+        "mse": 0.3546384871006012,
+        "final_mse": 0.3836515247821808,
+        "affected_final_mse": 0.48489105701446533,
+        "unaffected_final_mse": 0.28241202235221863,
+        "delta_mse": 0.09911590814590454,
+        "accuracy_0.1": 0.14453125
+      },
+      "deep": {
+        "mse": 0.2342350035905838,
+        "final_mse": 0.24999690055847168,
+        "affected_final_mse": 0.29601550102233887,
+        "unaffected_final_mse": 0.20397832989692688,
+        "delta_mse": 0.07416055351495743,
+        "accuracy_0.1": 0.181640625
+      }
+    },
+    {
+      "arm": "bidir",
+      "seed": 43,
+      "step": 150,
+      "split": "iid",
+      "condition": "retain",
+      "wall_seconds": 0.506542699993588,
+      "raw_path": "E:\\rlt-research\\2026-09-16-e2e\\learning\\results\\pred-bidir-43-150-iid-retain.npz",
+      "raw_sha256": "eb2d82dca77fc855865481b5ec6c1ea28211f299a577a7af8dfbec3d8b8b7df0",
+      "metrics": {
+        "mse": 0.005475485231727362,
+        "final_mse": 0.006233478896319866,
+        "affected_final_mse": 0.009231194853782654,
+        "unaffected_final_mse": 0.0032357643358409405,
+        "delta_mse": 0.0061354730278253555,
+        "accuracy_0.1": 0.890625
+      },
+      "forward_task": {
+        "mse": 0.006775375455617905,
+        "final_mse": 0.008090199902653694,
+        "affected_final_mse": 0.012956766411662102,
+        "unaffected_final_mse": 0.0032236319966614246,
+        "delta_mse": 0.007124520372599363,
+        "accuracy_0.1": 0.875
+      },
+      "inverse_task": {
+        "mse": 0.004175596404820681,
+        "final_mse": 0.0043767583556473255,
+        "affected_final_mse": 0.005505620036274195,
+        "unaffected_final_mse": 0.0032478966750204563,
+        "delta_mse": 0.00514642521739006,
+        "accuracy_0.1": 0.90625
+      },
+      "shallow": {
+        "mse": 0.0018048547208309174,
+        "final_mse": 0.002062662970274687,
+        "affected_final_mse": 0.0024927067570388317,
+        "unaffected_final_mse": 0.0016326195327565074,
+        "delta_mse": 0.0024827830493450165,
+        "accuracy_0.1": 0.9765625
+      },
+      "deep": {
+        "mse": 0.009146115742623806,
+        "final_mse": 0.010404295288026333,
+        "affected_final_mse": 0.01596968062222004,
+        "unaffected_final_mse": 0.004838909488171339,
+        "delta_mse": 0.009788163006305695,
+        "accuracy_0.1": 0.8046875
+      }
+    },
+    {
+      "arm": "bidir",
+      "seed": 43,
+      "step": 150,
+      "split": "shift",
+      "condition": "retain",
+      "wall_seconds": 0.5913970000110567,
+      "raw_path": "E:\\rlt-research\\2026-09-16-e2e\\learning\\results\\pred-bidir-43-150-shift-retain.npz",
+      "raw_sha256": "d15e3fdad0839534d343d84cea0f0065b11881a0baf41eb4bec15a3e4317987e",
+      "metrics": {
+        "mse": 0.18723571300506592,
+        "final_mse": 0.15729764103889465,
+        "affected_final_mse": 0.2087727189064026,
+        "unaffected_final_mse": 0.10582254827022552,
+        "delta_mse": 0.11299682408571243,
+        "accuracy_0.1": 0.171875
+      },
+      "forward_task": {
+        "mse": 0.17366956174373627,
+        "final_mse": 0.11720386147499084,
+        "affected_final_mse": 0.14211022853851318,
+        "unaffected_final_mse": 0.0922974944114685,
+        "delta_mse": 0.11533322185277939,
+        "accuracy_0.1": 0.20703125
+      },
+      "inverse_task": {
+        "mse": 0.20080189406871796,
+        "final_mse": 0.19739139080047607,
+        "affected_final_mse": 0.275435209274292,
+        "unaffected_final_mse": 0.11934758722782135,
+        "delta_mse": 0.11066041886806488,
+        "accuracy_0.1": 0.13671875
+      },
+      "deep": {
+        "mse": 0.18723571300506592,
+        "final_mse": 0.15729764103889465,
+        "affected_final_mse": 0.2087727189064026,
+        "unaffected_final_mse": 0.10582254827022552,
+        "delta_mse": 0.11299682408571243,
+        "accuracy_0.1": 0.171875
+      }
+    },
+    {
+      "arm": "bidir",
+      "seed": 43,
+      "step": 300,
+      "split": "iid",
+      "condition": "retain",
+      "wall_seconds": 0.4605178000056185,
+      "raw_path": "E:\\rlt-research\\2026-09-16-e2e\\learning\\results\\pred-bidir-43-300-iid-retain.npz",
+      "raw_sha256": "693f89b503b9966646befd5081e84c990b1471545c1e3ac1a04a7c9d282a6698",
+      "metrics": {
+        "mse": 0.0023150285705924034,
+        "final_mse": 0.0028497399762272835,
+        "affected_final_mse": 0.0046855309046804905,
+        "unaffected_final_mse": 0.0010139492806047201,
+        "delta_mse": 0.002298713196069002,
+        "accuracy_0.1": 0.947265625
+      },
+      "forward_task": {
+        "mse": 0.0026358356699347496,
+        "final_mse": 0.0031157019548118114,
+        "affected_final_mse": 0.005274469964206219,
+        "unaffected_final_mse": 0.0009569331887178123,
+        "delta_mse": 0.0027212921995669603,
+        "accuracy_0.1": 0.94140625
+      },
+      "inverse_task": {
+        "mse": 0.001994221704080701,
+        "final_mse": 0.0025837779976427555,
+        "affected_final_mse": 0.004096590913832188,
+        "unaffected_final_mse": 0.0010709654306992888,
+        "delta_mse": 0.0018761340761557221,
+        "accuracy_0.1": 0.953125
+      },
+      "shallow": {
+        "mse": 0.0011591975344344974,
+        "final_mse": 0.0014244535705074668,
+        "affected_final_mse": 0.0020383652299642563,
+        "unaffected_final_mse": 0.0008105419110506773,
+        "delta_mse": 0.0007933421875350177,
+        "accuracy_0.1": 0.97265625
+      },
+      "deep": {
+        "mse": 0.0034708597231656313,
+        "final_mse": 0.004275026731193066,
+        "affected_final_mse": 0.00733269564807415,
+        "unaffected_final_mse": 0.001217356650158763,
+        "delta_mse": 0.003804083913564682,
+        "accuracy_0.1": 0.921875
+      }
+    },
+    {
+      "arm": "bidir",
+      "seed": 43,
+      "step": 300,
+      "split": "shift",
+      "condition": "retain",
+      "wall_seconds": 0.4367594000068493,
+      "raw_path": "E:\\rlt-research\\2026-09-16-e2e\\learning\\results\\pred-bidir-43-300-shift-retain.npz",
+      "raw_sha256": "b35d78f78f2dea5a8ae97c61d406ebce8a4b64cbf0fec6b5dd2ac6048636a180",
+      "metrics": {
+        "mse": 0.19741268455982208,
+        "final_mse": 0.1845063865184784,
+        "affected_final_mse": 0.24563592672348022,
+        "unaffected_final_mse": 0.12337678670883179,
+        "delta_mse": 0.10287553071975708,
+        "accuracy_0.1": 0.150390625
+      },
+      "forward_task": {
+        "mse": 0.1794070601463318,
+        "final_mse": 0.13886505365371704,
+        "affected_final_mse": 0.16957665979862213,
+        "unaffected_final_mse": 0.10815344750881195,
+        "delta_mse": 0.1028084009885788,
+        "accuracy_0.1": 0.16796875
+      },
+      "inverse_task": {
+        "mse": 0.21541833877563477,
+        "final_mse": 0.23014768958091736,
+        "affected_final_mse": 0.3216952383518219,
+        "unaffected_final_mse": 0.13860014081001282,
+        "delta_mse": 0.10294264554977417,
+        "accuracy_0.1": 0.1328125
+      },
+      "deep": {
+        "mse": 0.19741268455982208,
+        "final_mse": 0.1845063865184784,
+        "affected_final_mse": 0.24563592672348022,
+        "unaffected_final_mse": 0.12337678670883179,
+        "delta_mse": 0.10287553071975708,
+        "accuracy_0.1": 0.150390625
+      }
+    },
+    {
+      "arm": "bidir",
+      "seed": 43,
+      "step": 600,
+      "split": "iid",
+      "condition": "retain",
+      "wall_seconds": 0.44304589997045696,
+      "raw_path": "E:\\rlt-research\\2026-09-16-e2e\\learning\\results\\pred-bidir-43-600-iid-retain.npz",
+      "raw_sha256": "61ee67c5442853b3e57447c6c2dd989cc04ef242926470cc1f7afe3aa82b4a55",
+      "metrics": {
+        "mse": 0.0012310880701988935,
+        "final_mse": 0.001328586135059595,
+        "affected_final_mse": 0.0017749103717505932,
+        "unaffected_final_mse": 0.0008822620729915798,
+        "delta_mse": 0.0009181645000353456,
+        "accuracy_0.1": 0.986328125
+      },
+      "forward_task": {
+        "mse": 0.0010786006459966302,
+        "final_mse": 0.001169034163467586,
+        "affected_final_mse": 0.001545840292237699,
+        "unaffected_final_mse": 0.0007922278018668294,
+        "delta_mse": 0.0010640776017680764,
+        "accuracy_0.1": 0.9921875
+      },
+      "inverse_task": {
+        "mse": 0.0013835752615705132,
+        "final_mse": 0.0014881384558975697,
+        "affected_final_mse": 0.0020039803348481655,
+        "unaffected_final_mse": 0.0009722963441163301,
+        "delta_mse": 0.0007722512818872929,
+        "accuracy_0.1": 0.98046875
+      },
+      "shallow": {
+        "mse": 0.0004533585160970688,
+        "final_mse": 0.00040099635953083634,
+        "affected_final_mse": 0.0004278600972611457,
+        "unaffected_final_mse": 0.00037413265090435743,
+        "delta_mse": 0.00024081868468783796,
+        "accuracy_0.1": 1.0
+      },
+      "deep": {
+        "mse": 0.002008817857131362,
+        "final_mse": 0.002256175968796015,
+        "affected_final_mse": 0.0031219604425132275,
+        "unaffected_final_mse": 0.0013903914950788021,
+        "delta_mse": 0.0015955102862790227,
+        "accuracy_0.1": 0.97265625
+      }
+    },
+    {
+      "arm": "bidir",
+      "seed": 43,
+      "step": 600,
+      "split": "iid",
+      "condition": "all",
+      "wall_seconds": 0.4787546999868937,
+      "raw_path": "E:\\rlt-research\\2026-09-16-e2e\\learning\\results\\pred-bidir-43-600-iid-all.npz",
+      "raw_sha256": "8df365a886fd079113feb83e4fad39112221ab3e7415bcfae1fb9ba5a8405b2f",
+      "metrics": {
+        "mse": 0.0017833540914580226,
+        "final_mse": 0.0011481810361146927,
+        "affected_final_mse": 0.001627704594284296,
+        "unaffected_final_mse": 0.0006686574779450893,
+        "delta_mse": 0.0018342789262533188,
+        "accuracy_0.1": 0.986328125
+      },
+      "forward_task": {
+        "mse": 0.0012793302303180099,
+        "final_mse": 0.0011483784765005112,
+        "affected_final_mse": 0.0016071329591795802,
+        "unaffected_final_mse": 0.0006896238774061203,
+        "delta_mse": 0.0017085213912650943,
+        "accuracy_0.1": 0.9921875
+      },
+      "inverse_task": {
+        "mse": 0.0022873778361827135,
+        "final_mse": 0.0011479835957288742,
+        "affected_final_mse": 0.0016482759965583682,
+        "unaffected_final_mse": 0.0006476911948993802,
+        "delta_mse": 0.001960036577656865,
+        "accuracy_0.1": 0.98046875
+      },
+      "shallow": {
+        "mse": 0.00081555888755247,
+        "final_mse": 0.00043319526594132185,
+        "affected_final_mse": 0.00047551229363307357,
+        "unaffected_final_mse": 0.0003908782673534006,
+        "delta_mse": 0.0006421366706490517,
+        "accuracy_0.1": 1.0
+      },
+      "deep": {
+        "mse": 0.0027511492371559143,
+        "final_mse": 0.0018631666898727417,
+        "affected_final_mse": 0.0027798968367278576,
+        "unaffected_final_mse": 0.0009464367758482695,
+        "delta_mse": 0.0030264214146882296,
+        "accuracy_0.1": 0.97265625
+      }
+    },
+    {
+      "arm": "bidir",
+      "seed": 43,
+      "step": 600,
+      "split": "iid",
+      "condition": "local",
+      "wall_seconds": 0.476531199994497,
+      "raw_path": "E:\\rlt-research\\2026-09-16-e2e\\learning\\results\\pred-bidir-43-600-iid-local.npz",
+      "raw_sha256": "fcd6d14ffa71ee8da45b80e0001eff480d22ce215bc1d2d36160091cd4c84926",
+      "metrics": {
+        "mse": 0.0015236156759783626,
+        "final_mse": 0.0012703834800049663,
+        "affected_final_mse": 0.0016585049452260137,
+        "unaffected_final_mse": 0.0008822620729915798,
+        "delta_mse": 0.0017229875084012747,
+        "accuracy_0.1": 0.986328125
+      },
+      "forward_task": {
+        "mse": 0.0014978814870119095,
+        "final_mse": 0.0011935918591916561,
+        "affected_final_mse": 0.001594955800101161,
+        "unaffected_final_mse": 0.0007922278018668294,
+        "delta_mse": 0.0018688143463805318,
+        "accuracy_0.1": 0.9921875
+      },
+      "inverse_task": {
+        "mse": 0.0015493500977754593,
+        "final_mse": 0.00134717533364892,
+        "affected_final_mse": 0.0017220542067661881,
+        "unaffected_final_mse": 0.0009722963441163301,
+        "delta_mse": 0.0015771611360833049,
+        "accuracy_0.1": 0.98046875
+      },
+      "shallow": {
+        "mse": 0.0006157821044325829,
+        "final_mse": 0.00042482244316488504,
+        "affected_final_mse": 0.00047551229363307357,
+        "unaffected_final_mse": 0.00037413265090435743,
+        "delta_mse": 0.0004366684006527066,
+        "accuracy_0.1": 1.0
+      },
+      "deep": {
+        "mse": 0.0024314492475241423,
+        "final_mse": 0.0021159446332603693,
+        "affected_final_mse": 0.0028414977714419365,
+        "unaffected_final_mse": 0.0013903914950788021,
+        "delta_mse": 0.0030093069653958082,
+        "accuracy_0.1": 0.97265625
+      }
+    },
+    {
+      "arm": "bidir",
+      "seed": 43,
+      "step": 600,
+      "split": "shift",
+      "condition": "retain",
+      "wall_seconds": 0.4903105999692343,
+      "raw_path": "E:\\rlt-research\\2026-09-16-e2e\\learning\\results\\pred-bidir-43-600-shift-retain.npz",
+      "raw_sha256": "75cbe54ad1b872456b9f601d4f12e97b2ae303faf8ef673e9e58092574e7b5e3",
+      "metrics": {
+        "mse": 0.1924125701189041,
+        "final_mse": 0.18493027985095978,
+        "affected_final_mse": 0.2482478767633438,
+        "unaffected_final_mse": 0.12161268293857574,
+        "delta_mse": 0.09372890740633011,
+        "accuracy_0.1": 0.158203125
+      },
+      "forward_task": {
+        "mse": 0.1539553999900818,
+        "final_mse": 0.11289738863706589,
+        "affected_final_mse": 0.13448750972747803,
+        "unaffected_final_mse": 0.09130725264549255,
+        "delta_mse": 0.08999407291412354,
+        "accuracy_0.1": 0.19921875
+      },
+      "inverse_task": {
+        "mse": 0.23086972534656525,
+        "final_mse": 0.25696316361427307,
+        "affected_final_mse": 0.3620082139968872,
+        "unaffected_final_mse": 0.15191809833049774,
+        "delta_mse": 0.09746374189853668,
+        "accuracy_0.1": 0.1171875
+      },
+      "deep": {
+        "mse": 0.1924125701189041,
+        "final_mse": 0.18493027985095978,
+        "affected_final_mse": 0.2482478767633438,
+        "unaffected_final_mse": 0.12161268293857574,
+        "delta_mse": 0.09372890740633011,
+        "accuracy_0.1": 0.158203125
+      }
+    },
+    {
+      "arm": "bidir",
+      "seed": 43,
+      "step": 600,
+      "split": "shift",
+      "condition": "all",
+      "wall_seconds": 0.4805781999602914,
+      "raw_path": "E:\\rlt-research\\2026-09-16-e2e\\learning\\results\\pred-bidir-43-600-shift-all.npz",
+      "raw_sha256": "5a463c892d420fb0b856f63498cb75498e098f577cd55ed4577c46bc974e9286",
+      "metrics": {
+        "mse": 0.20851989090442657,
+        "final_mse": 0.19106557965278625,
+        "affected_final_mse": 0.25460198521614075,
+        "unaffected_final_mse": 0.12752918899059296,
+        "delta_mse": 0.08342204988002777,
+        "accuracy_0.1": 0.166015625
+      },
+      "forward_task": {
+        "mse": 0.18400269746780396,
+        "final_mse": 0.1286010444164276,
+        "affected_final_mse": 0.1525878757238388,
+        "unaffected_final_mse": 0.10461421310901642,
+        "delta_mse": 0.0727844312787056,
+        "accuracy_0.1": 0.1875
+      },
+      "inverse_task": {
+        "mse": 0.233037069439888,
+        "final_mse": 0.2535301446914673,
+        "affected_final_mse": 0.3566161096096039,
+        "unaffected_final_mse": 0.1504441648721695,
+        "delta_mse": 0.09405967593193054,
+        "accuracy_0.1": 0.14453125
+      },
+      "deep": {
+        "mse": 0.20851989090442657,
+        "final_mse": 0.19106557965278625,
+        "affected_final_mse": 0.25460198521614075,
+        "unaffected_final_mse": 0.12752918899059296,
+        "delta_mse": 0.08342204988002777,
+        "accuracy_0.1": 0.166015625
+      }
+    },
+    {
+      "arm": "bidir",
+      "seed": 43,
+      "step": 600,
+      "split": "shift",
+      "condition": "local",
+      "wall_seconds": 0.6153085000114515,
+      "raw_path": "E:\\rlt-research\\2026-09-16-e2e\\learning\\results\\pred-bidir-43-600-shift-local.npz",
+      "raw_sha256": "15bd55c2ac20250bb63a5bd86b35ee80f57cafeceaca0ccf71b31466b6819782",
+      "metrics": {
+        "mse": 0.20412661135196686,
+        "final_mse": 0.18882113695144653,
+        "affected_final_mse": 0.2560296058654785,
+        "unaffected_final_mse": 0.12161268293857574,
+        "delta_mse": 0.09277351200580597,
+        "accuracy_0.1": 0.154296875
+      },
+      "forward_task": {
+        "mse": 0.1709507703781128,
+        "final_mse": 0.12144174426794052,
+        "affected_final_mse": 0.1515762209892273,
+        "unaffected_final_mse": 0.09130725264549255,
+        "delta_mse": 0.08495818078517914,
+        "accuracy_0.1": 0.19140625
+      },
+      "inverse_task": {
+        "mse": 0.23730246722698212,
+        "final_mse": 0.25620055198669434,
+        "affected_final_mse": 0.36048296093940735,
+        "unaffected_final_mse": 0.15191809833049774,
+        "delta_mse": 0.100588858127594,
+        "accuracy_0.1": 0.1171875
+      },
+      "deep": {
+        "mse": 0.20412661135196686,
+        "final_mse": 0.18882113695144653,
+        "affected_final_mse": 0.2560296058654785,
+        "unaffected_final_mse": 0.12161268293857574,
+        "delta_mse": 0.09277351200580597,
+        "accuracy_0.1": 0.154296875
+      }
+    },
+    {
+      "arm": "wrong",
+      "seed": 43,
+      "step": 600,
+      "split": "iid",
+      "condition": "retain",
+      "wall_seconds": 0.5760114000295289,
+      "raw_path": "E:\\rlt-research\\2026-09-16-e2e\\learning\\results\\pred-wrong-43-600-iid-retain.npz",
+      "raw_sha256": "d0a31099f5f4d272dc8c538ded2e6fdcae5c026304d393919250a87c67a1bcd8",
+      "metrics": {
+        "mse": 0.22687071561813354,
+        "final_mse": 0.26085641980171204,
+        "affected_final_mse": 0.23195770382881165,
+        "unaffected_final_mse": 0.2897551655769348,
+        "delta_mse": 0.09771759808063507,
+        "accuracy_0.1": 0.158203125
+      },
+      "forward_task": {
+        "mse": 0.21107125282287598,
+        "final_mse": 0.2476404905319214,
+        "affected_final_mse": 0.23292255401611328,
+        "unaffected_final_mse": 0.2623583674430847,
+        "delta_mse": 0.1026172861456871,
+        "accuracy_0.1": 0.16796875
+      },
+      "inverse_task": {
+        "mse": 0.2426701933145523,
+        "final_mse": 0.27407240867614746,
+        "affected_final_mse": 0.23099282383918762,
+        "unaffected_final_mse": 0.31715190410614014,
+        "delta_mse": 0.09281791746616364,
+        "accuracy_0.1": 0.1484375
+      },
+      "shallow": {
+        "mse": 0.16902755200862885,
+        "final_mse": 0.19972124695777893,
+        "affected_final_mse": 0.1486908197402954,
+        "unaffected_final_mse": 0.25075167417526245,
+        "delta_mse": 0.09144283831119537,
+        "accuracy_0.1": 0.1796875
+      },
+      "deep": {
+        "mse": 0.28471389412879944,
+        "final_mse": 0.32199162244796753,
+        "affected_final_mse": 0.3152245879173279,
+        "unaffected_final_mse": 0.3287585973739624,
+        "delta_mse": 0.10399236530065536,
+        "accuracy_0.1": 0.13671875
+      }
+    },
+    {
+      "arm": "wrong",
+      "seed": 43,
+      "step": 600,
+      "split": "shift",
+      "condition": "retain",
+      "wall_seconds": 0.5742832000250928,
+      "raw_path": "E:\\rlt-research\\2026-09-16-e2e\\learning\\results\\pred-wrong-43-600-shift-retain.npz",
+      "raw_sha256": "cbf403de1afec9a29298ea49496996593f429ec10d316c33ff7c5e894a3b6446",
+      "metrics": {
+        "mse": 0.3423953056335449,
+        "final_mse": 0.3749898672103882,
+        "affected_final_mse": 0.3530045747756958,
+        "unaffected_final_mse": 0.39697521924972534,
+        "delta_mse": 0.10009326040744781,
+        "accuracy_0.1": 0.099609375
+      },
+      "forward_task": {
+        "mse": 0.33909186720848083,
+        "final_mse": 0.3778122365474701,
+        "affected_final_mse": 0.3206835985183716,
+        "unaffected_final_mse": 0.43494081497192383,
+        "delta_mse": 0.10218262672424316,
+        "accuracy_0.1": 0.09765625
+      },
+      "inverse_task": {
+        "mse": 0.345698744058609,
+        "final_mse": 0.37216752767562866,
+        "affected_final_mse": 0.38532546162605286,
+        "unaffected_final_mse": 0.3590095639228821,
+        "delta_mse": 0.09800388664007187,
+        "accuracy_0.1": 0.1015625
+      },
+      "deep": {
+        "mse": 0.3423953056335449,
+        "final_mse": 0.3749898672103882,
+        "affected_final_mse": 0.3530045747756958,
+        "unaffected_final_mse": 0.39697521924972534,
+        "delta_mse": 0.10009326040744781,
+        "accuracy_0.1": 0.099609375
+      }
+    },
+    {
+      "arm": "flat",
+      "seed": 43,
+      "step": 600,
+      "split": "iid",
+      "condition": "retain",
+      "wall_seconds": 0.5441912999958731,
+      "raw_path": "E:\\rlt-research\\2026-09-16-e2e\\learning\\results\\pred-flat-43-600-iid-retain.npz",
+      "raw_sha256": "0fff030b89ccb83c86568d9e6a325824abee41eb0b1a006729aaca9bc43b78e7",
+      "metrics": {
+        "mse": 0.21529404819011688,
+        "final_mse": 0.2460215538740158,
+        "affected_final_mse": 0.2478790581226349,
+        "unaffected_final_mse": 0.24416407942771912,
+        "delta_mse": 0.08509325981140137,
+        "accuracy_0.1": 0.146484375
+      },
+      "forward_task": {
+        "mse": 0.21414129436016083,
+        "final_mse": 0.24608182907104492,
+        "affected_final_mse": 0.2515071928501129,
+        "unaffected_final_mse": 0.24065649509429932,
+        "delta_mse": 0.08902020752429962,
+        "accuracy_0.1": 0.140625
+      },
+      "inverse_task": {
+        "mse": 0.21644680202007294,
+        "final_mse": 0.24596130847930908,
+        "affected_final_mse": 0.24425090849399567,
+        "unaffected_final_mse": 0.2476716786623001,
+        "delta_mse": 0.08116631209850311,
+        "accuracy_0.1": 0.15234375
+      },
+      "shallow": {
+        "mse": 0.15631653368473053,
+        "final_mse": 0.1849966049194336,
+        "affected_final_mse": 0.1719401627779007,
+        "unaffected_final_mse": 0.19805306196212769,
+        "delta_mse": 0.08302301168441772,
+        "accuracy_0.1": 0.140625
+      },
+      "deep": {
+        "mse": 0.27427157759666443,
+        "final_mse": 0.3070465326309204,
+        "affected_final_mse": 0.3238179385662079,
+        "unaffected_final_mse": 0.29027509689331055,
+        "delta_mse": 0.08716350793838501,
+        "accuracy_0.1": 0.15234375
+      }
+    },
+    {
+      "arm": "flat",
+      "seed": 43,
+      "step": 600,
+      "split": "shift",
+      "condition": "retain",
+      "wall_seconds": 0.5346790999756195,
+      "raw_path": "E:\\rlt-research\\2026-09-16-e2e\\learning\\results\\pred-flat-43-600-shift-retain.npz",
+      "raw_sha256": "f68d37b633bc0bd29f446f4bf20c7e664cb2ee5d8a5a922f7352953c9efb4757",
+      "metrics": {
+        "mse": 0.3342510163784027,
+        "final_mse": 0.3601745665073395,
+        "affected_final_mse": 0.3725324273109436,
+        "unaffected_final_mse": 0.34781670570373535,
+        "delta_mse": 0.08471819758415222,
+        "accuracy_0.1": 0.1015625
+      },
+      "forward_task": {
+        "mse": 0.3505955636501312,
+        "final_mse": 0.37607109546661377,
+        "affected_final_mse": 0.3407038748264313,
+        "unaffected_final_mse": 0.4114382863044739,
+        "delta_mse": 0.08523029088973999,
+        "accuracy_0.1": 0.10546875
+      },
+      "inverse_task": {
+        "mse": 0.3179064691066742,
+        "final_mse": 0.3442780375480652,
+        "affected_final_mse": 0.40436094999313354,
+        "unaffected_final_mse": 0.2841951251029968,
+        "delta_mse": 0.08420610427856445,
+        "accuracy_0.1": 0.09765625
+      },
+      "deep": {
+        "mse": 0.3342510163784027,
+        "final_mse": 0.3601745665073395,
+        "affected_final_mse": 0.3725324273109436,
+        "unaffected_final_mse": 0.34781670570373535,
+        "delta_mse": 0.08471819758415222,
+        "accuracy_0.1": 0.1015625
+      }
+    },
+    {
+      "arm": "feedback",
+      "seed": 43,
+      "step": 600,
+      "split": "iid",
+      "condition": "retain",
+      "wall_seconds": 0.5146284999791533,
+      "raw_path": "E:\\rlt-research\\2026-09-16-e2e\\learning\\results\\pred-feedback-43-600-iid-retain.npz",
+      "raw_sha256": "9f97b0aeae79b11dd809b851b0a37f7af777621989cfa2a5d6cd8139d12c407f",
+      "metrics": {
+        "mse": 0.001233418588526547,
+        "final_mse": 0.0013313994277268648,
+        "affected_final_mse": 0.0017775966553017497,
+        "unaffected_final_mse": 0.0008852022001519799,
+        "delta_mse": 0.000918302102945745,
+        "accuracy_0.1": 0.986328125
+      },
+      "forward_task": {
+        "mse": 0.0010799540905281901,
+        "final_mse": 0.0011707325465977192,
+        "affected_final_mse": 0.0015472529921680689,
+        "unaffected_final_mse": 0.0007942121010273695,
+        "delta_mse": 0.0010642161360010505,
+        "accuracy_0.1": 0.9921875
+      },
+      "inverse_task": {
+        "mse": 0.0013868830865249038,
+        "final_mse": 0.0014920663088560104,
+        "affected_final_mse": 0.0020079403184354305,
+        "unaffected_final_mse": 0.0009761922992765903,
+        "delta_mse": 0.0007723879534751177,
+        "accuracy_0.1": 0.98046875
+      },
+      "shallow": {
+        "mse": 0.00045323194353841245,
+        "final_mse": 0.00040090776747092605,
+        "affected_final_mse": 0.00042778553324751556,
+        "unaffected_final_mse": 0.000374030030798167,
+        "delta_mse": 0.00024080194998532534,
+        "accuracy_0.1": 1.0
+      },
+      "deep": {
+        "mse": 0.002013605087995529,
+        "final_mse": 0.0022618910297751427,
+        "affected_final_mse": 0.003127407981082797,
+        "unaffected_final_mse": 0.001396374311298132,
+        "delta_mse": 0.0015958021394908428,
+        "accuracy_0.1": 0.97265625
+      }
+    },
+    {
+      "arm": "feedback",
+      "seed": 43,
+      "step": 600,
+      "split": "iid",
+      "condition": "zero",
+      "wall_seconds": 0.6065775000024587,
+      "raw_path": "E:\\rlt-research\\2026-09-16-e2e\\learning\\results\\pred-feedback-43-600-iid-zero.npz",
+      "raw_sha256": "eefc160daa286ee365c367fcd6cba091f01d355383b708e33d39c8bce51d0af9",
+      "metrics": {
+        "mse": 0.0012333816848695278,
+        "final_mse": 0.0013313191011548042,
+        "affected_final_mse": 0.0017777576576918364,
+        "unaffected_final_mse": 0.0008848806610330939,
+        "delta_mse": 0.0009183576330542564,
+        "accuracy_0.1": 0.986328125
+      },
+      "forward_task": {
+        "mse": 0.0010798576986417174,
+        "final_mse": 0.0011705325450748205,
+        "affected_final_mse": 0.0015472795348614454,
+        "unaffected_final_mse": 0.0007937856134958565,
+        "delta_mse": 0.0010643606074154377,
+        "accuracy_0.1": 0.9921875
+      },
+      "inverse_task": {
+        "mse": 0.0013869059039279819,
+        "final_mse": 0.0014921057736501098,
+        "affected_final_mse": 0.002008236013352871,
+        "unaffected_final_mse": 0.0009759757085703313,
+        "delta_mse": 0.0007723548915237188,
+        "accuracy_0.1": 0.98046875
+      },
+      "shallow": {
+        "mse": 0.0004531341837719083,
+        "final_mse": 0.0004006634117104113,
+        "affected_final_mse": 0.00042747717816382647,
+        "unaffected_final_mse": 0.0003738496161531657,
+        "delta_mse": 0.00024089458747766912,
+        "accuracy_0.1": 1.0
+      },
+      "deep": {
+        "mse": 0.002013629302382469,
+        "final_mse": 0.002261974848806858,
+        "affected_final_mse": 0.003128038253635168,
+        "unaffected_final_mse": 0.0013959116768091917,
+        "delta_mse": 0.0015958207659423351,
+        "accuracy_0.1": 0.97265625
+      }
+    },
+    {
+      "arm": "feedback",
+      "seed": 43,
+      "step": 600,
+      "split": "iid",
+      "condition": "permute",
+      "wall_seconds": 0.5565210999920964,
+      "raw_path": "E:\\rlt-research\\2026-09-16-e2e\\learning\\results\\pred-feedback-43-600-iid-permute.npz",
+      "raw_sha256": "43dd46595ee9c6186ba5f2e8f777dfc2577a0aa3b9c020c54e4bbd1437797f28",
+      "metrics": {
+        "mse": 0.0012332540936768055,
+        "final_mse": 0.0013311103684827685,
+        "affected_final_mse": 0.0017775485757738352,
+        "unaffected_final_mse": 0.0008846721611917019,
+        "delta_mse": 0.0009184004738926888,
+        "accuracy_0.1": 0.986328125
+      },
+      "forward_task": {
+        "mse": 0.0010797992581501603,
+        "final_mse": 0.001170461531728506,
+        "affected_final_mse": 0.001547184307128191,
+        "unaffected_final_mse": 0.0007937386399134994,
+        "delta_mse": 0.0010643869172781706,
+        "accuracy_0.1": 0.9921875
+      },
+      "inverse_task": {
+        "mse": 0.0013867090456187725,
+        "final_mse": 0.0014917593216523528,
+        "affected_final_mse": 0.0020079128444194794,
+        "unaffected_final_mse": 0.0009756056824699044,
+        "delta_mse": 0.0007724141469225287,
+        "accuracy_0.1": 0.98046875
+      },
+      "shallow": {
+        "mse": 0.0004530428850557655,
+        "final_mse": 0.00040055703721009195,
+        "affected_final_mse": 0.00042728203698061407,
+        "unaffected_final_mse": 0.0003738320083357394,
+        "delta_mse": 0.00024082374875433743,
+        "accuracy_0.1": 1.0
+      },
+      "deep": {
+        "mse": 0.002013465389609337,
+        "final_mse": 0.0022616637870669365,
+        "affected_final_mse": 0.0031278152018785477,
+        "unaffected_final_mse": 0.0013955123722553253,
+        "delta_mse": 0.0015959773445501924,
+        "accuracy_0.1": 0.97265625
+      }
+    },
+    {
+      "arm": "feedback",
+      "seed": 43,
+      "step": 600,
+      "split": "shift",
+      "condition": "retain",
+      "wall_seconds": 0.6026742000249214,
+      "raw_path": "E:\\rlt-research\\2026-09-16-e2e\\learning\\results\\pred-feedback-43-600-shift-retain.npz",
+      "raw_sha256": "fc90d73c67f99246b6b5445523b7423a69feeba5fab56ddacaf0b1df54dea662",
+      "metrics": {
+        "mse": 0.1923915594816208,
+        "final_mse": 0.18490973114967346,
+        "affected_final_mse": 0.24821725487709045,
+        "unaffected_final_mse": 0.12160217761993408,
+        "delta_mse": 0.09372331202030182,
+        "accuracy_0.1": 0.158203125
+      },
+      "forward_task": {
+        "mse": 0.15393219888210297,
+        "final_mse": 0.11286894232034683,
+        "affected_final_mse": 0.1344507336616516,
+        "unaffected_final_mse": 0.09128715097904205,
+        "delta_mse": 0.08998839557170868,
+        "accuracy_0.1": 0.19921875
+      },
+      "inverse_task": {
+        "mse": 0.2308509200811386,
+        "final_mse": 0.2569504976272583,
+        "affected_final_mse": 0.3619837760925293,
+        "unaffected_final_mse": 0.1519172191619873,
+        "delta_mse": 0.09745824337005615,
+        "accuracy_0.1": 0.1171875
+      },
+      "deep": {
+        "mse": 0.1923915594816208,
+        "final_mse": 0.18490973114967346,
+        "affected_final_mse": 0.24821725487709045,
+        "unaffected_final_mse": 0.12160217761993408,
+        "delta_mse": 0.09372331202030182,
+        "accuracy_0.1": 0.158203125
+      }
+    },
+    {
+      "arm": "feedback",
+      "seed": 43,
+      "step": 600,
+      "split": "shift",
+      "condition": "zero",
+      "wall_seconds": 0.4951981999911368,
+      "raw_path": "E:\\rlt-research\\2026-09-16-e2e\\learning\\results\\pred-feedback-43-600-shift-zero.npz",
+      "raw_sha256": "dcca88d02950c2d782e917c66e2b67aa0a2b4d7549472de793d59a9b90231f30",
+      "metrics": {
+        "mse": 0.19239304959774017,
+        "final_mse": 0.1849132627248764,
+        "affected_final_mse": 0.24822135269641876,
+        "unaffected_final_mse": 0.12160520255565643,
+        "delta_mse": 0.09372235089540482,
+        "accuracy_0.1": 0.158203125
+      },
+      "forward_task": {
+        "mse": 0.15393425524234772,
+        "final_mse": 0.11287330090999603,
+        "affected_final_mse": 0.13445602357387543,
+        "unaffected_final_mse": 0.09129058569669724,
+        "delta_mse": 0.08998748660087585,
+        "accuracy_0.1": 0.19921875
+      },
+      "inverse_task": {
+        "mse": 0.23085181415081024,
+        "final_mse": 0.25695323944091797,
+        "affected_final_mse": 0.3619866967201233,
+        "unaffected_final_mse": 0.15191981196403503,
+        "delta_mse": 0.09745721518993378,
+        "accuracy_0.1": 0.1171875
+      },
+      "deep": {
+        "mse": 0.19239304959774017,
+        "final_mse": 0.1849132627248764,
+        "affected_final_mse": 0.24822135269641876,
+        "unaffected_final_mse": 0.12160520255565643,
+        "delta_mse": 0.09372235089540482,
+        "accuracy_0.1": 0.158203125
+      }
+    },
+    {
+      "arm": "feedback",
+      "seed": 43,
+      "step": 600,
+      "split": "shift",
+      "condition": "permute",
+      "wall_seconds": 0.45132019999437034,
+      "raw_path": "E:\\rlt-research\\2026-09-16-e2e\\learning\\results\\pred-feedback-43-600-shift-permute.npz",
+      "raw_sha256": "7c51607f5c13dd5898a4e63a92d7c239fe7ad07bb7b9d6639015ff711e8053e1",
+      "metrics": {
+        "mse": 0.19239263236522675,
+        "final_mse": 0.18491169810295105,
+        "affected_final_mse": 0.2482202649116516,
+        "unaffected_final_mse": 0.12160312384366989,
+        "delta_mse": 0.09372317045927048,
+        "accuracy_0.1": 0.158203125
+      },
+      "forward_task": {
+        "mse": 0.1539333462715149,
+        "final_mse": 0.11287181079387665,
+        "affected_final_mse": 0.13445375859737396,
+        "unaffected_final_mse": 0.09128986299037933,
+        "delta_mse": 0.08998768031597137,
+        "accuracy_0.1": 0.19921875
+      },
+      "inverse_task": {
+        "mse": 0.2308519333600998,
+        "final_mse": 0.25695157051086426,
+        "affected_final_mse": 0.36198678612709045,
+        "unaffected_final_mse": 0.15191639959812164,
+        "delta_mse": 0.09745866805315018,
+        "accuracy_0.1": 0.1171875
+      },
+      "deep": {
+        "mse": 0.19239263236522675,
+        "final_mse": 0.18491169810295105,
+        "affected_final_mse": 0.2482202649116516,
+        "unaffected_final_mse": 0.12160312384366989,
+        "delta_mse": 0.09372317045927048,
+        "accuracy_0.1": 0.158203125
+      }
+    },
+    {
+      "arm": "method",
+      "seed": 43,
+      "step": 150,
+      "split": "iid",
+      "condition": "retain",
+      "wall_seconds": 0.4811119000078179,
+      "raw_path": "E:\\rlt-research\\2026-09-16-e2e\\learning\\results\\pred-method-43-150-iid-retain.npz",
+      "raw_sha256": "8c72d1ba5304b1bbcfd01e15e6f4150f9706da0c947062103b3c2103f52f7427",
+      "metrics": {
+        "mse": 0.008300909772515297,
+        "final_mse": 0.009165219031274319,
+        "affected_final_mse": 0.010966156609356403,
+        "unaffected_final_mse": 0.007364279590547085,
+        "delta_mse": 0.006375344470143318,
+        "accuracy_0.1": 0.7578125
+      },
+      "forward_task": {
+        "mse": 0.007095765322446823,
+        "final_mse": 0.009004936553537846,
+        "affected_final_mse": 0.01222611591219902,
+        "unaffected_final_mse": 0.005783757194876671,
+        "delta_mse": 0.006532174535095692,
+        "accuracy_0.1": 0.76171875
+      },
+      "inverse_task": {
+        "mse": 0.00950605422258377,
+        "final_mse": 0.009325499646365643,
+        "affected_final_mse": 0.009706197306513786,
+        "unaffected_final_mse": 0.008944802917540073,
+        "delta_mse": 0.006218514405190945,
+        "accuracy_0.1": 0.75390625
+      },
+      "shallow": {
+        "mse": 0.003402917878702283,
+        "final_mse": 0.003615956986322999,
+        "affected_final_mse": 0.004135371185839176,
+        "unaffected_final_mse": 0.0030965430196374655,
+        "delta_mse": 0.0025046784430742264,
+        "accuracy_0.1": 0.90625
+      },
+      "deep": {
+        "mse": 0.01319890096783638,
+        "final_mse": 0.014714479446411133,
+        "affected_final_mse": 0.017796942964196205,
+        "unaffected_final_mse": 0.01163201779127121,
+        "delta_mse": 0.01024601049721241,
+        "accuracy_0.1": 0.609375
+      }
+    },
+    {
+      "arm": "method",
+      "seed": 43,
+      "step": 150,
+      "split": "shift",
+      "condition": "retain",
+      "wall_seconds": 0.45721630001207814,
+      "raw_path": "E:\\rlt-research\\2026-09-16-e2e\\learning\\results\\pred-method-43-150-shift-retain.npz",
+      "raw_sha256": "58f2d2803b63e218e9f3b330c1dd1340bbd6445345fda5b90a8ca7c426b876c5",
+      "metrics": {
+        "mse": 0.11034265905618668,
+        "final_mse": 0.08998152613639832,
+        "affected_final_mse": 0.12339432537555695,
+        "unaffected_final_mse": 0.05656873434782028,
+        "delta_mse": 0.09076295793056488,
+        "accuracy_0.1": 0.44921875
+      },
+      "forward_task": {
+        "mse": 0.042532894760370255,
+        "final_mse": 0.013520223088562489,
+        "affected_final_mse": 0.017220843583345413,
+        "unaffected_final_mse": 0.00981960166245699,
+        "delta_mse": 0.08701278269290924,
+        "accuracy_0.1": 0.68359375
+      },
+      "inverse_task": {
+        "mse": 0.1781524270772934,
+        "final_mse": 0.16644282639026642,
+        "affected_final_mse": 0.22956782579421997,
+        "unaffected_final_mse": 0.10331785678863525,
+        "delta_mse": 0.09451313316822052,
+        "accuracy_0.1": 0.21484375
+      },
+      "deep": {
+        "mse": 0.11034265905618668,
+        "final_mse": 0.08998152613639832,
+        "affected_final_mse": 0.12339432537555695,
+        "unaffected_final_mse": 0.05656873434782028,
+        "delta_mse": 0.09076295793056488,
+        "accuracy_0.1": 0.44921875
+      }
+    },
+    {
+      "arm": "method",
+      "seed": 43,
+      "step": 300,
+      "split": "iid",
+      "condition": "retain",
+      "wall_seconds": 0.4425916000036523,
+      "raw_path": "E:\\rlt-research\\2026-09-16-e2e\\learning\\results\\pred-method-43-300-iid-retain.npz",
+      "raw_sha256": "0f3dc83077f9c12e2cf71e5f6d64a6036285d983b09ddf93a19f8727d258521a",
+      "metrics": {
+        "mse": 0.003223489038646221,
+        "final_mse": 0.003877160372212529,
+        "affected_final_mse": 0.006225388962775469,
+        "unaffected_final_mse": 0.0015289317816495895,
+        "delta_mse": 0.0026693306863307953,
+        "accuracy_0.1": 0.923828125
+      },
+      "forward_task": {
+        "mse": 0.0025714999064803123,
+        "final_mse": 0.00289344135671854,
+        "affected_final_mse": 0.004397802986204624,
+        "unaffected_final_mse": 0.0013890799600630999,
+        "delta_mse": 0.0019512043800204992,
+        "accuracy_0.1": 0.953125
+      },
+      "inverse_task": {
+        "mse": 0.0038754784036427736,
+        "final_mse": 0.004860879387706518,
+        "affected_final_mse": 0.008052974939346313,
+        "unaffected_final_mse": 0.0016687836032360792,
+        "delta_mse": 0.0033874567598104477,
+        "accuracy_0.1": 0.89453125
+      },
+      "shallow": {
+        "mse": 0.0013325392501428723,
+        "final_mse": 0.001990248914808035,
+        "affected_final_mse": 0.0029656998813152313,
+        "unaffected_final_mse": 0.0010147978318855166,
+        "delta_mse": 0.0010451455600559711,
+        "accuracy_0.1": 0.96875
+      },
+      "deep": {
+        "mse": 0.005114438943564892,
+        "final_mse": 0.0057640718296170235,
+        "affected_final_mse": 0.009485078044235706,
+        "unaffected_final_mse": 0.0020430656149983406,
+        "delta_mse": 0.004293515346944332,
+        "accuracy_0.1": 0.87890625
+      }
+    },
+    {
+      "arm": "method",
+      "seed": 43,
+      "step": 300,
+      "split": "shift",
+      "condition": "retain",
+      "wall_seconds": 0.47352719999616966,
+      "raw_path": "E:\\rlt-research\\2026-09-16-e2e\\learning\\results\\pred-method-43-300-shift-retain.npz",
+      "raw_sha256": "51090d766e7af9d756cbdb0e65cd951f011d3564eb18eeb1e70c46a6f99bf84e",
+      "metrics": {
+        "mse": 0.09750983864068985,
+        "final_mse": 0.09623415768146515,
+        "affected_final_mse": 0.13596057891845703,
+        "unaffected_final_mse": 0.05650772154331207,
+        "delta_mse": 0.05467359721660614,
+        "accuracy_0.1": 0.56640625
+      },
+      "forward_task": {
+        "mse": 0.007790183182805777,
+        "final_mse": 0.003434904385358095,
+        "affected_final_mse": 0.0049757142551243305,
+        "unaffected_final_mse": 0.0018940945155918598,
+        "delta_mse": 0.014723099768161774,
+        "accuracy_0.1": 0.9296875
+      },
+      "inverse_task": {
+        "mse": 0.18722951412200928,
+        "final_mse": 0.1890334188938141,
+        "affected_final_mse": 0.266945481300354,
+        "unaffected_final_mse": 0.11112134903669357,
+        "delta_mse": 0.09462408721446991,
+        "accuracy_0.1": 0.203125
+      },
+      "deep": {
+        "mse": 0.09750983864068985,
+        "final_mse": 0.09623415768146515,
+        "affected_final_mse": 0.13596057891845703,
+        "unaffected_final_mse": 0.05650772154331207,
+        "delta_mse": 0.05467359721660614,
+        "accuracy_0.1": 0.56640625
+      }
+    },
+    {
+      "arm": "method",
+      "seed": 43,
+      "step": 600,
+      "split": "iid",
+      "condition": "retain",
+      "wall_seconds": 0.5063124999869615,
+      "raw_path": "E:\\rlt-research\\2026-09-16-e2e\\learning\\results\\pred-method-43-600-iid-retain.npz",
+      "raw_sha256": "1873ea9fb4ca0c9496cab9d02590752fd55e3134a9760862dba0260a3304dab3",
+      "metrics": {
+        "mse": 0.0015301099047064781,
+        "final_mse": 0.0017293966375291348,
+        "affected_final_mse": 0.0024250212591141462,
+        "unaffected_final_mse": 0.0010337716666981578,
+        "delta_mse": 0.0012805905425921082,
+        "accuracy_0.1": 0.98046875
+      },
+      "forward_task": {
+        "mse": 0.0007476780447177589,
+        "final_mse": 0.0009059451404027641,
+        "affected_final_mse": 0.001404146896675229,
+        "unaffected_final_mse": 0.0004077435005456209,
+        "delta_mse": 0.0007892009452916682,
+        "accuracy_0.1": 0.9921875
+      },
+      "inverse_task": {
+        "mse": 0.00231254193931818,
+        "final_mse": 0.002552847843617201,
+        "affected_final_mse": 0.0034458960872143507,
+        "unaffected_final_mse": 0.0016597998328506947,
+        "delta_mse": 0.0017719801981002092,
+        "accuracy_0.1": 0.96875
+      },
+      "shallow": {
+        "mse": 0.0003381775168236345,
+        "final_mse": 0.0004199557879474014,
+        "affected_final_mse": 0.0005787282134406269,
+        "unaffected_final_mse": 0.00026118342066183686,
+        "delta_mse": 0.0004386007785797119,
+        "accuracy_0.1": 1.0
+      },
+      "deep": {
+        "mse": 0.002722042379900813,
+        "final_mse": 0.003038837341591716,
+        "affected_final_mse": 0.004271314945071936,
+        "unaffected_final_mse": 0.0018063598545268178,
+        "delta_mse": 0.0021225803066045046,
+        "accuracy_0.1": 0.9609375
+      }
+    },
+    {
+      "arm": "method",
+      "seed": 43,
+      "step": 600,
+      "split": "shift",
+      "condition": "retain",
+      "wall_seconds": 0.492909399967175,
+      "raw_path": "E:\\rlt-research\\2026-09-16-e2e\\learning\\results\\pred-method-43-600-shift-retain.npz",
+      "raw_sha256": "26776f2071e7637e53ea11891d46a0655b21b2c63c7dc178f3603904d503944b",
+      "metrics": {
+        "mse": 0.11115369945764542,
+        "final_mse": 0.11292105913162231,
+        "affected_final_mse": 0.16095256805419922,
+        "unaffected_final_mse": 0.06488952040672302,
+        "delta_mse": 0.06075845658779144,
+        "accuracy_0.1": 0.55078125
+      },
+      "forward_task": {
+        "mse": 0.007768000941723585,
+        "final_mse": 0.003625096520408988,
+        "affected_final_mse": 0.005552378483116627,
+        "unaffected_final_mse": 0.0016978144412860274,
+        "delta_mse": 0.018024278804659843,
+        "accuracy_0.1": 0.91015625
+      },
+      "inverse_task": {
+        "mse": 0.21453942358493805,
+        "final_mse": 0.22221699357032776,
+        "affected_final_mse": 0.3163527846336365,
+        "unaffected_final_mse": 0.12808124721050262,
+        "delta_mse": 0.10349264740943909,
+        "accuracy_0.1": 0.19140625
+      },
+      "deep": {
+        "mse": 0.11115369945764542,
+        "final_mse": 0.11292105913162231,
+        "affected_final_mse": 0.16095256805419922,
+        "unaffected_final_mse": 0.06488952040672302,
+        "delta_mse": 0.06075845658779144,
+        "accuracy_0.1": 0.55078125
+      }
+    },
+    {
+      "arm": "forward",
+      "seed": 91,
+      "step": 600,
+      "split": "iid",
+      "condition": "retain",
+      "wall_seconds": 0.46347400004742667,
+      "raw_path": "E:\\rlt-research\\2026-09-16-e2e\\learning\\results\\pred-forward-91-600-iid-retain.npz",
+      "raw_sha256": "88ff39774f14254ad07b419ec795cfaaaefafa05714d9d1e3a662e05916c4e1e",
+      "metrics": {
+        "mse": 0.1465398222208023,
+        "final_mse": 0.16534973680973053,
+        "affected_final_mse": 0.18992987275123596,
+        "unaffected_final_mse": 0.1407696008682251,
+        "delta_mse": 0.06171111389994621,
+        "accuracy_0.1": 0.25
+      },
+      "forward_task": {
+        "mse": 0.035916637629270554,
+        "final_mse": 0.04122202470898628,
+        "affected_final_mse": 0.024094581604003906,
+        "unaffected_final_mse": 0.058349475264549255,
+        "delta_mse": 0.02139207534492016,
+        "accuracy_0.1": 0.359375
+      },
+      "inverse_task": {
+        "mse": 0.25716301798820496,
+        "final_mse": 0.2894774377346039,
+        "affected_final_mse": 0.355765163898468,
+        "unaffected_final_mse": 0.22318971157073975,
+        "delta_mse": 0.10203015804290771,
+        "accuracy_0.1": 0.140625
+      },
+      "shallow": {
+        "mse": 0.10610202699899673,
+        "final_mse": 0.11998461186885834,
+        "affected_final_mse": 0.12354470789432526,
+        "unaffected_final_mse": 0.11642450094223022,
+        "delta_mse": 0.05564016103744507,
+        "accuracy_0.1": 0.25
+      },
+      "deep": {
+        "mse": 0.18697760999202728,
+        "final_mse": 0.21071487665176392,
+        "affected_final_mse": 0.25631505250930786,
+        "unaffected_final_mse": 0.16511468589305878,
+        "delta_mse": 0.06778207421302795,
+        "accuracy_0.1": 0.25
+      }
+    },
+    {
+      "arm": "forward",
+      "seed": 91,
+      "step": 600,
+      "split": "shift",
+      "condition": "retain",
+      "wall_seconds": 0.4987340999650769,
+      "raw_path": "E:\\rlt-research\\2026-09-16-e2e\\learning\\results\\pred-forward-91-600-shift-retain.npz",
+      "raw_sha256": "4e4f5cb7d15dabb359b97435bd8d8089e7cb3128289a3ef08bebf7a1e7baf07b",
+      "metrics": {
+        "mse": 0.21987617015838623,
+        "final_mse": 0.22126862406730652,
+        "affected_final_mse": 0.26252156496047974,
+        "unaffected_final_mse": 0.1800156831741333,
+        "delta_mse": 0.09414272010326385,
+        "accuracy_0.1": 0.201171875
+      },
+      "forward_task": {
+        "mse": 0.09524086862802505,
+        "final_mse": 0.07331319153308868,
+        "affected_final_mse": 0.06415662169456482,
+        "unaffected_final_mse": 0.08246974647045135,
+        "delta_mse": 0.09646184742450714,
+        "accuracy_0.1": 0.2578125
+      },
+      "inverse_task": {
+        "mse": 0.3445115089416504,
+        "final_mse": 0.36922401189804077,
+        "affected_final_mse": 0.46088647842407227,
+        "unaffected_final_mse": 0.27756160497665405,
+        "delta_mse": 0.09182359278202057,
+        "accuracy_0.1": 0.14453125
+      },
+      "deep": {
+        "mse": 0.21987617015838623,
+        "final_mse": 0.22126862406730652,
+        "affected_final_mse": 0.26252156496047974,
+        "unaffected_final_mse": 0.1800156831741333,
+        "delta_mse": 0.09414272010326385,
+        "accuracy_0.1": 0.201171875
+      }
+    },
+    {
+      "arm": "bidir",
+      "seed": 91,
+      "step": 150,
+      "split": "iid",
+      "condition": "retain",
+      "wall_seconds": 0.4517014999873936,
+      "raw_path": "E:\\rlt-research\\2026-09-16-e2e\\learning\\results\\pred-bidir-91-150-iid-retain.npz",
+      "raw_sha256": "898728d9aa1181f72aea4f3772eead71790c775806778aa70b744b4c3249b791",
+      "metrics": {
+        "mse": 0.0060869730077683926,
+        "final_mse": 0.007174436468631029,
+        "affected_final_mse": 0.010230440646409988,
+        "unaffected_final_mse": 0.0041184332221746445,
+        "delta_mse": 0.0070291669107973576,
+        "accuracy_0.1": 0.845703125
+      },
+      "forward_task": {
+        "mse": 0.0072146132588386536,
+        "final_mse": 0.008931146934628487,
+        "affected_final_mse": 0.014543930068612099,
+        "unaffected_final_mse": 0.0033183640334755182,
+        "delta_mse": 0.008423343300819397,
+        "accuracy_0.1": 0.8515625
+      },
+      "inverse_task": {
+        "mse": 0.0049593327566981316,
+        "final_mse": 0.005417726933956146,
+        "affected_final_mse": 0.005916952155530453,
+        "unaffected_final_mse": 0.00491850171238184,
+        "delta_mse": 0.0056349909864366055,
+        "accuracy_0.1": 0.83984375
+      },
+      "shallow": {
+        "mse": 0.002513151615858078,
+        "final_mse": 0.0026680543087422848,
+        "affected_final_mse": 0.003445850685238838,
+        "unaffected_final_mse": 0.0018902573501691222,
+        "delta_mse": 0.0035583069548010826,
+        "accuracy_0.1": 0.9453125
+      },
+      "deep": {
+        "mse": 0.009660794399678707,
+        "final_mse": 0.01168081909418106,
+        "affected_final_mse": 0.01701503060758114,
+        "unaffected_final_mse": 0.006346608512103558,
+        "delta_mse": 0.010500026866793633,
+        "accuracy_0.1": 0.74609375
+      }
+    },
+    {
+      "arm": "bidir",
+      "seed": 91,
+      "step": 150,
+      "split": "shift",
+      "condition": "retain",
+      "wall_seconds": 0.4895305999671109,
+      "raw_path": "E:\\rlt-research\\2026-09-16-e2e\\learning\\results\\pred-bidir-91-150-shift-retain.npz",
+      "raw_sha256": "3927ace33273c962ab3cdd412c51cd4bfbbf385a1c0bfeb6ec7d6cd64e04e584",
+      "metrics": {
+        "mse": 0.17150074243545532,
+        "final_mse": 0.1339239478111267,
+        "affected_final_mse": 0.1699674427509308,
+        "unaffected_final_mse": 0.09788043797016144,
+        "delta_mse": 0.16621163487434387,
+        "accuracy_0.1": 0.267578125
+      },
+      "forward_task": {
+        "mse": 0.1319950670003891,
+        "final_mse": 0.07865665853023529,
+        "affected_final_mse": 0.09597593545913696,
+        "unaffected_final_mse": 0.061337389051914215,
+        "delta_mse": 0.21078065037727356,
+        "accuracy_0.1": 0.32421875
+      },
+      "inverse_task": {
+        "mse": 0.21100641787052155,
+        "final_mse": 0.18919122219085693,
+        "affected_final_mse": 0.243958979845047,
+        "unaffected_final_mse": 0.13442349433898926,
+        "delta_mse": 0.1216425821185112,
+        "accuracy_0.1": 0.2109375
+      },
+      "deep": {
+        "mse": 0.17150074243545532,
+        "final_mse": 0.1339239478111267,
+        "affected_final_mse": 0.1699674427509308,
+        "unaffected_final_mse": 0.09788043797016144,
+        "delta_mse": 0.16621163487434387,
+        "accuracy_0.1": 0.267578125
+      }
+    },
+    {
+      "arm": "bidir",
+      "seed": 91,
+      "step": 300,
+      "split": "iid",
+      "condition": "retain",
+      "wall_seconds": 0.43547109997598454,
+      "raw_path": "E:\\rlt-research\\2026-09-16-e2e\\learning\\results\\pred-bidir-91-300-iid-retain.npz",
+      "raw_sha256": "14607adffb25ada2b0349f5bfafe8f6a208f5ca61e655133e1665b70adbcea50",
+      "metrics": {
+        "mse": 0.005961736664175987,
+        "final_mse": 0.006223069503903389,
+        "affected_final_mse": 0.006786499172449112,
+        "unaffected_final_mse": 0.005659639835357666,
+        "delta_mse": 0.003560029435902834,
+        "accuracy_0.1": 0.79296875
+      },
+      "forward_task": {
+        "mse": 0.007334277033805847,
+        "final_mse": 0.0074606649577617645,
+        "affected_final_mse": 0.008114904165267944,
+        "unaffected_final_mse": 0.006806425750255585,
+        "delta_mse": 0.0038859411142766476,
+        "accuracy_0.1": 0.78125
+      },
+      "inverse_task": {
+        "mse": 0.004589196760207415,
+        "final_mse": 0.004985474050045013,
+        "affected_final_mse": 0.005458094645291567,
+        "unaffected_final_mse": 0.004512853920459747,
+        "delta_mse": 0.0032341182231903076,
+        "accuracy_0.1": 0.8046875
+      },
+      "shallow": {
+        "mse": 0.0026073744520545006,
+        "final_mse": 0.002546753268688917,
+        "affected_final_mse": 0.0026532020419836044,
+        "unaffected_final_mse": 0.002440304961055517,
+        "delta_mse": 0.0012519151205196977,
+        "accuracy_0.1": 0.98046875
+      },
+      "deep": {
+        "mse": 0.009316098876297474,
+        "final_mse": 0.009899386204779148,
+        "affected_final_mse": 0.01091979630291462,
+        "unaffected_final_mse": 0.008878975175321102,
+        "delta_mse": 0.005868143867701292,
+        "accuracy_0.1": 0.60546875
+      }
+    },
+    {
+      "arm": "bidir",
+      "seed": 91,
+      "step": 300,
+      "split": "shift",
+      "condition": "retain",
+      "wall_seconds": 0.4647383000119589,
+      "raw_path": "E:\\rlt-research\\2026-09-16-e2e\\learning\\results\\pred-bidir-91-300-shift-retain.npz",
+      "raw_sha256": "10542aa931f7f2963981d6ff368eadf6461cbbf1c7d2f46bd0e35b9e8167ee06",
+      "metrics": {
+        "mse": 0.17010456323623657,
+        "final_mse": 0.13716059923171997,
+        "affected_final_mse": 0.16916316747665405,
+        "unaffected_final_mse": 0.10515804588794708,
+        "delta_mse": 0.1501704454421997,
+        "accuracy_0.1": 0.18359375
+      },
+      "forward_task": {
+        "mse": 0.1612071841955185,
+        "final_mse": 0.119910329580307,
+        "affected_final_mse": 0.12522470951080322,
+        "unaffected_final_mse": 0.1145959421992302,
+        "delta_mse": 0.18764135241508484,
+        "accuracy_0.1": 0.140625
+      },
+      "inverse_task": {
+        "mse": 0.17900197207927704,
+        "final_mse": 0.15441089868545532,
+        "affected_final_mse": 0.21310164034366608,
+        "unaffected_final_mse": 0.09572014957666397,
+        "delta_mse": 0.11269953846931458,
+        "accuracy_0.1": 0.2265625
+      },
+      "deep": {
+        "mse": 0.17010456323623657,
+        "final_mse": 0.13716059923171997,
+        "affected_final_mse": 0.16916316747665405,
+        "unaffected_final_mse": 0.10515804588794708,
+        "delta_mse": 0.1501704454421997,
+        "accuracy_0.1": 0.18359375
+      }
+    },
+    {
+      "arm": "bidir",
+      "seed": 91,
+      "step": 600,
+      "split": "iid",
+      "condition": "retain",
+      "wall_seconds": 0.49079120001988485,
+      "raw_path": "E:\\rlt-research\\2026-09-16-e2e\\learning\\results\\pred-bidir-91-600-iid-retain.npz",
+      "raw_sha256": "a524cd381f3ff09d0edfa98c4945e09d59a851ef7331760977dcb3a50e3936f4",
+      "metrics": {
+        "mse": 0.0032692381646484137,
+        "final_mse": 0.0040979282930493355,
+        "affected_final_mse": 0.005475684069097042,
+        "unaffected_final_mse": 0.002720172982662916,
+        "delta_mse": 0.0015574090648442507,
+        "accuracy_0.1": 0.908203125
+      },
+      "forward_task": {
+        "mse": 0.0054374267347157,
+        "final_mse": 0.007083222735673189,
+        "affected_final_mse": 0.009712554514408112,
+        "unaffected_final_mse": 0.004453891888260841,
+        "delta_mse": 0.002322907792404294,
+        "accuracy_0.1": 0.8203125
+      },
+      "inverse_task": {
+        "mse": 0.0011010491289198399,
+        "final_mse": 0.0011126340832561255,
+        "affected_final_mse": 0.0012388136237859726,
+        "unaffected_final_mse": 0.0009864545427262783,
+        "delta_mse": 0.0007919104536995292,
+        "accuracy_0.1": 0.99609375
+      },
+      "shallow": {
+        "mse": 0.0020389340352267027,
+        "final_mse": 0.0022484222427010536,
+        "affected_final_mse": 0.0025079320184886456,
+        "unaffected_final_mse": 0.0019889124669134617,
+        "delta_mse": 0.0005120902205817401,
+        "accuracy_0.1": 0.98046875
+      },
+      "deep": {
+        "mse": 0.004499542061239481,
+        "final_mse": 0.005947434343397617,
+        "affected_final_mse": 0.008443435654044151,
+        "unaffected_final_mse": 0.0034514334984123707,
+        "delta_mse": 0.002602728083729744,
+        "accuracy_0.1": 0.8359375
+      }
+    },
+    {
+      "arm": "bidir",
+      "seed": 91,
+      "step": 600,
+      "split": "iid",
+      "condition": "all",
+      "wall_seconds": 0.4935667999670841,
+      "raw_path": "E:\\rlt-research\\2026-09-16-e2e\\learning\\results\\pred-bidir-91-600-iid-all.npz",
+      "raw_sha256": "f44efba319d56a4e9641f5d83dd8319ca91aa79ba376d7987bb818743d44346e",
+      "metrics": {
+        "mse": 0.003681786125525832,
+        "final_mse": 0.004095433279871941,
+        "affected_final_mse": 0.005478010047227144,
+        "unaffected_final_mse": 0.002712856512516737,
+        "delta_mse": 0.002552325837314129,
+        "accuracy_0.1": 0.896484375
+      },
+      "forward_task": {
+        "mse": 0.006004638504236937,
+        "final_mse": 0.0071378485299646854,
+        "affected_final_mse": 0.009735107421875,
+        "unaffected_final_mse": 0.004540589638054371,
+        "delta_mse": 0.003932459279894829,
+        "accuracy_0.1": 0.796875
+      },
+      "inverse_task": {
+        "mse": 0.0013589332811534405,
+        "final_mse": 0.001053018495440483,
+        "affected_final_mse": 0.001220913021825254,
+        "unaffected_final_mse": 0.0008851238526403904,
+        "delta_mse": 0.0011721927439793944,
+        "accuracy_0.1": 0.99609375
+      },
+      "shallow": {
+        "mse": 0.0020133033394813538,
+        "final_mse": 0.0019281889544799924,
+        "affected_final_mse": 0.0022611564490944147,
+        "unaffected_final_mse": 0.001595221576280892,
+        "delta_mse": 0.0004531641025096178,
+        "accuracy_0.1": 0.9765625
+      },
+      "deep": {
+        "mse": 0.005350267980247736,
+        "final_mse": 0.006262677721679211,
+        "affected_final_mse": 0.008694862946867943,
+        "unaffected_final_mse": 0.0038304917979985476,
+        "delta_mse": 0.004651487804949284,
+        "accuracy_0.1": 0.81640625
+      }
+    },
+    {
+      "arm": "bidir",
+      "seed": 91,
+      "step": 600,
+      "split": "iid",
+      "condition": "local",
+      "wall_seconds": 0.5353910000412725,
+      "raw_path": "E:\\rlt-research\\2026-09-16-e2e\\learning\\results\\pred-bidir-91-600-iid-local.npz",
+      "raw_sha256": "cebc810748fa92fe427762eee2e4e01752721452141c25edf1809ff1afc4267f",
+      "metrics": {
+        "mse": 0.003767630783841014,
+        "final_mse": 0.00409909151494503,
+        "affected_final_mse": 0.005478010047227144,
+        "unaffected_final_mse": 0.002720172982662916,
+        "delta_mse": 0.002781790215522051,
+        "accuracy_0.1": 0.904296875
+      },
+      "forward_task": {
+        "mse": 0.006223275791853666,
+        "final_mse": 0.007094499655067921,
+        "affected_final_mse": 0.009735107421875,
+        "unaffected_final_mse": 0.004453891888260841,
+        "delta_mse": 0.004190660081803799,
+        "accuracy_0.1": 0.8125
+      },
+      "inverse_task": {
+        "mse": 0.0013119858922436833,
+        "final_mse": 0.0011036837240681052,
+        "affected_final_mse": 0.001220913021825254,
+        "unaffected_final_mse": 0.0009864545427262783,
+        "delta_mse": 0.001372920349240303,
+        "accuracy_0.1": 0.99609375
+      },
+      "shallow": {
+        "mse": 0.001981880748644471,
+        "final_mse": 0.00212503457441926,
+        "affected_final_mse": 0.0022611564490944147,
+        "unaffected_final_mse": 0.0019889124669134617,
+        "delta_mse": 0.00046029043733142316,
+        "accuracy_0.1": 0.9765625
+      },
+      "deep": {
+        "mse": 0.0055533810518682,
+        "final_mse": 0.006073148921132088,
+        "affected_final_mse": 0.008694862946867943,
+        "unaffected_final_mse": 0.0034514334984123707,
+        "delta_mse": 0.00510329008102417,
+        "accuracy_0.1": 0.83203125
+      }
+    },
+    {
+      "arm": "bidir",
+      "seed": 91,
+      "step": 600,
+      "split": "shift",
+      "condition": "retain",
+      "wall_seconds": 0.46228209999389946,
+      "raw_path": "E:\\rlt-research\\2026-09-16-e2e\\learning\\results\\pred-bidir-91-600-shift-retain.npz",
+      "raw_sha256": "abd507683bd04aa120553eaf8b136cf90efb53042e5a60235c8efa2e74da9d29",
+      "metrics": {
+        "mse": 0.19350838661193848,
+        "final_mse": 0.16870322823524475,
+        "affected_final_mse": 0.19947153329849243,
+        "unaffected_final_mse": 0.13793492317199707,
+        "delta_mse": 0.13156276941299438,
+        "accuracy_0.1": 0.197265625
+      },
+      "forward_task": {
+        "mse": 0.19926540553569794,
+        "final_mse": 0.17119795083999634,
+        "affected_final_mse": 0.18415817618370056,
+        "unaffected_final_mse": 0.15823772549629211,
+        "delta_mse": 0.15823355317115784,
+        "accuracy_0.1": 0.15234375
+      },
+      "inverse_task": {
+        "mse": 0.1877514123916626,
+        "final_mse": 0.16620850563049316,
+        "affected_final_mse": 0.21478486061096191,
+        "unaffected_final_mse": 0.11763213574886322,
+        "delta_mse": 0.10489197820425034,
+        "accuracy_0.1": 0.2421875
+      },
+      "deep": {
+        "mse": 0.19350838661193848,
+        "final_mse": 0.16870322823524475,
+        "affected_final_mse": 0.19947153329849243,
+        "unaffected_final_mse": 0.13793492317199707,
+        "delta_mse": 0.13156276941299438,
+        "accuracy_0.1": 0.197265625
+      }
+    },
+    {
+      "arm": "bidir",
+      "seed": 91,
+      "step": 600,
+      "split": "shift",
+      "condition": "all",
+      "wall_seconds": 0.44520010001724586,
+      "raw_path": "E:\\rlt-research\\2026-09-16-e2e\\learning\\results\\pred-bidir-91-600-shift-all.npz",
+      "raw_sha256": "a2a8438190195fe585b541a37cd5274e7e73670091b4cad0888175fca13e084d",
+      "metrics": {
+        "mse": 0.21242235600948334,
+        "final_mse": 0.15585681796073914,
+        "affected_final_mse": 0.19124621152877808,
+        "unaffected_final_mse": 0.1204674243927002,
+        "delta_mse": 0.09971663355827332,
+        "accuracy_0.1": 0.201171875
+      },
+      "forward_task": {
+        "mse": 0.21464359760284424,
+        "final_mse": 0.16051936149597168,
+        "affected_final_mse": 0.18465138971805573,
+        "unaffected_final_mse": 0.13638731837272644,
+        "delta_mse": 0.11768736690282822,
+        "accuracy_0.1": 0.14453125
+      },
+      "inverse_task": {
+        "mse": 0.21020112931728363,
+        "final_mse": 0.1511942744255066,
+        "affected_final_mse": 0.19784103333950043,
+        "unaffected_final_mse": 0.10454751551151276,
+        "delta_mse": 0.08174590766429901,
+        "accuracy_0.1": 0.2578125
+      },
+      "deep": {
+        "mse": 0.21242235600948334,
+        "final_mse": 0.15585681796073914,
+        "affected_final_mse": 0.19124621152877808,
+        "unaffected_final_mse": 0.1204674243927002,
+        "delta_mse": 0.09971663355827332,
+        "accuracy_0.1": 0.201171875
+      }
+    },
+    {
+      "arm": "bidir",
+      "seed": 91,
+      "step": 600,
+      "split": "shift",
+      "condition": "local",
+      "wall_seconds": 0.47477149998303503,
+      "raw_path": "E:\\rlt-research\\2026-09-16-e2e\\learning\\results\\pred-bidir-91-600-shift-local.npz",
+      "raw_sha256": "72531ce52cc7122d1d554ccad9b39aa7e6ae0f30cf24c7820c5c027c7152e838",
+      "metrics": {
+        "mse": 0.2045390009880066,
+        "final_mse": 0.16459056735038757,
+        "affected_final_mse": 0.19124621152877808,
+        "unaffected_final_mse": 0.13793492317199707,
+        "delta_mse": 0.11856609582901001,
+        "accuracy_0.1": 0.201171875
+      },
+      "forward_task": {
+        "mse": 0.21099412441253662,
+        "final_mse": 0.17144456505775452,
+        "affected_final_mse": 0.18465138971805573,
+        "unaffected_final_mse": 0.15823772549629211,
+        "delta_mse": 0.14540788531303406,
+        "accuracy_0.1": 0.1484375
+      },
+      "inverse_task": {
+        "mse": 0.19808387756347656,
+        "final_mse": 0.15773656964302063,
+        "affected_final_mse": 0.19784103333950043,
+        "unaffected_final_mse": 0.11763213574886322,
+        "delta_mse": 0.09172432124614716,
+        "accuracy_0.1": 0.25390625
+      },
+      "deep": {
+        "mse": 0.2045390009880066,
+        "final_mse": 0.16459056735038757,
+        "affected_final_mse": 0.19124621152877808,
+        "unaffected_final_mse": 0.13793492317199707,
+        "delta_mse": 0.11856609582901001,
+        "accuracy_0.1": 0.201171875
+      }
+    },
+    {
+      "arm": "wrong",
+      "seed": 91,
+      "step": 600,
+      "split": "iid",
+      "condition": "retain",
+      "wall_seconds": 0.45320230000652373,
+      "raw_path": "E:\\rlt-research\\2026-09-16-e2e\\learning\\results\\pred-wrong-91-600-iid-retain.npz",
+      "raw_sha256": "3fdf271324b716ee2550aed2ab3a66d184874e97b668f7b794c93c3558202def",
+      "metrics": {
+        "mse": 0.24896226823329926,
+        "final_mse": 0.2828472852706909,
+        "affected_final_mse": 0.2617548704147339,
+        "unaffected_final_mse": 0.30393967032432556,
+        "delta_mse": 0.10404185950756073,
+        "accuracy_0.1": 0.16015625
+      },
+      "forward_task": {
+        "mse": 0.23703455924987793,
+        "final_mse": 0.27423304319381714,
+        "affected_final_mse": 0.2701306939125061,
+        "unaffected_final_mse": 0.2783353328704834,
+        "delta_mse": 0.10796335339546204,
+        "accuracy_0.1": 0.1484375
+      },
+      "inverse_task": {
+        "mse": 0.26089000701904297,
+        "final_mse": 0.2914615273475647,
+        "affected_final_mse": 0.25337904691696167,
+        "unaffected_final_mse": 0.3295440077781677,
+        "delta_mse": 0.10012036561965942,
+        "accuracy_0.1": 0.171875
+      },
+      "shallow": {
+        "mse": 0.18560485541820526,
+        "final_mse": 0.21317186951637268,
+        "affected_final_mse": 0.1552143096923828,
+        "unaffected_final_mse": 0.27112942934036255,
+        "delta_mse": 0.0929458886384964,
+        "accuracy_0.1": 0.19921875
+      },
+      "deep": {
+        "mse": 0.31231972575187683,
+        "final_mse": 0.35252270102500916,
+        "affected_final_mse": 0.36829543113708496,
+        "unaffected_final_mse": 0.33674994111061096,
+        "delta_mse": 0.11513783037662506,
+        "accuracy_0.1": 0.12109375
+      }
+    },
+    {
+      "arm": "wrong",
+      "seed": 91,
+      "step": 600,
+      "split": "shift",
+      "condition": "retain",
+      "wall_seconds": 0.4630634000059217,
+      "raw_path": "E:\\rlt-research\\2026-09-16-e2e\\learning\\results\\pred-wrong-91-600-shift-retain.npz",
+      "raw_sha256": "521c5638857d2bfc43a63cfdf380fbba1f36be4f69768e9a114b865b44117eff",
+      "metrics": {
+        "mse": 0.3521924316883087,
+        "final_mse": 0.38233649730682373,
+        "affected_final_mse": 0.3532125651836395,
+        "unaffected_final_mse": 0.41146042943000793,
+        "delta_mse": 0.09782720357179642,
+        "accuracy_0.1": 0.115234375
+      },
+      "forward_task": {
+        "mse": 0.35995805263519287,
+        "final_mse": 0.3996666669845581,
+        "affected_final_mse": 0.33848318457603455,
+        "unaffected_final_mse": 0.4608501195907593,
+        "delta_mse": 0.09584660828113556,
+        "accuracy_0.1": 0.10546875
+      },
+      "inverse_task": {
+        "mse": 0.3444267809391022,
+        "final_mse": 0.36500632762908936,
+        "affected_final_mse": 0.3679419755935669,
+        "unaffected_final_mse": 0.3620707392692566,
+        "delta_mse": 0.09980779886245728,
+        "accuracy_0.1": 0.125
+      },
+      "deep": {
+        "mse": 0.3521924316883087,
+        "final_mse": 0.38233649730682373,
+        "affected_final_mse": 0.3532125651836395,
+        "unaffected_final_mse": 0.41146042943000793,
+        "delta_mse": 0.09782720357179642,
+        "accuracy_0.1": 0.115234375
+      }
+    },
+    {
+      "arm": "flat",
+      "seed": 91,
+      "step": 600,
+      "split": "iid",
+      "condition": "retain",
+      "wall_seconds": 0.5285445999470539,
+      "raw_path": "E:\\rlt-research\\2026-09-16-e2e\\learning\\results\\pred-flat-91-600-iid-retain.npz",
+      "raw_sha256": "e577c5608c83f4a4019b565dc6843cb653a43704900fdcce5a62990552f0862b",
+      "metrics": {
+        "mse": 0.22892095148563385,
+        "final_mse": 0.25730547308921814,
+        "affected_final_mse": 0.2745319604873657,
+        "unaffected_final_mse": 0.24007901549339294,
+        "delta_mse": 0.08549197018146515,
+        "accuracy_0.1": 0.150390625
+      },
+      "forward_task": {
+        "mse": 0.21723948419094086,
+        "final_mse": 0.24939166009426117,
+        "affected_final_mse": 0.2733619809150696,
+        "unaffected_final_mse": 0.22542133927345276,
+        "delta_mse": 0.08828170597553253,
+        "accuracy_0.1": 0.16796875
+      },
+      "inverse_task": {
+        "mse": 0.24060243368148804,
+        "final_mse": 0.2652193009853363,
+        "affected_final_mse": 0.2757019102573395,
+        "unaffected_final_mse": 0.25473669171333313,
+        "delta_mse": 0.08270223438739777,
+        "accuracy_0.1": 0.1328125
+      },
+      "shallow": {
+        "mse": 0.16021175682544708,
+        "final_mse": 0.18533232808113098,
+        "affected_final_mse": 0.17353545129299164,
+        "unaffected_final_mse": 0.19712921977043152,
+        "delta_mse": 0.08171270787715912,
+        "accuracy_0.1": 0.16796875
+      },
+      "deep": {
+        "mse": 0.2976301610469818,
+        "final_mse": 0.3292786180973053,
+        "affected_final_mse": 0.3755284547805786,
+        "unaffected_final_mse": 0.283028781414032,
+        "delta_mse": 0.08927124738693237,
+        "accuracy_0.1": 0.1328125
+      }
+    },
+    {
+      "arm": "flat",
+      "seed": 91,
+      "step": 600,
+      "split": "shift",
+      "condition": "retain",
+      "wall_seconds": 0.48739670001668856,
+      "raw_path": "E:\\rlt-research\\2026-09-16-e2e\\learning\\results\\pred-flat-91-600-shift-retain.npz",
+      "raw_sha256": "a4e7eaa1bec02d67b974ee69628fa86e290c8eaae9df0fc653493637d2659d31",
+      "metrics": {
+        "mse": 0.3387031853199005,
+        "final_mse": 0.36465099453926086,
+        "affected_final_mse": 0.379655122756958,
+        "unaffected_final_mse": 0.3496468663215637,
+        "delta_mse": 0.08407719433307648,
+        "accuracy_0.1": 0.1328125
+      },
+      "forward_task": {
+        "mse": 0.34431251883506775,
+        "final_mse": 0.3769550323486328,
+        "affected_final_mse": 0.3487144112586975,
+        "unaffected_final_mse": 0.4051956534385681,
+        "delta_mse": 0.08331744372844696,
+        "accuracy_0.1": 0.125
+      },
+      "inverse_task": {
+        "mse": 0.33309388160705566,
+        "final_mse": 0.3523469567298889,
+        "affected_final_mse": 0.4105958640575409,
+        "unaffected_final_mse": 0.29409804940223694,
+        "delta_mse": 0.084836944937706,
+        "accuracy_0.1": 0.140625
+      },
+      "deep": {
+        "mse": 0.3387031853199005,
+        "final_mse": 0.36465099453926086,
+        "affected_final_mse": 0.379655122756958,
+        "unaffected_final_mse": 0.3496468663215637,
+        "delta_mse": 0.08407719433307648,
+        "accuracy_0.1": 0.1328125
+      }
+    },
+    {
+      "arm": "feedback",
+      "seed": 91,
+      "step": 600,
+      "split": "iid",
+      "condition": "retain",
+      "wall_seconds": 0.459754100011196,
+      "raw_path": "E:\\rlt-research\\2026-09-16-e2e\\learning\\results\\pred-feedback-91-600-iid-retain.npz",
+      "raw_sha256": "d5abf87a619ba0bcac68f93215a14c1e8d88161d33ec38e968531ebaa8bde295",
+      "metrics": {
+        "mse": 0.0032721811439841986,
+        "final_mse": 0.004101630300283432,
+        "affected_final_mse": 0.005481317639350891,
+        "unaffected_final_mse": 0.0027219427283853292,
+        "delta_mse": 0.0015585629735141993,
+        "accuracy_0.1": 0.908203125
+      },
+      "forward_task": {
+        "mse": 0.0054428428411483765,
+        "final_mse": 0.0070905787870287895,
+        "affected_final_mse": 0.009724278002977371,
+        "unaffected_final_mse": 0.004456879571080208,
+        "delta_mse": 0.0023251627571880817,
+        "accuracy_0.1": 0.8203125
+      },
+      "inverse_task": {
+        "mse": 0.0011015193304046988,
+        "final_mse": 0.0011126813478767872,
+        "affected_final_mse": 0.0012383575085550547,
+        "unaffected_final_mse": 0.0009870051871985197,
+        "delta_mse": 0.000791963015217334,
+        "accuracy_0.1": 0.99609375
+      },
+      "shallow": {
+        "mse": 0.0020442830864340067,
+        "final_mse": 0.002253230893984437,
+        "affected_final_mse": 0.0025128708221018314,
+        "unaffected_final_mse": 0.001993591198697686,
+        "delta_mse": 0.0005132071673870087,
+        "accuracy_0.1": 0.98046875
+      },
+      "deep": {
+        "mse": 0.004500078968703747,
+        "final_mse": 0.005950029008090496,
+        "affected_final_mse": 0.008449764922261238,
+        "unaffected_final_mse": 0.0034502935595810413,
+        "delta_mse": 0.00260391877964139,
+        "accuracy_0.1": 0.8359375
+      }
+    },
+    {
+      "arm": "feedback",
+      "seed": 91,
+      "step": 600,
+      "split": "iid",
+      "condition": "zero",
+      "wall_seconds": 0.5129963000072166,
+      "raw_path": "E:\\rlt-research\\2026-09-16-e2e\\learning\\results\\pred-feedback-91-600-iid-zero.npz",
+      "raw_sha256": "fb4beef6c76e2c8d424837dd86158d248d951067f0c40b7a3836cf822ab97ae5",
+      "metrics": {
+        "mse": 0.0032727390062063932,
+        "final_mse": 0.004102636594325304,
+        "affected_final_mse": 0.005482979118824005,
+        "unaffected_final_mse": 0.0027222936041653156,
+        "delta_mse": 0.0015587505185976624,
+        "accuracy_0.1": 0.908203125
+      },
+      "forward_task": {
+        "mse": 0.005443837493658066,
+        "final_mse": 0.007092528976500034,
+        "affected_final_mse": 0.009727835655212402,
+        "unaffected_final_mse": 0.004457222297787666,
+        "delta_mse": 0.0023255886044353247,
+        "accuracy_0.1": 0.8203125
+      },
+      "inverse_task": {
+        "mse": 0.001101639703847468,
+        "final_mse": 0.0011127436300739646,
+        "affected_final_mse": 0.0012381223496049643,
+        "unaffected_final_mse": 0.0009873646777123213,
+        "delta_mse": 0.0007919123163446784,
+        "accuracy_0.1": 0.99609375
+      },
+      "shallow": {
+        "mse": 0.0020448637660592794,
+        "final_mse": 0.00225418945774436,
+        "affected_final_mse": 0.0025139383506029844,
+        "unaffected_final_mse": 0.001994440332055092,
+        "delta_mse": 0.0005132461665198207,
+        "accuracy_0.1": 0.98046875
+      },
+      "deep": {
+        "mse": 0.004500614013522863,
+        "final_mse": 0.005951083730906248,
+        "affected_final_mse": 0.008452020585536957,
+        "unaffected_final_mse": 0.0034501468762755394,
+        "delta_mse": 0.0026042547542601824,
+        "accuracy_0.1": 0.8359375
+      }
+    },
+    {
+      "arm": "feedback",
+      "seed": 91,
+      "step": 600,
+      "split": "iid",
+      "condition": "permute",
+      "wall_seconds": 0.4470564000075683,
+      "raw_path": "E:\\rlt-research\\2026-09-16-e2e\\learning\\results\\pred-feedback-91-600-iid-permute.npz",
+      "raw_sha256": "9d3432984b8aea65d821772a927459f3f51242b10bb8a8dc45c0f0c4880cc58e",
+      "metrics": {
+        "mse": 0.0032724931370466948,
+        "final_mse": 0.004102270118892193,
+        "affected_final_mse": 0.005482382141053677,
+        "unaffected_final_mse": 0.0027221585623919964,
+        "delta_mse": 0.0015587727539241314,
+        "accuracy_0.1": 0.908203125
+      },
+      "forward_task": {
+        "mse": 0.005443532019853592,
+        "final_mse": 0.007092076353728771,
+        "affected_final_mse": 0.009727039374411106,
+        "unaffected_final_mse": 0.004457114264369011,
+        "delta_mse": 0.002325651468709111,
+        "accuracy_0.1": 0.8203125
+      },
+      "inverse_task": {
+        "mse": 0.001101454021409154,
+        "final_mse": 0.0011124638840556145,
+        "affected_final_mse": 0.0012377246748656034,
+        "unaffected_final_mse": 0.0009872032096609473,
+        "delta_mse": 0.0007918941555544734,
+        "accuracy_0.1": 0.99609375
+      },
+      "shallow": {
+        "mse": 0.0020446758717298508,
+        "final_mse": 0.0022539773490279913,
+        "affected_final_mse": 0.0025134601164609194,
+        "unaffected_final_mse": 0.001994494814425707,
+        "delta_mse": 0.0005132727092131972,
+        "accuracy_0.1": 0.98046875
+      },
+      "deep": {
+        "mse": 0.0045003099367022514,
+        "final_mse": 0.005950563587248325,
+        "affected_final_mse": 0.008451304398477077,
+        "unaffected_final_mse": 0.0034498225431889296,
+        "delta_mse": 0.0026042729150503874,
+        "accuracy_0.1": 0.8359375
+      }
+    },
+    {
+      "arm": "feedback",
+      "seed": 91,
+      "step": 600,
+      "split": "shift",
+      "condition": "retain",
+      "wall_seconds": 0.45733610005117953,
+      "raw_path": "E:\\rlt-research\\2026-09-16-e2e\\learning\\results\\pred-feedback-91-600-shift-retain.npz",
+      "raw_sha256": "b4abad696e8466796adc765b8bafeea23f408bd741e0082720f105bb0f9b0fd1",
+      "metrics": {
+        "mse": 0.1935172826051712,
+        "final_mse": 0.16871562600135803,
+        "affected_final_mse": 0.19950874149799347,
+        "unaffected_final_mse": 0.1379224956035614,
+        "delta_mse": 0.13152679800987244,
+        "accuracy_0.1": 0.1953125
+      },
+      "forward_task": {
+        "mse": 0.19929127395153046,
+        "final_mse": 0.17123329639434814,
+        "affected_final_mse": 0.18423518538475037,
+        "unaffected_final_mse": 0.15823139250278473,
+        "delta_mse": 0.15817110240459442,
+        "accuracy_0.1": 0.15234375
+      },
+      "inverse_task": {
+        "mse": 0.18774329125881195,
+        "final_mse": 0.16619795560836792,
+        "affected_final_mse": 0.21478229761123657,
+        "unaffected_final_mse": 0.11761359870433807,
+        "delta_mse": 0.10488250106573105,
+        "accuracy_0.1": 0.23828125
+      },
+      "deep": {
+        "mse": 0.1935172826051712,
+        "final_mse": 0.16871562600135803,
+        "affected_final_mse": 0.19950874149799347,
+        "unaffected_final_mse": 0.1379224956035614,
+        "delta_mse": 0.13152679800987244,
+        "accuracy_0.1": 0.1953125
+      }
+    },
+    {
+      "arm": "feedback",
+      "seed": 91,
+      "step": 600,
+      "split": "shift",
+      "condition": "zero",
+      "wall_seconds": 0.4552976000122726,
+      "raw_path": "E:\\rlt-research\\2026-09-16-e2e\\learning\\results\\pred-feedback-91-600-shift-zero.npz",
+      "raw_sha256": "4891c928e1a6a85bae35679fba91ec854d820e6a46978bea39ce5526d69be6df",
+      "metrics": {
+        "mse": 0.19351826608181,
+        "final_mse": 0.16871830821037292,
+        "affected_final_mse": 0.19951315224170685,
+        "unaffected_final_mse": 0.1379234790802002,
+        "delta_mse": 0.13152655959129333,
+        "accuracy_0.1": 0.1953125
+      },
+      "forward_task": {
+        "mse": 0.1992933303117752,
+        "final_mse": 0.1712365746498108,
+        "affected_final_mse": 0.18424025177955627,
+        "unaffected_final_mse": 0.15823286771774292,
+        "delta_mse": 0.15817195177078247,
+        "accuracy_0.1": 0.15234375
+      },
+      "inverse_task": {
+        "mse": 0.1877431869506836,
+        "final_mse": 0.16620004177093506,
+        "affected_final_mse": 0.21478605270385742,
+        "unaffected_final_mse": 0.11761404573917389,
+        "delta_mse": 0.104881152510643,
+        "accuracy_0.1": 0.23828125
+      },
+      "deep": {
+        "mse": 0.19351826608181,
+        "final_mse": 0.16871830821037292,
+        "affected_final_mse": 0.19951315224170685,
+        "unaffected_final_mse": 0.1379234790802002,
+        "delta_mse": 0.13152655959129333,
+        "accuracy_0.1": 0.1953125
+      }
+    },
+    {
+      "arm": "feedback",
+      "seed": 91,
+      "step": 600,
+      "split": "shift",
+      "condition": "permute",
+      "wall_seconds": 0.49635359999956563,
+      "raw_path": "E:\\rlt-research\\2026-09-16-e2e\\learning\\results\\pred-feedback-91-600-shift-permute.npz",
+      "raw_sha256": "bf35f658393ac7bd3b1106cd27eaba150bee3bc1c6e236759ee61d9c76b27cb1",
+      "metrics": {
+        "mse": 0.19351749122142792,
+        "final_mse": 0.16871649026870728,
+        "affected_final_mse": 0.1995108425617218,
+        "unaffected_final_mse": 0.13792216777801514,
+        "delta_mse": 0.13152697682380676,
+        "accuracy_0.1": 0.197265625
+      },
+      "forward_task": {
+        "mse": 0.1992897391319275,
+        "final_mse": 0.17123037576675415,
+        "affected_final_mse": 0.18423254787921906,
+        "unaffected_final_mse": 0.15822818875312805,
+        "delta_mse": 0.1581709384918213,
+        "accuracy_0.1": 0.15625
+      },
+      "inverse_task": {
+        "mse": 0.18774525821208954,
+        "final_mse": 0.1662026345729828,
+        "affected_final_mse": 0.21478912234306335,
+        "unaffected_final_mse": 0.11761613190174103,
+        "delta_mse": 0.10488298535346985,
+        "accuracy_0.1": 0.23828125
+      },
+      "deep": {
+        "mse": 0.19351749122142792,
+        "final_mse": 0.16871649026870728,
+        "affected_final_mse": 0.1995108425617218,
+        "unaffected_final_mse": 0.13792216777801514,
+        "delta_mse": 0.13152697682380676,
+        "accuracy_0.1": 0.197265625
+      }
+    },
+    {
+      "arm": "method",
+      "seed": 91,
+      "step": 150,
+      "split": "iid",
+      "condition": "retain",
+      "wall_seconds": 0.5151492999866605,
+      "raw_path": "E:\\rlt-research\\2026-09-16-e2e\\learning\\results\\pred-method-91-150-iid-retain.npz",
+      "raw_sha256": "8ffe3d31d58efe89b105e33b941368610190e37ce7303ba86f553f629f0f9b3b",
+      "metrics": {
+        "mse": 0.007933154702186584,
+        "final_mse": 0.008565976284444332,
+        "affected_final_mse": 0.012071885168552399,
+        "unaffected_final_mse": 0.0050600674003362656,
+        "delta_mse": 0.009087149985134602,
+        "accuracy_0.1": 0.8125
+      },
+      "forward_task": {
+        "mse": 0.010366455651819706,
+        "final_mse": 0.012193495407700539,
+        "affected_final_mse": 0.017511604353785515,
+        "unaffected_final_mse": 0.006875384598970413,
+        "delta_mse": 0.011728465557098389,
+        "accuracy_0.1": 0.71875
+      },
+      "inverse_task": {
+        "mse": 0.00549985421821475,
+        "final_mse": 0.004938457626849413,
+        "affected_final_mse": 0.0066321659833192825,
+        "unaffected_final_mse": 0.0032447492703795433,
+        "delta_mse": 0.0064458344131708145,
+        "accuracy_0.1": 0.90625
+      },
+      "shallow": {
+        "mse": 0.0038002950605005026,
+        "final_mse": 0.004247643519192934,
+        "affected_final_mse": 0.004493227228522301,
+        "unaffected_final_mse": 0.00400205934420228,
+        "delta_mse": 0.002319874707609415,
+        "accuracy_0.1": 0.890625
+      },
+      "deep": {
+        "mse": 0.012066014111042023,
+        "final_mse": 0.012884309515357018,
+        "affected_final_mse": 0.019650543108582497,
+        "unaffected_final_mse": 0.006118074990808964,
+        "delta_mse": 0.015854425728321075,
+        "accuracy_0.1": 0.734375
+      }
+    },
+    {
+      "arm": "method",
+      "seed": 91,
+      "step": 150,
+      "split": "shift",
+      "condition": "retain",
+      "wall_seconds": 0.4335113999550231,
+      "raw_path": "E:\\rlt-research\\2026-09-16-e2e\\learning\\results\\pred-method-91-150-shift-retain.npz",
+      "raw_sha256": "c5ba361be9b3b471382de2fd0ce59a1fdec2dfbdae09e0b543ee2e1e555aa0c2",
+      "metrics": {
+        "mse": 0.14219193160533905,
+        "final_mse": 0.11155084520578384,
+        "affected_final_mse": 0.14859908819198608,
+        "unaffected_final_mse": 0.07450259476900101,
+        "delta_mse": 0.12508609890937805,
+        "accuracy_0.1": 0.287109375
+      },
+      "forward_task": {
+        "mse": 0.07163026928901672,
+        "final_mse": 0.030419442802667618,
+        "affected_final_mse": 0.03673902526497841,
+        "unaffected_final_mse": 0.02409985661506653,
+        "delta_mse": 0.12946099042892456,
+        "accuracy_0.1": 0.421875
+      },
+      "inverse_task": {
+        "mse": 0.21275360882282257,
+        "final_mse": 0.19268223643302917,
+        "affected_final_mse": 0.26045915484428406,
+        "unaffected_final_mse": 0.12490533292293549,
+        "delta_mse": 0.12071122229099274,
+        "accuracy_0.1": 0.15234375
+      },
+      "deep": {
+        "mse": 0.14219193160533905,
+        "final_mse": 0.11155084520578384,
+        "affected_final_mse": 0.14859908819198608,
+        "unaffected_final_mse": 0.07450259476900101,
+        "delta_mse": 0.12508609890937805,
+        "accuracy_0.1": 0.287109375
+      }
+    },
+    {
+      "arm": "method",
+      "seed": 91,
+      "step": 300,
+      "split": "iid",
+      "condition": "retain",
+      "wall_seconds": 0.4738668999634683,
+      "raw_path": "E:\\rlt-research\\2026-09-16-e2e\\learning\\results\\pred-method-91-300-iid-retain.npz",
+      "raw_sha256": "7dc16c360cbfce509938e6609997b09277962369f45c03ea81c03e2d6f20cd6a",
+      "metrics": {
+        "mse": 0.0024880412966012955,
+        "final_mse": 0.0025966810062527657,
+        "affected_final_mse": 0.004159799311310053,
+        "unaffected_final_mse": 0.0010335624683648348,
+        "delta_mse": 0.0031999521888792515,
+        "accuracy_0.1": 0.955078125
+      },
+      "forward_task": {
+        "mse": 0.0029073513578623533,
+        "final_mse": 0.002707017119973898,
+        "affected_final_mse": 0.004025953821837902,
+        "unaffected_final_mse": 0.001388080883771181,
+        "delta_mse": 0.0033161379396915436,
+        "accuracy_0.1": 0.953125
+      },
+      "inverse_task": {
+        "mse": 0.0020687314681708813,
+        "final_mse": 0.002486344426870346,
+        "affected_final_mse": 0.004293644800782204,
+        "unaffected_final_mse": 0.0006790441111661494,
+        "delta_mse": 0.0030837664380669594,
+        "accuracy_0.1": 0.95703125
+      },
+      "shallow": {
+        "mse": 0.0013861829647794366,
+        "final_mse": 0.0013607770670205355,
+        "affected_final_mse": 0.0015065030893310905,
+        "unaffected_final_mse": 0.0012150512775406241,
+        "delta_mse": 0.0007937259506434202,
+        "accuracy_0.1": 0.984375
+      },
+      "deep": {
+        "mse": 0.00358989997766912,
+        "final_mse": 0.0038325844798237085,
+        "affected_final_mse": 0.0068130954168736935,
+        "unaffected_final_mse": 0.0008520736591890454,
+        "delta_mse": 0.005606178194284439,
+        "accuracy_0.1": 0.92578125
+      }
+    },
+    {
+      "arm": "method",
+      "seed": 91,
+      "step": 300,
+      "split": "shift",
+      "condition": "retain",
+      "wall_seconds": 0.45927260001190007,
+      "raw_path": "E:\\rlt-research\\2026-09-16-e2e\\learning\\results\\pred-method-91-300-shift-retain.npz",
+      "raw_sha256": "64bc0a342b841dc40716d480aededce5b8f57d4afe76291afcfb42e7aa78aee1",
+      "metrics": {
+        "mse": 0.12693603336811066,
+        "final_mse": 0.11147037148475647,
+        "affected_final_mse": 0.15589648485183716,
+        "unaffected_final_mse": 0.06704426556825638,
+        "delta_mse": 0.07949724793434143,
+        "accuracy_0.1": 0.5078125
+      },
+      "forward_task": {
+        "mse": 0.026661910116672516,
+        "final_mse": 0.0054573677480220795,
+        "affected_final_mse": 0.008399791084229946,
+        "unaffected_final_mse": 0.002514944178983569,
+        "delta_mse": 0.039398081600666046,
+        "accuracy_0.1": 0.859375
+      },
+      "inverse_task": {
+        "mse": 0.2272101640701294,
+        "final_mse": 0.21748337149620056,
+        "affected_final_mse": 0.3033931851387024,
+        "unaffected_final_mse": 0.13157358765602112,
+        "delta_mse": 0.11959642171859741,
+        "accuracy_0.1": 0.15625
+      },
+      "deep": {
+        "mse": 0.12693603336811066,
+        "final_mse": 0.11147037148475647,
+        "affected_final_mse": 0.15589648485183716,
+        "unaffected_final_mse": 0.06704426556825638,
+        "delta_mse": 0.07949724793434143,
+        "accuracy_0.1": 0.5078125
+      }
+    },
+    {
+      "arm": "method",
+      "seed": 91,
+      "step": 600,
+      "split": "iid",
+      "condition": "retain",
+      "wall_seconds": 0.484124900016468,
+      "raw_path": "E:\\rlt-research\\2026-09-16-e2e\\learning\\results\\pred-method-91-600-iid-retain.npz",
+      "raw_sha256": "b01f90bb85bdcd95a847e0e4768b1146e771c54e02fd781eac4fd3972a3a56e2",
+      "metrics": {
+        "mse": 0.0014913097256794572,
+        "final_mse": 0.001536431023851037,
+        "affected_final_mse": 0.002131021348759532,
+        "unaffected_final_mse": 0.0009418405825272202,
+        "delta_mse": 0.0011190318036824465,
+        "accuracy_0.1": 0.98828125
+      },
+      "forward_task": {
+        "mse": 0.001730128307826817,
+        "final_mse": 0.0016482890350744128,
+        "affected_final_mse": 0.002335086464881897,
+        "unaffected_final_mse": 0.0009614915470592678,
+        "delta_mse": 0.0009253718890249729,
+        "accuracy_0.1": 0.98828125
+      },
+      "inverse_task": {
+        "mse": 0.0012524911435320973,
+        "final_mse": 0.0014245730126276612,
+        "affected_final_mse": 0.0019269563490524888,
+        "unaffected_final_mse": 0.0009221896179951727,
+        "delta_mse": 0.0013126919511705637,
+        "accuracy_0.1": 0.98828125
+      },
+      "shallow": {
+        "mse": 0.0009303002734668553,
+        "final_mse": 0.000989690888673067,
+        "affected_final_mse": 0.001123412512242794,
+        "unaffected_final_mse": 0.0008559694979339838,
+        "delta_mse": 0.00039301704964600503,
+        "accuracy_0.1": 1.0
+      },
+      "deep": {
+        "mse": 0.00205231923609972,
+        "final_mse": 0.002083171159029007,
+        "affected_final_mse": 0.0031386304181069136,
+        "unaffected_final_mse": 0.0010277116671204567,
+        "delta_mse": 0.0018450466450303793,
+        "accuracy_0.1": 0.9765625
+      }
+    },
+    {
+      "arm": "method",
+      "seed": 91,
+      "step": 600,
+      "split": "shift",
+      "condition": "retain",
+      "wall_seconds": 0.4594194999663159,
+      "raw_path": "E:\\rlt-research\\2026-09-16-e2e\\learning\\results\\pred-method-91-600-shift-retain.npz",
+      "raw_sha256": "341422d2c5346bfec022cb350c43745d441d6629275c510d1e28b5a336e2e02a",
+      "metrics": {
+        "mse": 0.12663675844669342,
+        "final_mse": 0.12608419358730316,
+        "affected_final_mse": 0.1727639138698578,
+        "unaffected_final_mse": 0.07940448820590973,
+        "delta_mse": 0.06198834627866745,
+        "accuracy_0.1": 0.53515625
+      },
+      "forward_task": {
+        "mse": 0.007671348750591278,
+        "final_mse": 0.0031419319566339254,
+        "affected_final_mse": 0.004726443439722061,
+        "unaffected_final_mse": 0.0015574204735457897,
+        "delta_mse": 0.019204281270503998,
+        "accuracy_0.1": 0.9140625
+      },
+      "inverse_task": {
+        "mse": 0.24560217559337616,
+        "final_mse": 0.24902646243572235,
+        "affected_final_mse": 0.3408013582229614,
+        "unaffected_final_mse": 0.15725156664848328,
+        "delta_mse": 0.1047724038362503,
+        "accuracy_0.1": 0.15625
+      },
+      "deep": {
+        "mse": 0.12663675844669342,
+        "final_mse": 0.12608419358730316,
+        "affected_final_mse": 0.1727639138698578,
+        "unaffected_final_mse": 0.07940448820590973,
+        "delta_mse": 0.06198834627866745,
+        "accuracy_0.1": 0.53515625
+      }
+    }
+  ],
+  "revision_selection": {
+    "17": {
+      "radius": 1,
+      "candidates": [
+        {
+          "radius": 1,
+          "metrics": {
+            "mse": 0.0016033375868573785,
+            "final_mse": 0.001166248694062233,
+            "affected_final_mse": 0.001504864078015089,
+            "unaffected_final_mse": 0.0008276334265246987,
+            "delta_mse": 0.002442730823531747,
+            "accuracy_0.1": 0.986328125
+          },
+          "gate": {
+            "pass": true,
+            "affected_change": -0.00027868570759892464,
+            "unaffected_final_change": 0.0,
+            "tolerance": 0.01
+          }
+        },
+        {
+          "radius": 2,
+          "metrics": {
+            "mse": 0.0014573232037946582,
+            "final_mse": 0.001241322373971343,
+            "affected_final_mse": 0.0016550114378333092,
+            "unaffected_final_mse": 0.0008276334265246987,
+            "delta_mse": 0.001546315266750753,
+            "accuracy_0.1": 0.986328125
+          },
+          "gate": {
+            "pass": true,
+            "affected_change": -0.0001285383477807045,
+            "unaffected_final_change": 0.0,
+            "tolerance": 0.01
+          }
+        },
+        {
+          "radius": 6,
+          "metrics": {
+            "mse": 0.0015043109888210893,
+            "final_mse": 0.0013812019024044275,
+            "affected_final_mse": 0.0019347704946994781,
+            "unaffected_final_mse": 0.0008276334265246987,
+            "delta_mse": 0.0013204902643337846,
+            "accuracy_0.1": 0.982421875
+          },
+          "gate": {
+            "pass": false,
+            "affected_change": 0.00015122070908546448,
+            "unaffected_final_change": 0.0,
+            "tolerance": 0.01
+          }
+        }
+      ]
+    },
+    "43": {
+      "radius": 2,
+      "candidates": [
+        {
+          "radius": 1,
+          "metrics": {
+            "mse": 0.0014394487952813506,
+            "final_mse": 0.0010879880283027887,
+            "affected_final_mse": 0.0013506247196346521,
+            "unaffected_final_mse": 0.0008253512787632644,
+            "delta_mse": 0.0015336540527641773,
+            "accuracy_0.1": 0.99609375
+          },
+          "gate": {
+            "pass": true,
+            "affected_change": -7.834983989596367e-06,
+            "unaffected_final_change": 0.0,
+            "tolerance": 0.01
+          }
+        },
+        {
+          "radius": 2,
+          "metrics": {
+            "mse": 0.0012716585770249367,
+            "final_mse": 0.0010580032831057906,
+            "affected_final_mse": 0.001290655229240656,
+            "unaffected_final_mse": 0.0008253512787632644,
+            "delta_mse": 0.001335174310952425,
+            "accuracy_0.1": 0.99609375
+          },
+          "gate": {
+            "pass": true,
+            "affected_change": -6.78044743835926e-05,
+            "unaffected_final_change": 0.0,
+            "tolerance": 0.01
+          }
+        },
+        {
+          "radius": 6,
+          "metrics": {
+            "mse": 0.0013203670969232917,
+            "final_mse": 0.0010658579412847757,
+            "affected_final_mse": 0.0013063645455986261,
+            "unaffected_final_mse": 0.0008253512787632644,
+            "delta_mse": 0.001124215661548078,
+            "accuracy_0.1": 0.99609375
+          },
+          "gate": {
+            "pass": true,
+            "affected_change": -5.209515802562237e-05,
+            "unaffected_final_change": 0.0,
+            "tolerance": 0.01
+          }
+        }
+      ]
+    },
+    "91": {
+      "radius": 6,
+      "candidates": [
+        {
+          "radius": 1,
+          "metrics": {
+            "mse": 0.0033045101445168257,
+            "final_mse": 0.0038945279084146023,
+            "affected_final_mse": 0.005191244184970856,
+            "unaffected_final_mse": 0.002597811631858349,
+            "delta_mse": 0.0017097033560276031,
+            "accuracy_0.1": 0.88671875
+          },
+          "gate": {
+            "pass": false,
+            "affected_change": 0.0005072602070868015,
+            "unaffected_final_change": 0.0,
+            "tolerance": 0.01
+          }
+        },
+        {
+          "radius": 2,
+          "metrics": {
+            "mse": 0.0034468371886759996,
+            "final_mse": 0.003722222987562418,
+            "affected_final_mse": 0.004846634343266487,
+            "unaffected_final_mse": 0.002597811631858349,
+            "delta_mse": 0.002117953961715102,
+            "accuracy_0.1": 0.904296875
+          },
+          "gate": {
+            "pass": false,
+            "affected_change": 0.00016265036538243294,
+            "unaffected_final_change": 0.0,
+            "tolerance": 0.01
+          }
+        },
+        {
+          "radius": 6,
+          "metrics": {
+            "mse": 0.0032108693849295378,
+            "final_mse": 0.003605135018005967,
+            "affected_final_mse": 0.0046124584041535854,
+            "unaffected_final_mse": 0.002597811631858349,
+            "delta_mse": 0.0018558776937425137,
+            "accuracy_0.1": 0.91015625
+          },
+          "gate": {
+            "pass": true,
+            "affected_change": -7.152557373046875e-05,
+            "unaffected_final_change": 0.0,
+            "tolerance": 0.01
+          }
+        }
+      ]
+    }
+  },
+  "energy": "UNMEASURED",
+  "scope": "controlled affine forests only; no archive at inference; no large-scale or unrestricted language claim"
+}

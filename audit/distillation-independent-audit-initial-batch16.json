@@ -1,0 +1,1011 @@
+{
+  "status": "FAIL",
+  "checks": [
+    {
+      "name": "protocol_sha",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "six_students_twelve_predictions",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "source:run.py",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "source:trace.py",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "source:__init__.py",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "external:learning/model.py",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "external:learning/token_core.py",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "external:learning/api.py",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "external:memory/api.py",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "external:learning/data.py",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "external:learning/structural_extra.py",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "checkpoint:combined-17-step600.pt",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "checkpoint:feedback-17-step600.pt",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "checkpoint:combined-43-step600.pt",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "checkpoint:feedback-43-step600.pt",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "checkpoint:combined-91-step600.pt",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "checkpoint:feedback-91-step600.pt",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "dependency_sidecar_sha",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "dependency_protocol_pins",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "transitive:learning/run.py",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "transitive:learning/metrics.py",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "transitive:learning/analyze.py",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "transitive:learning/safe_run.py",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "source_train_sha",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "archivehash:teacher-17.npz",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "archivehash:selection-17.npz",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "archivehash:decisions-17.jsonl",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "TRAIN_only_observations_17",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "all_observation_only_certificates_17",
+      "passed": true,
+      "detail": {
+        "decisions": 6144,
+        "max_bound_difference": 0.0
+      }
+    },
+    {
+      "name": "topology_only_masks_17",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "selection_derivation_17",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "exact300x16_paired_batches_17",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "independent16_episode_actual_teacher_replay_17",
+      "passed": false,
+      "detail": {
+        "episodes": 16,
+        "max_difference": 2.384185791015625e-07
+      }
+    },
+    {
+      "name": "archivehash:teacher-43.npz",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "archivehash:selection-43.npz",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "archivehash:decisions-43.jsonl",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "TRAIN_only_observations_43",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "all_observation_only_certificates_43",
+      "passed": true,
+      "detail": {
+        "decisions": 6144,
+        "max_bound_difference": 0.0
+      }
+    },
+    {
+      "name": "topology_only_masks_43",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "selection_derivation_43",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "exact300x16_paired_batches_43",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "independent16_episode_actual_teacher_replay_43",
+      "passed": false,
+      "detail": {
+        "episodes": 16,
+        "max_difference": 2.980232238769531e-07
+      }
+    },
+    {
+      "name": "archivehash:teacher-91.npz",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "archivehash:selection-91.npz",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "archivehash:decisions-91.jsonl",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "TRAIN_only_observations_91",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "all_observation_only_certificates_91",
+      "passed": true,
+      "detail": {
+        "decisions": 6144,
+        "max_bound_difference": 0.0
+      }
+    },
+    {
+      "name": "topology_only_masks_91",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "selection_derivation_91",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "exact300x16_paired_batches_91",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "independent16_episode_actual_teacher_replay_91",
+      "passed": false,
+      "detail": {
+        "episodes": 16,
+        "max_difference": 2.980232238769531e-07
+      }
+    },
+    {
+      "name": "300_updates_evidence:answer_only17",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "paired_initial_state:answer_only17",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "student_checkpoint_sha:answer_only17",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "300_updates_evidence:trajectory17",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "paired_initial_state:trajectory17",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "student_checkpoint_sha:trajectory17",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "300_updates_evidence:answer_only43",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "paired_initial_state:answer_only43",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "student_checkpoint_sha:answer_only43",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "300_updates_evidence:trajectory43",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "paired_initial_state:trajectory43",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "student_checkpoint_sha:trajectory43",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "300_updates_evidence:answer_only91",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "paired_initial_state:answer_only91",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "student_checkpoint_sha:answer_only91",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "300_updates_evidence:trajectory91",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "paired_initial_state:trajectory91",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "student_checkpoint_sha:trajectory91",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "chronology",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "training_receipt_sha",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "prediction_sha:pred-answer_only-17-iid.npz",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "pairing:('answer_only', 17, 'iid')",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "prediction_sha:pred-trajectory-17-iid.npz",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "pairing:('trajectory', 17, 'iid')",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "prediction_sha:pred-answer_only-43-iid.npz",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "pairing:('answer_only', 43, 'iid')",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "prediction_sha:pred-trajectory-43-iid.npz",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "pairing:('trajectory', 43, 'iid')",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "prediction_sha:pred-answer_only-91-iid.npz",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "pairing:('answer_only', 91, 'iid')",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "prediction_sha:pred-trajectory-91-iid.npz",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "pairing:('trajectory', 91, 'iid')",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "prediction_sha:pred-answer_only-17-depth8.npz",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "pairing:('answer_only', 17, 'depth8')",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "prediction_sha:pred-trajectory-17-depth8.npz",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "pairing:('trajectory', 17, 'depth8')",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "prediction_sha:pred-answer_only-43-depth8.npz",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "pairing:('answer_only', 43, 'depth8')",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "prediction_sha:pred-trajectory-43-depth8.npz",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "pairing:('trajectory', 43, 'depth8')",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "prediction_sha:pred-answer_only-91-depth8.npz",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "pairing:('answer_only', 91, 'depth8')",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "prediction_sha:pred-trajectory-91-depth8.npz",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "pairing:('trajectory', 91, 'depth8')",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "12_metric_recomputations",
+      "passed": true,
+      "detail": {
+        "max_float64_float32_difference": 6.363695925770685e-08
+      }
+    },
+    {
+      "name": "reported_seed_effects:iid",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "reported_seed_effects:depth8",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "archive_off_prediction_hash",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "archive_off_inputs_observations_only",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "archive_off_actual_student:answer_only-17-step300.pt",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "archive_off_actual_student:answer_only-43-step300.pt",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "archive_off_actual_student:answer_only-91-step300.pt",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "archive_off_actual_student:trajectory-17-step300.pt",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "archive_off_actual_student:trajectory-43-step300.pt",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "archive_off_actual_student:trajectory-91-step300.pt",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "archive_off_isolation_receipt",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "export_source:model.py",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "export_source:api.py",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "export_source:token_core.py",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "export_source:__init__.py",
+      "passed": true,
+      "detail": null
+    }
+  ],
+  "failures": [
+    "independent16_episode_actual_teacher_replay_17",
+    "independent16_episode_actual_teacher_replay_43",
+    "independent16_episode_actual_teacher_replay_91"
+  ],
+  "archive_selection": [
+    {
+      "seed": 17,
+      "eligible_episodes": 313,
+      "query_coverage": 0.0791015625,
+      "node_coverage": 0.01634114608168602,
+      "full_episodes": 0,
+      "selection": "queried_component_fallback"
+    },
+    {
+      "seed": 43,
+      "eligible_episodes": 418,
+      "query_coverage": 0.12906901041666666,
+      "node_coverage": 0.02679036371409893,
+      "full_episodes": 0,
+      "selection": "queried_component_fallback"
+    },
+    {
+      "seed": 91,
+      "eligible_episodes": 333,
+      "query_coverage": 0.095703125,
+      "node_coverage": 0.02073567733168602,
+      "full_episodes": 0,
+      "selection": "queried_component_fallback"
+    }
+  ],
+  "independent_teacher_replay": [
+    {
+      "seed": 17,
+      "episodes": 16,
+      "max_difference": 2.384185791015625e-07
+    },
+    {
+      "seed": 43,
+      "episodes": 16,
+      "max_difference": 2.980232238769531e-07
+    },
+    {
+      "seed": 91,
+      "episodes": 16,
+      "max_difference": 2.980232238769531e-07
+    }
+  ],
+  "recomputed_metrics": [
+    {
+      "arm": "answer_only",
+      "seed": 17,
+      "split": "iid",
+      "metrics": {
+        "mse": 0.003183974177344085,
+        "final_mse": 0.004108536921149701,
+        "affected_final_mse": 0.005198060609703785,
+        "unaffected_final_mse": 0.0030190132325956173,
+        "delta_mse": 0.0015847637063527615,
+        "accuracy_0_1": 0.88671875
+      }
+    },
+    {
+      "arm": "trajectory",
+      "seed": 17,
+      "split": "iid",
+      "metrics": {
+        "mse": 0.008820027970458298,
+        "final_mse": 0.010627512067192688,
+        "affected_final_mse": 0.01702355595103997,
+        "unaffected_final_mse": 0.004231468183345409,
+        "delta_mse": 0.010603053039610287,
+        "accuracy_0_1": 0.767578125
+      }
+    },
+    {
+      "arm": "answer_only",
+      "seed": 43,
+      "split": "iid",
+      "metrics": {
+        "mse": 0.0015381784730011643,
+        "final_mse": 0.002166681877142377,
+        "affected_final_mse": 0.002727479707290399,
+        "unaffected_final_mse": 0.0016058840469943556,
+        "delta_mse": 0.0009109437000693826,
+        "accuracy_0_1": 0.9609375
+      }
+    },
+    {
+      "arm": "trajectory",
+      "seed": 43,
+      "split": "iid",
+      "metrics": {
+        "mse": 0.006308427845823088,
+        "final_mse": 0.008481727767725891,
+        "affected_final_mse": 0.010889542309251694,
+        "unaffected_final_mse": 0.00607391322620009,
+        "delta_mse": 0.003320190732053807,
+        "accuracy_0_1": 0.80078125
+      }
+    },
+    {
+      "arm": "answer_only",
+      "seed": 91,
+      "split": "iid",
+      "metrics": {
+        "mse": 0.001444534581424299,
+        "final_mse": 0.0015689497164495976,
+        "affected_final_mse": 0.002138407954679793,
+        "unaffected_final_mse": 0.000999491478219402,
+        "delta_mse": 0.0011344454283374853,
+        "accuracy_0_1": 0.9765625
+      }
+    },
+    {
+      "arm": "trajectory",
+      "seed": 91,
+      "split": "iid",
+      "metrics": {
+        "mse": 0.012900022435230613,
+        "final_mse": 0.01600925177625129,
+        "affected_final_mse": 0.020597021298195132,
+        "unaffected_final_mse": 0.011421482254307454,
+        "delta_mse": 0.0057813031445635545,
+        "accuracy_0_1": 0.71484375
+      }
+    },
+    {
+      "arm": "answer_only",
+      "seed": 17,
+      "split": "depth8",
+      "metrics": {
+        "mse": 0.615870070106757,
+        "final_mse": 0.7721018103053077,
+        "affected_final_mse": 1.0795449654847986,
+        "unaffected_final_mse": 0.4646586551258165,
+        "delta_mse": 0.19363692693532486,
+        "accuracy_0_1": 0.09375
+      }
+    },
+    {
+      "arm": "trajectory",
+      "seed": 17,
+      "split": "depth8",
+      "metrics": {
+        "mse": 0.5024876278512124,
+        "final_mse": 0.5469378231783522,
+        "affected_final_mse": 0.7644878609266547,
+        "unaffected_final_mse": 0.32938778543004993,
+        "delta_mse": 0.1769196784798585,
+        "accuracy_0_1": 0.111328125
+      }
+    },
+    {
+      "arm": "answer_only",
+      "seed": 43,
+      "split": "depth8",
+      "metrics": {
+        "mse": 0.5670259886293653,
+        "final_mse": 0.697722030591077,
+        "affected_final_mse": 0.944909800617631,
+        "unaffected_final_mse": 0.45053426056452295,
+        "delta_mse": 0.16964316039373575,
+        "accuracy_0_1": 0.1015625
+      }
+    },
+    {
+      "arm": "trajectory",
+      "seed": 43,
+      "split": "depth8",
+      "metrics": {
+        "mse": 0.49765403829793026,
+        "final_mse": 0.5426813981960044,
+        "affected_final_mse": 0.7240149885796614,
+        "unaffected_final_mse": 0.3613478078123472,
+        "delta_mse": 0.16312816637493188,
+        "accuracy_0_1": 0.1015625
+      }
+    },
+    {
+      "arm": "answer_only",
+      "seed": 91,
+      "split": "depth8",
+      "metrics": {
+        "mse": 0.5189217198320931,
+        "final_mse": 0.6238450538753166,
+        "affected_final_mse": 0.8236293296977558,
+        "unaffected_final_mse": 0.4240607780528775,
+        "delta_mse": 0.19392934461042644,
+        "accuracy_0_1": 0.095703125
+      }
+    },
+    {
+      "arm": "trajectory",
+      "seed": 91,
+      "split": "depth8",
+      "metrics": {
+        "mse": 0.5135362755144247,
+        "final_mse": 0.5843361475220691,
+        "affected_final_mse": 0.7634217464628795,
+        "unaffected_final_mse": 0.40525054858125864,
+        "delta_mse": 0.1808042888229765,
+        "accuracy_0_1": 0.1015625
+      }
+    }
+  ],
+  "paired_effects": [
+    {
+      "split": "iid",
+      "mean_candidate_minus_reference": 0.009091441032142733,
+      "per_seed_candidate_minus_reference": [
+        0.0065189751460429865,
+        0.006315045890583514,
+        0.014440302059801697
+      ],
+      "seed_t95": [
+        -0.0024184921252185278,
+        0.020601374189503995
+      ],
+      "crossed_bootstrap95": [
+        0.005309084505994649,
+        0.014077824411401194
+      ],
+      "bootstrap_reps": 2000,
+      "bootstrap_seed": 170043,
+      "unit": "candidate minus reference squared final error; negative is improvement; common examples shared across resampled seed rows"
+    },
+    {
+      "split": "depth8",
+      "mean_candidate_minus_reference": -0.1399045086250919,
+      "per_seed_candidate_minus_reference": [
+        -0.22516398712695537,
+        -0.1550406323950727,
+        -0.03950890635324759
+      ],
+      "seed_t95": [
+        -0.37278866222554885,
+        0.09297964497536504
+      ],
+      "crossed_bootstrap95": [
+        -0.23684193913526413,
+        -0.042541529783118065
+      ],
+      "bootstrap_reps": 2000,
+      "bootstrap_seed": 170043,
+      "unit": "candidate minus reference squared final error; negative is improvement; common examples shared across resampled seed rows"
+    }
+  ],
+  "posthoc_initial_reference": {
+    "path": "E:\\rlt-research\\2026-09-16-e2e\\audit\\distillation-initial-reference",
+    "rows": [
+      {
+        "seed": 17,
+        "split": "iid",
+        "metrics": {
+          "mse": 0.0011775735133094478,
+          "final_mse": 0.0012284445423696205,
+          "affected_final_mse": 0.0015731337899553223,
+          "unaffected_final_mse": 0.0008837552947839186,
+          "delta_mse": 0.000896997015219434,
+          "accuracy_0_1": 0.982421875
+        },
+        "prediction_sha256": "5246de559070543b9657201bafe688b4f53ed5bf069b9638cbf8451f275e2539"
+      },
+      {
+        "seed": 17,
+        "split": "depth8",
+        "metrics": {
+          "mse": 0.6271281434908179,
+          "final_mse": 0.7965630354771656,
+          "affected_final_mse": 1.1110148326494798,
+          "unaffected_final_mse": 0.4821112383048512,
+          "delta_mse": 0.20228851638969833,
+          "accuracy_0_1": 0.095703125
+        },
+        "prediction_sha256": "8ec5fe1040e963a4ba63710baa88116771ea7ce2b4d6b990ca76e2d2e7950eb7"
+      },
+      {
+        "seed": 43,
+        "split": "iid",
+        "metrics": {
+          "mse": 0.0009657447535343467,
+          "final_mse": 0.0009969471625297112,
+          "affected_final_mse": 0.0011520072345528843,
+          "unaffected_final_mse": 0.000841887090506538,
+          "delta_mse": 0.0006398613637381531,
+          "accuracy_0_1": 0.998046875
+        },
+        "prediction_sha256": "6777ab6a65ede0e685dc8588c7337861163b86dacb398de009144a36cc372f80"
+      },
+      {
+        "seed": 43,
+        "split": "depth8",
+        "metrics": {
+          "mse": 0.5946292209779964,
+          "final_mse": 0.7587736345369638,
+          "affected_final_mse": 1.018921709465376,
+          "unaffected_final_mse": 0.49862555960855204,
+          "delta_mse": 0.17634641028741876,
+          "accuracy_0_1": 0.11328125
+        },
+        "prediction_sha256": "77d45753a37aac1c4caccd2c56435fa4d041c8813358ac28f282363b2907edd1"
+      },
+      {
+        "seed": 91,
+        "split": "iid",
+        "metrics": {
+          "mse": 0.0030646389977795757,
+          "final_mse": 0.00379493788274726,
+          "affected_final_mse": 0.004762681385208986,
+          "unaffected_final_mse": 0.0028271943802855347,
+          "delta_mse": 0.0011989216015865988,
+          "accuracy_0_1": 0.91015625
+        },
+        "prediction_sha256": "d1478fde5473004c3a76f4e7ba20ca64c606b923e1e36fe09e4445551f5c9cf2"
+      },
+      {
+        "seed": 91,
+        "split": "depth8",
+        "metrics": {
+          "mse": 0.5685023380871693,
+          "final_mse": 0.6927072014936986,
+          "affected_final_mse": 0.9054044485587833,
+          "unaffected_final_mse": 0.4800099544286137,
+          "delta_mse": 0.2085045184602081,
+          "accuracy_0_1": 0.09375
+        },
+        "prediction_sha256": "0398d609b6202e4cb07309f7a35bf09a8cbff9ffce43f23073c5093fbfaa9041"
+      }
+    ],
+    "paired_effects": [
+      {
+        "split": "iid",
+        "arm": "answer_only",
+        "reference": "initial_feedback600",
+        "mean_candidate_minus_reference": 0.0006079463090316947,
+        "per_seed_candidate_minus_reference": [
+          0.0028800923787800805,
+          0.0011697347146126663,
+          -0.002225988166297663
+        ],
+        "seed_t95": [
+          -0.005848288555929076,
+          0.007064181173992466
+        ],
+        "crossed_bootstrap95": [
+          -0.002023065768725545,
+          0.002874636301052669
+        ],
+        "bootstrap_reps": 2000,
+        "bootstrap_seed": 170043,
+        "unit": "candidate minus reference squared final error; negative is improvement; common examples shared across resampled seed rows"
+      },
+      {
+        "split": "iid",
+        "arm": "trajectory",
+        "reference": "initial_feedback600",
+        "mean_candidate_minus_reference": 0.009699387341174428,
+        "per_seed_candidate_minus_reference": [
+          0.009399067524823067,
+          0.007484780605196181,
+          0.012214313893504032
+        ],
+        "seed_t95": [
+          0.0037895588411281786,
+          0.015609215841220676
+        ],
+        "crossed_bootstrap95": [
+          0.006859526769753079,
+          0.0130370678684573
+        ],
+        "bootstrap_reps": 2000,
+        "bootstrap_seed": 170043,
+        "unit": "candidate minus reference squared final error; negative is improvement; common examples shared across resampled seed rows"
+      },
+      {
+        "split": "depth8",
+        "arm": "answer_only",
+        "reference": "initial_feedback600",
+        "mean_candidate_minus_reference": -0.051458325578708906,
+        "per_seed_candidate_minus_reference": [
+          -0.024461225171857906,
+          -0.06105160394588691,
+          -0.06886214761838189
+        ],
+        "seed_t95": [
+          -0.11034254099414711,
+          0.007425889836729309
+        ],
+        "crossed_bootstrap95": [
+          -0.07220630537982593,
+          -0.02483497123475814
+        ],
+        "bootstrap_reps": 2000,
+        "bootstrap_seed": 170043,
+        "unit": "candidate minus reference squared final error; negative is improvement; common examples shared across resampled seed rows"
+      },
+      {
+        "split": "depth8",
+        "arm": "trajectory",
+        "reference": "initial_feedback600",
+        "mean_candidate_minus_reference": -0.19136283420380076,
+        "per_seed_candidate_minus_reference": [
+          -0.24962521229881326,
+          -0.21609223634095961,
+          -0.10837105397162948
+        ],
+        "seed_t95": [
+          -0.3746989597386764,
+          -0.008026708668925131
+        ],
+        "crossed_bootstrap95": [
+          -0.27504017249829876,
+          -0.10917966868925758
+        ],
+        "bootstrap_reps": 2000,
+        "bootstrap_seed": 170043,
+        "unit": "candidate minus reference squared final error; negative is improvement; common examples shared across resampled seed rows"
+      }
+    ]
+  },
+  "limitations": [
+    "The original two-arm comparison establishes trajectory versus answer-only adaptation, not improvement over pre-adaptation weights. The separately frozen initial-reference analysis here is explicitly post hoc.",
+    "300 updates per student are supported by frozen loop,300 finite loss rows,100/200/300 progress receipts,4800 paired batch entries and changed final weights; optimizer step counters are not persisted, so no independent training replay is claimed.",
+    "Final queried-component certificate uses observed constraints only. Intermediate states are genuine generated trajectories but not all certified correct. Teacher weights previously received oracle intermediate supervision.",
+    "All18432 query certificate decisions and masks independently recomputed. Actual teacher state reproduction independently sampled16 fixed TRAIN episodes per seed; producer full6144 replay receipt is a separate result.",
+    "Three seed t95 intervals are the primary original uncertainty summary. Crossed percentile bootstrap resamples three seeds and shared512 example columns and is descriptive; it can exclude0 while df2 t95 includes0.",
+    "Archive-off verifies six actual student models and512 observation-only inputs each against exported prediction artifacts; no OS filesystem sandbox or rerun by this audit.",
+    "Shared row IDs require split namespace; generated archives retained rejected examples; selection is strongly shallow-component biased."
+  ],
+  "wall_seconds": 8.948418000014499
+}

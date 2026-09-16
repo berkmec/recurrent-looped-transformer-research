@@ -1,0 +1,65 @@
+test_archive_does_not_overwrite_generated_trace (test_learning_distillation.ActualTraceContracts.test_archive_does_not_overwrite_generated_trace) ... FAIL
+test_false_teacher_candidate_is_rejected_without_repair (test_learning_distillation.ActualTraceContracts.test_false_teacher_candidate_is_rejected_without_repair) ... FAIL
+test_heldout_or_wrong_hash_cannot_be_loaded_for_trace_training (test_learning_distillation.ActualTraceContracts.test_heldout_or_wrong_hash_cannot_be_loaded_for_trace_training) ... FAIL
+test_trace_capture_is_same_actual_model_computation (test_learning_distillation.ActualTraceContracts.test_trace_capture_is_same_actual_model_computation) ... FAIL
+test_uncertified_node_values_never_affect_auxiliary_loss (test_learning_distillation.ActualTraceContracts.test_uncertified_node_values_never_affect_auxiliary_loss) ... FAIL
+
+======================================================================
+FAIL: test_archive_does_not_overwrite_generated_trace (test_learning_distillation.ActualTraceContracts.test_archive_does_not_overwrite_generated_trace)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\rlt-research\2026-09-16-e2e\tests\test_learning_distillation.py", line 33, in test_archive_does_not_overwrite_generated_trace
+    module=self.mod();owner=Path(__file__).resolve().parents[1]/'learning'/'distillation'
+           ^^^^^^^^^^
+  File "E:\rlt-research\2026-09-16-e2e\tests\test_learning_distillation.py", line 8, in mod
+    self.assertIsNotNone(importlib.util.find_spec('learning.distillation.trace'),'actual-teacher-trace implementation absent')
+AssertionError: unexpectedly None : actual-teacher-trace implementation absent
+
+======================================================================
+FAIL: test_false_teacher_candidate_is_rejected_without_repair (test_learning_distillation.ActualTraceContracts.test_false_teacher_candidate_is_rejected_without_repair)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\rlt-research\2026-09-16-e2e\tests\test_learning_distillation.py", line 13, in test_false_teacher_candidate_is_rejected_without_repair
+    module=self.mod();events=[dict(kind='root',child='0',parent=None,value=.2),dict(kind='edge',child='1',parent='0',value=.3)]
+           ^^^^^^^^^^
+  File "E:\rlt-research\2026-09-16-e2e\tests\test_learning_distillation.py", line 8, in mod
+    self.assertIsNotNone(importlib.util.find_spec('learning.distillation.trace'),'actual-teacher-trace implementation absent')
+AssertionError: unexpectedly None : actual-teacher-trace implementation absent
+
+======================================================================
+FAIL: test_heldout_or_wrong_hash_cannot_be_loaded_for_trace_training (test_learning_distillation.ActualTraceContracts.test_heldout_or_wrong_hash_cannot_be_loaded_for_trace_training)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\rlt-research\2026-09-16-e2e\tests\test_learning_distillation.py", line 24, in test_heldout_or_wrong_hash_cannot_be_loaded_for_trace_training
+    module=self.mod();owner=Path(__file__).resolve().parents[1]/'learning'/'distillation'
+           ^^^^^^^^^^
+  File "E:\rlt-research\2026-09-16-e2e\tests\test_learning_distillation.py", line 8, in mod
+    self.assertIsNotNone(importlib.util.find_spec('learning.distillation.trace'),'actual-teacher-trace implementation absent')
+AssertionError: unexpectedly None : actual-teacher-trace implementation absent
+
+======================================================================
+FAIL: test_trace_capture_is_same_actual_model_computation (test_learning_distillation.ActualTraceContracts.test_trace_capture_is_same_actual_model_computation)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\rlt-research\2026-09-16-e2e\tests\test_learning_distillation.py", line 40, in test_trace_capture_is_same_actual_model_computation
+    module=self.mod();from learning.model import EventModel
+           ^^^^^^^^^^
+  File "E:\rlt-research\2026-09-16-e2e\tests\test_learning_distillation.py", line 8, in mod
+    self.assertIsNotNone(importlib.util.find_spec('learning.distillation.trace'),'actual-teacher-trace implementation absent')
+AssertionError: unexpectedly None : actual-teacher-trace implementation absent
+
+======================================================================
+FAIL: test_uncertified_node_values_never_affect_auxiliary_loss (test_learning_distillation.ActualTraceContracts.test_uncertified_node_values_never_affect_auxiliary_loss)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\rlt-research\2026-09-16-e2e\tests\test_learning_distillation.py", line 48, in test_uncertified_node_values_never_affect_auxiliary_loss
+    module=self.mod()
+           ^^^^^^^^^^
+  File "E:\rlt-research\2026-09-16-e2e\tests\test_learning_distillation.py", line 8, in mod
+    self.assertIsNotNone(importlib.util.find_spec('learning.distillation.trace'),'actual-teacher-trace implementation absent')
+AssertionError: unexpectedly None : actual-teacher-trace implementation absent
+
+----------------------------------------------------------------------
+Ran 5 tests in 0.007s
+
+FAILED (failures=5)

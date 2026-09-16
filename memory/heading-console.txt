@@ -1,0 +1,39 @@
+{
+  "tasks": 64,
+  "sentences": 1152,
+  "learned_accepted": 1088,
+  "headings": 640,
+  "unique_heading_ids": 640,
+  "active_links": 576,
+  "semantic_versions": 896,
+  "cross_task_links": 0,
+  "serialization_exact": true,
+  "history_events": 1152,
+  "condition_statuses": {
+    "root": {
+      "CREATED": 64
+    },
+    "edge": {
+      "CREATED": 576
+    },
+    "revision": {
+      "UPDATED": 256
+    },
+    "duplicate_wording": {
+      "UNCHANGED": 64
+    },
+    "query_existing": {
+      "QUERY_RESOLVED": 64
+    },
+    "query_missing": {
+      "MISSING_ENTITY": 64
+    },
+    "negative": {
+      "EXTRACTION_UNRESOLVED": 64
+    }
+  },
+  "wall_seconds": 3.694021499948576,
+  "protocol_sha256": "a39b9bd27cea71ee98f73c8c0ed6ba2077e1211a005468de8a294f51bde18260",
+  "checkpoint_sha256": "97d6dc86f668f4071689c84a461b5c1866a38886f56be9b0d10b1ef1e641121b",
+  "scope": "deterministic finite affine organization of learned parsed events; not learned topic discovery"
+}

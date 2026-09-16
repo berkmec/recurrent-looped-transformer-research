@@ -1,0 +1,60 @@
+{
+  "purpose": "API smoke only;2node domain outside primary10node evaluation; not used in selection",
+  "records": [
+    {
+      "kind": "root",
+      "child": "A",
+      "parent": null,
+      "value": 0.25
+    },
+    {
+      "kind": "edge",
+      "child": "B",
+      "parent": "A",
+      "value": 0.15
+    },
+    {
+      "kind": "query",
+      "child": "B",
+      "parent": null,
+      "value": null
+    },
+    {
+      "kind": "revision",
+      "child": "A",
+      "parent": null,
+      "value": 0.5
+    },
+    {
+      "kind": "query",
+      "child": "B",
+      "parent": null,
+      "value": null
+    }
+  ],
+  "hand_targets": [
+    0.4,
+    0.65
+  ],
+  "checkpoint": "bidir-17-step600.pt",
+  "result": {
+    "predictions": [
+      0.3804911673069,
+      0.6370214223861694
+    ],
+    "nodes": [
+      {
+        "A": -0.06471337378025055,
+        "B": 0.3804911673069
+      },
+      {
+        "A": -0.15325702726840973,
+        "B": 0.6370214223861694
+      }
+    ],
+    "mapping": {
+      "A": 0,
+      "B": 1
+    }
+  }
+}

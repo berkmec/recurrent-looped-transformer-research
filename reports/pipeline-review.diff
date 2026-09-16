@@ -1,0 +1,412 @@
+diff --git a/integration/pipeline.py b/integration/pipeline.py
+new file mode 100644
+index 0000000..9ae0309
+--- /dev/null
++++ b/integration/pipeline.py
+@@ -0,0 +1,139 @@
++"""Connected learned extraction, immutable evidence, RLT titles and verification.
++
++The verifier certifies parsed affine constraints only. It neither validates the
++original language interpretation nor replaces the learned numeric answer.
++Replay and current-constraint compaction are separate explicit memory policies.
++Every actual title refinement can be archived, including replayed refinements.
++"""
++from __future__ import annotations
++import math
++import time
++from pathlib import Path
++import torch
++from learning.api import events_from_records
++from memory.api import Archive,TitleController,verify_candidate
++from memory.headings import HeadingRegistry
++
++
++def _validated(records):
++    if not records:raise ValueError('empty observed records')
++    result=[]
++    for source in records:
++        e=dict(source);kind=e.get('kind');child=e.get('child');parent=e.get('parent');value=e.get('value')
++        if kind not in ('root','edge','revision','query','continuation') or not isinstance(child,str) or not child:
++            raise ValueError('invalid event identity or kind')
++        if parent is not None and (not isinstance(parent,str) or not parent):raise ValueError('invalid parent')
++        if kind=='root' and parent is not None:raise ValueError('absolute observation must have no parent')
++        if kind=='edge' and (parent is None or parent==child):raise ValueError('invalid self/missing edge')
++        if kind in ('root','edge','revision') and (not isinstance(value,(int,float)) or not math.isfinite(value)):
++            raise ValueError('finite observed value required')
++        result.append(e)
++    if result[-1]['kind']!='query':raise ValueError('request must end at a query')
++    return result
++
++
++@torch.no_grad()
++def run_from_records(model,records,max_steps=8,prior_rounds=6,direction='bidir',policy='retain',radius=1,
++                     tolerance=.1,numeric_margin=1e-6,trace_sink=None,adaptive=True):
++    records=_validated(records)
++    if max_steps<1 or not isinstance(max_steps,int):raise ValueError('positive refinement budget required')
++    if not math.isfinite(tolerance) or tolerance<0 or not math.isfinite(numeric_margin) or numeric_margin<0:
++        raise ValueError('finite nonnegative verification tolerance/margin required')
++    tensor,mapping=events_from_records(records)
++    device=next(model.parameters()).device;tensor=tensor.to(device)
++    query_positions=[i for i,r in enumerate(records) if r['kind']=='query']
++    if isinstance(prior_rounds,int):past=[prior_rounds]*(len(query_positions)-1)
++    else:past=list(prior_rounds)
++    if len(past)!=len(query_positions)-1 or any(not isinstance(x,int) or x<1 for x in past):
++        raise ValueError('one positive observed budget per earlier query required')
++    runtime=model.new_runtime(tensor,direction=direction,policy=policy,radius=radius)
++    total=0;query_index=0;last=None;start=time.perf_counter()
++
++    def refine(phase):
++        nonlocal total
++        candidate=runtime.refine_one();total+=1
++        node_values={name:float(candidate['nodes'][0,index].cpu()) for name,index in mapping.items()}
++        if trace_sink is not None:
++            trace_sink({'kind':'model_trace','phase':phase,'query_index':query_index,
++                        't':int(candidate['t']),'k':int(candidate['k']),
++                        'nodes':node_values,'slot_mapping':dict(mapping),
++                        'title_latents':runtime.z[0].detach().cpu().tolist(),
++                        'versions':candidate['versions'][0].detach().cpu().tolist()})
++        return candidate,node_values
++
++    while runtime.consume_to_query():
++        if query_index<len(past):
++            for _ in range(past[query_index]):refine('replayed_prior_query')
++            runtime.commit_feedback();query_index+=1;continue
++        query=records[query_positions[-1]]['child']
++        for step in range(1,max_steps+1):
++            candidate,nodes=refine('current_query')
++            check=verify_candidate(nodes,[r for r in records if r['kind']!='continuation'],query,tolerance)
++            bound=check.get('bound')
++            accepted=(check['status']=='VERIFIED' and bound is not None and math.isfinite(bound)
++                      and bound+numeric_margin<=tolerance)
++            prediction=float(candidate['prediction'][0].cpu())
++            last={'status':'VERIFIED_PARSED_CONSTRAINTS' if accepted else 'UNRESOLVED_BUDGET',
++                  'prediction':prediction,'nodes':nodes,'bound':bound,'steps':step,
++                  'query':query,'verification_reason':check['reason'],'tolerance':tolerance,
++                  'numeric_margin':numeric_margin,'source_faithfulness':'UNVERIFIED',
++                  'prior_query_rounds':past,'mapping':mapping}
++            if accepted and adaptive:break
++        runtime.commit_feedback();break
++    if last is None:raise RuntimeError('no final query candidate generated')
++    last.update(refinements_executed=total,consumed_tokens=runtime.t,seconds=time.perf_counter()-start)
++    return last
++
++
++def run_text_episode(texts,model,parser,db_path,task='episode',title='main',capacity=4,max_steps=8,
++                     prior_rounds=6,view='replay',tolerance=.1,adaptive=True,model_provenance=None):
++    if view not in ('replay','compact'):raise ValueError('unknown memory view')
++    path=Path(db_path)
++    if path.exists():raise FileExistsError('episode archive already exists')
++    start=time.perf_counter();archive=Archive(path);controller=TitleController(capacity,archive)
++    parsed=parser.parse_batch(list(texts));outputs=[];past_budgets=[];rejected=0;total_rounds=0;total_tokens=0
++    quarantine=False;headings=HeadingRegistry()
++    archive.append(task,title+'/model_provenance',{'kind':'model_provenance',
++                    'payload':model_provenance or {'scope':'unbound fixture; not a scientific checkpoint claim'}})
++    try:
++        for index,(text,interpretation) in enumerate(zip(texts,parsed)):
++            controller.observe_text(task,title,text,interpretation)
++            headings.consume_parsed(task,interpretation)
++            if not interpretation.get('valid',False):
++                rejected+=1;quarantine=True;continue
++            events=interpretation.get('events',[])
++            if len(events)!=1:quarantine=True;continue
++            event=events[0]
++            if event['kind']!='query':continue
++            if quarantine:
++                outputs.append({'source_index':index,'status':'UNRESOLVED_SOURCE','prediction':None,
++                                'steps':0,'query':event['child'],'source_faithfulness':'UNVERIFIED'})
++                continue
++            if view=='replay':
++                observed=controller.reconstruct(task,title)
++                previous=past_budgets
++            else:
++                observed=controller.compact_events(task,title)+[event]
++                previous=[]
++            def archive_trace(row):
++                archive.append(task,title+'/trace',{'source_index':index,**row})
++            try:
++                out=run_from_records(model,observed,max_steps=max_steps,prior_rounds=previous,
++                                     tolerance=tolerance,trace_sink=archive_trace,adaptive=adaptive)
++            except ValueError as error:
++                quarantine=True;out={'status':'UNRESOLVED_INPUT','prediction':None,'steps':0,
++                                     'query':event['child'],'reason':str(error),'source_faithfulness':'UNVERIFIED',
++                                     'refinements_executed':0,'consumed_tokens':0}
++            out['source_index']=index;outputs.append(out)
++            if out['steps']:past_budgets.append(out['steps'])
++            total_rounds+=out['refinements_executed'];total_tokens+=out['consumed_tokens']
++        archive.append(task,title+'/heading_registry',{'kind':'heading_registry','payload':headings.serialize()})
++        return {'outputs':outputs,'parsed':parsed,'rejected_observations':rejected,
++                'source_observations':len(texts),'compactions':controller.compactions,
++                'premature_compactions':controller.premature_compactions,'reopens':controller.reopens,
++                'max_active_records':controller.max_active,'capacity':capacity,
++                'total_refinements_executed':total_rounds,'total_consumed_tokens_including_replay':total_tokens,
++                'raw_records':archive.count(),'seconds':time.perf_counter()-start,'memory_view':view,
++                'heading_count':len(headings.headings(task)),
++                'archive_path':str(path),'scope':'learned finite-language observations; verifier conditional on parsed constraints'}
++    finally:archive.close()
+diff --git a/memory/heading_protocol.json b/memory/heading_protocol.json
+new file mode 100644
+index 0000000..cc3a8ca
+--- /dev/null
++++ b/memory/heading_protocol.json
+@@ -0,0 +1 @@
++{"protocol":"finite-heading-registry-v1","frozen_before_measurement":true,"seed":20260919,"tasks":64,"entities_per_task":10,"parser_seed":17,"parser_unchanged":true,"templates":"seen layouts, varying variant per task/entity","observations_per_task":"1 root,9 edges,4 edge revisions,1 duplicate with alternative wording,2 queries,1 rejected negative","title_identity":"SHA256 of task and canonical extracted entity","new_title":"new observed/referenced entity only; query cannot invent an entity","facets":"absolute and edge independently versioned","status_scope":"deterministic organization of learned parsed events, not learned topic discovery","measurements":["headings created","same-title duplicate preservation","semantic revision versions","typed links","task isolation","query resolution","rejected extraction preservation","serialization exactness"],"no_oracle_inputs":true}
+diff --git a/memory/heading_report.md b/memory/heading_report.md
+new file mode 100644
+index 0000000..d74f0c2
+--- /dev/null
++++ b/memory/heading_report.md
+@@ -0,0 +1,72 @@
++# Finite heading registry: added bounded requirement
++
++The new module consumes learned extracted events and automatically organizes finite affine variables into stable linked headings. It does not modify frozen `memory/api.py`, retrain the extractor, or overwrite previous results. This is deterministic semantic organization after learned extraction, not learned unrestricted topic discovery.
++
++## Mathematical contract
++
++For task t and extracted entity e, H(t,e)=SHA256(canonical(t,e)). Objective O(e) is "Determine affine value of e". Wording and numeric answers are not identity inputs. Semantic state S_v maps the independent absolute and edge facets to observed assertions. v advances exactly when an observed facet changes; snapshots (v,S_v) append and are never replaced. A new entity opens a heading; a newly referenced parent opens a reference-only version0 heading. A later direct observation continues that same identity. A query resolves an existing heading and cannot create one.
++
++For observed e=p+b, append typed link H(t,e) --DEPENDS_ON_AFFINE(offset=b)--> H(t,p). Revisions append a newer edge-link version while preserving earlier history. Absolute observations preserve the edge facet and its link. Task identity is part of every heading key. The registry has no answer solver and receives no numeric oracle labels.
++
++Compaction does not participate in identity derivation: callers use the returned stable heading ID with the separate memory controller. Serialized registry history restores the same identities and versions after process boundaries. Registry metadata is not itself a bounded-memory implementation.
++
++## API
++
++```python
++from memory.headings import HeadingRegistry
++registry = HeadingRegistry()
++result = registry.consume_parsed(task, learned_parser_output)
++heading = registry.get(task, "x0")
++headings = registry.headings(task)
++links = registry.active_links(task)
++payload = registry.serialize()
++restored = HeadingRegistry.from_serialized(payload)
++```
++
++Lower-level `consume(task, normalized_event)` accepts the parser's event schema. Preferred `consume_parsed` refuses rejected/abstaining extraction even if its payload contains an event. Event statuses: CREATED, UPDATED, UNCHANGED, QUERY_RESOLVED, MISSING_ENTITY, UNSUPPORTED, EXTRACTION_UNRESOLVED. Every processed input appends a hash-chained history entry. Serialization validates hashes and deterministic replay; this detects accidental corruption, not malicious replacement of an entire chain.
++
++## Fixed measurement
++
++Protocol SHA256 `a39b9bd27cea71ee98f73c8c0ed6ba2077e1211a005468de8a294f51bde18260` was saved before inference. One unchanged seed17 extractor checkpoint processes64 new task identities, each with ten variables, four edge revisions, differently worded duplicate root observation, existing/missing queries and one negative sentence. Registry inputs are learned parser outputs only. Generator events are used to render the finite language, never passed to the registry. This small seen-layout test does not overturn the earlier heldout-paraphrase extraction failures.
++
++Metrics: {
++  "tasks": 64,
++  "sentences": 1152,
++  "learned_accepted": 1088,
++  "headings": 640,
++  "unique_heading_ids": 640,
++  "active_links": 576,
++  "semantic_versions": 896,
++  "cross_task_links": 0,
++  "serialization_exact": true,
++  "history_events": 1152,
++  "condition_statuses": {
++    "root": {
++      "CREATED": 64
++    },
++    "edge": {
++      "CREATED": 576
++    },
++    "revision": {
++      "UPDATED": 256
++    },
++    "duplicate_wording": {
++      "UNCHANGED": 64
++    },
++    "query_existing": {
++      "QUERY_RESOLVED": 64
++    },
++    "query_missing": {
++      "MISSING_ENTITY": 64
++    },
++    "negative": {
++      "EXTRACTION_UNRESOLVED": 64
++    }
++  },
++  "wall_seconds": 3.694021499948576,
++  "protocol_sha256": "a39b9bd27cea71ee98f73c8c0ed6ba2077e1211a005468de8a294f51bde18260",
++  "checkpoint_sha256": "97d6dc86f668f4071689c84a461b5c1866a38886f56be9b0d10b1ef1e641121b",
++  "scope": "deterministic finite affine organization of learned parsed events; not learned topic discovery"
++}
++
++Eight meaningful unit tests passed after preserved RED evidence: different wording same identity, revision preservation and immutable returned snapshots, actual new variable/title, typed relation direction, task isolation and missing query, independently retained absolute/edge facets, unsupported/no-op behavior, rejected extraction, exact serialization replay, and identity retention across four actual controller compactions. The fixed experiment records every text, learned parse and heading result in `heading-results/predictions.jsonl`, with full append-only history in `heading-results/heading-history.json`. Scientific status is IMPLEMENTED_TESTED for finite automatic heading organization. Unrestricted topic boundary discovery, learned title creation and free-form reasoning headings remain UNMEASURED.
+diff --git a/memory/headings.py b/memory/headings.py
+new file mode 100644
+index 0000000..366e07b
+--- /dev/null
++++ b/memory/headings.py
+@@ -0,0 +1,78 @@
++"""Deterministic finite-affine heading organization of learned parsed events.
++
++Contract: H(task,entity)=SHA256(canonical task/entity pair). Wording is not an
++identity input. A semantic state S is a partial map {absolute,edge}->assertion.
++v increases iff a new assertion changes S. Old (v,S_v) snapshots are immutable.
++An edge child=parent+offset appends a typed child-heading->parent-heading link.
++Only the latest edge facet determines the active link; link history persists.
++Queries resolve existing identities without creating them. No numeric solving,
++oracle labels, inferred answers, model training, or unrestricted topic discovery.
++"""
++import copy,hashlib,json,math,re
++
++def canonical(x): return json.dumps(x,sort_keys=True,separators=(',',':'),ensure_ascii=False)
++def identity(task,entity): return 'heading:'+hashlib.sha256(canonical([task,entity]).encode()).hexdigest()
++
++class HeadingRegistry:
++    def __init__(self): self._nodes={}; self._history=[]; self._links=[]
++    def _ensure(self,task,entity):
++        key=(task,entity)
++        if key in self._nodes: return self._nodes[key],False
++        node=dict(id=identity(task,entity),task=task,entity=entity,objective=f'Determine affine value of {entity}',version=0,versions=[],facets={})
++        self._nodes[key]=node; return node,True
++    def _record(self,task,event,result):
++        # Deep copying prevents a caller mutating old input/output evidence.
++        payload=dict(index=len(self._history)+1,task=task,event=copy.deepcopy(event),result=copy.deepcopy(result),previous_sha256=self._history[-1]['sha256'] if self._history else None)
++        payload['sha256']=hashlib.sha256(canonical(payload).encode()).hexdigest(); self._history.append(payload); return copy.deepcopy(result)
++    def consume(self,task,event):
++        if not isinstance(task,str) or not task: raise ValueError('task must be a nonempty string')
++        kind=event.get('kind'); child=event.get('child'); parent=event.get('parent'); value=event.get('value')
++        empty=dict(heading_id=None,version=None,created=[],links=[])
++        if kind not in ('root','edge','revision','query'): return self._record(task,event,dict(status='UNSUPPORTED',**empty))
++        if not isinstance(child,str) or not re.fullmatch(r'x\d+',child): return self._record(task,event,dict(status='MISSING_ENTITY',**empty))
++        if kind=='query':
++            node=self._nodes.get((task,child))
++            return self._record(task,event,dict(status='QUERY_RESOLVED' if node else 'MISSING_ENTITY',heading_id=node['id'] if node else None,version=node['version'] if node else None,created=[],links=[]))
++        if kind=='root': parent=None
++        if (kind=='edge' and parent is None) or (parent is not None and (not isinstance(parent,str) or not re.fullmatch(r'x\d+',parent))): return self._record(task,event,dict(status='MISSING_ENTITY',**empty))
++        if not isinstance(value,(int,float)) or isinstance(value,bool) or not math.isfinite(value): return self._record(task,event,dict(status='UNSUPPORTED',**empty))
++        if parent==child: return self._record(task,event,dict(status='UNSUPPORTED',**empty))
++        node,new=self._ensure(task,child); created=[node['id']] if new else []; links=[]
++        if parent is not None:
++            parent_node,parent_new=self._ensure(task,parent)
++            if parent_new: created.append(parent_node['id'])
++        facet='absolute' if parent is None else 'edge'; assertion=dict(parent=parent,value=float(value))
++        if node['facets'].get(facet)==assertion: return self._record(task,event,dict(status='UNCHANGED',heading_id=node['id'],version=node['version'],created=created,links=[]))
++        node['facets'][facet]=assertion; node['version']+=1
++        node['versions'].append(copy.deepcopy(dict(version=node['version'],facets=node['facets'],changed_facet=facet)))
++        if parent is not None:
++            link=dict(type='DEPENDS_ON_AFFINE',source=node['id'],target=parent_node['id'],source_version=node['version'],offset=float(value),task=task)
++            self._links.append(copy.deepcopy(link)); links.append(link)
++        return self._record(task,event,dict(status='CREATED' if new else 'UPDATED',heading_id=node['id'],version=node['version'],created=created,links=links))
++    def consume_parsed(self,task,parsed):
++        if not parsed.get('valid',False) or parsed.get('abstained',False):
++            result=self._record(task,{'kind':'extraction_unresolved','parsed':copy.deepcopy(parsed)},dict(status='EXTRACTION_UNRESOLVED',heading_id=None,version=None,created=[],links=[]))
++            return dict(status='EXTRACTION_UNRESOLVED',results=[result])
++        results=[self.consume(task,e) for e in parsed.get('events',[])]
++        return dict(status='PROCESSED' if results else 'EXTRACTION_UNRESOLVED',results=results)
++    def get(self,task,entity): return copy.deepcopy(self._nodes.get((task,entity)))
++    def headings(self,task): return [copy.deepcopy(v) for (t,_),v in self._nodes.items() if t==task]
++    def active_links(self,task):
++        # Absolute updates leave the latest edge facet and its source version
++        # intact. Historical edge replacement never deletes previous links.
++        latest={}
++        for link in self._links:
++            if link['task']==task: latest[link['source']]=link
++        return copy.deepcopy(list(latest.values()))
++    def serialize(self): return dict(schema='finite-heading-registry-v1',history=copy.deepcopy(self._history))
++    @classmethod
++    def from_serialized(cls,payload):
++        if payload.get('schema')!='finite-heading-registry-v1': raise ValueError('UNSUPPORTED_SCHEMA')
++        registry=cls()
++        for row in payload['history']:
++            body={k:v for k,v in row.items() if k!='sha256'}
++            if hashlib.sha256(canonical(body).encode()).hexdigest()!=row['sha256']: raise ValueError('HISTORY_HASH_MISMATCH')
++            if row['event'].get('kind')=='extraction_unresolved': registry.consume_parsed(row['task'],row['event']['parsed'])
++            else: registry.consume(row['task'],row['event'])
++            if registry._history[-1]!=row: raise ValueError('HISTORY_REPLAY_MISMATCH')
++        return registry
+diff --git a/tests/test_integration_pipeline.py b/tests/test_integration_pipeline.py
+new file mode 100644
+index 0000000..ab44f49
+--- /dev/null
++++ b/tests/test_integration_pipeline.py
+@@ -0,0 +1,92 @@
++import importlib
++from pathlib import Path
++import pytest
++import torch
++
++
++def api():
++    try:return importlib.import_module('integration.pipeline')
++    except ModuleNotFoundError:pytest.fail('connected learned memory pipeline not implemented')
++
++
++def zero_model():
++    from learning.model import EventModel
++    m=EventModel(feedback=True)
++    with torch.no_grad():
++        for p in m.parameters():p.zero_()
++    m.eval();return m
++
++
++def records(value):
++    return [{'kind':'root','child':'x0','parent':None,'value':value},
++            {'kind':'query','child':'x0','parent':None,'value':None}]
++
++
++def test_pipeline_never_substitutes_symbolic_answer_for_wrong_candidate():
++    out=api().run_from_records(zero_model(),records(2.),max_steps=3)
++    assert out['status']=='UNRESOLVED_BUDGET'
++    assert out['prediction']==0.
++    assert out['bound']==2.
++    assert out['steps']==3
++
++
++def test_real_early_acceptance_executes_one_refinement_only():
++    trace=[]
++    out=api().run_from_records(zero_model(),records(0.),max_steps=8,trace_sink=trace.append)
++    assert out['status']=='VERIFIED_PARSED_CONSTRAINTS'
++    assert out['steps']==1
++    assert out['refinements_executed']==1
++    assert len(trace)==1
++    assert trace[0]['t']==2
++
++
++def test_replay_uses_actual_recorded_prior_query_budget():
++    tape=records(0.)+[{'kind':'revision','child':'x0','parent':None,'value':2.},records(0.)[-1]]
++    out=api().run_from_records(zero_model(),tape,max_steps=3,prior_rounds=[1])
++    assert out['prior_query_rounds']==[1]
++    assert out['refinements_executed']==4
++    assert out['consumed_tokens']==4
++
++
++def test_ill_formed_or_oversized_model_inputs_fail_explicitly():
++    m=zero_model()
++    with pytest.raises(ValueError):api().run_from_records(m,records(float('nan')))
++    many=[{'kind':'root','child':f'x{i}','parent':None,'value':0.} for i in range(11)]+records(0.)[-1:]
++    with pytest.raises(ValueError):api().run_from_records(m,many)
++
++
++def test_connected_text_archive_revision_preserves_raw_source_and_wrong_answer(tmp_path):
++    from memory.api import load_parser,Archive
++    p=api();db=tmp_path/'episode.sqlite'
++    texts=['set x0 to 0 .','query x0 .','revise x0 to 2 .','query x0 .']
++    out=p.run_text_episode(texts,zero_model(),load_parser(),db,max_steps=3,capacity=2)
++    assert out['outputs'][0]['status']=='VERIFIED_PARSED_CONSTRAINTS'
++    assert out['outputs'][-1]['status']=='UNRESOLVED_BUDGET'
++    assert out['outputs'][-1]['prediction']==0.
++    assert out['compactions']>=1
++    assert out['max_active_records']<=2
++    assert out['heading_count']==1
++    a=Archive(db)
++    assert [a.read_observation(i+1)['text'] for i in range(4)]==texts
++    assert len(a.history('episode','main/trace'))==out['total_refinements_executed']
++    a.close()
++
++
++def test_rejected_text_remains_archived_and_quarantines_future_answers(tmp_path):
++    from memory.api import load_parser,Archive
++    db=tmp_path/'rejected.sqlite'
++    out=api().run_text_episode(['set x0 to 0 .','','query x0 .'],zero_model(),load_parser(),db,max_steps=3)
++    assert out['rejected_observations']==1
++    assert out['outputs'][-1]['status']=='UNRESOLVED_SOURCE'
++    assert out['outputs'][-1]['prediction'] is None
++    assert out['total_refinements_executed']==0
++    a=Archive(db);assert a.read_observation(2)['text']=='';a.close()
++
++
++def test_compact_view_uses_latest_evidence_and_counts_actual_consumption(tmp_path):
++    from memory.api import load_parser
++    out=api().run_text_episode(['set x0 to 0 .','query x0 .','revise x0 to 2 .','query x0 .'],
++        zero_model(),load_parser(),tmp_path/'compact.sqlite',max_steps=2,capacity=2,view='compact')
++    assert out['outputs'][-1]['bound']==2.
++    assert out['outputs'][-1]['consumed_tokens']==2
++    assert out['outputs'][-1]['status']=='UNRESOLVED_BUDGET'

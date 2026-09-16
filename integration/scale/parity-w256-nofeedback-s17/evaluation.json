@@ -1,0 +1,141 @@
+{
+  "seed": 17,
+  "mode": "nofeedback",
+  "protocol_sha256": "54ee3d844cd21435b98563c8ae5d077da9b498ba867c33e660ee992d72e9b41d",
+  "long_horizon": [
+    {
+      "seed": 17,
+      "mode": "nofeedback",
+      "length": 32,
+      "t": 32,
+      "k": 0,
+      "examples": 512,
+      "final_accuracy": 0.513671875,
+      "prefix_accuracy": 0.53643798828125,
+      "prefix_loss": 0.6566497310996056,
+      "seconds": 0.14423639996675774,
+      "file": "E:\\rlt-research\\2026-09-16-e2e\\integration\\scale\\parity-w256-nofeedback-s17\\heldout-L32.npz",
+      "sha256": "50b08b83a7a43eb376fc418c2a868ae17216e5f534ab300cffa3cd6089674d95"
+    },
+    {
+      "seed": 17,
+      "mode": "nofeedback",
+      "length": 64,
+      "t": 64,
+      "k": 0,
+      "examples": 512,
+      "final_accuracy": 0.513671875,
+      "prefix_accuracy": 0.51983642578125,
+      "prefix_loss": 0.67423465102911,
+      "seconds": 0.15924939996330068,
+      "file": "E:\\rlt-research\\2026-09-16-e2e\\integration\\scale\\parity-w256-nofeedback-s17\\heldout-L64.npz",
+      "sha256": "a7b5010077acb885d1b65e512d37b948ae483a8a7838d4ae9c44f505654aba13"
+    },
+    {
+      "seed": 17,
+      "mode": "nofeedback",
+      "length": 128,
+      "t": 128,
+      "k": 0,
+      "examples": 512,
+      "final_accuracy": 0.46484375,
+      "prefix_accuracy": 0.507904052734375,
+      "prefix_loss": 0.6856463328003883,
+      "seconds": 0.14792019996093586,
+      "file": "E:\\rlt-research\\2026-09-16-e2e\\integration\\scale\\parity-w256-nofeedback-s17\\heldout-L128.npz",
+      "sha256": "27298e824c0ff0a6e94eafb6f443bf39d511bda947b0d03efe4706ade9f6c3e1"
+    },
+    {
+      "seed": 17,
+      "mode": "nofeedback",
+      "length": 256,
+      "t": 256,
+      "k": 0,
+      "examples": 512,
+      "final_accuracy": 0.466796875,
+      "prefix_accuracy": 0.5065155029296875,
+      "prefix_loss": 0.6891138665378094,
+      "seconds": 0.2116459999815561,
+      "file": "E:\\rlt-research\\2026-09-16-e2e\\integration\\scale\\parity-w256-nofeedback-s17\\heldout-L256.npz",
+      "sha256": "5a5a4820b33a9cd9cee43923ba46bda071740eddd84ba8435ab843e5aafaa9db"
+    },
+    {
+      "seed": 17,
+      "mode": "nofeedback",
+      "length": 512,
+      "t": 512,
+      "k": 0,
+      "examples": 512,
+      "final_accuracy": 0.51171875,
+      "prefix_accuracy": 0.50286865234375,
+      "prefix_loss": 0.6913535511121154,
+      "seconds": 0.6208258999977261,
+      "file": "E:\\rlt-research\\2026-09-16-e2e\\integration\\scale\\parity-w256-nofeedback-s17\\heldout-L512.npz",
+      "sha256": "e9476cbc89560207f120e744f8da9d7505513330232b76a79bc6179e4c310f30"
+    },
+    {
+      "seed": 17,
+      "mode": "nofeedback",
+      "length": 1024,
+      "t": 1024,
+      "k": 0,
+      "examples": 512,
+      "final_accuracy": 0.462890625,
+      "prefix_accuracy": 0.5022220611572266,
+      "prefix_loss": 0.6926619512960315,
+      "seconds": 1.1950295999995433,
+      "file": "E:\\rlt-research\\2026-09-16-e2e\\integration\\scale\\parity-w256-nofeedback-s17\\heldout-L1024.npz",
+      "sha256": "7b2eb9444e9ce6e79499f2e220b4bfcdeb945363f1cef995d3e2ff474965fe62"
+    }
+  ],
+  "neutral_slots": [
+    {
+      "slots": 0,
+      "t": 32,
+      "k": 0,
+      "useful_input_length": 32,
+      "final_accuracy": 0.48046875,
+      "prefix_accuracy": 0.53302001953125,
+      "prefix_loss": 0.6569721437990665,
+      "seconds": 0.12965910002822056,
+      "file": "E:\\rlt-research\\2026-09-16-e2e\\integration\\scale\\parity-w256-nofeedback-s17\\neutral-0.npz",
+      "sha256": "1a03666431b323e34176de41539b8ad9efcd795cdbb6f5529f810657b47c0478"
+    },
+    {
+      "slots": 8,
+      "t": 40,
+      "k": 0,
+      "useful_input_length": 32,
+      "final_accuracy": 0.4921875,
+      "prefix_accuracy": 0.524853515625,
+      "prefix_loss": 0.6644434362649918,
+      "seconds": 0.14799570001196116,
+      "file": "E:\\rlt-research\\2026-09-16-e2e\\integration\\scale\\parity-w256-nofeedback-s17\\neutral-8.npz",
+      "sha256": "641ea78f9d45a423165fe464b1c76fa13399dbcb9eaa7d07c42fbb13cc2ce030"
+    },
+    {
+      "slots": 32,
+      "t": 64,
+      "k": 0,
+      "useful_input_length": 32,
+      "final_accuracy": 0.4921875,
+      "prefix_accuracy": 0.512603759765625,
+      "prefix_loss": 0.6754756532609463,
+      "seconds": 0.13469039998017251,
+      "file": "E:\\rlt-research\\2026-09-16-e2e\\integration\\scale\\parity-w256-nofeedback-s17\\neutral-32.npz",
+      "sha256": "33b8061166d0e33a980138fb515cff2846d5f9e3cc53a8dccb58c7e9eaad1198"
+    },
+    {
+      "slots": 128,
+      "t": 160,
+      "k": 0,
+      "useful_input_length": 32,
+      "final_accuracy": 0.4921875,
+      "prefix_accuracy": 0.50150146484375,
+      "prefix_loss": 0.697969588637352,
+      "seconds": 0.15986449999036267,
+      "file": "E:\\rlt-research\\2026-09-16-e2e\\integration\\scale\\parity-w256-nofeedback-s17\\neutral-128.npz",
+      "sha256": "918bccacf166e0457bf8798ecdc4429d7850399998bd4f2a19c2055a457afc11"
+    }
+  ]
+}

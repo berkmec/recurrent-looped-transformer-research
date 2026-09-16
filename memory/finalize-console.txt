@@ -1,0 +1,47 @@
+{
+  "report": "E:\\rlt-research\\2026-09-16-e2e\\reports\\memory-report.md",
+  "checks": [
+    {
+      "name": "extractor_seed_17",
+      "pass_check": true,
+      "examples": 768
+    },
+    {
+      "name": "extractor_seed_43",
+      "pass_check": true,
+      "examples": 768
+    },
+    {
+      "name": "extractor_seed_91",
+      "pass_check": true,
+      "examples": 768
+    },
+    {
+      "name": "memory_errors_recomputed",
+      "pass_check": true,
+      "examples": 192
+    },
+    {
+      "name": "retrieval_recall_recomputed",
+      "pass_check": true,
+      "examples": 192
+    },
+    {
+      "name": "actual_halting_steps_recomputed",
+      "pass_check": true,
+      "examples": 768
+    },
+    {
+      "name": "source_text_abstention_fresh_process",
+      "pass_check": true,
+      "examples": 6
+    }
+  ],
+  "package_status": {
+    "5": "MIXED",
+    "8": "IMPLEMENTED_TESTED",
+    "9": "MEASURED_POSITIVE",
+    "10": "MEASURED_NEGATIVE",
+    "11": "MEASURED_POSITIVE"
+  }
+}

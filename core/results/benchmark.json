@@ -1,0 +1,366 @@
+{
+  "protocol_hash": "3cdd507966bd2946cd10c18286cf5e6c6cd45da988a0b34a9e291618164637fa",
+  "rows": [
+    {
+      "mode": "full",
+      "loss": "prefix",
+      "seconds": 0.22467819997109473,
+      "before": {
+        "working_set_bytes": 593555456,
+        "peak_working_set_bytes": 593801216,
+        "private_bytes": 1267191808
+      },
+      "after": {
+        "working_set_bytes": 620933120,
+        "peak_working_set_bytes": 620937216,
+        "private_bytes": 1292206080
+      },
+      "loss_value": 1.6793113900348544e-05,
+      "gradient_norm": 0.00015184780932031572,
+      "torch": "2.12.0+cu130",
+      "threads": 1,
+      "repeat": 0
+    },
+    {
+      "mode": "full",
+      "loss": "prefix",
+      "seconds": 0.1966262999922037,
+      "before": {
+        "working_set_bytes": 593342464,
+        "peak_working_set_bytes": 593588224,
+        "private_bytes": 1267064832
+      },
+      "after": {
+        "working_set_bytes": 620974080,
+        "peak_working_set_bytes": 620978176,
+        "private_bytes": 1292345344
+      },
+      "loss_value": 1.6793113900348544e-05,
+      "gradient_norm": 0.00015184780932031572,
+      "torch": "2.12.0+cu130",
+      "threads": 1,
+      "repeat": 1
+    },
+    {
+      "mode": "full",
+      "loss": "prefix",
+      "seconds": 0.23266590002458543,
+      "before": {
+        "working_set_bytes": 593760256,
+        "peak_working_set_bytes": 594010112,
+        "private_bytes": 1267658752
+      },
+      "after": {
+        "working_set_bytes": 620900352,
+        "peak_working_set_bytes": 620904448,
+        "private_bytes": 1292288000
+      },
+      "loss_value": 1.6793113900348544e-05,
+      "gradient_norm": 0.00015184780932031572,
+      "torch": "2.12.0+cu130",
+      "threads": 1,
+      "repeat": 2
+    },
+    {
+      "mode": "tbptt8",
+      "loss": "prefix",
+      "seconds": 0.21256060001906008,
+      "before": {
+        "working_set_bytes": 593973248,
+        "peak_working_set_bytes": 594206720,
+        "private_bytes": 1267703808
+      },
+      "after": {
+        "working_set_bytes": 621420544,
+        "peak_working_set_bytes": 621424640,
+        "private_bytes": 1292410880
+      },
+      "loss_value": 1.6793113900348544e-05,
+      "gradient_norm": 0.0001518403150839731,
+      "torch": "2.12.0+cu130",
+      "threads": 1,
+      "repeat": 0
+    },
+    {
+      "mode": "tbptt8",
+      "loss": "prefix",
+      "seconds": 0.21669410000322387,
+      "before": {
+        "working_set_bytes": 594165760,
+        "peak_working_set_bytes": 594407424,
+        "private_bytes": 1267793920
+      },
+      "after": {
+        "working_set_bytes": 621293568,
+        "peak_working_set_bytes": 621297664,
+        "private_bytes": 1292152832
+      },
+      "loss_value": 1.6793113900348544e-05,
+      "gradient_norm": 0.0001518403150839731,
+      "torch": "2.12.0+cu130",
+      "threads": 1,
+      "repeat": 1
+    },
+    {
+      "mode": "tbptt8",
+      "loss": "prefix",
+      "seconds": 0.2503754000063054,
+      "before": {
+        "working_set_bytes": 593776640,
+        "peak_working_set_bytes": 593956864,
+        "private_bytes": 1267650560
+      },
+      "after": {
+        "working_set_bytes": 620703744,
+        "peak_working_set_bytes": 620707840,
+        "private_bytes": 1291689984
+      },
+      "loss_value": 1.6793113900348544e-05,
+      "gradient_norm": 0.0001518403150839731,
+      "torch": "2.12.0+cu130",
+      "threads": 1,
+      "repeat": 2
+    },
+    {
+      "mode": "checkpoint",
+      "loss": "prefix",
+      "seconds": 0.6294596999650821,
+      "before": {
+        "working_set_bytes": 592900096,
+        "peak_working_set_bytes": 593145856,
+        "private_bytes": 1266802688
+      },
+      "after": {
+        "working_set_bytes": 627650560,
+        "peak_working_set_bytes": 627654656,
+        "private_bytes": 1297760256
+      },
+      "loss_value": 1.6793113900348544e-05,
+      "gradient_norm": 0.00015184780932031572,
+      "torch": "2.12.0+cu130",
+      "threads": 1,
+      "repeat": 0
+    },
+    {
+      "mode": "checkpoint",
+      "loss": "prefix",
+      "seconds": 0.38694580004084855,
+      "before": {
+        "working_set_bytes": 594030592,
+        "peak_working_set_bytes": 594202624,
+        "private_bytes": 1267875840
+      },
+      "after": {
+        "working_set_bytes": 628506624,
+        "peak_working_set_bytes": 628510720,
+        "private_bytes": 1298759680
+      },
+      "loss_value": 1.6793113900348544e-05,
+      "gradient_norm": 0.00015184780932031572,
+      "torch": "2.12.0+cu130",
+      "threads": 1,
+      "repeat": 1
+    },
+    {
+      "mode": "checkpoint",
+      "loss": "prefix",
+      "seconds": 0.3924331000307575,
+      "before": {
+        "working_set_bytes": 593043456,
+        "peak_working_set_bytes": 593285120,
+        "private_bytes": 1266880512
+      },
+      "after": {
+        "working_set_bytes": 627765248,
+        "peak_working_set_bytes": 627769344,
+        "private_bytes": 1297612800
+      },
+      "loss_value": 1.6793113900348544e-05,
+      "gradient_norm": 0.00015184780932031572,
+      "torch": "2.12.0+cu130",
+      "threads": 1,
+      "repeat": 2
+    },
+    {
+      "mode": "full",
+      "loss": "final_only",
+      "seconds": 0.20140399999218062,
+      "before": {
+        "working_set_bytes": 593391616,
+        "peak_working_set_bytes": 593559552,
+        "private_bytes": 1267204096
+      },
+      "after": {
+        "working_set_bytes": 620879872,
+        "peak_working_set_bytes": 620883968,
+        "private_bytes": 1292148736
+      },
+      "loss_value": 1.7598113117855974e-05,
+      "gradient_norm": 0.00015895381511654705,
+      "torch": "2.12.0+cu130",
+      "threads": 1,
+      "repeat": 0
+    },
+    {
+      "mode": "full",
+      "loss": "final_only",
+      "seconds": 0.22862259997054935,
+      "before": {
+        "working_set_bytes": 593432576,
+        "peak_working_set_bytes": 593674240,
+        "private_bytes": 1267490816
+      },
+      "after": {
+        "working_set_bytes": 620703744,
+        "peak_working_set_bytes": 620707840,
+        "private_bytes": 1292263424
+      },
+      "loss_value": 1.7598113117855974e-05,
+      "gradient_norm": 0.00015895381511654705,
+      "torch": "2.12.0+cu130",
+      "threads": 1,
+      "repeat": 1
+    },
+    {
+      "mode": "full",
+      "loss": "final_only",
+      "seconds": 0.2899587999563664,
+      "before": {
+        "working_set_bytes": 593530880,
+        "peak_working_set_bytes": 593776640,
+        "private_bytes": 1267441664
+      },
+      "after": {
+        "working_set_bytes": 621248512,
+        "peak_working_set_bytes": 621252608,
+        "private_bytes": 1292615680
+      },
+      "loss_value": 1.7598113117855974e-05,
+      "gradient_norm": 0.00015895381511654705,
+      "torch": "2.12.0+cu130",
+      "threads": 1,
+      "repeat": 2
+    },
+    {
+      "mode": "tbptt8",
+      "loss": "final_only",
+      "seconds": 0.19407839997438714,
+      "before": {
+        "working_set_bytes": 593420288,
+        "peak_working_set_bytes": 593657856,
+        "private_bytes": 1267236864
+      },
+      "after": {
+        "working_set_bytes": 620609536,
+        "peak_working_set_bytes": 620613632,
+        "private_bytes": 1291821056
+      },
+      "loss_value": 1.7598113117855974e-05,
+      "gradient_norm": 0.00015895382966846228,
+      "torch": "2.12.0+cu130",
+      "threads": 1,
+      "repeat": 0
+    },
+    {
+      "mode": "tbptt8",
+      "loss": "final_only",
+      "seconds": 0.17432199994800612,
+      "before": {
+        "working_set_bytes": 594317312,
+        "peak_working_set_bytes": 594563072,
+        "private_bytes": 1268060160
+      },
+      "after": {
+        "working_set_bytes": 621342720,
+        "peak_working_set_bytes": 621346816,
+        "private_bytes": 1292222464
+      },
+      "loss_value": 1.7598113117855974e-05,
+      "gradient_norm": 0.00015895382966846228,
+      "torch": "2.12.0+cu130",
+      "threads": 1,
+      "repeat": 1
+    },
+    {
+      "mode": "tbptt8",
+      "loss": "final_only",
+      "seconds": 0.19509260001359507,
+      "before": {
+        "working_set_bytes": 594038784,
+        "peak_working_set_bytes": 594284544,
+        "private_bytes": 1267855360
+      },
+      "after": {
+        "working_set_bytes": 620728320,
+        "peak_working_set_bytes": 620732416,
+        "private_bytes": 1291792384
+      },
+      "loss_value": 1.7598113117855974e-05,
+      "gradient_norm": 0.00015895382966846228,
+      "torch": "2.12.0+cu130",
+      "threads": 1,
+      "repeat": 2
+    },
+    {
+      "mode": "checkpoint",
+      "loss": "final_only",
+      "seconds": 0.3883588999742642,
+      "before": {
+        "working_set_bytes": 593993728,
+        "peak_working_set_bytes": 593997824,
+        "private_bytes": 1297920000
+      },
+      "after": {
+        "working_set_bytes": 628305920,
+        "peak_working_set_bytes": 628310016,
+        "private_bytes": 1298640896
+      },
+      "loss_value": 1.7598113117855974e-05,
+      "gradient_norm": 0.00015895381511654705,
+      "torch": "2.12.0+cu130",
+      "threads": 1,
+      "repeat": 0
+    },
+    {
+      "mode": "checkpoint",
+      "loss": "final_only",
+      "seconds": 0.4014937999891117,
+      "before": {
+        "working_set_bytes": 594030592,
+        "peak_working_set_bytes": 594272256,
+        "private_bytes": 1267896320
+      },
+      "after": {
+        "working_set_bytes": 628416512,
+        "peak_working_set_bytes": 628420608,
+        "private_bytes": 1298640896
+      },
+      "loss_value": 1.7598113117855974e-05,
+      "gradient_norm": 0.00015895381511654705,
+      "torch": "2.12.0+cu130",
+      "threads": 1,
+      "repeat": 1
+    },
+    {
+      "mode": "checkpoint",
+      "loss": "final_only",
+      "seconds": 0.3390099999960512,
+      "before": {
+        "working_set_bytes": 594108416,
+        "peak_working_set_bytes": 594345984,
+        "private_bytes": 1268006912
+      },
+      "after": {
+        "working_set_bytes": 628834304,
+        "peak_working_set_bytes": 628838400,
+        "private_bytes": 1299083264
+      },
+      "loss_value": 1.7598113117855974e-05,
+      "gradient_norm": 0.00015895381511654705,
+      "torch": "2.12.0+cu130",
+      "threads": 1,
+      "repeat": 2
+    }
+  ],
+  "scope": "fresh child processes run sequentially; external system load not controlled"
+}

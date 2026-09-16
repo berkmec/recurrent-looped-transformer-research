@@ -1,0 +1,17 @@
+{
+  "isolated_import_path": true,
+  "oracle_importable": false,
+  "trace_package_importable": false,
+  "models": [
+    "answer_only-17-step300.pt",
+    "answer_only-43-step300.pt",
+    "answer_only-91-step300.pt",
+    "trajectory-17-step300.pt",
+    "trajectory-43-step300.pt",
+    "trajectory-91-step300.pt"
+  ],
+  "examples_per_model": 512,
+  "max_prediction_difference": 0.0,
+  "predictions_sha256": "bf1723134dc6a4b87299ede8923bb2cb610a048c8a212e02e85e2d8fc36e0419",
+  "boundary": "isolated inference export/import path, not OS filesystem sandbox; no archive or targets exported"
+}
