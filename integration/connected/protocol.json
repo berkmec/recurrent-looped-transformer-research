@@ -1,0 +1,97 @@
+{
+  "version": 1,
+  "frozen_utc": "2026-09-16T17:14:07.720359+00:00",
+  "goal": "Measure the actual connected learned-text, headings, archive, RLT feedback and halting pipeline on fresh original-source-relative cases.",
+  "seeds": [
+    17,
+    43,
+    91
+  ],
+  "model_arm": "combined",
+  "checkpoint_step": 600,
+  "checkpoint_selection": "fixed protocol arm and final step; all three seeds; no held-out selection",
+  "parser_pairing": "extractor seed equals RLT seed; joint pipeline seeds, not independent parser/model factorial",
+  "datasets": {
+    "iid": {
+      "count": 256,
+      "seed": 104731
+    },
+    "depth8": {
+      "count": 256,
+      "seed": 104738
+    }
+  },
+  "conditions": [
+    {
+      "name": "adaptive-replay-seen",
+      "view": "replay",
+      "adaptive": true,
+      "style": "seen"
+    },
+    {
+      "name": "fixed-replay-seen",
+      "view": "replay",
+      "adaptive": false,
+      "style": "seen"
+    },
+    {
+      "name": "adaptive-compact-seen",
+      "view": "compact",
+      "adaptive": true,
+      "style": "seen"
+    },
+    {
+      "name": "adaptive-replay-heldout",
+      "view": "replay",
+      "adaptive": true,
+      "style": "heldout"
+    }
+  ],
+  "max_refinements_per_query": 8,
+  "active_record_capacity": 4,
+  "tolerance": 0.1,
+  "numeric_margin": 1e-06,
+  "compaction_scope": "actual stable-heading-owned observed constraint boundaries; cross-heading raw ID chronology for replay; reset from compact constraints is a distinct memory policy",
+  "labels": "independent full-rank linear least squares on original 8-decimal observations, never passed to inference",
+  "primary_metrics": [
+    "all-intended final accuracy0.1",
+    "final emitted MSE with missing count",
+    "parsed-certificate coverage and original-source failure risk",
+    "actual refinements including replay",
+    "wall time and archive bytes"
+  ],
+  "secondary_metrics": [
+    "source tuple/episode exactness",
+    "all3 queries with correlated denominator",
+    "affected/inverse subgroups",
+    "title count",
+    "compaction and reopen counts"
+  ],
+  "pairing": "same512 source tasks and rephrasings shared across3 seeds/conditions; report3 seeds separately, paired example comparisons; never flatten seeds into independent samples",
+  "limitations": [
+    "finite controlled English,10 entities,affine constraints",
+    "heldout templates known evaluation family from prior parser study; fresh numeric/entity examples",
+    "no no-write continuation sentences: observation/query-only transfer stream",
+    "first-appearance ID mapping instead of original randomized numeric labels",
+    "capacity bounds resident record IDs, not total RAM/reconstruction/model working state",
+    "SQLite raw title-state trace persists every actual generated refinement; no generic lossless natural-language reasoning proof",
+    "no semantic vector retrieval claim from keyed archive replay",
+    "thread contention: measured wall time is this local run, not isolated device efficiency"
+  ],
+  "source_sha256": {
+    "E:\\rlt-research\\2026-09-16-e2e\\integration\\evaluate_system.py": "0f3de3abc5600ac9ae3d014f0ecfde1c83dc6c2a26dd0f0010c00003e18589b9",
+    "E:\\rlt-research\\2026-09-16-e2e\\integration\\pipeline.py": "0c64c1df469db5a38f3c235c8efadd486268db7fe731ee9aabf4f8768f4327aa",
+    "E:\\rlt-research\\2026-09-16-e2e\\integration\\audit_stats.py": "e5da7f4a73703edeb467c2b620c6d166247450ef045888969a53b10e363a5fdb",
+    "E:\\rlt-research\\2026-09-16-e2e\\learning\\api.py": "5ffe0802e6e7918ea00d2fc48fb41e96e5cc5edf5c602348cf04973815ddc97c",
+    "E:\\rlt-research\\2026-09-16-e2e\\learning\\model.py": "debf93724b49d21635b2545485065a842c9ee123af9c6660a4152b296b264410",
+    "E:\\rlt-research\\2026-09-16-e2e\\learning\\token_core.py": "7eb4e1ffc9143dc014596663da8bf4a3296039f97865248c09b86f455ee6e3e0",
+    "E:\\rlt-research\\2026-09-16-e2e\\memory\\api.py": "826e7a185b9da272f7da559a6c01fc93ed54124406d2145447d416942ee88a92",
+    "E:\\rlt-research\\2026-09-16-e2e\\memory\\headings.py": "445798f70f34c3a276473bde82691b2bbcfdd28eca2bbabbbff8220984e7513e",
+    "E:\\rlt-research\\2026-09-16-e2e\\memory\\extractor.py": "92737acc677cb742ab9f2a19354bf74939ddf43f16e98a0c9d0f69a1376cb895"
+  },
+  "upstream_protocol_sha256": {
+    "E:\\rlt-research\\2026-09-16-e2e\\learning\\protocol.json": "2647a34ff4a0c23fe2f275d1ac99e76906046a69f96c5f6f1eedcefb43e1b62f",
+    "E:\\rlt-research\\2026-09-16-e2e\\learning\\combined-protocol.json": "f232f88ab92d731cc4060e030468bc0cd6ffba1aecd9ed24dbfd80072e373cbc",
+    "E:\\rlt-research\\2026-09-16-e2e\\memory\\protocol.json": "cce658466765424b59af28da85638ea2f67ba33c83a1d696ff4384ac36fd35d8"
+  }
+}

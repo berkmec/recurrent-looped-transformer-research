@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="8" time="2.566" timestamp="2026-09-16T20:10:57.652404+03:00" hostname="DESKTOP-ELKUIO6"><testcase classname="tests.test_connected_evaluation" name="test_independent_labels_preserve_inverse_evidence_after_revision" time="0.148" /><testcase classname="tests.test_connected_evaluation" name="test_ambiguous_and_inconsistent_source_is_not_silently_labeled" time="0.001" /><testcase classname="tests.test_connected_evaluation" name="test_missing_or_misparsed_query_remains_in_intended_denominator" time="0.020" /><testcase classname="tests.test_connected_evaluation" name="test_certificate_for_wrong_requested_entity_counts_as_source_error" time="0.004" /><testcase classname="tests.test_connected_evaluation" name="test_dataset_is_balanced_and_text_roundtrip_values_match_source" time="2.314" /><testcase classname="tests.test_connected_evaluation" name="test_run_refuses_partial_outputs_and_source_drift" time="0.014" /><testcase classname="tests.test_connected_evaluation" name="test_summary_zero_coverage_has_unknown_risk_and_no_missing_zero_fill" time="0.005" /><testcase classname="tests.test_connected_evaluation" name="test_certified_spurious_query_counts_as_source_alignment_failure" time="0.004"><failure message="KeyError: 'spurious_accepted_outputs'">def test_certified_spurious_query_counts_as_source_alignment_failure():
+        p=api();case=p.make_cases(8,990001,'iid')[0]
+        result={'outputs':[dict(source_index=0,prediction=0.,query='x0',status='VERIFIED_PARSED_CONSTRAINTS')], 'parsed':[]}
+        score=p.score_episode(case,result)
+&gt;       assert score['spurious_accepted_outputs']==1
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       KeyError: 'spurious_accepted_outputs'
+
+tests\test_connected_evaluation.py:87: KeyError</failure></testcase></testsuite></testsuites>

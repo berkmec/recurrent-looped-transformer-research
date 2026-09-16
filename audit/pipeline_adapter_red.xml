@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="2" skipped="0" tests="9" time="3.309" timestamp="2026-09-16T20:08:36.340825+03:00" hostname="DESKTOP-ELKUIO6"><testcase classname="tests.test_integration_pipeline" name="test_pipeline_never_substitutes_symbolic_answer_for_wrong_candidate" time="0.034" /><testcase classname="tests.test_integration_pipeline" name="test_real_early_acceptance_executes_one_refinement_only" time="0.013" /><testcase classname="tests.test_integration_pipeline" name="test_replay_uses_actual_recorded_prior_query_budget" time="0.019" /><testcase classname="tests.test_integration_pipeline" name="test_ill_formed_or_oversized_model_inputs_fail_explicitly" time="0.006" /><testcase classname="tests.test_integration_pipeline" name="test_connected_text_archive_revision_preserves_raw_source_and_wrong_answer" time="0.142" /><testcase classname="tests.test_integration_pipeline" name="test_rejected_text_remains_archived_and_quarantines_future_answers" time="0.054" /><testcase classname="tests.test_integration_pipeline" name="test_compact_view_uses_latest_evidence_and_counts_actual_consumption" time="0.105" /><testcase classname="tests.test_integration_pipeline" name="test_contradictory_parser_abstention_is_quarantined_and_raw_output_preserved" time="0.062"><failure message="AssertionError: assert 'VERIFIED_PARSED_CONSTRAINTS' == 'UNRESOLVED_SOURCE'&#10;  &#10;  - UNRESOLVED_SOURCE&#10;  + VERIFIED_PARSED_CONSTRAINTS">tmp_path = WindowsPath('C:/Users/pc/AppData/Local/Temp/pytest-of-pc/pytest-421/test_contradictory_parser_abst0')
+
+    def test_contradictory_parser_abstention_is_quarantined_and_raw_output_preserved(tmp_path):
+        from memory.api import Archive
+        class Contradictory:
+            def parse_batch(self,texts):
+                return [dict(valid=True,abstained=True,events=[records(0.)[0]]),
+                        dict(valid=True,abstained=False,events=[records(0.)[-1]])]
+        db=tmp_path/'contradictory.sqlite'
+        out=api().run_text_episode(['first','second'],zero_model(),Contradictory(),db)
+&gt;       assert out['outputs'][-1]['status']=='UNRESOLVED_SOURCE'
+E       AssertionError: assert 'VERIFIED_PARSED_CONSTRAINTS' == 'UNRESOLVED_SOURCE'
+E         
+E         - UNRESOLVED_SOURCE
+E         + VERIFIED_PARSED_CONSTRAINTS
+
+tests\test_integration_pipeline.py:103: AssertionError</failure></testcase><testcase classname="tests.test_integration_pipeline" name="test_parser_cannot_silently_drop_original_source_observations" time="0.032"><failure message="Failed: DID NOT RAISE &lt;class 'ValueError'&gt;">tmp_path = WindowsPath('C:/Users/pc/AppData/Local/Temp/pytest-of-pc/pytest-421/test_parser_cannot_silently_dr0')
+
+    def test_parser_cannot_silently_drop_original_source_observations(tmp_path):
+        class Truncated:
+            def parse_batch(self,texts):return []
+        db=tmp_path/'truncated.sqlite'
+&gt;       with pytest.raises(ValueError,match='cardinality'):
+E       Failed: DID NOT RAISE &lt;class 'ValueError'&gt;
+
+tests\test_integration_pipeline.py:116: Failed</failure></testcase></testsuite></testsuites>

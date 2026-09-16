@@ -90,3 +90,47 @@ def test_compact_view_uses_latest_evidence_and_counts_actual_consumption(tmp_pat
     assert out['outputs'][-1]['bound']==2.
     assert out['outputs'][-1]['consumed_tokens']==2
     assert out['outputs'][-1]['status']=='UNRESOLVED_BUDGET'
+
+
+def test_contradictory_parser_abstention_is_quarantined_and_raw_output_preserved(tmp_path):
+    from memory.api import Archive
+    class Contradictory:
+        def parse_batch(self,texts):
+            return [dict(valid=True,abstained=True,events=[records(0.)[0]]),
+                    dict(valid=True,abstained=False,events=[records(0.)[-1]])]
+    db=tmp_path/'contradictory.sqlite'
+    out=api().run_text_episode(['first','second'],zero_model(),Contradictory(),db)
+    assert out['outputs'][-1]['status']=='UNRESOLVED_SOURCE'
+    assert out['rejected_observations']==1 and out['heading_count']==0
+    a=Archive(db);stored=a.read_observation(1)['parsed']
+    assert stored['raw_adapter_output']['valid'] is True
+    assert stored['raw_adapter_output']['abstained'] is True
+    assert stored['events']==[] and stored['valid'] is False
+    a.close()
+
+
+def test_parser_cannot_silently_drop_original_source_observations(tmp_path):
+    class Truncated:
+        def parse_batch(self,texts):return []
+    db=tmp_path/'truncated.sqlite'
+    with pytest.raises(ValueError,match='cardinality'):
+        api().run_text_episode(['set x0 to 0 .','query x0 .'],zero_model(),Truncated(),db)
+    assert not db.exists()
+
+
+def test_automatic_heading_ids_drive_storage_and_neural_slot_provenance(tmp_path):
+    from memory.api import Archive,load_parser
+    from memory.headings import identity
+    db=tmp_path/'headings.sqlite'
+    out=api().run_text_episode(['set x0 to 0 .','x1 equals x0 plus 1 .','query x1 .',
+                               'revise x0 to 2 .','query x1 .'],zero_model(),load_parser(),db,
+                              capacity=2,max_steps=2)
+    a=Archive(db);h0=identity('episode','x0');h1=identity('episode','x1')
+    assert [r['event']['kind'] for r in a.history('episode',h0)]==['root','revision']
+    assert [r['event']['kind'] for r in a.history('episode',h1)]==['edge','query','query']
+    traces=a.history('episode','main/trace')
+    assert all(set(r['event']['heading_slot_mapping'])=={h0,h1} for r in traces)
+    assert out['outputs'][-1]['consumed_tokens']==5
+    assert out['outputs'][-1]['bound']==3.
+    assert out['max_active_records']<=2 and out['heading_count']==2
+    a.close()

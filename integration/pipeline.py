@@ -90,33 +90,52 @@ def run_text_episode(texts,model,parser,db_path,task='episode',title='main',capa
     if view not in ('replay','compact'):raise ValueError('unknown memory view')
     path=Path(db_path)
     if path.exists():raise FileExistsError('episode archive already exists')
-    start=time.perf_counter();archive=Archive(path);controller=TitleController(capacity,archive)
-    parsed=parser.parse_batch(list(texts));outputs=[];past_budgets=[];rejected=0;total_rounds=0;total_tokens=0
+    start=time.perf_counter();texts=list(texts);parsed=list(parser.parse_batch(texts))
+    if len(parsed)!=len(texts):raise ValueError('parser/source cardinality mismatch')
+    for index,row in enumerate(parsed):
+        if row.get('valid',False) and (row.get('abstained',False) or len(row.get('events',[]))!=1):
+            parsed[index]={**row,'valid':False,'abstained':True,'events':[],
+                           'adapter_rejection':'contradictory validity or event cardinality',
+                           'raw_adapter_output':row}
+    archive=Archive(path);controller=TitleController(capacity,archive)
+    outputs=[];past_budgets=[];rejected=0;total_rounds=0;total_tokens=0
     quarantine=False;headings=HeadingRegistry()
     archive.append(task,title+'/model_provenance',{'kind':'model_provenance',
                     'payload':model_provenance or {'scope':'unbound fixture; not a scientific checkpoint claim'}})
     try:
         for index,(text,interpretation) in enumerate(zip(texts,parsed)):
-            controller.observe_text(task,title,text,interpretation)
-            headings.consume_parsed(task,interpretation)
+            heading_result=headings.consume_parsed(task,interpretation)
+            heading_id=heading_result['results'][0].get('heading_id') if heading_result['results'] else None
+            controller.observe_text(task,heading_id or title+'/unresolved_source',text,interpretation)
             if not interpretation.get('valid',False):
                 rejected+=1;quarantine=True;continue
             events=interpretation.get('events',[])
             if len(events)!=1:quarantine=True;continue
             event=events[0]
+            if heading_id is None:quarantine=True
             if event['kind']!='query':continue
             if quarantine:
                 outputs.append({'source_index':index,'status':'UNRESOLVED_SOURCE','prediction':None,
                                 'steps':0,'query':event['child'],'source_faithfulness':'UNVERIFIED'})
                 continue
             if view=='replay':
-                observed=controller.reconstruct(task,title)
+                # Each heading owns its record window/compact boundary. Global
+                # raw IDs preserve the causal observation tape across headings.
+                keyed=[]
+                for record_task,record_title in sorted(controller.titles):
+                    rows=controller.reconstruct(record_task,record_title)
+                    keyed.extend(zip(archive.keys(record_task,record_title),rows))
+                observed=[row for _,row in sorted(keyed,key=lambda item:item[0])]
                 previous=past_budgets
             else:
-                observed=controller.compact_events(task,title)+[event]
+                observed=[]
+                for record_task,record_title in sorted(controller.titles):
+                    observed.extend(controller.compact_events(record_task,record_title))
+                observed.append(event)
                 previous=[]
             def archive_trace(row):
-                archive.append(task,title+'/trace',{'source_index':index,**row})
+                slots={headings.get(task,name)['id']:slot for name,slot in row['slot_mapping'].items()}
+                archive.append(task,title+'/trace',{'source_index':index,'heading_slot_mapping':slots,**row})
             try:
                 out=run_from_records(model,observed,max_steps=max_steps,prior_rounds=previous,
                                      tolerance=tolerance,trace_sink=archive_trace,adaptive=adaptive)
