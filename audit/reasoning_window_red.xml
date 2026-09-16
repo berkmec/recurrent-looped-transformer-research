@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="4" skipped="0" tests="4" time="4.123" timestamp="2026-09-16T20:30:52.410877+03:00" hostname="DESKTOP-ELKUIO6"><testcase classname="tests.test_reasoning_window" name="test_only_full_generated_window_compacts_and_raw_states_remain" time="0.012"><failure message="Failed: generated reasoning-window continuation is not implemented">name = 'integration.reasoning_window'
+
+    def module(name):
+&gt;       try:return importlib.import_module(name)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_reasoning_window.py:10: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\Program Files\Python311\Lib\importlib\__init__.py:126: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+&lt;frozen importlib._bootstrap&gt;:1204: in _gcd_import
+    ???
+&lt;frozen importlib._bootstrap&gt;:1176: in _find_and_load
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+name = 'integration.reasoning_window'
+import_ = &lt;function _gcd_import at 0x00000127F26D3D80&gt;
+
+&gt;   ???
+E   ModuleNotFoundError: No module named 'integration.reasoning_window'
+
+&lt;frozen importlib._bootstrap&gt;:1140: ModuleNotFoundError
+
+During handling of the above exception, another exception occurred:
+
+tmp_path = WindowsPath('C:/Users/pc/AppData/Local/Temp/pytest-of-pc/pytest-427/test_only_full_generated_windo0')
+
+    def test_only_full_generated_window_compacts_and_raw_states_remain(tmp_path):
+&gt;       cls=module('integration.reasoning_window').ReasoningWindow
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_reasoning_window.py:24: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+name = 'integration.reasoning_window'
+
+    def module(name):
+        try:return importlib.import_module(name)
+&gt;       except ModuleNotFoundError:pytest.fail('generated reasoning-window continuation is not implemented')
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: generated reasoning-window continuation is not implemented
+
+tests\test_reasoning_window.py:11: Failed</failure></testcase><testcase classname="tests.test_reasoning_window" name="test_boundary_reload_is_bitwise_equal_to_uncompacted_real_refinement" time="0.003"><failure message="Failed: generated reasoning-window continuation is not implemented">name = 'integration.reasoning_window'
+
+    def module(name):
+&gt;       try:return importlib.import_module(name)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_reasoning_window.py:10: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\Program Files\Python311\Lib\importlib\__init__.py:126: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+&lt;frozen importlib._bootstrap&gt;:1204: in _gcd_import
+    ???
+&lt;frozen importlib._bootstrap&gt;:1176: in _find_and_load
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+name = 'integration.reasoning_window'
+import_ = &lt;function _gcd_import at 0x00000127F26D3D80&gt;
+
+&gt;   ???
+E   ModuleNotFoundError: No module named 'integration.reasoning_window'
+
+&lt;frozen importlib._bootstrap&gt;:1140: ModuleNotFoundError
+
+During handling of the above exception, another exception occurred:
+
+tmp_path = WindowsPath('C:/Users/pc/AppData/Local/Temp/pytest-of-pc/pytest-427/test_boundary_reload_is_bitwis0')
+
+    def test_boundary_reload_is_bitwise_equal_to_uncompacted_real_refinement(tmp_path):
+&gt;       cls=module('integration.reasoning_window').ReasoningWindow
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_reasoning_window.py:38: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+name = 'integration.reasoning_window'
+
+    def module(name):
+        try:return importlib.import_module(name)
+&gt;       except ModuleNotFoundError:pytest.fail('generated reasoning-window continuation is not implemented')
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: generated reasoning-window continuation is not implemented
+
+tests\test_reasoning_window.py:11: Failed</failure></testcase><testcase classname="tests.test_reasoning_window" name="test_reopening_boundary_under_changed_evidence_or_weights_is_refused" time="0.006"><failure message="Failed: generated reasoning-window continuation is not implemented">name = 'integration.reasoning_window'
+
+    def module(name):
+&gt;       try:return importlib.import_module(name)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_reasoning_window.py:10: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\Program Files\Python311\Lib\importlib\__init__.py:126: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+&lt;frozen importlib._bootstrap&gt;:1204: in _gcd_import
+    ???
+&lt;frozen importlib._bootstrap&gt;:1176: in _find_and_load
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+name = 'integration.reasoning_window'
+import_ = &lt;function _gcd_import at 0x00000127F26D3D80&gt;
+
+&gt;   ???
+E   ModuleNotFoundError: No module named 'integration.reasoning_window'
+
+&lt;frozen importlib._bootstrap&gt;:1140: ModuleNotFoundError
+
+During handling of the above exception, another exception occurred:
+
+tmp_path = WindowsPath('C:/Users/pc/AppData/Local/Temp/pytest-of-pc/pytest-427/test_reopening_boundary_under_0')
+
+    def test_reopening_boundary_under_changed_evidence_or_weights_is_refused(tmp_path):
+&gt;       cls=module('integration.reasoning_window').ReasoningWindow
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_reasoning_window.py:52: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+name = 'integration.reasoning_window'
+
+    def module(name):
+        try:return importlib.import_module(name)
+&gt;       except ModuleNotFoundError:pytest.fail('generated reasoning-window continuation is not implemented')
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: generated reasoning-window continuation is not implemented
+
+tests\test_reasoning_window.py:11: Failed</failure></testcase><testcase classname="tests.test_reasoning_window" name="test_compaction_boundary_delays_halting_until_reread_and_keeps_same_heading" time="0.004"><failure message="Failed: generated reasoning-window continuation is not implemented">name = 'integration.window_pipeline'
+
+    def module(name):
+&gt;       try:return importlib.import_module(name)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_reasoning_window.py:10: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\Program Files\Python311\Lib\importlib\__init__.py:126: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+&lt;frozen importlib._bootstrap&gt;:1204: in _gcd_import
+    ???
+&lt;frozen importlib._bootstrap&gt;:1176: in _find_and_load
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+name = 'integration.window_pipeline'
+import_ = &lt;function _gcd_import at 0x00000127F26D3D80&gt;
+
+&gt;   ???
+E   ModuleNotFoundError: No module named 'integration.window_pipeline'
+
+&lt;frozen importlib._bootstrap&gt;:1140: ModuleNotFoundError
+
+During handling of the above exception, another exception occurred:
+
+tmp_path = WindowsPath('C:/Users/pc/AppData/Local/Temp/pytest-of-pc/pytest-427/test_compaction_boundary_delay0')
+
+    def test_compaction_boundary_delays_halting_until_reread_and_keeps_same_heading(tmp_path):
+&gt;       p=module('integration.window_pipeline');model=EventModel(feedback=True)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_reasoning_window.py:62: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+name = 'integration.window_pipeline'
+
+    def module(name):
+        try:return importlib.import_module(name)
+&gt;       except ModuleNotFoundError:pytest.fail('generated reasoning-window continuation is not implemented')
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: generated reasoning-window continuation is not implemented
+
+tests\test_reasoning_window.py:11: Failed</failure></testcase></testsuite></testsuites>

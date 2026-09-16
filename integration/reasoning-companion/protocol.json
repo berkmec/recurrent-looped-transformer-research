@@ -1,0 +1,86 @@
+{
+  "version": 1,
+  "frozen_utc": "2026-09-16T17:40:21.249307+00:00",
+  "reason": "Original finite windows bounded observations; this companion binds actual generated title-state history compaction and reread to continuation.",
+  "seeds": [
+    17,
+    43,
+    91
+  ],
+  "arm": "combined final600",
+  "parser": "matched seed final extractor",
+  "selection": "none; all3 fixed prior checkpoints",
+  "data": {
+    "iid": {
+      "count": 128,
+      "seed": 134331
+    },
+    "depth8": {
+      "count": 128,
+      "seed": 134338
+    }
+  },
+  "conditions": [
+    {
+      "name": "uncompacted",
+      "compact_reasoning": false
+    },
+    {
+      "name": "window4",
+      "compact_reasoning": true
+    }
+  ],
+  "source_style": "seen",
+  "source_view": "replay",
+  "observation_capacity": 4,
+  "reasoning_capacity": 4,
+  "max_steps": 8,
+  "tolerance": 0.1,
+  "halting": "both arms evaluate sufficiency only after4/8 actual refinements, after reread in window4",
+  "compressed_state": "latest latent title state z, guarded by exact fingerprints of unchanged model/evidence/graph/token/cache/global-memory/query obligations",
+  "raw_policy": "every actual generated z/numeric candidate, original source, model provenance and heading mapping persist in SQLite; compaction never deletes raw",
+  "hypotheses": [
+    "all prediction values, statuses and executed budgets identical to paired uncompacted baseline",
+    "every full boundary reload bitwise exact",
+    "generated active history capacity<=4 with no early compaction",
+    "continuation under same stable heading recorded"
+  ],
+  "metrics": [
+    "conditional candidate quality and certified source yield",
+    "actual refinements/tokens",
+    "archive bytes",
+    "compaction/reread counts",
+    "max resident generated-history records",
+    "serialized active-history payload bytes",
+    "wall time"
+  ],
+  "limits": [
+    "local latent Markov sufficiency, not arbitrary semantic compression",
+    "shared generated-history window for current queried heading, not simultaneous per-heading quotas",
+    "serialized payload bytes are not measured process RAM",
+    "model encoder/KV/graph/title working state remains resident outside history window",
+    "same model quality expected by exact continuation; this tests engineering fidelity, not improved reasoning skill",
+    "scientific counterpart to primary adaptive checks at everyk; do not conflate stopping schedules"
+  ],
+  "source_sha256": {
+    "E:\\rlt-research\\2026-09-16-e2e\\integration\\evaluate_window.py": "db93d88639ab7e6e80115d6bd7e8070f80553624ef8520b2057ec33963cae231",
+    "E:\\rlt-research\\2026-09-16-e2e\\integration\\reasoning_window.py": "418e09c767d5a35c3de6ba87386cbf9904407513122dd8e87483f476653cf674",
+    "E:\\rlt-research\\2026-09-16-e2e\\integration\\window_pipeline.py": "f61ca5775a21946a1cfb9054b039f531797eb31764a50a8bbc98330bebfd0b82",
+    "E:\\rlt-research\\2026-09-16-e2e\\integration\\evaluate_system.py": "0f3de3abc5600ac9ae3d014f0ecfde1c83dc6c2a26dd0f0010c00003e18589b9",
+    "E:\\rlt-research\\2026-09-16-e2e\\integration\\audit_stats.py": "e5da7f4a73703edeb467c2b620c6d166247450ef045888969a53b10e363a5fdb",
+    "E:\\rlt-research\\2026-09-16-e2e\\learning\\api.py": "5ffe0802e6e7918ea00d2fc48fb41e96e5cc5edf5c602348cf04973815ddc97c",
+    "E:\\rlt-research\\2026-09-16-e2e\\learning\\model.py": "debf93724b49d21635b2545485065a842c9ee123af9c6660a4152b296b264410",
+    "E:\\rlt-research\\2026-09-16-e2e\\learning\\token_core.py": "7eb4e1ffc9143dc014596663da8bf4a3296039f97865248c09b86f455ee6e3e0",
+    "E:\\rlt-research\\2026-09-16-e2e\\memory\\api.py": "826e7a185b9da272f7da559a6c01fc93ed54124406d2145447d416942ee88a92",
+    "E:\\rlt-research\\2026-09-16-e2e\\memory\\headings.py": "445798f70f34c3a276473bde82691b2bbcfdd28eca2bbabbbff8220984e7513e",
+    "E:\\rlt-research\\2026-09-16-e2e\\memory\\extractor.py": "92737acc677cb742ab9f2a19354bf74939ddf43f16e98a0c9d0f69a1376cb895"
+  },
+  "checkpoint_sha256": {
+    "E:\\rlt-research\\2026-09-16-e2e\\learning\\checkpoints\\combined-17-step600.pt": "4cc6fcdbc2df146ee4935450b2f4fbbc6e58a573d53e60c9bdd2da12321d1636",
+    "E:\\rlt-research\\2026-09-16-e2e\\memory\\checkpoints\\extractor-17.pt": "97d6dc86f668f4071689c84a461b5c1866a38886f56be9b0d10b1ef1e641121b",
+    "E:\\rlt-research\\2026-09-16-e2e\\learning\\checkpoints\\combined-43-step600.pt": "379c6f8c8b3c628c85331d3ec8cbc27a1d07793dce824b05c47a7525698507fe",
+    "E:\\rlt-research\\2026-09-16-e2e\\memory\\checkpoints\\extractor-43.pt": "42415f23b4f255d9e1591c19c55cad365e96924afbea4a64a08d3817dc50beef",
+    "E:\\rlt-research\\2026-09-16-e2e\\learning\\checkpoints\\combined-91-step600.pt": "ff15e330919448d79bf6df15ec1cac47beea55694b261516197cbd16313707f1",
+    "E:\\rlt-research\\2026-09-16-e2e\\memory\\checkpoints\\extractor-91.pt": "3e0472c1e174962664b45368c891b11f3f168b1aa54150b7785f0273a006ae73"
+  }
+}
