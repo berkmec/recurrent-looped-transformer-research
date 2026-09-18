@@ -1,0 +1,164 @@
+[
+  {
+    "case": "offpath_wrong",
+    "expected_accept": true,
+    "result": {
+      "status": "VERIFIED",
+      "bound": 0.0,
+      "bound_exact": {
+        "numerator": 0,
+        "denominator": 1
+      },
+      "display_bound_overflow": false,
+      "reason": "exact_anchor_path_residual_bound",
+      "checked_edges": 2,
+      "candidate_answer": 1.0,
+      "certificate": {
+        "version": 1,
+        "query": "q",
+        "path": [
+          "a",
+          "q"
+        ],
+        "terms": [
+          {
+            "facet": "absolute:a",
+            "residual": {
+              "numerator": 0,
+              "denominator": 1
+            }
+          },
+          {
+            "facet": "edge:q",
+            "residual": {
+              "numerator": 0,
+              "denominator": 1
+            }
+          }
+        ],
+        "bound": {
+          "numerator": 0,
+          "denominator": 1
+        },
+        "threshold": {
+          "numerator": 99999,
+          "denominator": 1000000
+        },
+        "source_sha256": "c653d8acf1d98e9bdb1d00eb868e010dd95dde7a0738795ccfa919d6ea0424a1",
+        "candidate_sha256": "b2497510749ef1eb42122c7809d6938d3fe319d3a401c70039eedfe2208247f5"
+      }
+    },
+    "passed": true
+  },
+  {
+    "case": "wrong_query",
+    "expected_accept": false,
+    "result": {
+      "status": "CONTINUE",
+      "bound": 0.5,
+      "bound_exact": {
+        "numerator": 1,
+        "denominator": 2
+      },
+      "display_bound_overflow": false,
+      "reason": "exact_anchor_path_residual_bound",
+      "checked_edges": 2,
+      "candidate_answer": 1.5,
+      "certificate": {
+        "version": 1,
+        "query": "q",
+        "path": [
+          "a",
+          "q"
+        ],
+        "terms": [
+          {
+            "facet": "absolute:a",
+            "residual": {
+              "numerator": 0,
+              "denominator": 1
+            }
+          },
+          {
+            "facet": "edge:q",
+            "residual": {
+              "numerator": 1,
+              "denominator": 2
+            }
+          }
+        ],
+        "bound": {
+          "numerator": 1,
+          "denominator": 2
+        },
+        "threshold": {
+          "numerator": 99999,
+          "denominator": 1000000
+        },
+        "source_sha256": "c653d8acf1d98e9bdb1d00eb868e010dd95dde7a0738795ccfa919d6ea0424a1",
+        "candidate_sha256": "c6de3c282565ed169288e5b10545f72e84318e187737d25f5cb6db5042d22f79"
+      }
+    },
+    "passed": true
+  },
+  {
+    "case": "stale",
+    "expected_accept": false,
+    "result": {
+      "status": "UNRESOLVED_BUDGET",
+      "bound": null,
+      "reason": "SOURCE_VERSION_MISMATCH",
+      "checked_edges": 0,
+      "certificate": null
+    },
+    "passed": true
+  },
+  {
+    "case": "cross_scope",
+    "expected_accept": false,
+    "result": {
+      "status": "UNRESOLVED_BUDGET",
+      "bound": null,
+      "reason": "SCOPE_MISMATCH",
+      "checked_edges": 0,
+      "certificate": null
+    },
+    "passed": true
+  },
+  {
+    "case": "wrong_query_binding",
+    "expected_accept": false,
+    "result": {
+      "status": "UNRESOLVED_BUDGET",
+      "bound": null,
+      "reason": "QUERY_MISMATCH",
+      "checked_edges": 0,
+      "certificate": null
+    },
+    "passed": true
+  },
+  {
+    "case": "corrupt_digest",
+    "expected_accept": false,
+    "result": {
+      "status": "UNRESOLVED_BUDGET",
+      "bound": null,
+      "reason": "SOURCE_VERSION_MISMATCH",
+      "checked_edges": 0,
+      "certificate": null
+    },
+    "passed": true
+  },
+  {
+    "case": "contradiction",
+    "expected_accept": false,
+    "result": {
+      "status": "UNRESOLVED_BUDGET",
+      "bound": null,
+      "reason": "INCONSISTENT_ANCHORS",
+      "checked_edges": 0,
+      "certificate": null
+    },
+    "passed": true
+  }
+]

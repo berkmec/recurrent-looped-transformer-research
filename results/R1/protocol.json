@@ -1,0 +1,56 @@
+{
+  "version": 1,
+  "count": 512,
+  "model_seeds": [
+    17,
+    43,
+    91
+  ],
+  "sources": {
+    "iid": 2026091711,
+    "depth5": 2026091712,
+    "depth8": 2026091713,
+    "branched": 2026091714
+  },
+  "thresholds": [
+    0.025,
+    0.05,
+    0.099999
+  ],
+  "primary_threshold": 0.099999,
+  "correctness_epsilon": 0.1,
+  "max_rounds": 8,
+  "prior_rounds": 6,
+  "batch": 32,
+  "lazy_replay_count": 16,
+  "bootstrap_seed": 2026091791,
+  "bootstrap_repetitions": 2000,
+  "checkpoint": "combined-{seed}-step600.pt",
+  "selection": "none; frozen models; no final-data tuning",
+  "primary": "fixed-final-round identical candidates, per model seed and source distribution",
+  "secondary": "first acceptable candidate from identical frozen trace; observed lazy subset separately",
+  "source_unit": "one independent generated problem; rounds and model seeds are dependent repeated measures",
+  "topology_controls": "iid/depth5/depth8 have one anchored chain: component/path sums mathematically equal; branched has four-edge query path and four-edge off-path spur, OOD topology",
+  "external_truth": "conditional on faithful numeric evidence; no natural-language verification claim",
+  "frozen_utc": "2026-09-16T21:58:29.217833+00:00",
+  "environment": {
+    "torch": "2.12.0+cpu",
+    "numpy": "2.3.5",
+    "device": "cpu",
+    "threads": 1
+  },
+  "source_pins": {
+    "review_cycle/certificate.py": "774e60aa814cff28706fb4478cc53731294bcb88b4ee3e0fb9246f36a2e182c2",
+    "review_cycle/certificate_bench.py": "5ac748e96dea9eb9c2b37ebc24ca748acecc4259bc197183202cbf7b59557caf",
+    "learning/model.py": "debf93724b49d21635b2545485065a842c9ee123af9c6660a4152b296b264410",
+    "learning/token_core.py": "7eb4e1ffc9143dc014596663da8bf4a3296039f97865248c09b86f455ee6e3e0",
+    "learning/api.py": "5ffe0802e6e7918ea00d2fc48fb41e96e5cc5edf5c602348cf04973815ddc97c",
+    "memory/api.py": "826e7a185b9da272f7da559a6c01fc93ed54124406d2145447d416942ee88a92"
+  },
+  "checkpoint_pins": {
+    "17": "4cc6fcdbc2df146ee4935450b2f4fbbc6e58a573d53e60c9bdd2da12321d1636",
+    "43": "379c6f8c8b3c628c85331d3ec8cbc27a1d07793dce824b05c47a7525698507fe",
+    "91": "ff15e330919448d79bf6df15ec1cac47beea55694b261516197cbd16313707f1"
+  },
+  "old_manifest_sha256": "146eb693e3303e17b1caa6bba2b1eb7662e20d87bb0ff3e71bbdaeb1e54484af"
+}

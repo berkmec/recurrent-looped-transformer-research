@@ -1,0 +1,39 @@
+{
+  "development_conditions": [
+    "development-parity-w256-rlt-random-dense-lr0.0003-s117",
+    "development-parity-w256-rlt-random-dense-lr0.0003-s143",
+    "development-parity-w256-rlt-random-dense-lr0.0003-s191",
+    "development-parity-w256-rlt-random-dense-lr0.001-s117",
+    "development-parity-w256-rlt-random-dense-lr0.001-s143",
+    "development-parity-w256-rlt-random-dense-lr0.001-s191",
+    "development-parity-w256-rlt-random-dense-lr0.003-s117",
+    "development-parity-w256-rlt-random-dense-lr0.003-s143",
+    "development-parity-w256-rlt-random-dense-lr0.003-s191"
+  ],
+  "development_selected_hashes": {
+    "development-parity-w256-rlt-random-dense-lr0.0003-s117": "da6329c8614daf6c8da08c9cd79cb603a2787be00eb853a2160f3bcafaa472f5",
+    "development-parity-w256-rlt-random-dense-lr0.0003-s143": "4993e25a296df4ae00b05940f4b743055d80dd9388919a0fd815b2cc05891a06",
+    "development-parity-w256-rlt-random-dense-lr0.0003-s191": "efe74beabd91d730e611a31bd9f6fb43c919b37ad18de6a401383669a47d58d2",
+    "development-parity-w256-rlt-random-dense-lr0.001-s117": "7409d97da31306acabf2e176de3c23acd488d70639564a45815d8b59972fab87",
+    "development-parity-w256-rlt-random-dense-lr0.001-s143": "d9ffbe90fc2abbda44fcb473228cd61de570d9da581996ac2d6ce9006e4c3950",
+    "development-parity-w256-rlt-random-dense-lr0.001-s191": "1b3c130b78015557b3ee0352983fd38f0e9b60f70185f0380aba7b6d4967e6ac",
+    "development-parity-w256-rlt-random-dense-lr0.003-s117": "c22ccec49f31d9d333f9eafc2aae8addf1fc9f2bccb8a3876aa3d2a8a01df697",
+    "development-parity-w256-rlt-random-dense-lr0.003-s143": "5e497e6e8ae2c3152393372e2a077f096372f5452b985f7ab635259b23362c7e",
+    "development-parity-w256-rlt-random-dense-lr0.003-s191": "dc2a50466e3ffbb568f7e63dd6cd8046834ce0eab69f5d0a38e58db1df11a62d"
+  },
+  "final_data_opened": false,
+  "mean_validation_accuracy": {
+    "0.0003": 1.0,
+    "0.001": 1.0,
+    "0.003": 0.5247395833333334
+  },
+  "protocol_hash": "eed6fb30b7d6808c511ba1bc8197aae40a6492e1a49321ab4973a94ac56d836c",
+  "role": "development-only; not final scientific evidence",
+  "selected_lr": 0.0003,
+  "selection_hash": "cbd25c7a3973b39a43f4e21dfab72d6bc63c1ee9b79f5c83235366ef53c6d2ec",
+  "sources": {
+    "core/model.py": "121f11fcb3c1308b7f67d898f2aa09c37226d3b0db27dd4e5bf1ebeaea281f43",
+    "review_cycle/training.py": "df14af4ec6735abfc3a86b18d830f7682fb63df23d14334e7530b02aae64de0b",
+    "review_cycle/training_data.py": "3095902caa7d79a6f977aa3f599ccd82baf4279ac3a559ef5b8868a1c2ed7c61"
+  }
+}
