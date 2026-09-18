@@ -1,0 +1,433 @@
+{
+ "checkpoint_sha256": "a7cbebe30efc8538b63605e92ffa185f5b9d0d88537afbb3b71f4e57518fd722",
+ "condition": {
+  "arm": "base",
+  "heads": 2,
+  "lr": 0.003,
+  "seed": 143,
+  "stage": "drift",
+  "task": "five",
+  "width": 32,
+  "window": 4
+ },
+ "lengths": [
+  {
+   "batch": 32,
+   "consumed_tokens": 32,
+   "final_accuracy": 1.0,
+   "final_loss": 0.0005061457850388251,
+   "input_hash": "c309eb73542bc1a9fc0a1f141836956b59f19b778eaaeeb97bcaef98f9513745",
+   "length": 32,
+   "n": 512,
+   "prediction_histogram": {
+    "0": 92,
+    "1": 112,
+    "2": 105,
+    "3": 100,
+    "4": 103
+   },
+   "prefix_accuracy": 1.0,
+   "prefix_loss": 0.0005043980090704281,
+   "raw_file": "drift-five-base-s143/selected-L32.npz",
+   "seconds": 0.8279526000260375,
+   "sha256": "c33c821fe93a3492e8c3eee9eca0e5fcc598caef20f7f8f8ea1136a91ae07b1d",
+   "source_seed": 16867866736492700787,
+   "target_histogram": {
+    "0": 92,
+    "1": 112,
+    "2": 105,
+    "3": 100,
+    "4": 103
+   }
+  },
+  {
+   "batch": 32,
+   "consumed_tokens": 128,
+   "final_accuracy": 0.9921875,
+   "final_loss": 0.07071741129038855,
+   "input_hash": "20498a600e389237f17fbc2e83dc49bef3e5b1f6a11499c39a704a4e0762d2e0",
+   "length": 128,
+   "n": 512,
+   "prediction_histogram": {
+    "0": 103,
+    "1": 95,
+    "2": 121,
+    "3": 87,
+    "4": 106
+   },
+   "prefix_accuracy": 0.995452880859375,
+   "prefix_loss": 0.042165534032392316,
+   "raw_file": "drift-five-base-s143/selected-L128.npz",
+   "seconds": 3.41318480001064,
+   "sha256": "6cab9f1b640f49f962ba5e2c5149b4019de4713a4834d58565a7c8eccfdf6842",
+   "source_seed": 4218322046941682194,
+   "target_histogram": {
+    "0": 102,
+    "1": 92,
+    "2": 122,
+    "3": 90,
+    "4": 106
+   }
+  },
+  {
+   "batch": 8,
+   "consumed_tokens": 1024,
+   "final_accuracy": 0.9765625,
+   "final_loss": 0.22313295265439592,
+   "input_hash": "01feb02d074e51fe4fae425e0f2611985580a0c8f26e3d86d787ddf7aa297797",
+   "length": 1024,
+   "n": 512,
+   "prediction_histogram": {
+    "0": 94,
+    "1": 105,
+    "2": 105,
+    "3": 99,
+    "4": 109
+   },
+   "prefix_accuracy": 0.9869556427001953,
+   "prefix_loss": 0.1232417109895323,
+   "raw_file": "drift-five-base-s143/selected-L1024.npz",
+   "seconds": 104.61401899997145,
+   "sha256": "0d04820f2cc0a1ac03715faa7445eb2233da5a6ed4deb3d58775d32eb5690186",
+   "source_seed": 6947997683186923259,
+   "target_histogram": {
+    "0": 90,
+    "1": 107,
+    "2": 106,
+    "3": 101,
+    "4": 108
+   }
+  }
+ ],
+ "metadata_hash": "36dde7e8a1bdf6df372a5ab0b83bd83eefe1f27f9d3e8a57f59be0abdfa2004c",
+ "neutral": [
+  {
+   "batch": 32,
+   "consumed_tokens": 32,
+   "final_accuracy": 0.99609375,
+   "final_loss": 0.03699067872730666,
+   "input_hash": "98d5dd8fc40355bf8deb44a0c3a980861e367c84ac81301a577a8c71a3d7e26c",
+   "n": 512,
+   "placement": "base",
+   "prediction_histogram": {
+    "0": 100,
+    "1": 108,
+    "2": 103,
+    "3": 117,
+    "4": 84
+   },
+   "prefix_accuracy": 0.997802734375,
+   "prefix_loss": 0.020163832043181174,
+   "raw_file": "drift-five-base-s143/selected-neutral0-base.npz",
+   "seconds": 0.8734227999811992,
+   "sha256": "523cf2b7a266254e52bfb493be89c09b2bd75e8d9e1b1ccc0f56a9eed907650e",
+   "slots": 0,
+   "source_seed": 18062063933614484816,
+   "target_histogram": {
+    "0": 99,
+    "1": 109,
+    "2": 103,
+    "3": 118,
+    "4": 83
+   }
+  },
+  {
+   "batch": 32,
+   "consumed_tokens": 40,
+   "correct_to_wrong": 0,
+   "final_accuracy": 0.99609375,
+   "final_loss": 0.037101121168234386,
+   "input_hash": "8d536f29e7e56eac0d4442bcd1bd07497cbfb88311ec491158b63ef87fbd92b3",
+   "n": 512,
+   "placement": "prefix",
+   "prediction_changes": 0,
+   "prediction_histogram": {
+    "0": 100,
+    "1": 108,
+    "2": 103,
+    "3": 117,
+    "4": 84
+   },
+   "prefix_accuracy": 0.9982421875,
+   "prefix_loss": 0.016321385663468392,
+   "raw_file": "drift-five-base-s143/selected-neutral8-prefix.npz",
+   "seconds": 1.0958876999793574,
+   "sha256": "e6bb38b7103f60b510c16fe6f32aebc463d6417bbf32915faaac6d3861979019",
+   "slots": 8,
+   "source_seed": 18062063933614484816,
+   "target_histogram": {
+    "0": 99,
+    "1": 109,
+    "2": 103,
+    "3": 118,
+    "4": 83
+   },
+   "wrong_to_correct": 0
+  },
+  {
+   "batch": 32,
+   "consumed_tokens": 40,
+   "correct_to_wrong": 100,
+   "final_accuracy": 0.80078125,
+   "final_loss": 1.804033998399973,
+   "input_hash": "738970d9dd5d45ec90c424b4dbbc357338d4dfad844d2ab7f8b99c27b8293bfd",
+   "n": 512,
+   "placement": "middle",
+   "prediction_changes": 100,
+   "prediction_histogram": {
+    "0": 95,
+    "1": 105,
+    "2": 98,
+    "3": 124,
+    "4": 90
+   },
+   "prefix_accuracy": 0.89462890625,
+   "prefix_loss": 0.9183152377605438,
+   "raw_file": "drift-five-base-s143/selected-neutral8-middle.npz",
+   "seconds": 1.0519911000155844,
+   "sha256": "661a5456f3962a899ff75aace94bb91ce028ac1efa532006dcddcc712df07a14",
+   "slots": 8,
+   "source_seed": 18062063933614484816,
+   "target_histogram": {
+    "0": 99,
+    "1": 109,
+    "2": 103,
+    "3": 118,
+    "4": 83
+   },
+   "wrong_to_correct": 0
+  },
+  {
+   "batch": 32,
+   "consumed_tokens": 40,
+   "correct_to_wrong": 108,
+   "final_accuracy": 0.78515625,
+   "final_loss": 1.8267281614243984,
+   "input_hash": "c3cc97ab2306de5bbe22b888bb86150c0e9f180eb6c605b16b2da905b072c575",
+   "n": 512,
+   "placement": "suffix",
+   "prediction_changes": 108,
+   "prediction_histogram": {
+    "0": 100,
+    "1": 0,
+    "2": 211,
+    "3": 117,
+    "4": 84
+   },
+   "prefix_accuracy": 0.9705078125,
+   "prefix_loss": 0.23093239702284335,
+   "raw_file": "drift-five-base-s143/selected-neutral8-suffix.npz",
+   "seconds": 1.0364135000272654,
+   "sha256": "ab2fe93eafe95873f83d1527a4f7ad92ff8cd6954303a692e98083061af99fb7",
+   "slots": 8,
+   "source_seed": 18062063933614484816,
+   "target_histogram": {
+    "0": 99,
+    "1": 109,
+    "2": 103,
+    "3": 118,
+    "4": 83
+   },
+   "wrong_to_correct": 0
+  },
+  {
+   "batch": 32,
+   "consumed_tokens": 64,
+   "correct_to_wrong": 0,
+   "final_accuracy": 0.99609375,
+   "final_loss": 0.03719612300483277,
+   "input_hash": "84582eb281002eac346f2669b6124ecdabb4e1b3a9dfb26eda10cddea8c52fd8",
+   "n": 512,
+   "placement": "prefix",
+   "prediction_changes": 0,
+   "prediction_histogram": {
+    "0": 100,
+    "1": 108,
+    "2": 103,
+    "3": 117,
+    "4": 84
+   },
+   "prefix_accuracy": 0.9989013671875,
+   "prefix_loss": 0.01049193219296285,
+   "raw_file": "drift-five-base-s143/selected-neutral32-prefix.npz",
+   "seconds": 1.6618913999991491,
+   "sha256": "ef406815e9e3eccb960d03bc737ee21c7fd9611541b80b56742af120e5ee923e",
+   "slots": 32,
+   "source_seed": 18062063933614484816,
+   "target_histogram": {
+    "0": 99,
+    "1": 109,
+    "2": 103,
+    "3": 118,
+    "4": 83
+   },
+   "wrong_to_correct": 0
+  },
+  {
+   "batch": 32,
+   "consumed_tokens": 64,
+   "correct_to_wrong": 295,
+   "final_accuracy": 0.419921875,
+   "final_loss": 5.371846824884415,
+   "input_hash": "e00b4f41c9e5be16c310c7828c853d77b50f390a2f1676bf1e4144aebee0daa1",
+   "n": 512,
+   "placement": "middle",
+   "prediction_changes": 296,
+   "prediction_histogram": {
+    "0": 93,
+    "1": 96,
+    "2": 109,
+    "3": 122,
+    "4": 92
+   },
+   "prefix_accuracy": 0.654266357421875,
+   "prefix_loss": 2.8182574063539505,
+   "raw_file": "drift-five-base-s143/selected-neutral32-middle.npz",
+   "seconds": 1.6977131000021473,
+   "sha256": "8d7ac0707b3c87deb49397dc0e817450195a8b9293c93025db431de36db2be79",
+   "slots": 32,
+   "source_seed": 18062063933614484816,
+   "target_histogram": {
+    "0": 99,
+    "1": 109,
+    "2": 103,
+    "3": 118,
+    "4": 83
+   },
+   "wrong_to_correct": 0
+  },
+  {
+   "batch": 32,
+   "consumed_tokens": 64,
+   "correct_to_wrong": 324,
+   "final_accuracy": 0.36328125,
+   "final_loss": 5.130283072590828,
+   "input_hash": "a762ad314a2f722d5bc6dd460ab2df15f3c549901fad4a8c862589805dc0d05c",
+   "n": 512,
+   "placement": "suffix",
+   "prediction_changes": 325,
+   "prediction_histogram": {
+    "0": 0,
+    "1": 0,
+    "2": 428,
+    "3": 0,
+    "4": 84
+   },
+   "prefix_accuracy": 0.776641845703125,
+   "prefix_loss": 1.6623528376221657,
+   "raw_file": "drift-five-base-s143/selected-neutral32-suffix.npz",
+   "seconds": 1.7055258000036702,
+   "sha256": "a61abde5d6b2fe1664d498fbf20f9b4d83e11e6dacbcc7864e83b7fc0abbe1de",
+   "slots": 32,
+   "source_seed": 18062063933614484816,
+   "target_histogram": {
+    "0": 99,
+    "1": 109,
+    "2": 103,
+    "3": 118,
+    "4": 83
+   },
+   "wrong_to_correct": 0
+  },
+  {
+   "batch": 32,
+   "consumed_tokens": 160,
+   "correct_to_wrong": 3,
+   "final_accuracy": 0.9921875,
+   "final_loss": 0.06891581398667768,
+   "input_hash": "f5451e46e718a827c3f1c46aff3fa3793a4859d1f8e07d7273ad20b5c01b6e68",
+   "n": 512,
+   "placement": "prefix",
+   "prediction_changes": 4,
+   "prediction_histogram": {
+    "0": 100,
+    "1": 110,
+    "2": 102,
+    "3": 116,
+    "4": 84
+   },
+   "prefix_accuracy": 0.99921875,
+   "prefix_loss": 0.006913244660245255,
+   "raw_file": "drift-five-base-s143/selected-neutral128-prefix.npz",
+   "seconds": 4.478784699982498,
+   "sha256": "2c497a6febe5a693100cab6ef04bc473b8dc7a618374ab560cb7842e2de3ed01",
+   "slots": 128,
+   "source_seed": 18062063933614484816,
+   "target_histogram": {
+    "0": 99,
+    "1": 109,
+    "2": 103,
+    "3": 118,
+    "4": 83
+   },
+   "wrong_to_correct": 1
+  },
+  {
+   "batch": 32,
+   "consumed_tokens": 160,
+   "correct_to_wrong": 295,
+   "final_accuracy": 0.419921875,
+   "final_loss": 5.33329102396965,
+   "input_hash": "db497b933d9f1deb2755b39adc71a8084cdbbf5e7c8efd531f00c356a26325c4",
+   "n": 512,
+   "placement": "middle",
+   "prediction_changes": 296,
+   "prediction_histogram": {
+    "0": 93,
+    "1": 96,
+    "2": 109,
+    "3": 122,
+    "4": 92
+   },
+   "prefix_accuracy": 0.51365966796875,
+   "prefix_loss": 3.8533993005752563,
+   "raw_file": "drift-five-base-s143/selected-neutral128-middle.npz",
+   "seconds": 4.415957399993204,
+   "sha256": "15176b4ff402393a691dace384f36f40160eb11d94e25e5858bc405b10eea019",
+   "slots": 128,
+   "source_seed": 18062063933614484816,
+   "target_histogram": {
+    "0": 99,
+    "1": 109,
+    "2": 103,
+    "3": 118,
+    "4": 83
+   },
+   "wrong_to_correct": 0
+  },
+  {
+   "batch": 32,
+   "consumed_tokens": 160,
+   "correct_to_wrong": 324,
+   "final_accuracy": 0.36328125,
+   "final_loss": 5.091394007205963,
+   "input_hash": "7618d8631277508caeddcd9ba45eaa0dd5436f2f8c8b7d01143d14de321bcb65",
+   "n": 512,
+   "placement": "suffix",
+   "prediction_changes": 325,
+   "prediction_histogram": {
+    "0": 0,
+    "1": 0,
+    "2": 428,
+    "3": 0,
+    "4": 84
+   },
+   "prefix_accuracy": 0.52862548828125,
+   "prefix_loss": 3.7061859488487245,
+   "raw_file": "drift-five-base-s143/selected-neutral128-suffix.npz",
+   "seconds": 4.387609700032044,
+   "sha256": "1eb7bf2d79ac640283de65a1b7542b0b1dbeb947dc3a57535e75b5dd7c3ae242",
+   "slots": 128,
+   "source_seed": 18062063933614484816,
+   "target_histogram": {
+    "0": 99,
+    "1": 109,
+    "2": 103,
+    "3": 118,
+    "4": 83
+   },
+   "wrong_to_correct": 0
+  }
+ ],
+ "protocol_hash": "1496384366fc62f96da0d84abee3070c1d452d57f09017fbbd661890051a05e6"
+}

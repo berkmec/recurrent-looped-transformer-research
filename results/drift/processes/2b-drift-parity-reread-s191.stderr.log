@@ -1,0 +1,11 @@
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "E:\rlt-research\2026-09-18-drift\drift\run.py", line 382, in <module>
+    main()
+  File "E:\rlt-research\2026-09-18-drift\drift\run.py", line 371, in main
+    result = run_one(args.out, known(verify_frozen(args.out), args.run_one)); result = {k: v for k, v in result.items() if k != 'history'}
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\rlt-research\2026-09-18-drift\drift\run.py", line 216, in run_one
+    raise ValueError('nonfinite loss/gradient; failure preserved')
+ValueError: nonfinite loss/gradient; failure preserved
