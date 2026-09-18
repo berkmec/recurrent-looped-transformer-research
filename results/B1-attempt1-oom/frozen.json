@@ -1,0 +1,63 @@
+{
+ "environment": {
+  "numpy": "2.3.5",
+  "python": "3.11.9"
+ },
+ "frozen_utc": 1789739796.2820034,
+ "protocol": {
+  "arms": [
+   "hash128",
+   "bm25",
+   "dense",
+   "hybrid",
+   "hybrid_rerank"
+  ],
+  "batch_check_docs": 64,
+  "bootstrap": 1000,
+  "bootstrap_seed": 2026091802,
+  "dense_instruction": "Given a web search query, retrieve relevant passages that answer the query",
+  "dense_max_length": 256,
+  "development_path": "E:/rlt-research/datasets/dgslibisey__MuSiQue/musique_ans_v1.0_train.jsonl",
+  "development_queries": 300,
+  "device": "cuda",
+  "distractor_path": "E:/rlt-research/datasets/dgslibisey__MuSiQue/musique_ans_v1.0_train.jsonl",
+  "dtype": "float16",
+  "embedding_model": "E:/rlt-research/models/Qwen3-Embedding-0.6B",
+  "encode_batch": 32,
+  "final_path": "E:/rlt-research/datasets/dgslibisey__MuSiQue/musique_ans_v1.0_dev.jsonl",
+  "final_queries": null,
+  "fusion_depth": 100,
+  "ks": [
+   1,
+   5,
+   10
+  ],
+  "ladder_queries": 250,
+  "ladder_seed": 2026091801,
+  "ladder_sizes": [
+   1000,
+   10000,
+   100000
+  ],
+  "note": "gold supporting paragraphs are labels only; Turkish slice UNMEASURED (MuSiQue is English)",
+  "purpose": "B1 lexical versus semantic retrieval on MuSiQue with exact cosine search",
+  "rerank_batch": 16,
+  "rerank_depth": 50,
+  "rerank_max_length": 1024,
+  "reranker_model": "E:/rlt-research/models/Qwen3-Reranker-0.6B",
+  "rrf_k": 60,
+  "targets": {
+   "coverage_at_10": 0.9,
+   "recall_at_10": 0.95
+  },
+  "top_k": 100,
+  "version": 1
+ },
+ "protocol_hash": "638b5a2b0ab323b985a770ad1da5585d0516c2b452e58481ac84441a2b1c1d6e",
+ "sources": {
+  "memory/api.py": "826e7a185b9da272f7da559a6c01fc93ed54124406d2145447d416942ee88a92",
+  "semantic_memory/embedding.py": "423d30640c24261b707fcb0eb41d514e8d6c96c9f1bc7124af64adf5225c4b2f",
+  "semantic_memory/rerank.py": "592e6177ddb52566257051241d6247ab9d0bb216f868e58aa3125b7451e357ad",
+  "semantic_memory/retrieval.py": "408b0927c34ff43da99739b713db5b82f0364fec2aa0ea023f6b0ca420929290"
+ }
+}
