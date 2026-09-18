@@ -1,0 +1,95 @@
+{
+  "status": "TEMPLATE_NOT_EXECUTED",
+  "must_preserve_original_frozen_protocols": true,
+  "full_scope": {
+    "D2_problem_count": 3000,
+    "all_original_arms": true,
+    "all_original_budgets": true,
+    "long_lengths": [
+      16384,
+      65536
+    ],
+    "language_training_parameter_targets": [
+      30000000,
+      300000000
+    ],
+    "rental_gpu": false
+  },
+  "additional_candidate_axes_not_final_freeze": {
+    "neutral_lengths": [
+      0,
+      128,
+      512,
+      4096,
+      16384,
+      65536
+    ],
+    "neutral_positions": [
+      "prefix",
+      "middle",
+      "suffix"
+    ],
+    "seed_count_minimum": 5,
+    "refinement_k": [
+      1,
+      2,
+      4,
+      8,
+      16
+    ],
+    "dependency_depth_d": [
+      1,
+      2,
+      4,
+      8,
+      16
+    ]
+  },
+  "arms_to_design": [
+    "original_frozen_RLT",
+    "oracle_hold_mechanism",
+    "learned_hold_committed_scratch",
+    "full_BPTT_reference",
+    "exact_segment_remat",
+    "auxiliary_label_training_separate",
+    "heading_version_graph",
+    "multihop_retrieval_typed_IR",
+    "same_semantics_kernel_optimization",
+    "chunk_RLT2_separate_architecture",
+    "affine_transport_separate_architecture",
+    "symbolica_graphica_conditional_on_IR"
+  ],
+  "targets_unchanged": {
+    "recall_at_10": 0.95,
+    "verification_coverage": 0.9,
+    "D1_F1": 0.95,
+    "D1_accepted_risk": 0.01,
+    "D1_coverage": 0.8
+  },
+  "report_dimensions": [
+    "task",
+    "model",
+    "arm",
+    "seed",
+    "data_family",
+    "total_tokens",
+    "meaningful_operations",
+    "refinement_rounds",
+    "dependency_depth",
+    "quantization",
+    "language_origin",
+    "wall_time",
+    "peak_memory",
+    "status"
+  ],
+  "missing_for_execution": [
+    "original repository and step adapter",
+    "actual frozen configurations",
+    "dataset/problem ids",
+    "checkpoints and model fingerprints",
+    "local CUDA/Windows measurements",
+    "human-reference Turkish revision dataset",
+    "approved physical backup target"
+  ],
+  "note": "This manifest records scope and proposal, not a claim that all new axes are costed or run. Do not replace original experiment matrices with this template."
+}

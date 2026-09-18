@@ -1,0 +1,79 @@
+{
+  "status": "DESIGN_CONTRACT_NOT_FULL_IMPLEMENTATION",
+  "state_fields": [
+    "recurrent_z",
+    "decoder_swa_kv_by_layer",
+    "encoder_global_kv",
+    "position_ids",
+    "cache_masks",
+    "heading_working_state",
+    "committed_heading_versions",
+    "token_clock",
+    "semantic_event_clock",
+    "refinement_clock",
+    "rng_state",
+    "model_fingerprint"
+  ],
+  "training_checkpoint_additions": [
+    "optimizer_state",
+    "lr_scheduler_state",
+    "gradient_scaler_state",
+    "data_sampler_state",
+    "data_cursor",
+    "gradient_accumulation_state",
+    "software_fingerprint"
+  ],
+  "step_contract": [
+    "Pure function of explicit state and input",
+    "No in-place mutation of replayed caches",
+    "No weight updates between forward and rematerialized replay",
+    "Consume each token exactly once",
+    "No detach on the exact-terminal-credit arm"
+  ],
+  "hold_contract": [
+    "Correctly supplied HOLD leaves committed data bitwise unchanged",
+    "Scratch computation may continue",
+    "Preserving z alone is not full-state/readout invariance",
+    "Oracle and learned HOLD are separate experimental arms"
+  ],
+  "compaction_contract": [
+    "No early compaction",
+    "Page boundary triggers archive then compaction",
+    "Keep raw bytes and source versions",
+    "Continue same heading on next page when unresolved",
+    "Text compaction does not reset complete model state or free global KV by itself"
+  ],
+  "ir_fields": [
+    "source_spans",
+    "entities",
+    "typed_operations",
+    "quantities_and_units",
+    "negations",
+    "assumptions",
+    "dependencies_with_versions",
+    "candidate_status",
+    "validation_evidence"
+  ],
+  "completion_contract": [
+    "Matching run id",
+    "Zero process exit code",
+    "All expected items",
+    "Passing required tests",
+    "Matching artifact hashes",
+    "Atomic committed receipt"
+  ],
+  "claim_statuses": [
+    "MECHANISM_TESTED",
+    "TASK_MEASURED",
+    "GENERALIZATION_MEASURED",
+    "UNMEASURED",
+    "INCOMPLETE",
+    "MISSING_ASSET"
+  ],
+  "no_external_actions": [
+    "No original repository patched",
+    "No user disk backup performed",
+    "No remote or cloud upload configured",
+    "No paid compute used"
+  ]
+}
