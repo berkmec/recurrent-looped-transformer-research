@@ -1,0 +1,139 @@
+{
+ "model": "E:/rlt-research/models/Qwen3-4B",
+ "gpu": "NVIDIA GeForce RTX 2060 SUPER",
+ "results": [
+  {
+   "config": "qwen3-4b-8bit",
+   "quant": "8bit",
+   "load_seconds": 27.942776300013065,
+   "vram_after_load": {
+    "allocated": 4417374208,
+    "reserved": 4594860032
+   },
+   "vram_peak_allocated": 4496930304,
+   "vram_peak_reserved": 4611637248,
+   "tokens_per_second": 1.9887369236683596,
+   "generated_tokens": 150,
+   "outputs": [
+    {
+     "prompt": "What is the capital of France? Answer with one word.",
+     "answer": "Paris",
+     "new_tokens": 2,
+     "seconds": 1.6279364000074565
+    },
+    {
+     "prompt": "Ali is older than Ayşe. Is Ayşe younger than Ali? Answer yes or no.",
+     "answer": "Yes.  \nIf Ali is older than Ayşe, then Ayşe is younger than Ali.",
+     "new_tokens": 20,
+     "seconds": 9.954150500008836
+    },
+    {
+     "prompt": "A train leaves at 9:00 and arrives at 11:30. How long is the trip? Answer briefly.",
+     "answer": "The trip lasts 2 hours and 30 minutes.",
+     "new_tokens": 13,
+     "seconds": 6.0615495999809355
+    },
+    {
+     "prompt": "List two prime numbers greater than 10.",
+     "answer": "Two prime numbers greater than 10 are **11** and **13**.",
+     "new_tokens": 20,
+     "seconds": 9.878193699987605
+    },
+    {
+     "prompt": "Türkiye'nin başkenti neresidir? Tek kelimeyle cevap ver.",
+     "answer": "Ankara",
+     "new_tokens": 4,
+     "seconds": 1.94555260008201
+    },
+    {
+     "prompt": "Ali, Ayşe'den büyüktür. Ayşe, Ali'den küçük müdür? Evet ya da hayır de.",
+     "answer": "Evet.  \nAli, Ayşe'den büyüktür, bu durumda Ayşe, Ali'den küçük olur. Yani soru, \"Ayşe, Ali'den küçük müdür?\" cevabı **",
+     "new_tokens": 48,
+     "seconds": 23.742468099924736
+    },
+    {
+     "prompt": "Bir tren 9:00'da kalkıp 11:30'da varıyor. Yolculuk ne kadar sürer? Kısa cevap ver.",
+     "answer": "Yolculuk 2 saat 30 dakika sürer.",
+     "new_tokens": 16,
+     "seconds": 8.305078099947423
+    },
+    {
+     "prompt": "10'dan büyük iki asal sayı yaz.",
+     "answer": "10'dan büyük iki asal sayı şu şekilde yazılabilir:\n\n**11** ve **13**.",
+     "new_tokens": 27,
+     "seconds": 13.909828400006518
+    }
+   ],
+   "torch": "2.14.0+cu130",
+   "thinking": "disabled via enable_thinking=False",
+   "decoding": "greedy, max_new_tokens 48"
+  },
+  {
+   "config": "qwen3-4b-nf4",
+   "quant": "4bit",
+   "load_seconds": 15.654993199976161,
+   "vram_after_load": {
+    "allocated": 2861957120,
+    "reserved": 4475322368
+   },
+   "vram_peak_allocated": 2896350208,
+   "vram_peak_reserved": 4494196736,
+   "tokens_per_second": 7.2364543060293185,
+   "generated_tokens": 206,
+   "outputs": [
+    {
+     "prompt": "What is the capital of France? Answer with one word.",
+     "answer": "Paris.",
+     "new_tokens": 3,
+     "seconds": 0.5524764000438154
+    },
+    {
+     "prompt": "Ali is older than Ayşe. Is Ayşe younger than Ali? Answer yes or no.",
+     "answer": "Yes.\n\nIf Ali is older than Ayşe, then Ayşe is younger than Ali.",
+     "new_tokens": 19,
+     "seconds": 2.7690369999036193
+    },
+    {
+     "prompt": "A train leaves at 9:00 and arrives at 11:30. How long is the trip? Answer briefly.",
+     "answer": "The trip duration is 2 hours and 30 minutes.",
+     "new_tokens": 14,
+     "seconds": 1.9373187000164762
+    },
+    {
+     "prompt": "List two prime numbers greater than 10.",
+     "answer": "Two prime numbers greater than 10 are:\n\n- **11**\n- **13**",
+     "new_tokens": 21,
+     "seconds": 2.828043899964541
+    },
+    {
+     "prompt": "Türkiye'nin başkenti neresidir? Tek kelimeyle cevap ver.",
+     "answer": "Ankara.",
+     "new_tokens": 5,
+     "seconds": 0.651726400014013
+    },
+    {
+     "prompt": "Ali, Ayşe'den büyüktür. Ayşe, Ali'den küçük müdür? Evet ya da hayır de.",
+     "answer": "Evet.  \n\nAli, Ayşe'den büyüktür. Bu, Ayşe, Ali'den küçük olduğunu anlama gelir. Çünkü \"büyük\" ve \"küçük\" karşılaştırmaları,",
+     "new_tokens": 48,
+     "seconds": 6.622817300027236
+    },
+    {
+     "prompt": "Bir tren 9:00'da kalkıp 11:30'da varıyor. Yolculuk ne kadar sürer? Kısa cevap ver.",
+     "answer": "Bir tren 9:00'da kalkıp 11:30'da varıyorsa, yolculuk 2 saat 30 dakika sürer.  \n**Cevap: 2",
+     "new_tokens": 48,
+     "seconds": 6.592053800006397
+    },
+    {
+     "prompt": "10'dan büyük iki asal sayı yaz.",
+     "answer": "10'dan büyük iki asal sayı şu şekilde olabilir:\n\n- **11**\n- **13**\n\nBu iki sayı, 10'dan büyük ve asal sayılar olarak kabul edilir.",
+     "new_tokens": 48,
+     "seconds": 6.51350649993401
+    }
+   ],
+   "torch": "2.14.0+cu130",
+   "thinking": "disabled via enable_thinking=False",
+   "decoding": "greedy, max_new_tokens 48"
+  }
+ ],
+ "role": "G0 development calibration; not a benchmark"
+}

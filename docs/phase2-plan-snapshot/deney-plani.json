@@ -1,0 +1,254 @@
+{
+  "status": "PLAN_READY_EXPERIMENTS_NOT_STARTED",
+  "phase": 2,
+  "tracks": 3,
+  "experiment_count": 12,
+  "shared_preparation": "G0",
+  "primary_budget_multiplier": 1,
+  "secondary_budget_multipliers": [2],
+  "first_wave": [
+    "G0",
+    "D1",
+    "B1",
+    "U1"
+  ],
+  "baseline_root": "E:/rlt-research/2026-09-16-e2e",
+  "baseline_manifest_sha256": "146eb693e3303e17b1caa6bba2b1eb7662e20d87bb0ff3e71bbdaeb1e54484af",
+  "baseline_commit": "3c118c7",
+  "primary_final_dataset_target": {
+    "families": 5,
+    "independent_source_groups_per_family": 600,
+    "total": 3000
+  },
+  "sample_math": {
+    "scope": "Fixed C3 at the primary 1x budget; five families; zero observed accepted errors; independent groups.",
+    "alpha_one_family": 0.05,
+    "zero_errors_risk_0_01_min_accepted": 299,
+    "alpha_each_of_five": 0.01,
+    "zero_errors_risk_0_01_five_family_min_accepted": 459,
+    "upper_if_zero_errors_of_480_and_alpha_0_01": 0.009548227965199052
+  },
+  "experiments": [
+    {
+      "id": "D1",
+      "hat": "dogal_dil",
+      "name": "Serbest dilde anlam, başlık ve kaynak bağı",
+      "depends": [
+        "G0"
+      ],
+      "primary": [
+        "semantic_relation_f1",
+        "accepted_error_upper",
+        "coverage"
+      ],
+      "target": "F1 >= 0.95; accepted-error upper <= 0.01; coverage >= 0.80",
+      "plan": "docs/superpowers/plans/2026-09-16-dogal-dil.md",
+      "status": "NOT_STARTED",
+      "threshold_status": "PROPOSED_NOT_MEASURED"
+    },
+    {
+      "id": "D2",
+      "hat": "dogal_dil",
+      "name": "Beş görev ailesinde bilgi ve bütçe eşlenmiş sistem",
+      "depends": [
+        "D1",
+        "B2",
+        "B3"
+      ],
+      "primary": [
+        "macro_accuracy_difference",
+        "family_noninferiority",
+        "accepted_error_upper",
+        "coverage"
+      ],
+      "target": "C3-C2 >= 0.05 with lower CI > 0; family lower CI > -0.02; risk upper <= 0.01 and coverage >= 0.80",
+      "plan": "docs/superpowers/plans/2026-09-16-dogal-dil.md",
+      "status": "NOT_STARTED",
+      "threshold_status": "PROPOSED_NOT_MEASURED"
+    },
+    {
+      "id": "D3",
+      "hat": "dogal_dil",
+      "name": "Yeni dil, konu, ifade ve bileşim",
+      "depends": [
+        "D2"
+      ],
+      "primary": [
+        "shift_accuracy_difference",
+        "family_noninferiority",
+        "accepted_error_upper",
+        "coverage"
+      ],
+      "target": "Frozen system; predeclared shift slices; D2 criteria where sample size permits; otherwise INCONCLUSIVE",
+      "plan": "docs/superpowers/plans/2026-09-16-dogal-dil.md",
+      "status": "NOT_STARTED",
+      "threshold_status": "PROPOSED_NOT_MEASURED"
+    },
+    {
+      "id": "D4",
+      "hat": "dogal_dil",
+      "name": "Gerçek RLT dil eğitimi ve başlık geri beslemesi",
+      "depends": [
+        "D1",
+        "B2",
+        "U1"
+      ],
+      "primary": [
+        "native_language_capability",
+        "causal_future_state_effect",
+        "matched_cost_title_gain"
+      ],
+      "target": "Pass prespecified capability floor and causal feedback controls; evaluate native title contribution separately",
+      "plan": "docs/superpowers/plans/2026-09-16-dogal-dil.md",
+      "status": "NOT_STARTED",
+      "threshold_status": "PROPOSED_NOT_MEASURED"
+    },
+    {
+      "id": "B1",
+      "hat": "anlamsal_bellek",
+      "name": "Gerçek anlamsal erişim",
+      "depends": [
+        "G0"
+      ],
+      "primary": [
+        "recall_at_10",
+        "all_required_evidence_at_10",
+        "latency",
+        "memory"
+      ],
+      "target": "recall@10 >= 0.95; all required evidence@10 >= 0.90; report grouped uncertainty",
+      "plan": "docs/superpowers/plans/2026-09-16-anlamsal-bellek.md",
+      "status": "NOT_STARTED",
+      "threshold_status": "PROPOSED_NOT_MEASURED"
+    },
+    {
+      "id": "B2",
+      "hat": "anlamsal_bellek",
+      "name": "Sürüm, zaman ve uygulanabilirlik",
+      "depends": [
+        "B1"
+      ],
+      "primary": [
+        "invalid_admission",
+        "accepted_error_upper",
+        "coverage"
+      ],
+      "target": "No observed scope/version-invalid admission; risk upper <= 0.01; coverage >= 0.80",
+      "plan": "docs/superpowers/plans/2026-09-16-anlamsal-bellek.md",
+      "status": "NOT_STARTED",
+      "threshold_status": "PROPOSED_NOT_MEASURED"
+    },
+    {
+      "id": "B3",
+      "hat": "anlamsal_bellek",
+      "name": "Sıkıştırma, geri açma ve seçici revizyon",
+      "depends": [
+        "D1",
+        "B2"
+      ],
+      "primary": [
+        "compression_accuracy_difference",
+        "affected_error_reduction",
+        "unaffected_error_ratio",
+        "overall_error_reduction",
+        "raw_integrity"
+      ],
+      "target": "Lower CI of compression accuracy difference > -0.01; affected relative error reduction >= 0.10 with every seed positive; unaffected error ratio <= 1.05; overall error reduction > 0; zero-baseline ratios undefined; raw archive preserved",
+      "plan": "docs/superpowers/plans/2026-09-16-anlamsal-bellek.md",
+      "status": "NOT_STARTED",
+      "threshold_status": "PROPOSED_NOT_MEASURED"
+    },
+    {
+      "id": "B4",
+      "hat": "anlamsal_bellek",
+      "name": "Kalıcı bellek ölçeği ve yeniden başlatma",
+      "depends": [
+        "B3"
+      ],
+      "primary": [
+        "raw_loss",
+        "wrong_version_admission",
+        "stale_index_admission",
+        "scale_quality",
+        "recovery_cost"
+      ],
+      "target": "Zero observed raw loss, wrong-version admission and stale-index admission in recovery fault tests; report semantic and cost curves",
+      "plan": "docs/superpowers/plans/2026-09-16-anlamsal-bellek.md",
+      "status": "NOT_STARTED",
+      "threshold_status": "PROPOSED_NOT_MEASURED"
+    },
+    {
+      "id": "U1",
+      "hat": "uzun_ufuk",
+      "name": "t, k, d ve bilgi ihtiyacını ayrı büyütme",
+      "depends": [
+        "G0"
+      ],
+      "primary": [
+        "accuracy_by_horizon",
+        "neutral_extension_loss",
+        "answer_regression",
+        "actual_compute"
+      ],
+      "target": "Train horizon 128; test through 4096 with accuracy >= 0.95 at each fixed grid point; neutral loss <= 0.02; larger horizons gated before final",
+      "plan": "docs/superpowers/plans/2026-09-16-uzun-ufuk.md",
+      "status": "NOT_STARTED",
+      "threshold_status": "PROPOSED_NOT_MEASURED"
+    },
+    {
+      "id": "U2",
+      "hat": "uzun_ufuk",
+      "name": "Sürüklenme nedeni ve kontrollü düzeltme",
+      "depends": [
+        "U1"
+      ],
+      "primary": [
+        "causal_intervention_effect",
+        "neutral_extension_loss",
+        "ordinary_noninferiority"
+      ],
+      "target": "Neutral loss <= 0.02; ordinary-task accuracy lower CI difference > -0.01; no oracle-state reset",
+      "plan": "docs/superpowers/plans/2026-09-16-uzun-ufuk.md",
+      "status": "NOT_STARTED",
+      "threshold_status": "PROPOSED_NOT_MEASURED"
+    },
+    {
+      "id": "U3",
+      "hat": "uzun_ufuk",
+      "name": "İnvariant veya denetlenebilir cevap kanıtı",
+      "depends": [
+        "U1"
+      ],
+      "primary": [
+        "proof_checker_result",
+        "theorem_scope",
+        "trusted_assumptions"
+      ],
+      "target": "Conditional theorem bound to the actual frozen trained model, independently rechecked with explicit assumptions; reference-only proofs labeled separately; no finite run substituted for proof",
+      "plan": "docs/superpowers/plans/2026-09-16-uzun-ufuk.md",
+      "status": "NOT_STARTED",
+      "threshold_status": "PROPOSED_NOT_MEASURED"
+    },
+    {
+      "id": "U4",
+      "hat": "uzun_ufuk",
+      "name": "Bütün sistem için son bağımsız doğrulama",
+      "depends": [
+        "D3",
+        "D4",
+        "B4",
+        "U2",
+        "U3"
+      ],
+      "primary": [
+        "independent_recompute",
+        "frozen_lineage",
+        "three_separate_verdicts"
+      ],
+      "target": "All dependencies assessed; report supported, failed, inconclusive or unproved claims separately; frozen artifact manifest",
+      "plan": "docs/superpowers/plans/2026-09-16-uzun-ufuk.md",
+      "status": "NOT_STARTED",
+      "threshold_status": "PROPOSED_NOT_MEASURED"
+    }
+  ]
+}
