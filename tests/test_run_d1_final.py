@@ -30,14 +30,14 @@ class ResumableExtractTests(unittest.TestCase):
 
     def setUp(self):
         from language import extract as ex
-        self._build, self._parse = ex.build_prompt, ex.parse_output
+        self._build, self._parse, self._finite = ex.build_prompt, ex.parse_output, ex.finite_parser
         ex.build_prompt = lambda e, arm: e['question']
         ex.parse_output = lambda o, pids: dict(raw=o)
         self.examples = [dict(id=f'e{i}', question=f'q{i}', context=[]) for i in range(7)]
 
     def tearDown(self):
         from language import extract as ex
-        ex.build_prompt, ex.parse_output = self._build, self._parse
+        ex.build_prompt, ex.parse_output, ex.finite_parser = self._build, self._parse, self._finite
 
     def test_progress_is_persisted_per_batch_and_resumed_by_id(self):
         rf = self.api()
@@ -73,7 +73,7 @@ class ResumableExtractTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             gen = CountingGenerator()
             from language import extract as ex
-            ex.finite_parser = lambda e: dict(raw='fp')
+            ex.finite_parser = lambda e: dict(raw='fp')   # restored in tearDown; leaking it contaminates later tests
             preds = rf.extract_resumable(self.examples[:2], gen, 'finite_parser', batch_size=2, max_new_tokens=8, progress_path=Path(tmp) / 'fp.jsonl', run_key='k')
             self.assertEqual(gen.calls, 0); self.assertEqual(len(preds), 2)
 
