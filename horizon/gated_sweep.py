@@ -41,6 +41,23 @@ def protocol():
                 device='cpu', threads=1, targets=dict(neutral_loss_pp=2., clean_regression_pp=1., false_hold_max=.01, skipped_steps_max=.01))
 
 
+def finite_or_none(x):
+    """None for inf/NaN so no row can break the allow_nan=False writers (U2c hard_st, 2026-09-22)."""
+    return x if (x is None or (isinstance(x, (int, float)) and math.isfinite(x))) else None
+
+
+def json_safe(value):
+    if isinstance(value, dict):
+        return {k: json_safe(v) for k, v in value.items()}
+    if isinstance(value, list):
+        return [json_safe(v) for v in value]
+    if isinstance(value, bool) or isinstance(value, str) or value is None or isinstance(value, int):
+        return value
+    if isinstance(value, float):
+        return finite_or_none(value)
+    return value
+
+
 def gate_weight(arm, p):
     return float(p['gate_loss_weight']) if arm == 'supervised' else 0.
 
@@ -145,12 +162,12 @@ def run_one(out, c):
                        gate_loss=float(g_loss.detach()) if w > 0 else None, grad_norm=report['grad_norm_before_clip'], hold_rate=float((gates.detach() <= .5).float().mean()),
                        input_hash=batch['input_hash'], source_seed=batch['source_seed'])
             if step % p['validation_every'] == 0 or step == p['steps']:
-                stats, _, _ = predict(model, vx, vy, p); row['validation'] = stats
+                stats, _, _ = predict(model, vx, vy, p); row['validation'] = json_safe(stats)
                 if best is None or stats['final_loss'] < best:
                     best = stats['final_loss']; selected = dict(step=step, model=sw.cpu_state(model), validation=stats)
-            sw.append_line(directory / 'updates.jsonl', row)
+            sw.append_line(directory / 'updates.jsonl', json_safe(row))
         torch.save(selected['model'], directory / 'selected.pt'); torch.save(sw.cpu_state(model), directory / 'final.pt')
-        result = dict(condition=c, ident=ident(c), steps=p['steps'], selected_step=selected['step'], selected_validation=selected['validation'],
+        result = dict(condition=c, ident=ident(c), steps=p['steps'], selected_step=selected['step'], selected_validation=json_safe(selected['validation']),
                       guard=counter.summary(), train_seconds=train_seconds, wall_seconds=time.perf_counter() - wall, protocol_hash=manifest['protocol_hash'],
                       selected_sha256=sw.sha(directory / 'selected.pt'), initial_sha256=sw.sha(directory / 'initial.pt'), updates_sha256=sw.sha(directory / 'updates.jsonl'))
         sw.write_json(directory / 'train.json', result)

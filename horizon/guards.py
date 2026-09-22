@@ -19,7 +19,13 @@ def guarded_step(optimizer, params, loss, clip_norm=None):
             p.grad = None
         report['reason'] = 'nonfinite_gradient'
         return report
-    norm = math.sqrt(sum(float(g.detach().float().square().sum()) for g in grads))
+    # float64: a finite float32 gradient of ~1e20 has a square that overflows float32, which used to report inf
+    norm = math.sqrt(sum(float(g.detach().double().square().sum()) for g in grads))
+    if not math.isfinite(norm):
+        for p in params:
+            p.grad = None
+        report['reason'] = 'nonfinite_grad_norm'
+        return report
     report.update(finite=True, grad_norm_before_clip=norm)
     if clip_norm is not None and norm > clip_norm:
         torch.nn.utils.clip_grad_norm_(params, clip_norm); report['clipped'] = True
