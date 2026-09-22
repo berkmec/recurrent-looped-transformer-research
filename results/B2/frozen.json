@@ -1,0 +1,56 @@
+{
+ "environment": {
+  "python": "3.11.9"
+ },
+ "frozen_utc": 1789899049.9477353,
+ "protocol": {
+  "arms": [
+   "dense",
+   "multihop",
+   "multihop_rerank"
+  ],
+  "bootstrap": 1000,
+  "bootstrap_seed": 2026091802,
+  "branches": 3,
+  "dense_instruction": "Given a web search query, retrieve relevant passages that answer the query",
+  "dense_max_length": 256,
+  "development_path": "E:/rlt-research/datasets/dgslibisey__MuSiQue/musique_ans_v1.0_train.jsonl",
+  "development_queries": 100,
+  "device": "cuda",
+  "dtype": "float16",
+  "embedding_model": "E:/rlt-research/models/Qwen3-Embedding-0.6B",
+  "encode_batch": 32,
+  "extractor": "capitalised_terms_v1",
+  "final_path": "E:/rlt-research/datasets/dgslibisey__MuSiQue/musique_ans_v1.0_dev.jsonl",
+  "final_queries": null,
+  "k1": 20,
+  "k2": 20,
+  "ks": [
+   1,
+   5,
+   10
+  ],
+  "note": "same MuSiQue pins as B1; corpus = all paragraphs of the loaded rows; bridge extractor is a cheap heuristic (LM extractor = later arm); Turkish slice UNMEASURED",
+  "purpose": "B2 multi-hop retrieval: bridge terms from the first hop drive a second query; final top-10 is exactly ten documents",
+  "reference": "results/B1",
+  "rerank_batch": 16,
+  "rerank_depth": 50,
+  "rerank_max_length": 1024,
+  "reranker_model": "E:/rlt-research/models/Qwen3-Reranker-0.6B",
+  "rrf_k": 60,
+  "targets": {
+   "coverage_at_10": 0.9,
+   "recall_at_10": 0.95
+  },
+  "top_k": 10,
+  "version": 1
+ },
+ "protocol_hash": "7c658de8a98f28d0eeb10c392a251d325aeb66da8f58048a787632f5028b250a",
+ "sources": {
+  "semantic_memory/embedding.py": "423d30640c24261b707fcb0eb41d514e8d6c96c9f1bc7124af64adf5225c4b2f",
+  "semantic_memory/multihop.py": "b19f9ffed0a2841353dcc8e5864518b9e7f3156c5b57360f8660c2bea3abca7c",
+  "semantic_memory/rerank.py": "22bad6125b416fe04bf6998e7b193342bf6d3d2ceb58298acf0c6419ba20299a",
+  "semantic_memory/retrieval.py": "408b0927c34ff43da99739b713db5b82f0364fec2aa0ea023f6b0ca420929290",
+  "semantic_memory/run_b2.py": "91da4369e7b7f7b121e6de90e6b9030b7117ce2803e1a804c20db83e03002041"
+ }
+}
