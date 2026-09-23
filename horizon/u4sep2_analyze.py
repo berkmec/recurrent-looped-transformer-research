@@ -85,6 +85,29 @@ def verdict(pairs, thresholds=None):
                     INCOMPLETE='too few pairs have finished for replication to mean anything; no verdict yet')[status])
 
 
+def sign_test(pairs):
+    """Which quantity's CHANGE predicts the change in robustness, within matched pairs.
+
+    Added after pair 3 overturned the pre-registered claim: the hinge raised gap/drift in every pair, so the ratio
+    cannot explain why repair rose in some and collapsed in others. The candidate that survived three pairs was the
+    absolute drift, moving in the opposite direction to repair. Pre-registered on the two pairs that had not yet run.
+
+    Reports both candidates on the same footing and does not pick a winner; a sign test with no minimum effect size
+    counts a near-zero change as a real one, which is a known weakness of the pre-registration, not of the data.
+    """
+    rows = []
+    for p in pairs:
+        d_repair = p['hinge_repair'] - p['control_repair']
+        d_ratio = (p.get('eval_ratio_hinge') or 0.) - (p.get('eval_ratio_none') or 0.)
+        d_drift = (p.get('drift_hinge') or 0.) - (p.get('drift_none') or 0.)
+        rows.append(dict(checkpoint=p['checkpoint'], d_repair=d_repair, d_ratio=d_ratio, d_drift=d_drift,
+                         ratio_predicts=(d_repair > 0) == (d_ratio > 0), drift_predicts=(d_repair > 0) == (d_drift < 0)))
+    n = len(rows)
+    return dict(pairs=n, rows=rows,
+                ratio_hits=sum(r['ratio_predicts'] for r in rows), drift_hits=sum(r['drift_predicts'] for r in rows),
+                note='sign test only; no minimum effect size was pre-registered, so a near-zero repair change counts as a miss')
+
+
 def reference_arms(task, seed):
     path = Path(REFERENCE) / f'u1-{task}-w32-s{seed}.json'
     d = json.loads(path.read_text(encoding='utf8'))
@@ -115,6 +138,7 @@ def collect(out):
             entry[f'validation_{arm}'] = t['selected_validation']['final_accuracy']
             entry[f'ratio_{arm}'] = t['ratio_last']
             entry[f'eval_ratio_{arm}'] = e['geometry']['gap_over_drift']
+            entry[f'drift_{arm}'] = e['geometry']['drift_end']
             entry[f'clean4096_{arm}'] = e['clean']['4096']['final_accuracy']
             entry[f'endpoints_{arm}'] = {k: v['final_accuracy'] for k, v in e['neutral'].items()}
             entry[f'checkpoint_sha256_{arm}'] = sha(d / 'selected.pt')
@@ -140,8 +164,9 @@ def main():
     scored = [dict(p, control_repair=p['none_repair'], validation_control=p['validation_none'], ratio_control=p['ratio_none'])
               for p in pairs]
     v = verdict(scored) if scored else dict(status='NO_PAIRS', meaning='nothing complete yet')
+    st = sign_test(scored) if scored else dict(pairs=0, rows=[], ratio_hits=0, drift_hits=0)
     report = dict(kind='U4SEP2_ANALYSIS', utc=time.time(), protocol_hash=manifest['protocol_hash'],
-                  endpoint=ENDPOINT, oracle_arm=ORACLE_ARM, pairs=rows, verdict=v)
+                  endpoint=ENDPOINT, oracle_arm=ORACLE_ARM, pairs=rows, verdict=v, sign_test=st)
     Path(args.out, 'analysis.json').write_text(json.dumps(report, indent=1, default=float) + '\n', encoding='utf8')
     print()
     print('VERDICT %s  (%d/%d pairs rescued)' % (v['status'], v.get('pairs_rescued', 0), v.get('pairs', 0)))
@@ -150,6 +175,14 @@ def main():
         print('  (a) ratio reached target: %s | (b) replicated rescue: %s | (c) accuracy kept: %s | (d) control flat: %s'
               % (v['prediction_a_ratio_reached'], v['prediction_b_rescued'], v['prediction_c_accuracy_kept'], v['prediction_d_control_flat']))
         print('  mean repair: U2c %+.1f -> control %+.1f -> hinge %+.1f' % (v['mean_u2c_repair'], v['mean_control_repair'], v['mean_hinge_repair']))
+    if st['pairs']:
+        print()
+        print('SIGN TEST over %d matched pairs - which change predicts the repair change:' % st['pairs'])
+        print('  gap/drift ratio: %d/%d      absolute drift (inverted): %d/%d' % (st['ratio_hits'], st['pairs'], st['drift_hits'], st['pairs']))
+        for r in st['rows']:
+            print('    %-18s d(repair) %+8.1f  d(ratio) %+6.2f  d(drift) %+6.2f   ratio %s  drift %s'
+                  % (r['checkpoint'], r['d_repair'], r['d_ratio'], r['d_drift'],
+                     'hit ' if r['ratio_predicts'] else 'miss', 'hit' if r['drift_predicts'] else 'miss'))
     print('written', Path(args.out, 'analysis.json'))
 
 
