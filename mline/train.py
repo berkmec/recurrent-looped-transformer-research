@@ -42,14 +42,24 @@ def protocol():
                 purpose='M1: does the exact-preservation gate, the one result replicated across 3 seeds x 2 task families x 2 '
                         'learning rates on the toy automata, still help at 30M on real text?',
                 arms=list(ml.ARMS), seeds=[117], width=1152, heads=8, window=4, alpha=.1, gate_k=2,
-                steps=3000, batch=8, length=512, lr=.0006, weight_decay=.01, clip=1.,
+                steps=4000, batch=32, length=512, lr=.0006, weight_decay=.01, clip=1.,
                 validation_every=250, validation_batches=24, data=DATA, vocabulary=ml.VOCAB,
+                needle_train_rate=.125, needle_train_filler=(0, 64),
                 needle_filler=[0, 128, 512, 2048], needle_kinds=['repeat', 'text'], needle_items=64, needle_batch=4,
                 device='cuda', dtype='float32',
                 selection='minimum validation bits per byte; earliest step on ties',
                 targets=dict(bpb_regression=.02, needle_gain=.05),
                 note='fp32 on purpose (B2: fp16 re-encoding is not bit-identical and the arms must be comparable); '
-                     'the three arms share identical core weights at initialisation, verified by tests/test_mline.py')
+                     'the three arms share identical core weights at initialisation, verified by tests/test_mline.py. '
+                     'batch 32 is the measured optimum on this card (2.70x the throughput of batch 8; batch 48 spills '
+                     'to host memory and loses a factor of ten). 4000 steps is 65.5 MB per arm, about 8.5 hours each '
+                     'at the measured 2148 bytes/s, which fits three arms inside the available window. '
+                     'The needle FORMAT is mixed into training at short filler (0-64) and evaluated at 128, 512 and 2048 - '
+                     'two, eight and thirty-two times the longest distance training ever saw, the same ladder U1 used '
+                     '(trained at 128, tested to 4096). Every non-zero evaluated distance is therefore out of '
+                     'distribution, so what has to generalise is the DISTANCE and not the format. Without '
+                     'this the arms would be compared on a zero-shot format none of them was taught, which is exactly '
+                     'what the emergence probe demonstrated before it was corrected.')
 
 
 def conditions(p):
@@ -112,6 +122,25 @@ def bits_per_byte(loss):
     return loss / np.log(2)
 
 
+def training_batch(p, seed, step):
+    """Corpus rows plus a fixed share of needle examples, so the format is in the training distribution.
+
+    The needles use TRAIN_KEYS, disjoint from the evaluation alphabet, and fillers of 0-128 bytes, below every
+    evaluated distance except the zero-filler control. So memorising an evaluation key is impossible and the only
+    thing that can carry the answer across 512 or 2048 bytes is the state.
+    """
+    needles = round(p['batch'] * p['needle_train_rate']) if p['needle_train_rate'] > 0 else 0
+    corpus_rows = p['batch'] - needles
+    train = md.load(p['data'], 'train')
+    x, y, input_hash = md.batch(train, seed, step, corpus_rows, p['length'])
+    xb, yb = torch.from_numpy(x), torch.from_numpy(y)
+    if needles:
+        mixed = nd.training_items(needles, filler_range=tuple(p['needle_train_filler']),
+                                  seed=seed * 100_003 + step, pad_to=p['length'])
+        xb = torch.cat([xb, mixed['x']]); yb = torch.cat([yb, mixed['y']])
+    return xb, yb, dict(needles=needles, corpus_rows=corpus_rows, input_hash=input_hash)
+
+
 @torch.no_grad()
 def validate(model, p, device, batches=None):
     model.eval()
@@ -154,8 +183,9 @@ def run_one(out, c, device='cuda'):
         counter = gu.GuardCounter(); best, selected, train_seconds = None, None, 0.
         for step in range(1, p['steps'] + 1):
             start = time.perf_counter()
-            x, y, input_hash = md.batch(train, c['seed'], step, p['batch'], p['length'])
-            xb = torch.from_numpy(x).to(device); yb = torch.from_numpy(y).to(device)
+            xb, yb, meta = training_batch(p, c['seed'], step)
+            xb = xb.to(device); yb = yb.to(device)
+            input_hash = meta['input_hash']
             model.train()
             logits = ml.forward_logits(model, xb)
             loss = F.cross_entropy(logits.flatten(0, 1), yb.flatten())
