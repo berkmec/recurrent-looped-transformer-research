@@ -1,0 +1,85 @@
+"""M0 development probe: how much data does the needle capability need before it exists at all?
+
+This is the measurement that decides how many rented GPU-hours to buy, and it is the one question whose answer does
+NOT change if the step cost is later reduced: it is about bytes seen, not about seconds spent. So it is worth running
+now, on the idle GPU, while the speed work happens in parallel.
+
+Development only. It trains the `plain` arm, freezes no protocol, writes under results/M0-emergence, and touches no
+M1 endpoint - the needle sets it scores are built from the VALIDATION corpus with their own seeds, and M1 will build
+its own. Nothing here is evidence for or against the M1 hypothesis; it sizes the budget.
+
+Usage: python -B -m mline.emergence --steps 6000 --batch 32
+"""
+import argparse
+import json
+import sys
+import time
+from pathlib import Path
+
+import numpy as np
+import torch
+import torch.nn.functional as F
+
+from horizon import guards as gu
+from horizon import sweep as sw
+from mline import data as md
+from mline import lm as ml
+from mline import needle as nd
+from mline import train as mt
+
+ROLE = 'development probe: sizes the training budget, never used as evidence about the gate'
+
+
+def run(out, arm='plain', steps=6000, batch=32, every=250, device='cuda', seed=117):
+    out = Path(out); out.mkdir(parents=True, exist_ok=True)
+    p = mt.protocol()
+    train = md.load(p['data'], 'train')
+    corpus = md.load(p['data'], 'validation')
+    model = ml.build(arm, width=p['width'], heads=p['heads'], window=p['window'], alpha=p['alpha'], seed=seed, gate_k=p['gate_k']).to(device)
+    opt = torch.optim.AdamW(model.parameters(), lr=p['lr'], weight_decay=p['weight_decay'])
+    counter = gu.GuardCounter()
+    probes = {n: nd.make(48, n_filler=n, kind='repeat', seed=777 + n) for n in (0, 128, 512)}
+    probes['text@512'] = nd.make(48, n_filler=512, kind='text', seed=999, corpus=corpus)
+    header = dict(role=ROLE, arm=arm, steps=steps, batch=batch, length=p['length'], width=p['width'],
+                  lr=p['lr'], seed=seed, bytes_per_step=batch * p['length'], utc=time.time())
+    sw.write_json(out / 'probe.json', header)
+    print(json.dumps(header), flush=True)
+    t0 = time.perf_counter()
+    for step in range(1, steps + 1):
+        x, y, input_hash = md.batch(train, seed, step, batch, p['length'])
+        xb = torch.from_numpy(x).to(device); yb = torch.from_numpy(y).to(device)
+        model.train()
+        logits = ml.forward_logits(model, xb)
+        loss = F.cross_entropy(logits.flatten(0, 1), yb.flatten())
+        report = counter.record(gu.guarded_step(opt, model.parameters(), loss, clip_norm=p['clip']))
+        row = dict(step=step, bytes_seen=step * batch * p['length'], loss=report['loss'],
+                   bits_per_byte=(report['loss'] / np.log(2)) if report['loss'] else None,
+                   grad_norm=report['grad_norm_before_clip'], input_hash=input_hash)
+        if step % every == 0 or step == steps:
+            val = mt.validate(model, dict(p, batch=batch), device, batches=8)
+            forward = lambda xb_: ml.forward_logits(model, xb_)
+            row['validation'] = val
+            row['needle'] = {str(k): nd.score(forward, v, batch=8, device=device) for k, v in probes.items()}
+            print('step %5d  %6.1f MB  val bpb %.3f  needle@0 %.3f  @128 %.3f  @512 %.3f  text@512 %.3f  %.1f min'
+                  % (step, row['bytes_seen'] / 1e6, val['bits_per_byte'],
+                     row['needle']['0']['exact_match'], row['needle']['128']['exact_match'],
+                     row['needle']['512']['exact_match'], row['needle']['text@512']['exact_match'],
+                     (time.perf_counter() - t0) / 60), flush=True)
+            torch.save({k: v.cpu() for k, v in model.state_dict().items()}, out / 'latest.pt')
+        sw.append_line(out / 'probe.jsonl', row)
+    return out
+
+
+def main():
+    sys.stdout.reconfigure(encoding='utf-8', errors='replace')   # the Windows console codepage cannot print every glyph
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--out', default='results/M0-emergence')
+    parser.add_argument('--arm', default='plain'); parser.add_argument('--steps', type=int, default=6000)
+    parser.add_argument('--batch', type=int, default=32); parser.add_argument('--every', type=int, default=250)
+    parser.add_argument('--device', default='cuda'); parser.add_argument('--seed', type=int, default=117)
+    args = parser.parse_args()
+    run(args.out, args.arm, args.steps, args.batch, args.every, args.device, args.seed)
+
+
+if __name__ == '__main__':
+    main()
