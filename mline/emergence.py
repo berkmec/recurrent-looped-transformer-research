@@ -30,7 +30,8 @@ from mline import train as mt
 ROLE = 'development probe: sizes the training budget, never used as evidence about the gate'
 
 
-def run(out, arm='plain', steps=6000, batch=32, every=250, device='cuda', seed=117):
+def run(out, arm='plain', steps=6000, batch=32, every=250, device='cuda', seed=117, needle_rate=.125,
+        train_filler=(0, 128)):
     out = Path(out); out.mkdir(parents=True, exist_ok=True)
     p = mt.protocol()
     train = md.load(p['data'], 'train')
@@ -40,14 +41,24 @@ def run(out, arm='plain', steps=6000, batch=32, every=250, device='cuda', seed=1
     counter = gu.GuardCounter()
     probes = {n: nd.make(48, n_filler=n, kind='repeat', seed=777 + n) for n in (0, 128, 512)}
     probes['text@512'] = nd.make(48, n_filler=512, kind='text', seed=999, corpus=corpus)
+    needles_per_batch = max(1, round(batch * needle_rate)) if needle_rate > 0 else 0
     header = dict(role=ROLE, arm=arm, steps=steps, batch=batch, length=p['length'], width=p['width'],
-                  lr=p['lr'], seed=seed, bytes_per_step=batch * p['length'], utc=time.time())
+                  lr=p['lr'], seed=seed, bytes_per_step=batch * p['length'], utc=time.time(),
+                  needle_rate=needle_rate, needles_per_batch=needles_per_batch, train_filler=list(train_filler),
+                  design='the needle FORMAT is taught at short filler; the evaluation uses fillers never seen, so what '
+                         'has to generalise is the DISTANCE - the U1 shape (trained at 128, tested to 4096) in language. '
+                         'Training and evaluation key alphabets are disjoint, so no evaluation key can be memorised.')
     sw.write_json(out / 'probe.json', header)
     print(json.dumps(header), flush=True)
     t0 = time.perf_counter()
     for step in range(1, steps + 1):
-        x, y, input_hash = md.batch(train, seed, step, batch, p['length'])
-        xb = torch.from_numpy(x).to(device); yb = torch.from_numpy(y).to(device)
+        x, y, input_hash = md.batch(train, seed, step, batch - needles_per_batch, p['length'])
+        xb, yb = torch.from_numpy(x), torch.from_numpy(y)
+        if needles_per_batch:
+            mixed = nd.training_items(needles_per_batch, filler_range=train_filler, seed=seed * 100_003 + step,
+                                      pad_to=p['length'])
+            xb = torch.cat([xb, mixed['x']]); yb = torch.cat([yb, mixed['y']])
+        xb = xb.to(device); yb = yb.to(device)
         model.train()
         logits = ml.forward_logits(model, xb)
         loss = F.cross_entropy(logits.flatten(0, 1), yb.flatten())
@@ -77,8 +88,9 @@ def main():
     parser.add_argument('--arm', default='plain'); parser.add_argument('--steps', type=int, default=6000)
     parser.add_argument('--batch', type=int, default=32); parser.add_argument('--every', type=int, default=250)
     parser.add_argument('--device', default='cuda'); parser.add_argument('--seed', type=int, default=117)
+    parser.add_argument('--needle-rate', type=float, default=.125)
     args = parser.parse_args()
-    run(args.out, args.arm, args.steps, args.batch, args.every, args.device, args.seed)
+    run(args.out, args.arm, args.steps, args.batch, args.every, args.device, args.seed, args.needle_rate)
 
 
 if __name__ == '__main__':

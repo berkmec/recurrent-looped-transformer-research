@@ -18,13 +18,19 @@ import numpy as np
 import torch
 
 FILLER_PHRASE = b'and so it went on and on. '
-KEY_ALPHABET = b'ABCDEFGHJKLMNPQRSTUVWXYZ'
+# Split so that an evaluation key CANNOT appear in training. A structural guarantee beats a probabilistic one:
+# the zero-shot design this replaces failed because the format was never taught, and the fix - teaching the format -
+# would leak the answer keys too unless the spaces are disjoint by construction.
+TRAIN_KEYS = b'ABCDEFGHJKLM'
+EVAL_KEYS = b'NPQRSTUVWXYZ'
+KEY_ALPHABET = EVAL_KEYS
 VALUE_ALPHABET = b'0123456789'
 KIND = ('repeat', 'text')
 
 
-def _key(rng, length=4):
-    return bytes(KEY_ALPHABET[i] for i in rng.integers(0, len(KEY_ALPHABET), size=length))
+def _key(rng, length=4, alphabet=None):
+    alphabet = alphabet if alphabet is not None else EVAL_KEYS
+    return bytes(alphabet[i] for i in rng.integers(0, len(alphabet), size=length))
 
 
 def _value(rng, length=4):
@@ -48,11 +54,11 @@ def make(n_items, n_filler, kind='repeat', seed=0, corpus=None):
     if kind not in KIND:
         raise ValueError('kind must be one of ' + ', '.join(KIND))
     rng = np.random.default_rng(seed)
-    rows, answers = [], []
+    rows, answers, keys = [], [], []
     seen = set()
     for _ in range(n_items):
         while True:
-            key = _key(rng)
+            key = _key(rng, alphabet=EVAL_KEYS)
             if key not in seen:
                 seen.add(key); break
         value = _value(rng)
@@ -60,7 +66,7 @@ def make(n_items, n_filler, kind='repeat', seed=0, corpus=None):
         middle = filler_bytes(kind, n_filler, rng, corpus)
         query = b'\nThe code for ' + key + b' is '
         rows.append(prefix + middle + query)
-        answers.append(value)
+        answers.append(value); keys.append(key.decode('ascii'))
     width = max(len(r) for r in rows) + len(answers[0])
     x = np.zeros((n_items, width), dtype=np.int64)
     mask = np.zeros((n_items, width), dtype=bool)
@@ -74,7 +80,8 @@ def make(n_items, n_filler, kind='repeat', seed=0, corpus=None):
         y[i, :-1] = arr[1:]; y[i, -1] = arr[-1]
         mask[i, width - len(value) - 1:width - 1] = True   # positions whose NEXT byte is an answer byte
     return dict(x=torch.from_numpy(x), y=torch.from_numpy(y), mask=torch.from_numpy(mask),
-                answers=[a.decode('ascii') for a in answers], n_filler=n_filler, kind=kind, width=width)
+                answers=[a.decode('ascii') for a in answers], answers_keys=keys,
+                n_filler=n_filler, kind=kind, width=width)
 
 
 @torch.no_grad()
@@ -92,3 +99,41 @@ def score(forward, items, batch=8, device='cpu'):
         exact += int(((correct.sum(1)) == mb.sum(1)).sum())
     return dict(exact_match=exact / len(x), byte_accuracy=hits / max(total, 1), items=len(x),
                 n_filler=items['n_filler'], kind=items['kind'], width=items['width'])
+
+
+def training_items(n_items, filler_range=(0, 128), seed=0, kind='repeat', corpus=None, pad_to=None):
+    """Needle examples to MIX INTO TRAINING, so the format is learned and only the DISTANCE has to generalise.
+
+    This is the U1 shape applied to language: U1 trained at horizon 128 and tested to 4096. Here training sees the
+    format with short fillers and the evaluation uses fillers it never saw. Keys come from TRAIN_KEYS, which is
+    disjoint from the EVAL_KEYS `make` draws on, so no evaluation key can be memorised.
+
+    Returns full next-byte targets over the whole sequence, because the model has to learn the format as language,
+    not just the answer span.
+    """
+    rng = np.random.default_rng(seed + 31_337)
+    lo, hi = filler_range
+    rows, fillers, texts = [], [], []
+    for _ in range(n_items):
+        key = _key(rng, alphabet=TRAIN_KEYS)
+        value = _value(rng)
+        n = int(rng.integers(lo, hi + 1))
+        blob = (b'The code for ' + key + b' is ' + value + b'.\n'
+                + filler_bytes(kind, n, rng, corpus)
+                + b'\nThe code for ' + key + b' is ' + value)
+        rows.append(blob); fillers.append(n); texts.append(blob.decode('ascii', errors='ignore'))
+    width = max(len(r) for r in rows)
+    if pad_to is not None:
+        if width > pad_to:
+            raise ValueError(f'needle example of {width} bytes does not fit the training width {pad_to}; '
+                             'lower filler_range so the answer is never truncated away')
+        width = pad_to
+    x = np.zeros((n_items, width), dtype=np.int64)
+    y = np.zeros((n_items, width), dtype=np.int64)
+    for i, row in enumerate(rows):
+        seq = (b' ' * (width - len(row))) + row
+        arr = np.frombuffer(seq, dtype=np.uint8).astype(np.int64)
+        x[i] = arr
+        y[i, :-1] = arr[1:]; y[i, -1] = arr[-1]
+    return dict(x=torch.from_numpy(x), y=torch.from_numpy(y), texts=texts, fillers=fillers,
+                filler_range=filler_range, kind=kind)

@@ -116,5 +116,83 @@ class NeedleTests(unittest.TestCase):
         self.assertLess(nd.score(noise, items, batch=4)['byte_accuracy'], 0.2)
 
 
+
+class NeedleTrainingMixTests(unittest.TestCase):
+    """The zero-shot probe measured a format the model was never taught. Train the format, generalise the DISTANCE.
+
+    This mirrors U1 exactly: trained at horizon 128, tested to 4096. Here the needle format and short fillers are in
+    the training distribution, and the evaluation uses fillers the model never saw. Key spaces are split so an
+    evaluation key CANNOT appear in training - a structural guarantee, not a probabilistic one.
+    """
+
+    def api(self):
+        try:
+            from mline import needle
+        except ImportError as e:
+            self.fail('mline.needle is not implemented: ' + str(e))
+        return needle
+
+    def test_key_alphabets_are_disjoint(self):
+        nd = self.api()
+        self.assertTrue(set(nd.TRAIN_KEYS).isdisjoint(set(nd.EVAL_KEYS)))
+        self.assertGreater(len(nd.TRAIN_KEYS), 8)
+        self.assertGreater(len(nd.EVAL_KEYS), 8)
+
+    def test_training_items_use_only_training_keys(self):
+        nd = self.api()
+        items = nd.training_items(64, filler_range=(0, 128), seed=5)
+        allowed = set(nd.TRAIN_KEYS.decode('ascii'))
+        for text in items['texts']:
+            key = text.split('The code for ')[1].split(' is ')[0]
+            self.assertTrue(set(key) <= allowed, f'training key {key} uses an evaluation letter')
+
+    def test_evaluation_items_use_only_evaluation_keys(self):
+        nd = self.api()
+        items = nd.make(32, n_filler=64, kind='repeat', seed=9)
+        allowed = set(nd.EVAL_KEYS.decode('ascii'))
+        for text in [bytes(r.tolist()).decode('ascii') for r in items['x']]:
+            key = text.split('The code for ')[1].split(' is ')[0]
+            self.assertTrue(set(key) <= allowed, f'evaluation key {key} uses a training letter')
+
+    def test_no_evaluation_key_can_appear_in_training_at_scale(self):
+        nd = self.api()
+        train_keys = set()
+        for s in range(6):
+            for text in nd.training_items(128, filler_range=(0, 128), seed=s)['texts']:
+                train_keys.add(text.split('The code for ')[1].split(' is ')[0])
+        eval_keys = set()
+        for s in range(6):
+            items = nd.make(64, n_filler=32, kind='repeat', seed=100 + s)
+            eval_keys.update(items['answers_keys'])
+        self.assertEqual(train_keys & eval_keys, set())
+        self.assertGreater(len(train_keys), 200)
+
+    def test_training_items_are_ready_for_a_language_loss(self):
+        nd = self.api()
+        items = nd.training_items(8, filler_range=(0, 64), seed=1)
+        x, y = items['x'], items['y']
+        self.assertEqual(x.shape, y.shape)
+        self.assertEqual(x.dtype, torch.int64)
+        self.assertTrue(torch.equal(x[:, 1:], y[:, :-1]))      # next-byte targets over the whole sequence
+        self.assertLessEqual(int(x.max()), 255)
+
+    def test_items_can_be_padded_to_the_training_width(self):
+        """Mixing into a training batch needs one fixed width; the needle must fit inside the model's context."""
+        nd = self.api()
+        items = nd.training_items(6, filler_range=(0, 128), seed=4, pad_to=512)
+        self.assertEqual(items['x'].shape, (6, 512))
+        self.assertEqual(items['y'].shape, (6, 512))
+        self.assertTrue(torch.equal(items['x'][:, 1:], items['y'][:, :-1]))
+        tail = bytes(items['x'][0].tolist()).decode('ascii').rstrip()
+        self.assertRegex(tail[-30:], r'The code for [A-M]{4} is \d{4}$')   # the answer survives the padding
+        with self.assertRaises(ValueError):
+            nd.training_items(2, filler_range=(0, 4096), seed=4, pad_to=64)
+
+    def test_training_filler_range_is_respected_and_shorter_than_evaluation(self):
+        nd = self.api()
+        items = nd.training_items(32, filler_range=(0, 128), seed=2)
+        self.assertLessEqual(max(items['fillers']), 128)
+        self.assertGreaterEqual(min(items['fillers']), 0)
+
 if __name__ == '__main__':
     unittest.main()
