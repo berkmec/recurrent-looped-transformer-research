@@ -52,13 +52,13 @@ Prob "en iyi kararlı lr = 0,0003" dedi. Tam ızgara (18 koşul, `results/U2c-lr
 
 Yani sorun "durum kayıyor" değil, **"durum, sınıfları ayırt edemeyecek kadar sıkışık bir kodda kayıyor"**. Bu üç gözlemi birden açıklıyor: (a) yüksek lr, bütçe içinde geniş ve ayrık bir kod geliştiriyor (durum normu 2,0–4,9), düşük lr kodu küçük ve sıkışık bırakıyor (0,54–0,83) — yani etkin olarak yetersiz eğitim (bkz. C17); (b) tam kopya her yerde kazanıyor çünkü sürüklenme sıfırken oran kodun geometrisinden bağımsız olarak sonsuz; (c) hiçbir "tutma oranı" hikâyesinin tutmamasının sebebi. **Sınır:** n=12, tek görev ailesi, korelasyonel — kod geometrisine müdahale edilmedi. Nedensel testi `U4-sep` olarak havuza yazıldı.
 
-**Geri çekilen açıklama:** "daha çok tutmak = daha kısa etkin özyineleme = daha iyi genelleme" demiştim; veri çürüttü. `soft` lr 0,003'te tutma 0,389 → 512-orta 1,000; lr 0,0003'te tutma 0,394 → 0,182. Neredeyse aynı tutma, zıt sonuç. Belirleyici olan **eğitim rejimi**, kapının tutma sıklığı değil. İçerideki hangi özelliğin bunu sağladığı **henüz ölçülmedi** → U2d tanısı bunun için koşuyor.
+**Geri çekilen açıklama:** "daha çok tutmak = daha kısa etkin özyineleme = daha iyi genelleme" demiştim; veri çürüttü. `soft` lr 0,003'te tutma 0,389 → 512-orta 1,000; lr 0,0003'te tutma 0,394 → 0,182. Neredeyse aynı tutma, zıt sonuç. Belirleyici olan **eğitim rejimi**, kapının tutma sıklığı değil. İçerideki hangi özelliğin bunu sağladığı **henüz ölçülmedi** → U2d tanısı bunu ölçtü (yukarıdaki bölüm): belirleyici olan sınıf çapalarının aralığı.
 
 ## Yöntem
 
 - Mimari: `horizon/gated.py` — mühürlü Core'un üzerine kapı. Her adımda korunan durum ya adayla değişir (WRITE) ya da **aynen kalır** (HOLD). Kapı yalnız `[e_t, s_{t−1}]` görür; test anında oracle yok. Kollar: `soft` (sigmoid karışım, türevlenebilir, kesin değil), `hard_st` (sert karar + straight-through; HOLD'da pencere önbelleği de donar), `supervised` (hard_st + koşu-farkında k=2 hedefine BCE kaybı).
 - Eğitim: U1 döngüsü (2048 adım, batch 32, L128, AdamW, kırpma 1,0) + A8 sonluluk koruması; seçim doğrulama kaybına göre. Değerlendirme U2b uç noktalarında: 500 dizi × nötr 128/512 × ön/orta/son, temiz 128/1024/4096, artı kapı tanıları (tutma oranı, yanlış-tutma/yanlış-yazma).
-- Protokoller: `results/U2c-v2` (lr 0,003, 18/18 tamam), `results/U2c-lr0003` (lr 0,0003, aynı protokol değerleri, koşuyor), `results/U2c-lr` (geliştirme probu, 8/8). Referans `none` = U1'in seçilmiş checkpoint'leri, aynı uç noktalarda (U2b'den).
+- Protokoller: `results/U2c-v2` (lr 0,003, 18/18 tamam), `results/U2c-lr0003` (lr 0,0003, aynı protokol değerleri, 18/18 tamam), `results/U2c-lr` (geliştirme probu, 8/8). Referans `none` = U1'in seçilmiş checkpoint'leri, aynı uç noktalarda (U2b'den).
 - Durum etiketleri: analiz betiğinin kuralı tohum başına sıkı olduğu için altı hücrenin altısını da "MIXED" yazıyor; bu yüzden raporda etiket değil **sayılar** kullanılıyor (aynı karar U2/B1 raporlarında da alınmıştı).
 
 ## Olay kaydı: çökme, düzeltme, tekrar üretim
@@ -78,4 +78,4 @@ Yan ürün — **tekrar üretim kanıtı**: v1'in altı `soft` koşulu v2'de bit
 
 ## Durum
 
-`hard_st`: **her iki görev ailesinde ve her iki lr seviyesinde MEASURED_POSITIVE** (onarım %94/%79 ve %99/%92); tek zayıf noktası düşük lr'de beş-durumun temiz uzunluk genellemesi. `soft`: beş-durumda pozitif, yığında negatif. `supervised`: yığında pozitif, beş-durumda negatif. Denetim: `.superpowers/sdd/phase2/audit-u2c.md`; mühür: `audit/phase2-U2c-manifest.json` (lr0003 seviyesi tamamlanınca).
+`hard_st`: **her iki görev ailesinde ve her iki lr seviyesinde MEASURED_POSITIVE** (onarım %94/%79 ve %99/%92); tek zayıf noktası düşük lr'de beş-durumun temiz uzunluk genellemesi. `soft`: beş-durumda pozitif, yığında negatif. `supervised`: yığında pozitif, beş-durumda negatif. Denetim: `.superpowers/sdd/phase2/audit-u2c.md`; mühür: `audit/phase2-U2c-manifest.json`, sha256 96694038… (iki lr seviyesi, prob ve U2d tanısı dahil).
