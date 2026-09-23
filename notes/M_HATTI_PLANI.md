@@ -61,7 +61,17 @@ A8 korumalı + remat'lı eğitim döngüsü, değerlendirme takımı (perplexity
 her zamanki gibi.
 
 **M1 — kapı, eşli (ana deney).** Üç kol, aynı veri, aynı bütçe, aynı tohum: `plain` (mühürlü Core, kontrol) ·
-`hard_st` (tam koruma) · `soft` (yumuşak karışım). 3 tohum × 3 kol.
+`hard_st` (tam koruma) · `soft` (yumuşak karışım).
+
+**Tohum sayısı — plan ile kod arasındaki farkın gerekçesi:** yerelde **tek tohum** (117) koşuyoruz, protokolde de
+öyle yazıyor. Ölçülen hız (kol başına ~8,5 saat) üç tohumu yerelde 25 saat yerine 75 saate çıkarırdı. Tek tohum
+**bir ilk bakıştır, tekrarlanmış sonuç değildir** ve karar kuralı bunu kendisi damgalıyor (`provisional=True`,
+`mline/analyze.py`). Replikasyon VM'e gidiyor — kampanyanın kendi tarihi bunu gerektiriyor: lr üç ayrı döngüde
+çözüm ailesini belirledi ve C16 tek koşulun doğrulama doğruluğunun asıl özelliğe kör olduğunu ölçtü.
+
+**İğne mesafe merdiveni:** eğitim dolgusu **0–64 bayt**; değerlendirme 128 / 512 / 2048, yani eğitimin gördüğü en
+uzun mesafenin **2×, 8× ve 32× katı**. Sıfır dolgu kontrol noktasıdır. Böylece genelleşmesi gereken şey biçim
+değil **mesafe** olur — U1'in merdiveninin (128'de eğit, 4096'da ölç) dildeki karşılığı.
 *Önceden kayıtlı tahmin:* hard_st perplexity'yi bozmadan iğne@512 ve iğne@2048'i `plain`in üstüne çıkarır; `soft`
 hard_st'in altında kalır, çünkü dil durumu içerik taşır (U2c yığın sonucu).
 *Yanlışlama:* hard_st iğne@N'de `plain`i geçmezse, kapı oyuncak ölçeğe özgüdür ve hat 1. basamakta biter.
@@ -99,6 +109,13 @@ RTX 2060 SUPER 8 GB · 16 GB RAM · E: 48,7 GB boş, **C: 0,6 GB boş**.
   Kaldıraçlar ölçüldü: batch 8→32 **2,70×** (batch 48 host belleğine taşıyor, 10 kat yavaşlama), CUDA grafiği **1,20×**.
   `torch.compile` bu makinede yok (Triton kurulu değil); Linux'ta olacağı için `mline/faststep.py` ön şart olarak yazıldı.
 - 300M: yerel olarak gerçekçi değil; yukarıdaki ölçümlerden doğrusal olarak çok daha ağır.
-- 10B: yerelde imkânsız; kiralık GPU gerekir ve mevcut kapsam sözleşmesi bunu varsaymıyor.
+- **İş bölümü (2026-09-24 kararı):** 30M **bu makinede** eğitilir; daha büyük model **VM'de** olur. Yerel donanım
+  30M'i taşıyor, ötesini taşımıyor.
+- **Bulut bütçesi 40 USD ve ne satın alacağı.** Yerel M1'in tek tohumluk bir ilk bakış olduğu göz önüne alınınca,
+  bu para M1'i tekrarlamak yerine **replikasyona** gitmeli: 3 tohum × 3 kol × 3 lr seviyesi. Gerekçe kampanyanın
+  kendi ölçümleri: lr üç ayrı döngüde çözüm ailesini belirledi (U2c çapraz-lr, U4-sep faz geçişi, R5), ve C16 tek
+  koşulun doğrulama doğruluğunun asıl merak edilen özelliğe kör olduğunu gösterdi. Ölçülen maliyet: fırlatma-sınırlı
+  iş yükünde pahalı kart getirisi düşük, bu yüzden kart seçimi VRAM (dolayısıyla batch) üzerinden yapılmalı,
+  FLOPS üzerinden değil. Spot uygun: koşucu her koşulu ayrı mühürlüyor, kesinti en fazla bir koşul kaybettirir.
 - Bütün önbellek ve korpus **E:'ye** yazılır; C: dolu.
 - Eğitim, boş RAM eşiğin altındayken **başlatılmaz**.
