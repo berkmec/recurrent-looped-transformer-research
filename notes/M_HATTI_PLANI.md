@@ -94,8 +94,11 @@ maliyet yok; işe yararsa bedava kazanç.
 
 RTX 2060 SUPER 8 GB · 16 GB RAM · E: 48,7 GB boş, **C: 0,6 GB boş**.
 
-- 30M: rahat. Segment yürütme (R6) ve TBPTT (R4) uzun bağlamda tepe belleği düşürür.
-- 300M: yavaş ama mümkün.
+- 30M: **ölçüldü, rahat değil.** batch 8'de 4,39-5,15 s/adım (kol başına), üç kol 3000 adımda **12,1 saat**; batch 32'de
+  2148 bayt/s, bir epoch **27 saat/kol**. GPU kullanımı tepede %5 — iş yükü aritmetik değil ardışıklık sınırlı.
+  Kaldıraçlar ölçüldü: batch 8→32 **2,70×** (batch 48 host belleğine taşıyor, 10 kat yavaşlama), CUDA grafiği **1,20×**.
+  `torch.compile` bu makinede yok (Triton kurulu değil); Linux'ta olacağı için `mline/faststep.py` ön şart olarak yazıldı.
+- 300M: yerel olarak gerçekçi değil; yukarıdaki ölçümlerden doğrusal olarak çok daha ağır.
 - 10B: yerelde imkânsız; kiralık GPU gerekir ve mevcut kapsam sözleşmesi bunu varsaymıyor.
 - Bütün önbellek ve korpus **E:'ye** yazılır; C: dolu.
 - Eğitim, boş RAM eşiğin altındayken **başlatılmaz**.
