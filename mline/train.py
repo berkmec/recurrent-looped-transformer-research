@@ -1,0 +1,238 @@
+"""M-hattı M1: train the 30M-class byte model in three arms that differ ONLY in how the state is carried forward.
+
+plain (the sealed Core) / hard_st (exact bitwise preservation) / soft (soft mixing). Same seed, so the three arms
+start from identical core weights; same data, same budget, same evaluation. The gate adds 2 305 parameters to
+31 131 904, so any difference cannot be attributed to capacity.
+
+Evaluated on both things the campaign learned to measure:
+  - bits per byte on a held-out split of DISJOINT documents (the language ability),
+  - needle@N for N in {0, 128, 512, 2048} and two filler kinds (the drift robustness),
+because C16 established that the first is blind to the second.
+
+fp32 throughout: B2 measured that fp16 re-encoding is not bit-identical, and these arms must be comparable.
+
+CLI: --freeze | --probe | --run-all   (--out results/M1)
+"""
+import argparse
+import copy
+import json
+import os
+import platform
+import time
+from pathlib import Path
+
+import numpy as np
+import torch
+import torch.nn.functional as F
+
+from horizon import gated_sweep as gs
+from horizon import guards as gu
+from horizon import sweep as sw
+from mline import data as md
+from mline import lm as ml
+from mline import needle as nd
+
+ROOT = Path(__file__).resolve().parents[1]
+SOURCES = ('core/model.py', 'horizon/gated.py', 'horizon/guards.py', 'mline/lm.py', 'mline/data.py', 'mline/needle.py', 'mline/train.py')
+DATA = os.environ.get('MLINE_DATA', 'E:/rlt-research/mline-data/cnn-bytes')
+
+
+def protocol():
+    return dict(version=1,
+                purpose='M1: does the exact-preservation gate, the one result replicated across 3 seeds x 2 task families x 2 '
+                        'learning rates on the toy automata, still help at 30M on real text?',
+                arms=list(ml.ARMS), seeds=[117], width=1152, heads=8, window=4, alpha=.1, gate_k=2,
+                steps=3000, batch=8, length=512, lr=.0006, weight_decay=.01, clip=1.,
+                validation_every=250, validation_batches=24, data=DATA, vocabulary=ml.VOCAB,
+                needle_filler=[0, 128, 512, 2048], needle_kinds=['repeat', 'text'], needle_items=64, needle_batch=4,
+                device='cuda', dtype='float32',
+                selection='minimum validation bits per byte; earliest step on ties',
+                targets=dict(bpb_regression=.02, needle_gain=.05),
+                note='fp32 on purpose (B2: fp16 re-encoding is not bit-identical and the arms must be comparable); '
+                     'the three arms share identical core weights at initialisation, verified by tests/test_mline.py')
+
+
+def conditions(p):
+    return [dict(arm=arm, seed=seed, width=p['width'], heads=p['heads'], stage='m1') for arm in p['arms'] for seed in p['seeds']]
+
+
+def ident(c):
+    return f"m1-{c['arm']}-w{c['width']}-s{c['seed']}"
+
+
+def known(manifest, cid):
+    for c in conditions(manifest['protocol']):
+        if ident(c) == cid:
+            return c
+    raise ValueError('unknown condition ' + cid)
+
+
+def make_model(c, p):
+    return ml.build(c['arm'], width=p['width'], heads=p['heads'], window=p['window'], alpha=p['alpha'], seed=c['seed'], gate_k=p['gate_k'])
+
+
+def source_hashes():
+    return {name: sw.sha(ROOT / name) for name in SOURCES}
+
+
+def freeze(out, p=None):
+    out = Path(out); out.mkdir(parents=True, exist_ok=True)
+    p = copy.deepcopy(p or protocol())
+    corpus = json.loads((Path(p['data']) / 'corpus.json').read_text(encoding='utf8'))
+    manifest = dict(protocol=p, protocol_hash=sw.digest(p), sources=source_hashes(),
+                    corpus={k: corpus[k] for k in ('dataset', 'config', 'split', 'train_bytes', 'validation_bytes',
+                                                   'train_documents', 'validation_documents', 'train_sha256', 'validation_sha256')},
+                    environment=dict(python=platform.python_version(), torch=torch.__version__, numpy=np.__version__,
+                                     gpu=torch.cuda.get_device_name(0) if torch.cuda.is_available() else None),
+                    frozen_utc=time.time())
+    if (out / 'frozen.json').exists():
+        old = verify_frozen(out)
+        if old['protocol_hash'] != manifest['protocol_hash']:
+            raise ValueError('refusing frozen protocol change')
+        return old
+    if any(out.iterdir()):
+        raise ValueError('new freeze requires empty output directory')
+    sw.write_json(out / 'frozen.json', manifest)
+    (out / 'frozen.sha256').write_text(sw.sha(out / 'frozen.json'), encoding='ascii')
+    return manifest
+
+
+def verify_frozen(out):
+    out = Path(out)
+    if sw.sha(out / 'frozen.json') != (out / 'frozen.sha256').read_text(encoding='ascii').strip():
+        raise ValueError('frozen manifest hash mismatch')
+    manifest = json.loads((out / 'frozen.json').read_text(encoding='utf8'))
+    if manifest['protocol_hash'] != sw.digest(manifest['protocol']) or manifest['sources'] != source_hashes():
+        raise ValueError('protocol/source drift')
+    torch.set_num_threads(1)
+    return manifest
+
+
+def bits_per_byte(loss):
+    return loss / np.log(2)
+
+
+@torch.no_grad()
+def validate(model, p, device, batches=None):
+    model.eval()
+    val = md.load(p['data'], 'validation')
+    total, n = 0., 0
+    for step in range(1, (batches or p['validation_batches']) + 1):
+        x, y, _ = md.batch(val, 991, step, p['batch'], p['length'])
+        xb = torch.from_numpy(x).to(device); yb = torch.from_numpy(y).to(device)
+        logits = ml.forward_logits(model, xb)
+        total += float(F.cross_entropy(logits.flatten(0, 1), yb.flatten())); n += 1
+    return dict(loss=total / n, bits_per_byte=bits_per_byte(total / n), batches=n)
+
+
+def needle_suite(model, p, device):
+    corpus = md.load(p['data'], 'validation')
+    model.eval()
+    forward = lambda xb: ml.forward_logits(model, xb)
+    out = {}
+    for kind in p['needle_kinds']:
+        for n in p['needle_filler']:
+            items = nd.make(p['needle_items'], n_filler=n, kind=kind, seed=4242 + n, corpus=corpus if kind == 'text' else None)
+            out[f'{kind}@{n}'] = nd.score(forward, items, batch=p['needle_batch'], device=device)
+    return out
+
+
+def run_one(out, c, device='cuda'):
+    out = Path(out); manifest = verify_frozen(out); p = manifest['protocol']; known(manifest, ident(c))
+    directory = out / ident(c); directory.mkdir(exist_ok=True)
+    if (directory / 'complete.json').exists():
+        return json.loads((directory / 'train.json').read_text(encoding='utf8'))
+    if any(directory.iterdir()):
+        raise ValueError('incomplete condition directory requires audit; no automatic reuse: ' + str(directory))
+    (directory / 'active.lock').write_text(json.dumps(dict(pid=os.getpid(), time=time.time())), encoding='utf8')
+    try:
+        wall = time.perf_counter()
+        model = make_model(c, p).to(device)
+        counts = ml.parameter_count(model)
+        opt = torch.optim.AdamW(model.parameters(), lr=p['lr'], weight_decay=p['weight_decay'])
+        train = md.load(p['data'], 'train')
+        counter = gu.GuardCounter(); best, selected, train_seconds = None, None, 0.
+        for step in range(1, p['steps'] + 1):
+            start = time.perf_counter()
+            x, y, input_hash = md.batch(train, c['seed'], step, p['batch'], p['length'])
+            xb = torch.from_numpy(x).to(device); yb = torch.from_numpy(y).to(device)
+            model.train()
+            logits = ml.forward_logits(model, xb)
+            loss = F.cross_entropy(logits.flatten(0, 1), yb.flatten())
+            report = counter.record(gu.guarded_step(opt, model.parameters(), loss, clip_norm=p['clip']))
+            train_seconds += time.perf_counter() - start
+            row = dict(step=step, applied=report['applied'], loss=report['loss'], grad_norm=report['grad_norm_before_clip'],
+                       bits_per_byte=bits_per_byte(report['loss']) if report['loss'] else None, input_hash=input_hash)
+            if step % p['validation_every'] == 0 or step == p['steps']:
+                stats = validate(model, p, device); row['validation'] = stats
+                if best is None or stats['loss'] < best:
+                    best = stats['loss']; selected = dict(step=step, model={k: v.cpu().clone() for k, v in model.state_dict().items()}, validation=stats)
+                print('  step %5d  train bpb %.3f  val bpb %.3f  %.2fs/step' % (step, row['bits_per_byte'] or float('nan'), stats['bits_per_byte'], train_seconds / step), flush=True)
+            sw.append_line(directory / 'updates.jsonl', gs.json_safe(row))
+        torch.save(selected['model'], directory / 'selected.pt')
+        model.load_state_dict(selected['model']); model.to(device)
+        needles = needle_suite(model, p, device)
+        result = dict(condition=c, ident=ident(c), steps=p['steps'], selected_step=selected['step'], selected_validation=selected['validation'],
+                      parameters=counts, guard=counter.summary(), needle=needles, train_seconds=train_seconds,
+                      wall_seconds=time.perf_counter() - wall, protocol_hash=manifest['protocol_hash'],
+                      selected_sha256=sw.sha(directory / 'selected.pt'), updates_sha256=sw.sha(directory / 'updates.jsonl'))
+        sw.write_json(directory / 'train.json', gs.json_safe(result))
+        sw.write_json(directory / 'complete.json', dict(ident=ident(c), utc=time.time(), train_sha256=sw.sha(directory / 'train.json')))
+        return result
+    finally:
+        (directory / 'active.lock').unlink(missing_ok=True)
+
+
+def probe(device='cuda', steps=8):
+    """Measure before launching: step time and peak VRAM for every arm, at the frozen shape."""
+    p = protocol()
+    train = md.load(p['data'], 'train')
+    print('%-9s %9s %12s %12s' % ('arm', 's/step', 'peak VRAM', 'params'))
+    for arm in p['arms']:
+        torch.cuda.empty_cache(); torch.cuda.reset_peak_memory_stats()
+        model = ml.build(arm, width=p['width'], heads=p['heads'], window=p['window'], alpha=p['alpha'], seed=117, gate_k=p['gate_k']).to(device)
+        opt = torch.optim.AdamW(model.parameters(), lr=p['lr'], weight_decay=p['weight_decay'])
+        t0 = None
+        for step in range(1, steps + 1):
+            x, y, _ = md.batch(train, 117, step, p['batch'], p['length'])
+            xb = torch.from_numpy(x).to(device); yb = torch.from_numpy(y).to(device)
+            model.train()
+            logits = ml.forward_logits(model, xb)
+            loss = F.cross_entropy(logits.flatten(0, 1), yb.flatten())
+            gu.guarded_step(opt, model.parameters(), loss, clip_norm=p['clip'])
+            torch.cuda.synchronize()
+            if step == 2:
+                t0 = time.perf_counter()                       # skip warm-up steps
+        per = (time.perf_counter() - t0) / (steps - 2)
+        print('%-9s %9.3f %10.2f GB %12d' % (arm, per, torch.cuda.max_memory_allocated() / 1e9, ml.parameter_count(model)['total']))
+        print('           -> %d steps = %.1f h' % (p['steps'], per * p['steps'] / 3600))
+        del model, opt
+        torch.cuda.empty_cache()
+
+
+def main():
+    import sys
+    sys.stdout.reconfigure(encoding='utf-8', errors='replace')   # the Windows console codepage cannot print every glyph
+    parser = argparse.ArgumentParser(description=__doc__)
+    group = parser.add_mutually_exclusive_group(required=True)
+    group.add_argument('--freeze', action='store_true'); group.add_argument('--run-all', action='store_true'); group.add_argument('--probe', action='store_true')
+    parser.add_argument('--out', default='results/M1'); parser.add_argument('--device', default='cuda')
+    args = parser.parse_args()
+    if args.probe:
+        probe(args.device); return
+    if args.freeze:
+        m = freeze(args.out)
+        print(json.dumps(dict(out=args.out, protocol_hash=m['protocol_hash'], arms=m['protocol']['arms'], steps=m['protocol']['steps'],
+                              corpus_sha256=m['corpus']['train_sha256'][:16]))); return
+    m = verify_frozen(args.out)
+    for c in conditions(m['protocol']):
+        r = run_one(args.out, c, args.device)
+        n = r['needle']
+        print(ident(c), 'val bpb %.3f' % r['selected_validation']['bits_per_byte'],
+              '| needle repeat', json.dumps({k.split('@')[1]: round(v['exact_match'], 3) for k, v in n.items() if k.startswith('repeat')}),
+              '| text', json.dumps({k.split('@')[1]: round(v['exact_match'], 3) for k, v in n.items() if k.startswith('text')}),
+              '| %.0fs' % r['wall_seconds'], flush=True)
+
+
+if __name__ == '__main__':
+    main()
