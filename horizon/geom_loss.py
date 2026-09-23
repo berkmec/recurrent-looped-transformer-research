@@ -40,9 +40,19 @@ def run_drift(states, start, end):
     return torch.linalg.vector_norm(states[:, end] - states[:, start - 1], dim=-1).mean()
 
 
-def gap_over_drift(z, y, classes, states, start, end):
-    """The separating quantity. A collapsed code drives this to 0, which the hinge then penalises maximally."""
-    return min_centre_distance(z, y, classes) / (run_drift(states, start, end) + EPS)
+def gap_over_drift(z, y, classes, states, start, end, drift_floor=0.):
+    """The separating quantity, gap / drift.
+
+    `drift_floor` closes the escape that a 64-step pilot caught on 2026-09-23. A gated model can drive the drift to
+    exactly 0 by freezing the state; the classes then sit on slightly different frozen points, so the gap is small but
+    non-zero (measured: gap 0.05, drift 0.00) and the raw ratio EXPLODES instead of collapsing. Adding a floor to the
+    denominator means a frozen state scores gap/floor, which is small, so the hinge penalises it - while a genuinely
+    robust model with a large gap and near-zero drift still scores far above any sensible target.
+
+    The floor belongs in the loss only. Reporting and any comparison with the U2d numbers must use the raw ratio,
+    i.e. drift_floor=0, which is the default.
+    """
+    return min_centre_distance(z, y, classes) / (run_drift(states, start, end) + drift_floor + EPS)
 
 
 def hinge(ratio, target):

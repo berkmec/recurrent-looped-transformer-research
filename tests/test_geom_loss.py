@@ -35,13 +35,36 @@ class GeomLossTests(unittest.TestCase):
         states[:, 8] = torch.tensor([3., 4., 0.])            # position 8 sits 5 away from position 3
         self.assertAlmostEqual(float(gl.run_drift(states, start=4, end=8)), 5.0, places=4)
 
-    def test_collapse_is_penalised_not_rewarded(self):
-        """The failure that killed U4-sep: a frozen state made the old loss happy. It must make this one unhappy."""
+    def test_the_collapse_that_actually_happens_is_penalised(self):
+        """Measured in a 64-step pilot, not imagined: the gate freezes the state, so drift is EXACTLY 0 while the
+        classes keep a small non-zero gap (gap 0.05, drift 0.00). The raw ratio then explodes instead of collapsing,
+        which rewards the very move that destroyed U4-sep. The drift floor is what closes it."""
+        gl = self.api()
+        y = torch.tensor([0, 0, 1, 1])
+        frozen = torch.tensor([[0., 0.], [0., 0.], [0.05, 0.], [0.05, 0.]])   # tiny gap between classes
+        still = torch.zeros(4, 10, 2)                                          # state never moves: drift 0
+        raw = gl.gap_over_drift(frozen, y, 2, still, start=4, end=8)
+        self.assertGreater(float(raw), 1e3)                                    # the trap: raw ratio explodes
+        floored = gl.gap_over_drift(frozen, y, 2, still, start=4, end=8, drift_floor=0.5)
+        self.assertAlmostEqual(float(floored), 0.1, places=3)
+        self.assertAlmostEqual(float(gl.hinge(floored, target=1.5)), 1.4, places=3)   # now it is punished
+
+    def test_the_floor_does_not_punish_genuine_robustness(self):
+        """A model with a wide gap and near-zero drift is the ideal, not a collapse; the floor must leave it alone."""
+        gl = self.api()
+        y = torch.tensor([0, 0, 1, 1])
+        wide = torch.tensor([[0., 0.], [0., 0.], [100., 0.], [100., 0.]])
+        barely = torch.zeros(4, 10, 2); barely[:, 8] = torch.tensor([0.01, 0.])
+        floored = gl.gap_over_drift(wide, y, 2, barely, start=4, end=8, drift_floor=0.5)
+        self.assertGreater(float(floored), 100.)
+        self.assertEqual(float(gl.hinge(floored, target=1.5)), 0.)
+
+    def test_fully_collapsed_code_is_penalised_too(self):
         gl = self.api()
         y = torch.tensor([0, 0, 1, 1])
         collapsed = torch.full((4, 2), 0.5)                  # every state identical: gap 0 and drift 0
         flat_states = collapsed.unsqueeze(1).repeat(1, 10, 1)
-        ratio = gl.gap_over_drift(collapsed, y, 2, flat_states, start=4, end=8)
+        ratio = gl.gap_over_drift(collapsed, y, 2, flat_states, start=4, end=8, drift_floor=0.5)
         self.assertLess(float(ratio), 1e-3)
         self.assertAlmostEqual(float(gl.hinge(ratio, target=1.5)), 1.5, places=3)   # maximal penalty
 

@@ -58,10 +58,17 @@ def protocol():
                      'that separates robust from fragile when U2d conditions are regrouped by measured repair - against a '
                      'same-budget task-loss-only control',
              arms=['none', 'hinge'], checkpoints=copy.deepcopy(CHECKPOINTS), task='five',
-             steps=512, lr=0.0003, hinge_weight=1.0, hinge_target=1.5, drift_slots=64, drift_placement='middle', n_geometry=200,
+             steps=512, lr=0.0003, hinge_weight=1.0, hinge_target=1.5, drift_slots=64, drift_placement='middle', n_geometry=200, drift_floor=0.5,
              selection_rule='U2c five checkpoints with validation >= 0.95 and 512-suffix repair < 50 %',
              target_rationale='regrouped by measured repair, gap/drift is fragile <= 0.57 and robust >= 0.92; the target '
                               'sits comfortably inside the robust group without demanding its extreme',
+             drift_floor_rationale='a 64-step pilot showed a gated model can drive drift to exactly 0 by freezing the state, '
+                                   'keeping a small non-zero gap (0.05) so the RAW ratio explodes and the collapse is rewarded. '
+                                   'The loss therefore divides by (drift + 0.5); reported ratios keep the raw definition so they '
+                                   'stay comparable with U2d. Working models in the pilot drift 1.7-2.0 over 64 slots, so the '
+                                   'floor is far below the working range and far above the frozen value',
+             pilot='lr 3e-4 with weight 1.0 moved gap/drift 1.18 -> 2.60 in 64 steps with validation 1.000; lr 1e-3 and 3e-3 '
+                   'collapsed the model to 0.219 and 0.266, which is why the fine-tuning lr stays at 3e-4',
              reference='results/U2b-intervene', u2c_protocol='results/U2c-lr0003',
              targets=dict(repair_pp=30., validation_min=.95))
     return p
@@ -169,7 +176,9 @@ def geometry_terms(model, batch, p, classes, states):
     start = p['train_length'] // 2
     gap = gl.min_centre_distance(z, labels, classes)
     drift = gl.run_drift(run_states, start=start, end=start + p['drift_slots'] - 1)
-    return gap, drift, gap / (drift + gl.EPS)
+    raw = gap / (drift + gl.EPS)                                   # reported: comparable with U2d
+    floored = gap / (drift + p['drift_floor'] + gl.EPS)            # optimised: collapse cannot exploit drift -> 0
+    return gap, drift, raw, floored
 
 
 def run_one(out, c):
@@ -194,16 +203,17 @@ def run_one(out, c):
             logits, gates, states = forward_with_states(model, batch['x'])
             task_loss = F.cross_entropy(logits.flatten(0, 1), batch['y'].flatten())
             if use_hinge:
-                gap, drift, ratio = geometry_terms(model, batch, p, classes, states)
-                penalty = gl.hinge(ratio, p['hinge_target'])
+                gap, drift, ratio, floored = geometry_terms(model, batch, p, classes, states)
+                penalty = gl.hinge(floored, p['hinge_target'])
                 loss = task_loss + p['hinge_weight'] * penalty
             else:
                 with torch.no_grad():
-                    gap, drift, ratio = geometry_terms(model, batch, p, classes, states.detach())
+                    gap, drift, ratio, floored = geometry_terms(model, batch, p, classes, states.detach())
                 penalty = torch.zeros(()); loss = task_loss
             report = counter.record(gu.guarded_step(opt, model.parameters(), loss, clip_norm=p['clip']))
             row = dict(step=step, applied=report['applied'], loss=report['loss'], task_loss=gs.finite_or_none(float(task_loss.detach())),
                        gap=float(gap.detach()), drift=float(drift.detach()), gap_over_drift=float(ratio.detach()),
+                       gap_over_drift_floored=float(floored.detach()),
                        hinge=float(penalty.detach()), grad_norm=report['grad_norm_before_clip'],
                        hold_rate=float((gates.detach() <= .5).float().mean()), input_hash=batch['input_hash'])
             if step % p['validation_every'] == 0 or step == p['steps'] or step == 1:

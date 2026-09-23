@@ -1,0 +1,321 @@
+{
+  "status": "SEALED_CYCLE_SCOPE",
+  "cycle": "U4sep",
+  "utc": "2026-09-23T13:12:13.020632+00:00",
+  "root": "E:\\rlt-research\\2026-09-18-phase2",
+  "scope": [
+    "results/U4sep-lr0003",
+    "results/U4sep-lr003",
+    "horizon/sep_loss.py",
+    "horizon/sep_sweep.py",
+    "horizon/u4sep_compare.py",
+    "tests/test_sep_loss.py",
+    "tests/test_sep_sweep.py",
+    "tests/test_u4sep_compare.py",
+    "notes/U4sep_RAPORU.md",
+    "audit/audit_u4sep.py",
+    ".superpowers/sdd/phase2/audit-u4sep.json",
+    ".superpowers/sdd/phase2/audit-u4sep.md"
+  ],
+  "identity": {
+    "phase1": {
+      "phase1_manifest_sha256": "146eb693e3303e17b1caa6bba2b1eb7662e20d87bb0ff3e71bbdaeb1e54484af",
+      "phase1_sidecar": "146eb693e3303e17b1caa6bba2b1eb7662e20d87bb0ff3e71bbdaeb1e54484af",
+      "git_head": "dc7a75681e3a67fdbc6df5715c60720eac79c4bc",
+      "git_branch": "codex/rlt-phase2",
+      "base_commit_expected": "3c118c7afd21fb1b04733ad0e12c32fef3d895ba",
+      "base_commit_reachable": true
+    },
+    "phase2_plan": {
+      "plan-kontrol.json": [
+        {
+          "path": "deney-plani.json",
+          "expected": "5082ff26e2d91371624427a5eddcf9ef2513d176c884e3a69176d27c6d276b68",
+          "observed": "5082ff26e2d91371624427a5eddcf9ef2513d176c884e3a69176d27c6d276b68",
+          "match": true
+        },
+        {
+          "path": "docs/superpowers/plans/2026-09-16-anlamsal-bellek.md",
+          "expected": "0e11b8769eb653b22af514d09ba6127a4baf68c305128a591a89aadd6ee46124",
+          "observed": "0e11b8769eb653b22af514d09ba6127a4baf68c305128a591a89aadd6ee46124",
+          "match": true
+        },
+        {
+          "path": "docs/superpowers/plans/2026-09-16-dogal-dil.md",
+          "expected": "3859b1b3d7b465b57f901d80f000dcb22e2679411bc15ae6de6b88fc5375ed82",
+          "observed": "3859b1b3d7b465b57f901d80f000dcb22e2679411bc15ae6de6b88fc5375ed82",
+          "match": true
+        },
+        {
+          "path": "docs/superpowers/plans/2026-09-16-uzun-ufuk.md",
+          "expected": "91bcffc74b6fbe9561739eff2a3c94ff21aa69d6717a6e3105b37e428921d8c9",
+          "observed": "91bcffc74b6fbe9561739eff2a3c94ff21aa69d6717a6e3105b37e428921d8c9",
+          "match": true
+        },
+        {
+          "path": "docs/superpowers/specs/2026-09-16-faz2-arastirma-tasarimi.md",
+          "expected": "edbd49f6ddf54607588fb7bac0cf0ed453702661aaa5a51e5f113c82275d9f52",
+          "observed": "edbd49f6ddf54607588fb7bac0cf0ed453702661aaa5a51e5f113c82275d9f52",
+          "match": true
+        },
+        {
+          "path": "KAYNAKLAR.md",
+          "expected": "0da88c3a63f15f019c83fa43b44de7e7d24a8771505bdfd98b2aedf3f9d4eecb",
+          "observed": "0da88c3a63f15f019c83fa43b44de7e7d24a8771505bdfd98b2aedf3f9d4eecb",
+          "match": true
+        },
+        {
+          "path": "README.md",
+          "expected": "c8b75cb046ceb033aa635f1993efe02c897d77db9d4ddb62df778d26444990ca",
+          "observed": "c8b75cb046ceb033aa635f1993efe02c897d77db9d4ddb62df778d26444990ca",
+          "match": true
+        }
+      ],
+      "reviews/2026-09-16-inceleme-kapanis.json": [
+        {
+          "path": "2026-09-16-bagimsiz-yorum-degerlendirmesi.md",
+          "expected": "cc937d5ed5c524672ca001efda43ba15bfde91896d43d82591ee7ae134684762",
+          "observed": "cc937d5ed5c524672ca001efda43ba15bfde91896d43d82591ee7ae134684762",
+          "match": true
+        },
+        {
+          "path": "2026-09-16-yorum-kanit-kontrolu.json",
+          "expected": "31d28d485cc827a230077b2c138484ba89dd8dce22cf12ebfc2a6b1719753b85",
+          "observed": "31d28d485cc827a230077b2c138484ba89dd8dce22cf12ebfc2a6b1719753b85",
+          "match": true
+        },
+        {
+          "path": "recheck_archived_review_evidence.py",
+          "expected": "30095d1977b522c4c642f4ef5a12716300675d4f1d19cee9fba65585aeeac5c2",
+          "observed": "30095d1977b522c4c642f4ef5a12716300675d4f1d19cee9fba65585aeeac5c2",
+          "match": true
+        }
+      ]
+    }
+  },
+  "file_count": 44,
+  "total_bytes": 3364595,
+  "files": [
+    {
+      "path": ".superpowers/sdd/phase2/audit-u4sep.json",
+      "bytes": 5403,
+      "sha256": "c9111360f8d677f95ea075fe132e4a0f9278546c954d5527b95189fa3462cf18"
+    },
+    {
+      "path": ".superpowers/sdd/phase2/audit-u4sep.md",
+      "bytes": 2090,
+      "sha256": "fb45d46a4edb7e013f58dbcca2218b7a667fb145e0c4344476d6cc1038ea26ac"
+    },
+    {
+      "path": "audit/audit_u4sep.py",
+      "bytes": 10532,
+      "sha256": "4e01871057cb700460f22193c59944449d44714b917f942061207758ab2f1a4c"
+    },
+    {
+      "path": "horizon/sep_loss.py",
+      "bytes": 2172,
+      "sha256": "b7cf7b90f0e09ab8b0bb21e07aac265fcb4db743469e9b68fe34feb0665cfc6a"
+    },
+    {
+      "path": "horizon/sep_sweep.py",
+      "bytes": 13876,
+      "sha256": "2798148c99585e89a90ef493431aa1a958a1800ef3bcedecc99de667aef50bb6"
+    },
+    {
+      "path": "horizon/u4sep_compare.py",
+      "bytes": 11661,
+      "sha256": "4502ad47937061079a090609bef6f06f44811a7f05fafee54360564f08e2676e"
+    },
+    {
+      "path": "notes/U4sep_RAPORU.md",
+      "bytes": 7983,
+      "sha256": "bc33257515f2518d1915c14b462a11781c1c96a6b00c33ef32504ec9f078d6eb"
+    },
+    {
+      "path": "results/U4sep-lr0003/frozen.json",
+      "bytes": 2569,
+      "sha256": "6a8bee0e03a2c20db0001fe73fd6df90e20fef47918a7b256d6b752b01762ec1"
+    },
+    {
+      "path": "results/U4sep-lr0003/frozen.sha256",
+      "bytes": 64,
+      "sha256": "3d7ea6c224214603804965ea41d335deda3ff9d653e92d73772402ecde6b9f64"
+    },
+    {
+      "path": "results/U4sep-lr0003/interrupted-20260923T120928/REASON.txt",
+      "bytes": 281,
+      "sha256": "ae35640820c32a209504a10de7df3e0fa7e84a85d322876e09b183674fd1e8f6"
+    },
+    {
+      "path": "results/U4sep-lr0003/interrupted-20260923T120928/u4sep-soft_sep-five-w32-s191/active.lock",
+      "bytes": 41,
+      "sha256": "b47fcf58f8b10d964a3fc7bd4e4f92d1794b27f1451f6a4621063a6f943528fd"
+    },
+    {
+      "path": "results/U4sep-lr0003/interrupted-20260923T120928/u4sep-soft_sep-five-w32-s191/initial.pt",
+      "bytes": 108148,
+      "sha256": "8e17fbd3cfa585ea9d0eb6481e1181a396f75f29e12664180473c16224c2bb05"
+    },
+    {
+      "path": "results/U4sep-lr0003/interrupted-20260923T120928/u4sep-soft_sep-five-w32-s191/updates.jsonl",
+      "bytes": 6862,
+      "sha256": "da87b4fe1c63b4b2cd2830c520b0e0ecae6f4fefbc778bd280d75e00cee53530"
+    },
+    {
+      "path": "results/U4sep-lr0003/run.log",
+      "bytes": 541,
+      "sha256": "1a7d0ca20072a5ce9ffe03aa01620b2ee12cb11d74c6d89dcc8260b7bdbacc93"
+    },
+    {
+      "path": "results/U4sep-lr0003/u4sep-soft_sep-five-w32-s117/complete.json",
+      "bytes": 161,
+      "sha256": "1ba96461b3f3f58c9c244c28a18b1ef9f98e4eefadc967c5dcf11682feb20e20"
+    },
+    {
+      "path": "results/U4sep-lr0003/u4sep-soft_sep-five-w32-s117/evaluation.json",
+      "bytes": 4082,
+      "sha256": "bac9e728d54734b84e9e7ad550cb9239d49efb4b54e860a5befeeec6395ed226"
+    },
+    {
+      "path": "results/U4sep-lr0003/u4sep-soft_sep-five-w32-s117/final.pt",
+      "bytes": 106398,
+      "sha256": "7b80ae0e5ffa5d5a4d900dea35e4571bb2e6705b8560f2e6de6a28cc36cb4ecf"
+    },
+    {
+      "path": "results/U4sep-lr0003/u4sep-soft_sep-five-w32-s117/initial.pt",
+      "bytes": 108148,
+      "sha256": "69bbbd52302b0f30197dd5cac08bb90c6416fe117324162429f174c88e1858d0"
+    },
+    {
+      "path": "results/U4sep-lr0003/u4sep-soft_sep-five-w32-s117/selected.pt",
+      "bytes": 108767,
+      "sha256": "34a99f7ccf675494b233810cda27b710a67e993dfaddfcb4ff0f6777c36101f9"
+    },
+    {
+      "path": "results/U4sep-lr0003/u4sep-soft_sep-five-w32-s117/train.json",
+      "bytes": 1076,
+      "sha256": "3773251796790c86ed99bee36fb1cfb833acd74b5d389df8c25ab7a59722d6bb"
+    },
+    {
+      "path": "results/U4sep-lr0003/u4sep-soft_sep-five-w32-s117/updates.jsonl",
+      "bytes": 691288,
+      "sha256": "491238500c4a1873e150bf98961435c575b7adb4124bedf28070331a77a6c41b"
+    },
+    {
+      "path": "results/U4sep-lr0003/u4sep-soft_sep-five-w32-s143/complete.json",
+      "bytes": 161,
+      "sha256": "1f3bc9f4ea6af98ef0a3cbfd5b7cd4e56bffa5fc37bd3079a1c159850692b570"
+    },
+    {
+      "path": "results/U4sep-lr0003/u4sep-soft_sep-five-w32-s143/evaluation.json",
+      "bytes": 4235,
+      "sha256": "806a25c32aba3fc4e1ad52216b13f1483f257575ac9cc8b10350ee1e357bfed5"
+    },
+    {
+      "path": "results/U4sep-lr0003/u4sep-soft_sep-five-w32-s143/final.pt",
+      "bytes": 106398,
+      "sha256": "a76515434145784fb344caeded1a8bf400d2140252c872e5db5b31bb2d251f42"
+    },
+    {
+      "path": "results/U4sep-lr0003/u4sep-soft_sep-five-w32-s143/initial.pt",
+      "bytes": 108148,
+      "sha256": "c4895ac76474681edbcabd3008b0a471af222d382dfec749e80076fc7d928dab"
+    },
+    {
+      "path": "results/U4sep-lr0003/u4sep-soft_sep-five-w32-s143/selected.pt",
+      "bytes": 108767,
+      "sha256": "0c16051a3bbff0454afa5739dc0e30cb947d6c9c8aedb8caf5795145aa3bc72d"
+    },
+    {
+      "path": "results/U4sep-lr0003/u4sep-soft_sep-five-w32-s143/train.json",
+      "bytes": 1072,
+      "sha256": "2defbc71b913eff13dd76584338ad8e6b1bd3682a00f0aa7734de7ae33895323"
+    },
+    {
+      "path": "results/U4sep-lr0003/u4sep-soft_sep-five-w32-s143/updates.jsonl",
+      "bytes": 691160,
+      "sha256": "110482d4ce5b0af35584a274c0df4dd4c291b74e7ba4d09fca3ff9dcbc9cecb6"
+    },
+    {
+      "path": "results/U4sep-lr003/frozen.json",
+      "bytes": 2568,
+      "sha256": "a9cbda6e93d009430b5b9ff8c7dd104fa5b6a15aaad4db11b7a03cc596196904"
+    },
+    {
+      "path": "results/U4sep-lr003/frozen.sha256",
+      "bytes": 64,
+      "sha256": "7df6ac8fa0ff80adae3c3fbe572813111564a60d06e68b712f945853db1423f7"
+    },
+    {
+      "path": "results/U4sep-lr003/run.log",
+      "bytes": 294,
+      "sha256": "ef38b0d61a6b88440fa75ed62b77567f07a2df0284e383fabb04a8553bb9fa71"
+    },
+    {
+      "path": "results/U4sep-lr003/u4sep-soft_sep-five-w32-s117/complete.json",
+      "bytes": 161,
+      "sha256": "be81034b1c731eb521f3452305e91f712e05700350a3f4ffa98717b1bc9e6649"
+    },
+    {
+      "path": "results/U4sep-lr003/u4sep-soft_sep-five-w32-s117/evaluation.json",
+      "bytes": 3858,
+      "sha256": "36064416db02f906e8e8729cd8fd54ab279796f895b52197327017097f419010"
+    },
+    {
+      "path": "results/U4sep-lr003/u4sep-soft_sep-five-w32-s117/final.pt",
+      "bytes": 106398,
+      "sha256": "4af21575eab4a7e0f7406a6cb75c59ce810a5e65d770ab169c26015fa50aac62"
+    },
+    {
+      "path": "results/U4sep-lr003/u4sep-soft_sep-five-w32-s117/initial.pt",
+      "bytes": 108148,
+      "sha256": "69bbbd52302b0f30197dd5cac08bb90c6416fe117324162429f174c88e1858d0"
+    },
+    {
+      "path": "results/U4sep-lr003/u4sep-soft_sep-five-w32-s117/selected.pt",
+      "bytes": 108767,
+      "sha256": "493afbbd2315d6c9fab5d6eabe20b39e4ceb41073a5f356ad4edc43dafee0837"
+    },
+    {
+      "path": "results/U4sep-lr003/u4sep-soft_sep-five-w32-s117/train.json",
+      "bytes": 1057,
+      "sha256": "86702d3a7954559287df68683d5ea15bc16bff8cc038dabbf52e9fa51368ec59"
+    },
+    {
+      "path": "results/U4sep-lr003/u4sep-soft_sep-five-w32-s117/updates.jsonl",
+      "bytes": 695538,
+      "sha256": "c0bdd8be6fae805a844fd75d92f2b9a521a2e832dc73ed888d192a16d1b31f5d"
+    },
+    {
+      "path": "results/U4sep-lr003/u4sep-soft_sep-five-w32-s143/active.lock",
+      "bytes": 41,
+      "sha256": "32a246fbaadcbe5c573d1601badb28c45cc4264a818d270322f40ddabe3bc83e"
+    },
+    {
+      "path": "results/U4sep-lr003/u4sep-soft_sep-five-w32-s143/initial.pt",
+      "bytes": 108148,
+      "sha256": "c4895ac76474681edbcabd3008b0a471af222d382dfec749e80076fc7d928dab"
+    },
+    {
+      "path": "results/U4sep-lr003/u4sep-soft_sep-five-w32-s143/updates.jsonl",
+      "bytes": 5874,
+      "sha256": "4254b78d081b998b5a49c4f339393ee91fe5bb46ddd6b8872cafa9d8e840b1a4"
+    },
+    {
+      "path": "tests/test_sep_loss.py",
+      "bytes": 2815,
+      "sha256": "292284306817b14f55237633d967d3f09ae522e008b114d6245c66a15651ffc0"
+    },
+    {
+      "path": "tests/test_sep_sweep.py",
+      "bytes": 3429,
+      "sha256": "47f691f5f3edbd5deeec7a0565969a2474c33cf1ecdd76180cc8a1ac2468a68c"
+    },
+    {
+      "path": "tests/test_u4sep_compare.py",
+      "bytes": 5351,
+      "sha256": "39f615fc3740be8146ecf30584b588e6c35aa0a8748ad58206c05e7c9386fa66"
+    }
+  ],
+  "limit": "Internal integrity of the listed scope only; not an attestation."
+}
