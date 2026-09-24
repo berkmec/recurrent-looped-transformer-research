@@ -122,7 +122,7 @@ def bits_per_byte(loss):
     return loss / np.log(2)
 
 
-def training_batch(p, seed, step):
+def training_batch(p, seed, step, train=None):
     """Corpus rows plus a fixed share of needle examples, so the format is in the training distribution.
 
     The needles use TRAIN_KEYS, disjoint from the evaluation alphabet, and fillers of 0-128 bytes, below every
@@ -131,8 +131,8 @@ def training_batch(p, seed, step):
     """
     needles = round(p['batch'] * p['needle_train_rate']) if p['needle_train_rate'] > 0 else 0
     corpus_rows = p['batch'] - needles
-    train = md.load(p['data'], 'train')
-    x, y, input_hash = md.batch(train, seed, step, corpus_rows, p['length'])
+    x, y, input_hash = md.batch(train if train is not None else md.load(p['data'], 'train'),
+                                seed, step, corpus_rows, p['length'])
     xb, yb = torch.from_numpy(x), torch.from_numpy(y)
     if needles:
         mixed = nd.training_items(needles, filler_range=tuple(p['needle_train_filler']),
@@ -145,24 +145,41 @@ def training_batch(p, seed, step):
 def validate(model, p, device, batches=None):
     model.eval()
     val = md.load(p['data'], 'validation')
-    total, n = 0., 0
+    total, n, holds = 0., 0, []
     for step in range(1, (batches or p['validation_batches']) + 1):
         x, y, _ = md.batch(val, 991, step, p['batch'], p['length'])
         xb = torch.from_numpy(x).to(device); yb = torch.from_numpy(y).to(device)
-        logits = ml.forward_logits(model, xb)
+        logits, gates = ml.forward_with_gates(model, xb)
         total += float(F.cross_entropy(logits.flatten(0, 1), yb.flatten())); n += 1
-    return dict(loss=total / n, bits_per_byte=bits_per_byte(total / n), batches=n)
+        h = ml.hold_rate(gates)
+        if h is not None:
+            holds.append(h)
+    return dict(loss=total / n, bits_per_byte=bits_per_byte(total / n), batches=n,
+                hold_rate=(sum(holds) / len(holds)) if holds else None)
 
 
 def needle_suite(model, p, device):
     corpus = md.load(p['data'], 'validation')
     model.eval()
-    forward = lambda xb: ml.forward_logits(model, xb)
+    seen = {}
+
+    def forward(xb):
+        logits, gates = ml.forward_with_gates(model, xb)
+        h = ml.hold_rate(gates)
+        if h is not None:
+            seen.setdefault('holds', []).append(h)
+        return logits
+
     out = {}
     for kind in p['needle_kinds']:
         for n in p['needle_filler']:
-            items = nd.make(p['needle_items'], n_filler=n, kind=kind, seed=4242 + n, corpus=corpus if kind == 'text' else None)
-            out[f'{kind}@{n}'] = nd.score(forward, items, batch=p['needle_batch'], device=device)
+            seen['holds'] = []
+            items = nd.make(p['needle_items'], n_filler=n, kind=kind, seed=4242 + n + (0 if kind == 'repeat' else 7),
+                            corpus=corpus if kind == 'text' else None)
+            score = nd.score(forward, items, batch=p['needle_batch'], device=device)
+            holds = seen.get('holds') or []
+            score['hold_rate'] = (sum(holds) / len(holds)) if holds else None
+            out[f'{kind}@{n}'] = score
     return out
 
 
@@ -183,16 +200,17 @@ def run_one(out, c, device='cuda'):
         counter = gu.GuardCounter(); best, selected, train_seconds = None, None, 0.
         for step in range(1, p['steps'] + 1):
             start = time.perf_counter()
-            xb, yb, meta = training_batch(p, c['seed'], step)
+            xb, yb, meta = training_batch(p, c['seed'], step, train)
             xb = xb.to(device); yb = yb.to(device)
             input_hash = meta['input_hash']
             model.train()
-            logits = ml.forward_logits(model, xb)
+            logits, gates = ml.forward_with_gates(model, xb)
             loss = F.cross_entropy(logits.flatten(0, 1), yb.flatten())
             report = counter.record(gu.guarded_step(opt, model.parameters(), loss, clip_norm=p['clip']))
             train_seconds += time.perf_counter() - start
             row = dict(step=step, applied=report['applied'], loss=report['loss'], grad_norm=report['grad_norm_before_clip'],
-                       bits_per_byte=bits_per_byte(report['loss']) if report['loss'] else None, input_hash=input_hash)
+                       bits_per_byte=bits_per_byte(report['loss']) if report['loss'] else None, input_hash=input_hash,
+                       hold_rate=ml.hold_rate(gates))
             if step % p['validation_every'] == 0 or step == p['steps']:
                 stats = validate(model, p, device); row['validation'] = stats
                 if best is None or stats['loss'] < best:

@@ -18,7 +18,7 @@ import sys
 import time
 from pathlib import Path
 
-THRESHOLDS = dict(bpb_regression=.02, needle_gain=.05, long_filler=[512, 2048])
+THRESHOLDS = dict(bpb_regression=.02, needle_gain=.05, long_filler=[512, 2048], measurable_floor=.02)
 
 
 def _mean_needle(row, n, kinds=('repeat', 'text')):
@@ -37,7 +37,13 @@ def verdict(arms, seeds=1, thresholds=None):
     soft_below = all(_mean_needle(soft, n) < _mean_needle(hard, n) for n in t['long_filler'])
     a = bpb_cost <= t['bpb_regression']
     b = all(g > t['needle_gain'] for g in gains.values())
-    if not b:
+    # If no arm can do the task at the long fillers, the comparison has no resolution: a gate that helps would be
+    # invisible. Reporting that as GATE_DOES_NOT_TRANSFER converts "we could not measure it" into "it does not work",
+    # which is the error an INTERVENTION_INEFFECTIVE branch caught twice in the two preceding cycles.
+    at_floor = all(max(_mean_needle(arms[k], n) or 0. for n in t['long_filler']) <= t['measurable_floor'] for k in arms)
+    if at_floor:
+        status = 'NOT_MEASURABLE_AT_THIS_BUDGET'
+    elif not b:
         status = 'GATE_DOES_NOT_TRANSFER'
     elif not a:
         status = 'GATE_AT_A_COST'
@@ -61,6 +67,9 @@ def verdict(arms, seeds=1, thresholds=None):
                     GATE_AT_A_COST='the gate improves the needle but costs bits per byte; a trade-off, not a free win',
                     GATE_DOES_NOT_TRANSFER='no needle gain at 30M: the gate is a property of the toy setting and the '
                                            'M-line stops at rung one',
+                    NOT_MEASURABLE_AT_THIS_BUDGET='no arm, including the control, does better than the floor at the long '
+                                                  'fillers, so this budget could not have detected a gate benefit either '
+                                                  'way; the result is about the budget, not about the gate',
                     INCOMPLETE='not all three arms have finished')[status])
 
 

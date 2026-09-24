@@ -50,6 +50,23 @@ def forward_logits(model, x):
     return out[0] if isinstance(out, tuple) else out
 
 
+def forward_with_gates(model, x):
+    """Logits plus the gate values, or None for the plain Core which has no gate.
+
+    An independent review found that M1 recorded no gate statistic at all, while every earlier cycle logged one per
+    step. That matters here more than it did there: the gate head starts at bias 2.0 (88 % WRITE), M1 applies no gate
+    supervision, and byte text has no neutral-token structure to teach holding. If the gate never closes then
+    `hard_st` is `plain` with 2 305 spare parameters, and a null result would be unreadable without this number.
+    """
+    out = model(x)
+    return (out[0], out[1]) if isinstance(out, tuple) else (out, None)
+
+
+def hold_rate(gates):
+    """Fraction of positions where the gate is closed (HOLD). None when the arm has no gate."""
+    return None if gates is None else float((gates.detach() <= .5).float().mean())
+
+
 def states_of(model):
     """Committed states of the last forward, or None for the plain Core, which does not record them."""
     return getattr(model, 'last_states', None)

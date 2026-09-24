@@ -56,9 +56,18 @@ add('1-freeze', not problems, f'2 frozen directories, {len(json.loads((ROOT / DI
 # 2 - completeness, stated honestly rather than as a pass/fail on 6
 complete = sorted(Path(p).parent.name + '@' + Path(p).parents[1].name for p in glob.glob(str(ROOT / 'results/U4sep-lr*/u4sep-*/complete.json')))
 quarantined = sorted(Path(p).name for p in glob.glob(str(ROOT / 'results/U4sep-lr*/interrupted-*')))
-add('2-completeness', len(complete) == 3 and len(quarantined) == 1,
-    f'6 conditions declared across 2 levels; 3 complete ({", ".join(complete)}); 1 quarantined ({", ".join(quarantined)}); 2 never started. '
-    'The sweep was stopped deliberately; this is recorded, not repaired.')
+# An independent review found this check's evidence was a hardcoded sentence claiming "2 never started" while one of
+# them had in fact run 18 steps. A check whose evidence is prose is not a check; every number below is now counted.
+started = sorted(str(Path(p).parent.relative_to(ROOT)) for p in glob.glob(str(ROOT / 'results/U4sep-lr*/u4sep-*/initial.pt')))
+finished = sorted(str(Path(p).parent.relative_to(ROOT)) for p in glob.glob(str(ROOT / 'results/U4sep-lr*/u4sep-*/complete.json')))
+quarantined_dirs = sorted(str(Path(p).relative_to(ROOT)) for p in glob.glob(str(ROOT / 'results/U4sep-lr*/interrupted-*')))
+quarantined_runs = sorted(str(Path(p).parent.relative_to(ROOT)) for p in glob.glob(str(ROOT / 'results/U4sep-lr*/interrupted-*/*/initial.pt')))
+loose = [d for d in started if d not in finished and not any(d.startswith(q) for q in quarantined_dirs)]
+add('2-completeness', len(finished) == 3 and len(quarantined_runs) == 2 and not loose,
+    f'counted, not asserted: {len(started) + len(quarantined_runs)} of 6 conditions left an initial.pt, '
+    f'{len(finished)} reached complete.json, {len(quarantined_runs)} are quarantined with a REASON.txt, '
+    f'{6 - len(finished) - len(quarantined_runs)} never started. Started-but-unquarantined directories: '
+    + (', '.join(loose) or 'none'))
 
 # 3 - per-condition integrity: recorded hashes and row counts
 problems = []

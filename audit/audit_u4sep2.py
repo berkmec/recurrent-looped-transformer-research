@@ -105,7 +105,19 @@ add('7-sign-test', st['ratio_hits'] == 2 and st['drift_hits'] == 4,
 
 # 8 - the ratio rose in every pair, which is why it cannot explain the direction
 rose = [p['checkpoint'] for p in scored if (p['eval_ratio_hinge'] or 0) > (p['eval_ratio_none'] or 0)]
-add('8-ratio-rose-everywhere', len(rose) == 5, f'{len(rose)}/5 pairs had a higher gap/drift in the hinge arm, so the intervention worked in all five')
+target = ua.THRESHOLDS['ratio_target']
+reached_eval = [p['checkpoint'] for p in scored if (p['eval_ratio_hinge'] or 0) >= target]
+reached_train = [p['checkpoint'] for p in scored if (p['ratio_hinge'] or 0) >= target]
+# Previously this asserted "the intervention worked in all five" from a mere RISE. An independent review showed that
+# conflates two different things: the ratio rising above its control, and the ratio reaching the pre-registered
+# target. They disagree, because the rule reads a 64-slot training measurement while the target was calibrated on the
+# 512-slot evaluation measurement. Both are now counted and the discrepancy is part of the evidence.
+add('8-ratio-rose-and-target', len(rose) == 5 and len(reached_train) == 5 and len(reached_eval) == 1,
+    f'{len(rose)}/5 pairs raised gap/drift above their paired control - the intervention moved the quantity in every '
+    f'pair. But the pre-registered target of {target} is reached by {len(reached_train)}/5 in the TRAINING measurement '
+    f'(64 neutral slots, what the rule reads) and only {len(reached_eval)}/5 in the EVALUATION measurement (512 slots, '
+    f'what the target was calibrated on: fragile <= 0.57, robust >= 0.92). Scored with the evaluation ratio the verdict '
+    f'becomes INTERVENTION_INEFFECTIVE, not CONFOUNDED_BY_TRAINING. Recorded in the report as correction 7.')
 
 # 9 - the retraction: the endpoint asymmetry does not generalise
 keys = ['128-prefix', '128-middle', '128-suffix', '512-prefix', '512-middle', '512-suffix']

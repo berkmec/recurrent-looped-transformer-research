@@ -104,3 +104,55 @@ sonek **−0,085**. Sonek kazancı iki `soft` çiftine özgüydü ve `supervised
 - Kontrol noktası seçim kuralına yeni şart: *taban eğitimi ile ince ayar yalnızca hedeflenen terimde ayrışmalı.*
 - Mekanizma bilinmeden de taşınabilir olan sonuç U2c'nin kapısıdır (tam bit-düzeyi koruma); ölçek merdiveninin bir
   sonraki basamağı için aday odur, bu döngünün geometri hattı değil.
+
+---
+
+## 7. DÜZELTME (2026-09-24, bağımsız denetimden sonra) — manşet fazla iddialıydı
+
+Bağımsız bir denetçi, bu döngünün hükmünün **hangi ölçüme bakıldığına bağlı olduğunu** buldu ve haklı. Düzeltme
+raporun gövdesine dokunmadan buraya ekleniyor; mühürlü metin olduğu gibi duruyor, ikinci bir manifest çıkarılıyor.
+
+**Sorun: hedef bir birimde kalibre edildi, başka birimde denetlendi.**
+
+`aralık/sürüklenme` iki farklı şekilde ölçülüyor ve ikisi aynı sayı değil:
+
+| ölçüm | nötr yuva | nerede kullanılıyor |
+|---|---|---|
+| eğitim-zamanı (`sep_finetune.geometry_terms`) | **64** | kuralın (a) maddesi bunu okuyor |
+| değerlendirme (`u2d_compare.measure`) | **512** | §1 tablosu bunu gösteriyor |
+
+Sürüklenme koşu uzunluğuyla büyüdüğü için eğitim oranı sistematik olarak 2–3 kat yüksek çıkıyor. Hedef 1,5 ise
+protokolün kendi `target_rationale` cümlesinde **512 yuvalık** bantlarla (kırılgan ≤0,57, dayanıklı ≥0,92)
+gerekçelendirilmiş. Yani **64 yuvada denetlenen bir eşik, 512 yuvada kalibre edilmiş.**
+
+| çift | eğitim oranı | değerlendirme oranı | hedef 1,5'e ulaştı mı |
+|---|---|---|---|
+| soft/s117 | 2,54 | **0,96** | eğitimde evet, değerlendirmede **hayır** |
+| soft/s143 | 3,09 | **0,81** | eğitimde evet, değerlendirmede **hayır** |
+| supervised/s117 | 1,80 | **1,22** | eğitimde evet, değerlendirmede **hayır** |
+| supervised/s143 | 5,57 | 5,71 | evet |
+| supervised/s191 | 2,07 | **1,15** | eğitimde evet, değerlendirmede **hayır** |
+
+Kural değerlendirme oranıyla yeniden koşulduğunda hüküm **`CONFOUNDED_BY_TRAINING` → `INTERVENTION_INEFFECTIVE`**
+oluyor; yani *"menteşe hedefine ulaşmadı, nedensel soru test edilmedi"*.
+
+**Manşetin düzeltilmiş hâli.** Raporun başlığındaki *"ÖNCEDEN KAYITLI NEDENSEL İDDİA REDDEDİLDİ"* fazla iddialıdır.
+İnmeyen bir müdahaleyle bir iddia reddedilemez — U4-sep için tam olarak bu mantığı kabul etmiştim ve burada kendi
+kuralımı kendime uygulamadım. Doğru ifade:
+
+> **Müdahale yalnızca kısmen indi** (doğru birimde 5 çiftin 1'inde hedefe ulaştı) ve indiği kadarıyla oran,
+> sonucun yönünü öngörmedi.
+
+**Buna rağmen ayakta kalan, birimden bağımsız argüman.** Oran **5/5 çiftte yükseldi** — her iki birimde de, menteşe
+kolu kontrolünün üstünde (değerlendirme biriminde farklar: +0,36 / +0,29 / +0,19 / +3,09 / +0,28). Onarım ise
+ikisinde arttı, üçünde düştü. **Her yerde aynı yöne giden bir büyüklük, zıt sonuçları açıklayamaz.** Bu akıl
+yürütme hangi birimi seçtiğinizden bağımsızdır ve oran hipotezini zayıflatmaya devam eder. Değişen şey, bunu
+"reddedildi" diye ilan etme hakkıdır.
+
+**M-hattına etkisi:** plandaki 7. madde (*"geometri düzenleyicisi KOYMA"*) her iki hükümde de ayakta — biri "oran
+dayanıklılığı açıklamıyor", diğeri "müdahale inmedi" diyor; ikisi de geometri terimini modele koymak için gerekçe
+vermiyor.
+
+**Ek kusur, aynı denetimden:** `ratio_last` eğitimin **son** satırından, yani `final.pt` modelinden okunuyor; oysa
+değerlendirilen model `selected.pt`. 10 koşunun 3'ünde `selected_step ≠ steps` (384, 256, 256), dolayısıyla o
+koşullarda (a) maddesi **hiç değerlendirilmemiş bir modeli** tarif ediyor.

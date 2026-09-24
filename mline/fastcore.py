@@ -101,7 +101,12 @@ def forward_static_gated(model, x):
         else:
             m = (g.detach() > 0.5).view(-1, 1)
             s = torch.where(m, cand, committed) + (g - g.detach()).view(-1, 1) * (cand - committed)
-            if state_k is not None:
+            # The sealed model guards this rollback with `state['dk'].shape == dk.shape`. Those shapes are 1,2,3,3,3...
+            # against a candidate cache of 1,2,3,3,3..., so they first match at t = window-1 and NOT before: the sealed
+            # Core does not roll the window back on a HOLD during the first few steps, while it is still filling.
+            # A fixed-length ring buffer has no shape to compare, so the condition has to be restated in t. An
+            # independent review found this missing and produced a divergence of 6.3e-01 against a 2e-5 tolerance.
+            if state_k is not None and t >= window - 1:
                 m4 = m.view(-1, 1, 1, 1)
                 kbuf = torch.where(m4, kbuf, state_k); vbuf = torch.where(m4, vbuf, state_v)
         state_k, state_v = kbuf, vbuf

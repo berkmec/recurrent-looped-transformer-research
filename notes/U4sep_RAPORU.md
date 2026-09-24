@@ -1,6 +1,9 @@
 # U4-sep — çapa ayrımını artıran yardımcı kayıp (U2d bulgusunun nedensel testi)
 
-**Durum: DENEY KENDİ SORUSUNU TEST ETMEDİ.** 6 koşuldan 3'ü koştu, 1'i karantinada, 2'si hiç başlamadı. Süpürme
+**Durum: DENEY KENDİ SORUSUNU TEST ETMEDİ.** 6 koşuldan 3'ü tamamlandı, **2'si başlayıp yarıda kesildi**
+(21 ve 18 adım, ikisi de karantinada), 1'i hiç başlamadı. *(Sayım 2026-09-24'te düzeltildi: önce "2'si hiç
+başlamadı" yazılmıştı; bağımsız denetim, lr 0,003 kolunun s143 koşulunun 18 adım koştuğunu ve karantinaya
+alınmadığını buldu.)* Süpürme
 bilerek yarıda durduruldu — sebebi sonucu beğenmemek değil, **aletin yanlış büyüklüğü optimize ettiğini keşfetmek**.
 
 Tarih: 2026-09-23 · Dondurulmuş protokoller `results/U4sep-lr0003` (`627993ae…`) ve `results/U4sep-lr003` (`cc97165a…`)
@@ -119,3 +122,40 @@ Sorunun kendisi hâlâ açık ve `U4-sep2` onu soruyor (`horizon/geom_loss.py`, 
 **Sınır, dürüstçe:** sonuca göre gruplandığında kırılgan grup yalnızca 3 koşul ve üçü de aynı kol, aynı lr
 (soft @ lr 0,0003). Yani "aralık/sürüklenme ayırıyor" bulgusu "kol × lr" ile karışık. Bu karışıklığı çözmenin tek
 yolu müdahaledir — U4-sep2'yi değerli kılan da bu.
+
+
+---
+
+## 7. DÜZELTMELER (2026-09-24, bağımsız denetimden sonra)
+
+Mühürlü metne dokunulmadı; düzeltmeler buraya eklendi ve ikinci bir manifest çıkarıldı.
+
+**D1 — §6'daki çökme-güvenliği iddiası, bu rapor yazıldıktan 28 dakika sonra çürütüldü ve burada düzeltilmedi.**
+§6 şöyle diyor: *"Çökme kaçışı yapısal olarak kapalı: donmuş durumda aralık 0 ve sürüklenme 0 → oran 0 → menteşe
+maksimum ceza verir."* Bu **yanlış**. 64 adımlık bir pilot, gerçek çökmenin farklı işlediğini gösterdi: model durumu
+donduruyor, sürüklenme tam 0'a gidiyor, ama sınıflar arasında küçük bir aralık kalıyor (0,05) ve **ham oran
+patlıyor** — lr 1e-3'te 18, 3e-3'te 5298 — doğrulama 0,219 ve 0,266'ya düşerken. Yani çökme yine ödüllendiriliyordu,
+başka bir yoldan. Düzeltme `drift_floor=0,5` ile yapıldı ve test, ölçülen çökme biçimine göre yeniden yazıldı
+(`test_the_collapse_that_actually_happens_is_penalised`). O sırada commit mesajına yazılmıştı; **mühürlü rapora
+yazılmamıştı**, ve bir denetçinin bakma ihtimali en düşük yer tam olarak orasıdır.
+
+**D2 — §1'deki B1 tablosunun `aralık/sürüklenme` satırı 12 koşulun 10'unu listeliyor, eksiltme işareti olmadan.**
+Eksik olan ikisi ve neden eksik oldukları:
+
+| koşul | sürüklenme | aralık/sürüklenme |
+|---|---|---|
+| `u2c-soft-five-w32-s143@lr0.003` | 0,0116 | **1623,3** |
+| `u2c-hard_st-five-w32-s117@lr0.003` | **0,0000** | **tanımsız (÷0)** |
+
+İkisi de dayanıklı grupta ve kırılgan aralığın çok üstünde, yani sonucu değiştirmiyorlar. Ama satırın başlığındaki
+**"evet, temiz"** nitelemesi, paydası bir koşulda **tam sıfır olan** bir metrik için hak edilmemiş bir kesinlik
+taşıyor. Üstündeki satır 9 değerin dokuzunu da listeliyor, altındaki satır açık "…" kullanıyor; bu satır ikisini de
+yapmadığı için okuyucu tam liste sanıyor. `audit/audit_u4sep.py` de `None` değerini sessizce eliyor ve kanıt
+cümlesinde bundan söz etmiyor.
+
+**D3 — §2 tablosunda `lr 3e-4 · s143` satırının "kırpılan adım" sütunu "—" gösteriyor.** Ham kayıtta
+`guard.clipped = 963/2048` — iki düşük-lr koşusunun en yükseği. Em dash "hiç kırpılmadı" diye okunuyor.
+
+**D4 — §1 B3'teki "iki tohumda da 257. adımda" ifadesi bir tohum için doğru.** s117'de `hold@257 = 0,919`; s143'te
+`hold@257 = 0,066` ve 0,90'ı **287. adımda** aşıyor. Örüntü iki tohumda da var, ama belirtilen adım sayısı yalnız
+birinde geçerli.

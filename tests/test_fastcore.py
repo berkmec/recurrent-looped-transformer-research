@@ -34,18 +34,31 @@ class FastCoreTests(unittest.TestCase):
             self.assertLess(diff, 2e-5, f'T={T}: max difference {diff:.3e}')
 
     def test_states_match_the_sealed_gated_core_in_both_modes(self):
+        """An independent review showed the previous version of this test never executed the branch where the two
+        implementations differ: GatedCore initialises its head at bias 2.0, so every gate was WRITE and the HOLD
+        rollback path was never entered. The test now FORCES holds and refuses to pass unless it observes some."""
         fc = self.api()
         from horizon import gated as gd
         x = torch.randint(0, 3, (3, 11))
         for mode in ('soft', 'hard_st'):
-            torch.manual_seed(0)
-            model = gd.GatedCore(self.core(), mode=mode, k=2)
-            with torch.no_grad():
-                s_logits, s_gates, _ = model(x)
-                f_logits, f_gates, f_states = fc.forward_static_gated(model, x)
-            self.assertLess(float((s_logits - f_logits).abs().max()), 2e-5, mode)
-            self.assertLess(float((s_gates - f_gates).abs().max()), 2e-5, mode)
-            self.assertLess(float((model.last_states - f_states).abs().max()), 2e-5, mode)
+            for bias in (2., -2., 0.):                      # WRITE-heavy, HOLD-heavy, mixed
+                torch.manual_seed(0)
+                model = gd.GatedCore(self.core(), mode=mode, k=2)
+                with torch.no_grad():
+                    model.head.bias.fill_(bias)
+                    s_logits, s_gates, _ = model(x)
+                    f_logits, f_gates, f_states = fc.forward_static_gated(model, x)
+                label = f'{mode}/bias={bias}'
+                self.assertLess(float((s_logits - f_logits).abs().max()), 2e-5, label)
+                self.assertLess(float((s_gates - f_gates).abs().max()), 2e-5, label)
+                self.assertLess(float((model.last_states - f_states).abs().max()), 2e-5, label)
+        # the guard: a run of this test that observed no HOLD proves nothing
+        torch.manual_seed(0)
+        model = gd.GatedCore(self.core(), mode='hard_st', k=2)
+        with torch.no_grad():
+            model.head.bias.fill_(-2.)
+            _, gates, _ = model(x)
+        self.assertGreater(float((gates <= .5).float().mean()), .5, 'the forced-HOLD case did not actually hold')
 
     def test_gradients_flow_and_states_stay_on_the_graph(self):
         fc = self.api()
