@@ -1,0 +1,37 @@
+{
+ "condition": {
+  "arm": "additive",
+  "heads": 2,
+  "lr": 0.003,
+  "seed": 143,
+  "stage": "u4inj",
+  "task": "five",
+  "width": 32,
+  "window": 4
+ },
+ "guard": {
+  "clipped": 83,
+  "max_grad_norm_before_clip": 57.17192016049562,
+  "skip_reasons": {},
+  "skipped": 0,
+  "steps": 2048
+ },
+ "ident": "u4inj-additive-five-w32-s143",
+ "initial_sha256": "6f6b2ad9f9447d24db297758ff99aeafe28f2a4f2e75e3f95cff0321f155725a",
+ "parameters": {
+  "core_allocated": 24325,
+  "injection": 0
+ },
+ "protocol_hash": "523dba46f448674672137eb02042b65b243741bb98119963af4ed2c44486a0fe",
+ "selected_sha256": "5503317d9315a62f59a3da72187615adb06c5d08d9e83b6299b35779c13d4591",
+ "selected_step": 2048,
+ "selected_validation": {
+  "all_accuracy": 1.0,
+  "final_accuracy": 1.0,
+  "final_loss": 6.256906635826454e-05
+ },
+ "steps": 2048,
+ "train_seconds": 1403.0838436001068,
+ "updates_sha256": "150441d893f6e2e4b7323411f714e17a3f3e3e51334ade2460c090dc08b6e6a9",
+ "wall_seconds": 1434.916971700004
+}

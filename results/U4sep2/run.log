@@ -1,0 +1,14 @@
+start 2026-09-23T12:55:06Z
+U4-sep2 protocol 5e10c8d741a9, 10 conditions, target 1.50, 512 steps, drift_floor 0.50
+[1/10] u4sep2-none-from_soft-s117         val 1.000 | ratio 1.18 -> 1.19 | gap 3.66 drift 3.09 | eval gap/drift 0.60 | 512-suffix 0.198 | clean4096 1.000 | 1096s
+[2/10] u4sep2-hinge-from_soft-s117        val 1.000 | ratio 1.18 -> 2.54 | gap 4.17 drift 1.64 | eval gap/drift 0.96 | 512-suffix 0.740 | clean4096 1.000 | 1475s
+[3/10] u4sep2-none-from_soft-s143         val 1.000 | ratio 1.57 -> 1.64 | gap 2.95 drift 1.80 | eval gap/drift 0.52 | 512-suffix 0.546 | clean4096 0.226 | 990s
+[4/10] u4sep2-hinge-from_soft-s143        val 1.000 | ratio 1.57 -> 3.09 | gap 3.31 drift 1.07 | eval gap/drift 0.81 | 512-suffix 0.702 | clean4096 0.214 | 1465s
+[5/10] u4sep2-none-from_supervised-s117   val 0.996 | ratio 0.71 -> 1.70 | gap 8.01 drift 4.72 | eval gap/drift 1.03 | 512-suffix 0.782 | clean4096 0.172 | 1063s
+[6/10] u4sep2-hinge-from_supervised-s117  val 0.992 | ratio 0.71 -> 1.80 | gap 11.63 drift 6.47 | eval gap/drift 1.22 | 512-suffix 0.178 | clean4096 0.176 | 1500s
+[7/10] u4sep2-none-from_supervised-s143   val 0.996 | ratio 0.53 -> 3.62 | gap 7.26 drift 2.01 | eval gap/drift 2.62 | 512-suffix 0.922 | clean4096 0.218 | 1074s
+[8/10] u4sep2-hinge-from_supervised-s143  val 1.000 | ratio 0.53 -> 5.57 | gap 11.19 drift 2.01 | eval gap/drift 5.71 | 512-suffix 0.904 | clean4096 0.194 | 1557s
+[9/10] u4sep2-none-from_supervised-s191   val 0.996 | ratio 0.81 -> 0.84 | gap 6.39 drift 7.65 | eval gap/drift 0.87 | 512-suffix 0.408 | clean4096 0.204 | 1022s
+[10/10] u4sep2-hinge-from_supervised-s191  val 0.984 | ratio 0.81 -> 2.07 | gap 2.83 drift 1.37 | eval gap/drift 1.15 | 512-suffix 0.206 | clean4096 0.208 | 1497s
+ALL TEN CONDITIONS COMPLETE
+done 2026-09-23T16:27:30Z

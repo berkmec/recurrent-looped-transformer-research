@@ -1,0 +1,137 @@
+{
+ "environment": {
+  "numpy": "2.3.5",
+  "python": "3.11.9",
+  "torch": "2.12.0+cu130"
+ },
+ "frozen_utc": 1790168076.3769948,
+ "protocol": {
+  "alpha": 0.1,
+  "arms": [
+   "none",
+   "hinge"
+  ],
+  "batch": 32,
+  "checkpoints": [
+   {
+    "arm": "soft",
+    "directory": "results/U2c-lr0003",
+    "level": "lr0.0003",
+    "seed": 117,
+    "u2c_repair": -40.7,
+    "u2c_validation": 1.0
+   },
+   {
+    "arm": "soft",
+    "directory": "results/U2c-lr0003",
+    "level": "lr0.0003",
+    "seed": 143,
+    "u2c_repair": 16.6,
+    "u2c_validation": 1.0
+   },
+   {
+    "arm": "supervised",
+    "directory": "results/U2c-lr0003",
+    "level": "lr0.0003",
+    "seed": 117,
+    "u2c_repair": -40.7,
+    "u2c_validation": 0.988
+   },
+   {
+    "arm": "supervised",
+    "directory": "results/U2c-lr0003",
+    "level": "lr0.0003",
+    "seed": 143,
+    "u2c_repair": -30.7,
+    "u2c_validation": 0.996
+   },
+   {
+    "arm": "supervised",
+    "directory": "results/U2c-lr0003",
+    "level": "lr0.0003",
+    "seed": 191,
+    "u2c_repair": -99.5,
+    "u2c_validation": 0.992
+   }
+  ],
+  "clean_lengths": [
+   128,
+   1024,
+   4096
+  ],
+  "clip": 1.0,
+  "device": "cpu",
+  "drift_floor": 0.5,
+  "drift_floor_rationale": "a 64-step pilot showed a gated model can drive drift to exactly 0 by freezing the state, keeping a small non-zero gap (0.05) so the RAW ratio explodes and the collapse is rewarded. The loss therefore divides by (drift + 0.5); reported ratios keep the raw definition so they stay comparable with U2d. Working models in the pilot drift 1.7-2.0 over 64 slots, so the floor is far below the working range and far above the frozen value",
+  "drift_placement": "middle",
+  "drift_slots": 64,
+  "eval_batch": 32,
+  "gate_k": 2,
+  "heads": 2,
+  "hinge_target": 1.5,
+  "hinge_weight": 1.0,
+  "lr": 0.0003,
+  "n_clean": 500,
+  "n_geometry": 200,
+  "n_neutral": 500,
+  "neutral_slots": [
+   128,
+   512
+  ],
+  "pilot": "lr 3e-4 with weight 1.0 moved gap/drift 1.18 -> 2.60 in 64 steps with validation 1.000; lr 1e-3 and 3e-3 collapsed the model to 0.219 and 0.266, which is why the fine-tuning lr stays at 3e-4",
+  "placements": [
+   "prefix",
+   "middle",
+   "suffix"
+  ],
+  "primary_seeds": [
+   117,
+   143,
+   191
+  ],
+  "purpose": "U4-sep2: fine-tune fragile-but-working U2c checkpoints with a hinge on gap/drift - the only quantity that separates robust from fragile when U2d conditions are regrouped by measured repair - against a same-budget task-loss-only control",
+  "reference": "results/U2b-intervene",
+  "selection": "minimum validation final cross entropy; earliest step on ties",
+  "selection_rule": "U2c five checkpoints with validation >= 0.95 and 512-suffix repair < 50 %",
+  "source_seeds": {
+   "neutral": 93020000,
+   "test": 93010000,
+   "train": 91010000,
+   "validation": 92010000
+  },
+  "steps": 512,
+  "target_rationale": "regrouped by measured repair, gap/drift is fragile <= 0.57 and robust >= 0.92; the target sits comfortably inside the robust group without demanding its extreme",
+  "targets": {
+   "repair_pp": 30.0,
+   "validation_min": 0.95
+  },
+  "task": "five",
+  "tasks": [
+   "five",
+   "stack"
+  ],
+  "threads": 1,
+  "train_length": 128,
+  "u1": "results/U1",
+  "u2c_protocol": "results/U2c-lr0003",
+  "validation_every": 128,
+  "validation_n": 256,
+  "version": 1,
+  "weight_decay": 0.01,
+  "width": 32,
+  "window": 4
+ },
+ "protocol_hash": "5e10c8d741a9d54551bdad0bfdd918538ab93d5516490a876a32dfa6edf7dbab",
+ "sources": {
+  "core/model.py": "121f11fcb3c1308b7f67d898f2aa09c37226d3b0db27dd4e5bf1ebeaea281f43",
+  "horizon/gated.py": "2d2b93156ebb7d2953f6673982c53c98196abe635b324e5c06a1caeb17c061c4",
+  "horizon/gated_sweep.py": "4c69db4c430fa797a1544225dba91acb171f8ec143e7b6c1ebc5d2386ed921a8",
+  "horizon/gated_trajectory.py": "771628d9b37c42e2b284554aa603075e44a435b3e7dc51b0c68afa57f84e711d",
+  "horizon/geom_loss.py": "f725762ab811a9fcad3d4589ede78a52afd0a1a3e114c2d46e544f8262f90feb",
+  "horizon/guards.py": "bbcca8d70d86027d5fd17dcbfc9f7666f8e135b56bf6a23b11a5b1b3ad820ff5",
+  "horizon/sep_finetune.py": "8c90ce916ca67557d338f6d40431cc14cdf74a5ba4c8b89298c412ad5d11aca6",
+  "horizon/sweep.py": "931cf076516049938ac66ad463a4a9587a284ba96921eb824222432de4e8d9d1",
+  "horizon/task_families.py": "b7faa8be802e99b0d992506183210b238d8b3a568c6daf7629df620dd8b3a6b3",
+  "horizon/u2d_compare.py": "c79949df722975a916abcb90ec5bb5583c0d5b6c1004d20b64a4f5286fa09760"
+ }
+}

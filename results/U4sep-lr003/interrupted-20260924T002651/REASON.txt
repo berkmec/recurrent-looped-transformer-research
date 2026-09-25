@@ -1,0 +1,7 @@
+This condition STARTED and ran 18 steps before the sweep was stopped on 2026-09-23. It was missed when the other
+interrupted condition was quarantined, and the U4-sep report consequently said "2 never started" when only one never
+started. Found by an independent review on 2026-09-24 and quarantined here.
+
+It has no complete.json, so the runner would refuse to reuse it in any case (`incomplete condition directory requires
+audit; no automatic reuse`). Contents preserved, including the stale active.lock from the killed process, because the
+lock is part of the record of how the run ended.

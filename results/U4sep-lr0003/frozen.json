@@ -1,0 +1,85 @@
+{
+ "environment": {
+  "numpy": "2.3.5",
+  "python": "3.11.9",
+  "torch": "2.12.0+cu130"
+ },
+ "frozen_utc": 1790161140.9731123,
+ "protocol": {
+  "alpha": 0.1,
+  "anchor_batches": 64,
+  "arms": [
+   "soft_sep"
+  ],
+  "batch": 32,
+  "clean_lengths": [
+   128,
+   1024,
+   4096
+  ],
+  "clip": 1.0,
+  "device": "cpu",
+  "eval_batch": 32,
+  "gate_k": 2,
+  "heads": 2,
+  "lr": 0.0003,
+  "n_clean": 500,
+  "n_neutral": 500,
+  "neutral_slots": [
+   128,
+   512
+  ],
+  "note": "soft gate + auxiliary -log(min centre distance / mean within-class spread), the quantity U2d measured; scale invariant by construction, so it cannot be satisfied by inflating the state norm",
+  "placements": [
+   "prefix",
+   "middle",
+   "suffix"
+  ],
+  "primary_seeds": [
+   117,
+   143,
+   191
+  ],
+  "purpose": "U4-sep: does directly widening the class-anchor separation ratio CAUSE drift robustness? (causal test of the U2d correlation)",
+  "reference": "results/U2c-v2",
+  "reference_lr0003": "results/U2c-lr0003",
+  "selection": "minimum validation final cross entropy; earliest step on ties",
+  "sep_weight": 0.1,
+  "source_seeds": {
+   "neutral": 93020000,
+   "test": 93010000,
+   "train": 91010000,
+   "validation": 92010000
+  },
+  "steps": 2048,
+  "targets": {
+   "repair_pp": 30.0,
+   "validation_min": 0.95
+  },
+  "tasks": [
+   "five"
+  ],
+  "threads": 1,
+  "train_length": 128,
+  "u1": "results/U1",
+  "u2d": "results/U2d/compare.json",
+  "validation_every": 128,
+  "validation_n": 256,
+  "version": 1,
+  "weight_decay": 0.01,
+  "width": 32,
+  "window": 4
+ },
+ "protocol_hash": "627993ae7535eda45f37b81f9eae55556a9b18176578b855b0318905f1bdcbb1",
+ "sources": {
+  "core/model.py": "121f11fcb3c1308b7f67d898f2aa09c37226d3b0db27dd4e5bf1ebeaea281f43",
+  "horizon/gated.py": "2d2b93156ebb7d2953f6673982c53c98196abe635b324e5c06a1caeb17c061c4",
+  "horizon/gated_sweep.py": "4c69db4c430fa797a1544225dba91acb171f8ec143e7b6c1ebc5d2386ed921a8",
+  "horizon/gated_trajectory.py": "771628d9b37c42e2b284554aa603075e44a435b3e7dc51b0c68afa57f84e711d",
+  "horizon/guards.py": "bbcca8d70d86027d5fd17dcbfc9f7666f8e135b56bf6a23b11a5b1b3ad820ff5",
+  "horizon/sep_loss.py": "b7cf7b90f0e09ab8b0bb21e07aac265fcb4db743469e9b68fe34feb0665cfc6a",
+  "horizon/sep_sweep.py": "2798148c99585e89a90ef493431aa1a958a1800ef3bcedecc99de667aef50bb6",
+  "horizon/sweep.py": "931cf076516049938ac66ad463a4a9587a284ba96921eb824222432de4e8d9d1",
+  "horizon/task_families.py": "b7faa8be802e99b0d992506183210b238d8b3a568c6daf7629df620dd8b3a6b3"
+ }
+}

@@ -1,0 +1,123 @@
+{
+ "anchors": {
+  "counts": [
+   52131,
+   53651,
+   52929,
+   52300,
+   51133
+  ],
+  "mean_spread": 3.596066580081369,
+  "min_center_distance": 17.94305732133332
+ },
+ "clean": {
+  "1024": {
+   "final_accuracy": 1.0,
+   "norm": {
+    "first": 4.845670700073242,
+    "last": 2.9000425338745117,
+    "max": 4.845670700073242,
+    "mid": 2.8706324100494385
+   },
+   "prefix_accuracy": 1.0,
+   "source_seed": 4937098017223897149
+  },
+  "128": {
+   "final_accuracy": 1.0,
+   "norm": {
+    "first": 4.868309020996094,
+    "last": 2.8436834812164307,
+    "max": 4.868309020996094,
+    "mid": 2.952568769454956
+   },
+   "prefix_accuracy": 1.0,
+   "source_seed": 6139140102123655842
+  },
+  "4096": {
+   "final_accuracy": 1.0,
+   "norm": {
+    "first": 4.9082722663879395,
+    "last": 2.8985376358032227,
+    "max": 4.9082722663879395,
+    "mid": 2.9055380821228027
+   },
+   "prefix_accuracy": 1.0,
+   "source_seed": 5408692131091907860
+  }
+ },
+ "condition": {
+  "arm": "additive",
+  "heads": 2,
+  "lr": 0.003,
+  "seed": 143,
+  "stage": "u4inj",
+  "task": "five",
+  "width": 32,
+  "window": 4
+ },
+ "displacement": {
+  "end": 20.42949867248535,
+  "k1": 6.145843982696533,
+  "k16": 14.153619766235352
+ },
+ "ident": "u4inj-additive-five-w32-s143",
+ "neutral": {
+  "0-base": {
+   "final_accuracy": 1.0,
+   "source_seed": 3969402530975258288
+  },
+  "128-middle": {
+   "correct_to_wrong": 300,
+   "final_accuracy": 0.4000000059604645,
+   "n": 500,
+   "prediction_changes": 300,
+   "wrong_to_correct": 0
+  },
+  "128-prefix": {
+   "correct_to_wrong": 0,
+   "final_accuracy": 1.0,
+   "n": 500,
+   "prediction_changes": 0,
+   "wrong_to_correct": 0
+  },
+  "128-suffix": {
+   "correct_to_wrong": 310,
+   "final_accuracy": 0.3799999952316284,
+   "n": 500,
+   "prediction_changes": 310,
+   "wrong_to_correct": 0
+  },
+  "512-middle": {
+   "correct_to_wrong": 390,
+   "final_accuracy": 0.2199999988079071,
+   "n": 500,
+   "prediction_changes": 390,
+   "wrong_to_correct": 0
+  },
+  "512-prefix": {
+   "correct_to_wrong": 1,
+   "final_accuracy": 0.9980000257492065,
+   "n": 500,
+   "prediction_changes": 1,
+   "wrong_to_correct": 0
+  },
+  "512-suffix": {
+   "correct_to_wrong": 313,
+   "final_accuracy": 0.37400001287460327,
+   "n": 500,
+   "prediction_changes": 313,
+   "wrong_to_correct": 0
+  }
+ },
+ "norm_growth": 1.2031982354563,
+ "protocol_hash": "523dba46f448674672137eb02042b65b243741bb98119963af4ed2c44486a0fe",
+ "run_norm": {
+  "after": 3.40958309173584,
+  "before": 2.8337666988372803,
+  "growth": 1.2031982354563,
+  "max": 4.848432540893555
+ },
+ "seconds": 351.52247339999303,
+ "selected_sha256": "5503317d9315a62f59a3da72187615adb06c5d08d9e83b6299b35779c13d4591",
+ "separation_ratio": 4.989634346794357
+}
