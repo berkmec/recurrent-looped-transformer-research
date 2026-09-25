@@ -13,6 +13,13 @@ and concluding, wrongly, that a faster card buys little. So this measures, on th
 Bytes per second is the comparison, never seconds per step: a step at batch 64 moves twice the data of a step at
 batch 32, so step time flatters the larger batch by construction.
 
+WHAT IT DOES AND DOES NOT CHANGE. The concurrency verdict is operational - running the same three arms in
+parallel rather than in sequence alters no number in the experiment. The BATCH figure is advisory only, and
+`vm_run.sh` deliberately reads just the plan: batch size is part of the frozen M1 protocol, it changes the
+gradient noise the arms see, and moving it is a decision about the experiment rather than about the machine. If
+the larger card makes a larger batch clearly better, that is worth doing - but as a recorded protocol change
+made before the freeze, not as a side effect of a calibration script.
+
 Writes results/calibration.json and prints a plan. Costs a few minutes of a rented hour, which is the cheapest
 part of any decision it informs.
 
@@ -69,12 +76,21 @@ def parallel_probe(arms, batch, device, steps):
                 wall_seconds=time.perf_counter() - started)
 
 
+def total_vram_gb(device):
+    import torch
+    if device.startswith('cuda') and torch.cuda.is_available():
+        return torch.cuda.get_device_properties(0).total_memory / 1e9
+    return 0.
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--batches', type=int, nargs='*', default=[32, 48, 64, 96])
     parser.add_argument('--workers', type=int, default=3)
     parser.add_argument('--device', default='cuda')
     parser.add_argument('--steps', type=int, default=10)
+    parser.add_argument('--memory-fraction', type=float, default=.8,
+                        help='share of VRAM the workers together may use; the rest is headroom for fragmentation')
     parser.add_argument('--out', default=str(ROOT / 'results/calibration.json'))
     args = parser.parse_args()
 
@@ -98,15 +114,33 @@ def main():
     best = max(single, key=lambda r: r['bytes_per_s'])
     print('\nbest single-process batch: %d at %.0f bytes/s' % (best['batch'], best['bytes_per_s']))
 
-    print('\n== %d processes at once, batch %d ==' % (len(arms), best['batch']))
-    par = parallel_probe(arms, best['batch'], args.device, args.steps)
+    # The parallel batch must be one that FITS when multiplied by the worker count. The first version of this
+    # script used the best SINGLE batch (measured on the L4: 96, at 14.24 GB peak) and launched three workers at
+    # it - 42.7 GB against a 22.5 GB card - so all three died of memory exhaustion and the output read "0.00x,
+    # concurrency does not pay". That was a statement about my arithmetic, not about the hardware.
+    budget = total_vram_gb(args.device) * args.memory_fraction
+    fitting = [r for r in single if r['peak_gb'] * len(arms) <= budget]
+    if not fitting:
+        print('\nno batch fits %d workers inside %.1f GB, so concurrency is not testable here'
+              % (len(arms), budget))
+        par_batch = None
+        par = dict(workers=len(arms), batch=None, rows=[], errors=['no batch fits the card'],
+                   total_bytes_per_s=0., wall_seconds=0.)
+    else:
+        par_batch = max(fitting, key=lambda r: r['bytes_per_s'])['batch']
+        print('largest batch that fits %d workers in %.1f GB: %d' % (len(arms), budget, par_batch))
+        print('\n== %d processes at once, batch %d ==' % (len(arms), par_batch))
+        par = parallel_probe(arms, par_batch, args.device, args.steps)
     for row in par['rows']:
         print('  %-9s %7.3f s/step  %9.0f bytes/s  %5.2f GB' %
               (row['arm'], row['s_per_step'], row['bytes_per_s'], row['peak_gb']))
     for e in par['errors']:
         print('  worker failed:', e.splitlines()[-1][:140] if e else '(no message)')
 
-    speedup = par['total_bytes_per_s'] / best['bytes_per_s'] if best['bytes_per_s'] else 0.
+    # Compare like with like: the parallel aggregate against ONE process at the SAME batch, never against the
+    # best single batch, or a batch-size effect is mixed into a concurrency verdict.
+    baseline = next((r['bytes_per_s'] for r in single if r['batch'] == par_batch), best['bytes_per_s'])
+    speedup = par['total_bytes_per_s'] / baseline if baseline else 0.
     peak = max((r['peak_gb'] for r in par['rows']), default=0.) * max(len(par['rows']), 1)
     # A card shared three ways must beat one process by enough to be worth the extra failure modes. 1.5x is the
     # floor: below it the arms run one after another, which is also what the campaign has always done.
@@ -123,7 +157,8 @@ def main():
         print('  (concurrency did not pay here; the arms go one after another, as they always have)')
 
     report = dict(kind='M1_CALIBRATION', utc=time.time(), single=single, best_single=best, parallel=par,
-                  speedup=speedup, plan=plan, batch=best['batch'], estimated_hours_all_arms=arms_total,
+                  speedup=speedup, plan=plan, batch=best['batch'], parallel_batch=par_batch,
+                  parallel_baseline_bytes_per_s=baseline, estimated_hours_all_arms=arms_total,
                   combined_peak_gb_estimate=peak,
                   note='bytes per second, never seconds per step: a step at batch 64 moves twice the data of one '
                        'at batch 32. The 1.5x floor for choosing parallel is a judgement, recorded here so it can '

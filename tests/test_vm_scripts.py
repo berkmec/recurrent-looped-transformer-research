@@ -115,7 +115,28 @@ class CalibrationAndParallelTests(unittest.TestCase):
         self.assertIn('bytes_per_s', text)
         self.assertIn('never seconds per step', text)
 
+    def test_calibration_does_not_silently_change_the_experiment(self):
+        """Concurrency is operational; batch size is part of the protocol and changes what the arms see."""
+        run = RUN.read_text(encoding='utf8')
+        self.assertIn("['plan']", run, 'the run script must read only the plan')
+        self.assertNotIn("['batch']", run, 'reading the calibrated batch would change the frozen experiment')
+        self.assertIn('advisory only', (ROOT / 'scripts/calibrate.py').read_text(encoding='utf8'))
+
     def test_the_parallel_threshold_is_stated_rather_than_implied(self):
         text = (ROOT / 'scripts/calibrate.py').read_text(encoding='utf8')
         self.assertIn('1.5', text)
         self.assertIn('recorded here so it can', text, 'a judgement call must be visible, not buried in a branch')
+
+    def test_the_parallel_batch_must_fit_the_workers(self):
+        """Measured the hard way: three workers at the best single batch needed 42.7 GB on a 22.5 GB card."""
+        text = (ROOT / 'scripts/calibrate.py').read_text(encoding='utf8')
+        self.assertIn('total_vram_gb', text)
+        self.assertIn('* len(arms) <= budget', text)
+        self.assertIn('memory-fraction', text)
+
+    def test_the_speedup_compares_the_same_batch(self):
+        """Comparing a parallel aggregate against a different single batch mixes two effects into one verdict."""
+        text = (ROOT / 'scripts/calibrate.py').read_text(encoding='utf8')
+        self.assertIn('== par_batch', text)
+        self.assertIn('never against the', text)
+

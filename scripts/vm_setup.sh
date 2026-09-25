@@ -27,14 +27,16 @@ nproc; free -g | head -2; df -h "$ROOT" 2>/dev/null || df -h /
 
 say "system packages"
 sudo apt-get update -qq
-sudo apt-get install -y -qq python3.11 python3.11-venv python3-pip git rsync >/dev/null
+sudo apt-get install -y -qq python3-venv python3-pip git rsync >/dev/null
 
 say "python environment"
 # A FRESH venv, unlike the local one. The campaign rule forbids installing into the sealed local venv; it says
 # nothing about a machine that did not exist yesterday. Torch is pinned to the local major/minor so the arms stay
 # comparable with anything already measured here.
+# The system python, whatever it is. Debian 13 ships 3.13 and no 3.11, and pinning a version that is not in
+# the archive fails the whole setup for no gain: nothing in the M-line depends on a specific minor version.
 if [ ! -d "$ROOT/venv" ]; then
-  python3.11 -m venv "$ROOT/venv"
+  python3 -m venv "$ROOT/venv"
 fi
 "$ROOT/venv/bin/pip" install -q --upgrade pip
 "$ROOT/venv/bin/pip" install -q torch --index-url https://download.pytorch.org/whl/cu124
