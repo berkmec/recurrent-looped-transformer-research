@@ -31,6 +31,7 @@ from horizon import sweep as sw
 from mline import data as md
 from mline import lm as ml
 from mline import analyze as ma
+from mline import checkpoint as ck
 from mline import needle as nd
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -238,12 +239,48 @@ def needle_suite(model, p, device):
     return out
 
 
+def _truncate_updates(path, step):
+    """Drop rows written after the checkpoint, so the log reads as if the run was never interrupted."""
+    if not path.exists():
+        return
+    kept = [line for line in path.read_text(encoding='utf8').splitlines()
+            if line.strip() and json.loads(line)['step'] <= step]
+    path.write_text(('\n'.join(kept) + '\n') if kept else '', encoding='utf8')
+
+
+def _restore(directory, state, model, opt, counter):
+    """Put the run back exactly where it was. Anything not restored here makes the resume a different run."""
+    model.load_state_dict(state['model'])
+    if state['optimizer'] is not None:
+        opt.load_state_dict(state['optimizer'])
+    meta = state['meta'] or {}
+    guard = meta.get('guard') or {}
+    counter.steps = guard.get('steps', 0); counter.skipped = guard.get('skipped', 0)
+    counter.clipped = guard.get('clipped', 0); counter.max_norm = guard.get('max_grad_norm_before_clip', 0.)
+    counter.reasons = dict(guard.get('skip_reasons') or {})
+    selected = None
+    best_path = directory / 'selected-inprogress.pt'
+    if meta.get('selected_step') and best_path.exists():
+        selected = dict(step=meta['selected_step'], validation=meta['selected_validation'],
+                        model=torch.load(best_path, weights_only=True, map_location='cpu'))
+    _truncate_updates(directory / 'updates.jsonl', state['step'])
+    return meta.get('best'), selected, float(meta.get('train_seconds') or 0.)
+
+
 def run_one(out, c, device='cuda'):
     out = Path(out); manifest = verify_frozen(out); p = manifest['protocol']; known(manifest, ident(c))
     directory = out / ident(c); directory.mkdir(exist_ok=True)
     if (directory / 'complete.json').exists():
         return json.loads((directory / 'train.json').read_text(encoding='utf8'))
-    if any(directory.iterdir()):
+    # Resume rather than discard. The data pipeline is a pure function of (seed, step) - corpus rows come from
+    # md.batch(train, seed, step, ...) and needles from seed * 100_003 + step - so a run restored with its model,
+    # optimizer moments and counters is the SAME run, not an approximation. tests/test_m1_resume.py proves it by
+    # comparing an interrupted-and-resumed run against an uninterrupted one weight for weight. Without the
+    # optimizer moments the trajectory would differ silently, which is the failure mode worth guarding.
+    resume = ck.load_latest(directory)
+    if resume is not None and resume['step'] is None:
+        raise ValueError('checkpoint carries no step and cannot be resumed from: ' + str(directory))
+    if resume is None and any(directory.iterdir()):
         raise ValueError('incomplete condition directory requires audit; no automatic reuse: ' + str(directory))
     (directory / 'active.lock').write_text(json.dumps(dict(pid=os.getpid(), time=time.time())), encoding='utf8')
     try:
@@ -253,7 +290,12 @@ def run_one(out, c, device='cuda'):
         opt = torch.optim.AdamW(model.parameters(), lr=p['lr'], weight_decay=p['weight_decay'])
         train = md.load(p['data'], 'train')
         counter = gu.GuardCounter(); best, selected, train_seconds = None, None, 0.
-        for step in range(1, p['steps'] + 1):
+        resumed_from = 0
+        if resume is not None:
+            best, selected, train_seconds = _restore(directory, resume, model, opt, counter)
+            resumed_from = int(resume['step'])
+            print('  resuming from step %d' % resumed_from, flush=True)
+        for step in range(resumed_from + 1, p['steps'] + 1):
             start = time.perf_counter()
             xb, yb, meta = training_batch(p, c['seed'], step, train)
             xb = xb.to(device); yb = yb.to(device)
@@ -270,12 +312,21 @@ def run_one(out, c, device='cuda'):
                 stats = validate(model, p, device); row['validation'] = stats
                 if best is None or stats['loss'] < best:
                     best = stats['loss']; selected = dict(step=step, model={k: v.cpu().clone() for k, v in model.state_dict().items()}, validation=stats)
+                    torch.save(selected['model'], directory / 'selected-inprogress.pt')
                 print('  step %5d  train bpb %.3f  val bpb %.3f  %.2fs/step' % (step, row['bits_per_byte'] or float('nan'), stats['bits_per_byte'], train_seconds / step), flush=True)
             sw.append_line(directory / 'updates.jsonl', gs.json_safe(row))
+            if 'validation' in row:
+                # after the row is on disk, so the checkpoint's step never runs ahead of the log it will truncate to
+                ck.save(directory / ck.LATEST, model, opt, step=step,
+                        meta=dict(best=best, selected_step=selected['step'], selected_validation=selected['validation'],
+                                  train_seconds=train_seconds, guard=counter.summary(), ident=ident(c)))
         torch.save(selected['model'], directory / 'selected.pt')
         model.load_state_dict(selected['model']); model.to(device)
         needles = needle_suite(model, p, device)
-        result = dict(condition=c, ident=ident(c), steps=p['steps'], selected_step=selected['step'], selected_validation=selected['validation'],
+        for temporary in ('selected-inprogress.pt', ck.LATEST, ck.PREVIOUS):
+            (directory / temporary).unlink(missing_ok=True)    # the run finished; selected.pt is the record now
+        result = dict(condition=c, ident=ident(c), steps=p['steps'], resumed_from=resumed_from,
+                      selected_step=selected['step'], selected_validation=selected['validation'],
                       parameters=counts, guard=counter.summary(), needle=needles, train_seconds=train_seconds,
                       wall_seconds=time.perf_counter() - wall, protocol_hash=manifest['protocol_hash'],
                       selected_sha256=sw.sha(directory / 'selected.pt'), updates_sha256=sw.sha(directory / 'updates.jsonl'))

@@ -22,6 +22,7 @@ import torch.nn.functional as F
 
 from horizon import guards as gu
 from horizon import sweep as sw
+from mline import checkpoint as ck
 from mline import data as md
 from mline import lm as ml
 from mline import needle as nd
@@ -56,8 +57,19 @@ def run(out, arm='plain', steps=6000, batch=32, every=250, device='cuda', seed=1
                          'Training and evaluation key alphabets are disjoint, so no evaluation key can be memorised.')
     sw.write_json(out / 'probe.json', header)
     print(json.dumps(header), flush=True)
+    # Resumable for the same reason the M1 runner is: the batch at step N depends only on (seed, step), so a
+    # restored model, optimizer and counter continue the same run rather than a similar one. A 9-hour probe is
+    # long enough that losing it to a reboot is a real cost, and the first one was lost exactly that way.
+    resume = ck.load_latest(out)
+    start = 1
+    if resume is not None and resume['step'] is not None:
+        model.load_state_dict(resume['model'])
+        if resume['optimizer'] is not None:
+            opt.load_state_dict(resume['optimizer'])
+        start = int(resume['step']) + 1
+        print('resuming from step %d' % resume['step'], flush=True)
     t0 = time.perf_counter()
-    for step in range(1, steps + 1):
+    for step in range(start, steps + 1):
         x, y, input_hash = md.batch(train, seed, step, batch - needles_per_batch, p['length'])
         xb, yb = torch.from_numpy(x), torch.from_numpy(y)
         if needles_per_batch:
@@ -84,7 +96,8 @@ def run(out, arm='plain', steps=6000, batch=32, every=250, device='cuda', seed=1
                      row['needle']['0']['exact_match'], row['needle']['128']['exact_match'],
                      row['needle']['512']['exact_match'], row['needle']['text@512']['exact_match'],
                      (time.perf_counter() - t0) / 60), flush=True)
-            torch.save({k: v.cpu() for k, v in model.state_dict().items()}, out / 'latest.pt')
+            ck.save(out / ck.LATEST, model, opt, step=step,
+                    meta=dict(bytes_seen=row['bytes_seen'], validation=val, arm=arm, seed=seed))
         sw.append_line(out / 'probe.jsonl', row)
     return out
 
