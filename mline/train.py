@@ -73,6 +73,13 @@ def protocol():
                                   'M-line stops at rung one',
                     resolution=dict(
                         items=ma.THRESHOLDS['items'], batch=32,
+                        # The share of the next-byte objective that must reach the four answer bytes. The first M0
+                        # probe ran at 0.00098 - one gradient in a thousand, because needle rows were 83.7 % blank
+                        # padding and every padded position is still a target - and learned no format at all in
+                        # 81.9 MB. Packing brings it to 0.0054. The floor sits between the two so the failure is
+                        # excluded and the current mix is still falsifiable; tests/test_needle_packing.py measures
+                        # it rather than trusting this sentence.
+                        objective_floor=.003,
                         basis='the registered effect size must be resolvable by the measurement it is read from. '
                               'The standard error of a difference of two proportions is sqrt(2p(1-p)/n). At the '
                               'original 64 items that is 0.053 near p=0.10 and 0.081 near p=0.30, so a 0.05 '

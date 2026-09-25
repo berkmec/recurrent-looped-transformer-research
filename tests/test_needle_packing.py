@@ -86,3 +86,51 @@ class PackingTests(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
+
+
+class ObjectiveCompositionIsGuardedTests(unittest.TestCase):
+    """The lesson from this failure, written as a computation rather than as a note.
+
+    A pre-flight check had already confirmed the needle mix EXISTED in the runner - that check is why I felt safe
+    to launch, and it measured the wrong property. Presence is not proportion. This one measures the share of the
+    training objective that actually reaches the bytes the experiment reads, against a floor declared in the
+    protocol, so a later change to the batch, the rate, the sequence length or the padding cannot quietly starve
+    the signal again without a test going red.
+    """
+
+    @classmethod
+    def setUpClass(cls):
+        torch.set_num_threads(1)
+
+    def composition(self):
+        """Per-component share of the next-byte objective in one M1 training batch, measured not assumed."""
+        from mline import needle as nd
+        from mline import train as mt
+        p = mt.protocol()
+        rows = round(p['batch'] * p['needle_train_rate'])
+        mix = nd.training_items(64, filler_range=tuple(p['needle_train_filler']), seed=7, pad_to=p['length'])
+        x = mix['x']
+        pad = torch.tensor([float((r == 32).cumprod(0).sum()) for r in x]).mean().item()
+        content = p['length'] - pad
+        answers = 4 * (sum(mix['examples_per_row']) / len(mix['examples_per_row']))
+        share = rows / p['batch'] / p['length']
+        return dict(answer_bytes=share * answers, needle_content=share * content, padding=share * pad,
+                    floor=p['preregistration']['resolution']['objective_floor'])
+
+    def test_the_answer_bytes_clear_the_declared_floor(self):
+        c = self.composition()
+        self.assertGreater(c['answer_bytes'], c['floor'],
+                           f'the bytes this experiment reads get {c["answer_bytes"]:.5f} of the objective, below '
+                           f'the floor {c["floor"]}. That is how the first M0 probe learned nothing: 0.00098.')
+
+    def test_padding_no_longer_outweighs_the_signal(self):
+        c = self.composition()
+        self.assertLess(c['padding'], c['needle_content'],
+                        f'padding takes {c["padding"]:.4f} of the objective against {c["needle_content"]:.4f} for '
+                        'real content; in the failed run it was 10.47 % against 2.03 %')
+
+    def test_the_floor_is_registered_and_would_have_caught_the_failure(self):
+        from mline import train as mt
+        floor = mt.protocol()['preregistration']['resolution']['objective_floor']
+        self.assertGreater(floor, .00098, 'the floor must exclude the composition that actually failed')
+        self.assertLess(floor, self.composition()['answer_bytes'], 'a floor above the current mix is unfalsifiable')
