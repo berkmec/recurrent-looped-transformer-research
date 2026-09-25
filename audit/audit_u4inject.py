@@ -74,6 +74,47 @@ mix_on_input = 'z = w[:, :1] * e + w[:, 1:] * a' in src
 add('10-state-is-query-only', query_only and mix_on_input,
     'source confirms both injection arms build `a` from a query on the previous state over the INPUT-derived k/v, and that inject_mix mixes e with a - so neither arm passes the state\'s content, and neither tests channel width')
 
+# 11 - the arms differ in TWO terms, measured by running them rather than by matching source text (check 10)
+import torch as _t
+from core.model import Core as _Core
+from horizon import inject as _ij
+
+def _cache_depends_on_state(model):
+    """Feed one input with two different previous states; does the window key cache change?"""
+    core = getattr(model, 'core', model)
+    _t.manual_seed(2)
+    es = _t.randn(4, 3, 16)
+    n = core.mn(es[0].unsqueeze(1))
+    mk, mv = core.rope(core.split(core.mk(n))), core.split(core.mv(n))
+    state = None
+    for t in range(3):
+        _, state = model.decode(es[t], state, mk, mv, t)
+    a, b = dict(state), dict(state)
+    _t.manual_seed(7)
+    a['s'] = _t.randn_like(state['s']); b['s'] = _t.randn_like(state['s'])
+    ka = model.decode(es[3], a, mk, mv, 3)[1]['dk']
+    kb = model.decode(es[3], b, mk, mv, 3)[1]['dk']
+    za = model.decode(es[3], a, mk, mv, 3)[1]['s']
+    zb = model.decode(es[3], b, mk, mv, 3)[1]['s']
+    return (not _t.allclose(ka, kb, atol=1e-6)), (not _t.allclose(za, zb, atol=1e-6))
+
+_t.manual_seed(0)
+_sealed = _Core(width=16, heads=2, window=4, classes=5, feedback=True, alpha=.1)
+sealed_cache, _ = _cache_depends_on_state(_sealed)
+arm_cache, arm_out = {}, {}
+for _mode in ('inject', 'inject_mix'):
+    _t.manual_seed(0)
+    _m = _ij.InjectCore(_Core(width=16, heads=2, window=4, classes=5, feedback=True, alpha=.1), mode=_mode)
+    arm_cache[_mode], arm_out[_mode] = _cache_depends_on_state(_m)
+add('11-two-terms-not-one', sealed_cache and not any(arm_cache.values()) and all(arm_out.values()),
+    'measured by running the decoders, not by matching source text: with one input and two different previous '
+    f'states, the sealed Core window cache CHANGES ({sealed_cache}) because its k/v come from the post-feedback z, '
+    f'while inject ({arm_cache["inject"]}) and inject_mix ({arm_cache["inject_mix"]}) leave it bitwise identical '
+    'because theirs come from e. So the arms differ in two terms - how the state enters AND whether it reaches the '
+    'sliding-window cache - and the 6/6 failure cannot be attributed to the injection mechanism alone. The arms '
+    f'do remain recurrent through the query (output changes: {arm_out}), so this is a confound, not an inert arm. '
+    'Report section 7 states the bound; the separating arm (injection plus k/v from the post-injection z) is not built.')
+
 summary = dict(**{k: sum(1 for c in checks if c['status'] == k.upper()) for k in ('pass', 'fail')}, unverified=0)
 report = dict(cycle='U4-inject', auditor='same session, inline script', utc=time.time(), checks=checks, summary=summary, discrepancies=disc,
               table={f'{a}/s{s}': dict(validation=rows[(a,s)][0]['selected_validation']['final_accuracy'],

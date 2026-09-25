@@ -101,3 +101,59 @@ mekanizmalar, durumun taşıyabildiğini de sınırlıyor.** Ölçek merdivenind
 - **Gradyan sorusu** ancak iki öğrenen kol karşılaştırılırsa cevaplanabilir; mevcut tasarım buna uygun değil.
 - Ölçek merdiveni için taşınabilir sonuç yine U2c'nin kapısıdır; bu döngü bir yol **kapattı**, yeni yol açmadı —
   ki arama uzayını daraltmak da kazançtır.
+
+---
+
+## 7. DÜZELTME (2026-09-25) — kollar **tek terimde** ayrışmıyor, ikide ayrışıyor
+
+§2 durumun içeriğinin yeni duruma akmadığını zaten söylüyor ve §6 eksik kolu adlandırıyor. Eksik olan şu:
+aynı farkın **kontrol koluna göre** ne anlama geldiği. Kampanyanın kendi yöntem kuralı (U4-sep2'den öğrenilen,
+`notes/M_HATTI_PLANI.md` §4 madde 1) şöyle: *eşli karşılaştırmanın iki kolu tam olarak tek terimde ayrışmalı,
+yoksa sonuçtaki fark o terime atfedilemez.* U4-inject bu kuralı çiğniyor.
+
+İki çözücü yan yana:
+
+```
+mühürlü Core.decode      z = e + alpha*sigmoid(gate([e,r]))*merge(r)   <- geri besleme ÖNCE
+                         n = dn(z); k = dk(n); v = dv(n)               <- pencere K/V, geri besleme SONRASI z'den
+
+InjectCore.decode        n = dn(e); k = dk(n); v = dv(n)               <- pencere K/V, enjeksiyon ÖNCESİ e'den
+                         z = e + io(attend(iq(pn(prev)), K, V))        <- enjeksiyon SONRA
+```
+
+Yani enjeksiyon kolları **iki şeyi birden** değiştiriyor:
+
+1. durumun nasıl girdiği (toplamalı `merge` yerine attention enjeksiyonu);
+2. durumun kayan pencere önbelleğinde (`dk`/`dv`) **bulunup bulunmadığı**.
+
+Mühürlü modelde önbelleğe yazılan anahtar/değerler geri besleme sonrası `z`'den türediği için durum geçmişi
+pencerede de taşınıyor — **ikinci bir özyineleme kanalı**. Enjeksiyon kollarında bu kanal yok; önbellek yalnızca
+kodlayıcı çıktısını taşıyor.
+
+**Ölçüldü, iddia edilmedi** (`tests/test_inject_two_terms.py`): aynı girdi, yalnızca `s` değiştirilmiş iki önceki
+durumla,
+
+- mühürlü Core'da sonraki `dk` **değişiyor** (durum önbelleğe giriyor),
+- `inject` ve `inject_mix`'te `dk` **bitwise aynı kalıyor** (durum önbelleğe girmiyor),
+- ama `inject`'in çıktısı `z` yine **değişiyor** — yani kol özyinelemeliliğini tamamen kaybetmiş değil, sorgu
+  yolundan hâlâ bağlı. (Bu üçüncü kontrol kasten var: ikinci maddeyi "enjeksiyon durumu hiç kullanmıyor" diye
+  fazla okumayı engelliyor.)
+
+### Sonucun sınırı, net olarak
+
+- **Ayakta kalan:** "bu altı koşulda enjeksiyon kolları öğrenmedi, kontrol üç tohumda da öğrendi." Bu bir olgu ve
+  `results/U4inj` içinde duruyor.
+- **Ayakta kalmayan:** "attention enjeksiyonu başarısızdır." İkinci bir özyineleme kanalını kaybetmiş bir kolun
+  daha kötü ölçülmesi, enjeksiyon mekanizması ne yaparsa yapsın beklenir. Sonuç, mekanizmayı **kanal kaybından
+  ayıramıyor**.
+- **Ayıracak kol kurulmadı:** enjeksiyon **artı** pencere K/V'sinin enjeksiyon sonrası `z`'den türetilmesi. §6'daki
+  "gerçek genişlik testi" ile aynı kol değil — o, duruma pencerede kendi anahtar/değer girdisini vermekle ilgili;
+  bu ise kontrolün zaten sahip olduğu yolu enjeksiyon koluna geri vermekle ilgili. İkisi ayrı deney.
+
+**M-hattına etkisi yok.** M1 bu döngüden hiçbir şey taşımıyor; taşınan sonuç U2c'nin kapısı. §5'teki örüntü
+gözlemi ("durumun etkisini sınırlayan mekanizmalar taşıyabildiğini de sınırlıyor") ise bu düzeltmeden sonra
+**daha zayıf** durmalı: dört vakadan biri artık karışık tasarımlı, yani örüntü üç sağlam vakaya dayanıyor.
+
+**Yöntem dersi:** kuralı U4-sep2'de öğrenip bir sonraki döngüde uygulamayı atladım. Kuralın kendisi rapora
+yazılmıştı; kontrol listesi olarak kullanılmamıştı. Bundan sonra her kol tasarımında iki çözücü yan yana konup
+farkların sayısı yazılacak.
