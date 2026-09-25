@@ -32,7 +32,7 @@ ROLE = 'development probe: sizes the training budget, never used as evidence abo
 
 
 def run(out, arm='plain', steps=6000, batch=32, every=250, device='cuda', seed=117, needle_rate=.125,
-        train_filler=(0, 64)):
+        train_filler=(0, 64), pack=True):
     out = Path(out); out.mkdir(parents=True, exist_ok=True)
     p = mt.protocol()
     train = md.load(p['data'], 'train')
@@ -52,6 +52,11 @@ def run(out, arm='plain', steps=6000, batch=32, every=250, device='cuda', seed=1
     header = dict(role=ROLE, arm=arm, steps=steps, batch=batch, length=p['length'], width=p['width'],
                   lr=p['lr'], seed=seed, bytes_per_step=batch * p['length'], utc=time.time(),
                   needle_rate=needle_rate, needles_per_batch=needles_per_batch, train_filler=list(train_filler),
+                  pack=pack,
+                  arm_note='pack=True fills each needle row with as many examples as fit; pack=False leaves the '
+                           'single example padded to the training width, which is what the first probe ran and '
+                           'what made the four answer bytes 0.098 % of the gradient. These are the two arms of '
+                           'the packing comparison and they differ in this term alone.',
                   design='the needle FORMAT is taught at short filler; the evaluation uses fillers never seen, so what '
                          'has to generalise is the DISTANCE - the U1 shape (trained at 128, tested to 4096) in language. '
                          'Training and evaluation key alphabets are disjoint, so no evaluation key can be memorised.')
@@ -74,7 +79,7 @@ def run(out, arm='plain', steps=6000, batch=32, every=250, device='cuda', seed=1
         xb, yb = torch.from_numpy(x), torch.from_numpy(y)
         if needles_per_batch:
             mixed = nd.training_items(needles_per_batch, filler_range=train_filler, seed=seed * 100_003 + step,
-                                      pad_to=p['length'])
+                                      pad_to=p['length'], pack=pack)
             xb = torch.cat([xb, mixed['x']]); yb = torch.cat([yb, mixed['y']])
         xb = xb.to(device); yb = yb.to(device)
         model.train()
@@ -110,8 +115,12 @@ def main():
     parser.add_argument('--batch', type=int, default=32); parser.add_argument('--every', type=int, default=250)
     parser.add_argument('--device', default='cuda'); parser.add_argument('--seed', type=int, default=117)
     parser.add_argument('--needle-rate', type=float, default=.125)
+    parser.add_argument('--no-pack', dest='pack', action='store_false', default=True,
+                        help='run the CONTROL arm: one needle example per row, padded to the training width, as '
+                             'the first probe did. The default packs the row, which is the treatment.')
     args = parser.parse_args()
-    run(args.out, args.arm, args.steps, args.batch, args.every, args.device, args.seed, args.needle_rate)
+    run(args.out, args.arm, args.steps, args.batch, args.every, args.device, args.seed, args.needle_rate,
+        pack=args.pack)
 
 
 if __name__ == '__main__':

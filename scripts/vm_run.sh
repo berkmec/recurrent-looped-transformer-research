@@ -12,6 +12,7 @@ set -euo pipefail
 
 ROOT="${1:-/data/rlt}"
 SHUTDOWN=1
+GRACE=${GRACE:-240}
 [ "${2:-}" = "--no-shutdown" ] && SHUTDOWN=0
 
 REPO="$ROOT/2026-09-18-phase2"
@@ -27,8 +28,10 @@ finish() {
   code=$?
   say "run ended with status $code"
   if [ "$SHUTDOWN" = 1 ]; then
-    echo "powering off in 60s (cancel with: sudo shutdown -c)" | tee -a "$LOG"
-    sudo shutdown -h +1 || true
+    # A grace period rather than an immediate halt: the results have to be collected off the box before it goes,
+    # and an unattended machine must still not idle for days. Cancel with: sudo shutdown -c
+    echo "powering off in ${GRACE} minutes (cancel with: sudo shutdown -c)" | tee -a "$LOG"
+    sudo shutdown -h +${GRACE} || true
   fi
   exit $code
 }
@@ -53,14 +56,44 @@ retry() {
 say "step cost on THIS card"
 "$PY" -B -m mline.train --probe 2>&1 | tee -a "$LOG"
 
-say "M0 packed probe: does the needle capability appear at all?"
-retry "M0 probe" "$PY" -B -u -m mline.emergence --out results/M0-packed --steps 5000 --batch 32 --every 250 \
+# BOTH arms run here, on one machine. The first probe's padded numbers exist, but they were measured on another
+# machine, GPU, operating system and torch version, so using them as the control would put four extra differences
+# into a design that is meant to carry one. Packed runs first because it is the arm that might be positive, and
+# an early answer is worth having; the control follows and settles attribution if it is.
+say "M0 PACKED (treatment): does the needle capability appear at all?"
+retry "M0 packed" "$PY" -B -u -m mline.emergence --out results/M0-packed --steps 5000 --batch 32 --every 250 \
     --needle-rate 0.125 --device cuda
+
+say "M0 PADDED (control): the same run with the old padded mix, one term different"
+retry "M0 padded" "$PY" -B -u -m mline.emergence --out results/M0-padded --steps 5000 --batch 32 --every 250 \
+    --needle-rate 0.125 --device cuda --no-pack
+
+say "paired comparison"
+"$PY" - <<'PY' 2>&1 | tee -a "$LOG"
+import json
+from pathlib import Path
+
+
+def curve(path):
+    rows = [json.loads(l) for l in Path(path).read_text(encoding='utf8').strip().splitlines()]
+    return {r['step']: r for r in rows if 'needle' in r}
+
+
+a, b = curve('results/M0-padded/probe.jsonl'), curve('results/M0-packed/probe.jsonl')
+print('%6s | %-24s | %-24s' % ('step', 'PADDED (control)', 'PACKED (treatment)'))
+print('%6s | %8s %7s %7s | %8s %7s %7s' % ('', 'val bpb', 'tr@32', 'byte', 'val bpb', 'tr@32', 'byte'))
+for step in sorted(set(a) & set(b)):
+    ra, rb = a[step], b[step]
+    print('%6d | %8.3f %7.3f %7.3f | %8.3f %7.3f %7.3f'
+          % (step, ra['validation']['bits_per_byte'], ra['needle']['train@32']['exact_match'],
+             ra['needle']['train@32']['byte_accuracy'], rb['validation']['bits_per_byte'],
+             rb['needle']['train@32']['exact_match'], rb['needle']['train@32']['byte_accuracy']))
+PY
 
 # The gate: M1 is only worth 22 hours if the plain arm can do the task at all. The rule reads the probe's own
 # record rather than a human impression of the curve - the train@32 set is the leading indicator, drawn from the
 # keys and distances training actually shows.
-say "probe verdict"
+say "probe verdict (read from the packed arm, which is the one M1 would inherit)"
 if ! "$PY" - <<'PY' | tee -a "$LOG"
 import json, sys
 from pathlib import Path

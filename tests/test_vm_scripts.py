@@ -140,3 +140,17 @@ class CalibrationAndParallelTests(unittest.TestCase):
         self.assertIn('== par_batch', text)
         self.assertIn('never against the', text)
 
+
+    def test_both_arms_of_the_packing_comparison_run_on_the_vm(self):
+        """Using the first probe's local numbers as the control would add four differences to a one-term design."""
+        text = RUN.read_text(encoding='utf8')
+        self.assertIn('--no-pack', text, 'the control arm must be run, not borrowed from another machine')
+        self.assertIn('results/M0-padded', text)
+        self.assertIn('results/M0-packed', text)
+        self.assertLess(text.index('results/M0-packed'), text.index('--no-pack'),
+                        'the arm that might be positive runs first, so an early answer is available')
+
+    def test_the_paired_table_is_printed_from_both_records(self):
+        text = RUN.read_text(encoding='utf8')
+        self.assertIn("curve('results/M0-padded/probe.jsonl')", text)
+        self.assertIn("curve('results/M0-packed/probe.jsonl')", text)
