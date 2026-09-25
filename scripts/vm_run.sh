@@ -79,9 +79,38 @@ then
   exit 0
 fi
 
+say "calibration: batch size and whether the three arms should share the card"
+# The 24 GB card re-opens two questions the 8 GB one settled by force. Measured, not assumed - this campaign has
+# already generalised a utilisation figure from the toy models to the 30M one and been wrong about it.
+"$PY" -B scripts/calibrate.py --device cuda 2>&1 | tee -a "$LOG"
+PLAN=$("$PY" -c "import json;print(json.load(open('results/calibration.json'))['plan'])")
+say "M1 execution plan: $PLAN"
+
 say "M1: three arms, paired"
 retry "M1 freeze" "$PY" -B -m mline.train --freeze --out results/M1
-retry "M1 run"    "$PY" -B -u -m mline.train --run-all --out results/M1 --device cuda
+
+if [ "$PLAN" = "parallel" ]; then
+  # One process per arm. Safe because run_one already claims a condition with active.lock and skips a finished
+  # one via complete.json, so two workers cannot take the same arm. Each keeps its own resumable checkpoint.
+  # The idents come FROM the protocol, never typed here: a hardcoded name drifts silently the moment the width
+  # or the seed changes, and a worker would then be launched for a condition that does not exist.
+  IDENTS=$("$PY" -c "from mline import train as t; print(' '.join(t.ident(c) for c in t.conditions(t.protocol())))")
+  pids=()
+  for ident in $IDENTS; do
+    say "starting $ident"
+    "$PY" -B -u -m mline.train --run-all --out results/M1 --device cuda --only "$ident" >>"$LOG" 2>&1 &
+    pids+=($!)
+  done
+  failed=0
+  for pid in "${pids[@]}"; do wait "$pid" || failed=1; done
+  if [ "$failed" = 1 ]; then
+    say "a worker stopped; re-running serially resumes each arm from its own checkpoint"
+    retry "M1 run (recovery)" "$PY" -B -u -m mline.train --run-all --out results/M1 --device cuda
+  fi
+else
+  retry "M1 run" "$PY" -B -u -m mline.train --run-all --out results/M1 --device cuda
+fi
+
 retry "M1 analysis" "$PY" -B -m mline.analyze --out results/M1
 
 say "all done"

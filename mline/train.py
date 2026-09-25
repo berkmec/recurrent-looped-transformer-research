@@ -337,18 +337,25 @@ def run_one(out, c, device='cuda'):
         (directory / 'active.lock').unlink(missing_ok=True)
 
 
-def probe(device='cuda', steps=8):
-    """Measure before launching: step time and peak VRAM for every arm, at the frozen shape."""
+def probe(device='cuda', steps=8, batches=None, arms=None):
+    """Measure before launching: step time, throughput and peak VRAM, optionally across batch sizes.
+
+    `batches=None` keeps the old behaviour and measures the frozen protocol batch. A larger card reopens the
+    question of how big a batch is worth using, and bytes per second is the only comparable number across sizes -
+    a step at batch 64 moves twice the data of a step at batch 32, so seconds per step flatters the larger one.
+    """
     p = protocol()
     train = md.load(p['data'], 'train')
-    print('%-9s %9s %12s %12s' % ('arm', 's/step', 'peak VRAM', 'params'))
-    for arm in p['arms']:
+    sizes = [int(b) for b in (batches or [p['batch']])]
+    print('%-9s %6s %9s %11s %12s %12s' % ('arm', 'batch', 's/step', 'bytes/s', 'peak VRAM', 'params'))
+    for arm in (arms or p['arms']):
+      for batch in sizes:
         torch.cuda.empty_cache(); torch.cuda.reset_peak_memory_stats()
         model = ml.build(arm, width=p['width'], heads=p['heads'], window=p['window'], alpha=p['alpha'], seed=117, gate_k=p['gate_k']).to(device)
         opt = torch.optim.AdamW(model.parameters(), lr=p['lr'], weight_decay=p['weight_decay'])
         t0 = None
         for step in range(1, steps + 1):
-            x, y, _ = md.batch(train, 117, step, p['batch'], p['length'])
+            x, y, _ = md.batch(train, 117, step, batch, p['length'])
             xb = torch.from_numpy(x).to(device); yb = torch.from_numpy(y).to(device)
             model.train()
             logits = ml.forward_logits(model, xb)
@@ -358,8 +365,9 @@ def probe(device='cuda', steps=8):
             if step == 2:
                 t0 = time.perf_counter()                       # skip warm-up steps
         per = (time.perf_counter() - t0) / (steps - 2)
-        print('%-9s %9.3f %10.2f GB %12d' % (arm, per, torch.cuda.max_memory_allocated() / 1e9, ml.parameter_count(model)['total']))
-        print('           -> %d steps = %.1f h' % (p['steps'], per * p['steps'] / 3600))
+        print('%-9s %6d %9.3f %11.0f %9.2f GB %12d'
+              % (arm, batch, per, batch * p['length'] / per, torch.cuda.max_memory_allocated() / 1e9,
+                 ml.parameter_count(model)['total']))
         del model, opt
         torch.cuda.empty_cache()
 
@@ -371,15 +379,28 @@ def main():
     group = parser.add_mutually_exclusive_group(required=True)
     group.add_argument('--freeze', action='store_true'); group.add_argument('--run-all', action='store_true'); group.add_argument('--probe', action='store_true')
     parser.add_argument('--out', default='results/M1'); parser.add_argument('--device', default='cuda')
+    parser.add_argument('--batches', type=int, nargs='*', default=None,
+                        help='batch sizes to sweep with --probe; default is the frozen protocol batch')
+    parser.add_argument('--arms', nargs='*', default=None, help='arms to probe; default is all of them')
+    parser.add_argument('--only', default=None,
+                        help='run a single condition by ident, so the arms can be worked on concurrently. The '
+                             'existing active.lock and complete.json guards make that safe: a finished condition '
+                             'is skipped and a claimed one is locked.')
     args = parser.parse_args()
     if args.probe:
-        probe(args.device); return
+        probe(args.device, batches=args.batches, arms=args.arms); return
     if args.freeze:
         m = freeze(args.out)
         print(json.dumps(dict(out=args.out, protocol_hash=m['protocol_hash'], arms=m['protocol']['arms'], steps=m['protocol']['steps'],
                               corpus_sha256=m['corpus']['train_sha256'][:16]))); return
     m = verify_frozen(args.out)
-    for c in conditions(m['protocol']):
+    wanted = conditions(m['protocol'])
+    if args.only:
+        wanted = [c for c in wanted if ident(c) == args.only]
+        if not wanted:
+            raise SystemExit('no condition named %r; known: %s'
+                             % (args.only, ', '.join(ident(c) for c in conditions(m['protocol']))))
+    for c in wanted:
         r = run_one(args.out, c, args.device)
         n = r['needle']
         print(ident(c), 'val bpb %.3f' % r['selected_validation']['bits_per_byte'],

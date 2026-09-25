@@ -81,3 +81,41 @@ class RunScriptTests(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
+
+
+class CalibrationAndParallelTests(unittest.TestCase):
+    """The 24 GB card re-opens batch size and concurrency; both are decided by measurement, in that order."""
+
+    def test_the_run_script_calibrates_before_m1(self):
+        text = RUN.read_text(encoding='utf8')
+        self.assertLess(text.index('calibrate.py'), text.index('M1 freeze'))
+
+    def test_the_plan_comes_from_the_measurement_not_from_a_guess(self):
+        text = RUN.read_text(encoding='utf8')
+        self.assertIn("calibration.json", text)
+        self.assertIn('PLAN=', text)
+        self.assertIn('if [ "$PLAN" = "parallel" ]', text)
+
+    def test_parallel_workers_take_their_idents_from_the_protocol(self):
+        """A condition name typed into a shell script drifts the moment the width or the seed changes."""
+        from mline import train as mt
+        text = RUN.read_text(encoding='utf8')
+        self.assertIn('--only', text)
+        self.assertIn('t.ident(c) for c in t.conditions(t.protocol())', text)
+        for c in mt.conditions(mt.protocol()):
+            self.assertNotIn(mt.ident(c), text, f'{mt.ident(c)} is hardcoded; derive it instead')
+
+    def test_a_failed_worker_falls_back_to_a_serial_resume(self):
+        text = RUN.read_text(encoding='utf8')
+        self.assertIn('M1 run (recovery)', text)
+        self.assertIn('resumes each arm from its own checkpoint', text)
+
+    def test_calibration_compares_throughput_not_step_time(self):
+        text = (ROOT / 'scripts/calibrate.py').read_text(encoding='utf8')
+        self.assertIn('bytes_per_s', text)
+        self.assertIn('never seconds per step', text)
+
+    def test_the_parallel_threshold_is_stated_rather_than_implied(self):
+        text = (ROOT / 'scripts/calibrate.py').read_text(encoding='utf8')
+        self.assertIn('1.5', text)
+        self.assertIn('recorded here so it can', text, 'a judgement call must be visible, not buried in a branch')
