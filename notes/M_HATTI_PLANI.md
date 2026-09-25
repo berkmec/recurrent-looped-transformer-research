@@ -98,6 +98,39 @@ maliyet yok; işe yararsa bedava kazanç.
 6. Başlatmadan önce ölç: adım maliyeti, RAM, VRAM. *(dört-süreç olayı ve U4-sep'in 24 adımlık yanlış okunan ölçümü)*
 7. Mühürlü kaynaklara dokunulmaz; yeni modül yazılır, bit-aynılık testle kanıtlanır. *(U2c mühürleri)*
 
+
+---
+
+## 6. GARANTİ KURALI: VM'de üretilen hiçbir şey yalnızca VM'de duramaz
+
+Kiralık makine dayanıklı bir varlık değil. Bir kesinti, kota değişikliği, fatura sorunu ya da yanlış yazılmış
+tek bir `gcloud compute instances delete` onu haber vermeden bitirir. Bu kampanya zaten bir yerel koşuyu elektrik
+kesintisine, bir diğerini bellek baskısına kaybetti; her ikisinde de bedel **saat** oldu, **kanıt** olmadı — ama
+bunun tek sebebi kanıtın hayatta kalan makinede bulunmasıydı.
+
+Kural mekanik, alışkanlık değil: `scripts/pull_from_vm.py` sürekli çalışır ve VM'in ürettiklerini bu makineye
+aynalar.
+
+**İki katman, çünkü boyutlar dört basamak farklı:**
+
+| katman | ne | ne sıklıkta | gerekçe |
+|---|---|---|---|
+| **hafif** | `probe.jsonl`, `train.json`, kayıtlar, manifestler — kontrol noktaları **hariç** | 10 dakikada bir (ölçüldü: 2,3 sn) | **bütün ölçümler burada.** Kontrol noktası kaybı *hesap gücü* kaybettirir; `probe.jsonl` kaybı **deneyi** kaybettirir |
+| **ağır** | `*.pt`, her biri ~125 MB | koşu bitince **anında**, ayrıca 30 dakikada bir sigorta | bir koşu bittiği an son hali iner; arada VM ölürse devam edilebilir kontrol noktası elde kalır |
+
+**Üç invaryant, teste bağlı** (`tests/test_vm_mirror.py`):
+
+1. **Her ağır dosya transferden sonra sha256 ile doğrulanır.** Denetlenmemiş kopya, hakkında tahmin yürüttüğün
+   kopyadır — bu kampanyada sorunsuz yazılıp okunamayan bir kontrol noktası zaten görüldü.
+2. **Bitiş, koşunun kendi kaydından okunur** (`probe.jsonl` satır sayısı ≥ `steps`, ya da `complete.json`), geçen
+   süreye dair bir tahminden değil.
+3. **Ayna, deponun kendi `results/` dizinine asla yazmaz.** Orada önceki döngülerin mühürlü kanıtı var; oraya
+   senkronlayan bir ayna, korumak için var olduğu şeyi yok ederdi. Hedef `E:/rlt-research/vm-mirror/`.
+
+**Ölçülerek bulunan bir tuzak:** çekicinin ilk sürümü `results/` dizininin tamamını istiyordu ve on dakika
+takıldı — çünkü test takımı VM'de koşabilsin diye oraya 225 MB mühürlü kanıt yüklenmişti. Yani bu makinenin
+*kaynağı olduğu* veriyi geri indiriyordu. Kapsam artık yalnızca VM'in ürettikleri.
+
 ---
 
 ## 4b. Ön-kayıt: hangi sayı nerede duruyor, hangisi durmuyor
