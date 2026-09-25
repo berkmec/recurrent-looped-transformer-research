@@ -127,6 +127,20 @@ M1'de üç şey değişti:
 | `needle_gain` | 0,05 | hard_st'in `plain` üstündeki iğne kazancı **iki uzun dolguda birden** bunu aşmalı |
 | `long_filler` | [512, 2048] | hükmün okunduğu iki nokta |
 | `measurable_floor` | 0,02 | bunun altındaki skorlar "ölçülemedi" sayılır, "çalışmadı" değil |
+| `items` | 256 | her iğne kümesindeki kalem sayısı — eşiğin çözünürlüğünü belirler |
+
+**Çözünürlük düzeltmesi (2026-09-25).** Eşikler, iğne görevi hâlâ *sıfır-atışlı* sürümdeyken (biçimi hiçbir kola
+öğretilmemiş olan, beş düz kontrol noktası üreten sürüm) seçilmişti; görev yeniden tasarlandıktan sonra kimse
+sayıların hâlâ ölçülebilir olup olmadığını kontrol etmedi. Saf aritmetik: iki oranın farkının standart hatası
+`sqrt(2p(1-p)/n)`. Eski 64 kalemde bu p≈0,10'da 0,053 ve p≈0,30'da **0,081** — yani 0,05'lik eşik, %7'nin
+üstündeki her skor için **kendi gürültüsünün altında** kalıyordu ve yazı-tura `GATE_TRANSFERS` diye
+raporlanabilirdi. İki değişiklik, hiçbir M1 kolu var olmadan önce:
+
+1. kural körelmedi, **ölçüm keskinleşti**: 64 → 256 kalem (p≈0,30'da SE 0,041). Üstelik **daha ucuz**, çünkü
+   `needle_batch` 4 → 32 oldu: 32'lik 8 fırlatma, 4'lük 16 fırlatmadan az ve bu iş yükü fırlatma-sınırlı.
+2. kural sabit bir sayıya güvenmeyi bıraktı: kazanç hem 0,05'i **hem de** gözlenen skorlardan hesaplanan iki
+   standart hatayı aşmalı. Tabanda sabit bağlar, orta aralıkta gürültü bağlar; hiçbir yönde pozitif iddiayı
+   **kolaylaştıramaz**.
 
 **Dondurulmuş OLMAYAN, dolayısıyla kanıt diye sunulamayacak sayılar:** adım sayısı (4000) ve batch (32) ölçüme
 göre seçildi ama bir tahmini sınamıyor, ayar parametresidir; sonda (`mline/emergence.py`) bütçe boyutlandırma

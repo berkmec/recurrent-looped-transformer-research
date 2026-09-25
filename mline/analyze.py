@@ -14,11 +14,12 @@ Falsification: if (b) fails, the gate is a property of the toy setting and the M
 """
 import argparse
 import json
+import math
 import sys
 import time
 from pathlib import Path
 
-THRESHOLDS = dict(bpb_regression=.02, needle_gain=.05, long_filler=[512, 2048], measurable_floor=.02)
+THRESHOLDS = dict(bpb_regression=.02, needle_gain=.05, long_filler=[512, 2048], measurable_floor=.02, items=256)
 
 STATUSES = ('GATE_TRANSFERS', 'GATE_AT_A_COST', 'GATE_DOES_NOT_TRANSFER',
             'NOT_MEASURABLE_AT_THIS_LENGTH', 'NOT_MEASURABLE_AT_THIS_BUDGET', 'INCOMPLETE')
@@ -47,17 +48,33 @@ def _mean_needle(row, n, kinds=('repeat', 'text'), placement='far'):
     return sum(vals) / len(vals) if vals else None
 
 
-def verdict(arms, seeds=1, thresholds=None):
+def _required_gain(t, items, plain_p, hard_p):
+    """The pre-registered constant, or two standard errors of the difference, whichever is larger.
+
+    `needle_gain = 0.05` is 12.8 items out of 256. The standard error of a difference of two proportions is
+    sqrt(2p(1-p)/n), which at n=256 is 0.041 near p=0.3 - so at mid-range scores a bare 0.05 sits inside its own
+    sampling noise and would report a coin flip as a transfer. Taking the maximum makes the rule self-calibrating:
+    near the floor the constant binds, mid-range the noise does, and neither direction can make a positive claim
+    EASIER than the registered threshold.
+    """
+    p = max(0., min(1., (plain_p + hard_p) / 2))
+    return max(t['needle_gain'], 2 * math.sqrt(2 * p * (1 - p) / max(items, 1)))
+
+
+def verdict(arms, seeds=1, thresholds=None, items=None):
     """`arms` maps arm name -> {bits_per_byte, needle: {kind@N: exact_match}}."""
     t = dict(THRESHOLDS, **(thresholds or {}))
     if not {'plain', 'hard_st', 'soft'} <= set(arms):
         return dict(status='INCOMPLETE', meaning=MEANING['INCOMPLETE'], arms=sorted(arms), provisional=True)
     plain, hard, soft = arms['plain'], arms['hard_st'], arms['soft']
     bpb_cost = hard['bits_per_byte'] - plain['bits_per_byte']
+    items = items or t['items']
     gains = {n: (_mean_needle(hard, n) - _mean_needle(plain, n)) for n in t['long_filler']}
+    required = {n: _required_gain(t, items, _mean_needle(plain, n) or 0., _mean_needle(hard, n) or 0.)
+                for n in t['long_filler']}
     soft_below = all(_mean_needle(soft, n) < _mean_needle(hard, n) for n in t['long_filler'])
     a = bpb_cost <= t['bpb_regression']
-    b = all(g > t['needle_gain'] for g in gains.values())
+    b = all(g > required[n] for n, g in gains.items())
     # If no arm can do the task at the long fillers, the comparison has no resolution: a gate that helps would be
     # invisible. Reporting that as GATE_DOES_NOT_TRANSFER converts "we could not measure it" into "it does not work",
     # which is the error an INTERVENTION_INEFFECTIVE branch caught twice in the two preceding cycles.
@@ -98,7 +115,7 @@ def verdict(arms, seeds=1, thresholds=None):
     return dict(status=status, thresholds=t, provisional=seeds < 2, seeds=seeds,
                 prediction_a_no_bpb_cost=a, prediction_b_needle_gain=b, prediction_c_soft_below_hard=soft_below,
                 bits_per_byte={k: v['bits_per_byte'] for k, v in arms.items()}, bpb_cost_of_gate=bpb_cost,
-                needle_gain_over_plain=gains,
+                needle_gain_over_plain=gains, required_gain=required, needle_items=items,
                 needle_by_arm={k: {str(n): _mean_needle(v, n) for n in t['long_filler']} for k, v in arms.items()},
                 needle_near_by_arm={k: {str(n): _mean_needle(v, n, placement='near') for n in t['long_filler']}
                                     for k, v in arms.items()},
@@ -138,7 +155,7 @@ def main():
         a = arms[arm]
         print('%-9s %10.4f %s' % (arm, a['bits_per_byte'],
                                   ' '.join('%11.3f' % a['needle'].get(f'{k}@{n}', float('nan')) for k in p['needle_kinds'] for n in p['needle_filler'])))
-    v = verdict(arms, seeds=len(p['seeds']))
+    v = verdict(arms, seeds=len(p['seeds']), items=p['needle_items'])
     report = dict(kind='M1_ANALYSIS', utc=time.time(), protocol_hash=manifest['protocol_hash'],
                   corpus=manifest['corpus'], arms=arms, verdict=v)
     Path(args.out, 'analysis.json').write_text(json.dumps(report, indent=1, default=float) + '\n', encoding='utf8')

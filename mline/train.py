@@ -47,7 +47,8 @@ def protocol():
                 steps=4000, batch=32, length=512, lr=.0006, weight_decay=.01, clip=1.,
                 validation_every=250, validation_batches=24, data=DATA, vocabulary=ml.VOCAB,
                 needle_train_rate=.125, needle_train_filler=(0, 64),
-                needle_filler=[0, 128, 512, 2048], needle_kinds=['repeat', 'text'], needle_items=64, needle_batch=4,
+                needle_filler=[0, 128, 512, 2048], needle_kinds=['repeat', 'text'],
+                needle_items=ma.THRESHOLDS['items'], needle_batch=32,
                 needle_placements=['far', 'near'], long_filler=[512, 2048],
                 device='cuda', dtype='float32',
                 selection='minimum validation bits per byte; earliest step on ties',
@@ -70,6 +71,20 @@ def protocol():
                     falsification='if (b) fails while the length-matched near control shows the arms CAN process '
                                   'sequences of that length, the gate is a property of the toy setting and the '
                                   'M-line stops at rung one',
+                    resolution=dict(
+                        items=ma.THRESHOLDS['items'], batch=32,
+                        basis='the registered effect size must be resolvable by the measurement it is read from. '
+                              'The standard error of a difference of two proportions is sqrt(2p(1-p)/n). At the '
+                              'original 64 items that is 0.053 near p=0.10 and 0.081 near p=0.30, so a 0.05 '
+                              'threshold sat inside its own noise for any score above about 7 per cent - a coin '
+                              'flip reportable as GATE_TRANSFERS. 256 items brings it to 0.041 near p=0.30, and '
+                              'the rule additionally requires the gain to clear two standard errors computed from '
+                              'the scores observed, which can only make a positive claim harder.',
+                        cost='cheaper than the setting it replaces, not more expensive: 8 launches of 32 against '
+                             '16 of 4, on a workload measured to be launch-bound rather than arithmetic-bound',
+                        inherited_from='the thresholds were chosen while the needle task was still the zero-shot '
+                                       'version whose format no arm was ever taught; nothing rechecked them after '
+                                       'the task was redesigned'),
                     registered_before='every M1 arm: at freeze time no condition directory exists, which the '
                                       'manifest frozen_utc and the empty output directory both witness. The only '
                                       '30M training in flight is the M0 emergence probe, whose recorded role is '
