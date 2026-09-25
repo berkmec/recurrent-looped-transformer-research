@@ -31,7 +31,7 @@ ROLE = 'development probe: sizes the training budget, never used as evidence abo
 
 
 def run(out, arm='plain', steps=6000, batch=32, every=250, device='cuda', seed=117, needle_rate=.125,
-        train_filler=(0, 128)):
+        train_filler=(0, 64)):
     out = Path(out); out.mkdir(parents=True, exist_ok=True)
     p = mt.protocol()
     train = md.load(p['data'], 'train')

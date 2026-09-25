@@ -62,3 +62,24 @@ class M1NeedleMixTests(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
+
+
+class ProbeMatchesTheExperimentTests(unittest.TestCase):
+    """The budget-sizing probe must teach the same needle job M1 will, or it sizes a different problem.
+
+    An independent review found the probe defaulting to a 0-128 training filler while M1 uses 0-64, which would have
+    made the probe's @128 cell in-distribution where M1's is 2x out. Locking the invariant in a test rather than
+    fixing the number, because the number drifted once already.
+    """
+
+    def test_probe_and_m1_teach_the_same_filler_range(self):
+        import inspect
+        from mline import emergence as em, train as mt
+        probe = inspect.signature(em.run).parameters['train_filler'].default
+        self.assertEqual(tuple(probe), tuple(mt.protocol()['needle_train_filler']))
+
+    def test_probe_and_m1_mix_needles_at_the_same_rate(self):
+        import inspect
+        from mline import emergence as em, train as mt
+        probe = inspect.signature(em.run).parameters['needle_rate'].default
+        self.assertEqual(probe, mt.protocol()['needle_train_rate'])
