@@ -52,7 +52,7 @@ def filler_bytes(kind, n, rng, corpus=None):
 PLACEMENT = ('far', 'near')
 
 
-def make(n_items, n_filler, kind='repeat', seed=0, corpus=None, placement='far'):
+def make(n_items, n_filler, kind='repeat', seed=0, corpus=None, placement='far', alphabet=None):
     """Build an evaluation set. Returns padded inputs, the answer span mask and the answers themselves.
 
     `placement` selects which of two conditions of IDENTICAL sequence length is built:
@@ -71,12 +71,19 @@ def make(n_items, n_filler, kind='repeat', seed=0, corpus=None, placement='far')
         raise ValueError('kind must be one of ' + ', '.join(KIND))
     if placement not in PLACEMENT:
         raise ValueError('placement must be one of ' + ', '.join(PLACEMENT))
+    # The evaluation draws from EVAL_KEYS, disjoint from the TRAIN_KEYS mixed into training, which is what makes
+    # memorising an answer impossible. It is also what makes a zero ambiguous: unlearned format, or learned but
+    # not generalising? Building the same set from TRAIN_KEYS answers that directly, so the alphabet is a
+    # parameter and the default is unchanged.
+    alphabet = EVAL_KEYS if alphabet is None else alphabet
+    if not alphabet:
+        raise ValueError('alphabet must be a non-empty bytes of key characters')
     rng = np.random.default_rng(seed)
     rows, answers, keys, distances = [], [], [], []
     seen = set()
     for _ in range(n_items):
         while True:
-            key = _key(rng, alphabet=EVAL_KEYS)
+            key = _key(rng, alphabet=alphabet)
             if key not in seen:
                 seen.add(key); break
         value = _value(rng)
@@ -100,7 +107,8 @@ def make(n_items, n_filler, kind='repeat', seed=0, corpus=None, placement='far')
         mask[i, width - len(value) - 1:width - 1] = True   # positions whose NEXT byte is an answer byte
     return dict(x=torch.from_numpy(x), y=torch.from_numpy(y), mask=torch.from_numpy(mask),
                 answers=[a.decode('ascii') for a in answers], answers_keys=keys,
-                n_filler=n_filler, kind=kind, width=width, placement=placement, distances=distances)
+                n_filler=n_filler, kind=kind, width=width, placement=placement, distances=distances,
+                alphabet={id(TRAIN_KEYS): 'TRAIN_KEYS', id(EVAL_KEYS): 'EVAL_KEYS'}.get(id(alphabet), 'custom'))
 
 
 @torch.no_grad()
@@ -120,7 +128,8 @@ def score(forward, items, batch=8, device='cpu'):
                 n_filler=items['n_filler'], kind=items['kind'], width=items['width'])
 
 
-def training_items(n_items, filler_range=(0, 128), seed=0, kind='repeat', corpus=None, pad_to=None):
+def training_items(n_items, filler_range=(0, 128), seed=0, kind='repeat', corpus=None, pad_to=None,
+                   pack=True):
     """Needle examples to MIX INTO TRAINING, so the format is learned and only the DISTANCE has to generalise.
 
     This is the U1 shape applied to language: U1 trained at horizon 128 and tested to 4096. Here training sees the
@@ -132,15 +141,37 @@ def training_items(n_items, filler_range=(0, 128), seed=0, kind='repeat', corpus
     """
     rng = np.random.default_rng(seed + 31_337)
     lo, hi = filler_range
-    rows, fillers, texts = [], [], []
-    for _ in range(n_items):
+
+    def one():
         key = _key(rng, alphabet=TRAIN_KEYS)
         value = _value(rng)
         n = int(rng.integers(lo, hi + 1))
-        blob = (b'The code for ' + key + b' is ' + value + b'.\n'
+        return (b'The code for ' + key + b' is ' + value + b'.\n'
                 + filler_bytes(kind, n, rng, corpus)
-                + b'\nThe code for ' + key + b' is ' + value)
-        rows.append(blob); fillers.append(n); texts.append(blob.decode('ascii', errors='ignore'))
+                + b'\nThe code for ' + key + b' is ' + value), n
+
+    rows, fillers, texts = [], [], []
+    for _ in range(n_items):
+        # PACK the row rather than padding it. Measured on the mix M0 actually trained on: one example padded to
+        # 512 left 428.8 bytes of leading spaces, 83.7 % of the row. Every padded position is still a training
+        # target, so the mix spent 10.47 % of the entire training signal teaching "a space follows a space" and
+        # 0.098 % on the four answer bytes the experiment reads - one gradient in a thousand - and the probe duly
+        # finished 81.9 MB having learned no format at all, scoring 4.070 nats on the answer bytes of its own
+        # training distribution against 5.545 for uniform. Filling the row changes no hypothesis and no threshold;
+        # it stops discarding five sixths of the budget this mix was given.
+        blob, used = b'', []
+        while True:
+            piece, n = one()
+            if blob and pack and pad_to is not None and len(blob) + 1 + len(piece) > pad_to:
+                break
+            blob = blob + (b'\n' if blob else b'') + piece
+            used.append(n)
+            if not (pack and pad_to is not None):
+                break
+        rows.append(blob); fillers.append(used); texts.append(blob.decode('ascii', errors='ignore'))
+    # `fillers` stayed a FLAT list of the distances used, because that is what it has always been and a caller
+    # asking for max(fillers) is asking a sensible question. The per-row grouping is a separate key.
+    per_row, fillers = fillers, [n for row in fillers for n in row]
     width = max(len(r) for r in rows)
     if pad_to is not None:
         if width > pad_to:
@@ -155,4 +186,5 @@ def training_items(n_items, filler_range=(0, 128), seed=0, kind='repeat', corpus
         x[i] = arr
         y[i, :-1] = arr[1:]; y[i, -1] = arr[-1]
     return dict(x=torch.from_numpy(x), y=torch.from_numpy(y), texts=texts, fillers=fillers,
-                filler_range=filler_range, kind=kind)
+                filler_range=filler_range, kind=kind, packed=bool(pack and pad_to is not None),
+                fillers_per_row=per_row, examples_per_row=[len(f) for f in per_row])

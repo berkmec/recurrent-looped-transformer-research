@@ -41,6 +41,12 @@ def run(out, arm='plain', steps=6000, batch=32, every=250, device='cuda', seed=1
     counter = gu.GuardCounter()
     probes = {n: nd.make(48, n_filler=n, kind='repeat', seed=777 + n) for n in (0, 128, 512)}
     probes['text@512'] = nd.make(48, n_filler=512, kind='text', seed=999, corpus=corpus)
+    # The leading indicator, added after the first probe returned exact_match 0.000 in all 76 of its measurements:
+    # a set drawn from TRAIN_KEYS at a filler the training mix actually shows. Anything the model has learned must
+    # appear HERE first. A zero here is a statement about the budget or the mix; a zero here with a non-zero on the
+    # evaluation sets would be impossible, and a non-zero here with a zero there is the generalisation result the
+    # experiment is about. Without it the two cannot be told apart, which cost the first probe its diagnosis.
+    probes['train@32'] = nd.make(48, n_filler=32, kind='repeat', seed=555, alphabet=nd.TRAIN_KEYS)
     needles_per_batch = max(1, round(batch * needle_rate)) if needle_rate > 0 else 0
     header = dict(role=ROLE, arm=arm, steps=steps, batch=batch, length=p['length'], width=p['width'],
                   lr=p['lr'], seed=seed, bytes_per_step=batch * p['length'], utc=time.time(),
@@ -71,8 +77,10 @@ def run(out, arm='plain', steps=6000, batch=32, every=250, device='cuda', seed=1
             forward = lambda xb_: ml.forward_logits(model, xb_)
             row['validation'] = val
             row['needle'] = {str(k): nd.score(forward, v, batch=8, device=device) for k, v in probes.items()}
-            print('step %5d  %6.1f MB  val bpb %.3f  needle@0 %.3f  @128 %.3f  @512 %.3f  text@512 %.3f  %.1f min'
-                  % (step, row['bytes_seen'] / 1e6, val['bits_per_byte'],
+            tr = row['needle']['train@32']
+            print('step %5d  %6.1f MB  val bpb %.3f  TRAIN@32 %.3f (byte %.3f)  needle@0 %.3f  @128 %.3f  @512 %.3f  '
+                  'text@512 %.3f  %.1f min'
+                  % (step, row['bytes_seen'] / 1e6, val['bits_per_byte'], tr['exact_match'], tr['byte_accuracy'],
                      row['needle']['0']['exact_match'], row['needle']['128']['exact_match'],
                      row['needle']['512']['exact_match'], row['needle']['text@512']['exact_match'],
                      (time.perf_counter() - t0) / 60), flush=True)
