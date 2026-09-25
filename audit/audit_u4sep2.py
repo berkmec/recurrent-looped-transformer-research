@@ -143,10 +143,36 @@ add('10-verdict-and-seals', v['status'] == 'CONFOUNDED_BY_TRAINING' and v['pairs
     f'rule returns {v["status"]} with {v["pairs_rescued"]}/5 rescued, which is what the report prints; '
     'sealed U2c-lr0003 sources still verify; problems=' + (', '.join(problems) or 'none'))
 
+# 11 - the starting geometry, RE-MEASURED from the frozen checkpoints rather than read back from my own file
+from horizon import u4sep2_start_geometry as sg
+_, start = sg.measure_start(OUT)
+analysis = json.loads((OUT / 'analysis.json').read_text(encoding='utf8'))['pairs']
+problems, factors = [], {}
+for key, r in start.items():
+    recorded = analysis[key]['ratio_u2c']
+    if recorded != analysis[key]['ratio_none']:
+        problems.append(key + ': ratio_u2c no longer equals ratio_none')
+    factors[key] = recorded / r['start_ratio']
+    stored = json.loads((OUT / 'start-geometry.json').read_text(encoding='utf8'))['pairs'][key]
+    if abs(stored['start_ratio'] - r['start_ratio']) > 1e-6:
+        problems.append(key + ': stored start ratio does not reproduce')
+worst = max(factors.values())
+report_text = (ROOT / 'notes/U4sep2_RAPORU.md').read_text(encoding='utf8')
+if '## 8. ' not in report_text:
+    problems.append('report carries no section 8 correction')
+add('11-start-geometry', not problems and abs(worst - 8.35) < .01,
+    'the `ratio_u2c` field in the sealed analysis is the control arm LAST fine-tuning ratio over 64 neutral slots, '
+    'not the frozen checkpoint geometry over the 200-sequence evaluation. Re-measured here from the U2c '
+    f'checkpoints: true start ratios {", ".join("%s %.3f" % (k, v["start_ratio"]) for k, v in start.items())}; '
+    f'the recorded field is high by {", ".join("%.2fx" % v for v in factors.values())}, worst {worst:.2f}x. '
+    'No verdict, sign test, audit check or report sentence reads the field, so the sealed file is left as it is '
+    'and the correction is section 8 of the report plus results/U4sep2/start-geometry.json; problems=' + (', '.join(problems) or 'none'))
+
 summary = dict(**{k: sum(1 for c in checks if c['status'] == k.upper()) for k in ('pass', 'fail')}, unverified=0)
 report = dict(cycle='U4-sep2', auditor='same session, inline script (the weekly API limit blocked a delegated auditor until 24 Sept)',
               utc=time.time(), checks=checks, summary=summary, discrepancies=discrepancies,
-              recomputed=dict(pairs={k: {kk: vv for kk, vv in r.items() if not kk.startswith('endpoints')} for k, r in rows.items()},
+              recomputed=dict(start_geometry={k: dict(start_ratio=v['start_ratio'], factor=factors[k]) for k, v in start.items()},
+                              pairs={k: {kk: vv for kk, vv in r.items() if not kk.startswith('endpoints')} for k, r in rows.items()},
                               sign_test=st, verdict=v, placement_means=avg))
 out = ROOT / '.superpowers/sdd/phase2'
 (out / 'audit-u4sep2.json').write_text(json.dumps(report, indent=1, default=float) + '\n', encoding='utf8')

@@ -156,3 +156,65 @@ vermiyor.
 **Ek kusur, aynı denetimden:** `ratio_last` eğitimin **son** satırından, yani `final.pt` modelinden okunuyor; oysa
 değerlendirilen model `selected.pt`. 10 koşunun 3'ünde `selected_step ≠ steps` (384, 256, 256), dolayısıyla o
 koşullarda (a) maddesi **hiç değerlendirilmemiş bir modeli** tarif ediyor.
+
+---
+
+## 8. DÜZELTME (2026-09-25) — `ratio_u2c` başlangıç noktası değil, ve doğrusu hikâyeyi okunur kılıyor
+
+`results/U4sep2/analysis.json` her çift için bir `ratio_u2c` alanı taşıyor ve bunun **çiftin başladığı yer**
+olması gerekiyordu. Değil. Mühürlü çözümleyici tek satırda şunu yapıyor:
+
+```python
+entry['ratio_u2c'] = entry.get('ratio_none')   # the pair starts from the same weights, so the control's first ratio is the start
+```
+
+`ratio_none` ise `train.json['ratio_last']` — **kontrol kolunun son ince-ayar adımındaki** oran. Yorumdaki gerekçe
+iki yerden birden hatalı: kontrol kolu da 512 adım ince ayar gördü, yani geometrisi kıpırdadı; üstelik "ilk" değer
+istenseydi bile doğru alan `ratio_first` olurdu. Bir de birim sorunu var: bu alan ince ayarın 64 nötr yuvasından
+okunuyor, oysa yanında basılan `eval_ratio_*` değerleri 200 dizilik değerlendirmeden geliyor — §7'nin manşeti
+düzelten tam da bu birim karışıklığı.
+
+**Ölçüldü** (`horizon/u4sep2_start_geometry.py`, dondurulmuş U2c kontrol noktası üzerinde, `evaluate_one`'ın
+kullandığı aynı `u2d_compare.measure` çağrısıyla, `n_geometry=200`):
+
+| çift | gerçek başlangıç | kayıtlı `ratio_u2c` | çarpan |
+|---|---|---|---|
+| soft/s117 | 0,570 | 1,185 | 2,08× |
+| soft/s143 | 0,488 | 1,641 | 3,36× |
+| supervised/s117 | 0,711 | 1,697 | 2,39× |
+| supervised/s143 | 0,433 | 3,615 | **8,35×** |
+| supervised/s191 | 0,786 | 0,836 | 1,06× |
+
+**Sonuca etkisi yok:** `ratio_u2c` hiçbir hükümde, işaret testinde, denetim kontrolünde veya rapor cümlesinde
+okunmuyor. Bu yüzden düzeltme mühürlü dosyaya dokunmadan, yeni bir dosyaya yazıldı
+(`results/U4sep2/start-geometry.json`).
+
+### Asıl kazanç: doğru birimlerde başlangıç → kontrol → menteşe
+
+Başlangıç değeri artık bilindiği için müdahalenin **ne kadar** kıpırdattığı ilk kez eşli olarak okunabiliyor.
+Kalibrasyon bandı: kırılgan ≤ 0,57, dayanıklı ≥ 0,92.
+
+| çift | başlangıç | kontrol | menteşe | kontrolün oynattığı | menteşenin oynattığı | onarım K → M |
+|---|---|---|---|---|---|---|
+| soft/s117 | 0,570 | 0,597 | 0,962 | **+0,027** | +0,392 | −40,7 → **+54,4** |
+| soft/s143 | 0,488 | 0,517 | 0,811 | **+0,029** | +0,323 | +27,5 → **+52,4** |
+| supervised/s117 | 0,711 | 1,030 | 1,220 | +0,320 | +0,509 | +61,8 → −44,2 |
+| supervised/s143 | 0,433 | 2,623 | 5,712 | **+2,190** | +5,279 | +87,5 → +84,7 |
+| supervised/s191 | 0,786 | 0,867 | 1,150 | +0,081 | +0,363 | −51,8 → −103,6 |
+
+Üç şey çıkıyor, ilk ikisi sağlam, üçüncüsü sadece bir işaret:
+
+1. **Müdahale iki soft çiftinde gerçekten indi.** Kontrol oranı neredeyse hiç kıpırdamamış (+0,027, +0,029) ama
+   menteşe onu on kat fazla oynatmış. Bu, eşli tasarımın çalıştığı anlamına gelir: fark tek terimden geliyor.
+2. **supervised/s143 çifti menteşeye yazılamaz.** Kontrol kolu, içinde hiçbir menteşe terimi yokken oranı
+   0,433'ten 2,623'e taşımış — yani **önceden kayıtlı 1,5 hedefini kontrolün kendisi aşmış.** O çiftte "hedef
+   tutturuldu" ifadesi müdahale hakkında hiçbir şey söylemiyor. Bu, §3'teki tasarım kusurunun (denetimli kontrol
+   noktalarının kontrol kolu boş değil) sayısal karşılığıdır.
+3. **Manşet değişmiyor.** Oran beş çiftte de kontrolünün üstüne çıktı, onarım ikisinde arttı üçünde düştü; her
+   yerde aynı yöne giden bir büyüklük zıt sonuçları açıklayamaz. Dikkat çeken bir örüntü var — onarımın arttığı
+   iki çift, kontrolü en temiz olan iki çiftin aynısı — ama **n=2 ile bu bir gözlem, bulgu değil** ve bu raporda
+   bir iddiaya dönüştürülmüyor.
+
+**Yöntem dersi:** "başlangıç" diye etiketlenen bir sayı ölçülmediyse başlangıç değildir. Burada kayıtlı değer
+8,35 kata kadar sapmıştı ve kimse fark etmedi, çünkü hiçbir hüküm onu okumuyordu — okunmayan bir alan yanlış
+olduğunda sessiz kalır ve ilk okunduğu gün yanlış sonuca götürür.

@@ -1,0 +1,59 @@
+{
+ "finding": "results/U4sep2/analysis.json records ratio_u2c as the control arm LAST fine-tuning-step ratio over 64 neutral slots, not the frozen checkpoint geometry over the 200-sequence evaluation. The field is read by no verdict, sign test, audit check or report sentence.",
+ "kind": "U4SEP2_START_GEOMETRY",
+ "pairs": {
+  "soft/s117": {
+   "drift": 6.216850757598877,
+   "eval_ratio_hinge": 0.9620054815043217,
+   "eval_ratio_none": 0.5970901918651594,
+   "factor": 2.0780869218104145,
+   "gap": 3.546036340581375,
+   "recorded_ratio_u2c": 1.1853222846984863,
+   "source_sha256": "0e693cba9637b065511884ce01eae3f70942795d3829316f544da17c79e85d96",
+   "start_ratio": 0.5703910997456458
+  },
+  "soft/s143": {
+   "drift": 5.854077339172363,
+   "eval_ratio_hinge": 0.8108038455217239,
+   "eval_ratio_none": 0.5174671843324699,
+   "factor": 3.3605320829153356,
+   "gap": 2.8578972280845742,
+   "recorded_ratio_u2c": 1.6405754089355469,
+   "source_sha256": "f2dbfd5524499574b0a156d02f2498c2ea86a0e2eedced1ce6a8941613d2eca0",
+   "start_ratio": 0.4881891820869961
+  },
+  "supervised/s117": {
+   "drift": 10.197591781616211,
+   "eval_ratio_hinge": 1.219955060364237,
+   "eval_ratio_none": 1.0302229841086183,
+   "factor": 2.3884619604896953,
+   "gap": 7.246489640442327,
+   "recorded_ratio_u2c": 1.6972600221633911,
+   "source_sha256": "6a64fd3a8a0180f86911810eee4d0ce0946046ee2047f55668c47ba7d8ee343f",
+   "start_ratio": 0.710607935248594
+  },
+  "supervised/s143": {
+   "drift": 15.456498146057129,
+   "eval_ratio_hinge": 5.711849519810626,
+   "eval_ratio_none": 2.6231220312748884,
+   "factor": 8.346301816074398,
+   "gap": 6.694857453849983,
+   "recorded_ratio_u2c": 3.615133285522461,
+   "source_sha256": "deed86c8ecbf9947e6749f3bb221a00e503b6ce0978273df79cd26bcfa707fce",
+   "start_ratio": 0.4331419310238656
+  },
+  "supervised/s191": {
+   "drift": 7.509214878082275,
+   "eval_ratio_hinge": 1.1495245190105363,
+   "eval_ratio_none": 0.8674370239908741,
+   "factor": 1.062887104220439,
+   "gap": 5.904220721261559,
+   "recorded_ratio_u2c": 0.8357092142105103,
+   "source_sha256": "b2b5d6dd05f07666a163308c31fef360edbddea5b0482b675bd67d024faaef16",
+   "start_ratio": 0.7862633866683805
+  }
+ },
+ "protocol_hash": "5e10c8d741a9d54551bdad0bfdd918538ab93d5516490a876a32dfa6edf7dbab",
+ "utc": 1790303547.8105412,
+ "worst_factor": 8.346301816074398
+}
