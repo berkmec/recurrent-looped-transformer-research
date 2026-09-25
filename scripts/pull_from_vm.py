@@ -63,7 +63,10 @@ def light_pull(key, host, remote, mirror, paths=PRODUCED):
 
 def remote_checkpoints(key, host, remote):
     scope = ' '.join('%s/%s' % (remote, p) for p in PRODUCED if not p.endswith('.json'))
-    out = ssh(key, host, "find %s -name '*.pt' -printf '%%s %%p\\n' 2>/dev/null" % scope)
+    # previous.pt is the VM's own insurance against a corrupt write THERE. Mirroring it doubles the traffic for
+    # a copy that would never be used, because latest.pt is verified by sha256 as it lands here.
+    out = ssh(key, host,
+              "find %s -name '*.pt' ! -name 'previous.pt' -printf '%%s %%p\\n' 2>/dev/null" % scope)
     rows = {}
     for line in out.stdout.splitlines():
         size, _, path = line.partition(' ')
@@ -152,7 +155,10 @@ def main():
     parser.add_argument('--remote', default=DEFAULT_REMOTE)
     parser.add_argument('--mirror', default=DEFAULT_MIRROR)
     parser.add_argument('--interval', type=int, default=600, help='seconds between light pulls')
-    parser.add_argument('--heavy-every', type=int, default=6, help='pull checkpoints every Nth cycle as well')
+    parser.add_argument('--heavy-every', type=int, default=6,
+                        help='also pull checkpoints every Nth cycle as insurance against losing the VM mid-run. '
+                             'A checkpoint is 374 MB (weights plus AdamW moments), so this is the expensive '
+                             'clock; a finished run pulls immediately regardless of it.')
     parser.add_argument('--once', action='store_true')
     args = parser.parse_args()
 
