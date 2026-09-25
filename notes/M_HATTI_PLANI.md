@@ -100,6 +100,64 @@ maliyet yok; işe yararsa bedava kazanç.
 
 ---
 
+## 4b. Ön-kayıt: hangi sayı nerede duruyor, hangisi durmuyor
+
+Bu bölüm bir denetim bulgusuna cevap: rapor, bir eşiğin **mühürlü** mü yoksa **serbest** mi olduğunu okuyucuya
+söylemeden "önceden kayıtlı" diyemez. U4-sep2'de eşikler gerçekten koşudan önce sabitlenmişti, ama yalnızca
+`.superpowers/sdd/phase2/progress.md` içinde — gitignore'lu, sürümsüz, benim her an yeniden yazabileceğim bir
+dosyada. Bu bir söz, kayıt değil.
+
+M1'de üç şey değişti:
+
+1. **Ön-kayıt protokolün içinde.** `mline/train.protocol()` artık bir `preregistration` bloğu taşıyor.
+   Blok `protocol_hash`'in içinde, o da `frozen.sha256`'nın içinde; dondurmadan sonra tek bir eşiği değiştirmek
+   `verify_frozen`'ı reddettirir. Tahmin de, eşik de, olası sonuç listesi de oradadır.
+2. **Puanlayan modül kanıtla birlikte özetleniyor.** `mline/analyze.py` artık `SOURCES` listesinde, yani mühürlü
+   manifest yalnızca sayıları değil **kuralın kendisini** sabitliyor. "Kural koşudan önce yazılmıştı" iddiası
+   artık benim sözüme değil, dosya özetine dayanıyor.
+3. **Tek kaynak.** Protokole yazılan eşikler `analyze.THRESHOLDS`'ın kendisinden kopyalanıyor ve bir test ikisinin
+   aynı olduğunu zorluyor. U4-sep2'de kuralın okuduğu ölçü (64 yuva) ile hedefin kalibre edildiği ölçü (512 yuva)
+   sessizce ayrıştı; aynı sessiz ayrışma burada teste takılır.
+
+**Dondurulmuş eşikler** (hepsi `preregistration.thresholds`, hepsi `protocol_hash` kapsamında):
+
+| eşik | değer | ne yapar |
+|---|---|---|
+| `bpb_regression` | 0,02 | hard_st'in dil maliyeti bu kadarı aşarsa tahmin (a) düşer |
+| `needle_gain` | 0,05 | hard_st'in `plain` üstündeki iğne kazancı **iki uzun dolguda birden** bunu aşmalı |
+| `long_filler` | [512, 2048] | hükmün okunduğu iki nokta |
+| `measurable_floor` | 0,02 | bunun altındaki skorlar "ölçülemedi" sayılır, "çalışmadı" değil |
+
+**Dondurulmuş OLMAYAN, dolayısıyla kanıt diye sunulamayacak sayılar:** adım sayısı (4000) ve batch (32) ölçüme
+göre seçildi ama bir tahmini sınamıyor, ayar parametresidir; sonda (`mline/emergence.py`) bütçe boyutlandırma
+amaçlı bir geliştirme koşusudur ve kendi başlığında kapı hakkında kanıt olmadığını yazar. Sondanın hiçbir
+ölçümü yukarıdaki eşiklerin türetilmesinde kullanılmadı.
+
+**Olası sonuçlar, tümü önceden adlandırılmış** (`preregistration.statuses`): `GATE_TRANSFERS`,
+`GATE_AT_A_COST`, `GATE_DOES_NOT_TRANSFER`, `NOT_MEASURABLE_AT_THIS_LENGTH`, `NOT_MEASURABLE_AT_THIS_BUDGET`,
+`INCOMPLETE`. Bir test, kuralın döndürebildiği her durumun bu listede olmasını zorluyor — listede olmayan bir
+sonuç, kimsenin öngörmediği bir sonuçtur.
+
+### Uzunluk kontrolü: neden eklendi
+
+Denetim, hükmün dayandığı iki noktanın da **modelin eğitildiği uzunluğun üstünde** olduğunu gösterdi. Ölçüldü:
+eğitim uzunluğu 512 bayt, değerlendirme dizisi dolgu 512'de 565 bayt (1,10×) ve dolgu 2048'de 2101 bayt (4,10×).
+Bu haliyle sıfır bir skorun iki ayrı açıklaması var ve ayırt edilemiyorlar:
+
+- model bilgiyi **mesafe boyunca taşıyamıyor** — deneyin sorduğu şey;
+- model **bu uzunlukta diziyi hiç işleyemiyor**, mesafe ne olursa olsun — konumsal dışa-yayılım sorunu, kapıyla
+  ilgisi yok.
+
+Ayıran kontrol: `placement='near'`. Aynı genişlikte dizi kurar, ama dolguyu başa alır ve olguyu sorunun hemen
+önüne koyar — uzunluk sabit, mesafe sıfır. `far`da düşüp `near`da geçen kol bir **bellek** sonucudur; ikisinde de
+düşen kolun `far` skoru kapı hakkında hiçbir şey söylemez ve hüküm bunu `NOT_MEASURABLE_AT_THIS_LENGTH` olarak
+raporlar. Çaresi de farklıdır: daha uzun koşu değil, daha uzun eğitim uzunluğu.
+
+Bu, U2b'nin dondurma kontrollerinde yapılan hamlenin aynısı: bir düşüşün istediğin anlama geldiğine inanmadan
+önce, o düşüşün daha sıkıcı bir sebebi olduğunu gösterebilecek koşulu kur.
+
+---
+
 ## 5. Donanım gerçeği
 
 RTX 2060 SUPER 8 GB · 16 GB RAM · E: 48,7 GB boş, **C: 0,6 GB boş**.
@@ -111,11 +169,17 @@ RTX 2060 SUPER 8 GB · 16 GB RAM · E: 48,7 GB boş, **C: 0,6 GB boş**.
 - 300M: yerel olarak gerçekçi değil; yukarıdaki ölçümlerden doğrusal olarak çok daha ağır.
 - **İş bölümü (2026-09-24 kararı):** 30M **bu makinede** eğitilir; daha büyük model **VM'de** olur. Yerel donanım
   30M'i taşıyor, ötesini taşımıyor.
-- **Bulut bütçesi 40 USD ve ne satın alacağı.** Yerel M1'in tek tohumluk bir ilk bakış olduğu göz önüne alınınca,
-  bu para M1'i tekrarlamak yerine **replikasyona** gitmeli: 3 tohum × 3 kol × 3 lr seviyesi. Gerekçe kampanyanın
-  kendi ölçümleri: lr üç ayrı döngüde çözüm ailesini belirledi (U2c çapraz-lr, U4-sep faz geçişi, R5), ve C16 tek
-  koşulun doğrulama doğruluğunun asıl merak edilen özelliğe kör olduğunu gösterdi. Ölçülen maliyet: fırlatma-sınırlı
-  iş yükünde pahalı kart getirisi düşük, bu yüzden kart seçimi VRAM (dolayısıyla batch) üzerinden yapılmalı,
-  FLOPS üzerinden değil. Spot uygun: koşucu her koşulu ayrı mühürlüyor, kesinti en fazla bir koşul kaybettirir.
+- **Bulut bütçesi ~24 USD (1200 TL) ve ne satın aldığı.** Bütçe 40 USD olarak planlanmıştı ve 2026-09-25'te
+  yaklaşık 24 USD'ye indi. 40 USD'lik plan tam replikasyondu (3 tohum × 3 kol × 3 lr = 27 koşu); bu artık
+  sığmıyor, o yüzden sıra değişti, kapsam değil:
+  **M1 yerelde** (3 kol × lr 6e-4 × tek tohum, bedava, ölçülen hızda 22,3 saat) · **M2 bulutta** (3 kol × 2 ek lr
+  seviyesi, 6 koşu) · **M3 bulutta** (3 kol × 2 ek tohum, 6 koşu). Spot fiyatlarıyla 6+6 koşu yaklaşık 20 USD,
+  gerisi pay. Önce lr, sonra tohum: kampanyanın kendi ölçümleri lr'yi üç ayrı döngüde çözüm ailesini belirleyen
+  değişken olarak gösterdi (U2c çapraz-lr, U4-sep faz geçişi, R5), yani M1 olumsuz dönerse ilk sorulacak soru
+  "başka lr'de de mi" olur. Ölçülen maliyet: fırlatma-sınırlı iş yükünde pahalı kart getirisi düşük, bu yüzden
+  kart seçimi VRAM (dolayısıyla batch) üzerinden yapılmalı, FLOPS üzerinden değil. **Ucuz kartın yerelden hızlı
+  olacağı varsayılmayacak** — GPU kullanımı tepede %5, darboğaz ardışıklık; ilk bir saat ölçüme ayrılır, kalan
+  plan ölçülen s/adıma göre kurulur. Spot uygun: koşucu her koşulu ayrı mühürlüyor, kesinti en fazla bir koşul
+  kaybettirir.
 - Bütün önbellek ve korpus **E:'ye** yazılır; C: dolu.
 - Eğitim, boş RAM eşiğin altındayken **başlatılmaz**.

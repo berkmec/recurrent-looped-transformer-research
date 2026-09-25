@@ -49,12 +49,30 @@ def filler_bytes(kind, n, rng, corpus=None):
     return bytes(np.asarray(corpus[start:start + n], dtype=np.uint8).tobytes())
 
 
-def make(n_items, n_filler, kind='repeat', seed=0, corpus=None):
-    """Build an evaluation set. Returns padded inputs, the answer span mask and the answers themselves."""
+PLACEMENT = ('far', 'near')
+
+
+def make(n_items, n_filler, kind='repeat', seed=0, corpus=None, placement='far'):
+    """Build an evaluation set. Returns padded inputs, the answer span mask and the answers themselves.
+
+    `placement` selects which of two conditions of IDENTICAL sequence length is built:
+
+      far  (the measurement) fact, filler, question  - the fact-to-question distance is `n_filler`
+      near (the control)     filler, fact, question  - the distance is zero, the length is unchanged
+
+    The control exists because M1's two decisive evaluation points are longer than the model's training length:
+    565 bytes at filler 512 (1.10x of 512) and 2101 at filler 2048 (4.10x). Without it a zero at `far` confounds
+    "cannot carry information across the distance" with "cannot process a sequence this long at any distance".
+    With it the two separate: failing `far` while passing `near` is a memory result; failing both is a length
+    result and says nothing about the gate. The same seed draws the same keys, values and filler for both, so the
+    conditions are paired and differ in exactly one thing - where the fact sits.
+    """
     if kind not in KIND:
         raise ValueError('kind must be one of ' + ', '.join(KIND))
+    if placement not in PLACEMENT:
+        raise ValueError('placement must be one of ' + ', '.join(PLACEMENT))
     rng = np.random.default_rng(seed)
-    rows, answers, keys = [], [], []
+    rows, answers, keys, distances = [], [], [], []
     seen = set()
     for _ in range(n_items):
         while True:
@@ -65,7 +83,8 @@ def make(n_items, n_filler, kind='repeat', seed=0, corpus=None):
         prefix = b'The code for ' + key + b' is ' + value + b'.\n'
         middle = filler_bytes(kind, n_filler, rng, corpus)
         query = b'\nThe code for ' + key + b' is '
-        rows.append(prefix + middle + query)
+        rows.append(prefix + middle + query if placement == 'far' else middle + prefix + query)
+        distances.append(len(middle) if placement == 'far' else 0)
         answers.append(value); keys.append(key.decode('ascii'))
     width = max(len(r) for r in rows) + len(answers[0])
     x = np.zeros((n_items, width), dtype=np.int64)
@@ -81,7 +100,7 @@ def make(n_items, n_filler, kind='repeat', seed=0, corpus=None):
         mask[i, width - len(value) - 1:width - 1] = True   # positions whose NEXT byte is an answer byte
     return dict(x=torch.from_numpy(x), y=torch.from_numpy(y), mask=torch.from_numpy(mask),
                 answers=[a.decode('ascii') for a in answers], answers_keys=keys,
-                n_filler=n_filler, kind=kind, width=width)
+                n_filler=n_filler, kind=kind, width=width, placement=placement, distances=distances)
 
 
 @torch.no_grad()

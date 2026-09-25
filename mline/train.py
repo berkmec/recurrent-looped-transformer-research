@@ -30,10 +30,12 @@ from horizon import guards as gu
 from horizon import sweep as sw
 from mline import data as md
 from mline import lm as ml
+from mline import analyze as ma
 from mline import needle as nd
 
 ROOT = Path(__file__).resolve().parents[1]
-SOURCES = ('core/model.py', 'horizon/gated.py', 'horizon/guards.py', 'mline/lm.py', 'mline/data.py', 'mline/needle.py', 'mline/train.py')
+SOURCES = ('core/model.py', 'horizon/gated.py', 'horizon/guards.py', 'mline/lm.py', 'mline/data.py',
+           'mline/needle.py', 'mline/train.py', 'mline/analyze.py')
 DATA = os.environ.get('MLINE_DATA', 'E:/rlt-research/mline-data/cnn-bytes')
 
 
@@ -46,9 +48,33 @@ def protocol():
                 validation_every=250, validation_batches=24, data=DATA, vocabulary=ml.VOCAB,
                 needle_train_rate=.125, needle_train_filler=(0, 64),
                 needle_filler=[0, 128, 512, 2048], needle_kinds=['repeat', 'text'], needle_items=64, needle_batch=4,
+                needle_placements=['far', 'near'], long_filler=[512, 2048],
                 device='cuda', dtype='float32',
                 selection='minimum validation bits per byte; earliest step on ties',
                 targets=dict(bpb_regression=.02, needle_gain=.05),
+                # The pre-registration lives HERE, inside `protocol`, so `protocol_hash` covers it and
+                # `verify_frozen` refuses any post-hoc edit. For U4-sep2 the thresholds were fixed in advance but
+                # only in a gitignored ledger that I could rewrite at any time and that carries no independent
+                # date; that is a promise, not a record. `mline/analyze.py` is in SOURCES for the same reason, so
+                # the sealed evidence pins the SCORING RULE and not merely the numbers it happens to read.
+                preregistration=dict(
+                    thresholds=dict(ma.THRESHOLDS),
+                    statuses=list(ma.STATUSES),
+                    predictions=dict(
+                        a='hard_st costs no language ability: its bits per byte is within 0.02 of plain',
+                        b='hard_st beats plain on needle exact match by more than 0.05 at BOTH long fillers, '
+                          '512 and 2048, in the far placement',
+                        c='soft stays below hard_st at both long fillers, because language state carries contents '
+                          'the way the toy `stack` task did and U2c measured soft mixing leaking on that kind of '
+                          'state; recorded as a prediction about WHY, and it does not change the status'),
+                    falsification='if (b) fails while the length-matched near control shows the arms CAN process '
+                                  'sequences of that length, the gate is a property of the toy setting and the '
+                                  'M-line stops at rung one',
+                    registered_before='every M1 arm: at freeze time no condition directory exists, which the '
+                                      'manifest frozen_utc and the empty output directory both witness. The only '
+                                      '30M training in flight is the M0 emergence probe, whose recorded role is '
+                                      'budget sizing and which is excluded from evidence about the gate; its '
+                                      'thresholds are not derived from any probe measurement.'),
                 note='fp32 on purpose (B2: fp16 re-encoding is not bit-identical and the arms must be comparable); '
                      'the three arms share identical core weights at initialisation, verified by tests/test_mline.py. '
                      'batch 32 is the measured optimum on this card (2.70x the throughput of batch 8; batch 48 spills '
@@ -173,13 +199,20 @@ def needle_suite(model, p, device):
     out = {}
     for kind in p['needle_kinds']:
         for n in p['needle_filler']:
-            seen['holds'] = []
-            items = nd.make(p['needle_items'], n_filler=n, kind=kind, seed=4242 + n + (0 if kind == 'repeat' else 7),
-                            corpus=corpus if kind == 'text' else None)
-            score = nd.score(forward, items, batch=p['needle_batch'], device=device)
-            holds = seen.get('holds') or []
-            score['hold_rate'] = (sum(holds) / len(holds)) if holds else None
-            out[f'{kind}@{n}'] = score
+            for placement in p.get('needle_placements', ['far']):
+                # `near` is the length-matched control: same sequence width, fact next to the question. At filler 0
+                # there is no filler to move, so the two conditions are the same sequence and one of them is skipped.
+                if placement == 'near' and n == 0:
+                    continue
+                seen['holds'] = []
+                items = nd.make(p['needle_items'], n_filler=n, kind=kind,
+                                seed=4242 + n + (0 if kind == 'repeat' else 7),
+                                corpus=corpus if kind == 'text' else None, placement=placement)
+                score = nd.score(forward, items, batch=p['needle_batch'], device=device)
+                holds = seen.get('holds') or []
+                score['hold_rate'] = (sum(holds) / len(holds)) if holds else None
+                score['placement'] = placement
+                out[f'{kind}@{n}' + ('' if placement == 'far' else '@' + placement)] = score
     return out
 
 
@@ -277,8 +310,8 @@ def main():
         r = run_one(args.out, c, args.device)
         n = r['needle']
         print(ident(c), 'val bpb %.3f' % r['selected_validation']['bits_per_byte'],
-              '| needle repeat', json.dumps({k.split('@')[1]: round(v['exact_match'], 3) for k, v in n.items() if k.startswith('repeat')}),
-              '| text', json.dumps({k.split('@')[1]: round(v['exact_match'], 3) for k, v in n.items() if k.startswith('text')}),
+              '| needle repeat', json.dumps({k.split('@', 1)[1]: round(v['exact_match'], 3) for k, v in n.items() if k.startswith('repeat')}),
+              '| text', json.dumps({k.split('@', 1)[1]: round(v['exact_match'], 3) for k, v in n.items() if k.startswith('text')}),
               '| %.0fs' % r['wall_seconds'], flush=True)
 
 

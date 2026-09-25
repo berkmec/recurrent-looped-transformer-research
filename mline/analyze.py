@@ -20,9 +20,30 @@ from pathlib import Path
 
 THRESHOLDS = dict(bpb_regression=.02, needle_gain=.05, long_filler=[512, 2048], measurable_floor=.02)
 
+STATUSES = ('GATE_TRANSFERS', 'GATE_AT_A_COST', 'GATE_DOES_NOT_TRANSFER',
+            'NOT_MEASURABLE_AT_THIS_LENGTH', 'NOT_MEASURABLE_AT_THIS_BUDGET', 'INCOMPLETE')
 
-def _mean_needle(row, n, kinds=('repeat', 'text')):
-    vals = [row['needle'][f'{k}@{n}'] for k in kinds if f'{k}@{n}' in row['needle']]
+MEANING = dict(
+    GATE_TRANSFERS='the exact-preservation gate helps at 30M on real text and costs no language ability: the toy '
+                   'result transfers and the M-line has a rung to build on',
+    GATE_AT_A_COST='the gate improves the needle but costs bits per byte; a trade-off, not a free win',
+    GATE_DOES_NOT_TRANSFER='no needle gain at 30M, on sequences the length-matched control shows the arms CAN '
+                           'process: the gate is a property of the toy setting and the M-line stops at rung one',
+    NOT_MEASURABLE_AT_THIS_LENGTH='no arm clears the floor even in the length-matched control, where the fact sits '
+                                  'next to the question; the sequence length defeated every arm at any distance, so '
+                                  'the far scores are not evidence about the gate. The remedy is a longer training '
+                                  'length, not a longer run',
+    NOT_MEASURABLE_AT_THIS_BUDGET='no arm, including the control, does better than the floor at the long fillers, and '
+                                  'no length-matched control was recorded, so this budget could not have detected a '
+                                  'gate benefit either way; the result is about the budget, not about the gate',
+    INCOMPLETE='not all three arms have finished')
+
+assert set(MEANING) == set(STATUSES), 'every outcome the rule can return must be named and explained'
+
+
+def _mean_needle(row, n, kinds=('repeat', 'text'), placement='far'):
+    suffix = '' if placement == 'far' else '@' + placement
+    vals = [row['needle'][f'{k}@{n}{suffix}'] for k in kinds if f'{k}@{n}{suffix}' in row['needle']]
     return sum(vals) / len(vals) if vals else None
 
 
@@ -30,7 +51,7 @@ def verdict(arms, seeds=1, thresholds=None):
     """`arms` maps arm name -> {bits_per_byte, needle: {kind@N: exact_match}}."""
     t = dict(THRESHOLDS, **(thresholds or {}))
     if not {'plain', 'hard_st', 'soft'} <= set(arms):
-        return dict(status='INCOMPLETE', meaning='not all three arms have finished', arms=sorted(arms), provisional=True)
+        return dict(status='INCOMPLETE', meaning=MEANING['INCOMPLETE'], arms=sorted(arms), provisional=True)
     plain, hard, soft = arms['plain'], arms['hard_st'], arms['soft']
     bpb_cost = hard['bits_per_byte'] - plain['bits_per_byte']
     gains = {n: (_mean_needle(hard, n) - _mean_needle(plain, n)) for n in t['long_filler']}
@@ -40,8 +61,21 @@ def verdict(arms, seeds=1, thresholds=None):
     # If no arm can do the task at the long fillers, the comparison has no resolution: a gate that helps would be
     # invisible. Reporting that as GATE_DOES_NOT_TRANSFER converts "we could not measure it" into "it does not work",
     # which is the error an INTERVENTION_INEFFECTIVE branch caught twice in the two preceding cycles.
-    at_floor = all(max(_mean_needle(arms[k], n) or 0. for n in t['long_filler']) <= t['measurable_floor'] for k in arms)
-    if at_floor:
+    def at_floor(placement):
+        return all(max(_mean_needle(arms[k], n, placement=placement) or 0. for n in t['long_filler'])
+                   <= t['measurable_floor'] for k in arms)
+
+    # Both decisive fillers put the model on sequences LONGER than it was trained on - 1.10x at 512 and 4.10x at
+    # 2048 - so a zero there has two possible causes. The length-matched `near` control holds the width fixed and
+    # moves the fact next to the question: if no arm can do it even at distance zero, the sequence length defeated
+    # them and the far score is not evidence about memory. This distinction is prior to the budget floor, because
+    # the two call for different remedies: more steps cannot fix a length the model cannot process.
+    near_available = all(_mean_needle(arms[k], n, placement='near') is not None for k in arms for n in t['long_filler'])
+    far_floor = at_floor('far')
+    near_floor = near_available and at_floor('near')
+    if far_floor and near_floor:
+        status = 'NOT_MEASURABLE_AT_THIS_LENGTH'
+    elif far_floor and not near_available:
         status = 'NOT_MEASURABLE_AT_THIS_BUDGET'
     elif not b:
         status = 'GATE_DOES_NOT_TRANSFER'
@@ -55,22 +89,22 @@ def verdict(arms, seeds=1, thresholds=None):
                      'motivated prediction (c); the reason for the gate working would then be different from the one assumed')
     if seeds < 2:
         notes.append('single seed: this is a first look, not a replicated result')
+    if not near_available:
+        notes.append('no length-matched control was recorded, so a floor result cannot distinguish "the distance '
+                     'defeated the model" from "the sequence length did"; the budget branch is used instead')
+    elif far_floor and not near_floor:
+        notes.append('the arms score above the floor at distance zero and at the floor across the filler, at the '
+                     'SAME sequence length: the failure is about distance, not about length')
     return dict(status=status, thresholds=t, provisional=seeds < 2, seeds=seeds,
                 prediction_a_no_bpb_cost=a, prediction_b_needle_gain=b, prediction_c_soft_below_hard=soft_below,
                 bits_per_byte={k: v['bits_per_byte'] for k, v in arms.items()}, bpb_cost_of_gate=bpb_cost,
                 needle_gain_over_plain=gains,
                 needle_by_arm={k: {str(n): _mean_needle(v, n) for n in t['long_filler']} for k, v in arms.items()},
+                needle_near_by_arm={k: {str(n): _mean_needle(v, n, placement='near') for n in t['long_filler']}
+                                    for k, v in arms.items()},
+                length_control=dict(available=near_available, far_at_floor=far_floor, near_at_floor=near_floor),
                 notes='; '.join(notes) or 'none',
-                meaning=dict(
-                    GATE_TRANSFERS='the exact-preservation gate helps at 30M on real text and costs no language ability: '
-                                   'the toy result transfers and the M-line has a rung to build on',
-                    GATE_AT_A_COST='the gate improves the needle but costs bits per byte; a trade-off, not a free win',
-                    GATE_DOES_NOT_TRANSFER='no needle gain at 30M: the gate is a property of the toy setting and the '
-                                           'M-line stops at rung one',
-                    NOT_MEASURABLE_AT_THIS_BUDGET='no arm, including the control, does better than the floor at the long '
-                                                  'fillers, so this budget could not have detected a gate benefit either '
-                                                  'way; the result is about the budget, not about the gate',
-                    INCOMPLETE='not all three arms have finished')[status])
+                meaning=MEANING[status])
 
 
 def collect(out):
