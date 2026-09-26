@@ -72,6 +72,15 @@ def run(out, arm='plain', steps=6000, batch=32, every=250, device='cuda', seed=1
         if resume['optimizer'] is not None:
             opt.load_state_dict(resume['optimizer'])
         start = int(resume['step']) + 1
+        # Truncate the log to the checkpoint, as mline/train.py does. Without this a resume APPENDS rows for
+        # steps already written: measured on the padded control, where a restart left 7 duplicate rows. They were
+        # byte-identical reruns - same input_hash, loss equal to 0.00e+00 - so nothing was wrong with the resume
+        # itself, but a record carrying duplicate steps is no longer a clean record.
+        log = out / 'probe.jsonl'
+        if log.exists():
+            kept = [line for line in log.read_text(encoding='utf8').splitlines()
+                    if line.strip() and json.loads(line)['step'] <= resume['step']]
+            log.write_text((chr(10).join(kept) + chr(10)) if kept else '', encoding='utf8')
         print('resuming from step %d' % resume['step'], flush=True)
     t0 = time.perf_counter()
     for step in range(start, steps + 1):
