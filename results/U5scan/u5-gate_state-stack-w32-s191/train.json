@@ -1,0 +1,34 @@
+{
+ "condition": {
+  "arm": "gate_state",
+  "heads": 2,
+  "lr": 0.003,
+  "seed": 191,
+  "stage": "u5scan",
+  "task": "stack",
+  "width": 32,
+  "window": 4
+ },
+ "guard": {
+  "clipped": 943,
+  "max_grad_norm_before_clip": 1568001194.1349456,
+  "skip_reasons": {},
+  "skipped": 0,
+  "steps": 2048
+ },
+ "ident": "u5-gate_state-stack-w32-s191",
+ "initial_sha256": "ae8266ddfb493346dee47f99fdf3dbf31c44dd80d0617c9dd039d6a58452ee47",
+ "protocol_hash": "c1a91e64f860bfd5082996e74c767b85c0d2f3e8fd30e3b40a212eeb18c4d304",
+ "selected_sha256": "41b3a5e4d5cb8bc921c4fa8db6f94a06982bb84b5f436a60db909bdc1af2472e",
+ "selected_step": 1664,
+ "selected_validation": {
+  "all_accuracy": 0.954071044921875,
+  "final_accuracy": 0.92578125,
+  "final_loss": 0.13324815034866333,
+  "hold_rate": 0.14752197265625
+ },
+ "steps": 2048,
+ "train_seconds": 1460.7844853006536,
+ "updates_sha256": "ac2cb0b1cfcf405f4dfa3b9751e5bdddf4e50bf3d061e99c220a3db345ce06cc",
+ "wall_seconds": 1491.9789414000115
+}
