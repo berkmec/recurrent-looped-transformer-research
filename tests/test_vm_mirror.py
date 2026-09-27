@@ -58,11 +58,21 @@ class MirrorContractTests(unittest.TestCase):
         self.assertIn("len(rows) >= steps", self.text)
 
     def test_the_mirror_never_targets_the_repository_results(self):
+        """Compared as strings, not through resolve().
+
+        The puller is a tool for the machine that HOLDS the mirror, and its default is a Windows path. On Linux -
+        where the suite also runs, because the code is synced to the VM - Path('E:/...').resolve() treats it as
+        RELATIVE and glues it under the repository root, so the check failed on the VM while the real property was
+        never in doubt. That was a portability bug in the test, not a defect in the mirror.
+        """
+        import re
         module = self.api()
-        default = Path(module.DEFAULT_MIRROR).resolve()
-        self.assertNotEqual(default, (ROOT / 'results').resolve())
-        self.assertFalse(str(default).startswith(str(ROOT.resolve())),
+        default = module.DEFAULT_MIRROR.replace(chr(92), '/')
+        self.assertRegex(default, r'^([A-Za-z]:/|/)', 'the mirror default must be an absolute path')
+        repo = ROOT.as_posix()
+        self.assertFalse(default == repo or default.startswith(repo + '/'),
                          'the mirror must live outside the repo, or a sync could overwrite sealed evidence')
+        self.assertNotIn('/results', default, 'and it must never be the results directory itself')
 
     def test_a_dead_vm_does_not_kill_the_mirror_process(self):
         """The failure this exists for is the VM disappearing; the puller must survive it and say so."""

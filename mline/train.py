@@ -44,7 +44,15 @@ def protocol():
     return dict(version=1,
                 purpose='M1: does the exact-preservation gate, the one result replicated across 3 seeds x 2 task families x 2 '
                         'learning rates on the toy automata, still help at 30M on real text?',
-                arms=list(ml.ARMS), seeds=[117], width=1152, heads=8, window=4, alpha=.1, gate_k=2,
+                # `soft` is dropped for budget: it costs about 10.4 GPU-hours (~176 TL at the measured 16.5
+                # TL/hour) and answers prediction (c), which this pre-registration itself calls "recorded but
+                # does not change the status". plain and hard_st answer whether the gate transfers; soft would
+                # only have spoken to why. The cost is stated in `dropped_arms` rather than left implicit.
+                arms=['plain', 'hard_st'],
+                dropped_arms=dict(soft='budget: ~10.4 GPU-hours. It tests prediction (c), which does not change '
+                                       'the status. Consequence: prediction (c) is NOT MEASURED in this run, so a '
+                                       'GATE_TRANSFERS verdict here carries no evidence about the mechanism.'),
+                seeds=[117], width=1152, heads=8, window=4, alpha=.1, gate_k=2,
                 steps=4000, batch=32, length=512, lr=.0006, weight_decay=.01, clip=1.,
                 validation_every=250, validation_batches=24, data=DATA, vocabulary=ml.VOCAB,
                 needle_train_rate=.125, needle_train_filler=(0, 64),

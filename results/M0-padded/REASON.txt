@@ -1,0 +1,36 @@
+RUN IS COMPLETE: 5000 OF 5000 STEPS. NOT QUARANTINED, NOT INTERRUPTED.
+
+This file previously said the run had been stopped at step 3358. That was true when written and is no longer
+true: the run was resumed from its checkpoint at the user's instruction ("is yarida kalmasin") and carried to
+the full 5000 steps. The original note is preserved at the bottom rather than deleted, because a record that
+quietly changes its own history is not a record. The header is corrected because a REASON.txt next to a
+finished run would tell a future reader it was quarantined, which would be false.
+
+WHAT THIS ARM IS. The PADDED CONTROL of the packing comparison: same machine, same seed, same protocol as
+results/M0-packed, differing in exactly one term - needle training rows are padded to the training width
+instead of being filled with further examples.
+
+WHAT IT MEASURED, OVER THE FULL RUN. exact_match 0.0000 on the TRAINING distribution at every logged step,
+while the packed treatment reaches 0.0625 at step 750 and 1.0000 from step 1500 on. Language modelling is
+indistinguishable across the matched span - bits per byte 2.260 to 1.716 against 2.293 to 1.722 - which is
+what makes the needle difference attributable to the one changed term rather than to training health. The
+1642 steps added after the resume are flat zero throughout, so the extra evidence changes no conclusion; it
+removes the objection that the control was stopped before it had a chance.
+
+ONE DEFECT, RECORDED. The first stop attempt used a pkill pattern that also matched the SSH command carrying
+that same text, so it killed my own session; the pipeline retry loop then restarted the probe from its
+step-3250 checkpoint. That left 7 duplicate rows, steps 3251 to 3257, in probe.jsonl. They are preserved
+whole in probe.jsonl.with-duplicates and removed from probe.jsonl with the first occurrence retained.
+
+The duplicates became an accidental verification. Every duplicated pair carries the same input_hash and the
+same loss to 0.00e+00, one pair differing by 1.19e-07 in float32. The resume reproduced those steps exactly -
+the property tests/test_m1_resume.py asserts for the M1 runner, not previously observed outside a test.
+
+SEPARATELY, FIXED AT SOURCE. mline/emergence.py resumed without truncating its log, unlike mline/train.py.
+That is the cause of the duplicates and is fixed in the module, not only papered over here.
+
+--- SUPERSEDED TEXT, AS WRITTEN AT STEP 3358 ---
+STOPPED DELIBERATELY AT 3358 OF 5000 - COMPLETE AS EVIDENCE, NOT INTERRUPTED BY FAILURE. The pair had already
+answered its question over 13 matched measurements, steps 250 to 3250, 4.1 to 53.2 MB. A further 1642 steps of
+flat zero adds no information. WHY NOW: the budget is the constraint on a later TPU rather than on this GPU. At
+the measured 16.5 TL/hour the remaining 3.7 hours cost about 61 TL and buy nothing.

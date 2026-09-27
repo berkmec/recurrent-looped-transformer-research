@@ -64,15 +64,20 @@ def _required_gain(t, items, plain_p, hard_p):
 def verdict(arms, seeds=1, thresholds=None, items=None):
     """`arms` maps arm name -> {bits_per_byte, needle: {kind@N: exact_match}}."""
     t = dict(THRESHOLDS, **(thresholds or {}))
-    if not {'plain', 'hard_st', 'soft'} <= set(arms):
+    # `soft` became optional when it was dropped from M1 for budget. It only ever served prediction (c), which
+    # this rule has always treated as recorded-but-not-status-changing, so its absence must not read as INCOMPLETE
+    # - that would report a missing arm as a missing result.
+    if not {'plain', 'hard_st'} <= set(arms):
         return dict(status='INCOMPLETE', meaning=MEANING['INCOMPLETE'], arms=sorted(arms), provisional=True)
-    plain, hard, soft = arms['plain'], arms['hard_st'], arms['soft']
+    plain, hard = arms['plain'], arms['hard_st']
+    soft = arms.get('soft')
     bpb_cost = hard['bits_per_byte'] - plain['bits_per_byte']
     items = items or t['items']
     gains = {n: (_mean_needle(hard, n) - _mean_needle(plain, n)) for n in t['long_filler']}
     required = {n: _required_gain(t, items, _mean_needle(plain, n) or 0., _mean_needle(hard, n) or 0.)
                 for n in t['long_filler']}
-    soft_below = all(_mean_needle(soft, n) < _mean_needle(hard, n) for n in t['long_filler'])
+    soft_below = (None if soft is None
+                  else all(_mean_needle(soft, n) < _mean_needle(hard, n) for n in t['long_filler']))
     a = bpb_cost <= t['bpb_regression']
     b = all(g > required[n] for n, g in gains.items())
     # If no arm can do the task at the long fillers, the comparison has no resolution: a gate that helps would be
@@ -101,7 +106,10 @@ def verdict(arms, seeds=1, thresholds=None, items=None):
     else:
         status = 'GATE_TRANSFERS'
     notes = []
-    if not soft_below:
+    if soft_below is None:
+        notes.append('prediction (c) is NOT MEASURED: the soft arm was dropped from this run for budget, so '
+                     'nothing here speaks to WHY the gate would work, only to whether it transfers')
+    elif not soft_below:
         notes.append('soft matched or beat hard_st on a long filler, which contradicts the U2c stack result that '
                      'motivated prediction (c); the reason for the gate working would then be different from the one assumed')
     if seeds < 2:

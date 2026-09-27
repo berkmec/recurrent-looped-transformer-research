@@ -1,0 +1,95 @@
+{
+ "kind": "U5SCAN_LR",
+ "learned_by_arm_and_lr": {
+  "gate_input@0.0003": 1,
+  "gate_input@0.001": 1,
+  "gate_input@0.003": 0,
+  "gate_state@0.0003": 1,
+  "gate_state@0.001": 1,
+  "gate_state@0.003": 1
+ },
+ "protocol_hash": "702d221e606ff337a669ddf37ce3bbd7e515649148a365b0d75fab2a3b1c1868",
+ "question": "is the input-only gate collapse at five/s143 a learning-rate phenomenon? A rate at which the input-only arm trains means the gate is not broken, it is rate-sensitive, which is the pattern this campaign has already measured three times.",
+ "rows": {
+  "u5-gate_input-five-w32-s143": {
+   "accuracy": 0.19599999487400055,
+   "arm": "gate_input",
+   "ceiling": 1.0,
+   "clean4096": 0.20999999344348907,
+   "hold_rate": 0.9114187359809875,
+   "lr": 0.003,
+   "none": 0.37400001287460327,
+   "repair": -28.434508252625058,
+   "seed": 143,
+   "task": "five",
+   "validation": 0.23046875
+  },
+  "u5-gate_input-five-w32-s143-lr0.0003": {
+   "accuracy": 0.18199999630451202,
+   "arm": "gate_input",
+   "ceiling": 1.0,
+   "clean4096": 0.19599999487400055,
+   "hold_rate": 0.649496853351593,
+   "lr": 0.0003,
+   "none": 0.37400001287460327,
+   "repair": -30.67092979534373,
+   "seed": 143,
+   "task": "five",
+   "validation": 1.0
+  },
+  "u5-gate_input-five-w32-s143-lr0.001": {
+   "accuracy": 0.9980000257492065,
+   "arm": "gate_input",
+   "ceiling": 1.0,
+   "clean4096": 0.7360000014305115,
+   "hold_rate": 0.8249218463897705,
+   "lr": 0.001,
+   "none": 0.37400001287460327,
+   "repair": 99.68051528882974,
+   "seed": 143,
+   "task": "five",
+   "validation": 0.99609375
+  },
+  "u5-gate_state-five-w32-s143": {
+   "accuracy": 0.8980000019073486,
+   "arm": "gate_state",
+   "ceiling": 1.0,
+   "clean4096": 1.0,
+   "hold_rate": 0.8766093850135803,
+   "lr": 0.003,
+   "none": 0.37400001287460327,
+   "repair": 83.70607025711978,
+   "seed": 143,
+   "task": "five",
+   "validation": 1.0
+  },
+  "u5-gate_state-five-w32-s143-lr0.0003": {
+   "accuracy": 0.7960000038146973,
+   "arm": "gate_state",
+   "ceiling": 1.0,
+   "clean4096": 0.35600000619888306,
+   "hold_rate": 0.8240156173706055,
+   "lr": 0.0003,
+   "none": 0.37400001287460327,
+   "repair": 67.41214051423955,
+   "seed": 143,
+   "task": "five",
+   "validation": 1.0
+  },
+  "u5-gate_state-five-w32-s143-lr0.001": {
+   "accuracy": 0.7839999794960022,
+   "arm": "gate_state",
+   "ceiling": 1.0,
+   "clean4096": 0.17000000178813934,
+   "hold_rate": 0.858440637588501,
+   "lr": 0.001,
+   "none": 0.37400001287460327,
+   "repair": 65.49520368269114,
+   "seed": 143,
+   "task": "five",
+   "validation": 1.0
+  }
+ },
+ "source_drift": [],
+ "utc": 1790440500.9353018
+}

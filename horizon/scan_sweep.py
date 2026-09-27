@@ -75,13 +75,22 @@ def gate_input_of(arm):
 
 
 def conditions(p):
+    """Arms x tasks x seeds, and optionally x learning rates.
+
+    `lrs` is absent from the base protocol, so U5scan's twelve conditions and their idents are untouched. When it
+    is present, a condition at a rate other than the protocol's own carries a suffix - which keeps the directory
+    names of an existing cycle stable while a new one varies the axis that decided the solution family three times
+    in this campaign's history.
+    """
+    rates = list(p.get('lrs') or [p['lr']])
     return [dict(arm=arm, task=task, seed=seed, width=p['width'], heads=p['heads'], window=p['window'],
-                 lr=p['lr'], stage='u5scan')
-            for arm in p['arms'] for task in p['tasks'] for seed in p['primary_seeds']]
+                 lr=lr, stage='u5scan', lr_tag=(None if lr == p['lr'] else 'lr%g' % lr))
+            for arm in p['arms'] for task in p['tasks'] for seed in p['primary_seeds'] for lr in rates]
 
 
 def ident(c):
-    return 'u5-%s-%s-w%d-s%d' % (c['arm'], c['task'], c['width'], c['seed'])
+    base = 'u5-%s-%s-w%d-s%d' % (c['arm'], c['task'], c['width'], c['seed'])
+    return base if not c.get('lr_tag') else base + '-' + c['lr_tag']
 
 
 def make_model(c, p):
@@ -267,7 +276,7 @@ def collect(out):
         none = reference.get(key, {}).get('neutral', {}).get(ENDPOINT, {}).get('final_accuracy')
         top = ceiling.get(key, {}).get('neutral', {}).get(ENDPOINT, {}).get('final_accuracy')
         rows[ident(c)] = dict(
-            arm=c['arm'], task=c['task'], seed=c['seed'],
+            arm=c['arm'], task=c['task'], seed=c['seed'], lr=c['lr'],
             accuracy=e['neutral'][ENDPOINT]['final_accuracy'],
             validation=t['selected_validation']['final_accuracy'],
             clean4096=e['clean']['4096']['final_accuracy'],
@@ -331,6 +340,23 @@ def verdict(rows, thresholds):
                         'nothing; fix the control before reading the treatment.')[status])
 
 
+def lr_report(out):
+    """For the lr axis: did each arm learn at each rate? The question is stability, not repair."""
+    manifest, rows, drift = collect(out)
+    table = sorted(rows.values(), key=lambda r: (r['task'], r['seed'], r['arm'], r['lr']))
+    learned = {}
+    for r in table:
+        learned[(r['arm'], r['lr'])] = learned.get((r['arm'], r['lr']), 0) + int(r['validation'] > .5)
+    report = dict(kind='U5SCAN_LR', utc=time.time(), protocol_hash=manifest['protocol_hash'],
+                  rows=rows, learned_by_arm_and_lr={'%s@%g' % k: v for k, v in sorted(learned.items())},
+                  source_drift=drift,
+                  question='is the input-only gate collapse at five/s143 a learning-rate phenomenon? A rate at '
+                           'which the input-only arm trains means the gate is not broken, it is rate-sensitive, '
+                           'which is the pattern this campaign has already measured three times.')
+    sw.write_json(Path(out, 'lr-report.json'), gs.json_safe(report))
+    return report
+
+
 def analyze(out):
     manifest, rows, drift = collect(out)
     v = verdict(rows, manifest['protocol']['preregistration']['thresholds'])
@@ -355,6 +381,7 @@ def main():
     group = parser.add_mutually_exclusive_group(required=True)
     group.add_argument('--freeze', action='store_true'); group.add_argument('--run-all', action='store_true')
     group.add_argument('--analyze', action='store_true')
+    group.add_argument('--lr-report', action='store_true', dest='lr_report')
     parser.add_argument('--out', default='results/U5scan')
     parser.add_argument('--only', default=None)
     args = parser.parse_args()
@@ -377,6 +404,18 @@ def main():
         if v['collapsed_input_arm']:
             print('  input-only arm failed to learn on:', ', '.join(v['collapsed_input_arm']))
         print('written', Path(args.out, 'analysis.json'))
+        return
+    if args.lr_report:
+        r = lr_report(args.out)
+        print('%-30s %6s %10s %10s %9s' % ('kosul', 'lr', 'dogrulama', 'onarim', 'hold'))
+        for k in sorted(r['rows']):
+            x = r['rows'][k]
+            print('%-30s %6g %10.4f %10s %9s' % (k, x['lr'], x['validation'],
+                                                 ('%.1f' % x['repair']) if x['repair'] is not None else '-',
+                                                 ('%.3f' % x['hold_rate']) if x['hold_rate'] is not None else '-'))
+        print()
+        print('ogrenen kosul sayisi (kol@lr):', r['learned_by_arm_and_lr'])
+        print('written', Path(args.out, 'lr-report.json'))
         return
     m = verify_frozen(args.out)
     wanted = [c for c in conditions(m['protocol']) if args.only in (None, ident(c))]

@@ -99,3 +99,40 @@ class ResolutionTests(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
+
+
+class DroppedSoftArmTests(unittest.TestCase):
+    """`soft` was dropped for budget. That must cost prediction (c) loudly, not silently."""
+
+    def test_the_protocol_records_what_was_dropped_and_why(self):
+        from mline import train as mt
+        p = mt.protocol()
+        self.assertEqual(p['arms'], ['plain', 'hard_st'])
+        self.assertIn('soft', p['dropped_arms'])
+        self.assertIn('NOT MEASURED', p['dropped_arms']['soft'])
+
+    def test_a_missing_soft_arm_is_not_reported_as_an_incomplete_run(self):
+        from mline import analyze as ma
+
+        def arm(far, near=.9):
+            return dict(bits_per_byte=1.5,
+                        needle={f'{k}@{n}': far for k in ('repeat', 'text') for n in (512, 2048)}
+                               | {f'{k}@{n}@near': near for k in ('repeat', 'text') for n in (512, 2048)})
+
+        v = ma.verdict(dict(plain=arm(.10), hard_st=arm(.40)), items=256)
+        self.assertNotEqual(v['status'], 'INCOMPLETE')
+        self.assertIsNone(v['prediction_c_soft_below_hard'])
+        self.assertIn('NOT MEASURED', v['notes'])
+
+    def test_two_arms_still_reach_a_transfer_verdict(self):
+        from mline import analyze as ma
+
+        def arm(bpb, far, near=.9):
+            return dict(bits_per_byte=bpb,
+                        needle={f'{k}@{n}': far for k in ('repeat', 'text') for n in (512, 2048)}
+                               | {f'{k}@{n}@near': near for k in ('repeat', 'text') for n in (512, 2048)})
+
+        self.assertEqual(ma.verdict(dict(plain=arm(1.5, .10), hard_st=arm(1.5, .40)), items=256)['status'],
+                         'GATE_TRANSFERS')
+        self.assertEqual(ma.verdict(dict(plain=arm(1.5, .10), hard_st=arm(1.5, .11)), items=256)['status'],
+                         'GATE_DOES_NOT_TRANSFER')

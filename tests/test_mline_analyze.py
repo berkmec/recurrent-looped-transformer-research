@@ -49,10 +49,26 @@ class M1AnalyzeTests(unittest.TestCase):
         self.assertFalse(v['prediction_c_soft_below_hard'])
         self.assertIn('soft', v['notes'].lower())
 
-    def test_a_missing_arm_gives_no_verdict(self):
+    def test_a_missing_decisive_arm_gives_no_verdict(self):
+        """plain and hard_st are the comparison. Without either, there is nothing to compare."""
+        ua = self.api()
+        for drop in ('plain', 'hard_st'):
+            arms = self.arms(); arms.pop(drop)
+            self.assertEqual(ua.verdict(arms)['status'], 'INCOMPLETE', drop)
+
+    def test_a_missing_soft_arm_does_not_block_the_verdict(self):
+        """Changed deliberately when soft was dropped from M1 for budget.
+
+        soft only ever served prediction (c), which this rule has always treated as recorded-but-not-status-
+        changing. Returning INCOMPLETE for its absence would report a missing ARM as a missing RESULT. What its
+        absence must cost is prediction (c) itself, and the note has to say so.
+        """
         ua = self.api()
         arms = self.arms(); arms.pop('soft')
-        self.assertEqual(ua.verdict(arms)['status'], 'INCOMPLETE')
+        v = ua.verdict(arms)
+        self.assertNotEqual(v['status'], 'INCOMPLETE')
+        self.assertIsNone(v['prediction_c_soft_below_hard'])
+        self.assertIn('not measured', v['notes'].lower())
 
     def test_single_seed_is_marked_provisional(self):
         ua = self.api()

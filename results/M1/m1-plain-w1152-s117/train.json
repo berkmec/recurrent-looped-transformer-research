@@ -1,0 +1,183 @@
+{
+ "condition": {
+  "arm": "plain",
+  "heads": 8,
+  "seed": 117,
+  "stage": "m1",
+  "width": 1152
+ },
+ "guard": {
+  "clipped": 30,
+  "max_grad_norm_before_clip": 14.89440669003125,
+  "skip_reasons": {},
+  "skipped": 0,
+  "steps": 4000
+ },
+ "ident": "m1-plain-w1152-s117",
+ "needle": {
+  "repeat@0": {
+   "byte_accuracy": 0.6474609375,
+   "exact_match": 0.38671875,
+   "hold_rate": null,
+   "items": 256,
+   "kind": "repeat",
+   "n_filler": 0,
+   "placement": "far",
+   "width": 53
+  },
+  "repeat@128": {
+   "byte_accuracy": 0.04296875,
+   "exact_match": 0.0,
+   "hold_rate": null,
+   "items": 256,
+   "kind": "repeat",
+   "n_filler": 128,
+   "placement": "far",
+   "width": 181
+  },
+  "repeat@128@near": {
+   "byte_accuracy": 0.4951171875,
+   "exact_match": 0.1875,
+   "hold_rate": null,
+   "items": 256,
+   "kind": "repeat",
+   "n_filler": 128,
+   "placement": "near",
+   "width": 181
+  },
+  "repeat@2048": {
+   "byte_accuracy": 0.0244140625,
+   "exact_match": 0.0,
+   "hold_rate": null,
+   "items": 256,
+   "kind": "repeat",
+   "n_filler": 2048,
+   "placement": "far",
+   "width": 2101
+  },
+  "repeat@2048@near": {
+   "byte_accuracy": 0.1005859375,
+   "exact_match": 0.0,
+   "hold_rate": null,
+   "items": 256,
+   "kind": "repeat",
+   "n_filler": 2048,
+   "placement": "near",
+   "width": 2101
+  },
+  "repeat@512": {
+   "byte_accuracy": 0.0556640625,
+   "exact_match": 0.0,
+   "hold_rate": null,
+   "items": 256,
+   "kind": "repeat",
+   "n_filler": 512,
+   "placement": "far",
+   "width": 565
+  },
+  "repeat@512@near": {
+   "byte_accuracy": 0.4951171875,
+   "exact_match": 0.15234375,
+   "hold_rate": null,
+   "items": 256,
+   "kind": "repeat",
+   "n_filler": 512,
+   "placement": "near",
+   "width": 565
+  },
+  "text@0": {
+   "byte_accuracy": 0.6494140625,
+   "exact_match": 0.3828125,
+   "hold_rate": null,
+   "items": 256,
+   "kind": "text",
+   "n_filler": 0,
+   "placement": "far",
+   "width": 53
+  },
+  "text@128": {
+   "byte_accuracy": 0.021484375,
+   "exact_match": 0.0,
+   "hold_rate": null,
+   "items": 256,
+   "kind": "text",
+   "n_filler": 128,
+   "placement": "far",
+   "width": 181
+  },
+  "text@128@near": {
+   "byte_accuracy": 0.1279296875,
+   "exact_match": 0.0,
+   "hold_rate": null,
+   "items": 256,
+   "kind": "text",
+   "n_filler": 128,
+   "placement": "near",
+   "width": 181
+  },
+  "text@2048": {
+   "byte_accuracy": 0.0224609375,
+   "exact_match": 0.0,
+   "hold_rate": null,
+   "items": 256,
+   "kind": "text",
+   "n_filler": 2048,
+   "placement": "far",
+   "width": 2101
+  },
+  "text@2048@near": {
+   "byte_accuracy": 0.02734375,
+   "exact_match": 0.0,
+   "hold_rate": null,
+   "items": 256,
+   "kind": "text",
+   "n_filler": 2048,
+   "placement": "near",
+   "width": 2101
+  },
+  "text@512": {
+   "byte_accuracy": 0.025390625,
+   "exact_match": 0.0,
+   "hold_rate": null,
+   "items": 256,
+   "kind": "text",
+   "n_filler": 512,
+   "placement": "far",
+   "width": 565
+  },
+  "text@512@near": {
+   "byte_accuracy": 0.0751953125,
+   "exact_match": 0.0,
+   "hold_rate": null,
+   "items": 256,
+   "kind": "text",
+   "n_filler": 512,
+   "placement": "near",
+   "width": 565
+  }
+ },
+ "parameters": {
+  "core": 31131904,
+  "embedding": 294912,
+  "gate": 0,
+  "heads": 8,
+  "readout": 295168,
+  "total": 31131904,
+  "vocabulary": 256,
+  "width": 1152
+ },
+ "protocol_hash": "9da7da584641ff0e2514cd31195116d0c313a5cb4cb68e9bfcbbba0f4863f48d",
+ "resumed_from": 1500,
+ "selected_sha256": "cbae11951e38b96dc5282cf7966619cd21f5af95a78a829a4bc6c39f63d82c69",
+ "selected_step": 4000,
+ "selected_validation": {
+  "batches": 24,
+  "bits_per_byte": 1.7049428433846676,
+  "hold_rate": null,
+  "loss": 1.1817763249079387
+ },
+ "steps": 4000,
+ "train_seconds": 31364.211786944277,
+ "updates_sha256": "6e053bbdaddd5e4a59cb0be8b21a85bc1df889514490d64bdb4197a83eed3ff6",
+ "wall_seconds": 20189.376666680997
+}
