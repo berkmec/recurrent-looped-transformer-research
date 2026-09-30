@@ -31,14 +31,47 @@ from mline import train as mt
 ROLE = 'development probe: sizes the training budget, never used as evidence about the gate'
 
 
+def load_init(model, path):
+    """Start a run from saved weights: a bare state dict (selected.pt) or a training payload (latest.pt).
+
+    Strict on purpose: a checkpoint that does not match the model must fail loudly, never half-load, because a
+    fine-tune that starts anywhere but the saved weights is a different experiment. Returns the file's sha256 so the
+    record can say exactly which weights it began from.
+    """
+    state = torch.load(path, weights_only=True)
+    if isinstance(state, dict) and 'format' in state and 'model' in state:
+        state = state['model']
+    # Validate BEFORE loading: torch copies the tensors that do match before it raises on the ones that do not, so a
+    # checkpoint from a different width would leave the model half-overwritten behind a loud error.
+    have = model.state_dict()
+    missing = sorted(set(have) - set(state)); extra = sorted(set(state) - set(have))
+    wrong = sorted(k for k in have if k in state and have[k].shape != state[k].shape)
+    if missing or extra or wrong:
+        raise RuntimeError('checkpoint does not match the model: missing %s, unexpected %s, wrong shape %s'
+                           % (missing[:3], extra[:3], wrong[:3]))
+    model.load_state_dict(state)
+    return sw.sha(path)
+
+
+def parse_range(text):
+    parts = text.split(',')
+    if len(parts) != 2:
+        raise ValueError('a range is two integers, LOW,HIGH')
+    lo, hi = int(parts[0]), int(parts[1])
+    if lo < 0 or hi < lo:
+        raise ValueError('a range needs 0 <= LOW <= HIGH')
+    return lo, hi
+
+
 def run(out, arm='plain', steps=6000, batch=32, every=250, device='cuda', seed=117, needle_rate=.125,
-        train_filler=(0, 64), pack=True):
+        train_filler=(0, 64), pack=True, lr=None, init_from=None):
     out = Path(out); out.mkdir(parents=True, exist_ok=True)
     p = mt.protocol()
     train = md.load(p['data'], 'train')
     corpus = md.load(p['data'], 'validation')
     model = ml.build(arm, width=p['width'], heads=p['heads'], window=p['window'], alpha=p['alpha'], seed=seed, gate_k=p['gate_k']).to(device)
-    opt = torch.optim.AdamW(model.parameters(), lr=p['lr'], weight_decay=p['weight_decay'])
+    lr = p['lr'] if lr is None else lr
+    opt = torch.optim.AdamW(model.parameters(), lr=lr, weight_decay=p['weight_decay'])
     counter = gu.GuardCounter()
     probes = {n: nd.make(48, n_filler=n, kind='repeat', seed=777 + n) for n in (0, 128, 512)}
     probes['text@512'] = nd.make(48, n_filler=512, kind='text', seed=999, corpus=corpus)
@@ -50,7 +83,7 @@ def run(out, arm='plain', steps=6000, batch=32, every=250, device='cuda', seed=1
     probes['train@32'] = nd.make(48, n_filler=32, kind='repeat', seed=555, alphabet=nd.TRAIN_KEYS)
     needles_per_batch = max(1, round(batch * needle_rate)) if needle_rate > 0 else 0
     header = dict(role=ROLE, arm=arm, steps=steps, batch=batch, length=p['length'], width=p['width'],
-                  lr=p['lr'], seed=seed, bytes_per_step=batch * p['length'], utc=time.time(),
+                  lr=lr, seed=seed, bytes_per_step=batch * p['length'], utc=time.time(),
                   needle_rate=needle_rate, needles_per_batch=needles_per_batch, train_filler=list(train_filler),
                   pack=pack,
                   arm_note='pack=True fills each needle row with as many examples as fit; pack=False leaves the '
@@ -60,6 +93,8 @@ def run(out, arm='plain', steps=6000, batch=32, every=250, device='cuda', seed=1
                   design='the needle FORMAT is taught at short filler; the evaluation uses fillers never seen, so what '
                          'has to generalise is the DISTANCE - the U1 shape (trained at 128, tested to 4096) in language. '
                          'Training and evaluation key alphabets are disjoint, so no evaluation key can be memorised.')
+    header.update(init_from=None if init_from is None else str(init_from),
+                  init_sha256=sw.sha(init_from) if init_from is not None else None)
     sw.write_json(out / 'probe.json', header)
     print(json.dumps(header), flush=True)
     # Resumable for the same reason the M1 runner is: the batch at step N depends only on (seed, step), so a
@@ -67,6 +102,9 @@ def run(out, arm='plain', steps=6000, batch=32, every=250, device='cuda', seed=1
     # long enough that losing it to a reboot is a real cost, and the first one was lost exactly that way.
     resume = ck.load_latest(out)
     start = 1
+    if init_from is not None and (resume is None or resume['step'] is None):
+        load_init(model, init_from)
+        print('initialised from %s' % init_from, flush=True)
     if resume is not None and resume['step'] is not None:
         model.load_state_dict(resume['model'])
         if resume['optimizer'] is not None:
@@ -124,12 +162,15 @@ def main():
     parser.add_argument('--batch', type=int, default=32); parser.add_argument('--every', type=int, default=250)
     parser.add_argument('--device', default='cuda'); parser.add_argument('--seed', type=int, default=117)
     parser.add_argument('--needle-rate', type=float, default=.125)
+    parser.add_argument('--train-filler', default='0,64', help='LOW,HIGH: the distance range the needle rows train on')
+    parser.add_argument('--lr', type=float, default=None, help='override the protocol learning rate (fine-tunes)')
+    parser.add_argument('--init-from', default=None, help='start from saved weights instead of a fresh model')
     parser.add_argument('--no-pack', dest='pack', action='store_false', default=True,
                         help='run the CONTROL arm: one needle example per row, padded to the training width, as '
                              'the first probe did. The default packs the row, which is the treatment.')
     args = parser.parse_args()
     run(args.out, args.arm, args.steps, args.batch, args.every, args.device, args.seed, args.needle_rate,
-        pack=args.pack)
+        train_filler=parse_range(args.train_filler), pack=args.pack, lr=args.lr, init_from=args.init_from)
 
 
 if __name__ == '__main__':

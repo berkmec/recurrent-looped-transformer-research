@@ -1,0 +1,270 @@
+{
+ "arm": "plain",
+ "checkpoint": "E:\\rlt-research\\vm-mirror\\results\\M1\\m1-plain-w1152-s117\\selected.pt",
+ "checkpoint_sha256": "cbae11951e38b96dc5282cf7966619cd21f5af95a78a829a4bc6c39f63d82c69",
+ "digit_chance": 0.1,
+ "exact_chance": 0.00010000000000000002,
+ "items": 128,
+ "kind": "M0_DIAGNOSIS",
+ "reading": "TRAIN_KEYS inside the 0-64 filler range is the training distribution itself. If the model scores at chance there, the needle format is absent from the model and no comparison of arms at this budget can say anything about the gate.",
+ "role": "development diagnostic: separates \"format never learned\" from \"learned but not generalised\"",
+ "rows": [
+  {
+   "alphabet": "TRAIN_KEYS",
+   "byte_accuracy": 1.0,
+   "exact_match": 1.0,
+   "in_training_distribution": true,
+   "n_filler": 0,
+   "width": 53
+  },
+  {
+   "alphabet": "TRAIN_KEYS",
+   "byte_accuracy": 1.0,
+   "exact_match": 1.0,
+   "in_training_distribution": true,
+   "n_filler": 8,
+   "width": 61
+  },
+  {
+   "alphabet": "TRAIN_KEYS",
+   "byte_accuracy": 0.998046875,
+   "exact_match": 0.9921875,
+   "in_training_distribution": true,
+   "n_filler": 16,
+   "width": 69
+  },
+  {
+   "alphabet": "TRAIN_KEYS",
+   "byte_accuracy": 1.0,
+   "exact_match": 1.0,
+   "in_training_distribution": true,
+   "n_filler": 24,
+   "width": 77
+  },
+  {
+   "alphabet": "TRAIN_KEYS",
+   "byte_accuracy": 1.0,
+   "exact_match": 1.0,
+   "in_training_distribution": true,
+   "n_filler": 32,
+   "width": 85
+  },
+  {
+   "alphabet": "TRAIN_KEYS",
+   "byte_accuracy": 1.0,
+   "exact_match": 1.0,
+   "in_training_distribution": true,
+   "n_filler": 40,
+   "width": 93
+  },
+  {
+   "alphabet": "TRAIN_KEYS",
+   "byte_accuracy": 1.0,
+   "exact_match": 1.0,
+   "in_training_distribution": true,
+   "n_filler": 48,
+   "width": 101
+  },
+  {
+   "alphabet": "TRAIN_KEYS",
+   "byte_accuracy": 1.0,
+   "exact_match": 1.0,
+   "in_training_distribution": true,
+   "n_filler": 56,
+   "width": 109
+  },
+  {
+   "alphabet": "TRAIN_KEYS",
+   "byte_accuracy": 1.0,
+   "exact_match": 1.0,
+   "in_training_distribution": true,
+   "n_filler": 64,
+   "width": 117
+  },
+  {
+   "alphabet": "TRAIN_KEYS",
+   "byte_accuracy": 0.83984375,
+   "exact_match": 0.484375,
+   "in_training_distribution": false,
+   "n_filler": 72,
+   "width": 125
+  },
+  {
+   "alphabet": "TRAIN_KEYS",
+   "byte_accuracy": 0.390625,
+   "exact_match": 0.0234375,
+   "in_training_distribution": false,
+   "n_filler": 80,
+   "width": 133
+  },
+  {
+   "alphabet": "TRAIN_KEYS",
+   "byte_accuracy": 0.443359375,
+   "exact_match": 0.0078125,
+   "in_training_distribution": false,
+   "n_filler": 96,
+   "width": 149
+  },
+  {
+   "alphabet": "TRAIN_KEYS",
+   "byte_accuracy": 0.146484375,
+   "exact_match": 0.0,
+   "in_training_distribution": false,
+   "n_filler": 128,
+   "width": 181
+  },
+  {
+   "alphabet": "TRAIN_KEYS",
+   "byte_accuracy": 0.107421875,
+   "exact_match": 0.0,
+   "in_training_distribution": false,
+   "n_filler": 192,
+   "width": 245
+  },
+  {
+   "alphabet": "TRAIN_KEYS",
+   "byte_accuracy": 0.10546875,
+   "exact_match": 0.0,
+   "in_training_distribution": false,
+   "n_filler": 256,
+   "width": 309
+  },
+  {
+   "alphabet": "TRAIN_KEYS",
+   "byte_accuracy": 0.14453125,
+   "exact_match": 0.0,
+   "in_training_distribution": false,
+   "n_filler": 512,
+   "width": 565
+  },
+  {
+   "alphabet": "EVAL_KEYS",
+   "byte_accuracy": 0.666015625,
+   "exact_match": 0.3984375,
+   "in_training_distribution": false,
+   "n_filler": 0,
+   "width": 53
+  },
+  {
+   "alphabet": "EVAL_KEYS",
+   "byte_accuracy": 0.73046875,
+   "exact_match": 0.5234375,
+   "in_training_distribution": false,
+   "n_filler": 8,
+   "width": 61
+  },
+  {
+   "alphabet": "EVAL_KEYS",
+   "byte_accuracy": 0.677734375,
+   "exact_match": 0.5234375,
+   "in_training_distribution": false,
+   "n_filler": 16,
+   "width": 69
+  },
+  {
+   "alphabet": "EVAL_KEYS",
+   "byte_accuracy": 0.5625,
+   "exact_match": 0.453125,
+   "in_training_distribution": false,
+   "n_filler": 24,
+   "width": 77
+  },
+  {
+   "alphabet": "EVAL_KEYS",
+   "byte_accuracy": 0.556640625,
+   "exact_match": 0.5,
+   "in_training_distribution": false,
+   "n_filler": 32,
+   "width": 85
+  },
+  {
+   "alphabet": "EVAL_KEYS",
+   "byte_accuracy": 0.484375,
+   "exact_match": 0.453125,
+   "in_training_distribution": false,
+   "n_filler": 40,
+   "width": 93
+  },
+  {
+   "alphabet": "EVAL_KEYS",
+   "byte_accuracy": 0.46484375,
+   "exact_match": 0.390625,
+   "in_training_distribution": false,
+   "n_filler": 48,
+   "width": 101
+  },
+  {
+   "alphabet": "EVAL_KEYS",
+   "byte_accuracy": 0.51171875,
+   "exact_match": 0.4765625,
+   "in_training_distribution": false,
+   "n_filler": 56,
+   "width": 109
+  },
+  {
+   "alphabet": "EVAL_KEYS",
+   "byte_accuracy": 0.521484375,
+   "exact_match": 0.4375,
+   "in_training_distribution": false,
+   "n_filler": 64,
+   "width": 117
+  },
+  {
+   "alphabet": "EVAL_KEYS",
+   "byte_accuracy": 0.255859375,
+   "exact_match": 0.0078125,
+   "in_training_distribution": false,
+   "n_filler": 72,
+   "width": 125
+  },
+  {
+   "alphabet": "EVAL_KEYS",
+   "byte_accuracy": 0.150390625,
+   "exact_match": 0.0,
+   "in_training_distribution": false,
+   "n_filler": 80,
+   "width": 133
+  },
+  {
+   "alphabet": "EVAL_KEYS",
+   "byte_accuracy": 0.1484375,
+   "exact_match": 0.0,
+   "in_training_distribution": false,
+   "n_filler": 96,
+   "width": 149
+  },
+  {
+   "alphabet": "EVAL_KEYS",
+   "byte_accuracy": 0.064453125,
+   "exact_match": 0.0,
+   "in_training_distribution": false,
+   "n_filler": 128,
+   "width": 181
+  },
+  {
+   "alphabet": "EVAL_KEYS",
+   "byte_accuracy": 0.056640625,
+   "exact_match": 0.0,
+   "in_training_distribution": false,
+   "n_filler": 192,
+   "width": 245
+  },
+  {
+   "alphabet": "EVAL_KEYS",
+   "byte_accuracy": 0.0390625,
+   "exact_match": 0.0,
+   "in_training_distribution": false,
+   "n_filler": 256,
+   "width": 309
+  },
+  {
+   "alphabet": "EVAL_KEYS",
+   "byte_accuracy": 0.05078125,
+   "exact_match": 0.0,
+   "in_training_distribution": false,
+   "n_filler": 512,
+   "width": 565
+  }
+ ],
+ "utc": 1790807470.9395359
+}
