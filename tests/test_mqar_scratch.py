@@ -136,6 +136,36 @@ class TrainTests(unittest.TestCase):
             header = json.loads(Path(cont, 'probe.json').read_text(encoding='utf8'))
             self.assertIsNotNone(header['init_sha256'])
 
+    def test_a_custom_batch_source_and_an_extra_eval_replace_the_mqar_defaults(self):
+        calls = []
+
+        def fixed(step):
+            calls.append(step)
+            return (torch.randint(32, 120, (2, 64), generator=torch.Generator().manual_seed(step)),
+                    torch.randint(32, 120, (2, 64), generator=torch.Generator().manual_seed(step + 1000)))
+
+        with tempfile.TemporaryDirectory() as d:
+            tiny(d, steps=4, batch_fn=fixed, extra_eval=lambda model: dict(marker=1.5), source='custom')
+            rows = [json.loads(l) for l in Path(d, 'probe.jsonl').read_text(encoding='utf8').splitlines()]
+            self.assertEqual(calls, [1, 2, 3, 4])
+            self.assertEqual(rows[1]['eval']['extra'], dict(marker=1.5))
+            self.assertNotIn('eval', rows[0])
+            self.assertEqual(json.loads(Path(d, 'probe.json').read_text(encoding='utf8'))['source'], 'custom')
+
+    def test_the_default_run_records_its_source_and_has_no_extra_eval(self):
+        with tempfile.TemporaryDirectory() as d:
+            tiny(d, steps=2)
+            row = json.loads(Path(d, 'probe.jsonl').read_text(encoding='utf8').splitlines()[1])
+            self.assertNotIn('extra', row['eval'])
+            self.assertEqual(json.loads(Path(d, 'probe.json').read_text(encoding='utf8'))['source'], 'mqar')
+
+    def test_a_span_parses_and_bad_spans_are_refused(self):
+        self.assertEqual(ms.parse_span('8-32'), (8, 32))
+        self.assertEqual(ms.parse_span('5'), (5, 5))
+        for bad in ('0-3', '9-3', 'x', '1-2-3'):
+            with self.assertRaises(ValueError, msg=bad):
+                ms.parse_span(bad)
+
     def test_the_learning_rate_warms_up_linearly_then_holds(self):
         self.assertAlmostEqual(ms.lr_at(1, 1e-3, 4), 2.5e-4)
         self.assertAlmostEqual(ms.lr_at(4, 1e-3, 4), 1e-3)

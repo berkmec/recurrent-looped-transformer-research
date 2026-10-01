@@ -35,6 +35,7 @@ from mline import checkpoint as ck
 from mline import decoy_probe as dp
 from mline import decoy_train as dt
 from mline import emergence as em
+from mline import induction as ind
 from mline import lm as ml
 
 ROLE = 'development diagnostic: can the Core learn key-addressed retrieval from scratch, and does a single-fact start get in the way?'
@@ -74,13 +75,16 @@ def summarize(rows):
 
 def train(out, width, heads, feedback, steps, batch, lr, warmup, seed, facts, queries, key_length, alphabet, filler, pad_to,
           eval_every, eval_items, eval_configs, eval_alphabets, eval_key_lengths, init_from=None, clip=1.,
-          weight_decay=.01, verbose=True):
+          weight_decay=.01, verbose=True, batch_fn=None, extra_eval=None, source='mqar'):
+    """`batch_fn(step) -> (x, y)` replaces the MQAR batch (induction rows use it); `extra_eval(model) -> dict` adds a number
+    to every eval row. Both default to nothing, which is the MQAR run T1a/T1b were made with."""
     out = Path(out)
     out.mkdir(parents=True, exist_ok=True)
     model = build_small(width, heads, feedback, seed)
     opt = torch.optim.AdamW(model.parameters(), lr=lr, weight_decay=weight_decay)
     header = dict(role=ROLE, width=width, heads=heads, feedback=feedback, steps=steps, batch=batch, lr=lr, warmup=warmup,
-                  seed=seed, facts=facts, queries=queries, key_length=list(key_length), key_alphabet=alphabet.decode('ascii'),
+                  seed=seed, source=source, facts=facts, queries=queries, key_length=list(key_length),
+                  key_alphabet=alphabet.decode('ascii'),
                   filler=list(filler), pad_to=pad_to, eval_every=eval_every, eval_items=eval_items,
                   parameters=sum(p.numel() for p in model.parameters()), utc=time.time(),
                   init_from=None if init_from is None else str(init_from),
@@ -105,7 +109,8 @@ def train(out, width, heads, feedback, steps, batch, lr, warmup, seed, facts, qu
     counter = gu.GuardCounter()
     t0 = time.perf_counter()
     for step in range(start, steps + 1):
-        x, y = draw(batch, seed, step, facts, queries, key_length, alphabet, filler, pad_to)
+        x, y = batch_fn(step) if batch_fn is not None else draw(batch, seed, step, facts, queries, key_length, alphabet, filler,
+                                                                pad_to)
         for group in opt.param_groups:
             group['lr'] = lr_at(step, lr, warmup)
         model.train()
@@ -116,14 +121,27 @@ def train(out, width, heads, feedback, steps, batch, lr, warmup, seed, facts, qu
             rows = dp.probe_model(model, eval_configs, alphabets=eval_alphabets, items=eval_items,
                                   batch=min(16, eval_items), key_lengths=eval_key_lengths, verbose=False)
             row['eval'] = dict(summary=summarize(rows), rows=rows)
+            if extra_eval is not None:
+                row['eval']['extra'] = extra_eval(model)
             ck.save(out / ck.LATEST, model, opt, step=step, meta=dict(seed=seed, width=width, facts=facts, queries=queries))
             if verbose:
                 cells = '  '.join('%s %s' % (cell, '/'.join('%.2f' % v[a] for a in ('first', 'decoy') if a in v))
                                   for cell, v in row['eval']['summary'].items())
-                print('step %5d  loss %.3f  (first/decoy asked-share)  %s  %.1f min'
-                      % (step, report['loss'] or float('nan'), cells, (time.perf_counter() - t0) / 60), flush=True)
+                extra = '' if extra_eval is None else '  ' + ' '.join('%s %.3f' % kv for kv in row['eval']['extra'].items())
+                print('step %5d  loss %.3f  (first/decoy asked-share)  %s%s  %.1f min'
+                      % (step, report['loss'] or float('nan'), cells, extra, (time.perf_counter() - t0) / 60), flush=True)
         sw.append_line(out / 'probe.jsonl', row)
     return out
+
+
+def parse_span(text):
+    """'N' -> (N, N); 'LOW-HIGH' -> (LOW, HIGH): a length range with 1 <= LOW <= HIGH."""
+    parts = [int(v) for v in text.split('-')]
+    if len(parts) == 1:
+        parts = parts * 2
+    if len(parts) != 2 or not 1 <= parts[0] <= parts[1]:
+        raise ValueError('a span is N or LOW-HIGH with 1 <= LOW <= HIGH')
+    return parts[0], parts[1]
 
 
 def parse_configs(text):
@@ -155,13 +173,26 @@ def main():
     parser.add_argument('--eval-key-lengths', default='1,4')
     parser.add_argument('--init-from', default=None)
     parser.add_argument('--threads', type=int, default=1)
+    parser.add_argument('--source', choices=('mqar', 'induction'), default='mqar',
+                        help="'induction': rows of a random string repeated later (mline.induction) instead of MQAR facts")
+    parser.add_argument('--seg-length', default='8-32', help='induction: length range of the repeated string')
+    parser.add_argument('--gap', default='0,96', help='induction: filler between the two copies')
+    parser.add_argument('--lead', default='0,16', help='induction: filler before the first copy')
+    parser.add_argument('--skip', type=int, default=2, help='induction: bytes of a copy shown before it is scored')
     args = parser.parse_args()
     torch.set_num_threads(args.threads)                  # a CPU worker shares the machine with a GPU trainer
+    batch_fn = extra_eval = None
+    if args.source == 'induction':
+        shape = dict(seg=parse_span(args.seg_length), gap=em.parse_range(args.gap), lead=em.parse_range(args.lead), skip=args.skip)
+        batch_fn = ind.batch_fn(args.batch, args.seed, args.pad_to, **shape)
+
+        def extra_eval(model):
+            return dict(copy_accuracy=ind.copy_accuracy(model, n_items=args.eval_items, batch=16, pad_to=args.pad_to, **shape))
     train(args.out, args.width, args.heads, args.feedback == 'on', args.steps, args.batch, args.lr, args.warmup, args.seed,
           args.facts, args.queries, dt.parse_key_length(args.key_length), dt.ALPHABETS[args.key_alphabet],
           em.parse_range(args.train_filler), args.pad_to, args.eval_every, args.eval_items, parse_configs(args.eval_configs),
           tuple(args.eval_alphabets.split(',')), tuple(int(v) for v in args.eval_key_lengths.split(',')),
-          init_from=args.init_from)
+          init_from=args.init_from, batch_fn=batch_fn, extra_eval=extra_eval, source=args.source)
 
 
 if __name__ == '__main__':
