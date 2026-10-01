@@ -1,0 +1,14 @@
+count gru w64 s1 step 1000 len 64 loss 0.0010943413944914937 (83s)
+count gru w64 s1 step 2000 len 64 loss 0.0002909780014306307 (186s)
+count gru w64 s1 step 3000 len 64 loss 0.0001299893920077011 (288s)
+count gru w64 s1 step 4000 len 64 loss 7.822433690307662e-05 (386s)
+{"task": "count", "arm": "gru", "width": 64, "seed": 1, "learned_in_range": true, "effective_horizon": 0, "horizon_metric": "reentry", "wall_seconds": 389.9429973999977}
+8 {'length': 64, 'final': 1.0, 'prefix': 1.0, 'deep': None, 'reentry': None, 'reentry_positions': 0}
+16 {'length': 96, 'final': 0.99, 'prefix': 0.67, 'deep': 0.389, 'reentry': 0.724, 'reentry_positions': 5292}
+32 {'length': 192, 'final': 1.0, 'prefix': 0.605, 'deep': 0.349, 'reentry': 0.809, 'reentry_positions': 8519}
+64 {'length': 384, 'final': 1.0, 'prefix': 0.569, 'deep': 0.339, 'reentry': 0.878, 'reentry_positions': 14259}
+128 {'length': 768, 'final': 1.0, 'prefix': 0.559, 'deep': 0.333, 'reentry': 0.939, 'reentry_positions': 26804}
+256 {'length': 1536, 'final': 1.0, 'prefix': 0.561, 'deep': 0.333, 'reentry': 0.971, 'reentry_positions': 53272}
+length control 64 {'final': 1.0, 'prefix': 1.0}
+length control 256 {'final': 1.0, 'prefix': 1.0}
+length control 1024 {'final': 1.0, 'prefix': 1.0}

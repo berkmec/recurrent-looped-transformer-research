@@ -1,0 +1,12 @@
+perm4 gru w64 s1 step 1000 len 16 loss 1.0036839246749878 (30s)
+perm4 gru w64 s1 step 2000 len 16 loss 0.2941085994243622 (60s)
+perm4 gru w64 s1 step 3000 len 16 loss 0.03003159537911415 (89s)
+perm4 gru w64 s1 step 4000 len 16 loss 0.004555124789476395 (115s)
+{"task": "perm4", "arm": "gru", "width": 64, "seed": 1, "learned_in_range": true, "effective_horizon": 64, "horizon_metric": "final", "wall_seconds": 133.0097679999999}
+16 {'length': 16, 'final': 0.99, 'prefix': 0.998, 'beyond_horizon': None}
+32 {'length': 32, 'final': 0.98, 'prefix': 0.991, 'beyond_horizon': 0.982}
+64 {'length': 64, 'final': 0.97, 'prefix': 0.99, 'beyond_horizon': 0.987}
+128 {'length': 128, 'final': 0.91, 'prefix': 0.972, 'beyond_horizon': 0.968}
+256 {'length': 256, 'final': 0.74, 'prefix': 0.901, 'beyond_horizon': 0.895}
+512 {'length': 512, 'final': 0.69, 'prefix': 0.814, 'beyond_horizon': 0.808}
+1024 {'length': 1024, 'final': 0.55, 'prefix': 0.733, 'beyond_horizon': 0.729}

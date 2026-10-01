@@ -23,7 +23,11 @@ NAMESPACE = dict(train='z1-train', dev='z1-dev', test='z1-test')
 THRESHOLD = 0.95
 
 
-def train(task, arm, width, seed, steps, batch=64, lr=3e-3, clip=1.0, weight_decay=0.01, namespace=None, log_every=0, log=print,
+def _log(message):
+    print(message, flush=True)    # redirected stdout is block-buffered: without the flush a long run shows nothing until it exits
+
+
+def train(task, arm, width, seed, steps, batch=64, lr=3e-3, clip=1.0, weight_decay=0.01, namespace=None, log_every=0, log=_log,
           curriculum=None, advance_at=0.97, min_stage_steps=200, window=100):
     """curriculum: increasing training lengths, e.g. [2, 4, 8, 16]. The stage advances when the mean per-position accuracy over the last
     `window` updates reaches `advance_at` (and the stage has run at least `min_stage_steps` updates). The last length is the trained range;
@@ -45,6 +49,7 @@ def train(task, arm, width, seed, steps, batch=64, lr=3e-3, clip=1.0, weight_dec
         in_stage += 1
         if stage < len(lengths) - 1 and in_stage >= min_stage_steps and len(recent) == window and sum(recent) / window >= advance_at:
             advances.append(dict(step=step, from_length=lengths[stage], to_length=lengths[stage + 1]))
+            log(f'{task} {arm} w{width} s{seed} step {step} curriculum advance {lengths[stage]} -> {lengths[stage + 1]} ({time.perf_counter() - start:.0f}s)')
             stage, in_stage, recent = stage + 1, 0, []
         if log_every and step % log_every == 0:
             history.append(dict(step=step, loss=report['loss'], grad_norm=report['grad_norm_before_clip'], length=lengths[stage],
@@ -66,6 +71,28 @@ def _accuracy(model, x, y, batch):
     return pred, target
 
 
+HAZARD_EDGES = [0, 16, 32, 64, 128, 256, 512, 1024]
+
+
+def first_error_hazard(pred, target, edges):
+    """Per-step probability of a FIRST error in each position window [start, stop), among sequences still error-free at `start`.
+    A constant rate means the failures are a fixed per-step error (precision, budget); a rate that grows past the trained length
+    means the mechanism itself stops working there. Windows past the end are dropped, the last is clipped to the sequence length."""
+    wrong = pred != target
+    length = wrong.shape[1]
+    first = torch.where(wrong.any(1), wrong.int().argmax(1), torch.full((wrong.shape[0],), length))
+    rows = []
+    for start, stop in zip(edges[:-1], edges[1:]):
+        if start >= length:
+            break
+        stop = min(stop, length)
+        at_risk = int((first >= start).sum())
+        events = int(((first >= start) & (first < stop)).sum())
+        rows.append(dict(start=start, stop=stop, at_risk=at_risk, first_errors=events,
+                         rate=(events / (at_risk * (stop - start))) if at_risk else None))
+    return rows
+
+
 def evaluate(model, task, points, n, seed, split='dev', namespace=None, batch=50):
     """points: sequence lengths for perm tasks, peak depths for 'count'. Returns {point: metrics}."""
     namespace = namespace or NAMESPACE
@@ -82,13 +109,16 @@ def evaluate(model, task, points, n, seed, split='dev', namespace=None, batch=50
         row = dict(length=length, final=float(ok[:, -1].float().mean()), prefix=float(ok.float().mean()))
         if task == 'count':
             trajectory = dt.depth_trajectory(x)
-            deep, reentry = trajectory > dt.TRAIN_DEPTH, dt.reentry_mask(trajectory)
+            deep, reentry, resync = trajectory > dt.TRAIN_DEPTH, dt.reentry_mask(trajectory), dt.resync_mask(trajectory)
             row['deep'] = float(ok[deep].float().mean()) if bool(deep.any()) else None           # label saturates at the trained peak
-            row['reentry'] = float(ok[reentry].float().mean()) if bool(reentry.any()) else None   # back in range: needs the exact count
+            row['reentry'] = float(ok[reentry].float().mean()) if bool(reentry.any()) else None   # first descent: needs the exact count
             row['reentry_positions'] = int(reentry.sum())
+            row['resync'] = float(ok[resync].float().mean()) if bool(resync.any()) else None      # after the floor reset: re-synchronisation
+            row['resync_positions'] = int(resync.sum())
         else:
             beyond = torch.arange(x.shape[1]) >= dt.TRAIN_LENGTH
             row['beyond_horizon'] = float(ok[:, beyond].float().mean()) if bool(beyond.any()) else None
+            row['hazard'] = first_error_hazard(pred, target, HAZARD_EDGES)
         out[point] = row
     return out
 
@@ -124,9 +154,28 @@ def default_points(task):
     return [8, 16, 32, 64, 128, 256] if task == 'count' else [16, 32, 64, 128, 256, 512, 1024]
 
 
+def save_model(model, path, task, arm, width, seed, trained):
+    """Weights as plain tensors plus primitive metadata only, so `torch.load(path, weights_only=True)` works."""
+    path = Path(path)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    meta = dict(task=task, arm=arm, width=int(width), seed=int(seed), steps=int(trained['steps']), parameters=int(trained['parameters']),
+                curriculum=[int(v) for v in trained['curriculum']])
+    torch.save(dict(state_dict=model.state_dict(), meta=meta), path)
+
+
+def load_model(path):
+    raw = torch.load(path, weights_only=True)
+    meta = raw['meta']
+    model = make_arm(meta['arm'], meta['task'], meta['width'], meta['seed'])
+    model.load_state_dict(raw['state_dict'])
+    return model
+
+
 def run(task, arm, width, seed, steps, points=None, n_eval=100, out=None, **kw):
     started = time.perf_counter()
     model, trained = train(task, arm, width, seed, steps, **kw)
+    if out:   # before the slow evaluation: a crash there must not lose the trained model
+        save_model(model, Path(out).with_suffix('.pt'), task, arm, width, seed, trained)
     points = points or default_points(task)
     curve = evaluate(model, task, points, n_eval, seed)
     key = 'reentry' if task == 'count' else 'final'

@@ -76,9 +76,26 @@ def depth_trajectory(x):
     return torch.from_numpy(out)
 
 
+def _after_exceeding(trajectory):
+    """(back_in_range, zeros_before): positions back inside the trained range after the sequence has been deeper than it, and for every
+    position how many floor visits (depth 0 after having exceeded the trained depth) happened strictly before it."""
+    exceeded = trajectory.cummax(dim=1).values > TRAIN_DEPTH
+    floor = (trajectory == 0) & exceeded
+    return exceeded & (trajectory <= TRAIN_DEPTH), floor.cumsum(dim=1) - floor.int()
+
+
 def reentry_mask(trajectory):
-    """Positions whose true depth is back inside the trained range after the sequence has been deeper than it."""
-    return (trajectory <= TRAIN_DEPTH) & (trajectory.cummax(dim=1).values > TRAIN_DEPTH)
+    """The FIRST descent: positions back inside the trained range after the sequence has been deeper than it, up to and including the
+    first return to depth 0. Only an exact count of the excursion answers these (a counter that saturated or lost count is wrong here)."""
+    back, floor_visits = _after_exceeding(trajectory)
+    return back & (floor_visits == 0)
+
+
+def resync_mask(trajectory):
+    """Everything after that first floor visit. The floor resets the count (pops at 0 stay 0), so these positions measure how fast a model
+    re-synchronises, not whether it counted the excursion."""
+    back, floor_visits = _after_exceeding(trajectory)
+    return back & (floor_visits >= 1)
 
 
 def oracle(task, x):

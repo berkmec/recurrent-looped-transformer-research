@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Z1 pilot, third queue: the hard permutation task (S_5, 120 states) with a length CURRICULUM and a serious budget. The first pilot (4000
+# Z1 pilot, third queue: the hard permutation tasks (S_5 120 states, S_4 Core which did not learn in 4,000 fixed-length updates) with a length CURRICULUM and a serious budget. The first pilot (4000
 # updates, fixed length 16) did not get a GRU past loss 3.6 (chance 4.79): a budget problem, not an answer. DEV split only; NOT the frozen
 # cycle. The curriculum only ever trains on lengths <= 16, so the extrapolation test is unchanged.
 #
@@ -24,5 +24,6 @@ job() {   # task arm width seed steps lr
 
 ( job perm5 gru 256 1 30000 0.001 ) &
 ( job perm5 core 128 1 30000 0.003 ) &
+( job perm4 core 64 1 15000 0.003 ) &
 wait
 log "Z1-pilot kuyruk 3 BITTI"

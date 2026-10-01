@@ -1,5 +1,7 @@
 """Z1 arms and runner mechanics (not learning outcomes)."""
+import tempfile
 import unittest
+from pathlib import Path
 
 import torch
 
@@ -72,12 +74,76 @@ class Runner(unittest.TestCase):
         curve = dr.evaluate(m, 'count', [8, 16], n=10, seed=1)
         self.assertIsNone(curve[8]['deep'])                     # peak 8 = the trained range: no position is deeper than 8
         self.assertIsNone(curve[8]['reentry'])
+        self.assertIsNone(curve[8]['resync'])
         self.assertIsNotNone(curve[16]['deep'])
-        self.assertIsNotNone(curve[16]['reentry'])              # climbs to 16, then comes back down to <= 8
+        self.assertIsNotNone(curve[16]['reentry'])              # climbs to 16, then comes back down to <= 8: first descent
+        self.assertIsNotNone(curve[16]['resync'])               # and keeps wandering after the floor reset
+        self.assertGreater(curve[16]['reentry_positions'], 0)
 
     def test_effective_horizon_skips_points_where_a_metric_does_not_apply(self):
         curve = {8: dict(reentry=None), 16: dict(reentry=1.0), 32: dict(reentry=0.99), 64: dict(reentry=0.4)}
         self.assertEqual(dr.effective_horizon(curve, 'reentry'), 32)
+
+    def test_curriculum_advances_are_logged_so_long_runs_can_be_followed(self):
+        torch.set_num_threads(1)
+        lines = []
+        dr.train('perm3', 'gru', 32, seed=1, steps=500, batch=32, curriculum=[2, 4], advance_at=0.9, min_stage_steps=50, window=20, log=lines.append)
+        self.assertTrue(any('curriculum advance 2 -> 4' in line for line in lines))
+
+    def test_saved_weights_reload_to_identical_outputs_and_load_with_weights_only(self):
+        torch.set_num_threads(1)
+        model, trained = dr.train('perm3', 'gru', 16, seed=3, steps=3, batch=8)
+        with tempfile.TemporaryDirectory() as d:
+            path = Path(d) / 'm.pt'
+            dr.save_model(model, path, task='perm3', arm='gru', width=16, seed=3, trained=trained)
+            raw = torch.load(path, weights_only=True)                       # plain tensors + primitives only
+            self.assertEqual(raw['meta']['arm'], 'gru')
+            loaded = dr.load_model(path)
+        x, _ = dt.generate('perm3', 4, 12, seed=11)
+        model.eval()
+        loaded.eval()
+        self.assertTrue(torch.equal(model(x), loaded(x)))
+
+    def test_run_writes_the_weights_before_the_slow_evaluation(self):
+        torch.set_num_threads(1)
+        with tempfile.TemporaryDirectory() as d:
+            out = Path(d) / 'sub' / 'r.json'
+            dr.run('perm3', 'gru', 16, seed=1, steps=2, points=[16], n_eval=4, out=out, batch=8)
+            self.assertTrue(out.exists())
+            self.assertTrue(out.with_suffix('.pt').exists())
+
+    def test_first_error_hazard_counts_first_errors_among_sequences_still_error_free(self):
+        target = torch.zeros(4, 8, dtype=torch.long)
+        pred = target.clone()
+        pred[0, 2] = 1            # first error at 2 (and again later: only the first counts)
+        pred[0, 6] = 1
+        pred[1, 5] = 1            # first error at 5
+        pred[3, 2] = 1            # first error at 2
+        rows = dr.first_error_hazard(pred, target, [0, 4, 8])            # sequence 2 never errs
+        self.assertEqual([(r['start'], r['stop'], r['at_risk'], r['first_errors']) for r in rows], [(0, 4, 4, 2), (4, 8, 2, 1)])
+        self.assertAlmostEqual(rows[0]['rate'], 2 / (4 * 4))
+        self.assertAlmostEqual(rows[1]['rate'], 1 / (2 * 4))
+
+    def test_first_error_hazard_perfect_predictions_and_window_clipping(self):
+        target = torch.zeros(3, 10, dtype=torch.long)
+        rows = dr.first_error_hazard(target.clone(), target, [0, 4, 8, 16, 32])
+        self.assertEqual([(r['start'], r['stop']) for r in rows], [(0, 4), (4, 8), (8, 10)])   # windows past the end are dropped, the last is clipped
+        self.assertTrue(all(r['first_errors'] == 0 and r['rate'] == 0.0 and r['at_risk'] == 3 for r in rows))
+
+    def test_first_error_hazard_rate_is_none_when_nobody_is_left(self):
+        target = torch.zeros(2, 8, dtype=torch.long)
+        pred = target.clone()
+        pred[:, 0] = 1
+        rows = dr.first_error_hazard(pred, target, [0, 4, 8])
+        self.assertEqual(rows[0]['first_errors'], 2)
+        self.assertEqual(rows[1]['at_risk'], 0)
+        self.assertIsNone(rows[1]['rate'])
+
+    def test_permutation_evaluation_reports_the_hazard_windows(self):
+        m = make_arm('gru', 'perm3', 16, seed=1)
+        curve = dr.evaluate(m, 'perm3', [16, 64], n=10, seed=1)
+        self.assertEqual([(r['start'], r['stop']) for r in curve[16]['hazard']], [(0, 16)])
+        self.assertEqual([(r['start'], r['stop']) for r in curve[64]['hazard']], [(0, 16), (16, 32), (32, 64)])
 
     def test_length_control_uses_the_training_distribution_at_long_lengths(self):
         m = make_arm('gru', 'count', 16, seed=1)

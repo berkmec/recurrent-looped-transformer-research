@@ -106,6 +106,28 @@ class CounterTask(unittest.TestCase):
         self.assertEqual(dt.reentry_mask(traj)[0].tolist(), expected)
         self.assertFalse(bool(dt.reentry_mask(torch.tensor([[0, 3, 8, 2, 8]])).any()))     # never deeper than the trained peak: no re-entry
 
+    def test_first_descent_ends_at_the_first_return_to_the_floor_and_resync_is_what_follows(self):
+        # after the first return to depth 0 the floor resets the count: those positions measure re-synchronisation, not counting
+        traj = torch.tensor([[0, 5, 9, 8, 4, 0, 1, 2, 1, 0]])
+        self.assertEqual(dt.reentry_mask(traj)[0].tolist(), [False, False, False, True, True, True, False, False, False, False])
+        self.assertEqual(dt.resync_mask(traj)[0].tolist(),  [False, False, False, False, False, False, True, True, True, True])
+        # the two masks never overlap and together cover every position that is back in range after having been deeper
+        both = dt.reentry_mask(traj) | dt.resync_mask(traj)
+        back_in_range = (traj <= dt.TRAIN_DEPTH) & (traj.cummax(dim=1).values > dt.TRAIN_DEPTH)
+        self.assertTrue(torch.equal(both, back_in_range))
+        self.assertFalse(bool((dt.reentry_mask(traj) & dt.resync_mask(traj)).any()))
+
+    def test_a_zero_before_ever_exceeding_the_trained_depth_does_not_end_the_first_descent(self):
+        traj = torch.tensor([[0, 1, 0, 4, 9, 12, 9, 7, 2, 0, 3]])
+        self.assertEqual(dt.reentry_mask(traj)[0].tolist(), [False] * 7 + [True, True, True, False])
+        self.assertEqual(dt.resync_mask(traj)[0].tolist(), [False] * 10 + [True])
+
+    def test_every_generated_test_row_has_a_first_descent_of_useful_length(self):
+        x, _ = dt.generate('count', 50, dt.count_eval_length(32), seed=5, depth=32)
+        mask = dt.reentry_mask(dt.depth_trajectory(x))
+        self.assertTrue(bool(mask.any(1).all()))
+        self.assertGreater(float(mask.sum(1).float().mean()), 8.0)       # roughly the climb down from 8 to 0 (about 16 steps)
+
 
 class Seeds(unittest.TestCase):
     def test_deterministic_and_split_separated(self):
