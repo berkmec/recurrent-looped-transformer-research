@@ -92,7 +92,7 @@ EOF
   log "BITTI $name"
 }
 
-log "TAKEOVER BASLADI (v9)"
+log "TAKEOVER BASLADI (v10)"
 wait_idle
 decoy D1-decoy3-f128 "$M1P" 3 0,128 500 217 0.25 "D1: does decoy-aware training (3 facts, random asked one) teach matching on the KEY? The nearest fact is right only 1 time in 3."
 decoy D1b-decoy3-cont "$ROOT/D1-decoy3-f128/latest.pt" 3 0,128 1000 218 0.5 "D1b: D1 continued for 1000 updates on fresh data with 50 % needle rows. D1 collapsed onto 'answer the first fact'; this asks whether more updates and twice the signal teach the key."
@@ -119,6 +119,8 @@ decoy D5-mqar4-broad "$M1P" 4 0,64 1500 222 0.5 "D5: D2 with the broad key alpha
 decoy D6-d5-then-natural "$ROOT/D5-mqar4-broad/selected.pt" 4 0,128 1000 223 0.5 "D6: D5 then real keys (half of the examples key on words and names from the training text, 2000 distinct), filler 0-128, questions with replacement. Does key matching carry to real words and names it never keyed on?" 4 4 broad TRAIN_KEYS,HELD_KEYS 4 4 1 0.5
 # D4 (17 letters, wide) is superseded by D5 and left out of the queue; to run it anyway:
 # decoy D4-mqar4-wide "$M1P" 4 0,64 1000 221 0.5 "D4: D2 with the wide key alphabet" 4 4 wide TRAIN_KEYS,EVAL_KEYS,HELD_KEYS 4 4
-log "TAKEOVER: yemli kosular bitti, kontrol kuyrugu devam ediyor"
-bash scripts/run_distance_controls.sh
+# The distance controls (B2 / B6 / B5) used to follow here. They wait now: the long run (scripts/run_longrun.sh, L1: a from-scratch 20M model
+# on 500M tokens, not stopped for a plateau) takes the GPU first, and it is started by hand once D6 has fixed the recipe. Run the controls
+# afterwards with:  bash scripts/run_distance_controls.sh
+log "TAKEOVER: yemli kosular bitti; kontrol kuyrugu (B2/B6/B5) BEKLETILIYOR - uzun kosu (L1) GPU'yu once alacak"
 log "TAKEOVER BITTI"
