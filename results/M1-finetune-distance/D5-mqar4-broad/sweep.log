@@ -1,0 +1,71 @@
+TRAIN_KEYS key 4 a   0 b   0  ask first   gap  27  exact 0.94 | asked 0.95  other-fact 0.05  neither 0.00
+TRAIN_KEYS key 4 a   0 b   0  ask decoy   gap  27  exact 0.80 | asked 0.84  other-fact 0.16  neither 0.00
+TRAIN_KEYS key 4 a   0 b  10  ask first   gap  37  exact 0.91 | asked 0.92  other-fact 0.08  neither 0.00
+TRAIN_KEYS key 4 a   0 b  10  ask decoy   gap  37  exact 0.81 | asked 0.87  other-fact 0.13  neither 0.00
+TRAIN_KEYS key 4 a  10 b   0  ask first   gap  37  exact 0.93 | asked 0.95  other-fact 0.05  neither 0.00
+TRAIN_KEYS key 4 a  10 b   0  ask decoy   gap  37  exact 0.78 | asked 0.83  other-fact 0.17  neither 0.00
+TRAIN_KEYS key 4 a   0 b  30  ask first   gap  57  exact 0.92 | asked 0.93  other-fact 0.07  neither 0.00
+TRAIN_KEYS key 4 a   0 b  30  ask decoy   gap  57  exact 0.83 | asked 0.87  other-fact 0.13  neither 0.00
+TRAIN_KEYS key 4 a  30 b   0  ask first   gap  57  exact 0.91 | asked 0.95  other-fact 0.05  neither 0.00
+TRAIN_KEYS key 4 a  30 b   0  ask decoy   gap  57  exact 0.77 | asked 0.83  other-fact 0.17  neither 0.00
+TRAIN_KEYS key 4 a  15 b  15  ask first   gap  57  exact 0.92 | asked 0.93  other-fact 0.07  neither 0.00
+TRAIN_KEYS key 4 a  15 b  15  ask decoy   gap  57  exact 0.83 | asked 0.88  other-fact 0.12  neither 0.00
+TRAIN_KEYS key 4 a  50 b   0  ask first   gap  77  exact 0.91 | asked 0.95  other-fact 0.05  neither 0.00
+TRAIN_KEYS key 4 a  50 b   0  ask decoy   gap  77  exact 0.77 | asked 0.84  other-fact 0.16  neither 0.00
+TRAIN_KEYS key 4 a   0 b  50  ask first   gap  77  exact 0.88 | asked 0.88  other-fact 0.12  neither 0.00
+TRAIN_KEYS key 4 a   0 b  50  ask decoy   gap  77  exact 0.89 | asked 0.92  other-fact 0.08  neither 0.00
+TRAIN_KEYS key 4 a  25 b  25  ask first   gap  77  exact 0.88 | asked 0.92  other-fact 0.08  neither 0.00
+TRAIN_KEYS key 4 a  25 b  25  ask decoy   gap  77  exact 0.86 | asked 0.90  other-fact 0.10  neither 0.00
+HELD_KEYS  key 4 a   0 b   0  ask first   gap  27  exact 0.79 | asked 0.80  other-fact 0.20  neither 0.00
+HELD_KEYS  key 4 a   0 b   0  ask decoy   gap  27  exact 0.48 | asked 0.49  other-fact 0.51  neither 0.00
+HELD_KEYS  key 4 a   0 b  10  ask first   gap  37  exact 0.55 | asked 0.55  other-fact 0.45  neither 0.00
+HELD_KEYS  key 4 a   0 b  10  ask decoy   gap  37  exact 0.66 | asked 0.66  other-fact 0.34  neither 0.00
+HELD_KEYS  key 4 a  10 b   0  ask first   gap  37  exact 0.71 | asked 0.73  other-fact 0.27  neither 0.00
+HELD_KEYS  key 4 a  10 b   0  ask decoy   gap  37  exact 0.47 | asked 0.49  other-fact 0.51  neither 0.00
+HELD_KEYS  key 4 a   0 b  30  ask first   gap  57  exact 0.62 | asked 0.62  other-fact 0.38  neither 0.00
+HELD_KEYS  key 4 a   0 b  30  ask decoy   gap  57  exact 0.59 | asked 0.60  other-fact 0.40  neither 0.00
+HELD_KEYS  key 4 a  30 b   0  ask first   gap  57  exact 0.72 | asked 0.77  other-fact 0.23  neither 0.00
+HELD_KEYS  key 4 a  30 b   0  ask decoy   gap  57  exact 0.47 | asked 0.53  other-fact 0.47  neither 0.00
+HELD_KEYS  key 4 a  15 b  15  ask first   gap  57  exact 0.69 | asked 0.70  other-fact 0.30  neither 0.00
+HELD_KEYS  key 4 a  15 b  15  ask decoy   gap  57  exact 0.55 | asked 0.55  other-fact 0.45  neither 0.00
+HELD_KEYS  key 4 a  50 b   0  ask first   gap  77  exact 0.65 | asked 0.68  other-fact 0.32  neither 0.00
+HELD_KEYS  key 4 a  50 b   0  ask decoy   gap  77  exact 0.49 | asked 0.55  other-fact 0.45  neither 0.00
+HELD_KEYS  key 4 a   0 b  50  ask first   gap  77  exact 0.62 | asked 0.62  other-fact 0.38  neither 0.00
+HELD_KEYS  key 4 a   0 b  50  ask decoy   gap  77  exact 0.57 | asked 0.59  other-fact 0.41  neither 0.00
+HELD_KEYS  key 4 a  25 b  25  ask first   gap  77  exact 0.60 | asked 0.62  other-fact 0.38  neither 0.00
+HELD_KEYS  key 4 a  25 b  25  ask decoy   gap  77  exact 0.55 | asked 0.57  other-fact 0.43  neither 0.00
+written results/M1-finetune-distance/D5-mqar4-broad/decoy.json
+train key 4  first digit per question 0.97 0.95 0.95 0.94 | exact 0.94 0.91 0.88 0.88 | all: first 0.95 exact 0.90 (512 answers)
+held  key 4  first digit per question 0.45 0.46 0.41 0.33 | exact 0.31 0.35 0.28 0.23 | all: first 0.41 exact 0.29 (512 answers)
+identity 1      filler     0  exact 0.9766  byte 0.9941
+identity 1      filler    32  exact 1.0000  byte 1.0000
+identity 1      filler    64  exact 1.0000  byte 1.0000
+identity 1      filler    72  exact 1.0000  byte 1.0000
+identity 1      filler    80  exact 0.9844  byte 0.9961
+identity 1      filler    96  exact 1.0000  byte 1.0000
+identity 1      filler   128  exact 1.0000  byte 1.0000
+identity 1      filler   160  exact 1.0000  byte 1.0000
+identity 1      filler   192  exact 0.9922  byte 0.9980
+identity 1      filler   224  exact 1.0000  byte 1.0000
+identity 1      filler   256  exact 0.9844  byte 0.9961
+identity 1      filler   320  exact 0.5469  byte 0.8730
+identity 1      filler   384  exact 0.1172  byte 0.5586
+identity 1      filler   448  exact 0.0078  byte 0.2715
+identity 1      filler   512  exact 0.0156  byte 0.1973
+written results/M1-finetune-distance/D5-mqar4-broad/sweep-train-keys.json
+identity 1      filler     0  exact 1.0000  byte 1.0000
+identity 1      filler    32  exact 1.0000  byte 1.0000
+identity 1      filler    64  exact 0.9844  byte 0.9961
+identity 1      filler    72  exact 0.9609  byte 0.9902
+identity 1      filler    80  exact 0.8906  byte 0.9727
+identity 1      filler    96  exact 1.0000  byte 1.0000
+identity 1      filler   128  exact 1.0000  byte 1.0000
+identity 1      filler   160  exact 1.0000  byte 1.0000
+identity 1      filler   192  exact 1.0000  byte 1.0000
+identity 1      filler   224  exact 1.0000  byte 1.0000
+identity 1      filler   256  exact 0.9688  byte 0.9922
+identity 1      filler   320  exact 0.1719  byte 0.7305
+identity 1      filler   384  exact 0.1016  byte 0.6133
+identity 1      filler   448  exact 0.0078  byte 0.3418
+identity 1      filler   512  exact 0.0234  byte 0.2734
+written results/M1-finetune-distance/D5-mqar4-broad/sweep-eval-keys.json

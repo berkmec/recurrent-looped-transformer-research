@@ -1,0 +1,90 @@
+{
+ "checkpoint": "results/M1-finetune-distance/T1b-single-then-mqar/latest.pt",
+ "args": {
+  "checkpoint": "results/M1-finetune-distance/T1b-single-then-mqar/latest.pt",
+  "out": "results/M1-finetune-distance/T1b-single-then-mqar/mqar-eval.json",
+  "width": 128,
+  "heads": 4,
+  "feedback": "off",
+  "alphabet": "wide",
+  "key_lengths": "1,4",
+  "facts": 4,
+  "queries": 4,
+  "with_replacement": false,
+  "filler": "0,64",
+  "pad_to": 320,
+  "items": 64,
+  "batch": 8,
+  "device": "cpu"
+ },
+ "report": {
+  "train_k1": {
+   "first": [
+    0.671875,
+    0.734375,
+    0.796875,
+    1.0
+   ],
+   "exact": [
+    0.59375,
+    0.625,
+    0.75,
+    0.984375
+   ],
+   "first_all": 0.80078125,
+   "exact_all": 0.73828125,
+   "answers": 256
+  },
+  "train_k4": {
+   "first": [
+    0.84375,
+    0.921875,
+    0.96875,
+    1.0
+   ],
+   "exact": [
+    0.8125,
+    0.84375,
+    0.890625,
+    1.0
+   ],
+   "first_all": 0.93359375,
+   "exact_all": 0.88671875,
+   "answers": 256
+  },
+  "held_k1": {
+   "first": [
+    0.421875,
+    0.375,
+    0.5,
+    0.96875
+   ],
+   "exact": [
+    0.1875,
+    0.234375,
+    0.4375,
+    0.9375
+   ],
+   "first_all": 0.56640625,
+   "exact_all": 0.44921875,
+   "answers": 256
+  },
+  "held_k4": {
+   "first": [
+    0.375,
+    0.40625,
+    0.515625,
+    0.984375
+   ],
+   "exact": [
+    0.21875,
+    0.3125,
+    0.359375,
+    0.953125
+   ],
+   "first_all": 0.5703125,
+   "exact_all": 0.4609375,
+   "answers": 256
+  }
+ }
+}

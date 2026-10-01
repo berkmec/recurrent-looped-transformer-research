@@ -1,0 +1,10 @@
+INTERRUPTED, NOT A FAILURE OF THE RUN. Quarantined rather than reused, because the runner refuses an incomplete
+condition directory without an audit - the campaign rule.
+
+Cause: Claude Code's background supervisor stopped the local sweep when the machine ran critically low on memory.
+The culprit was not this job: a javaw process held 10.2 GB, leaving 608 MB free. It was closed and the sweep
+resumed, skipping the four conditions that had finished.
+
+This directory holds initial.pt and a partial updates.jsonl and no complete.json. horizon/scan_sweep.run_one has
+no resume path, unlike mline/train.run_one - a deliberate omission, since a condition here costs 25 minutes and
+resume machinery would cost more than it saves. So the condition is re-run from scratch under the same ident.

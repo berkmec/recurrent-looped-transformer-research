@@ -1,0 +1,78 @@
+{
+  "arm": "detach",
+  "diagnostic": false,
+  "environment": {
+    "cuda": "13.0",
+    "executable": "__PY_ENV_DIR__\\.venv\\Scripts\\python.exe",
+    "gpu": "NVIDIA GeForce RTX 2060 SUPER",
+    "host_load_note": "external CPU training may run concurrently; CPU/GPU latency is scoped to recorded host load, not isolated throughput",
+    "logical_cpu_count": 8,
+    "platform": "Windows-10-10.0.19045-SP0",
+    "python": "3.11.9 (tags/v3.11.9:de54cf5, Apr  2 2024, 10:12:12) [MSC v.1938 64 bit (AMD64)]",
+    "torch": "2.12.0+cu130"
+  },
+  "length": 128,
+  "measurements": [],
+  "optimizer_initialized_before_measurement": false,
+  "optimizer_updates": 0,
+  "pid": 1516,
+  "protocol": {
+    "alpha": 0.1,
+    "arms": [
+      "full",
+      "detach",
+      "checkpoint",
+      "segment",
+      "segment_encoder_checkpoint"
+    ],
+    "batch": 8,
+    "chunk": 8,
+    "clip": null,
+    "data": "independent deterministic batch per optimizer update; paired across arms",
+    "data_seed": 970100,
+    "device": "cuda",
+    "equivalence": {
+      "atol": 3e-06,
+      "lengths": [
+        32,
+        128
+      ],
+      "repeats": 3,
+      "rtol": 0.0003
+    },
+    "heads": 2,
+    "hooks": "separate diagnostic run; deduplicated backing-storage save lifetime, not resident VRAM; inner nonreentrant checkpoint hooks shadow outer hooks so checkpoint-interior saves are not fully observed",
+    "host_load": "external CPU training may run concurrently; CPU/GPU latency is scoped to recorded host load, not isolated throughput",
+    "latency": "phase seconds include explicit synchronization at each phase mark; segment arms keep detached chunk losses on device and convert once after the loop, so no per-chunk synchronization",
+    "lengths": [
+      32,
+      128
+    ],
+    "loss": "parity dense sum cross entropy divided by batch*length for every chunk",
+    "lr": 0.003,
+    "memory": "CUDA phase live allocated/reserved and reset phase peak allocated/reserved; whole-update peaks reconstructed as max of phase peaks; separate process working set",
+    "oom": "record OOM with unchanged batch/precision/length; no automatic retry; CUDA allocated/reserved and since-reset peaks sampled in the handler",
+    "optimizer": "AdamW foreach=False",
+    "precision": "float32",
+    "process": "one fresh subprocess per arm and length; no allocator sharing",
+    "purpose": "R6 real optimizer update memory diagnostics",
+    "repeats": 3,
+    "route_full": "all recurrence and global encoder/projection paths attached",
+    "route_truncated": "detach s/dk/dv each8; global e/mk/mv gradients retained",
+    "seed": 701,
+    "threads": 1,
+    "version": 1,
+    "warmup": 2,
+    "weight_decay": 0.01,
+    "width": 32,
+    "window": 4
+  },
+  "protocol_hash": "947078310687f9f14570c6f054b735c99dc5c87d73f07f86e43c3655715fb5b8",
+  "sources": {
+    "core/model.py": "121f11fcb3c1308b7f67d898f2aa09c37226d3b0db27dd4e5bf1ebeaea281f43",
+    "review_cycle/memory_bench.py": "5830610d207c8dff2cdf238efa9f18c36167fac37174d1dcab2371773f804dde",
+    "review_cycle/test_memory_bench.py": "381a8418c2b58c8016fa51cba26c0daa87fde6697a2654c0fb903bf7bbe75d76"
+  },
+  "started": 1789672352.5061438,
+  "status": "RUNNING"
+}

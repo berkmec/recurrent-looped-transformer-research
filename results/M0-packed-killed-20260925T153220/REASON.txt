@@ -1,0 +1,25 @@
+INTERRUPTED - NOT EVIDENCE. Quarantined rather than deleted, per the campaign rule that a partial run is kept
+with its reason.
+
+What this is: the packed-mix verification probe, the paired counterpart of results/M0-emergence (same seed 117,
+same 5000-step protocol, same everything; the single changed term is that needle training rows are PACKED with
+about 5.6 examples instead of padded to 512 with 83.7 % blank space).
+
+Why it stopped: Claude Code's background-task supervisor stopped it because the machine was critically low on
+memory while the session was idle. It is not a failure of the run, and there is nothing in it to debug. Free RAM
+at the time of the check afterwards was 4.4 GB with zero python processes alive, so the pressure came from
+elsewhere on the machine.
+
+How far it got: 665 of 5000 steps (13 %), with two needle measurements, at steps 250 and 500.
+
+Why it CANNOT be resumed: latest.pt is the old weights-only format - no optimizer moments, no step counter. The
+resumable checkpoint format was written today while this very run was in flight, and a python process keeps the
+module it imported at start, so the running probe went on writing the old format to the end. The next probe will
+be resumable; this one is not.
+
+What it is good for: the two measurements are real and are kept. They are not enough to judge the packing fix -
+at step 250 the packed run's needle@0 byte accuracy is 0.109 against the padded run's 0.057, and at step 500 it
+is 0.083 against 0.094. Two points pointing opposite ways is noise, not a signal.
+
+Restarting is a decision for the user, not for me: the supervisor's instruction is not to relaunch on my own,
+because memory may still be short.

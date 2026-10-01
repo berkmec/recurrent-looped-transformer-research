@@ -1,0 +1,90 @@
+{
+ "checkpoint": "results/M1-finetune-distance/D3-mqar4-k14/selected.pt",
+ "args": {
+  "checkpoint": "results/M1-finetune-distance/D3-mqar4-k14/selected.pt",
+  "out": "results/M1-finetune-distance/D3-mqar4-k14/mqar-eval.json",
+  "width": null,
+  "heads": 4,
+  "feedback": "on",
+  "alphabet": "default",
+  "key_lengths": "1,4",
+  "facts": 4,
+  "queries": 4,
+  "with_replacement": false,
+  "filler": "0,64",
+  "pad_to": 320,
+  "items": 128,
+  "batch": 32,
+  "device": "cuda"
+ },
+ "report": {
+  "train_k1": {
+   "first": [
+    0.4609375,
+    0.6171875,
+    0.6953125,
+    0.7890625
+   ],
+   "exact": [
+    0.328125,
+    0.46875,
+    0.6171875,
+    0.6484375
+   ],
+   "first_all": 0.640625,
+   "exact_all": 0.515625,
+   "answers": 512
+  },
+  "train_k4": {
+   "first": [
+    0.8515625,
+    0.8671875,
+    0.8828125,
+    0.9140625
+   ],
+   "exact": [
+    0.734375,
+    0.7734375,
+    0.7734375,
+    0.7578125
+   ],
+   "first_all": 0.87890625,
+   "exact_all": 0.759765625,
+   "answers": 512
+  },
+  "held_k1": {
+   "first": [
+    0.453125,
+    0.4296875,
+    0.515625,
+    0.6484375
+   ],
+   "exact": [
+    0.265625,
+    0.265625,
+    0.328125,
+    0.4609375
+   ],
+   "first_all": 0.51171875,
+   "exact_all": 0.330078125,
+   "answers": 512
+  },
+  "held_k4": {
+   "first": [
+    0.375,
+    0.3984375,
+    0.421875,
+    0.453125
+   ],
+   "exact": [
+    0.2421875,
+    0.296875,
+    0.296875,
+    0.328125
+   ],
+   "first_all": 0.412109375,
+   "exact_all": 0.291015625,
+   "answers": 512
+  }
+ }
+}

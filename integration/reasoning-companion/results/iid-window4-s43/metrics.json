@@ -1,0 +1,76 @@
+{
+  "seed": 43,
+  "split": "iid",
+  "condition": "window4",
+  "episodes": 128,
+  "source_event_exact_accuracy": 1.0,
+  "source_episode_exact_accuracy": 1.0,
+  "spurious_query_outputs": 0,
+  "spurious_accepted_outputs": 0,
+  "all_certificate_outputs": {
+    "count": 147,
+    "source_failures": 0,
+    "source_failure_rate": 0.0,
+    "scope": "all emitted certificates, including unsolicited/misparsed query positions as source alignment failures; correlated queries, no binomial interval"
+  },
+  "final": {
+    "intended_queries": 128,
+    "emitted_count": 128,
+    "coverage": 0.3515625,
+    "accepted_count": 45,
+    "accepted_failures": 0,
+    "accepted_error_rate": 0.0,
+    "accepted_error_rate_ci95": [
+      0.0,
+      0.07865159873288836
+    ],
+    "accuracy_all_intended": 0.9921875,
+    "mse_emitted": 0.0011657295510922115,
+    "missing_outputs": 0,
+    "mean_refinements_at_query": 6.625,
+    "interval_scope": "fixed-model independent final cases"
+  },
+  "all_queries": {
+    "intended_queries": 384,
+    "emitted_count": 384,
+    "coverage": 0.3828125,
+    "accepted_count": 147,
+    "accepted_failures": 0,
+    "accepted_error_rate": 0.0,
+    "accepted_error_rate_ci95": null,
+    "accuracy_all_intended": 0.9947916666666666,
+    "mse_emitted": 0.0010005551469748554,
+    "missing_outputs": 0,
+    "mean_refinements_at_query": 7.010416666666667,
+    "interval_scope": "correlated within episode; no binomial interval"
+  },
+  "cost_mean": {
+    "seconds": 0.5605247687481096,
+    "total_refinements_executed": 42.84375,
+    "total_consumed_tokens_including_replay": 38.0,
+    "reasoning_compactions": 10.7109375,
+    "reasoning_rereads": 10.7109375,
+    "reasoning_max_resident_traces": 4.0,
+    "reasoning_generated_traces": 42.84375,
+    "reasoning_peak_active_serialized_bytes": 27962.703125,
+    "reasoning_maximum_reload_difference": 0.0,
+    "same_heading_reasoning_continuations": 9.7109375,
+    "archive_bytes": 525472.0
+  },
+  "cost_max": {
+    "seconds": 0.7861451000208035,
+    "total_refinements_executed": 48,
+    "total_consumed_tokens_including_replay": 38,
+    "reasoning_compactions": 12,
+    "reasoning_rereads": 12,
+    "reasoning_max_resident_traces": 4,
+    "reasoning_generated_traces": 48,
+    "reasoning_peak_active_serialized_bytes": 28082,
+    "reasoning_maximum_reload_difference": 0.0,
+    "same_heading_reasoning_continuations": 11,
+    "archive_bytes": 581632
+  },
+  "all_reloads_bitwise_equal": true,
+  "prediction_sha256": "5610f6171631f2cd560da9ed4a65cb4b8237b16b0b28e87a6c92e9387ceef274",
+  "seconds": 72.28984629997285
+}

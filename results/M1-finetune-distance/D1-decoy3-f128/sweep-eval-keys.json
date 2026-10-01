@@ -1,0 +1,138 @@
+{
+ "alphabet": "EVAL_KEYS",
+ "arm": "plain",
+ "checkpoint": "results/M1-finetune-distance/D1-decoy3-f128/selected.pt",
+ "checkpoint_sha256": "3f135361f4fbab16f3336ce43bcc8ff263025fb87c9652f3537049317c9712d0",
+ "filler_kind": "repeat",
+ "items": 128,
+ "kind": "M1_ROPE_PROBE",
+ "reading": "A cliff that moves out by ~1/factor under pi (or under ntk) is RoPE-relative-distance out of distribution. A cliff that stays put is not; look at the learned attention pattern and the recurrent path instead. Compare in-range accuracy (filler <= 64) to see what the rescaling costs.",
+ "role": "development diagnostic: does rescaling RoPE positions move the distance cliff of the M1 checkpoints?",
+ "rows": [
+  {
+   "byte_accuracy": 0.513671875,
+   "exact_match": 0.4296875,
+   "factor": 1.0,
+   "mode": "identity",
+   "n_filler": 0,
+   "width": 53
+  },
+  {
+   "byte_accuracy": 0.5625,
+   "exact_match": 0.5390625,
+   "factor": 1.0,
+   "mode": "identity",
+   "n_filler": 32,
+   "width": 85
+  },
+  {
+   "byte_accuracy": 0.595703125,
+   "exact_match": 0.53125,
+   "factor": 1.0,
+   "mode": "identity",
+   "n_filler": 64,
+   "width": 117
+  },
+  {
+   "byte_accuracy": 0.576171875,
+   "exact_match": 0.4453125,
+   "factor": 1.0,
+   "mode": "identity",
+   "n_filler": 72,
+   "width": 125
+  },
+  {
+   "byte_accuracy": 0.5390625,
+   "exact_match": 0.4765625,
+   "factor": 1.0,
+   "mode": "identity",
+   "n_filler": 80,
+   "width": 133
+  },
+  {
+   "byte_accuracy": 0.533203125,
+   "exact_match": 0.4375,
+   "factor": 1.0,
+   "mode": "identity",
+   "n_filler": 96,
+   "width": 149
+  },
+  {
+   "byte_accuracy": 0.5078125,
+   "exact_match": 0.453125,
+   "factor": 1.0,
+   "mode": "identity",
+   "n_filler": 128,
+   "width": 181
+  },
+  {
+   "byte_accuracy": 0.40234375,
+   "exact_match": 0.3046875,
+   "factor": 1.0,
+   "mode": "identity",
+   "n_filler": 160,
+   "width": 213
+  },
+  {
+   "byte_accuracy": 0.423828125,
+   "exact_match": 0.2109375,
+   "factor": 1.0,
+   "mode": "identity",
+   "n_filler": 192,
+   "width": 245
+  },
+  {
+   "byte_accuracy": 0.14453125,
+   "exact_match": 0.0,
+   "factor": 1.0,
+   "mode": "identity",
+   "n_filler": 224,
+   "width": 277
+  },
+  {
+   "byte_accuracy": 0.087890625,
+   "exact_match": 0.0,
+   "factor": 1.0,
+   "mode": "identity",
+   "n_filler": 256,
+   "width": 309
+  },
+  {
+   "byte_accuracy": 0.068359375,
+   "exact_match": 0.0,
+   "factor": 1.0,
+   "mode": "identity",
+   "n_filler": 320,
+   "width": 373
+  },
+  {
+   "byte_accuracy": 0.083984375,
+   "exact_match": 0.0,
+   "factor": 1.0,
+   "mode": "identity",
+   "n_filler": 384,
+   "width": 437
+  },
+  {
+   "byte_accuracy": 0.0546875,
+   "exact_match": 0.0,
+   "factor": 1.0,
+   "mode": "identity",
+   "n_filler": 448,
+   "width": 501
+  },
+  {
+   "byte_accuracy": 0.08984375,
+   "exact_match": 0.0,
+   "factor": 1.0,
+   "mode": "identity",
+   "n_filler": 512,
+   "width": 565
+  }
+ ],
+ "trained_filler_range": [
+  0,
+  64
+ ],
+ "utc": 1790832172.737845
+}

@@ -1,0 +1,46 @@
+{
+ "condition": {
+  "arm": "hinge",
+  "heads": 2,
+  "source": {
+   "arm": "supervised",
+   "directory": "results/U2c-lr0003",
+   "level": "lr0.0003",
+   "seed": 117,
+   "u2c_repair": -40.7,
+   "u2c_validation": 0.988
+  },
+  "stage": "u4sep2",
+  "task": "five",
+  "width": 32,
+  "window": 4
+ },
+ "drift_first": 10.201801300048828,
+ "drift_last": 6.471860408782959,
+ "gap_first": 7.2618865966796875,
+ "gap_last": 11.632513046264648,
+ "guard": {
+  "clipped": 235,
+  "max_grad_norm_before_clip": 2260.3705877302127,
+  "skip_reasons": {},
+  "skipped": 0,
+  "steps": 512
+ },
+ "ident": "u4sep2-hinge-from_supervised-s117",
+ "protocol_hash": "5e10c8d741a9d54551bdad0bfdd918538ab93d5516490a876a32dfa6edf7dbab",
+ "ratio_first": 0.7118238806724548,
+ "ratio_last": 1.797398328781128,
+ "selected_sha256": "bf01edced77c4f2ea3991bc1da2b8f16ba4a34b24087967fc44fd2329d05ed54",
+ "selected_step": 384,
+ "selected_validation": {
+  "all_accuracy": 0.992889404296875,
+  "final_accuracy": 0.9921875,
+  "final_loss": 0.05248915031552315,
+  "hold_rate": 0.0
+ },
+ "source_sha256": "6a64fd3a8a0180f86911810eee4d0ce0946046ee2047f55668c47ba7d8ee343f",
+ "steps": 512,
+ "u2c_protocol_hash": "81e0bb3f6d8f580cc97bf431d9b302091071f6f08bf193d58b9f0a1f78e46284",
+ "updates_sha256": "a8c34ba1847e0291805146f3e46131bafc669d7359ce7efd68c6586eb0fdaafa",
+ "wall_seconds": 1079.1714247999917
+}

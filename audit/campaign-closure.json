@@ -1,0 +1,209 @@
+{
+  "status": "COMPLETE_BOUNDED_RESEARCH",
+  "utc": "2026-09-16T18:41:29.556918+00:00",
+  "packages": [
+    {
+      "id": 1,
+      "name": "RLT çekirdeği ve kontrol",
+      "outcome": "IMPLEMENTED_TESTED",
+      "scope": "Gizli durum, yerel KV ve global encoder belleği; nedensellik ve akış/toplu eşlik. Bağımsız küçük uygulama."
+    },
+    {
+      "id": 2,
+      "name": "Uzun ufuk",
+      "outcome": "MIXED",
+      "scope": "32 işlem uzunluğunda eğitimden sonra 32–1.024 testi; parite, beş durum ve eğitim tohumu ayrı. Sonlu test üst sınırı."
+    },
+    {
+      "id": 3,
+      "name": "Ek hesaplamanın yararı",
+      "outcome": "MIXED",
+      "scope": "t/k/d ayrıldı. Bazı ek turlar yararlı; kimlik son ekleri ve tur eğrileri tekdüze kazancı desteklemiyor."
+    },
+    {
+      "id": 4,
+      "name": "Gecikmiş hata ve eğitim maliyeti",
+      "outcome": "MIXED",
+      "scope": "Prefix öğrenimi ile son-cevap gözetimi ayrıldı; son-cevap koşulları şans düzeyine yakın. Gerçek backward/update ve süreç belleği ölçüldü."
+    },
+    {
+      "id": 5,
+      "name": "Metinden başlık ve ilişki",
+      "outcome": "MIXED",
+      "scope": "Öğrenilmiş çıkarıcı görülen kalıpta başarılı; yeni kalıpta aktarım zayıf. Başlık örgütleme sonlu varlıklar için deterministik."
+    },
+    {
+      "id": 6,
+      "name": "İleri/çift yönlü ağ",
+      "outcome": "MIXED",
+      "scope": "Aynı tur sayısında eğitim benzeri görevde büyük yarar; görülmemiş derinlikte çift yön tek başına yeterli değil."
+    },
+    {
+      "id": 7,
+      "name": "Seçici revizyon",
+      "outcome": "MEASURED_NEGATIVE",
+      "scope": "Etkilenen cevapta en az%10 kazanç ve etkilenmeyeni koruma ölçütü iki test ailesinin ikisinde de geçmedi."
+    },
+    {
+      "id": 8,
+      "name": "Başlık penceresi",
+      "outcome": "IMPLEMENTED_TESTED",
+      "scope": "Kaynak ve gerçek üretilmiş durum pencereleri ayrı uygulandı; üretilmiş aktif geçmişin tepe büyüklüğü 4/8 kayıt."
+    },
+    {
+      "id": 9,
+      "name": "Sıkıştırma ve yeniden okuma",
+      "outcome": "MIXED",
+      "scope": "Sabit bağlamda son z sınırı eşdeğer; güncel kısıtlardan sinirsel yeniden başlatma derin görevde kayıp verdi."
+    },
+    {
+      "id": 10,
+      "name": "Ham arşiv ve vektör erişimi",
+      "outcome": "MEASURED_NEGATIVE",
+      "scope": "Ham/sürüm/özet korundu; sözcük-vektörü recall@5 yalnız %4,17. Anahtar erişimi bunun başarısı sayılmadı."
+    },
+    {
+      "id": 11,
+      "name": "Yeterlilik ve durma",
+      "outcome": "MIXED",
+      "scope": "Ana IID testte %24,14 daha az gerçek tur ve %38,93 doğru sertifikalı kapsam; yeni derinlikte kapsam çok düşük."
+    },
+    {
+      "id": 12,
+      "name": "Gerçek RLT/başlık entegrasyonu",
+      "outcome": "MIXED",
+      "scope": "Metin→başlık→model→arşiv→denetim uçtan uca çalıştı. Ayrı geri besleme kazancı küçük/belirsiz; yeni cümlelerde cevap yok."
+    },
+    {
+      "id": 13,
+      "name": "Üretilmiş izleri ağırlıklara aktarma",
+      "outcome": "MIXED",
+      "scope": "Gerçek öğretmen izlerinden altı öğrenci eğitildi, arşiv kapalı çıktı eşliği geçti. Kolay görevde zarar, derinde koşullu kazanç."
+    },
+    {
+      "id": 14,
+      "name": "Ölçek, aktarım ve maliyet",
+      "outcome": "MIXED",
+      "scope": "Yaklaşık 24 bin ile 1,51 milyon parametre arasında duyarlılık; büyük modelde 1/3 tohum kısa problemi öğrendi. Enerji/RL/büyük dil modeli ölçülmedi."
+    }
+  ],
+  "training_conditions": 63,
+  "tests_passed": 108,
+  "previous_files_unchanged": 424,
+  "connected_episode_executions": 6144,
+  "connected_distinct_source_tasks": 512,
+  "window_episode_executions": 1536,
+  "window_distinct_source_tasks": 256,
+  "primary_core_summary": [
+    {
+      "task": "parity",
+      "width": 32,
+      "mode": "rlt",
+      "mean_accuracy": {
+        "32": 1.0,
+        "128": 1.0,
+        "1024": 1.0
+      },
+      "L1024_per_seed": [
+        1.0,
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "task": "parity",
+      "width": 32,
+      "mode": "nofeedback",
+      "mean_accuracy": {
+        "32": 0.482421875,
+        "128": 0.4713541666666667,
+        "1024": 0.4986979166666667
+      },
+      "L1024_per_seed": [
+        0.529296875,
+        0.48046875,
+        0.486328125
+      ]
+    },
+    {
+      "task": "parity",
+      "width": 32,
+      "mode": "tbptt",
+      "mean_accuracy": {
+        "32": 1.0,
+        "128": 1.0,
+        "1024": 1.0
+      },
+      "L1024_per_seed": [
+        1.0,
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "task": "five",
+      "width": 32,
+      "mode": "rlt",
+      "mean_accuracy": {
+        "32": 1.0,
+        "128": 0.9986979166666666,
+        "1024": 0.986328125
+      },
+      "L1024_per_seed": [
+        0.9609375,
+        0.998046875,
+        1.0
+      ]
+    },
+    {
+      "task": "five",
+      "width": 32,
+      "mode": "nofeedback",
+      "mean_accuracy": {
+        "32": 0.19270833333333334,
+        "128": 0.19596354166666666,
+        "1024": 0.20768229166666666
+      },
+      "L1024_per_seed": [
+        0.212890625,
+        0.18359375,
+        0.2265625
+      ]
+    },
+    {
+      "task": "parity",
+      "width": 48,
+      "mode": "rlt",
+      "mean_accuracy": {
+        "32": 1.0,
+        "128": 1.0,
+        "1024": 1.0
+      },
+      "L1024_per_seed": [
+        1.0,
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "task": "parity",
+      "width": 48,
+      "mode": "nofeedback",
+      "mean_accuracy": {
+        "32": 0.4934895833333333,
+        "128": 0.474609375,
+        "1024": 0.5110677083333334
+      },
+      "L1024_per_seed": [
+        0.490234375,
+        0.521484375,
+        0.521484375
+      ]
+    }
+  ],
+  "all_independent_audits_passed_with_stated_scope": true,
+  "fresh_pin_verification_sha256": "c858c5ea41435e37fe08b8069cb33a87d8de61c3510f262ec8b79111afbc97f3",
+  "scientific_boundary": "Finite controlled local research complete; general-purpose or infinite correct reasoning is not established.",
+  "report": "__RLT_ROOT__\\2026-09-16-e2e\\reports\\RLT_SONUC_RAPORU.md",
+  "manifest_phase": "Built and byte-verified only after this receipt and every remaining writer is quiescent."
+}

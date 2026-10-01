@@ -1,0 +1,75 @@
+{
+ "checkpoint": "results/M1-finetune-distance/ft384-plain-s217/selected.pt",
+ "checkpoint_sha256": "54b81c37acea6ccdba70b810ef279c3ca26e90ba3d915659c24c8b0cace6144a",
+ "items": 32,
+ "kind": "M1_STREAM_GRAFT",
+ "reading": "near-stream-into-far recovering means the question phase needs an in-range stream and attention is fine at the far distance; staying at zero means the cliff is in attention. far-stream-into-near collapsing means an out-of-range stream is enough to break an in-range row.",
+ "role": "development diagnostic: is the cliff in the recurrent stream or in attention?",
+ "rows": [
+  {
+   "alphabet": "TRAIN_KEYS",
+   "condition": "far",
+   "exact_match": 0.0,
+   "first_digit": 0.53125,
+   "n_far": 448,
+   "n_near": 384
+  },
+  {
+   "alphabet": "TRAIN_KEYS",
+   "condition": "near",
+   "exact_match": 0.96875,
+   "first_digit": 1.0,
+   "n_far": 448,
+   "n_near": 384
+  },
+  {
+   "alphabet": "TRAIN_KEYS",
+   "condition": "near-stream-into-far",
+   "exact_match": 0.0,
+   "first_digit": 0.5625,
+   "n_far": 448,
+   "n_near": 384
+  },
+  {
+   "alphabet": "TRAIN_KEYS",
+   "condition": "far-stream-into-near",
+   "exact_match": 0.96875,
+   "first_digit": 1.0,
+   "n_far": 448,
+   "n_near": 384
+  },
+  {
+   "alphabet": "TRAIN_KEYS",
+   "condition": "far",
+   "exact_match": 0.1875,
+   "first_digit": 0.875,
+   "n_far": 512,
+   "n_near": 384
+  },
+  {
+   "alphabet": "TRAIN_KEYS",
+   "condition": "near",
+   "exact_match": 0.96875,
+   "first_digit": 1.0,
+   "n_far": 512,
+   "n_near": 384
+  },
+  {
+   "alphabet": "TRAIN_KEYS",
+   "condition": "near-stream-into-far",
+   "exact_match": 0.21875,
+   "first_digit": 0.875,
+   "n_far": 512,
+   "n_near": 384
+  },
+  {
+   "alphabet": "TRAIN_KEYS",
+   "condition": "far-stream-into-near",
+   "exact_match": 0.96875,
+   "first_digit": 1.0,
+   "n_far": 512,
+   "n_near": 384
+  }
+ ],
+ "utc": 1790824360.4872537
+}

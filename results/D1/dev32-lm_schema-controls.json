@@ -1,0 +1,1018 @@
+{
+ "arm": "lm_schema",
+ "rows": [
+  {
+   "control": "missing_source",
+   "expect": [
+    2
+   ],
+   "id": "2hop__16764_16772__missing_source",
+   "pred": {
+    "headings": [
+     {
+      "name": "Person who resigned their position following the scandal due to Orsini's bomb being made in England",
+      "pid": "p174c31ba5c"
+     }
+    ],
+    "hops": [
+     {
+      "answer": "Palmerston",
+      "depends_on": null,
+      "relation": "resigned",
+      "source": "p174c31ba5c",
+      "step": 1,
+      "subject": "Person who resigned their position following the scandal due to Orsini's bomb being made in England",
+      "unresolved": false
+     },
+     {
+      "answer": "1855",
+      "depends_on": 1,
+      "relation": "date_of_death",
+      "source": "p174c31ba5c",
+      "step": 2,
+      "subject": "Palmerston",
+      "unresolved": false
+     }
+    ],
+    "parse": "OK",
+    "prompt_chars": 2564,
+    "raw": "{\"status\": \"OK\", \"headings\": [{\"name\": \"Person who resigned their position following the scandal due to Orsini's bomb being made in England\", \"pid\": \"p174c31ba5c\"}], \"hops\": [{\"step\": 1, \"subject\": \"Person who resigned their position following the scandal due to Orsini's bomb being made in England\", \"relation\": \"resigned\", \"answer\": \"Palmerston\", \"source\": \"p174c31ba5c\", \"depends_on\": null}, {\"step\": 2, \"subject\": \"Palmerston\", \"relation\": \"date_of_death\", \"answer\": \"1855\", \"source\": \"p174c31ba5c\", \"depends_on\": 1}]}",
+    "status": "OK"
+   },
+   "score": {
+    "accepted": 2,
+    "accepted_wrong": 2,
+    "controls_expected": 1,
+    "controls_ok": 0,
+    "extra_hops": 0,
+    "gold_hops": 2,
+    "relation_fn": 2,
+    "relation_fp": 2,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "OK",
+    "unresolved": 0
+   }
+  },
+  {
+   "control": "relation_swap",
+   "expect": [
+    2
+   ],
+   "id": "2hop__16764_16772__relation_swap",
+   "pred": {
+    "headings": [
+     {
+      "name": "Person who resigned their position following the scandal due to Orsini's bomb being made in England",
+      "pid": "p3184aa87e6"
+     }
+    ],
+    "hops": [
+     {
+      "answer": "Palmerston",
+      "depends_on": null,
+      "relation": "resigned",
+      "source": "p3184aa87e6",
+      "step": 1,
+      "subject": "Person who resigned their position following the scandal due to Orsini's bomb being made in England",
+      "unresolved": false
+     },
+     {
+      "answer": "1865",
+      "depends_on": 1,
+      "relation": "died",
+      "source": "p3184aa87e6",
+      "step": 2,
+      "subject": "Palmerston",
+      "unresolved": false
+     },
+     {
+      "answer": "Palmerston",
+      "depends_on": 2,
+      "relation": "is the death year of",
+      "source": "p3184aa87e6",
+      "step": 3,
+      "subject": "1865",
+      "unresolved": false
+     }
+    ],
+    "parse": "OK",
+    "prompt_chars": 3576,
+    "raw": "{\"status\": \"OK\", \"headings\": [{\"name\": \"Person who resigned their position following the scandal due to Orsini's bomb being made in England\", \"pid\": \"p3184aa87e6\"}], \"hops\": [{\"step\": 1, \"subject\": \"Person who resigned their position following the scandal due to Orsini's bomb being made in England\", \"relation\": \"resigned\", \"answer\": \"Palmerston\", \"source\": \"p3184aa87e6\", \"depends_on\": null}, {\"step\": 2, \"subject\": \"Palmerston\", \"relation\": \"died\", \"answer\": \"1865\", \"source\": \"p3184aa87e6\", \"depends_on\": 1}, {\"step\": 3, \"subject\": \"1865\", \"relation\": \"is the death year of\", \"answer\": \"Palmerston\", \"source\": \"p3184aa87e6\", \"depends_on\": 2}]}",
+    "status": "OK"
+   },
+   "score": {
+    "accepted": 3,
+    "accepted_wrong": 3,
+    "controls_expected": 1,
+    "controls_ok": 0,
+    "extra_hops": 1,
+    "gold_hops": 2,
+    "relation_fn": 2,
+    "relation_fp": 3,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "OK",
+    "unresolved": 0
+   }
+  },
+  {
+   "control": "subject_swap",
+   "expect": [
+    1,
+    2
+   ],
+   "id": "2hop__16764_16772__subject_swap",
+   "pred": {
+    "headings": [
+     {
+      "name": "Person who resigned their position following the scandal due to Orsini's bomb being made in England",
+      "pid": "p3184aa87e6"
+     }
+    ],
+    "hops": [
+     {
+      "answer": "Palmerston",
+      "depends_on": null,
+      "relation": "resigned",
+      "source": "p3184aa87e6",
+      "step": 1,
+      "subject": "Person who resigned their position following the scandal due to Orsini's bomb being made in England",
+      "unresolved": false
+     },
+     {
+      "answer": "1865",
+      "depends_on": 1,
+      "relation": "died",
+      "source": "p3184aa87e6",
+      "step": 2,
+      "subject": "Palmerston",
+      "unresolved": false
+     },
+     {
+      "answer": "1865",
+      "depends_on": 2,
+      "relation": "reverse_order",
+      "source": "p3184aa87e6",
+      "step": 3,
+      "subject": "1865",
+      "unresolved": false
+     }
+    ],
+    "parse": "OK",
+    "prompt_chars": 3575,
+    "raw": "{\"status\": \"OK\", \"headings\": [{\"name\": \"Person who resigned their position following the scandal due to Orsini's bomb being made in England\", \"pid\": \"p3184aa87e6\"}], \"hops\": [{\"step\": 1, \"subject\": \"Person who resigned their position following the scandal due to Orsini's bomb being made in England\", \"relation\": \"resigned\", \"answer\": \"Palmerston\", \"source\": \"p3184aa87e6\", \"depends_on\": null}, {\"step\": 2, \"subject\": \"Palmerston\", \"relation\": \"died\", \"answer\": \"1865\", \"source\": \"p3184aa87e6\", \"depends_on\": 1}, {\"step\": 3, \"subject\": \"1865\", \"relation\": \"reverse_order\", \"answer\": \"1865\", \"source\": \"p3184aa87e6\", \"depends_on\": 2}]}",
+    "status": "OK"
+   },
+   "score": {
+    "accepted": 3,
+    "accepted_wrong": 3,
+    "controls_expected": 2,
+    "controls_ok": 0,
+    "extra_hops": 1,
+    "gold_hops": 2,
+    "relation_fn": 2,
+    "relation_fp": 3,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "OK",
+    "unresolved": 0
+   }
+  },
+  {
+   "control": "missing_source",
+   "expect": [
+    2
+   ],
+   "id": "2hop__777506_3001__missing_source",
+   "pred": {
+    "hops": [],
+    "parse": "INVALID_JSON",
+    "prompt_chars": 2277,
+    "raw": "{\"status\": \"OK\", \"headings\": [{\"name\": \"Endless Love\", \"pid\": \"p0df7adb3ea\"}], \"hops\": [{\"step\": 1, \"subject\": \"Endless Love\", \"relation\": \"composer\", \"answer\": \"Lionel Richie\", \"source\": \"p0df7adb3ea\", \"depends_on\": null}, {\"step\": 2, \"subject\": \"Lionel Richie\", \"relation\": \"born\", \"answer\": \"October 10, 1970\", \"source\": \"p0df7adb3ea\", \"depends_on\": 1}, {\"step\": 3, \"subject\": \"Lionel Richie\", \"relation\": \"nationality\", \"answer\": \"Brazilian\", \"source\": \"p0df7adb3ea\", \"depends_on\": 1}, {\"step\": 4, \"subject\": \"Paula Lima\", \"relation\": \"judge\", \"answer\": \"Ídolos Brazil (Season 3 and Season 4)\", \"source\": \"pd3175cd425\", \"depends_on\": null}, {\"step\": 5, \"subject\": \"Paula Lima\", \"relation\": \"genre\", \"answer\": \"bossa, percussion, samba, Brazilian soul, international funk\", \"source\": \"pd3175cd425\", \"depends_on\": null}, {\"step\": 6, \"subject\": \"Paula Lima\", \"relation\": \"born\", \"answer\": \"October 10, 1970\", \"source\": \"pd3175cd425\", \"depends_on\": null}, {\"step\": 7, \"subject\": \"Paula Lima\", \"relation\": \"place of birth\", \"answer\": \"São",
+    "status": "UNRESOLVED"
+   },
+   "score": {
+    "accepted": 0,
+    "accepted_wrong": 0,
+    "controls_expected": 1,
+    "controls_ok": 1,
+    "extra_hops": 0,
+    "gold_hops": 2,
+    "relation_fn": 2,
+    "relation_fp": 0,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "UNRESOLVED",
+    "unresolved": 2
+   }
+  },
+  {
+   "control": "relation_swap",
+   "expect": [
+    2
+   ],
+   "id": "2hop__777506_3001__relation_swap",
+   "pred": {
+    "headings": [
+     {
+      "name": "composer of Endless Love",
+      "pid": "p0df7adb3ea"
+     }
+    ],
+    "hops": [
+     {
+      "answer": "Endless Love",
+      "depends_on": null,
+      "relation": "composer",
+      "source": "p0df7adb3ea",
+      "step": 1,
+      "subject": "Lionel Richie",
+      "unresolved": false
+     },
+     {
+      "answer": "American Idol",
+      "depends_on": 1,
+      "relation": "appeared as guest judge",
+      "source": "p0df7adb3ea",
+      "step": 2,
+      "subject": "Lionel Richie",
+      "unresolved": false
+     },
+     {
+      "answer": "season three",
+      "depends_on": 2,
+      "relation": "season",
+      "source": "p64531aee32",
+      "step": 3,
+      "subject": "American Idol",
+      "unresolved": false
+     }
+    ],
+    "parse": "OK",
+    "prompt_chars": 2940,
+    "raw": "{\"status\": \"OK\", \"headings\": [{\"name\": \"composer of Endless Love\", \"pid\": \"p0df7adb3ea\"}], \"hops\": [{\"step\": 1, \"subject\": \"Lionel Richie\", \"relation\": \"composer\", \"answer\": \"Endless Love\", \"source\": \"p0df7adb3ea\", \"depends_on\": null}, {\"step\": 2, \"subject\": \"Lionel Richie\", \"relation\": \"appeared as guest judge\", \"answer\": \"American Idol\", \"source\": \"p0df7adb3ea\", \"depends_on\": 1}, {\"step\": 3, \"subject\": \"American Idol\", \"relation\": \"season\", \"answer\": \"season three\", \"source\": \"p64531aee32\", \"depends_on\": 2}]}",
+    "status": "OK"
+   },
+   "score": {
+    "accepted": 3,
+    "accepted_wrong": 3,
+    "controls_expected": 1,
+    "controls_ok": 0,
+    "extra_hops": 1,
+    "gold_hops": 2,
+    "relation_fn": 2,
+    "relation_fp": 3,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "OK",
+    "unresolved": 0
+   }
+  },
+  {
+   "control": "subject_swap",
+   "expect": [
+    1,
+    2
+   ],
+   "id": "2hop__777506_3001__subject_swap",
+   "pred": {
+    "headings": [
+     {
+      "name": "Lionel Richie",
+      "pid": "p0df7adb3ea"
+     }
+    ],
+    "hops": [
+     {
+      "answer": "3rd Youth in Film Awards",
+      "depends_on": null,
+      "relation": "eldest_winner",
+      "source": "p0df7adb3ea",
+      "step": 1,
+      "subject": "Lionel Richie",
+      "unresolved": false
+     },
+     {
+      "answer": "American Idol",
+      "depends_on": 1,
+      "relation": "guest_judge",
+      "source": "p64531aee32",
+      "step": 2,
+      "subject": "Lionel Richie",
+      "unresolved": false
+     },
+     {
+      "answer": "season nine",
+      "depends_on": 2,
+      "relation": "season",
+      "source": "p64531aee32",
+      "step": 3,
+      "subject": "American Idol",
+      "unresolved": false
+     }
+    ],
+    "parse": "OK",
+    "prompt_chars": 2939,
+    "raw": "{\"status\": \"OK\", \"headings\": [{\"name\": \"Lionel Richie\", \"pid\": \"p0df7adb3ea\"}], \"hops\": [{\"step\": 1, \"subject\": \"Lionel Richie\", \"relation\": \"eldest_winner\", \"answer\": \"3rd Youth in Film Awards\", \"source\": \"p0df7adb3ea\", \"depends_on\": null}, {\"step\": 2, \"subject\": \"Lionel Richie\", \"relation\": \"guest_judge\", \"answer\": \"American Idol\", \"source\": \"p64531aee32\", \"depends_on\": 1}, {\"step\": 3, \"subject\": \"American Idol\", \"relation\": \"season\", \"answer\": \"season nine\", \"source\": \"p64531aee32\", \"depends_on\": 2}]}",
+    "status": "OK"
+   },
+   "score": {
+    "accepted": 3,
+    "accepted_wrong": 3,
+    "controls_expected": 2,
+    "controls_ok": 0,
+    "extra_hops": 1,
+    "gold_hops": 2,
+    "relation_fn": 2,
+    "relation_fp": 3,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "OK",
+    "unresolved": 0
+   }
+  },
+  {
+   "control": "missing_source",
+   "expect": [
+    2
+   ],
+   "id": "2hop__175400_3814__missing_source",
+   "pred": {
+    "headings": [
+     {
+      "name": "Kangdong County",
+      "pid": "p0df3ddbe56"
+     }
+    ],
+    "hops": [
+     {
+      "answer": "UNRESOLVED",
+      "depends_on": null,
+      "relation": "location",
+      "source": "p0df3ddbe56",
+      "step": 1,
+      "subject": "Kangdong County",
+      "unresolved": true
+     }
+    ],
+    "parse": "OK",
+    "prompt_chars": 2058,
+    "raw": "{\"status\": \"UNRESOLVED\", \"headings\": [{\"name\": \"Kangdong County\", \"pid\": \"p0df3ddbe56\"}], \"hops\": [{\"step\": 1, \"subject\": \"Kangdong County\", \"relation\": \"location\", \"answer\": \"UNRESOLVED\", \"source\": \"p0df3ddbe56\", \"depends_on\": null}]}",
+    "status": "UNRESOLVED"
+   },
+   "score": {
+    "accepted": 0,
+    "accepted_wrong": 0,
+    "controls_expected": 1,
+    "controls_ok": 1,
+    "extra_hops": 0,
+    "gold_hops": 2,
+    "relation_fn": 2,
+    "relation_fp": 0,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "UNRESOLVED",
+    "unresolved": 2
+   }
+  },
+  {
+   "control": "relation_swap",
+   "expect": [
+    2
+   ],
+   "id": "2hop__175400_3814__relation_swap",
+   "pred": {
+    "headings": [
+     {
+      "name": "Kangdong County",
+      "pid": "p0df3ddbe56"
+     }
+    ],
+    "hops": [
+     {
+      "answer": "Pyongyang",
+      "depends_on": null,
+      "relation": "location",
+      "source": "p0df3ddbe56",
+      "step": 1,
+      "subject": "Kangdong County",
+      "unresolved": false
+     },
+     {
+      "answer": "2008 Summer Olympics torch relay",
+      "depends_on": 1,
+      "relation": "event",
+      "source": "paa5d47cda3",
+      "step": 2,
+      "subject": "Pyongyang",
+      "unresolved": false
+     },
+     {
+      "answer": "April 28",
+      "depends_on": 2,
+      "relation": "date",
+      "source": "paa5d47cda3",
+      "step": 3,
+      "subject": "2008 Summer Olympics torch relay",
+      "unresolved": false
+     }
+    ],
+    "parse": "OK",
+    "prompt_chars": 3143,
+    "raw": "{\"status\": \"OK\", \"headings\": [{\"name\": \"Kangdong County\", \"pid\": \"p0df3ddbe56\"}], \"hops\": [{\"step\": 1, \"subject\": \"Kangdong County\", \"relation\": \"location\", \"answer\": \"Pyongyang\", \"source\": \"p0df3ddbe56\", \"depends_on\": null}, {\"step\": 2, \"subject\": \"Pyongyang\", \"relation\": \"event\", \"answer\": \"2008 Summer Olympics torch relay\", \"source\": \"paa5d47cda3\", \"depends_on\": 1}, {\"step\": 3, \"subject\": \"2008 Summer Olympics torch relay\", \"relation\": \"date\", \"answer\": \"April 28\", \"source\": \"paa5d47cda3\", \"depends_on\": 2}]}",
+    "status": "OK"
+   },
+   "score": {
+    "accepted": 3,
+    "accepted_wrong": 3,
+    "controls_expected": 1,
+    "controls_ok": 0,
+    "extra_hops": 1,
+    "gold_hops": 2,
+    "relation_fn": 2,
+    "relation_fp": 3,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "OK",
+    "unresolved": 0
+   }
+  },
+  {
+   "control": "subject_swap",
+   "expect": [
+    1,
+    2
+   ],
+   "id": "2hop__175400_3814__subject_swap",
+   "pred": {
+    "headings": [
+     {
+      "name": "Kangdong County",
+      "pid": "p0df3ddbe56"
+     },
+     {
+      "name": "2008 Summer Olympics torch relay",
+      "pid": "paedae9db7e"
+     }
+    ],
+    "hops": [
+     {
+      "answer": "Pyongyang",
+      "depends_on": null,
+      "relation": "location",
+      "source": "paedae9db7e",
+      "step": 1,
+      "subject": "2008 Summer Olympics torch relay",
+      "unresolved": false
+     },
+     {
+      "answer": "Kangdong County",
+      "depends_on": 1,
+      "relation": "contains",
+      "source": "p0df3ddbe56",
+      "step": 2,
+      "subject": "Pyongyang",
+      "unresolved": false
+     },
+     {
+      "answer": "April 28",
+      "depends_on": 2,
+      "relation": "location",
+      "source": "paedae9db7e",
+      "step": 3,
+      "subject": "Kangdong County",
+      "unresolved": false
+     }
+    ],
+    "parse": "OK",
+    "prompt_chars": 3142,
+    "raw": "{\"status\": \"OK\", \"headings\": [{\"name\": \"Kangdong County\", \"pid\": \"p0df3ddbe56\"}, {\"name\": \"2008 Summer Olympics torch relay\", \"pid\": \"paedae9db7e\"}], \"hops\": [{\"step\": 1, \"subject\": \"2008 Summer Olympics torch relay\", \"relation\": \"location\", \"answer\": \"Pyongyang\", \"source\": \"paedae9db7e\", \"depends_on\": null}, {\"step\": 2, \"subject\": \"Pyongyang\", \"relation\": \"contains\", \"answer\": \"Kangdong County\", \"source\": \"p0df3ddbe56\", \"depends_on\": 1}, {\"step\": 3, \"subject\": \"Kangdong County\", \"relation\": \"location\", \"answer\": \"April 28\", \"source\": \"paedae9db7e\", \"depends_on\": 2}]}",
+    "status": "OK"
+   },
+   "score": {
+    "accepted": 3,
+    "accepted_wrong": 3,
+    "controls_expected": 2,
+    "controls_ok": 0,
+    "extra_hops": 1,
+    "gold_hops": 2,
+    "relation_fn": 2,
+    "relation_fp": 3,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "OK",
+    "unresolved": 0
+   }
+  },
+  {
+   "control": "missing_source",
+   "expect": [
+    2
+   ],
+   "id": "2hop__689229_36340__missing_source",
+   "pred": {
+    "hops": [],
+    "parse": "INVALID_JSON",
+    "prompt_chars": 2494,
+    "raw": "{\"status\": \"OK\", \"headings\": [{\"name\": \"Adolph Jentsch\", \"pid\": \"p3ce821d92a\"}, {\"name\": \"Commodore Hotel\", \"pid\": \"p8ea01ade79\"}, {\"name\": \"Grand Hotel (musical)\", \"pid\": \"p2bd84b215b\"}], \"hops\": [{\"step\": 1, \"subject\": \"Adolph Jentsch\", \"relation\": \"died\", \"answer\": \"Windhoek\", \"source\": \"p3ce821d92a\", \"depends_on\": null}, {\"step\": 2, \"subject\": \"Adolph Jentsch\", \"relation\": \"died_in_city\", \"answer\": \"Windhoek\", \"source\": \"p3ce821d92a\", \"depends_on\": 1}, {\"step\": 3, \"subject\": \"Commodore Hotel\", \"relation\": \"location\", \"answer\": \"Portland, Oregon\", \"source\": \"p8ea01ade79\", \"depends_on\": null}, {\"step\": 4, \"subject\": \"Commodore Hotel\", \"relation\": \"type\", \"answer\": \"Art Deco-style\", \"source\": \"p8ea01ade79\", \"depends_on\": null}, {\"step\": 5, \"subject\": \"Grand Hotel (musical)\", \"relation\": \"location\", \"answer\": \"Berlin\", \"source\": \"p2bd84b215b\", \"depends_on\": null}, {\"step\": 6, \"subject\": \"Grand Hotel (musical)\", \"relation\": \"type\", \"answer\": \"musical\", \"source\": \"p2bd84b215b\",",
+    "status": "UNRESOLVED"
+   },
+   "score": {
+    "accepted": 0,
+    "accepted_wrong": 0,
+    "controls_expected": 1,
+    "controls_ok": 1,
+    "extra_hops": 0,
+    "gold_hops": 2,
+    "relation_fn": 2,
+    "relation_fp": 0,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "UNRESOLVED",
+    "unresolved": 2
+   }
+  },
+  {
+   "control": "relation_swap",
+   "expect": [
+    2
+   ],
+   "id": "2hop__689229_36340__relation_swap",
+   "pred": {
+    "headings": [
+     {
+      "name": "Adolph Jentsch",
+      "pid": "p3ce821d92a"
+     }
+    ],
+    "hops": [
+     {
+      "answer": "Windhoek",
+      "depends_on": null,
+      "relation": "died",
+      "source": "p3ce821d92a",
+      "step": 1,
+      "subject": "Adolph Jentsch",
+      "unresolved": false
+     },
+     {
+      "answer": "Namibia",
+      "depends_on": 1,
+      "relation": "capital",
+      "source": "p3ce821d92a",
+      "step": 2,
+      "subject": "Windhoek",
+      "unresolved": false
+     },
+     {
+      "answer": "Commodore Hotel",
+      "depends_on": 2,
+      "relation": "most_popular_hotel",
+      "source": "p8ea01ade79",
+      "step": 3,
+      "subject": "Windhoek",
+      "unresolved": false
+     },
+     {
+      "answer": "Portland",
+      "depends_on": 3,
+      "relation": "location",
+      "source": "p8ea01ade79",
+      "step": 4,
+      "subject": "Commodore Hotel",
+      "unresolved": false
+     }
+    ],
+    "parse": "OK",
+    "prompt_chars": 3447,
+    "raw": "{\"status\": \"OK\", \"headings\": [{\"name\": \"Adolph Jentsch\", \"pid\": \"p3ce821d92a\"}], \"hops\": [{\"step\": 1, \"subject\": \"Adolph Jentsch\", \"relation\": \"died\", \"answer\": \"Windhoek\", \"source\": \"p3ce821d92a\", \"depends_on\": null}, {\"step\": 2, \"subject\": \"Windhoek\", \"relation\": \"capital\", \"answer\": \"Namibia\", \"source\": \"p3ce821d92a\", \"depends_on\": 1}, {\"step\": 3, \"subject\": \"Windhoek\", \"relation\": \"most_popular_hotel\", \"answer\": \"Commodore Hotel\", \"source\": \"p8ea01ade79\", \"depends_on\": 2}, {\"step\": 4, \"subject\": \"Commodore Hotel\", \"relation\": \"location\", \"answer\": \"Portland\", \"source\": \"p8ea01ade79\", \"depends_on\": 3}]}",
+    "status": "OK"
+   },
+   "score": {
+    "accepted": 4,
+    "accepted_wrong": 4,
+    "controls_expected": 1,
+    "controls_ok": 0,
+    "extra_hops": 2,
+    "gold_hops": 2,
+    "relation_fn": 2,
+    "relation_fp": 4,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "OK",
+    "unresolved": 0
+   }
+  },
+  {
+   "control": "subject_swap",
+   "expect": [
+    1,
+    2
+   ],
+   "id": "2hop__689229_36340__subject_swap",
+   "pred": {
+    "headings": [
+     {
+      "name": "Adolph Jentsch",
+      "pid": "p3ce821d92a"
+     }
+    ],
+    "hops": [
+     {
+      "answer": "Windhoek",
+      "depends_on": null,
+      "relation": "died_in_city",
+      "source": "p3ce821d92a",
+      "step": 1,
+      "subject": "Adolph Jentsch",
+      "unresolved": false
+     },
+     {
+      "answer": "Commodore Hotel",
+      "depends_on": 1,
+      "relation": "has_hotels",
+      "source": "p8ea01ade79",
+      "step": 2,
+      "subject": "Windhoek",
+      "unresolved": false
+     },
+     {
+      "answer": "Commodore Hotel",
+      "depends_on": 2,
+      "relation": "is_most_popular",
+      "source": "p8ea01ade79",
+      "step": 3,
+      "subject": "Commodore Hotel",
+      "unresolved": false
+     }
+    ],
+    "parse": "OK",
+    "prompt_chars": 3446,
+    "raw": "{\"status\": \"OK\", \"headings\": [{\"name\": \"Adolph Jentsch\", \"pid\": \"p3ce821d92a\"}], \"hops\": [{\"step\": 1, \"subject\": \"Adolph Jentsch\", \"relation\": \"died_in_city\", \"answer\": \"Windhoek\", \"source\": \"p3ce821d92a\", \"depends_on\": null}, {\"step\": 2, \"subject\": \"Windhoek\", \"relation\": \"has_hotels\", \"answer\": \"Commodore Hotel\", \"source\": \"p8ea01ade79\", \"depends_on\": 1}, {\"step\": 3, \"subject\": \"Commodore Hotel\", \"relation\": \"is_most_popular\", \"answer\": \"Commodore Hotel\", \"source\": \"p8ea01ade79\", \"depends_on\": 2}]}",
+    "status": "OK"
+   },
+   "score": {
+    "accepted": 3,
+    "accepted_wrong": 3,
+    "controls_expected": 2,
+    "controls_ok": 0,
+    "extra_hops": 1,
+    "gold_hops": 2,
+    "relation_fn": 2,
+    "relation_fp": 3,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "OK",
+    "unresolved": 0
+   }
+  },
+  {
+   "control": "missing_source",
+   "expect": [
+    2
+   ],
+   "id": "2hop__235222_125776__missing_source",
+   "pred": {
+    "headings": [
+     {
+      "name": "composer_of_Violin_Concerto_No_1",
+      "pid": "p33b3e30734"
+     }
+    ],
+    "hops": [
+     {
+      "answer": "Wolfgang Amadeus Mozart",
+      "depends_on": null,
+      "relation": "person",
+      "source": "p33b3e30734",
+      "step": 1,
+      "subject": "composer_of_Violin_Concerto_No_1",
+      "unresolved": false
+     },
+     {
+      "answer": "Leopold Mozart",
+      "depends_on": 1,
+      "relation": "father",
+      "source": "UNRESOLVED",
+      "step": 2,
+      "subject": "Wolfgang Amadeus Mozart",
+      "unresolved": true
+     }
+    ],
+    "parse": "OK",
+    "prompt_chars": 2462,
+    "raw": "{\"status\": \"OK\", \"headings\": [{\"name\": \"composer_of_Violin_Concerto_No_1\", \"pid\": \"p33b3e30734\"}], \"hops\": [{\"step\": 1, \"subject\": \"composer_of_Violin_Concerto_No_1\", \"relation\": \"person\", \"answer\": \"Wolfgang Amadeus Mozart\", \"source\": \"p33b3e30734\", \"depends_on\": null}, {\"step\": 2, \"subject\": \"Wolfgang Amadeus Mozart\", \"relation\": \"father\", \"answer\": \"Leopold Mozart\", \"source\": \"UNRESOLVED\", \"depends_on\": 1}]}",
+    "status": "OK"
+   },
+   "score": {
+    "accepted": 1,
+    "accepted_wrong": 1,
+    "controls_expected": 1,
+    "controls_ok": 1,
+    "extra_hops": 0,
+    "gold_hops": 2,
+    "relation_fn": 2,
+    "relation_fp": 1,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "OK",
+    "unresolved": 1
+   }
+  },
+  {
+   "control": "relation_swap",
+   "expect": [
+    2
+   ],
+   "id": "2hop__235222_125776__relation_swap",
+   "pred": {
+    "headings": [
+     {
+      "name": "composer_of_Violin_Concerto_No_1",
+      "pid": "p33b3e30734"
+     }
+    ],
+    "hops": [
+     {
+      "answer": "Wolfgang Amadeus Mozart",
+      "depends_on": null,
+      "relation": "child",
+      "source": "p84fe9150ad",
+      "step": 1,
+      "subject": "composer_of_Violin_Concerto_No_1",
+      "unresolved": false
+     },
+     {
+      "answer": "Leopold Mozart",
+      "depends_on": 1,
+      "relation": "father",
+      "source": "p84fe9150ad",
+      "step": 2,
+      "subject": "Wolfgang Amadeus Mozart",
+      "unresolved": false
+     },
+     {
+      "answer": "Wolfgang Amadeus Mozart",
+      "depends_on": 2,
+      "relation": "child",
+      "source": "p84fe9150ad",
+      "step": 3,
+      "subject": "Leopold Mozart",
+      "unresolved": false
+     }
+    ],
+    "parse": "OK",
+    "prompt_chars": 3255,
+    "raw": "{\"status\": \"OK\", \"headings\": [{\"name\": \"composer_of_Violin_Concerto_No_1\", \"pid\": \"p33b3e30734\"}], \"hops\": [{\"step\": 1, \"subject\": \"composer_of_Violin_Concerto_No_1\", \"relation\": \"child\", \"answer\": \"Wolfgang Amadeus Mozart\", \"source\": \"p84fe9150ad\", \"depends_on\": null}, {\"step\": 2, \"subject\": \"Wolfgang Amadeus Mozart\", \"relation\": \"father\", \"answer\": \"Leopold Mozart\", \"source\": \"p84fe9150ad\", \"depends_on\": 1}, {\"step\": 3, \"subject\": \"Leopold Mozart\", \"relation\": \"child\", \"answer\": \"Wolfgang Amadeus Mozart\", \"source\": \"p84fe9150ad\", \"depends_on\": 2}]}",
+    "status": "OK"
+   },
+   "score": {
+    "accepted": 3,
+    "accepted_wrong": 3,
+    "controls_expected": 1,
+    "controls_ok": 0,
+    "extra_hops": 1,
+    "gold_hops": 2,
+    "relation_fn": 2,
+    "relation_fp": 3,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "OK",
+    "unresolved": 0
+   }
+  },
+  {
+   "control": "subject_swap",
+   "expect": [
+    1,
+    2
+   ],
+   "id": "2hop__235222_125776__subject_swap",
+   "pred": {
+    "headings": [
+     {
+      "name": "composer_of_Violin_Concerto_No_1",
+      "pid": "p33b3e30734"
+     }
+    ],
+    "hops": [
+     {
+      "answer": "Wolfgang Amadeus Mozart",
+      "depends_on": null,
+      "relation": "composer",
+      "source": "p33b3e30734",
+      "step": 1,
+      "subject": "composer_of_Violin_Concerto_No_1",
+      "unresolved": false
+     },
+     {
+      "answer": "Leopold Mozart",
+      "depends_on": 1,
+      "relation": "father",
+      "source": "p84fe9150ad",
+      "step": 2,
+      "subject": "Wolfgang Amadeus Mozart",
+      "unresolved": false
+     },
+     {
+      "answer": "Leopold Mozart",
+      "depends_on": 2,
+      "relation": "name",
+      "source": "p84fe9150ad",
+      "step": 3,
+      "subject": "Leopold Mozart",
+      "unresolved": false
+     }
+    ],
+    "parse": "OK",
+    "prompt_chars": 3254,
+    "raw": "{\"status\": \"OK\", \"headings\": [{\"name\": \"composer_of_Violin_Concerto_No_1\", \"pid\": \"p33b3e30734\"}], \"hops\": [{\"step\": 1, \"subject\": \"composer_of_Violin_Concerto_No_1\", \"relation\": \"composer\", \"answer\": \"Wolfgang Amadeus Mozart\", \"source\": \"p33b3e30734\", \"depends_on\": null}, {\"step\": 2, \"subject\": \"Wolfgang Amadeus Mozart\", \"relation\": \"father\", \"answer\": \"Leopold Mozart\", \"source\": \"p84fe9150ad\", \"depends_on\": 1}, {\"step\": 3, \"subject\": \"Leopold Mozart\", \"relation\": \"name\", \"answer\": \"Leopold Mozart\", \"source\": \"p84fe9150ad\", \"depends_on\": 2}]}",
+    "status": "OK"
+   },
+   "score": {
+    "accepted": 3,
+    "accepted_wrong": 3,
+    "controls_expected": 2,
+    "controls_ok": 0,
+    "extra_hops": 1,
+    "gold_hops": 2,
+    "relation_fn": 2,
+    "relation_fp": 3,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "OK",
+    "unresolved": 0
+   }
+  },
+  {
+   "control": "missing_source",
+   "expect": [
+    2
+   ],
+   "id": "2hop__440195_14904__missing_source",
+   "pred": {
+    "headings": [
+     {
+      "name": "Health Psychology",
+      "pid": "p1d0aa6a0ad"
+     }
+    ],
+    "hops": [
+     {
+      "answer": "American Psychological Association",
+      "depends_on": null,
+      "relation": "publisher",
+      "source": "p1d0aa6a0ad",
+      "step": 1,
+      "subject": "Health Psychology",
+      "unresolved": false
+     },
+     {
+      "answer": "UNRESOLVED",
+      "depends_on": 1,
+      "relation": "president",
+      "source": "UNRESOLVED",
+      "step": 2,
+      "subject": "American Psychological Association",
+      "unresolved": true
+     }
+    ],
+    "parse": "OK",
+    "prompt_chars": 2623,
+    "raw": "{\"status\": \"OK\", \"headings\": [{\"name\": \"Health Psychology\", \"pid\": \"p1d0aa6a0ad\"}], \"hops\": [{\"step\": 1, \"subject\": \"Health Psychology\", \"relation\": \"publisher\", \"answer\": \"American Psychological Association\", \"source\": \"p1d0aa6a0ad\", \"depends_on\": null}, {\"step\": 2, \"subject\": \"American Psychological Association\", \"relation\": \"president\", \"answer\": \"UNRESOLVED\", \"source\": \"UNRESOLVED\", \"depends_on\": 1}]}",
+    "status": "OK"
+   },
+   "score": {
+    "accepted": 1,
+    "accepted_wrong": 0,
+    "controls_expected": 1,
+    "controls_ok": 1,
+    "extra_hops": 0,
+    "gold_hops": 2,
+    "relation_fn": 1,
+    "relation_fp": 0,
+    "relation_tp": 1,
+    "source_correct": 1,
+    "status": "OK",
+    "unresolved": 1
+   }
+  },
+  {
+   "control": "relation_swap",
+   "expect": [
+    2
+   ],
+   "id": "2hop__440195_14904__relation_swap",
+   "pred": {
+    "headings": [
+     {
+      "name": "Publisher of Health Psychology",
+      "pid": "p1d0aa6a0ad"
+     }
+    ],
+    "hops": [
+     {
+      "answer": "American Psychological Association",
+      "depends_on": null,
+      "relation": "publisher",
+      "source": "p1d0aa6a0ad",
+      "step": 1,
+      "subject": "Health Psychology (journal)",
+      "unresolved": false
+     },
+     {
+      "answer": "G. Stanley Hall",
+      "depends_on": 1,
+      "relation": "president",
+      "source": "p328eb3f9f5",
+      "step": 2,
+      "subject": "American Psychological Association",
+      "unresolved": false
+     }
+    ],
+    "parse": "OK",
+    "prompt_chars": 4042,
+    "raw": "{\"status\": \"OK\", \"headings\": [{\"name\": \"Publisher of Health Psychology\", \"pid\": \"p1d0aa6a0ad\"}], \"hops\": [{\"step\": 1, \"subject\": \"Health Psychology (journal)\", \"relation\": \"publisher\", \"answer\": \"American Psychological Association\", \"source\": \"p1d0aa6a0ad\", \"depends_on\": null}, {\"step\": 2, \"subject\": \"American Psychological Association\", \"relation\": \"president\", \"answer\": \"G. Stanley Hall\", \"source\": \"p328eb3f9f5\", \"depends_on\": 1}]}",
+    "status": "OK"
+   },
+   "score": {
+    "accepted": 2,
+    "accepted_wrong": 1,
+    "controls_expected": 1,
+    "controls_ok": 0,
+    "extra_hops": 0,
+    "gold_hops": 2,
+    "relation_fn": 1,
+    "relation_fp": 1,
+    "relation_tp": 1,
+    "source_correct": 1,
+    "status": "OK",
+    "unresolved": 0
+   }
+  },
+  {
+   "control": "subject_swap",
+   "expect": [
+    1,
+    2
+   ],
+   "id": "2hop__440195_14904__subject_swap",
+   "pred": {
+    "headings": [
+     {
+      "name": "Publisher of Health Psychology",
+      "pid": "p1d0aa6a0ad"
+     }
+    ],
+    "hops": [
+     {
+      "answer": "American Psychological Association",
+      "depends_on": null,
+      "relation": "publisher",
+      "source": "p1d0aa6a0ad",
+      "step": 1,
+      "subject": "Health Psychology",
+      "unresolved": false
+     },
+     {
+      "answer": "G. Stanley Hall",
+      "depends_on": 1,
+      "relation": "president",
+      "source": "p328eb3f9f5",
+      "step": 2,
+      "subject": "American Psychological Association",
+      "unresolved": false
+     },
+     {
+      "answer": "president",
+      "depends_on": 2,
+      "relation": "reverse_order",
+      "source": "p328eb3f9f5",
+      "step": 3,
+      "subject": "G. Stanley Hall",
+      "unresolved": false
+     }
+    ],
+    "parse": "OK",
+    "prompt_chars": 4041,
+    "raw": "{\"status\": \"OK\", \"headings\": [{\"name\": \"Publisher of Health Psychology\", \"pid\": \"p1d0aa6a0ad\"}], \"hops\": [{\"step\": 1, \"subject\": \"Health Psychology\", \"relation\": \"publisher\", \"answer\": \"American Psychological Association\", \"source\": \"p1d0aa6a0ad\", \"depends_on\": null}, {\"step\": 2, \"subject\": \"American Psychological Association\", \"relation\": \"president\", \"answer\": \"G. Stanley Hall\", \"source\": \"p328eb3f9f5\", \"depends_on\": 1}, {\"step\": 3, \"subject\": \"G. Stanley Hall\", \"relation\": \"reverse_order\", \"answer\": \"president\", \"source\": \"p328eb3f9f5\", \"depends_on\": 2}]}",
+    "status": "OK"
+   },
+   "score": {
+    "accepted": 3,
+    "accepted_wrong": 3,
+    "controls_expected": 2,
+    "controls_ok": 0,
+    "extra_hops": 1,
+    "gold_hops": 2,
+    "relation_fn": 2,
+    "relation_fp": 3,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "OK",
+    "unresolved": 0
+   }
+  }
+ ]
+}

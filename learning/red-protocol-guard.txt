@@ -1,0 +1,15 @@
+test_protocol_drift_fails_even_when_output_folder_is_empty (test_learning_runner.PreserveEvidence.test_protocol_drift_fails_even_when_output_folder_is_empty) ... FAIL
+test_restart_refuses_existing_evidence_without_changes (test_learning_runner.PreserveEvidence.test_restart_refuses_existing_evidence_without_changes) ... ok
+
+======================================================================
+FAIL: test_protocol_drift_fails_even_when_output_folder_is_empty (test_learning_runner.PreserveEvidence.test_protocol_drift_fails_even_when_output_folder_is_empty)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "__RLT_ROOT__\2026-09-16-e2e\tests\test_learning_runner.py", line 20, in test_protocol_drift_fails_even_when_output_folder_is_empty
+    self.assertTrue(hasattr(guard,'assert_protocol_integrity'),'protocol integrity guard absent')
+AssertionError: False is not true : protocol integrity guard absent
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.015s
+
+FAILED (failures=1)

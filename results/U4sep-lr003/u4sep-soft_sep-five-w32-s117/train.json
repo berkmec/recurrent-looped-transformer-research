@@ -1,0 +1,36 @@
+{
+ "condition": {
+  "arm": "soft_sep",
+  "heads": 2,
+  "lr": 0.003,
+  "seed": 117,
+  "stage": "u4sep",
+  "task": "five",
+  "width": 32,
+  "window": 4
+ },
+ "guard": {
+  "clipped": 1158,
+  "max_grad_norm_before_clip": 33213.79275670565,
+  "skip_reasons": {},
+  "skipped": 0,
+  "steps": 2048
+ },
+ "ident": "u4sep-soft_sep-five-w32-s117",
+ "initial_sha256": "69bbbd52302b0f30197dd5cac08bb90c6416fe117324162429f174c88e1858d0",
+ "protocol_hash": "cc97165a02238a3c63cfcbe56b323864a0104cf5badb25e90182255dc2469feb",
+ "selected_sha256": "493afbbd2315d6c9fab5d6eabe20b39e4ceb41073a5f356ad4edc43dafee0837",
+ "selected_step": 2048,
+ "selected_validation": {
+  "all_accuracy": 1.0,
+  "final_accuracy": 1.0,
+  "final_loss": 0.0014358623884618282,
+  "hold_rate": 0.38299560546875
+ },
+ "sep_loss_last": -7.868386268615723,
+ "sep_ratio_last": 2613.34521484375,
+ "steps": 2048,
+ "train_seconds": 1553.9889388003212,
+ "updates_sha256": "c0bdd8be6fae805a844fd75d92f2b9a521a2e832dc73ed888d192a16d1b31f5d",
+ "wall_seconds": 1588.9406828000065
+}

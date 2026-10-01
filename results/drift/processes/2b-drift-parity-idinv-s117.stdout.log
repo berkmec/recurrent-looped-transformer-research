@@ -1,0 +1,43 @@
+{
+ "status": "COMPLETE",
+ "condition": {
+  "task": "parity",
+  "seed": 117,
+  "arm": "idinv",
+  "width": 32,
+  "heads": 2,
+  "window": 4,
+  "lr": 0.003,
+  "stage": "drift"
+ },
+ "updates": 2048,
+ "labels": 2097152,
+ "initial_state_hash": "56f0a34afd9737f23f58dbfaa196331291184f383a1f22659a9348e056aa4f00",
+ "last_state_hash": "00dd0ef1ded129a95bb40262e5a74d8c2c41ca9994c2bf82538f9baceb59b0e0",
+ "selected_state_hash": "00dd0ef1ded129a95bb40262e5a74d8c2c41ca9994c2bf82538f9baceb59b0e0",
+ "selected_step": 2048,
+ "selected_validation": {
+  "final_accuracy": 1.0,
+  "prefix_accuracy": 1.0,
+  "prefix_loss": 9.327688303528703e-06,
+  "final_loss": 9.080352015189419e-06,
+  "seconds": 0.4274108000099659,
+  "batch": 32,
+  "n": 256
+ },
+ "validation_source_seed": 6822008167226709417,
+ "core_initial_hash": "56f0a34afd9737f23f58dbfaa196331291184f383a1f22659a9348e056aa4f00",
+ "core_parameters": 24226,
+ "extra_parameters": 0,
+ "protocol_hash": "1496384366fc62f96da0d84abee3070c1d452d57f09017fbbd661890051a05e6",
+ "sources": {
+  "core/model.py": "121f11fcb3c1308b7f67d898f2aa09c37226d3b0db27dd4e5bf1ebeaea281f43",
+  "drift/model.py": "f03ed9cecc1a9f51c98f8a4fb05d39e62c359df2699ca53d458d636e3491a931",
+  "drift/run.py": "f7f6cb0659c50fa62908da26f65c70ea70abbed453d9e261ef0b25952ae3f4c4",
+  "review_cycle/training_data.py": "3095902caa7d79a6f977aa3f599ccd82baf4279ac3a559ef5b8868a1c2ed7c61"
+ },
+ "train_seconds": 318.679595700989,
+ "wall_seconds": 329.38746919995174,
+ "device": "cpu",
+ "pid": 16796
+}

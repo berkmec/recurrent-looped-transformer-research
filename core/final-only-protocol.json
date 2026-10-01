@@ -1,0 +1,35 @@
+{
+  "version": 1,
+  "purpose": "package4 delayed-final-error learning; separate from primary prefix supervision",
+  "seeds": [
+    17,
+    43,
+    91
+  ],
+  "modes": [
+    "rlt",
+    "tbptt"
+  ],
+  "width": 32,
+  "task": "parity",
+  "steps": 2000,
+  "batch": 32,
+  "length": 32,
+  "lr": 0.003,
+  "weight_decay": 0.01,
+  "clip": 1.0,
+  "tbptt": 8,
+  "gradient_routes": "TBPTT detaches s and decoder KV only; encoder/global memory stays differentiable",
+  "loss": "final target only cross entropy",
+  "selection": "minimum validation final CE at every100 steps",
+  "validation_n": 256,
+  "validation_offset": 6200000,
+  "train_offset": 6100000,
+  "test_offset": 6900000,
+  "test_lengths": [
+    32,
+    128
+  ],
+  "test_n": 512,
+  "k": 0
+}

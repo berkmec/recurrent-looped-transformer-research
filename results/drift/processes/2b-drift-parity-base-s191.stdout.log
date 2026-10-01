@@ -1,0 +1,43 @@
+{
+ "status": "COMPLETE",
+ "condition": {
+  "task": "parity",
+  "seed": 191,
+  "arm": "base",
+  "width": 32,
+  "heads": 2,
+  "window": 4,
+  "lr": 0.003,
+  "stage": "drift"
+ },
+ "updates": 2048,
+ "labels": 2097152,
+ "initial_state_hash": "7d8b014c95bb4a9d2384c6efec3e7246aa2ec83339b9890eac81d5ba71c85a92",
+ "last_state_hash": "e0a629aa88c9ea4153a811f0b49a8b659f09389df40a2210e8b19478e4d33822",
+ "selected_state_hash": "e0a629aa88c9ea4153a811f0b49a8b659f09389df40a2210e8b19478e4d33822",
+ "selected_step": 2048,
+ "selected_validation": {
+  "final_accuracy": 1.0,
+  "prefix_accuracy": 1.0,
+  "prefix_loss": 1.5593055195495253e-05,
+  "final_loss": 1.5517109432039433e-05,
+  "seconds": 0.4875439000315964,
+  "batch": 32,
+  "n": 256
+ },
+ "validation_source_seed": 3971515025352006061,
+ "core_initial_hash": "7d8b014c95bb4a9d2384c6efec3e7246aa2ec83339b9890eac81d5ba71c85a92",
+ "core_parameters": 24226,
+ "extra_parameters": 0,
+ "protocol_hash": "1496384366fc62f96da0d84abee3070c1d452d57f09017fbbd661890051a05e6",
+ "sources": {
+  "core/model.py": "121f11fcb3c1308b7f67d898f2aa09c37226d3b0db27dd4e5bf1ebeaea281f43",
+  "drift/model.py": "f03ed9cecc1a9f51c98f8a4fb05d39e62c359df2699ca53d458d636e3491a931",
+  "drift/run.py": "f7f6cb0659c50fa62908da26f65c70ea70abbed453d9e261ef0b25952ae3f4c4",
+  "review_cycle/training_data.py": "3095902caa7d79a6f977aa3f599ccd82baf4279ac3a559ef5b8868a1c2ed7c61"
+ },
+ "train_seconds": 318.5085527001065,
+ "wall_seconds": 329.2715937999892,
+ "device": "cpu",
+ "pid": 23460
+}

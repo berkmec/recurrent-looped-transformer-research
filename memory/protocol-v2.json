@@ -1,0 +1,92 @@
+{
+  "protocol": "memory-v2",
+  "frozen_before_test": true,
+  "seeds": [
+    17,
+    43,
+    91
+  ],
+  "extractor": {
+    "method": "supervised bidirectional GRU token roles with copied entities/numbers and learned event class",
+    "language": "finite controlled English",
+    "train_count": 3072,
+    "validation_count": 384,
+    "test_count_per_seed": 768,
+    "epochs": 18,
+    "hidden": 48,
+    "threshold": 0.65,
+    "split": "disjoint graph identities; held-out lexical/order families and unseen entity ids; 192 negative distractor/conflict sentences",
+    "selection": "last epoch, fixed threshold, no test selection",
+    "metrics": [
+      "exact_tuple_accuracy",
+      "edge_accuracy",
+      "abstain_rate",
+      "negative_false_accept_rate"
+    ]
+  },
+  "memory": {
+    "capacities": [
+      4,
+      8,
+      16
+    ],
+    "examples": 192,
+    "lengths": [
+      8,
+      16,
+      32,
+      64
+    ],
+    "conditions": [
+      "full_raw",
+      "boundary_compact",
+      "answer_only",
+      "mean",
+      "forced_stale"
+    ],
+    "raw": "append-only SQLite JSON content SHA256; immutable identity task/title/version",
+    "vector": "deterministic hashed bag of words cosine, separate applicability filtering",
+    "retrieval_k": [
+      1,
+      3,
+      5
+    ],
+    "statuses": [
+      "CONTINUE",
+      "VERIFIED",
+      "UNRESOLVED_BUDGET",
+      "COMPACTION_REJECTED"
+    ]
+  },
+  "halting": {
+    "examples": 192,
+    "tolerance": 0.1,
+    "budgets": [
+      1,
+      2,
+      4,
+      8
+    ],
+    "candidate_source": "synthetic controlled residual trajectories, separately labeled; root integrates learned candidates",
+    "proof": "sum absolute residuals along root-to-query dependency path is a bound on query error",
+    "zero_coverage_is_not_success": true
+  },
+  "statistics": "report individual seeds; memory examples independent generated tasks; no pooled independence claim",
+  "limits": [
+    "not unrestricted natural language",
+    "structured affine compaction, not learned general summarization",
+    "not production vector retrieval",
+    "no private provider reasoning"
+  ],
+  "amendment": {
+    "reason": "Integration revealed absolute and edge assertions on same child must remain independent for inverse evidence",
+    "before_v2_test": true,
+    "v1_preserved": "protocol-v1.json",
+    "extractor_unchanged": "v1 results retained, no retraining or threshold selection",
+    "fresh_engineering_seed": 20260917,
+    "fresh_engineering_ids": "v2-heldout-task-*",
+    "inverse_cases": 96,
+    "constraint_identity": "facet (absolute or edge),child",
+    "verifier": "consistent anchored connected component; sum of candidate residuals bounds any path error; evidence potentials check consistency only"
+  }
+}

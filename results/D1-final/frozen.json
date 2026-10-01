@@ -1,0 +1,50 @@
+{
+ "environment": {
+  "python": "3.11.9"
+ },
+ "frozen_utc": 1789756714.9419127,
+ "protocol": {
+  "arms": [
+   "finite_parser",
+   "lm_zero",
+   "lm_schema"
+  ],
+  "batch_size": 4,
+  "bootstrap": 1000,
+  "controls_n": 100,
+  "decoding": "greedy, thinking disabled",
+  "development_path": "__RLT_ROOT__/datasets/dgslibisey__MuSiQue/musique_ans_v1.0_train.jsonl",
+  "development_reference": "results/D1 (dev32 complete; dev200 INCOMPLETE: LM arms lost in the outage)",
+  "development_stages": [
+   32,
+   200
+  ],
+  "distractors": 2,
+  "final_n": 600,
+  "final_path": "__RLT_ROOT__/datasets/dgslibisey__MuSiQue/musique_ans_v1.0_dev.jsonl",
+  "max_new_tokens": 384,
+  "model_dir": "__RLT_ROOT__/models/Qwen3-4B",
+  "note": "human-authored gold (MuSiQue decomposition); controls are programmatic perturbations; Turkish UNMEASURED",
+  "purpose": "D1 free text -> headings, claims, source bindings on MuSiQue decompositions — final run with resumable extraction (after the 2026-09-18 power outage)",
+  "quant": "nf4",
+  "resume": "batch-level progress JSONL per arm keyed by protocol hash; restart skips finished ids; rows marked resumed",
+  "seed": 2026091810,
+  "targets": {
+   "coverage": 0.8,
+   "relation_f1": 0.95,
+   "risk_upper": 0.01
+  },
+  "version": 2
+ },
+ "protocol_hash": "38f8d005a4079107d9239851f2ef58e1988fe07dd9b3e2cf6ccb1a949ba9ed87",
+ "sources": {
+  "audit/receipt.py": "af303bcab71daabf441f1017310455f84e161667fc85467bf9ad0b76697156ca",
+  "language/dataset.py": "c2169ce10780f5be7f80cded4d1a6ef6c9719e16b6af945b1b7139abb67c2f17",
+  "language/extract.py": "6b273a49312bb2ce0ab2e4c2972ab2ff284461a35e0b6ccdf72c85a1c8f09b28",
+  "language/generator.py": "719e37fe9947a7d6528a9ddc1042d08f19a9ab350d650895c934bff941c93308",
+  "language/run_d1.py": "4f19d14490a579777f53a8e242e7f65db129c29e4d9fd69c2d3f90d80066770f",
+  "language/run_d1_final.py": "76e8fbed36d1bdd511f7d3badc915650c8315ce076b80139ee06a2aa5ea67a1c",
+  "language/score_semantics.py": "2ae34716132dc5aaa42fd6f82a2f3b3c61da34e7a2cc06afb99fcf8963504be9",
+  "memory/api.py": "826e7a185b9da272f7da559a6c01fc93ed54124406d2145447d416942ee88a92"
+ }
+}

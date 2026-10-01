@@ -1,0 +1,98 @@
+{
+ "corpus": 3012,
+ "data_sha256": "83a75b1e11e4e9bb8f8308e72ac40ca617ae4431b3a0d955b61cab259248490a",
+ "queries": 200,
+ "role": "development only; not final evidence",
+ "selected": {
+  "dense_coverage10": 0.445,
+  "hybrid_coverage10": 0.36,
+  "instruction": true,
+  "max_length": 256,
+  "rerank_coverage10": 0.515,
+  "rerank_depth": 50,
+  "rerank_p50": 2.871810499986168,
+  "rerank_recall10": 0.7525
+ },
+ "table": [
+  {
+   "dense_coverage10": 0.445,
+   "hybrid_coverage10": 0.36,
+   "instruction": true,
+   "max_length": 256,
+   "rerank_coverage10": 0.465,
+   "rerank_depth": 20,
+   "rerank_p50": 0.9213753999792971,
+   "rerank_recall10": 0.7275
+  },
+  {
+   "dense_coverage10": 0.445,
+   "hybrid_coverage10": 0.36,
+   "instruction": true,
+   "max_length": 256,
+   "rerank_coverage10": 0.515,
+   "rerank_depth": 50,
+   "rerank_p50": 2.871810499986168,
+   "rerank_recall10": 0.7525
+  },
+  {
+   "dense_coverage10": 0.445,
+   "hybrid_coverage10": 0.355,
+   "instruction": false,
+   "max_length": 256,
+   "rerank_coverage10": 0.47,
+   "rerank_depth": 20,
+   "rerank_p50": 1.2889055500272661,
+   "rerank_recall10": 0.7325
+  },
+  {
+   "dense_coverage10": 0.445,
+   "hybrid_coverage10": 0.355,
+   "instruction": false,
+   "max_length": 256,
+   "rerank_coverage10": 0.5,
+   "rerank_depth": 50,
+   "rerank_p50": 2.7836456499644555,
+   "rerank_recall10": 0.745
+  },
+  {
+   "dense_coverage10": 0.45,
+   "hybrid_coverage10": 0.36,
+   "instruction": true,
+   "max_length": 512,
+   "rerank_coverage10": 0.47,
+   "rerank_depth": 20,
+   "rerank_p50": 1.3479274499695748,
+   "rerank_recall10": 0.73
+  },
+  {
+   "dense_coverage10": 0.45,
+   "hybrid_coverage10": 0.36,
+   "instruction": true,
+   "max_length": 512,
+   "rerank_coverage10": 0.515,
+   "rerank_depth": 50,
+   "rerank_p50": 3.000697549956385,
+   "rerank_recall10": 0.7525
+  },
+  {
+   "dense_coverage10": 0.44,
+   "hybrid_coverage10": 0.36,
+   "instruction": false,
+   "max_length": 512,
+   "rerank_coverage10": 0.47,
+   "rerank_depth": 20,
+   "rerank_p50": 1.2781803499674425,
+   "rerank_recall10": 0.7325
+  },
+  {
+   "dense_coverage10": 0.44,
+   "hybrid_coverage10": 0.36,
+   "instruction": false,
+   "max_length": 512,
+   "rerank_coverage10": 0.505,
+   "rerank_depth": 50,
+   "rerank_p50": 2.826369149959646,
+   "rerank_recall10": 0.7475
+  }
+ ]
+}

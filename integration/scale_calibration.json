@@ -1,0 +1,88 @@
+{
+  "created_utc": "2026-09-16T16:37:03.762941+00:00",
+  "rows": [
+    {
+      "width": 128,
+      "feedback": true,
+      "allocated": 379522,
+      "active": 379522,
+      "step_seconds": [
+        0.4481478999950923,
+        0.4894994999631308,
+        0.4759086000267416,
+        0.45560759998625144,
+        0.4568698999937624,
+        0.4733392000198364
+      ],
+      "median_step_seconds": 0.4651045500067994,
+      "cuda_peak_allocated_bytes": 55994880,
+      "cuda_peak_reserved_bytes": 60817408,
+      "last_training_loss": 0.6906638145446777
+    },
+    {
+      "width": 128,
+      "feedback": false,
+      "allocated": 379522,
+      "active": 329986,
+      "step_seconds": [
+        0.027119900041725487,
+        0.02717429999029264,
+        0.03219519997946918,
+        0.028481799992732704,
+        0.027983500040136278,
+        0.026955500012263656
+      ],
+      "median_step_seconds": 0.027578900015214458,
+      "cuda_peak_allocated_bytes": 44402176,
+      "cuda_peak_reserved_bytes": 50331648,
+      "last_training_loss": 0.7557865381240845
+    },
+    {
+      "width": 256,
+      "feedback": true,
+      "allocated": 1512706,
+      "active": 1512706,
+      "step_seconds": [
+        0.46584870002698153,
+        0.4349960000254214,
+        0.4811164999846369,
+        0.577988600009121,
+        0.5845021000131965,
+        0.46558630000799894
+      ],
+      "median_step_seconds": 0.4734826000058092,
+      "cuda_peak_allocated_bytes": 102362624,
+      "cuda_peak_reserved_bytes": 125829120,
+      "last_training_loss": 0.7023301124572754
+    },
+    {
+      "width": 256,
+      "feedback": false,
+      "allocated": 1512706,
+      "active": 1315330,
+      "step_seconds": [
+        0.022094000014476478,
+        0.024131300044246018,
+        0.028288999979849905,
+        0.03030320000834763,
+        0.02844110003206879,
+        0.026470000040717423
+      ],
+      "median_step_seconds": 0.027379500010283664,
+      "cuda_peak_allocated_bytes": 79912448,
+      "cuda_peak_reserved_bytes": 98566144,
+      "last_training_loss": 0.6997093558311462
+    }
+  ],
+  "torch": "2.12.0+cu130",
+  "cuda": "13.0",
+  "device": "NVIDIA GeForce RTX 2060 SUPER",
+  "cpu_threads": 1,
+  "precision": "float32",
+  "batch": 32,
+  "tokens": 32,
+  "warmup_steps": 3,
+  "measured_steps": 6,
+  "source_sha256": "121f11fcb3c1308b7f67d898f2aa09c37226d3b0db27dd4e5bf1ebeaea281f43",
+  "scope": "training-only calibration; no final-test accuracy or speedup conclusion"
+}

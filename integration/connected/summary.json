@@ -1,0 +1,1513 @@
+{
+  "rows": [
+    {
+      "seed": 17,
+      "split": "iid",
+      "condition": "adaptive-replay-seen",
+      "diagnostic_candidate_accuracy": 0.9765625,
+      "certified_source_correct_yield": 0.32421875,
+      "certified_coverage": 0.32421875,
+      "accepted_source_failures": 0,
+      "risk_if_accepted": 0.0,
+      "emitted_mse": 0.0017585129402219713,
+      "missing_final_candidates": 0,
+      "source_episode_exactness": 1.0,
+      "source_event_exactness": 1.0,
+      "all_certificate_outputs": {
+        "count": 283,
+        "source_failures": 0,
+        "source_failure_rate": 0.0,
+        "scope": "all emitted certificates, including unsolicited/misparsed query positions as source alignment failures; correlated queries, no binomial interval"
+      },
+      "costs": {
+        "total_refinements_executed": 38.0546875,
+        "total_consumed_tokens_including_replay": 38.0,
+        "seconds": 0.43240350078099254,
+        "raw_records": 54.0546875,
+        "compactions": 3.0,
+        "premature_compactions": 0.0,
+        "reopens": 0.171875,
+        "max_active_records": 4.0,
+        "heading_count": 10.0,
+        "archive_bytes": 392128.0
+      }
+    },
+    {
+      "seed": 17,
+      "split": "iid",
+      "condition": "fixed-replay-seen",
+      "diagnostic_candidate_accuracy": 0.9765625,
+      "certified_source_correct_yield": 0.19140625,
+      "certified_coverage": 0.19140625,
+      "accepted_source_failures": 0,
+      "risk_if_accepted": 0.0,
+      "emitted_mse": 0.0017241733414795723,
+      "missing_final_candidates": 0,
+      "source_episode_exactness": 1.0,
+      "source_event_exactness": 1.0,
+      "all_certificate_outputs": {
+        "count": 165,
+        "source_failures": 0,
+        "source_failure_rate": 0.0,
+        "scope": "all emitted certificates, including unsolicited/misparsed query positions as source alignment failures; correlated queries, no binomial interval"
+      },
+      "costs": {
+        "total_refinements_executed": 48.0,
+        "total_consumed_tokens_including_replay": 38.0,
+        "seconds": 0.5048140261728804,
+        "raw_records": 64.0,
+        "compactions": 3.0,
+        "premature_compactions": 0.0,
+        "reopens": 0.171875,
+        "max_active_records": 4.0,
+        "heading_count": 10.0,
+        "archive_bytes": 479456.0
+      }
+    },
+    {
+      "seed": 17,
+      "split": "iid",
+      "condition": "adaptive-compact-seen",
+      "diagnostic_candidate_accuracy": 0.97265625,
+      "certified_source_correct_yield": 0.328125,
+      "certified_coverage": 0.328125,
+      "accepted_source_failures": 0,
+      "risk_if_accepted": 0.0,
+      "emitted_mse": 0.0026842924354070134,
+      "missing_final_candidates": 0,
+      "source_episode_exactness": 1.0,
+      "source_event_exactness": 1.0,
+      "all_certificate_outputs": {
+        "count": 261,
+        "source_failures": 0,
+        "source_failure_rate": 0.0,
+        "scope": "all emitted certificates, including unsolicited/misparsed query positions as source alignment failures; correlated queries, no binomial interval"
+      },
+      "costs": {
+        "total_refinements_executed": 20.83984375,
+        "total_consumed_tokens_including_replay": 33.0,
+        "seconds": 0.34166079452757003,
+        "raw_records": 36.83984375,
+        "compactions": 3.0,
+        "premature_compactions": 0.0,
+        "reopens": 0.171875,
+        "max_active_records": 4.0,
+        "heading_count": 10.0,
+        "archive_bytes": 242560.0
+      }
+    },
+    {
+      "seed": 17,
+      "split": "iid",
+      "condition": "adaptive-replay-heldout",
+      "diagnostic_candidate_accuracy": 0.0,
+      "certified_source_correct_yield": 0.0,
+      "certified_coverage": 0.0,
+      "accepted_source_failures": 0,
+      "risk_if_accepted": null,
+      "emitted_mse": null,
+      "missing_final_candidates": 256,
+      "source_episode_exactness": 0.0,
+      "source_event_exactness": 0.18443080357142858,
+      "all_certificate_outputs": {
+        "count": 0,
+        "source_failures": 0,
+        "source_failure_rate": null,
+        "scope": "all emitted certificates, including unsolicited/misparsed query positions as source alignment failures; correlated queries, no binomial interval"
+      },
+      "costs": {
+        "total_refinements_executed": 0.0,
+        "total_consumed_tokens_including_replay": 0.0,
+        "seconds": 0.06378990898360826,
+        "raw_records": 6.0,
+        "compactions": 0.0,
+        "premature_compactions": 0.0,
+        "reopens": 0.0,
+        "max_active_records": 4.0,
+        "heading_count": 1.29296875,
+        "archive_bytes": 47344.0
+      }
+    },
+    {
+      "seed": 17,
+      "split": "depth8",
+      "condition": "adaptive-replay-seen",
+      "diagnostic_candidate_accuracy": 0.29296875,
+      "certified_source_correct_yield": 0.0,
+      "certified_coverage": 0.0,
+      "accepted_source_failures": 0,
+      "risk_if_accepted": null,
+      "emitted_mse": 0.3123000286979141,
+      "missing_final_candidates": 0,
+      "source_episode_exactness": 1.0,
+      "source_event_exactness": 1.0,
+      "all_certificate_outputs": {
+        "count": 0,
+        "source_failures": 0,
+        "source_failure_rate": null,
+        "scope": "all emitted certificates, including unsolicited/misparsed query positions as source alignment failures; correlated queries, no binomial interval"
+      },
+      "costs": {
+        "total_refinements_executed": 48.0,
+        "total_consumed_tokens_including_replay": 38.0,
+        "seconds": 0.500641436329488,
+        "raw_records": 64.0,
+        "compactions": 3.0,
+        "premature_compactions": 0.0,
+        "reopens": 0.16796875,
+        "max_active_records": 4.0,
+        "heading_count": 10.0,
+        "archive_bytes": 479872.0
+      }
+    },
+    {
+      "seed": 17,
+      "split": "depth8",
+      "condition": "fixed-replay-seen",
+      "diagnostic_candidate_accuracy": 0.29296875,
+      "certified_source_correct_yield": 0.0,
+      "certified_coverage": 0.0,
+      "accepted_source_failures": 0,
+      "risk_if_accepted": null,
+      "emitted_mse": 0.3123000286979141,
+      "missing_final_candidates": 0,
+      "source_episode_exactness": 1.0,
+      "source_event_exactness": 1.0,
+      "all_certificate_outputs": {
+        "count": 0,
+        "source_failures": 0,
+        "source_failure_rate": null,
+        "scope": "all emitted certificates, including unsolicited/misparsed query positions as source alignment failures; correlated queries, no binomial interval"
+      },
+      "costs": {
+        "total_refinements_executed": 48.0,
+        "total_consumed_tokens_including_replay": 38.0,
+        "seconds": 0.5391701023440874,
+        "raw_records": 64.0,
+        "compactions": 3.0,
+        "premature_compactions": 0.0,
+        "reopens": 0.16796875,
+        "max_active_records": 4.0,
+        "heading_count": 10.0,
+        "archive_bytes": 479872.0
+      }
+    },
+    {
+      "seed": 17,
+      "split": "depth8",
+      "condition": "adaptive-compact-seen",
+      "diagnostic_candidate_accuracy": 0.22265625,
+      "certified_source_correct_yield": 0.0,
+      "certified_coverage": 0.0,
+      "accepted_source_failures": 0,
+      "risk_if_accepted": null,
+      "emitted_mse": 0.34255597642285784,
+      "missing_final_candidates": 0,
+      "source_episode_exactness": 1.0,
+      "source_event_exactness": 1.0,
+      "all_certificate_outputs": {
+        "count": 0,
+        "source_failures": 0,
+        "source_failure_rate": null,
+        "scope": "all emitted certificates, including unsolicited/misparsed query positions as source alignment failures; correlated queries, no binomial interval"
+      },
+      "costs": {
+        "total_refinements_executed": 24.0,
+        "total_consumed_tokens_including_replay": 33.0,
+        "seconds": 0.35259309257935456,
+        "raw_records": 40.0,
+        "compactions": 3.0,
+        "premature_compactions": 0.0,
+        "reopens": 0.16796875,
+        "max_active_records": 4.0,
+        "heading_count": 10.0,
+        "archive_bytes": 270976.0
+      }
+    },
+    {
+      "seed": 17,
+      "split": "depth8",
+      "condition": "adaptive-replay-heldout",
+      "diagnostic_candidate_accuracy": 0.0,
+      "certified_source_correct_yield": 0.0,
+      "certified_coverage": 0.0,
+      "accepted_source_failures": 0,
+      "risk_if_accepted": null,
+      "emitted_mse": null,
+      "missing_final_candidates": 256,
+      "source_episode_exactness": 0.0,
+      "source_event_exactness": 0.17857142857142858,
+      "all_certificate_outputs": {
+        "count": 0,
+        "source_failures": 0,
+        "source_failure_rate": null,
+        "scope": "all emitted certificates, including unsolicited/misparsed query positions as source alignment failures; correlated queries, no binomial interval"
+      },
+      "costs": {
+        "total_refinements_executed": 0.0,
+        "total_consumed_tokens_including_replay": 0.0,
+        "seconds": 0.06410874140510714,
+        "raw_records": 6.0,
+        "compactions": 0.0,
+        "premature_compactions": 0.0,
+        "reopens": 0.0,
+        "max_active_records": 4.0,
+        "heading_count": 1.25,
+        "archive_bytes": 48128.0
+      }
+    },
+    {
+      "seed": 43,
+      "split": "iid",
+      "condition": "adaptive-replay-seen",
+      "diagnostic_candidate_accuracy": 0.98828125,
+      "certified_source_correct_yield": 0.4140625,
+      "certified_coverage": 0.4140625,
+      "accepted_source_failures": 0,
+      "risk_if_accepted": 0.0,
+      "emitted_mse": 0.0013005425517352734,
+      "missing_final_candidates": 0,
+      "source_episode_exactness": 1.0,
+      "source_event_exactness": 1.0,
+      "all_certificate_outputs": {
+        "count": 358,
+        "source_failures": 0,
+        "source_failure_rate": 0.0,
+        "scope": "all emitted certificates, including unsolicited/misparsed query positions as source alignment failures; correlated queries, no binomial interval"
+      },
+      "costs": {
+        "total_refinements_executed": 34.75390625,
+        "total_consumed_tokens_including_replay": 38.0,
+        "seconds": 0.4341467226565783,
+        "raw_records": 50.75390625,
+        "compactions": 3.0,
+        "premature_compactions": 0.0,
+        "reopens": 0.171875,
+        "max_active_records": 4.0,
+        "heading_count": 10.0,
+        "archive_bytes": 363184.0
+      }
+    },
+    {
+      "seed": 43,
+      "split": "iid",
+      "condition": "fixed-replay-seen",
+      "diagnostic_candidate_accuracy": 0.98828125,
+      "certified_source_correct_yield": 0.28125,
+      "certified_coverage": 0.28125,
+      "accepted_source_failures": 0,
+      "risk_if_accepted": 0.0,
+      "emitted_mse": 0.0011343296112253844,
+      "missing_final_candidates": 0,
+      "source_episode_exactness": 1.0,
+      "source_event_exactness": 1.0,
+      "all_certificate_outputs": {
+        "count": 192,
+        "source_failures": 0,
+        "source_failure_rate": 0.0,
+        "scope": "all emitted certificates, including unsolicited/misparsed query positions as source alignment failures; correlated queries, no binomial interval"
+      },
+      "costs": {
+        "total_refinements_executed": 48.0,
+        "total_consumed_tokens_including_replay": 38.0,
+        "seconds": 0.5237073999999211,
+        "raw_records": 64.0,
+        "compactions": 3.0,
+        "premature_compactions": 0.0,
+        "reopens": 0.171875,
+        "max_active_records": 4.0,
+        "heading_count": 10.0,
+        "archive_bytes": 479456.0
+      }
+    },
+    {
+      "seed": 43,
+      "split": "iid",
+      "condition": "adaptive-compact-seen",
+      "diagnostic_candidate_accuracy": 0.98828125,
+      "certified_source_correct_yield": 0.44921875,
+      "certified_coverage": 0.44921875,
+      "accepted_source_failures": 0,
+      "risk_if_accepted": 0.0,
+      "emitted_mse": 0.0014194001950331037,
+      "missing_final_candidates": 0,
+      "source_episode_exactness": 1.0,
+      "source_event_exactness": 1.0,
+      "all_certificate_outputs": {
+        "count": 353,
+        "source_failures": 0,
+        "source_failure_rate": 0.0,
+        "scope": "all emitted certificates, including unsolicited/misparsed query positions as source alignment failures; correlated queries, no binomial interval"
+      },
+      "costs": {
+        "total_refinements_executed": 18.375,
+        "total_consumed_tokens_including_replay": 33.0,
+        "seconds": 0.36205826992090806,
+        "raw_records": 34.375,
+        "compactions": 3.0,
+        "premature_compactions": 0.0,
+        "reopens": 0.171875,
+        "max_active_records": 4.0,
+        "heading_count": 10.0,
+        "archive_bytes": 220800.0
+      }
+    },
+    {
+      "seed": 43,
+      "split": "iid",
+      "condition": "adaptive-replay-heldout",
+      "diagnostic_candidate_accuracy": 0.0,
+      "certified_source_correct_yield": 0.0,
+      "certified_coverage": 0.0,
+      "accepted_source_failures": 0,
+      "risk_if_accepted": null,
+      "emitted_mse": null,
+      "missing_final_candidates": 256,
+      "source_episode_exactness": 0.0,
+      "source_event_exactness": 0.21428571428571427,
+      "all_certificate_outputs": {
+        "count": 0,
+        "source_failures": 0,
+        "source_failure_rate": null,
+        "scope": "all emitted certificates, including unsolicited/misparsed query positions as source alignment failures; correlated queries, no binomial interval"
+      },
+      "costs": {
+        "total_refinements_executed": 0.0,
+        "total_consumed_tokens_including_replay": 0.0,
+        "seconds": 0.06825904570291641,
+        "raw_records": 5.5,
+        "compactions": 0.0,
+        "premature_compactions": 0.0,
+        "reopens": 0.0,
+        "max_active_records": 3.5,
+        "heading_count": 0.5,
+        "archive_bytes": 47104.0
+      }
+    },
+    {
+      "seed": 43,
+      "split": "depth8",
+      "condition": "adaptive-replay-seen",
+      "diagnostic_candidate_accuracy": 0.3359375,
+      "certified_source_correct_yield": 0.0,
+      "certified_coverage": 0.0,
+      "accepted_source_failures": 0,
+      "risk_if_accepted": null,
+      "emitted_mse": 0.29173643299209584,
+      "missing_final_candidates": 0,
+      "source_episode_exactness": 1.0,
+      "source_event_exactness": 1.0,
+      "all_certificate_outputs": {
+        "count": 0,
+        "source_failures": 0,
+        "source_failure_rate": null,
+        "scope": "all emitted certificates, including unsolicited/misparsed query positions as source alignment failures; correlated queries, no binomial interval"
+      },
+      "costs": {
+        "total_refinements_executed": 48.0,
+        "total_consumed_tokens_including_replay": 38.0,
+        "seconds": 0.5972451914071826,
+        "raw_records": 64.0,
+        "compactions": 3.0,
+        "premature_compactions": 0.0,
+        "reopens": 0.16796875,
+        "max_active_records": 4.0,
+        "heading_count": 10.0,
+        "archive_bytes": 479872.0
+      }
+    },
+    {
+      "seed": 43,
+      "split": "depth8",
+      "condition": "fixed-replay-seen",
+      "diagnostic_candidate_accuracy": 0.3359375,
+      "certified_source_correct_yield": 0.0,
+      "certified_coverage": 0.0,
+      "accepted_source_failures": 0,
+      "risk_if_accepted": null,
+      "emitted_mse": 0.29173643299209584,
+      "missing_final_candidates": 0,
+      "source_episode_exactness": 1.0,
+      "source_event_exactness": 1.0,
+      "all_certificate_outputs": {
+        "count": 0,
+        "source_failures": 0,
+        "source_failure_rate": null,
+        "scope": "all emitted certificates, including unsolicited/misparsed query positions as source alignment failures; correlated queries, no binomial interval"
+      },
+      "costs": {
+        "total_refinements_executed": 48.0,
+        "total_consumed_tokens_including_replay": 38.0,
+        "seconds": 0.5382264640627454,
+        "raw_records": 64.0,
+        "compactions": 3.0,
+        "premature_compactions": 0.0,
+        "reopens": 0.16796875,
+        "max_active_records": 4.0,
+        "heading_count": 10.0,
+        "archive_bytes": 479872.0
+      }
+    },
+    {
+      "seed": 43,
+      "split": "depth8",
+      "condition": "adaptive-compact-seen",
+      "diagnostic_candidate_accuracy": 0.2265625,
+      "certified_source_correct_yield": 0.0,
+      "certified_coverage": 0.0,
+      "accepted_source_failures": 0,
+      "risk_if_accepted": null,
+      "emitted_mse": 0.32721922970513306,
+      "missing_final_candidates": 0,
+      "source_episode_exactness": 1.0,
+      "source_event_exactness": 1.0,
+      "all_certificate_outputs": {
+        "count": 0,
+        "source_failures": 0,
+        "source_failure_rate": null,
+        "scope": "all emitted certificates, including unsolicited/misparsed query positions as source alignment failures; correlated queries, no binomial interval"
+      },
+      "costs": {
+        "total_refinements_executed": 24.0,
+        "total_consumed_tokens_including_replay": 33.0,
+        "seconds": 0.4060368425782599,
+        "raw_records": 40.0,
+        "compactions": 3.0,
+        "premature_compactions": 0.0,
+        "reopens": 0.16796875,
+        "max_active_records": 4.0,
+        "heading_count": 10.0,
+        "archive_bytes": 270976.0
+      }
+    },
+    {
+      "seed": 43,
+      "split": "depth8",
+      "condition": "adaptive-replay-heldout",
+      "diagnostic_candidate_accuracy": 0.0,
+      "certified_source_correct_yield": 0.0,
+      "certified_coverage": 0.0,
+      "accepted_source_failures": 0,
+      "risk_if_accepted": null,
+      "emitted_mse": null,
+      "missing_final_candidates": 256,
+      "source_episode_exactness": 0.0,
+      "source_event_exactness": 0.21428571428571427,
+      "all_certificate_outputs": {
+        "count": 0,
+        "source_failures": 0,
+        "source_failure_rate": null,
+        "scope": "all emitted certificates, including unsolicited/misparsed query positions as source alignment failures; correlated queries, no binomial interval"
+      },
+      "costs": {
+        "total_refinements_executed": 0.0,
+        "total_consumed_tokens_including_replay": 0.0,
+        "seconds": 0.06855908086072304,
+        "raw_records": 5.5,
+        "compactions": 0.0,
+        "premature_compactions": 0.0,
+        "reopens": 0.0,
+        "max_active_records": 3.5,
+        "heading_count": 0.5,
+        "archive_bytes": 47104.0
+      }
+    },
+    {
+      "seed": 91,
+      "split": "iid",
+      "condition": "adaptive-replay-seen",
+      "diagnostic_candidate_accuracy": 0.98046875,
+      "certified_source_correct_yield": 0.4296875,
+      "certified_coverage": 0.4296875,
+      "accepted_source_failures": 0,
+      "risk_if_accepted": 0.0,
+      "emitted_mse": 0.0015949189968969134,
+      "missing_final_candidates": 0,
+      "source_episode_exactness": 1.0,
+      "source_event_exactness": 1.0,
+      "all_certificate_outputs": {
+        "count": 351,
+        "source_failures": 0,
+        "source_failure_rate": 0.0,
+        "scope": "all emitted certificates, including unsolicited/misparsed query positions as source alignment failures; correlated queries, no binomial interval"
+      },
+      "costs": {
+        "total_refinements_executed": 36.4296875,
+        "total_consumed_tokens_including_replay": 38.0,
+        "seconds": 0.48347396367057627,
+        "raw_records": 52.4296875,
+        "compactions": 3.0,
+        "premature_compactions": 0.0,
+        "reopens": 0.171875,
+        "max_active_records": 4.0,
+        "heading_count": 10.0,
+        "archive_bytes": 377808.0
+      }
+    },
+    {
+      "seed": 91,
+      "split": "iid",
+      "condition": "fixed-replay-seen",
+      "diagnostic_candidate_accuracy": 0.98046875,
+      "certified_source_correct_yield": 0.28125,
+      "certified_coverage": 0.28125,
+      "accepted_source_failures": 0,
+      "risk_if_accepted": 0.0,
+      "emitted_mse": 0.0015992331498561711,
+      "missing_final_candidates": 0,
+      "source_episode_exactness": 1.0,
+      "source_event_exactness": 1.0,
+      "all_certificate_outputs": {
+        "count": 200,
+        "source_failures": 0,
+        "source_failure_rate": 0.0,
+        "scope": "all emitted certificates, including unsolicited/misparsed query positions as source alignment failures; correlated queries, no binomial interval"
+      },
+      "costs": {
+        "total_refinements_executed": 48.0,
+        "total_consumed_tokens_including_replay": 38.0,
+        "seconds": 0.5230490984390599,
+        "raw_records": 64.0,
+        "compactions": 3.0,
+        "premature_compactions": 0.0,
+        "reopens": 0.171875,
+        "max_active_records": 4.0,
+        "heading_count": 10.0,
+        "archive_bytes": 479456.0
+      }
+    },
+    {
+      "seed": 91,
+      "split": "iid",
+      "condition": "adaptive-compact-seen",
+      "diagnostic_candidate_accuracy": 0.96875,
+      "certified_source_correct_yield": 0.4609375,
+      "certified_coverage": 0.4609375,
+      "accepted_source_failures": 0,
+      "risk_if_accepted": 0.0,
+      "emitted_mse": 0.0027269076875962184,
+      "missing_final_candidates": 0,
+      "source_episode_exactness": 1.0,
+      "source_event_exactness": 1.0,
+      "all_certificate_outputs": {
+        "count": 349,
+        "source_failures": 0,
+        "source_failure_rate": 0.0,
+        "scope": "all emitted certificates, including unsolicited/misparsed query positions as source alignment failures; correlated queries, no binomial interval"
+      },
+      "costs": {
+        "total_refinements_executed": 19.74609375,
+        "total_consumed_tokens_including_replay": 33.0,
+        "seconds": 0.3547319351580427,
+        "raw_records": 35.74609375,
+        "compactions": 3.0,
+        "premature_compactions": 0.0,
+        "reopens": 0.171875,
+        "max_active_records": 4.0,
+        "heading_count": 10.0,
+        "archive_bytes": 232768.0
+      }
+    },
+    {
+      "seed": 91,
+      "split": "iid",
+      "condition": "adaptive-replay-heldout",
+      "diagnostic_candidate_accuracy": 0.0,
+      "certified_source_correct_yield": 0.0,
+      "certified_coverage": 0.0,
+      "accepted_source_failures": 0,
+      "risk_if_accepted": null,
+      "emitted_mse": null,
+      "missing_final_candidates": 256,
+      "source_episode_exactness": 0.0,
+      "source_event_exactness": 0.10714285714285714,
+      "all_certificate_outputs": {
+        "count": 0,
+        "source_failures": 0,
+        "source_failure_rate": null,
+        "scope": "all emitted certificates, including unsolicited/misparsed query positions as source alignment failures; correlated queries, no binomial interval"
+      },
+      "costs": {
+        "total_refinements_executed": 0.0,
+        "total_consumed_tokens_including_replay": 0.0,
+        "seconds": 0.053473121093929876,
+        "raw_records": 4.0,
+        "compactions": 0.0,
+        "premature_compactions": 0.0,
+        "reopens": 0.0,
+        "max_active_records": 2.0,
+        "heading_count": 0.5,
+        "archive_bytes": 40960.0
+      }
+    },
+    {
+      "seed": 91,
+      "split": "depth8",
+      "condition": "adaptive-replay-seen",
+      "diagnostic_candidate_accuracy": 0.5,
+      "certified_source_correct_yield": 0.00390625,
+      "certified_coverage": 0.00390625,
+      "accepted_source_failures": 0,
+      "risk_if_accepted": 0.0,
+      "emitted_mse": 0.30001062947076695,
+      "missing_final_candidates": 0,
+      "source_episode_exactness": 1.0,
+      "source_event_exactness": 1.0,
+      "all_certificate_outputs": {
+        "count": 1,
+        "source_failures": 0,
+        "source_failure_rate": 0.0,
+        "scope": "all emitted certificates, including unsolicited/misparsed query positions as source alignment failures; correlated queries, no binomial interval"
+      },
+      "costs": {
+        "total_refinements_executed": 47.99609375,
+        "total_consumed_tokens_including_replay": 38.0,
+        "seconds": 0.46668925390667937,
+        "raw_records": 63.99609375,
+        "compactions": 3.0,
+        "premature_compactions": 0.0,
+        "reopens": 0.16796875,
+        "max_active_records": 4.0,
+        "heading_count": 10.0,
+        "archive_bytes": 479824.0
+      }
+    },
+    {
+      "seed": 91,
+      "split": "depth8",
+      "condition": "fixed-replay-seen",
+      "diagnostic_candidate_accuracy": 0.5,
+      "certified_source_correct_yield": 0.0,
+      "certified_coverage": 0.0,
+      "accepted_source_failures": 0,
+      "risk_if_accepted": null,
+      "emitted_mse": 0.30001154420155507,
+      "missing_final_candidates": 0,
+      "source_episode_exactness": 1.0,
+      "source_event_exactness": 1.0,
+      "all_certificate_outputs": {
+        "count": 0,
+        "source_failures": 0,
+        "source_failure_rate": null,
+        "scope": "all emitted certificates, including unsolicited/misparsed query positions as source alignment failures; correlated queries, no binomial interval"
+      },
+      "costs": {
+        "total_refinements_executed": 48.0,
+        "total_consumed_tokens_including_replay": 38.0,
+        "seconds": 0.4857631191409837,
+        "raw_records": 64.0,
+        "compactions": 3.0,
+        "premature_compactions": 0.0,
+        "reopens": 0.16796875,
+        "max_active_records": 4.0,
+        "heading_count": 10.0,
+        "archive_bytes": 479872.0
+      }
+    },
+    {
+      "seed": 91,
+      "split": "depth8",
+      "condition": "adaptive-compact-seen",
+      "diagnostic_candidate_accuracy": 0.16796875,
+      "certified_source_correct_yield": 0.0,
+      "certified_coverage": 0.0,
+      "accepted_source_failures": 0,
+      "risk_if_accepted": null,
+      "emitted_mse": 0.3482410595163174,
+      "missing_final_candidates": 0,
+      "source_episode_exactness": 1.0,
+      "source_event_exactness": 1.0,
+      "all_certificate_outputs": {
+        "count": 0,
+        "source_failures": 0,
+        "source_failure_rate": null,
+        "scope": "all emitted certificates, including unsolicited/misparsed query positions as source alignment failures; correlated queries, no binomial interval"
+      },
+      "costs": {
+        "total_refinements_executed": 24.0,
+        "total_consumed_tokens_including_replay": 33.0,
+        "seconds": 0.35648444062235285,
+        "raw_records": 40.0,
+        "compactions": 3.0,
+        "premature_compactions": 0.0,
+        "reopens": 0.16796875,
+        "max_active_records": 4.0,
+        "heading_count": 10.0,
+        "archive_bytes": 270976.0
+      }
+    },
+    {
+      "seed": 91,
+      "split": "depth8",
+      "condition": "adaptive-replay-heldout",
+      "diagnostic_candidate_accuracy": 0.0,
+      "certified_source_correct_yield": 0.0,
+      "certified_coverage": 0.0,
+      "accepted_source_failures": 0,
+      "risk_if_accepted": null,
+      "emitted_mse": null,
+      "missing_final_candidates": 256,
+      "source_episode_exactness": 0.0,
+      "source_event_exactness": 0.10714285714285714,
+      "all_certificate_outputs": {
+        "count": 0,
+        "source_failures": 0,
+        "source_failure_rate": null,
+        "scope": "all emitted certificates, including unsolicited/misparsed query positions as source alignment failures; correlated queries, no binomial interval"
+      },
+      "costs": {
+        "total_refinements_executed": 0.0,
+        "total_consumed_tokens_including_replay": 0.0,
+        "seconds": 0.05660507656398295,
+        "raw_records": 4.0,
+        "compactions": 0.0,
+        "premature_compactions": 0.0,
+        "reopens": 0.0,
+        "max_active_records": 2.0,
+        "heading_count": 0.5,
+        "archive_bytes": 45056.0
+      }
+    }
+  ],
+  "paired_comparisons": [
+    {
+      "split": "iid",
+      "candidate": "adaptive-replay-seen",
+      "reference": "fixed-replay-seen",
+      "candidate_error_reduction": {
+        "reference_mean": 0.018229166666666668,
+        "candidate_mean": 0.018229166666666668,
+        "mean_improvement": 0.0,
+        "relative_improvement": 0.0,
+        "ci95_improvement": [
+          0.0,
+          0.0
+        ],
+        "per_seed_improvement": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "training_seeds": 3,
+        "examples": 256,
+        "model_example_predictions": 768,
+        "bootstrap_reps": 2000,
+        "bootstrap_seed": 170043,
+        "uncertainty_method": "paired crossed seed/example percentile bootstrap",
+        "limitation": "Few training seeds; interval is descriptive and does not establish broad statistical reliability."
+      },
+      "certified_yield_improvement": {
+        "reference_mean": 0.7486979166666666,
+        "candidate_mean": 0.6106770833333334,
+        "mean_improvement": 0.13802083333333334,
+        "relative_improvement": 0.18434782608695643,
+        "ci95_improvement": [
+          0.10286458333333333,
+          0.17317708333333334
+        ],
+        "per_seed_improvement": [
+          0.1328125,
+          0.1328125,
+          0.1484375
+        ],
+        "training_seeds": 3,
+        "examples": 256,
+        "model_example_predictions": 768,
+        "bootstrap_reps": 2000,
+        "bootstrap_seed": 170043,
+        "uncertainty_method": "paired crossed seed/example percentile bootstrap",
+        "limitation": "Few training seeds; interval is descriptive and does not establish broad statistical reliability."
+      },
+      "mse_improvement": {
+        "reference_mean": 0.0014859120341870428,
+        "candidate_mean": 0.0015513248296180528,
+        "mean_improvement": -6.541279543101004e-05,
+        "relative_improvement": -0.0440219837554503,
+        "ci95_improvement": [
+          -0.0001876625499543523,
+          4.580865423175681e-05
+        ],
+        "per_seed_improvement": [
+          -3.433959874239866e-05,
+          -0.00016621294050988913,
+          4.314152959257673e-06
+        ],
+        "training_seeds": 3,
+        "examples": 256,
+        "model_example_predictions": 768,
+        "bootstrap_reps": 2000,
+        "bootstrap_seed": 170043,
+        "uncertainty_method": "paired crossed seed/example percentile bootstrap",
+        "limitation": "Few training seeds; interval is descriptive and does not establish broad statistical reliability."
+      },
+      "mse_pairing_note": "all intended outputs present",
+      "per_seed_actual_cost": [
+        {
+          "seed": 17,
+          "total_refinements_executed": {
+            "reference": 48.0,
+            "candidate": 38.0546875,
+            "relative_saved": 0.20719401041666663
+          },
+          "total_consumed_tokens_including_replay": {
+            "reference": 38.0,
+            "candidate": 38.0,
+            "relative_saved": 0.0
+          },
+          "seconds": {
+            "reference": 0.5048140261728804,
+            "candidate": 0.43240350078099254,
+            "relative_saved": 0.14344000292711734
+          }
+        },
+        {
+          "seed": 43,
+          "total_refinements_executed": {
+            "reference": 48.0,
+            "candidate": 34.75390625,
+            "relative_saved": 0.27596028645833337
+          },
+          "total_consumed_tokens_including_replay": {
+            "reference": 38.0,
+            "candidate": 38.0,
+            "relative_saved": 0.0
+          },
+          "seconds": {
+            "reference": 0.5237073999999211,
+            "candidate": 0.4341467226565783,
+            "relative_saved": 0.17101281620873854
+          }
+        },
+        {
+          "seed": 91,
+          "total_refinements_executed": {
+            "reference": 48.0,
+            "candidate": 36.4296875,
+            "relative_saved": 0.24104817708333337
+          },
+          "total_consumed_tokens_including_replay": {
+            "reference": 38.0,
+            "candidate": 38.0,
+            "relative_saved": 0.0
+          },
+          "seconds": {
+            "reference": 0.5230490984390599,
+            "candidate": 0.48347396367057627,
+            "relative_saved": 0.07566237067722337
+          }
+        }
+      ]
+    },
+    {
+      "split": "iid",
+      "candidate": "adaptive-compact-seen",
+      "reference": "adaptive-replay-seen",
+      "candidate_error_reduction": {
+        "reference_mean": 0.018229166666666668,
+        "candidate_mean": 0.0234375,
+        "mean_improvement": -0.005208333333333333,
+        "relative_improvement": -0.2857142857142856,
+        "ci95_improvement": [
+          -0.0234375,
+          0.010416666666666666
+        ],
+        "per_seed_improvement": [
+          -0.00390625,
+          0.0,
+          -0.01171875
+        ],
+        "training_seeds": 3,
+        "examples": 256,
+        "model_example_predictions": 768,
+        "bootstrap_reps": 2000,
+        "bootstrap_seed": 170043,
+        "uncertainty_method": "paired crossed seed/example percentile bootstrap",
+        "limitation": "Few training seeds; interval is descriptive and does not establish broad statistical reliability."
+      },
+      "certified_yield_improvement": {
+        "reference_mean": 0.6106770833333334,
+        "candidate_mean": 0.5872395833333334,
+        "mean_improvement": 0.0234375,
+        "relative_improvement": 0.03837953091684432,
+        "ci95_improvement": [
+          -0.016927083333333332,
+          0.06380208333333333
+        ],
+        "per_seed_improvement": [
+          0.00390625,
+          0.03515625,
+          0.03125
+        ],
+        "training_seeds": 3,
+        "examples": 256,
+        "model_example_predictions": 768,
+        "bootstrap_reps": 2000,
+        "bootstrap_seed": 170043,
+        "uncertainty_method": "paired crossed seed/example percentile bootstrap",
+        "limitation": "Few training seeds; interval is descriptive and does not establish broad statistical reliability."
+      },
+      "mse_improvement": {
+        "reference_mean": 0.0015513248296180528,
+        "candidate_mean": 0.002276866772678779,
+        "mean_improvement": -0.0007255419430607259,
+        "relative_improvement": -0.46769182650119734,
+        "ci95_improvement": [
+          -0.0012424820351828463,
+          -0.00012680480367137424
+        ],
+        "per_seed_improvement": [
+          -0.0009257794951850423,
+          -0.00011885764329783024,
+          -0.0011319886906993055
+        ],
+        "training_seeds": 3,
+        "examples": 256,
+        "model_example_predictions": 768,
+        "bootstrap_reps": 2000,
+        "bootstrap_seed": 170043,
+        "uncertainty_method": "paired crossed seed/example percentile bootstrap",
+        "limitation": "Few training seeds; interval is descriptive and does not establish broad statistical reliability."
+      },
+      "mse_pairing_note": "all intended outputs present",
+      "per_seed_actual_cost": [
+        {
+          "seed": 17,
+          "total_refinements_executed": {
+            "reference": 38.0546875,
+            "candidate": 20.83984375,
+            "relative_saved": 0.4523711763498255
+          },
+          "total_consumed_tokens_including_replay": {
+            "reference": 38.0,
+            "candidate": 33.0,
+            "relative_saved": 0.13157894736842102
+          },
+          "seconds": {
+            "reference": 0.43240350078099254,
+            "candidate": 0.34166079452757003,
+            "relative_saved": 0.2098565485467303
+          }
+        },
+        {
+          "seed": 43,
+          "total_refinements_executed": {
+            "reference": 34.75390625,
+            "candidate": 18.375,
+            "relative_saved": 0.4712824547600315
+          },
+          "total_consumed_tokens_including_replay": {
+            "reference": 38.0,
+            "candidate": 33.0,
+            "relative_saved": 0.13157894736842102
+          },
+          "seconds": {
+            "reference": 0.4341467226565783,
+            "candidate": 0.36205826992090806,
+            "relative_saved": 0.16604629028305284
+          }
+        },
+        {
+          "seed": 91,
+          "total_refinements_executed": {
+            "reference": 36.4296875,
+            "candidate": 19.74609375,
+            "relative_saved": 0.45796697405104014
+          },
+          "total_consumed_tokens_including_replay": {
+            "reference": 38.0,
+            "candidate": 33.0,
+            "relative_saved": 0.13157894736842102
+          },
+          "seconds": {
+            "reference": 0.48347396367057627,
+            "candidate": 0.3547319351580427,
+            "relative_saved": 0.2662853394112744
+          }
+        }
+      ]
+    },
+    {
+      "split": "iid",
+      "candidate": "adaptive-replay-heldout",
+      "reference": "adaptive-replay-seen",
+      "candidate_error_reduction": {
+        "reference_mean": 0.018229166666666668,
+        "candidate_mean": 1.0,
+        "mean_improvement": -0.9817708333333334,
+        "relative_improvement": -53.857142857142854,
+        "ci95_improvement": [
+          -0.9947916666666666,
+          -0.9661458333333334
+        ],
+        "per_seed_improvement": [
+          -0.9765625,
+          -0.98828125,
+          -0.98046875
+        ],
+        "training_seeds": 3,
+        "examples": 256,
+        "model_example_predictions": 768,
+        "bootstrap_reps": 2000,
+        "bootstrap_seed": 170043,
+        "uncertainty_method": "paired crossed seed/example percentile bootstrap",
+        "limitation": "Few training seeds; interval is descriptive and does not establish broad statistical reliability."
+      },
+      "certified_yield_improvement": {
+        "reference_mean": 0.6106770833333334,
+        "candidate_mean": 1.0,
+        "mean_improvement": -0.3893229166666667,
+        "relative_improvement": -0.6375266524520256,
+        "ci95_improvement": [
+          -0.4609375,
+          -0.31640625
+        ],
+        "per_seed_improvement": [
+          -0.32421875,
+          -0.4140625,
+          -0.4296875
+        ],
+        "training_seeds": 3,
+        "examples": 256,
+        "model_example_predictions": 768,
+        "bootstrap_reps": 2000,
+        "bootstrap_seed": 170043,
+        "uncertainty_method": "paired crossed seed/example percentile bootstrap",
+        "limitation": "Few training seeds; interval is descriptive and does not establish broad statistical reliability."
+      },
+      "mse_improvement": null,
+      "mse_pairing_note": "not computed: at least one missing candidate; never zero-filled",
+      "per_seed_actual_cost": [
+        {
+          "seed": 17,
+          "total_refinements_executed": {
+            "reference": 38.0546875,
+            "candidate": 0.0,
+            "relative_saved": 1.0
+          },
+          "total_consumed_tokens_including_replay": {
+            "reference": 38.0,
+            "candidate": 0.0,
+            "relative_saved": 1.0
+          },
+          "seconds": {
+            "reference": 0.43240350078099254,
+            "candidate": 0.06378990898360826,
+            "relative_saved": 0.8524759654619052
+          }
+        },
+        {
+          "seed": 43,
+          "total_refinements_executed": {
+            "reference": 34.75390625,
+            "candidate": 0.0,
+            "relative_saved": 1.0
+          },
+          "total_consumed_tokens_including_replay": {
+            "reference": 38.0,
+            "candidate": 0.0,
+            "relative_saved": 1.0
+          },
+          "seconds": {
+            "reference": 0.4341467226565783,
+            "candidate": 0.06825904570291641,
+            "relative_saved": 0.8427742462611859
+          }
+        },
+        {
+          "seed": 91,
+          "total_refinements_executed": {
+            "reference": 36.4296875,
+            "candidate": 0.0,
+            "relative_saved": 1.0
+          },
+          "total_consumed_tokens_including_replay": {
+            "reference": 38.0,
+            "candidate": 0.0,
+            "relative_saved": 1.0
+          },
+          "seconds": {
+            "reference": 0.48347396367057627,
+            "candidate": 0.053473121093929876,
+            "relative_saved": 0.8893981370000624
+          }
+        }
+      ]
+    },
+    {
+      "split": "depth8",
+      "candidate": "adaptive-replay-seen",
+      "reference": "fixed-replay-seen",
+      "candidate_error_reduction": {
+        "reference_mean": 0.6236979166666666,
+        "candidate_mean": 0.6236979166666666,
+        "mean_improvement": 0.0,
+        "relative_improvement": 0.0,
+        "ci95_improvement": [
+          0.0,
+          0.0
+        ],
+        "per_seed_improvement": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "training_seeds": 3,
+        "examples": 256,
+        "model_example_predictions": 768,
+        "bootstrap_reps": 2000,
+        "bootstrap_seed": 170043,
+        "uncertainty_method": "paired crossed seed/example percentile bootstrap",
+        "limitation": "Few training seeds; interval is descriptive and does not establish broad statistical reliability."
+      },
+      "certified_yield_improvement": {
+        "reference_mean": 1.0,
+        "candidate_mean": 0.9986979166666666,
+        "mean_improvement": 0.0013020833333333333,
+        "relative_improvement": 0.0013020833333333703,
+        "ci95_improvement": [
+          0.0,
+          0.0078125
+        ],
+        "per_seed_improvement": [
+          0.0,
+          0.0,
+          0.00390625
+        ],
+        "training_seeds": 3,
+        "examples": 256,
+        "model_example_predictions": 768,
+        "bootstrap_reps": 2000,
+        "bootstrap_seed": 170043,
+        "uncertainty_method": "paired crossed seed/example percentile bootstrap",
+        "limitation": "Few training seeds; interval is descriptive and does not establish broad statistical reliability."
+      },
+      "mse_improvement": {
+        "reference_mean": 0.3013493352971884,
+        "candidate_mean": 0.3013490303869257,
+        "mean_improvement": 3.0491026270186785e-07,
+        "relative_improvement": 1.0118166094974512e-06,
+        "ci95_improvement": [
+          0.0,
+          1.829461576211207e-06
+        ],
+        "per_seed_improvement": [
+          0.0,
+          0.0,
+          9.147307881056035e-07
+        ],
+        "training_seeds": 3,
+        "examples": 256,
+        "model_example_predictions": 768,
+        "bootstrap_reps": 2000,
+        "bootstrap_seed": 170043,
+        "uncertainty_method": "paired crossed seed/example percentile bootstrap",
+        "limitation": "Few training seeds; interval is descriptive and does not establish broad statistical reliability."
+      },
+      "mse_pairing_note": "all intended outputs present",
+      "per_seed_actual_cost": [
+        {
+          "seed": 17,
+          "total_refinements_executed": {
+            "reference": 48.0,
+            "candidate": 48.0,
+            "relative_saved": 0.0
+          },
+          "total_consumed_tokens_including_replay": {
+            "reference": 38.0,
+            "candidate": 38.0,
+            "relative_saved": 0.0
+          },
+          "seconds": {
+            "reference": 0.5391701023440874,
+            "candidate": 0.500641436329488,
+            "relative_saved": 0.07145920340740841
+          }
+        },
+        {
+          "seed": 43,
+          "total_refinements_executed": {
+            "reference": 48.0,
+            "candidate": 48.0,
+            "relative_saved": 0.0
+          },
+          "total_consumed_tokens_including_replay": {
+            "reference": 38.0,
+            "candidate": 38.0,
+            "relative_saved": 0.0
+          },
+          "seconds": {
+            "reference": 0.5382264640627454,
+            "candidate": 0.5972451914071826,
+            "relative_saved": -0.10965407924935633
+          }
+        },
+        {
+          "seed": 91,
+          "total_refinements_executed": {
+            "reference": 48.0,
+            "candidate": 47.99609375,
+            "relative_saved": 8.138020833337034e-05
+          },
+          "total_consumed_tokens_including_replay": {
+            "reference": 38.0,
+            "candidate": 38.0,
+            "relative_saved": 0.0
+          },
+          "seconds": {
+            "reference": 0.4857631191409837,
+            "candidate": 0.46668925390667937,
+            "relative_saved": 0.039265774783467045
+          }
+        }
+      ]
+    },
+    {
+      "split": "depth8",
+      "candidate": "adaptive-compact-seen",
+      "reference": "adaptive-replay-seen",
+      "candidate_error_reduction": {
+        "reference_mean": 0.6236979166666666,
+        "candidate_mean": 0.7942708333333334,
+        "mean_improvement": -0.17057291666666666,
+        "relative_improvement": -0.2734864300626305,
+        "ci95_improvement": [
+          -0.3125,
+          -0.05074869791666684
+        ],
+        "per_seed_improvement": [
+          -0.0703125,
+          -0.109375,
+          -0.33203125
+        ],
+        "training_seeds": 3,
+        "examples": 256,
+        "model_example_predictions": 768,
+        "bootstrap_reps": 2000,
+        "bootstrap_seed": 170043,
+        "uncertainty_method": "paired crossed seed/example percentile bootstrap",
+        "limitation": "Few training seeds; interval is descriptive and does not establish broad statistical reliability."
+      },
+      "certified_yield_improvement": {
+        "reference_mean": 0.9986979166666666,
+        "candidate_mean": 1.0,
+        "mean_improvement": -0.0013020833333333333,
+        "relative_improvement": -0.0013037809647979959,
+        "ci95_improvement": [
+          -0.0078125,
+          0.0
+        ],
+        "per_seed_improvement": [
+          0.0,
+          0.0,
+          -0.00390625
+        ],
+        "training_seeds": 3,
+        "examples": 256,
+        "model_example_predictions": 768,
+        "bootstrap_reps": 2000,
+        "bootstrap_seed": 170043,
+        "uncertainty_method": "paired crossed seed/example percentile bootstrap",
+        "limitation": "Few training seeds; interval is descriptive and does not establish broad statistical reliability."
+      },
+      "mse_improvement": {
+        "reference_mean": 0.3013490303869257,
+        "candidate_mean": 0.33933875521476947,
+        "mean_improvement": -0.03798972482784377,
+        "relative_improvement": -0.12606552866311138,
+        "ci95_improvement": [
+          -0.05376520166020378,
+          -0.023151153875841986
+        ],
+        "per_seed_improvement": [
+          -0.03025594772494368,
+          -0.03548279671303718,
+          -0.04823043004555042
+        ],
+        "training_seeds": 3,
+        "examples": 256,
+        "model_example_predictions": 768,
+        "bootstrap_reps": 2000,
+        "bootstrap_seed": 170043,
+        "uncertainty_method": "paired crossed seed/example percentile bootstrap",
+        "limitation": "Few training seeds; interval is descriptive and does not establish broad statistical reliability."
+      },
+      "mse_pairing_note": "all intended outputs present",
+      "per_seed_actual_cost": [
+        {
+          "seed": 17,
+          "total_refinements_executed": {
+            "reference": 48.0,
+            "candidate": 24.0,
+            "relative_saved": 0.5
+          },
+          "total_consumed_tokens_including_replay": {
+            "reference": 38.0,
+            "candidate": 33.0,
+            "relative_saved": 0.13157894736842102
+          },
+          "seconds": {
+            "reference": 0.500641436329488,
+            "candidate": 0.35259309257935456,
+            "relative_saved": 0.2957173198358638
+          }
+        },
+        {
+          "seed": 43,
+          "total_refinements_executed": {
+            "reference": 48.0,
+            "candidate": 24.0,
+            "relative_saved": 0.5
+          },
+          "total_consumed_tokens_including_replay": {
+            "reference": 38.0,
+            "candidate": 33.0,
+            "relative_saved": 0.13157894736842102
+          },
+          "seconds": {
+            "reference": 0.5972451914071826,
+            "candidate": 0.4060368425782599,
+            "relative_saved": 0.3201505036456007
+          }
+        },
+        {
+          "seed": 91,
+          "total_refinements_executed": {
+            "reference": 47.99609375,
+            "candidate": 24.0,
+            "relative_saved": 0.49995930658419463
+          },
+          "total_consumed_tokens_including_replay": {
+            "reference": 38.0,
+            "candidate": 33.0,
+            "relative_saved": 0.13157894736842102
+          },
+          "seconds": {
+            "reference": 0.46668925390667937,
+            "candidate": 0.35648444062235285,
+            "relative_saved": 0.23614174177313163
+          }
+        }
+      ]
+    },
+    {
+      "split": "depth8",
+      "candidate": "adaptive-replay-heldout",
+      "reference": "adaptive-replay-seen",
+      "candidate_error_reduction": {
+        "reference_mean": 0.6236979166666666,
+        "candidate_mean": 1.0,
+        "mean_improvement": -0.3763020833333333,
+        "relative_improvement": -0.6033402922755742,
+        "ci95_improvement": [
+          -0.4921875,
+          -0.2747395833333333
+        ],
+        "per_seed_improvement": [
+          -0.29296875,
+          -0.3359375,
+          -0.5
+        ],
+        "training_seeds": 3,
+        "examples": 256,
+        "model_example_predictions": 768,
+        "bootstrap_reps": 2000,
+        "bootstrap_seed": 170043,
+        "uncertainty_method": "paired crossed seed/example percentile bootstrap",
+        "limitation": "Few training seeds; interval is descriptive and does not establish broad statistical reliability."
+      },
+      "certified_yield_improvement": {
+        "reference_mean": 0.9986979166666666,
+        "candidate_mean": 1.0,
+        "mean_improvement": -0.0013020833333333333,
+        "relative_improvement": -0.0013037809647979959,
+        "ci95_improvement": [
+          -0.0078125,
+          0.0
+        ],
+        "per_seed_improvement": [
+          0.0,
+          0.0,
+          -0.00390625
+        ],
+        "training_seeds": 3,
+        "examples": 256,
+        "model_example_predictions": 768,
+        "bootstrap_reps": 2000,
+        "bootstrap_seed": 170043,
+        "uncertainty_method": "paired crossed seed/example percentile bootstrap",
+        "limitation": "Few training seeds; interval is descriptive and does not establish broad statistical reliability."
+      },
+      "mse_improvement": null,
+      "mse_pairing_note": "not computed: at least one missing candidate; never zero-filled",
+      "per_seed_actual_cost": [
+        {
+          "seed": 17,
+          "total_refinements_executed": {
+            "reference": 48.0,
+            "candidate": 0.0,
+            "relative_saved": 1.0
+          },
+          "total_consumed_tokens_including_replay": {
+            "reference": 38.0,
+            "candidate": 0.0,
+            "relative_saved": 1.0
+          },
+          "seconds": {
+            "reference": 0.500641436329488,
+            "candidate": 0.06410874140510714,
+            "relative_saved": 0.8719467931477507
+          }
+        },
+        {
+          "seed": 43,
+          "total_refinements_executed": {
+            "reference": 48.0,
+            "candidate": 0.0,
+            "relative_saved": 1.0
+          },
+          "total_consumed_tokens_including_replay": {
+            "reference": 38.0,
+            "candidate": 0.0,
+            "relative_saved": 1.0
+          },
+          "seconds": {
+            "reference": 0.5972451914071826,
+            "candidate": 0.06855908086072304,
+            "relative_saved": 0.8852078143999963
+          }
+        },
+        {
+          "seed": 91,
+          "total_refinements_executed": {
+            "reference": 47.99609375,
+            "candidate": 0.0,
+            "relative_saved": 1.0
+          },
+          "total_consumed_tokens_including_replay": {
+            "reference": 38.0,
+            "candidate": 0.0,
+            "relative_saved": 1.0
+          },
+          "seconds": {
+            "reference": 0.46668925390667937,
+            "candidate": 0.05660507656398295,
+            "relative_saved": 0.8787092779828569
+          }
+        }
+      ]
+    }
+  ],
+  "definitions": {
+    "candidate_accuracy": "diagnostic numeric candidate vs original intended query, even if status remains unresolved",
+    "certified_source_correct_yield": "correct AND accepted final answers / all intended source episodes",
+    "certified_coverage": "accepted parsed-constraint certificate / all intended source episodes",
+    "risk": "source failures / accepted certificates; null at zero acceptance",
+    "population": "512 source tasks shared across seeds and conditions;6144 episodes are repeated executions, not6144 independent tasks"
+  },
+  "limitations": [
+    "three joint parser/model seeds",
+    "controlled language and affine tasks only",
+    "compact resets neural history and may reorder current facts/slots",
+    "actual wall time under concurrent local workload; not isolated speedup or energy"
+  ]
+}

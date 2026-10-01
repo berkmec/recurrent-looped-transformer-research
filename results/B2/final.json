@@ -1,0 +1,131 @@
+{
+ "arms": {
+  "dense": {
+   "gates": {
+    "coverage": false,
+    "recall": false
+   },
+   "metrics": {
+    "coverage@1": 0.0,
+    "coverage@10": 0.24575920562681008,
+    "coverage@10_ci95": [
+     0.22920976417045924,
+     0.26230864708316093
+    ],
+    "coverage@5": 0.15556474968969797,
+    "mrr": 0.7864591747607883,
+    "ndcg@1": 0.6880430285477865,
+    "ndcg@10": 0.5722638992738733,
+    "ndcg@5": 0.5364461332655304,
+    "recall@1": 0.2850296510826093,
+    "recall@10": 0.5989863467107985,
+    "recall@10_ci95": [
+     0.5879137360364087,
+     0.6094021514273892
+    ],
+    "recall@5": 0.5175493035443387
+   },
+   "n_queries": 2417,
+   "status": "MEASURED_NEGATIVE"
+  },
+  "multihop": {
+   "gates": {
+    "coverage": false,
+    "recall": false
+   },
+   "metrics": {
+    "coverage@1": 0.0,
+    "coverage@10": 0.26396359122879604,
+    "coverage@10_ci95": [
+     0.24658667769962764,
+     0.28175424079437317
+    ],
+    "coverage@5": 0.17335539925527513,
+    "mrr": 0.7813429674724668,
+    "ndcg@1": 0.6863880844021514,
+    "ndcg@10": 0.5731462175069166,
+    "ndcg@5": 0.5368824311583688,
+    "recall@1": 0.28440904702799613,
+    "recall@10": 0.6029168390566818,
+    "recall@10_ci95": [
+     0.5913994621431525,
+     0.6138472279685561
+    ],
+    "recall@5": 0.5197903737415529
+   },
+   "n_queries": 2417,
+   "status": "MEASURED_NEGATIVE"
+  },
+  "multihop_rerank": {
+   "gates": {
+    "coverage": false,
+    "recall": false
+   },
+   "metrics": {
+    "coverage@1": 0.0,
+    "coverage@10": 0.33553992552751344,
+    "coverage@10_ci95": [
+     0.3177492759619363,
+     0.3529271824575921
+    ],
+    "coverage@5": 0.24534546959040132,
+    "mrr": 0.8451468106205384,
+    "ndcg@1": 0.7662391394290443,
+    "ndcg@10": 0.6422031375027399,
+    "ndcg@5": 0.612635518287619,
+    "recall@1": 0.312749965521997,
+    "recall@10": 0.6634257343814646,
+    "recall@10_ci95": [
+     0.6531142256240519,
+     0.6739087712039719
+    ],
+    "recall@5": 0.5961591504620052
+   },
+   "n_queries": 2417,
+   "status": "MEASURED_NEGATIVE"
+  }
+ },
+ "bridges": {
+  "mean_per_query": 3.0,
+  "no_bridge_queries": 0
+ },
+ "data": {
+  "corpus": 21100,
+  "gold_per_query": {
+   "2": 1252,
+   "3": 760,
+   "4": 405
+  },
+  "path": "__RLT_ROOT__/datasets/dgslibisey__MuSiQue/musique_ans_v1.0_dev.jsonl",
+  "queries": 2417,
+  "sha256": "15fa63794d18a94ce12411aca6e2327e65b6e83b0b1490efab3f1962e48abf3b"
+ },
+ "encoder": {
+  "encoded": 30748,
+  "name": "__RLT_ROOT__/models/Qwen3-Embedding-0.6B"
+ },
+ "n_queries": 2417,
+ "per_query_file": "final-per-query.json",
+ "per_query_sha256": "ae666887f040e2e5561855f1d2c0993593b3dc518655c7cb37e54b431f99a298",
+ "protocol_hash": "7c658de8a98f28d0eeb10c392a251d325aeb66da8f58048a787632f5028b250a",
+ "reranker": {
+  "name": "__RLT_ROOT__/models/Qwen3-Reranker-0.6B",
+  "scored_pairs": 76043
+ },
+ "split": "final",
+ "status": "MEASURED_NEGATIVE",
+ "targets": {
+  "coverage_at_10": 0.9,
+  "recall_at_10": 0.95
+ },
+ "timing": {
+  "encode_seconds": 481.8673959000007,
+  "per_query_seconds": 2.1943040364087696,
+  "retrieval_seconds": 5303.6328559999965
+ },
+ "turkish_slice": "UNMEASURED",
+ "union_ceiling": {
+  "all_gold_in_union": 0.48779478692594125,
+  "mean_union_size": 31.496483243690527
+ }
+}

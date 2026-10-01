@@ -1,0 +1,85 @@
+{
+ "environment": {
+  "numpy": "2.3.5",
+  "python": "3.11.9",
+  "torch": "2.12.0+cu130"
+ },
+ "frozen_utc": 1789725982.8236923,
+ "protocol": {
+  "alpha": 0.1,
+  "arms": [
+   "base",
+   "win16",
+   "idinv",
+   "reread"
+  ],
+  "batch": 32,
+  "clip": 1.0,
+  "device": "cpu",
+  "eval_batch_long": 8,
+  "eval_batch_short": 32,
+  "eval_long_threshold": 512,
+  "heads": 2,
+  "lambda_idinv": 1.0,
+  "lr": 0.003,
+  "neutral_slots": [
+   0,
+   8,
+   32,
+   128
+  ],
+  "primary": {
+   "cost_endpoint": "L1024",
+   "endpoints": [
+    "neutral-128-middle",
+    "neutral-128-suffix"
+   ],
+   "gain_pp": 20.0,
+   "max_cost_pp": 5.0,
+   "task": "five"
+  },
+  "primary_seeds": [
+   117,
+   143,
+   191
+  ],
+  "purpose": "drift mini-experiment: neutral-run state drift under window/invariance/reread arms",
+  "reread_seed_offset": 1000,
+  "selection": "minimum validation final cross entropy; earliest step on ties",
+  "source_note": "same source namespaces as the sealed 2026-09-17 diagnostics campaign; test inputs identical there; never used for selection here",
+  "source_seeds": {
+   "neutral": 83020000,
+   "sparse": 81020000,
+   "test": 83010000,
+   "train": 81010000,
+   "validation": 82010000
+  },
+  "steps": 2048,
+  "tasks": [
+   "five",
+   "parity"
+  ],
+  "test_lengths": [
+   32,
+   128,
+   1024
+  ],
+  "test_n": 512,
+  "threads": 1,
+  "train_length": 32,
+  "validation_every": 128,
+  "validation_n": 256,
+  "version": 1,
+  "weight_decay": 0.01,
+  "width": 32,
+  "win16_window": 16,
+  "window": 4
+ },
+ "protocol_hash": "1496384366fc62f96da0d84abee3070c1d452d57f09017fbbd661890051a05e6",
+ "sources": {
+  "core/model.py": "121f11fcb3c1308b7f67d898f2aa09c37226d3b0db27dd4e5bf1ebeaea281f43",
+  "drift/model.py": "f03ed9cecc1a9f51c98f8a4fb05d39e62c359df2699ca53d458d636e3491a931",
+  "drift/run.py": "f7f6cb0659c50fa62908da26f65c70ea70abbed453d9e261ef0b25952ae3f4c4",
+  "review_cycle/training_data.py": "3095902caa7d79a6f977aa3f599ccd82baf4279ac3a559ef5b8868a1c2ed7c61"
+ }
+}

@@ -1,0 +1,25 @@
+test_read_utf8_bom_receipt (test_core_reporting.Reporting.test_read_utf8_bom_receipt) ... ERROR
+test_swap_can_fix_the_current_five_state (test_core_reporting.Reporting.test_swap_can_fix_the_current_five_state) ... ok
+
+======================================================================
+ERROR: test_read_utf8_bom_receipt (test_core_reporting.Reporting.test_read_utf8_bom_receipt)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "__RLT_ROOT__\2026-09-16-e2e\tests\test_core_reporting.py", line 7, in test_read_utf8_bom_receipt
+    self.assertEqual(read(p),{'status':'COMPLETE'})
+                     ^^^^^^^
+  File "__RLT_ROOT__\2026-09-16-e2e\core\summarize.py", line 7, in read
+    def read(p):return json.loads(p.read_text(encoding='utf8-sig'))
+                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python311\Lib\pathlib.py", line 1058, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python311\Lib\pathlib.py", line 1044, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+LookupError: unknown encoding: utf8-sig
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.024s
+
+FAILED (errors=1)

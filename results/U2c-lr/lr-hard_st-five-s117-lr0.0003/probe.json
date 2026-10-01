@@ -1,0 +1,31 @@
+{
+ "best_validation_accuracy": 1.0,
+ "best_validation_step": 1152,
+ "condition": {
+  "arm": "hard_st",
+  "heads": 2,
+  "lr": 0.0003,
+  "seed": 117,
+  "stage": "u2c-lr",
+  "task": "five",
+  "width": 32,
+  "window": 4
+ },
+ "final_train_loss": 0.0015078665455803275,
+ "guard": {
+  "clipped": 388,
+  "max_grad_norm_before_clip": 853.860582387125,
+  "skip_reasons": {},
+  "skipped": 0,
+  "steps": 2048
+ },
+ "hold_rate_last": 0.12060546875,
+ "ident": "lr-hard_st-five-s117-lr0.0003",
+ "jump_steps": [],
+ "loss_jumps": 0,
+ "max_loss_jump": 0.0,
+ "protocol_hash": "556b0598a62c470387a6f2fdf63091f0309ad5a5b074c4597462d598e4cdb432",
+ "seconds_contended": 1673.8173452999981,
+ "steps": 2048,
+ "unstable": false
+}

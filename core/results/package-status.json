@@ -1,0 +1,78 @@
+{
+  "derivation": "Descriptive scope judgments after the preregistered measurements; not additional preregistered hypothesis tests. Raw metrics.json preserved unchanged.",
+  "packages": [
+    {
+      "package": 1,
+      "status": "IMPLEMENTED_TESTED",
+      "measured_scope": "Causal recurrent/cache contract and matched-information no-feedback control pass numerical and oracle-gradient checks.",
+      "boundary": "Independent tiny implementation; no production state manager or official checkpoint reproduction."
+    },
+    {
+      "package": 2,
+      "status": "MIXED",
+      "measured_scope": "Finite long-horizon accuracy is strong, but task/seed-dependent errors occur; per-seed 1024-token values below.",
+      "boundary": "Tests stop at1024 consumed tokens; no infinite-depth or arbitrary-task claim."
+    },
+    {
+      "package": 3,
+      "status": "MEASURED_NEGATIVE",
+      "measured_scope": "Extra neutral tokens do not establish a useful-computation benefit; five-state cases degrade while consuming additional measured time.",
+      "boundary": "Token-clock recurrence with k=0; not the separate title-refinement mechanism."
+    },
+    {
+      "package": 4,
+      "status": "MIXED",
+      "measured_scope": "Dense-prefix learning succeeds; final-target-only full and TBPTT models remain near chance. Checkpoint gradient/update equivalence holds, without observed whole-process peak-memory saving.",
+      "boundary": "TBPTT cuts recurrent output/decoder KV only; global encoder routes remain. Whole-process memory is not activation-only allocation."
+    },
+    {
+      "package": 14,
+      "status": "INCONCLUSIVE",
+      "measured_scope": "Widths32 and48 were actually trained/evaluated on parity; these two tiny widths do not establish a scaling law or a width advantage.",
+      "boundary": "Core-width portion only; external module covers other package14 scopes. Energy, RL, large-model and unrestricted-language scaling unmeasured."
+    }
+  ],
+  "evidence": {
+    "parity_width32_rlt_L1024": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "five_width32_rlt_L1024": [
+      0.9609375,
+      0.998046875,
+      1.0
+    ],
+    "parity_width48_rlt_L1024": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "five_width32_rlt_neutral_slots": {
+      "0": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "8": [
+        0.810546875,
+        0.828125,
+        0.984375
+      ],
+      "32": [
+        0.419921875,
+        0.6171875,
+        0.390625
+      ],
+      "128": [
+        0.232421875,
+        0.34765625,
+        0.427734375
+      ]
+    },
+    "final_only_accuracy_range": [
+      0.474609375,
+      0.515625
+    ]
+  }
+}

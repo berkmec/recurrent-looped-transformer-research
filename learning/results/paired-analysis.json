@@ -1,0 +1,1281 @@
+{
+  "raw_files_recomputed": 84,
+  "paired_comparisons": [
+    {
+      "candidate": "bidir",
+      "baseline": "forward",
+      "condition": "retain",
+      "baseline_condition": "retain",
+      "split": "iid",
+      "subset": "all",
+      "mean_difference": -0.1610485150308579,
+      "per_seed_differences": [
+        -0.1624838007614784,
+        -0.15940993747391197,
+        -0.16125180685718332
+      ],
+      "seed_t95_df2": [
+        -0.1648914323557476,
+        -0.1572055977059682
+      ],
+      "hierarchical_bootstrap95": [
+        -0.18825010401882736,
+        -0.1380594308927192
+      ],
+      "bootstrap_replicates": 1000,
+      "unit": "squared final prediction error candidate minus baseline",
+      "warning": "Only3 independent training seeds; percentile interval exploratory."
+    },
+    {
+      "candidate": "bidir",
+      "baseline": "forward",
+      "condition": "retain",
+      "baseline_condition": "retain",
+      "split": "iid",
+      "subset": "inverse",
+      "mean_difference": -0.2854009864265568,
+      "per_seed_differences": [
+        -0.2850373948890308,
+        -0.2828007543324702,
+        -0.2883648100581695
+      ],
+      "seed_t95_df2": [
+        -0.29235605216547206,
+        -0.27844592068764157
+      ],
+      "hierarchical_bootstrap95": [
+        -0.3267045945386909,
+        -0.2441443515826483
+      ],
+      "bootstrap_replicates": 1000,
+      "unit": "squared final prediction error candidate minus baseline",
+      "warning": "Only3 independent training seeds; percentile interval exploratory."
+    },
+    {
+      "candidate": "bidir",
+      "baseline": "forward",
+      "condition": "retain",
+      "baseline_condition": "retain",
+      "split": "iid",
+      "subset": "forward",
+      "mean_difference": -0.03669604363515896,
+      "per_seed_differences": [
+        -0.03993020663392599,
+        -0.03601912061535373,
+        -0.03413880365619715
+      ],
+      "seed_t95_df2": [
+        -0.04403529626459292,
+        -0.029356791005724994
+      ],
+      "hierarchical_bootstrap95": [
+        -0.044489898446581216,
+        -0.029808830390372604
+      ],
+      "bootstrap_replicates": 1000,
+      "unit": "squared final prediction error candidate minus baseline",
+      "warning": "Only3 independent training seeds; percentile interval exploratory."
+    },
+    {
+      "candidate": "bidir",
+      "baseline": "wrong",
+      "condition": "retain",
+      "baseline_condition": "retain",
+      "split": "iid",
+      "subset": "all",
+      "mean_difference": -0.27199463822682485,
+      "per_seed_differences": [
+        -0.2777067252218304,
+        -0.2595278388817519,
+        -0.2787493505768923
+      ],
+      "seed_t95_df2": [
+        -0.29884603901437173,
+        -0.24514323743927796
+      ],
+      "hierarchical_bootstrap95": [
+        -0.30778694680324015,
+        -0.2389525670688412
+      ],
+      "bootstrap_replicates": 1000,
+      "unit": "squared final prediction error candidate minus baseline",
+      "warning": "Only3 independent training seeds; percentile interval exploratory."
+    },
+    {
+      "candidate": "bidir",
+      "baseline": "wrong",
+      "condition": "retain",
+      "baseline_condition": "retain",
+      "split": "iid",
+      "subset": "inverse",
+      "mean_difference": -0.282763628876826,
+      "per_seed_differences": [
+        -0.285357744065033,
+        -0.2725842374048284,
+        -0.2903489051606165
+      ],
+      "seed_t95_df2": [
+        -0.30552339163642667,
+        -0.2600038661172253
+      ],
+      "hierarchical_bootstrap95": [
+        -0.3260741594715178,
+        -0.23678125438248085
+      ],
+      "bootstrap_replicates": 1000,
+      "unit": "squared final prediction error candidate minus baseline",
+      "warning": "Only3 independent training seeds; percentile interval exploratory."
+    },
+    {
+      "candidate": "bidir",
+      "baseline": "wrong",
+      "condition": "retain",
+      "baseline_condition": "retain",
+      "split": "iid",
+      "subset": "forward",
+      "mean_difference": -0.26122564757682376,
+      "per_seed_differences": [
+        -0.27005570637862775,
+        -0.2464714403586754,
+        -0.2671497959931681
+      ],
+      "seed_t95_df2": [
+        -0.29317131584800615,
+        -0.22927997930564137
+      ],
+      "hierarchical_bootstrap95": [
+        -0.3127311493988749,
+        -0.21554507334964618
+      ],
+      "bootstrap_replicates": 1000,
+      "unit": "squared final prediction error candidate minus baseline",
+      "warning": "Only3 independent training seeds; percentile interval exploratory."
+    },
+    {
+      "candidate": "bidir",
+      "baseline": "flat",
+      "condition": "retain",
+      "baseline_condition": "retain",
+      "split": "iid",
+      "subset": "all",
+      "mean_difference": -0.2514409809246227,
+      "per_seed_differences": [
+        -0.25642241036062785,
+        -0.24469298118143,
+        -0.25320755123181016
+      ],
+      "seed_t95_df2": [
+        -0.266497285127498,
+        -0.23638467672174737
+      ],
+      "hierarchical_bootstrap95": [
+        -0.28109446751153705,
+        -0.2231820656201341
+      ],
+      "bootstrap_replicates": 1000,
+      "unit": "squared final prediction error candidate minus baseline",
+      "warning": "Only3 independent training seeds; percentile interval exploratory."
+    },
+    {
+      "candidate": "bidir",
+      "baseline": "flat",
+      "condition": "retain",
+      "baseline_condition": "retain",
+      "split": "iid",
+      "subset": "inverse",
+      "mean_difference": -0.25502864652094814,
+      "per_seed_differences": [
+        -0.25650611244477517,
+        -0.24447315711108786,
+        -0.2641066700069814
+      ],
+      "seed_t95_df2": [
+        -0.2796210937554991,
+        -0.23043619928639716
+      ],
+      "hierarchical_bootstrap95": [
+        -0.294623741009116,
+        -0.21670543504062814
+      ],
+      "bootstrap_replicates": 1000,
+      "unit": "squared final prediction error candidate minus baseline",
+      "warning": "Only3 independent training seeds; percentile interval exploratory."
+    },
+    {
+      "candidate": "bidir",
+      "baseline": "flat",
+      "condition": "retain",
+      "baseline_condition": "retain",
+      "split": "iid",
+      "subset": "forward",
+      "mean_difference": -0.2478533153282972,
+      "per_seed_differences": [
+        -0.25633870827648053,
+        -0.24491280525177217,
+        -0.2423084324566389
+      ],
+      "seed_t95_df2": [
+        -0.2663925583179796,
+        -0.22931407233861484
+      ],
+      "hierarchical_bootstrap95": [
+        -0.29018557727768596,
+        -0.20803262805005912
+      ],
+      "bootstrap_replicates": 1000,
+      "unit": "squared final prediction error candidate minus baseline",
+      "warning": "Only3 independent training seeds; percentile interval exploratory."
+    },
+    {
+      "candidate": "bidir",
+      "baseline": "bidir",
+      "condition": "local",
+      "baseline_condition": "retain",
+      "split": "iid",
+      "subset": "all",
+      "mean_difference": -7.513179882040477e-05,
+      "per_seed_differences": [
+        -0.00016835582740343247,
+        -5.820268060352518e-05,
+        1.1631115457433339e-06
+      ],
+      "seed_t95_df2": [
+        -0.0002888126110107709,
+        0.00013854901336996132
+      ],
+      "hierarchical_bootstrap95": [
+        -0.0001915696928753624,
+        2.2752330242351913e-05
+      ],
+      "bootstrap_replicates": 1000,
+      "unit": "squared final prediction error candidate minus baseline",
+      "warning": "Only3 independent training seeds; percentile interval exploratory."
+    },
+    {
+      "candidate": "bidir",
+      "baseline": "bidir",
+      "condition": "local",
+      "baseline_condition": "retain",
+      "split": "iid",
+      "subset": "inverse",
+      "mean_difference": -8.858099453760518e-06,
+      "per_seed_differences": [
+        0.00012333896577099157,
+        -0.00014096300771360148,
+        -8.950256418671643e-06
+      ],
+      "seed_t95_df2": [
+        -0.00033713940915216557,
+        0.0003194232102446445
+      ],
+      "hierarchical_bootstrap95": [
+        -0.00015132204072397423,
+        0.0001280701621974105
+      ],
+      "bootstrap_replicates": 1000,
+      "unit": "squared final prediction error candidate minus baseline",
+      "warning": "Only3 independent training seeds; percentile interval exploratory."
+    },
+    {
+      "candidate": "bidir",
+      "baseline": "bidir",
+      "condition": "local",
+      "baseline_condition": "retain",
+      "split": "iid",
+      "subset": "forward",
+      "mean_difference": -0.00014140549818704903,
+      "per_seed_differences": [
+        -0.0004600506205778565,
+        2.4557646506551123e-05,
+        1.127647951015831e-05
+      ],
+      "seed_t95_df2": [
+        -0.0008271136039379809,
+        0.0005443026075638828
+      ],
+      "hierarchical_bootstrap95": [
+        -0.00044758890220204887,
+        9.631960646922325e-05
+      ],
+      "bootstrap_replicates": 1000,
+      "unit": "squared final prediction error candidate minus baseline",
+      "warning": "Only3 independent training seeds; percentile interval exploratory."
+    },
+    {
+      "candidate": "bidir",
+      "baseline": "bidir",
+      "condition": "all",
+      "baseline_condition": "retain",
+      "split": "iid",
+      "subset": "all",
+      "mean_difference": 6.2084339322796e-06,
+      "per_seed_differences": [
+        0.00020152552884861175,
+        -0.0001804051648520641,
+        -2.495062199708853e-06
+      ],
+      "seed_t95_df2": [
+        -0.0004685451636543795,
+        0.0004809620315189387
+      ],
+      "hierarchical_bootstrap95": [
+        -0.00017668468185154488,
+        0.00019459822406458672
+      ],
+      "bootstrap_replicates": 1000,
+      "unit": "squared final prediction error candidate minus baseline",
+      "warning": "Only3 independent training seeds; percentile interval exploratory."
+    },
+    {
+      "candidate": "bidir",
+      "baseline": "bidir",
+      "condition": "all",
+      "baseline_condition": "retain",
+      "split": "iid",
+      "subset": "inverse",
+      "mean_difference": -0.0001496739327889555,
+      "per_seed_differences": [
+        -4.92515486051337e-05,
+        -0.0003401547052372944,
+        -5.96155445244384e-05
+      ],
+      "seed_t95_df2": [
+        -0.0005596623801216927,
+        0.0002603145145437818
+      ],
+      "hierarchical_bootstrap95": [
+        -0.0003239651403078761,
+        -2.621512429591596e-05
+      ],
+      "bootstrap_replicates": 1000,
+      "unit": "squared final prediction error candidate minus baseline",
+      "warning": "Only3 independent training seeds; percentile interval exploratory."
+    },
+    {
+      "candidate": "bidir",
+      "baseline": "bidir",
+      "condition": "all",
+      "baseline_condition": "retain",
+      "split": "iid",
+      "subset": "forward",
+      "mean_difference": 0.0001620908006535147,
+      "per_seed_differences": [
+        0.0004523026063023572,
+        -2.0655624466833777e-05,
+        5.4625420125020696e-05
+      ],
+      "seed_t95_df2": [
+        -0.0004692125055493036,
+        0.0007933941068563329
+      ],
+      "hierarchical_bootstrap95": [
+        -5.283316247376435e-05,
+        0.0004461704241960943
+      ],
+      "bootstrap_replicates": 1000,
+      "unit": "squared final prediction error candidate minus baseline",
+      "warning": "Only3 independent training seeds; percentile interval exploratory."
+    },
+    {
+      "candidate": "feedback",
+      "baseline": "bidir",
+      "condition": "retain",
+      "baseline_condition": "retain",
+      "split": "iid",
+      "subset": "all",
+      "mean_difference": 9.892547523937996e-07,
+      "per_seed_differences": [
+        -3.5470336860396467e-06,
+        2.8132126057532625e-06,
+        3.701585337467783e-06
+      ],
+      "seed_t95_df2": [
+        -8.8319639839471e-06,
+        1.08104734887347e-05
+      ],
+      "hierarchical_bootstrap95": [
+        -3.131109747507403e-06,
+        3.902043133730975e-06
+      ],
+      "bootstrap_replicates": 1000,
+      "unit": "squared final prediction error candidate minus baseline",
+      "warning": "Only3 independent training seeds; percentile interval exploratory."
+    },
+    {
+      "candidate": "feedback",
+      "baseline": "bidir",
+      "condition": "retain",
+      "baseline_condition": "retain",
+      "split": "iid",
+      "subset": "inverse",
+      "mean_difference": 1.2681231022979023e-06,
+      "per_seed_differences": [
+        -1.7087536294257966e-07,
+        3.927978946112465e-06,
+        4.726572372382165e-08
+      ],
+      "seed_t95_df2": [
+        -4.4605059443844e-06,
+        6.9967521489802045e-06
+      ],
+      "hierarchical_bootstrap95": [
+        -3.84512485667593e-07,
+        3.6166012575592857e-06
+      ],
+      "bootstrap_replicates": 1000,
+      "unit": "squared final prediction error candidate minus baseline",
+      "warning": "Only3 independent training seeds; percentile interval exploratory."
+    },
+    {
+      "candidate": "feedback",
+      "baseline": "bidir",
+      "condition": "retain",
+      "baseline_condition": "retain",
+      "split": "iid",
+      "subset": "forward",
+      "mean_difference": 7.10386402489697e-07,
+      "per_seed_differences": [
+        -6.923192009136714e-06,
+        1.6984462653940602e-06,
+        7.355904951211745e-06
+      ],
+      "seed_t95_df2": [
+        -1.7152161472687924e-05,
+        1.857293427766732e-05
+      ],
+      "hierarchical_bootstrap95": [
+        -6.576707800334813e-06,
+        6.6310676329862464e-06
+      ],
+      "bootstrap_replicates": 1000,
+      "unit": "squared final prediction error candidate minus baseline",
+      "warning": "Only3 independent training seeds; percentile interval exploratory."
+    },
+    {
+      "candidate": "method",
+      "baseline": "bidir",
+      "condition": "retain",
+      "baseline_condition": "retain",
+      "split": "iid",
+      "subset": "all",
+      "mean_difference": -0.00042202868528055476,
+      "per_seed_differences": [
+        0.000894601069755363,
+        0.00040081035724903735,
+        -0.0025614974828460646
+      ],
+      "seed_t95_df2": [
+        -0.005065407953682297,
+        0.004221350583121187
+      ],
+      "hierarchical_bootstrap95": [
+        -0.002365682732287366,
+        0.0009722075500261226
+      ],
+      "bootstrap_replicates": 1000,
+      "unit": "squared final prediction error candidate minus baseline",
+      "warning": "Only3 independent training seeds; percentile interval exploratory."
+    },
+    {
+      "candidate": "method",
+      "baseline": "bidir",
+      "condition": "retain",
+      "baseline_condition": "retain",
+      "split": "iid",
+      "subset": "inverse",
+      "mean_difference": 0.001105563798355469,
+      "per_seed_differences": [
+        0.001940042807958342,
+        0.0010647096338090023,
+        0.0003119389532990624
+      ],
+      "seed_t95_df2": [
+        -0.0009185623668065157,
+        0.0031296899635174535
+      ],
+      "hierarchical_bootstrap95": [
+        0.0003564241307840573,
+        0.0020599482439646634
+      ],
+      "bootstrap_replicates": 1000,
+      "unit": "squared final prediction error candidate minus baseline",
+      "warning": "Only3 independent training seeds; percentile interval exploratory."
+    },
+    {
+      "candidate": "method",
+      "baseline": "bidir",
+      "condition": "retain",
+      "baseline_condition": "retain",
+      "split": "iid",
+      "subset": "forward",
+      "mean_difference": -0.0019496211689165783,
+      "per_seed_differences": [
+        -0.000150840668447616,
+        -0.0002630889193109276,
+        -0.005434933918991192
+      ],
+      "seed_t95_df2": [
+        -0.009448962467721549,
+        0.005549720129888393
+      ],
+      "hierarchical_bootstrap95": [
+        -0.004832198488594485,
+        -7.866182412694659e-05
+      ],
+      "bootstrap_replicates": 1000,
+      "unit": "squared final prediction error candidate minus baseline",
+      "warning": "Only3 independent training seeds; percentile interval exploratory."
+    },
+    {
+      "candidate": "bidir",
+      "baseline": "forward",
+      "condition": "retain",
+      "baseline_condition": "retain",
+      "split": "shift",
+      "subset": "all",
+      "mean_difference": -0.08699809574751782,
+      "per_seed_differences": [
+        -0.14336228339010404,
+        -0.06506661711320305,
+        -0.05256538673924638
+      ],
+      "seed_t95_df2": [
+        -0.20924597864953443,
+        0.03524978715449878
+      ],
+      "hierarchical_bootstrap95": [
+        -0.14380415379582417,
+        -0.03797856528339204
+      ],
+      "bootstrap_replicates": 1000,
+      "unit": "squared final prediction error candidate minus baseline",
+      "warning": "Only3 independent training seeds; percentile interval exploratory."
+    },
+    {
+      "candidate": "bidir",
+      "baseline": "forward",
+      "condition": "retain",
+      "baseline_condition": "retain",
+      "split": "shift",
+      "subset": "inverse",
+      "mean_difference": -0.17803427154588766,
+      "per_seed_differences": [
+        -0.2043989274186515,
+        -0.12668835202839546,
+        -0.203015535190616
+      ],
+      "seed_t95_df2": [
+        -0.28850946523255266,
+        -0.06755907785922266
+      ],
+      "hierarchical_bootstrap95": [
+        -0.2509562102645854,
+        -0.11023912067009103
+      ],
+      "bootstrap_replicates": 1000,
+      "unit": "squared final prediction error candidate minus baseline",
+      "warning": "Only3 independent training seeds; percentile interval exploratory."
+    },
+    {
+      "candidate": "bidir",
+      "baseline": "forward",
+      "condition": "retain",
+      "baseline_condition": "retain",
+      "split": "shift",
+      "subset": "forward",
+      "mean_difference": 0.004038080050852007,
+      "per_seed_differences": [
+        -0.08232563936155657,
+        -0.003444882198010646,
+        0.09788476171212324
+      ],
+      "seed_t95_df2": [
+        -0.2203738008143402,
+        0.22844996091604422
+      ],
+      "hierarchical_bootstrap95": [
+        -0.08024041860328736,
+        0.08557800998785572
+      ],
+      "bootstrap_replicates": 1000,
+      "unit": "squared final prediction error candidate minus baseline",
+      "warning": "Only3 independent training seeds; percentile interval exploratory."
+    },
+    {
+      "candidate": "bidir",
+      "baseline": "wrong",
+      "condition": "retain",
+      "baseline_condition": "retain",
+      "split": "shift",
+      "subset": "all",
+      "mean_difference": -0.22256933486582872,
+      "per_seed_differences": [
+        -0.26401513597596704,
+        -0.19005959962959196,
+        -0.21363326899192714
+      ],
+      "seed_t95_df2": [
+        -0.31641732536027584,
+        -0.1287213443713816
+      ],
+      "hierarchical_bootstrap95": [
+        -0.2803215739124289,
+        -0.17416600140441577
+      ],
+      "bootstrap_replicates": 1000,
+      "unit": "squared final prediction error candidate minus baseline",
+      "warning": "Only3 independent training seeds; percentile interval exploratory."
+    },
+    {
+      "candidate": "bidir",
+      "baseline": "wrong",
+      "condition": "retain",
+      "baseline_condition": "retain",
+      "split": "shift",
+      "subset": "inverse",
+      "mean_difference": -0.16709356865121094,
+      "per_seed_differences": [
+        -0.1872785176918228,
+        -0.11520434683563963,
+        -0.1987978414261704
+      ],
+      "seed_t95_df2": [
+        -0.27963740535284737,
+        -0.05454973194957452
+      ],
+      "hierarchical_bootstrap95": [
+        -0.23787502046441844,
+        -0.09803206631418536
+      ],
+      "bootstrap_replicates": 1000,
+      "unit": "squared final prediction error candidate minus baseline",
+      "warning": "Only3 independent training seeds; percentile interval exploratory."
+    },
+    {
+      "candidate": "bidir",
+      "baseline": "wrong",
+      "condition": "retain",
+      "baseline_condition": "retain",
+      "split": "shift",
+      "subset": "forward",
+      "mean_difference": -0.2780451010804465,
+      "per_seed_differences": [
+        -0.3407517542601113,
+        -0.2649148524235443,
+        -0.22846869655768387
+      ],
+      "seed_t95_df2": [
+        -0.4203403133084659,
+        -0.13574988885242711
+      ],
+      "hierarchical_bootstrap95": [
+        -0.3588864760125782,
+        -0.20762476010131461
+      ],
+      "bootstrap_replicates": 1000,
+      "unit": "squared final prediction error candidate minus baseline",
+      "warning": "Only3 independent training seeds; percentile interval exploratory."
+    },
+    {
+      "candidate": "bidir",
+      "baseline": "flat",
+      "condition": "retain",
+      "baseline_condition": "retain",
+      "split": "shift",
+      "subset": "all",
+      "mean_difference": -0.20925437217283616,
+      "per_seed_differences": [
+        -0.25657106151732023,
+        -0.17524429048808088,
+        -0.19594776451310736
+      ],
+      "seed_t95_df2": [
+        -0.3142458663416792,
+        -0.1042628780039931
+      ],
+      "hierarchical_bootstrap95": [
+        -0.268605733983235,
+        -0.1586332924890281
+      ],
+      "bootstrap_replicates": 1000,
+      "unit": "squared final prediction error candidate minus baseline",
+      "warning": "Only3 independent training seeds; percentile interval exploratory."
+    },
+    {
+      "candidate": "bidir",
+      "baseline": "flat",
+      "condition": "retain",
+      "baseline_condition": "retain",
+      "split": "shift",
+      "subset": "inverse",
+      "mean_difference": -0.1481353115488749,
+      "per_seed_differences": [
+        -0.17095261861493327,
+        -0.08731487086515699,
+        -0.18613844516653444
+      ],
+      "seed_t95_df2": [
+        -0.28033244858159656,
+        -0.015938174516153286
+      ],
+      "hierarchical_bootstrap95": [
+        -0.2205846257201699,
+        -0.07577510500802873
+      ],
+      "bootstrap_replicates": 1000,
+      "unit": "squared final prediction error candidate minus baseline",
+      "warning": "Only3 independent training seeds; percentile interval exploratory."
+    },
+    {
+      "candidate": "bidir",
+      "baseline": "flat",
+      "condition": "retain",
+      "baseline_condition": "retain",
+      "split": "shift",
+      "subset": "forward",
+      "mean_difference": -0.27037343279679743,
+      "per_seed_differences": [
+        -0.3421895044197072,
+        -0.26317371011100477,
+        -0.20575708385968028
+      ],
+      "seed_t95_df2": [
+        -0.44053828672915735,
+        -0.10020857886443751
+      ],
+      "hierarchical_bootstrap95": [
+        -0.36006489446425954,
+        -0.19281170183250537
+      ],
+      "bootstrap_replicates": 1000,
+      "unit": "squared final prediction error candidate minus baseline",
+      "warning": "Only3 independent training seeds; percentile interval exploratory."
+    },
+    {
+      "candidate": "bidir",
+      "baseline": "bidir",
+      "condition": "local",
+      "baseline_condition": "retain",
+      "split": "shift",
+      "subset": "all",
+      "mean_difference": 0.001448016313145691,
+      "per_seed_differences": [
+        0.004565835715972355,
+        0.0038908666965085104,
+        -0.0041126534730437925
+      ],
+      "seed_t95_df2": [
+        -0.01054413942518175,
+        0.013440172051473133
+      ],
+      "hierarchical_bootstrap95": [
+        -0.0035724013180654874,
+        0.00529636759103056
+      ],
+      "bootstrap_replicates": 1000,
+      "unit": "squared final prediction error candidate minus baseline",
+      "warning": "Only3 independent training seeds; percentile interval exploratory."
+    },
+    {
+      "candidate": "bidir",
+      "baseline": "bidir",
+      "condition": "local",
+      "baseline_condition": "retain",
+      "split": "shift",
+      "subset": "inverse",
+      "mean_difference": -0.001134459778934153,
+      "per_seed_differences": [
+        0.005831161960330178,
+        -0.000762626838536562,
+        -0.008471914458596075
+      ],
+      "seed_t95_df2": [
+        -0.01891786598762729,
+        0.016648946429758983
+      ],
+      "hierarchical_bootstrap95": [
+        -0.007414432063254139,
+        0.005488566708676856
+      ],
+      "bootstrap_replicates": 1000,
+      "unit": "squared final prediction error candidate minus baseline",
+      "warning": "Only3 independent training seeds; percentile interval exploratory."
+    },
+    {
+      "candidate": "bidir",
+      "baseline": "bidir",
+      "condition": "local",
+      "baseline_condition": "retain",
+      "split": "shift",
+      "subset": "forward",
+      "mean_difference": 0.004030492405225535,
+      "per_seed_differences": [
+        0.0033005094716145322,
+        0.008544360231553583,
+        0.0002466075125084899
+      ],
+      "seed_t95_df2": [
+        -0.006394848288041635,
+        0.014455833098492705
+      ],
+      "hierarchical_bootstrap95": [
+        0.00042684910628073197,
+        0.008760843200309407
+      ],
+      "bootstrap_replicates": 1000,
+      "unit": "squared final prediction error candidate minus baseline",
+      "warning": "Only3 independent training seeds; percentile interval exploratory."
+    },
+    {
+      "candidate": "bidir",
+      "baseline": "bidir",
+      "condition": "all",
+      "baseline_condition": "retain",
+      "split": "shift",
+      "subset": "all",
+      "mean_difference": -0.00125031200014399,
+      "per_seed_differences": [
+        0.002960163187559317,
+        0.006135307695487313,
+        -0.0128464068834786
+      ],
+      "seed_t95_df2": [
+        -0.026507097077265274,
+        0.024006473076977296
+      ],
+      "hierarchical_bootstrap95": [
+        -0.012295288265673898,
+        0.006952077506507413
+      ],
+      "bootstrap_replicates": 1000,
+      "unit": "squared final prediction error candidate minus baseline",
+      "warning": "Only3 independent training seeds; percentile interval exploratory."
+    },
+    {
+      "candidate": "bidir",
+      "baseline": "bidir",
+      "condition": "all",
+      "baseline_condition": "retain",
+      "split": "shift",
+      "subset": "inverse",
+      "mean_difference": -0.005534917490267688,
+      "per_seed_differences": [
+        0.0018425123099632401,
+        -0.0034330419080106367,
+        -0.015014222872755667
+      ],
+      "seed_t95_df2": [
+        -0.02695486806999449,
+        0.015885033089459114
+      ],
+      "hierarchical_bootstrap95": [
+        -0.013947918627401693,
+        0.002225940012524081
+      ],
+      "bootstrap_replicates": 1000,
+      "unit": "squared final prediction error candidate minus baseline",
+      "warning": "Only3 independent training seeds; percentile interval exploratory."
+    },
+    {
+      "candidate": "bidir",
+      "baseline": "bidir",
+      "condition": "all",
+      "baseline_condition": "retain",
+      "split": "shift",
+      "subset": "forward",
+      "mean_difference": 0.003034293489979708,
+      "per_seed_differences": [
+        0.004077814065155394,
+        0.015703657298985263,
+        -0.010678590894201534
+      ],
+      "seed_t95_df2": [
+        -0.02981108546418999,
+        0.035879672444149406
+      ],
+      "hierarchical_bootstrap95": [
+        -0.008518978894623313,
+        0.014671340428490845
+      ],
+      "bootstrap_replicates": 1000,
+      "unit": "squared final prediction error candidate minus baseline",
+      "warning": "Only3 independent training seeds; percentile interval exploratory."
+    },
+    {
+      "candidate": "feedback",
+      "baseline": "bidir",
+      "condition": "retain",
+      "baseline_condition": "retain",
+      "split": "shift",
+      "subset": "all",
+      "mean_difference": -1.0789379826468362e-05,
+      "per_seed_differences": [
+        -2.4208323916585783e-05,
+        -2.055496775990595e-05,
+        1.2395152197086645e-05
+      ],
+      "seed_t95_df2": [
+        -6.087286422630376e-05,
+        3.9294104573367035e-05
+      ],
+      "hierarchical_bootstrap95": [
+        -2.684016701651378e-05,
+        8.208377986995689e-06
+      ],
+      "bootstrap_replicates": 1000,
+      "unit": "squared final prediction error candidate minus baseline",
+      "warning": "Only3 independent training seeds; percentile interval exploratory."
+    },
+    {
+      "candidate": "feedback",
+      "baseline": "bidir",
+      "condition": "retain",
+      "baseline_condition": "retain",
+      "split": "shift",
+      "subset": "inverse",
+      "mean_difference": -1.358919041768066e-05,
+      "per_seed_differences": [
+        -1.7552159093270348e-05,
+        -1.2661257279944493e-05,
+        -1.0554154879827138e-05
+      ],
+      "seed_t95_df2": [
+        -2.2507490679088208e-05,
+        -4.670890156273112e-06
+      ],
+      "hierarchical_bootstrap95": [
+        -2.3268612954622607e-05,
+        -3.416326193909454e-06
+      ],
+      "bootstrap_replicates": 1000,
+      "unit": "squared final prediction error candidate minus baseline",
+      "warning": "Only3 independent training seeds; percentile interval exploratory."
+    },
+    {
+      "candidate": "feedback",
+      "baseline": "bidir",
+      "condition": "retain",
+      "baseline_condition": "retain",
+      "split": "shift",
+      "subset": "forward",
+      "mean_difference": -7.989569235256067e-06,
+      "per_seed_differences": [
+        -3.086448873990122e-05,
+        -2.844867823986741e-05,
+        3.534445927400043e-05
+      ],
+      "seed_t95_df2": [
+        -0.00010126348415815326,
+        8.528434568764113e-05
+      ],
+      "hierarchical_bootstrap95": [
+        -3.464172588623175e-05,
+        2.8537442735920846e-05
+      ],
+      "bootstrap_replicates": 1000,
+      "unit": "squared final prediction error candidate minus baseline",
+      "warning": "Only3 independent training seeds; percentile interval exploratory."
+    },
+    {
+      "candidate": "method",
+      "baseline": "bidir",
+      "condition": "retain",
+      "baseline_condition": "retain",
+      "split": "shift",
+      "subset": "all",
+      "mean_difference": -0.04480297507922574,
+      "per_seed_differences": [
+        -0.01978067570257558,
+        -0.07200922413393585,
+        -0.0426190254011658
+      ],
+      "seed_t95_df2": [
+        -0.10984434899357928,
+        0.020238398835127812
+      ],
+      "hierarchical_bootstrap95": [
+        -0.07240946270209037,
+        -0.018097857965043783
+      ],
+      "bootstrap_replicates": 1000,
+      "unit": "squared final prediction error candidate minus baseline",
+      "warning": "Only3 independent training seeds; percentile interval exploratory."
+    },
+    {
+      "candidate": "method",
+      "baseline": "bidir",
+      "condition": "retain",
+      "baseline_condition": "retain",
+      "split": "shift",
+      "subset": "inverse",
+      "mean_difference": 0.01983882201754265,
+      "per_seed_differences": [
+        0.011444658842719946,
+        -0.03474615989330232,
+        0.08281796710321032
+      ],
+      "seed_t95_df2": [
+        -0.12729633110042796,
+        0.16697397513551324
+      ],
+      "hierarchical_bootstrap95": [
+        -0.032610971950589374,
+        0.08094072369512066
+      ],
+      "bootstrap_replicates": 1000,
+      "unit": "squared final prediction error candidate minus baseline",
+      "warning": "Only3 independent training seeds; percentile interval exploratory."
+    },
+    {
+      "candidate": "method",
+      "baseline": "bidir",
+      "condition": "retain",
+      "baseline_condition": "retain",
+      "split": "shift",
+      "subset": "forward",
+      "mean_difference": -0.10944477217599413,
+      "per_seed_differences": [
+        -0.0510060102478711,
+        -0.10927228837456937,
+        -0.16805601790554192
+      ],
+      "seed_t95_df2": [
+        -0.2548294148211685,
+        0.035939870469180235
+      ],
+      "hierarchical_bootstrap95": [
+        -0.16018989216239488,
+        -0.049652344615900915
+      ],
+      "bootstrap_replicates": 1000,
+      "unit": "squared final prediction error candidate minus baseline",
+      "warning": "Only3 independent training seeds; percentile interval exploratory."
+    }
+  ],
+  "revision_gates": [
+    {
+      "split": "iid",
+      "seed": 17,
+      "condition": "all",
+      "pass": false,
+      "affected_change": 0.00024172128178179264,
+      "unaffected_final_change": 0.00016132992459461093,
+      "tolerance": 0.01
+    },
+    {
+      "split": "iid",
+      "seed": 17,
+      "condition": "local",
+      "pass": true,
+      "affected_change": -0.000336711760610342,
+      "unaffected_final_change": 0.0,
+      "tolerance": 0.01
+    },
+    {
+      "split": "iid",
+      "seed": 43,
+      "condition": "all",
+      "pass": true,
+      "affected_change": -0.00014720577746629715,
+      "unaffected_final_change": -0.00021360459504649043,
+      "tolerance": 0.01
+    },
+    {
+      "split": "iid",
+      "seed": 43,
+      "condition": "local",
+      "pass": true,
+      "affected_change": -0.00011640542652457952,
+      "unaffected_final_change": 0.0,
+      "tolerance": 0.01
+    },
+    {
+      "split": "iid",
+      "seed": 91,
+      "condition": "all",
+      "pass": false,
+      "affected_change": 2.3259781301021576e-06,
+      "unaffected_final_change": -7.316470146179199e-06,
+      "tolerance": 0.01
+    },
+    {
+      "split": "iid",
+      "seed": 91,
+      "condition": "local",
+      "pass": false,
+      "affected_change": 2.3259781301021576e-06,
+      "unaffected_final_change": 0.0,
+      "tolerance": 0.01
+    },
+    {
+      "split": "shift",
+      "seed": 17,
+      "condition": "all",
+      "pass": false,
+      "affected_change": 0.0028294920921325684,
+      "unaffected_final_change": 0.0030908286571502686,
+      "tolerance": 0.01
+    },
+    {
+      "split": "shift",
+      "seed": 17,
+      "condition": "local",
+      "pass": false,
+      "affected_change": 0.009131669998168945,
+      "unaffected_final_change": 0.0,
+      "tolerance": 0.01
+    },
+    {
+      "split": "shift",
+      "seed": 43,
+      "condition": "all",
+      "pass": false,
+      "affected_change": 0.006354108452796936,
+      "unaffected_final_change": 0.005916506052017212,
+      "tolerance": 0.01
+    },
+    {
+      "split": "shift",
+      "seed": 43,
+      "condition": "local",
+      "pass": false,
+      "affected_change": 0.007781729102134705,
+      "unaffected_final_change": 0.0,
+      "tolerance": 0.01
+    },
+    {
+      "split": "shift",
+      "seed": 91,
+      "condition": "all",
+      "pass": true,
+      "affected_change": -0.008225321769714355,
+      "unaffected_final_change": -0.017467498779296875,
+      "tolerance": 0.01
+    },
+    {
+      "split": "shift",
+      "seed": 91,
+      "condition": "local",
+      "pass": true,
+      "affected_change": -0.008225321769714355,
+      "unaffected_final_change": 0.0,
+      "tolerance": 0.01
+    }
+  ],
+  "feedback_interventions": [
+    {
+      "split": "iid",
+      "seed": 17,
+      "condition": "zero",
+      "prefix_max_change": 0.0,
+      "future_mean_absolute_change": 3.064184420509264e-05,
+      "future_max_change": 0.0001875162124633789,
+      "future_changed_examples": 512
+    },
+    {
+      "split": "iid",
+      "seed": 17,
+      "condition": "permute",
+      "prefix_max_change": 0.0,
+      "future_mean_absolute_change": 4.037723920191638e-05,
+      "future_max_change": 0.00027549266815185547,
+      "future_changed_examples": 512
+    },
+    {
+      "split": "iid",
+      "seed": 43,
+      "condition": "zero",
+      "prefix_max_change": 0.0,
+      "future_mean_absolute_change": 1.4413641110877506e-05,
+      "future_max_change": 7.528066635131836e-05,
+      "future_changed_examples": 512
+    },
+    {
+      "split": "iid",
+      "seed": 43,
+      "condition": "permute",
+      "prefix_max_change": 0.0,
+      "future_mean_absolute_change": 1.9035764125874266e-05,
+      "future_max_change": 0.00014322996139526367,
+      "future_changed_examples": 512
+    },
+    {
+      "split": "iid",
+      "seed": 91,
+      "condition": "zero",
+      "prefix_max_change": 0.0,
+      "future_mean_absolute_change": 1.3567581845563836e-05,
+      "future_max_change": 0.00010216236114501953,
+      "future_changed_examples": 512
+    },
+    {
+      "split": "iid",
+      "seed": 91,
+      "condition": "permute",
+      "prefix_max_change": 0.0,
+      "future_mean_absolute_change": 1.66895697475411e-05,
+      "future_max_change": 0.00014710426330566406,
+      "future_changed_examples": 512
+    },
+    {
+      "split": "shift",
+      "seed": 17,
+      "condition": "zero",
+      "prefix_max_change": 0.0,
+      "future_mean_absolute_change": 2.262545604025945e-05,
+      "future_max_change": 0.00011348724365234375,
+      "future_changed_examples": 512
+    },
+    {
+      "split": "shift",
+      "seed": 17,
+      "condition": "permute",
+      "prefix_max_change": 0.0,
+      "future_mean_absolute_change": 3.643803211161867e-05,
+      "future_max_change": 0.0002465248107910156,
+      "future_changed_examples": 512
+    },
+    {
+      "split": "shift",
+      "seed": 43,
+      "condition": "zero",
+      "prefix_max_change": 0.0,
+      "future_mean_absolute_change": 1.0270618076901883e-05,
+      "future_max_change": 5.8591365814208984e-05,
+      "future_changed_examples": 512
+    },
+    {
+      "split": "shift",
+      "seed": 43,
+      "condition": "permute",
+      "prefix_max_change": 0.0,
+      "future_mean_absolute_change": 1.632273597351741e-05,
+      "future_max_change": 0.00012862682342529297,
+      "future_changed_examples": 512
+    },
+    {
+      "split": "shift",
+      "seed": 91,
+      "condition": "zero",
+      "prefix_max_change": 0.0,
+      "future_mean_absolute_change": 1.0232435670332052e-05,
+      "future_max_change": 7.665157318115234e-05,
+      "future_changed_examples": 512
+    },
+    {
+      "split": "shift",
+      "seed": 91,
+      "condition": "permute",
+      "prefix_max_change": 0.0,
+      "future_mean_absolute_change": 1.496020286140265e-05,
+      "future_max_change": 0.0001277923583984375,
+      "future_changed_examples": 512
+    }
+  ],
+  "package_status": {
+    "6": "MEASURED_POSITIVE",
+    "7": "MIXED",
+    "12": "MIXED",
+    "13": "MIXED"
+  }
+}

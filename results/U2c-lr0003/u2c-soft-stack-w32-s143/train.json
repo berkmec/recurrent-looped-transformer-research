@@ -1,0 +1,34 @@
+{
+ "condition": {
+  "arm": "soft",
+  "heads": 2,
+  "lr": 0.0003,
+  "seed": 143,
+  "stage": "u2c",
+  "task": "stack",
+  "width": 32,
+  "window": 4
+ },
+ "guard": {
+  "clipped": 1608,
+  "max_grad_norm_before_clip": 13.04324403307556,
+  "skip_reasons": {},
+  "skipped": 0,
+  "steps": 2048
+ },
+ "ident": "u2c-soft-stack-w32-s143",
+ "initial_sha256": "cf1a5a3ff35e41d1cc9005cfd0ca48871b5928cedc954e177984ce151b1431f8",
+ "protocol_hash": "81e0bb3f6d8f580cc97bf431d9b302091071f6f08bf193d58b9f0a1f78e46284",
+ "selected_sha256": "370ecd07c9852af23757a3ab6124bb2e026be14341872b1380eacc8da658d9da",
+ "selected_step": 1664,
+ "selected_validation": {
+  "all_accuracy": 0.931884765625,
+  "final_accuracy": 0.8828125,
+  "final_loss": 0.20856095850467682,
+  "hold_rate": 0.33905029296875
+ },
+ "steps": 2048,
+ "train_seconds": 1454.5936162000216,
+ "updates_sha256": "e70fd9bc2ff5c6ea4ffde8f7e09209ea7901bb313482206ad08819116ac1a50c",
+ "wall_seconds": 1485.0883627999938
+}

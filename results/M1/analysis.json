@@ -1,0 +1,165 @@
+{
+ "kind": "M1_ANALYSIS",
+ "utc": 1790498524.1867537,
+ "protocol_hash": "9da7da584641ff0e2514cd31195116d0c313a5cb4cb68e9bfcbbba0f4863f48d",
+ "corpus": {
+  "config": "3.0.0",
+  "dataset": "cnn_dailymail",
+  "split": "train",
+  "train_bytes": 209720360,
+  "train_documents": 55552,
+  "train_sha256": "edeef82f388f81526652bfb7247e0dcc3f7c85ce691513d77a527aad0c17b8e4",
+  "validation_bytes": 8389474,
+  "validation_documents": 2336,
+  "validation_sha256": "451b7be62e1548db80160709c5cd527f5f660600f182f3a2cbf2fffa33c7ac39"
+ },
+ "arms": {
+  "plain": {
+   "bits_per_byte": 1.7049428433846676,
+   "needle": {
+    "repeat@0": 0.38671875,
+    "repeat@128": 0.0,
+    "repeat@128@near": 0.1875,
+    "repeat@2048": 0.0,
+    "repeat@2048@near": 0.0,
+    "repeat@512": 0.0,
+    "repeat@512@near": 0.15234375,
+    "text@0": 0.3828125,
+    "text@128": 0.0,
+    "text@128@near": 0.0,
+    "text@2048": 0.0,
+    "text@2048@near": 0.0,
+    "text@512": 0.0,
+    "text@512@near": 0.0
+   },
+   "needle_bytes": {
+    "repeat@0": 0.6474609375,
+    "repeat@128": 0.04296875,
+    "repeat@128@near": 0.4951171875,
+    "repeat@2048": 0.0244140625,
+    "repeat@2048@near": 0.1005859375,
+    "repeat@512": 0.0556640625,
+    "repeat@512@near": 0.4951171875,
+    "text@0": 0.6494140625,
+    "text@128": 0.021484375,
+    "text@128@near": 0.1279296875,
+    "text@2048": 0.0224609375,
+    "text@2048@near": 0.02734375,
+    "text@512": 0.025390625,
+    "text@512@near": 0.0751953125
+   },
+   "parameters": 31131904,
+   "guard": {
+    "clipped": 30,
+    "max_grad_norm_before_clip": 14.89440669003125,
+    "skip_reasons": {},
+    "skipped": 0,
+    "steps": 4000
+   },
+   "selected_step": 4000
+  },
+  "hard_st": {
+   "bits_per_byte": 1.7122121129140673,
+   "needle": {
+    "repeat@0": 0.90234375,
+    "repeat@128": 0.0,
+    "repeat@128@near": 0.7578125,
+    "repeat@2048": 0.0,
+    "repeat@2048@near": 0.34765625,
+    "repeat@512": 0.0,
+    "repeat@512@near": 0.7734375,
+    "text@0": 0.875,
+    "text@128": 0.0,
+    "text@128@near": 0.12890625,
+    "text@2048": 0.0,
+    "text@2048@near": 0.00390625,
+    "text@512": 0.0,
+    "text@512@near": 0.09375
+   },
+   "needle_bytes": {
+    "repeat@0": 0.9697265625,
+    "repeat@128": 0.0703125,
+    "repeat@128@near": 0.9208984375,
+    "repeat@2048": 0.1640625,
+    "repeat@2048@near": 0.6962890625,
+    "repeat@512": 0.09765625,
+    "repeat@512@near": 0.921875,
+    "text@0": 0.9560546875,
+    "text@128": 0.0263671875,
+    "text@128@near": 0.474609375,
+    "text@2048": 0.076171875,
+    "text@2048@near": 0.125,
+    "text@512": 0.0244140625,
+    "text@512@near": 0.421875
+   },
+   "parameters": 31134209,
+   "guard": {
+    "clipped": 37,
+    "max_grad_norm_before_clip": 15.005470770634986,
+    "skip_reasons": {},
+    "skipped": 0,
+    "steps": 4000
+   },
+   "selected_step": 4000
+  }
+ },
+ "verdict": {
+  "status": "GATE_DOES_NOT_TRANSFER",
+  "thresholds": {
+   "bpb_regression": 0.02,
+   "needle_gain": 0.05,
+   "long_filler": [
+    512,
+    2048
+   ],
+   "measurable_floor": 0.02,
+   "items": 256
+  },
+  "provisional": true,
+  "seeds": 1,
+  "prediction_a_no_bpb_cost": true,
+  "prediction_b_needle_gain": false,
+  "prediction_c_soft_below_hard": null,
+  "bits_per_byte": {
+   "plain": 1.7049428433846676,
+   "hard_st": 1.7122121129140673
+  },
+  "bpb_cost_of_gate": 0.007269269529399658,
+  "needle_gain_over_plain": {
+   "512": 0.0,
+   "2048": 0.0
+  },
+  "required_gain": {
+   "512": 0.05,
+   "2048": 0.05
+  },
+  "needle_items": 256,
+  "needle_by_arm": {
+   "plain": {
+    "512": 0.0,
+    "2048": 0.0
+   },
+   "hard_st": {
+    "512": 0.0,
+    "2048": 0.0
+   }
+  },
+  "needle_near_by_arm": {
+   "plain": {
+    "512": 0.076171875,
+    "2048": 0.0
+   },
+   "hard_st": {
+    "512": 0.43359375,
+    "2048": 0.17578125
+   }
+  },
+  "length_control": {
+   "available": true,
+   "far_at_floor": true,
+   "near_at_floor": false
+  },
+  "notes": "prediction (c) is NOT MEASURED: the soft arm was dropped from this run for budget, so nothing here speaks to WHY the gate would work, only to whether it transfers; single seed: this is a first look, not a replicated result; the arms score above the floor at distance zero and at the floor across the filler, at the SAME sequence length: the failure is about distance, not about length",
+  "meaning": "no needle gain at 30M, on sequences the length-matched control shows the arms CAN process: the gate is a property of the toy setting and the M-line stops at rung one"
+ }
+}

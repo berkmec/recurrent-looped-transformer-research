@@ -1,0 +1,609 @@
+{
+ "kind": "DIAGNOSTIC_OVER_FROZEN_CHECKPOINTS",
+ "utc": 1790143681.315997,
+ "sources": {
+  "core/model.py": "121f11fcb3c1308b7f67d898f2aa09c37226d3b0db27dd4e5bf1ebeaea281f43",
+  "horizon/gated.py": "2d2b93156ebb7d2953f6673982c53c98196abe635b324e5c06a1caeb17c061c4",
+  "horizon/gated_sweep.py": "4c69db4c430fa797a1544225dba91acb171f8ec143e7b6c1ebc5d2386ed921a8",
+  "horizon/gated_trajectory.py": "771628d9b37c42e2b284554aa603075e44a435b3e7dc51b0c68afa57f84e711d",
+  "horizon/u2d_compare.py": "c79949df722975a916abcb90ec5bb5583c0d5b6c1004d20b64a4f5286fa09760"
+ },
+ "environment": {
+  "python": "3.11.9",
+  "torch": "2.12.0+cu130"
+ },
+ "levels": {
+  "lr0.003": "results/U2c-v2",
+  "lr0.0003": "results/U2c-lr0003"
+ },
+ "rows": {
+  "u2c-soft-five-w32-s117@lr0.003": {
+   "anchors": {
+    "min_center_distance": 16.329675904209765,
+    "mean_spread": 1.9260920157278725,
+    "separation_ratio": 8.478139035345494,
+    "counts": [
+     52582,
+     54172,
+     52502,
+     51925,
+     50963
+    ]
+   },
+   "clean_norm": {
+    "first": 3.052942991256714,
+    "mid": 2.5295796394348145,
+    "last": 2.5706844329833984,
+    "max": 3.052942991256714
+   },
+   "run_norm": {
+    "before": 2.452327251434326,
+    "after": 1.9134904146194458,
+    "max": 3.052942991256714,
+    "growth": 0.7802753133784557
+   },
+   "displacement": {
+    "k1": 0.21242211759090424,
+    "k4": 0.4979982078075409,
+    "k16": 1.0103559494018555,
+    "k64": 1.8508621454238892,
+    "end": 4.365719318389893
+   },
+   "class_kept_through_run": 1.0,
+   "attractor_histogram": [
+    44,
+    36,
+    37,
+    44,
+    39
+   ],
+   "gate_hold_rate_clean": 0.38722655177116394,
+   "gate_hold_rate_run": 0.8774453401565552,
+   "final_accuracy_clean": 1.0,
+   "final_accuracy_run": 1.0,
+   "checkpoint_sha256": "19b724bbfd6fb6f48ad8d0c817613e3fca1c152ad627546a7eaea06aedb1a69d",
+   "level": "lr0.003",
+   "lr": 0.003,
+   "seconds": 25.780493600002956
+  },
+  "u2c-soft-five-w32-s117@lr0.0003": {
+   "anchors": {
+    "min_center_distance": 3.546036340581375,
+    "mean_spread": 0.7437705224834957,
+    "separation_ratio": 4.7676483987842655,
+    "counts": [
+     52582,
+     54172,
+     52502,
+     51925,
+     50963
+    ]
+   },
+   "clean_norm": {
+    "first": 0.8618345856666565,
+    "mid": 0.6364737153053284,
+    "last": 0.6355975270271301,
+    "max": 0.8618345856666565
+   },
+   "run_norm": {
+    "before": 0.6342164278030396,
+    "after": 0.9235758781433105,
+    "max": 0.9235758781433105,
+    "growth": 1.4562471699804875
+   },
+   "displacement": {
+    "k1": 0.14422807097434998,
+    "k4": 0.5048354864120483,
+    "k16": 1.4738776683807373,
+    "k64": 3.207437753677368,
+    "end": 6.216850757598877
+   },
+   "class_kept_through_run": 0.2199999988079071,
+   "attractor_histogram": [
+    200,
+    0,
+    0,
+    0,
+    0
+   ],
+   "gate_hold_rate_clean": 0.3921875059604645,
+   "gate_hold_rate_run": 0.8943828344345093,
+   "final_accuracy_clean": 1.0,
+   "final_accuracy_run": 0.20999999344348907,
+   "checkpoint_sha256": "0e693cba9637b065511884ce01eae3f70942795d3829316f544da17c79e85d96",
+   "level": "lr0.0003",
+   "lr": 0.0003,
+   "seconds": 26.119437900000776
+  },
+  "u2c-soft-five-w32-s143@lr0.003": {
+   "anchors": {
+    "min_center_distance": 18.76665195648789,
+    "mean_spread": 3.601839823591245,
+    "separation_ratio": 5.210296091894626,
+    "counts": [
+     52131,
+     53651,
+     52929,
+     52300,
+     51133
+    ]
+   },
+   "clean_norm": {
+    "first": 4.305085182189941,
+    "mid": 4.1768412590026855,
+    "last": 4.1264567375183105,
+    "max": 4.856508255004883
+   },
+   "run_norm": {
+    "before": 4.015637397766113,
+    "after": 4.012396812438965,
+    "max": 4.856508255004883,
+    "growth": 0.9991930084800607
+   },
+   "displacement": {
+    "k1": 0.000227743512368761,
+    "k4": 0.0007873933063820004,
+    "k16": 0.00237917248159647,
+    "k64": 0.005056850146502256,
+    "end": 0.011560971848666668
+   },
+   "class_kept_through_run": 1.0,
+   "attractor_histogram": [
+    37,
+    35,
+    39,
+    43,
+    46
+   ],
+   "gate_hold_rate_clean": 0.3926953077316284,
+   "gate_hold_rate_run": 0.8785390853881836,
+   "final_accuracy_clean": 1.0,
+   "final_accuracy_run": 1.0,
+   "checkpoint_sha256": "2e74cc1b7e8c867abbd691e17761bf9523d76bc0580cdb269ff76ca2fed6aa9d",
+   "level": "lr0.003",
+   "lr": 0.003,
+   "seconds": 25.69957489999797
+  },
+  "u2c-soft-five-w32-s143@lr0.0003": {
+   "anchors": {
+    "min_center_distance": 2.8578972280845742,
+    "mean_spread": 0.752454104528958,
+    "separation_ratio": 3.7981017192718216,
+    "counts": [
+     52131,
+     53651,
+     52929,
+     52300,
+     51133
+    ]
+   },
+   "clean_norm": {
+    "first": 0.8480506539344788,
+    "mid": 0.5276299118995667,
+    "last": 0.534096360206604,
+    "max": 0.8480506539344788
+   },
+   "run_norm": {
+    "before": 0.5390327572822571,
+    "after": 1.0078462362289429,
+    "max": 1.0078462362289429,
+    "growth": 1.8697309627533416
+   },
+   "displacement": {
+    "k1": 0.05508683994412422,
+    "k4": 0.2052728533744812,
+    "k16": 0.6799442768096924,
+    "k64": 1.8330962657928467,
+    "end": 5.854077339172363
+   },
+   "class_kept_through_run": 0.3499999940395355,
+   "attractor_histogram": [
+    167,
+    0,
+    33,
+    0,
+    0
+   ],
+   "gate_hold_rate_clean": 0.48847657442092896,
+   "gate_hold_rate_run": 0.9055156111717224,
+   "final_accuracy_clean": 1.0,
+   "final_accuracy_run": 0.20999999344348907,
+   "checkpoint_sha256": "f2dbfd5524499574b0a156d02f2498c2ea86a0e2eedced1ce6a8941613d2eca0",
+   "level": "lr0.0003",
+   "lr": 0.0003,
+   "seconds": 25.93496420000156
+  },
+  "u2c-soft-five-w32-s191@lr0.003": {
+   "anchors": {
+    "min_center_distance": 13.641082703955966,
+    "mean_spread": 1.8725377765249367,
+    "separation_ratio": 7.284810418762896,
+    "counts": [
+     52418,
+     53808,
+     53093,
+     51763,
+     51062
+    ]
+   },
+   "clean_norm": {
+    "first": 1.9775413274765015,
+    "mid": 2.0280165672302246,
+    "last": 1.9671655893325806,
+    "max": 2.2127137184143066
+   },
+   "run_norm": {
+    "before": 2.0299811363220215,
+    "after": 1.7651385068893433,
+    "max": 2.2127137184143066,
+    "growth": 0.8695344381807765
+   },
+   "displacement": {
+    "k1": 0.023541579023003578,
+    "k4": 0.09040731191635132,
+    "k16": 0.31984370946884155,
+    "k64": 0.9965970516204834,
+    "end": 4.717402935028076
+   },
+   "class_kept_through_run": 1.0,
+   "attractor_histogram": [
+    51,
+    38,
+    37,
+    34,
+    40
+   ],
+   "gate_hold_rate_clean": 0.3890624940395355,
+   "gate_hold_rate_run": 0.8779218792915344,
+   "final_accuracy_clean": 1.0,
+   "final_accuracy_run": 0.9449999928474426,
+   "checkpoint_sha256": "b84bc17fa716cfe79d54f6dba1babadcb73f273936e67fe97fe3a8d43cefc665",
+   "level": "lr0.003",
+   "lr": 0.003,
+   "seconds": 25.337276699996437
+  },
+  "u2c-soft-five-w32-s191@lr0.0003": {
+   "anchors": {
+    "min_center_distance": 0.2861562036098364,
+    "mean_spread": 1.2709103543754883,
+    "separation_ratio": 0.2251584485283783,
+    "counts": [
+     52418,
+     53808,
+     53093,
+     51763,
+     51062
+    ]
+   },
+   "clean_norm": {
+    "first": 0.8551952838897705,
+    "mid": 0.6164462566375732,
+    "last": 0.6387069821357727,
+    "max": 0.9323815703392029
+   },
+   "run_norm": {
+    "before": 0.6181004643440247,
+    "after": 0.610916793346405,
+    "max": 0.9323815703392029,
+    "growth": 0.9883778262401995
+   },
+   "displacement": {
+    "k1": 0.09247392416000366,
+    "k4": 0.347730815410614,
+    "k16": 1.2839651107788086,
+    "k64": 4.072099208831787,
+    "end": 5.047952651977539
+   },
+   "class_kept_through_run": 0.004999999888241291,
+   "attractor_histogram": [
+    0,
+    200,
+    0,
+    0,
+    0
+   ],
+   "gate_hold_rate_clean": 0.5463281273841858,
+   "gate_hold_rate_run": 0.9085937738418579,
+   "final_accuracy_clean": 0.23499999940395355,
+   "final_accuracy_run": 0.25999999046325684,
+   "checkpoint_sha256": "2b86937f89dc00740e285a877061d50922b72ffbcaef708de2efba07a8e5b7dd",
+   "level": "lr0.0003",
+   "lr": 0.0003,
+   "seconds": 25.332855200002086
+  },
+  "u2c-hard_st-five-w32-s117@lr0.003": {
+   "anchors": {
+    "min_center_distance": 33.77997055082822,
+    "mean_spread": 2.7916539292068,
+    "separation_ratio": 12.100343168404907,
+    "counts": [
+     52582,
+     54172,
+     52502,
+     51925,
+     50963
+    ]
+   },
+   "clean_norm": {
+    "first": 6.105556964874268,
+    "mid": 4.951408386230469,
+    "last": 4.994264602661133,
+    "max": 6.105556964874268
+   },
+   "run_norm": {
+    "before": 4.928447723388672,
+    "after": 4.928447723388672,
+    "max": 6.105556964874268,
+    "growth": 1.0
+   },
+   "displacement": {
+    "k1": 0.0,
+    "k4": 0.0,
+    "k16": 0.0,
+    "k64": 0.0,
+    "end": 0.0
+   },
+   "class_kept_through_run": 1.0,
+   "attractor_histogram": [
+    44,
+    36,
+    37,
+    44,
+    39
+   ],
+   "gate_hold_rate_clean": 0.38148438930511475,
+   "gate_hold_rate_run": 0.8763828277587891,
+   "final_accuracy_clean": 1.0,
+   "final_accuracy_run": 0.9449999928474426,
+   "checkpoint_sha256": "44636f2f60b2d0efee2ceafeabe41c4b55b28f9e2d2987b3edc68c04d00bf36b",
+   "level": "lr0.003",
+   "lr": 0.003,
+   "seconds": 26.32549509999808
+  },
+  "u2c-hard_st-five-w32-s117@lr0.0003": {
+   "anchors": {
+    "min_center_distance": 4.8971114570784895,
+    "mean_spread": 1.042043977615442,
+    "separation_ratio": 4.6995247439410175,
+    "counts": [
+     52582,
+     54172,
+     52502,
+     51925,
+     50963
+    ]
+   },
+   "clean_norm": {
+    "first": 1.3622621297836304,
+    "mid": 0.8196362853050232,
+    "last": 0.8340314030647278,
+    "max": 1.3622621297836304
+   },
+   "run_norm": {
+    "before": 0.8033884167671204,
+    "after": 1.005358338356018,
+    "max": 1.3622621297836304,
+    "growth": 1.2513976021731006
+   },
+   "displacement": {
+    "k1": 0.0,
+    "k4": 0.0,
+    "k16": 0.0,
+    "k64": 0.32906582951545715,
+    "end": 3.9081530570983887
+   },
+   "class_kept_through_run": 0.6399999856948853,
+   "attractor_histogram": [
+    116,
+    36,
+    0,
+    9,
+    39
+   ],
+   "gate_hold_rate_clean": 0.12503905594348907,
+   "gate_hold_rate_run": 0.6763671636581421,
+   "final_accuracy_clean": 1.0,
+   "final_accuracy_run": 0.20499999821186066,
+   "checkpoint_sha256": "c4ee08d3eec9763a1ab302bb31fae42fe1ea63440247fead1fb8d1aa3187b4c6",
+   "level": "lr0.0003",
+   "lr": 0.0003,
+   "seconds": 26.241287899996678
+  },
+  "u2c-hard_st-five-w32-s143@lr0.003": {
+   "anchors": {
+    "min_center_distance": 27.29013953950982,
+    "mean_spread": 2.2906541646685357,
+    "separation_ratio": 11.9136882207877,
+    "counts": [
+     52131,
+     53651,
+     52929,
+     52300,
+     51133
+    ]
+   },
+   "clean_norm": {
+    "first": 5.096625328063965,
+    "mid": 4.121928691864014,
+    "last": 4.113231658935547,
+    "max": 5.096625328063965
+   },
+   "run_norm": {
+    "before": 4.042276859283447,
+    "after": 2.9744834899902344,
+    "max": 5.096625328063965,
+    "growth": 0.7358435835880636
+   },
+   "displacement": {
+    "k1": 0.0,
+    "k4": 0.0,
+    "k16": 0.0,
+    "k64": 0.0,
+    "end": 10.335885047912598
+   },
+   "class_kept_through_run": 0.6600000262260437,
+   "attractor_histogram": [
+    4,
+    0,
+    87,
+    61,
+    48
+   ],
+   "gate_hold_rate_clean": 0.3875390589237213,
+   "gate_hold_rate_run": 0.8691796660423279,
+   "final_accuracy_clean": 1.0,
+   "final_accuracy_run": 0.47999998927116394,
+   "checkpoint_sha256": "879dc7b2de7367c3b9938100516de37b4a97630198e314b2e16a2ca43d27e954",
+   "level": "lr0.003",
+   "lr": 0.003,
+   "seconds": 25.219982399998116
+  },
+  "u2c-hard_st-five-w32-s143@lr0.0003": {
+   "anchors": {
+    "min_center_distance": 3.425476667048356,
+    "mean_spread": 0.7275854768679993,
+    "separation_ratio": 4.7080058301793395,
+    "counts": [
+     52131,
+     53651,
+     52929,
+     52300,
+     51133
+    ]
+   },
+   "clean_norm": {
+    "first": 1.0030059814453125,
+    "mid": 0.6000488996505737,
+    "last": 0.5877216458320618,
+    "max": 1.0030059814453125
+   },
+   "run_norm": {
+    "before": 0.5769096612930298,
+    "after": 0.864039421081543,
+    "max": 1.0030059814453125,
+    "growth": 1.4977031571025665
+   },
+   "displacement": {
+    "k1": 0.0,
+    "k4": 0.0,
+    "k16": 0.0,
+    "k64": 1.5199732780456543,
+    "end": 3.7061872482299805
+   },
+   "class_kept_through_run": 0.7300000190734863,
+   "attractor_histogram": [
+    50,
+    24,
+    39,
+    0,
+    87
+   ],
+   "gate_hold_rate_clean": 0.12843750417232513,
+   "gate_hold_rate_run": 0.8245781064033508,
+   "final_accuracy_clean": 1.0,
+   "final_accuracy_run": 0.19499999284744263,
+   "checkpoint_sha256": "a436be2bf18eb2db61ea6ed019d193a3877cc4415357c621d73a5aeec1fb6ecd",
+   "level": "lr0.0003",
+   "lr": 0.0003,
+   "seconds": 25.28226580000046
+  },
+  "u2c-hard_st-five-w32-s191@lr0.003": {
+   "anchors": {
+    "min_center_distance": 20.683496895132706,
+    "mean_spread": 2.3003752279406915,
+    "separation_ratio": 8.991357863668478,
+    "counts": [
+     52418,
+     53808,
+     53093,
+     51763,
+     51062
+    ]
+   },
+   "clean_norm": {
+    "first": 4.235264778137207,
+    "mid": 2.829502582550049,
+    "last": 2.817194700241089,
+    "max": 4.235264778137207
+   },
+   "run_norm": {
+    "before": 2.9117844104766846,
+    "after": 3.006429672241211,
+    "max": 4.235264778137207,
+    "growth": 1.0325042133696403
+   },
+   "displacement": {
+    "k1": 1.0063363313674927,
+    "k4": 1.0534862279891968,
+    "k16": 1.0207966566085815,
+    "k64": 1.3774311542510986,
+    "end": 7.37209415435791
+   },
+   "class_kept_through_run": 0.8450000286102295,
+   "attractor_histogram": [
+    81,
+    7,
+    37,
+    35,
+    40
+   ],
+   "gate_hold_rate_clean": 0.3680468797683716,
+   "gate_hold_rate_run": 0.6920937299728394,
+   "final_accuracy_clean": 1.0,
+   "final_accuracy_run": 0.8500000238418579,
+   "checkpoint_sha256": "4c0c9abcea2ca675188f22f0617614137140bf05e26b30a0f2648b29edf676a8",
+   "level": "lr0.003",
+   "lr": 0.003,
+   "seconds": 25.39563619999535
+  },
+  "u2c-hard_st-five-w32-s191@lr0.0003": {
+   "anchors": {
+    "min_center_distance": 5.164545503379531,
+    "mean_spread": 0.8274715143170057,
+    "separation_ratio": 6.241357453425261,
+    "counts": [
+     52418,
+     53808,
+     53093,
+     51763,
+     51062
+    ]
+   },
+   "clean_norm": {
+    "first": 1.2453540563583374,
+    "mid": 0.8410714268684387,
+    "last": 0.807206392288208,
+    "max": 1.2453540563583374
+   },
+   "run_norm": {
+    "before": 0.8253900408744812,
+    "after": 0.7797006368637085,
+    "max": 1.2453540563583374,
+    "growth": 0.9446450747547598
+   },
+   "displacement": {
+    "k1": 0.16052527725696564,
+    "k4": 0.24726268649101257,
+    "k16": 0.32026150822639465,
+    "k64": 0.6933839917182922,
+    "end": 2.075573205947876
+   },
+   "class_kept_through_run": 0.8100000023841858,
+   "attractor_histogram": [
+    89,
+    0,
+    37,
+    34,
+    40
+   ],
+   "gate_hold_rate_clean": 0.3348046839237213,
+   "gate_hold_rate_run": 0.667593777179718,
+   "final_accuracy_clean": 1.0,
+   "final_accuracy_run": 0.1899999976158142,
+   "checkpoint_sha256": "bfc26d75aa7143f0cddee54a09d9727ea331c557aa0d734a53cdce53f3d625ae",
+   "level": "lr0.0003",
+   "lr": 0.0003,
+   "seconds": 25.30947659999947
+  }
+ }
+}

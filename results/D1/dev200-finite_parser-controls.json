@@ -1,0 +1,3285 @@
+{
+ "arm": "finite_parser",
+ "rows": [
+  {
+   "control": "missing_source",
+   "expect": [
+    2
+   ],
+   "id": "2hop__74057_709978__missing_source",
+   "pred": {
+    "hops": [],
+    "parse": "FINITE_PARSER_ERROR",
+    "raw": "FileNotFoundError(2, 'No such file or directory')",
+    "status": "UNRESOLVED"
+   },
+   "score": {
+    "accepted": 0,
+    "accepted_wrong": 0,
+    "controls_expected": 1,
+    "controls_ok": 1,
+    "extra_hops": 0,
+    "gold_hops": 2,
+    "relation_fn": 2,
+    "relation_fp": 0,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "UNRESOLVED",
+    "unresolved": 2
+   }
+  },
+  {
+   "control": "relation_swap",
+   "expect": [
+    2
+   ],
+   "id": "2hop__74057_709978__relation_swap",
+   "pred": {
+    "hops": [],
+    "parse": "FINITE_PARSER_ERROR",
+    "raw": "FileNotFoundError(2, 'No such file or directory')",
+    "status": "UNRESOLVED"
+   },
+   "score": {
+    "accepted": 0,
+    "accepted_wrong": 0,
+    "controls_expected": 1,
+    "controls_ok": 1,
+    "extra_hops": 0,
+    "gold_hops": 2,
+    "relation_fn": 2,
+    "relation_fp": 0,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "UNRESOLVED",
+    "unresolved": 2
+   }
+  },
+  {
+   "control": "subject_swap",
+   "expect": [
+    1,
+    2
+   ],
+   "id": "2hop__74057_709978__subject_swap",
+   "pred": {
+    "hops": [],
+    "parse": "FINITE_PARSER_ERROR",
+    "raw": "FileNotFoundError(2, 'No such file or directory')",
+    "status": "UNRESOLVED"
+   },
+   "score": {
+    "accepted": 0,
+    "accepted_wrong": 0,
+    "controls_expected": 2,
+    "controls_ok": 2,
+    "extra_hops": 0,
+    "gold_hops": 2,
+    "relation_fn": 2,
+    "relation_fp": 0,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "UNRESOLVED",
+    "unresolved": 2
+   }
+  },
+  {
+   "control": "missing_source",
+   "expect": [
+    2
+   ],
+   "id": "2hop__605014_8796__missing_source",
+   "pred": {
+    "hops": [],
+    "parse": "FINITE_PARSER_ERROR",
+    "raw": "FileNotFoundError(2, 'No such file or directory')",
+    "status": "UNRESOLVED"
+   },
+   "score": {
+    "accepted": 0,
+    "accepted_wrong": 0,
+    "controls_expected": 1,
+    "controls_ok": 1,
+    "extra_hops": 0,
+    "gold_hops": 2,
+    "relation_fn": 2,
+    "relation_fp": 0,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "UNRESOLVED",
+    "unresolved": 2
+   }
+  },
+  {
+   "control": "relation_swap",
+   "expect": [
+    2
+   ],
+   "id": "2hop__605014_8796__relation_swap",
+   "pred": {
+    "hops": [],
+    "parse": "FINITE_PARSER_ERROR",
+    "raw": "FileNotFoundError(2, 'No such file or directory')",
+    "status": "UNRESOLVED"
+   },
+   "score": {
+    "accepted": 0,
+    "accepted_wrong": 0,
+    "controls_expected": 1,
+    "controls_ok": 1,
+    "extra_hops": 0,
+    "gold_hops": 2,
+    "relation_fn": 2,
+    "relation_fp": 0,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "UNRESOLVED",
+    "unresolved": 2
+   }
+  },
+  {
+   "control": "subject_swap",
+   "expect": [
+    1,
+    2
+   ],
+   "id": "2hop__605014_8796__subject_swap",
+   "pred": {
+    "hops": [],
+    "parse": "FINITE_PARSER_ERROR",
+    "raw": "FileNotFoundError(2, 'No such file or directory')",
+    "status": "UNRESOLVED"
+   },
+   "score": {
+    "accepted": 0,
+    "accepted_wrong": 0,
+    "controls_expected": 2,
+    "controls_ok": 2,
+    "extra_hops": 0,
+    "gold_hops": 2,
+    "relation_fn": 2,
+    "relation_fp": 0,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "UNRESOLVED",
+    "unresolved": 2
+   }
+  },
+  {
+   "control": "missing_source",
+   "expect": [
+    2
+   ],
+   "id": "2hop__20905_20779__missing_source",
+   "pred": {
+    "hops": [],
+    "parse": "FINITE_PARSER_ERROR",
+    "raw": "FileNotFoundError(2, 'No such file or directory')",
+    "status": "UNRESOLVED"
+   },
+   "score": {
+    "accepted": 0,
+    "accepted_wrong": 0,
+    "controls_expected": 1,
+    "controls_ok": 1,
+    "extra_hops": 0,
+    "gold_hops": 2,
+    "relation_fn": 2,
+    "relation_fp": 0,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "UNRESOLVED",
+    "unresolved": 2
+   }
+  },
+  {
+   "control": "relation_swap",
+   "expect": [
+    2
+   ],
+   "id": "2hop__20905_20779__relation_swap",
+   "pred": {
+    "hops": [],
+    "parse": "FINITE_PARSER_ERROR",
+    "raw": "FileNotFoundError(2, 'No such file or directory')",
+    "status": "UNRESOLVED"
+   },
+   "score": {
+    "accepted": 0,
+    "accepted_wrong": 0,
+    "controls_expected": 1,
+    "controls_ok": 1,
+    "extra_hops": 0,
+    "gold_hops": 2,
+    "relation_fn": 2,
+    "relation_fp": 0,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "UNRESOLVED",
+    "unresolved": 2
+   }
+  },
+  {
+   "control": "subject_swap",
+   "expect": [
+    1,
+    2
+   ],
+   "id": "2hop__20905_20779__subject_swap",
+   "pred": {
+    "hops": [],
+    "parse": "FINITE_PARSER_ERROR",
+    "raw": "FileNotFoundError(2, 'No such file or directory')",
+    "status": "UNRESOLVED"
+   },
+   "score": {
+    "accepted": 0,
+    "accepted_wrong": 0,
+    "controls_expected": 2,
+    "controls_ok": 2,
+    "extra_hops": 0,
+    "gold_hops": 2,
+    "relation_fn": 2,
+    "relation_fp": 0,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "UNRESOLVED",
+    "unresolved": 2
+   }
+  },
+  {
+   "control": "missing_source",
+   "expect": [
+    2
+   ],
+   "id": "2hop__107777_170204__missing_source",
+   "pred": {
+    "hops": [],
+    "parse": "FINITE_PARSER_ERROR",
+    "raw": "FileNotFoundError(2, 'No such file or directory')",
+    "status": "UNRESOLVED"
+   },
+   "score": {
+    "accepted": 0,
+    "accepted_wrong": 0,
+    "controls_expected": 1,
+    "controls_ok": 1,
+    "extra_hops": 0,
+    "gold_hops": 2,
+    "relation_fn": 2,
+    "relation_fp": 0,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "UNRESOLVED",
+    "unresolved": 2
+   }
+  },
+  {
+   "control": "relation_swap",
+   "expect": [
+    2
+   ],
+   "id": "2hop__107777_170204__relation_swap",
+   "pred": {
+    "hops": [],
+    "parse": "FINITE_PARSER_ERROR",
+    "raw": "FileNotFoundError(2, 'No such file or directory')",
+    "status": "UNRESOLVED"
+   },
+   "score": {
+    "accepted": 0,
+    "accepted_wrong": 0,
+    "controls_expected": 1,
+    "controls_ok": 1,
+    "extra_hops": 0,
+    "gold_hops": 2,
+    "relation_fn": 2,
+    "relation_fp": 0,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "UNRESOLVED",
+    "unresolved": 2
+   }
+  },
+  {
+   "control": "subject_swap",
+   "expect": [
+    1,
+    2
+   ],
+   "id": "2hop__107777_170204__subject_swap",
+   "pred": {
+    "hops": [],
+    "parse": "FINITE_PARSER_ERROR",
+    "raw": "FileNotFoundError(2, 'No such file or directory')",
+    "status": "UNRESOLVED"
+   },
+   "score": {
+    "accepted": 0,
+    "accepted_wrong": 0,
+    "controls_expected": 2,
+    "controls_ok": 2,
+    "extra_hops": 0,
+    "gold_hops": 2,
+    "relation_fn": 2,
+    "relation_fp": 0,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "UNRESOLVED",
+    "unresolved": 2
+   }
+  },
+  {
+   "control": "missing_source",
+   "expect": [
+    2
+   ],
+   "id": "2hop__438624_46366__missing_source",
+   "pred": {
+    "hops": [],
+    "parse": "FINITE_PARSER_ERROR",
+    "raw": "FileNotFoundError(2, 'No such file or directory')",
+    "status": "UNRESOLVED"
+   },
+   "score": {
+    "accepted": 0,
+    "accepted_wrong": 0,
+    "controls_expected": 1,
+    "controls_ok": 1,
+    "extra_hops": 0,
+    "gold_hops": 2,
+    "relation_fn": 2,
+    "relation_fp": 0,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "UNRESOLVED",
+    "unresolved": 2
+   }
+  },
+  {
+   "control": "relation_swap",
+   "expect": [
+    2
+   ],
+   "id": "2hop__438624_46366__relation_swap",
+   "pred": {
+    "hops": [],
+    "parse": "FINITE_PARSER_ERROR",
+    "raw": "FileNotFoundError(2, 'No such file or directory')",
+    "status": "UNRESOLVED"
+   },
+   "score": {
+    "accepted": 0,
+    "accepted_wrong": 0,
+    "controls_expected": 1,
+    "controls_ok": 1,
+    "extra_hops": 0,
+    "gold_hops": 2,
+    "relation_fn": 2,
+    "relation_fp": 0,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "UNRESOLVED",
+    "unresolved": 2
+   }
+  },
+  {
+   "control": "subject_swap",
+   "expect": [
+    1,
+    2
+   ],
+   "id": "2hop__438624_46366__subject_swap",
+   "pred": {
+    "hops": [],
+    "parse": "FINITE_PARSER_ERROR",
+    "raw": "FileNotFoundError(2, 'No such file or directory')",
+    "status": "UNRESOLVED"
+   },
+   "score": {
+    "accepted": 0,
+    "accepted_wrong": 0,
+    "controls_expected": 2,
+    "controls_ok": 2,
+    "extra_hops": 0,
+    "gold_hops": 2,
+    "relation_fn": 2,
+    "relation_fp": 0,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "UNRESOLVED",
+    "unresolved": 2
+   }
+  },
+  {
+   "control": "missing_source",
+   "expect": [
+    2
+   ],
+   "id": "2hop__23887_4681__missing_source",
+   "pred": {
+    "hops": [],
+    "parse": "FINITE_PARSER_ERROR",
+    "raw": "FileNotFoundError(2, 'No such file or directory')",
+    "status": "UNRESOLVED"
+   },
+   "score": {
+    "accepted": 0,
+    "accepted_wrong": 0,
+    "controls_expected": 1,
+    "controls_ok": 1,
+    "extra_hops": 0,
+    "gold_hops": 2,
+    "relation_fn": 2,
+    "relation_fp": 0,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "UNRESOLVED",
+    "unresolved": 2
+   }
+  },
+  {
+   "control": "relation_swap",
+   "expect": [
+    2
+   ],
+   "id": "2hop__23887_4681__relation_swap",
+   "pred": {
+    "hops": [],
+    "parse": "FINITE_PARSER_ERROR",
+    "raw": "FileNotFoundError(2, 'No such file or directory')",
+    "status": "UNRESOLVED"
+   },
+   "score": {
+    "accepted": 0,
+    "accepted_wrong": 0,
+    "controls_expected": 1,
+    "controls_ok": 1,
+    "extra_hops": 0,
+    "gold_hops": 2,
+    "relation_fn": 2,
+    "relation_fp": 0,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "UNRESOLVED",
+    "unresolved": 2
+   }
+  },
+  {
+   "control": "subject_swap",
+   "expect": [
+    1,
+    2
+   ],
+   "id": "2hop__23887_4681__subject_swap",
+   "pred": {
+    "hops": [],
+    "parse": "FINITE_PARSER_ERROR",
+    "raw": "FileNotFoundError(2, 'No such file or directory')",
+    "status": "UNRESOLVED"
+   },
+   "score": {
+    "accepted": 0,
+    "accepted_wrong": 0,
+    "controls_expected": 2,
+    "controls_ok": 2,
+    "extra_hops": 0,
+    "gold_hops": 2,
+    "relation_fn": 2,
+    "relation_fp": 0,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "UNRESOLVED",
+    "unresolved": 2
+   }
+  },
+  {
+   "control": "missing_source",
+   "expect": [
+    2
+   ],
+   "id": "2hop__292050_83539__missing_source",
+   "pred": {
+    "hops": [],
+    "parse": "FINITE_PARSER_ERROR",
+    "raw": "FileNotFoundError(2, 'No such file or directory')",
+    "status": "UNRESOLVED"
+   },
+   "score": {
+    "accepted": 0,
+    "accepted_wrong": 0,
+    "controls_expected": 1,
+    "controls_ok": 1,
+    "extra_hops": 0,
+    "gold_hops": 2,
+    "relation_fn": 2,
+    "relation_fp": 0,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "UNRESOLVED",
+    "unresolved": 2
+   }
+  },
+  {
+   "control": "relation_swap",
+   "expect": [
+    2
+   ],
+   "id": "2hop__292050_83539__relation_swap",
+   "pred": {
+    "hops": [],
+    "parse": "FINITE_PARSER_ERROR",
+    "raw": "FileNotFoundError(2, 'No such file or directory')",
+    "status": "UNRESOLVED"
+   },
+   "score": {
+    "accepted": 0,
+    "accepted_wrong": 0,
+    "controls_expected": 1,
+    "controls_ok": 1,
+    "extra_hops": 0,
+    "gold_hops": 2,
+    "relation_fn": 2,
+    "relation_fp": 0,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "UNRESOLVED",
+    "unresolved": 2
+   }
+  },
+  {
+   "control": "subject_swap",
+   "expect": [
+    1,
+    2
+   ],
+   "id": "2hop__292050_83539__subject_swap",
+   "pred": {
+    "hops": [],
+    "parse": "FINITE_PARSER_ERROR",
+    "raw": "FileNotFoundError(2, 'No such file or directory')",
+    "status": "UNRESOLVED"
+   },
+   "score": {
+    "accepted": 0,
+    "accepted_wrong": 0,
+    "controls_expected": 2,
+    "controls_ok": 2,
+    "extra_hops": 0,
+    "gold_hops": 2,
+    "relation_fn": 2,
+    "relation_fp": 0,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "UNRESOLVED",
+    "unresolved": 2
+   }
+  },
+  {
+   "control": "missing_source",
+   "expect": [
+    2
+   ],
+   "id": "2hop__90091_83984__missing_source",
+   "pred": {
+    "hops": [],
+    "parse": "FINITE_PARSER_ERROR",
+    "raw": "FileNotFoundError(2, 'No such file or directory')",
+    "status": "UNRESOLVED"
+   },
+   "score": {
+    "accepted": 0,
+    "accepted_wrong": 0,
+    "controls_expected": 1,
+    "controls_ok": 1,
+    "extra_hops": 0,
+    "gold_hops": 2,
+    "relation_fn": 2,
+    "relation_fp": 0,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "UNRESOLVED",
+    "unresolved": 2
+   }
+  },
+  {
+   "control": "relation_swap",
+   "expect": [
+    2
+   ],
+   "id": "2hop__90091_83984__relation_swap",
+   "pred": {
+    "hops": [],
+    "parse": "FINITE_PARSER_ERROR",
+    "raw": "FileNotFoundError(2, 'No such file or directory')",
+    "status": "UNRESOLVED"
+   },
+   "score": {
+    "accepted": 0,
+    "accepted_wrong": 0,
+    "controls_expected": 1,
+    "controls_ok": 1,
+    "extra_hops": 0,
+    "gold_hops": 2,
+    "relation_fn": 2,
+    "relation_fp": 0,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "UNRESOLVED",
+    "unresolved": 2
+   }
+  },
+  {
+   "control": "subject_swap",
+   "expect": [
+    1,
+    2
+   ],
+   "id": "2hop__90091_83984__subject_swap",
+   "pred": {
+    "hops": [],
+    "parse": "FINITE_PARSER_ERROR",
+    "raw": "FileNotFoundError(2, 'No such file or directory')",
+    "status": "UNRESOLVED"
+   },
+   "score": {
+    "accepted": 0,
+    "accepted_wrong": 0,
+    "controls_expected": 2,
+    "controls_ok": 2,
+    "extra_hops": 0,
+    "gold_hops": 2,
+    "relation_fn": 2,
+    "relation_fp": 0,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "UNRESOLVED",
+    "unresolved": 2
+   }
+  },
+  {
+   "control": "missing_source",
+   "expect": [
+    2
+   ],
+   "id": "2hop__65027_65123__missing_source",
+   "pred": {
+    "hops": [],
+    "parse": "FINITE_PARSER_ERROR",
+    "raw": "FileNotFoundError(2, 'No such file or directory')",
+    "status": "UNRESOLVED"
+   },
+   "score": {
+    "accepted": 0,
+    "accepted_wrong": 0,
+    "controls_expected": 1,
+    "controls_ok": 1,
+    "extra_hops": 0,
+    "gold_hops": 2,
+    "relation_fn": 2,
+    "relation_fp": 0,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "UNRESOLVED",
+    "unresolved": 2
+   }
+  },
+  {
+   "control": "relation_swap",
+   "expect": [
+    2
+   ],
+   "id": "2hop__65027_65123__relation_swap",
+   "pred": {
+    "hops": [],
+    "parse": "FINITE_PARSER_ERROR",
+    "raw": "FileNotFoundError(2, 'No such file or directory')",
+    "status": "UNRESOLVED"
+   },
+   "score": {
+    "accepted": 0,
+    "accepted_wrong": 0,
+    "controls_expected": 1,
+    "controls_ok": 1,
+    "extra_hops": 0,
+    "gold_hops": 2,
+    "relation_fn": 2,
+    "relation_fp": 0,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "UNRESOLVED",
+    "unresolved": 2
+   }
+  },
+  {
+   "control": "subject_swap",
+   "expect": [
+    1,
+    2
+   ],
+   "id": "2hop__65027_65123__subject_swap",
+   "pred": {
+    "hops": [],
+    "parse": "FINITE_PARSER_ERROR",
+    "raw": "FileNotFoundError(2, 'No such file or directory')",
+    "status": "UNRESOLVED"
+   },
+   "score": {
+    "accepted": 0,
+    "accepted_wrong": 0,
+    "controls_expected": 2,
+    "controls_ok": 2,
+    "extra_hops": 0,
+    "gold_hops": 2,
+    "relation_fn": 2,
+    "relation_fp": 0,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "UNRESOLVED",
+    "unresolved": 2
+   }
+  },
+  {
+   "control": "missing_source",
+   "expect": [
+    2
+   ],
+   "id": "2hop__16777_861338__missing_source",
+   "pred": {
+    "hops": [],
+    "parse": "FINITE_PARSER_ERROR",
+    "raw": "FileNotFoundError(2, 'No such file or directory')",
+    "status": "UNRESOLVED"
+   },
+   "score": {
+    "accepted": 0,
+    "accepted_wrong": 0,
+    "controls_expected": 1,
+    "controls_ok": 1,
+    "extra_hops": 0,
+    "gold_hops": 2,
+    "relation_fn": 2,
+    "relation_fp": 0,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "UNRESOLVED",
+    "unresolved": 2
+   }
+  },
+  {
+   "control": "relation_swap",
+   "expect": [
+    2
+   ],
+   "id": "2hop__16777_861338__relation_swap",
+   "pred": {
+    "hops": [],
+    "parse": "FINITE_PARSER_ERROR",
+    "raw": "FileNotFoundError(2, 'No such file or directory')",
+    "status": "UNRESOLVED"
+   },
+   "score": {
+    "accepted": 0,
+    "accepted_wrong": 0,
+    "controls_expected": 1,
+    "controls_ok": 1,
+    "extra_hops": 0,
+    "gold_hops": 2,
+    "relation_fn": 2,
+    "relation_fp": 0,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "UNRESOLVED",
+    "unresolved": 2
+   }
+  },
+  {
+   "control": "subject_swap",
+   "expect": [
+    1,
+    2
+   ],
+   "id": "2hop__16777_861338__subject_swap",
+   "pred": {
+    "hops": [],
+    "parse": "FINITE_PARSER_ERROR",
+    "raw": "FileNotFoundError(2, 'No such file or directory')",
+    "status": "UNRESOLVED"
+   },
+   "score": {
+    "accepted": 0,
+    "accepted_wrong": 0,
+    "controls_expected": 2,
+    "controls_ok": 2,
+    "extra_hops": 0,
+    "gold_hops": 2,
+    "relation_fn": 2,
+    "relation_fp": 0,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "UNRESOLVED",
+    "unresolved": 2
+   }
+  },
+  {
+   "control": "missing_source",
+   "expect": [
+    2
+   ],
+   "id": "2hop__198906_69926__missing_source",
+   "pred": {
+    "hops": [],
+    "parse": "FINITE_PARSER_ERROR",
+    "raw": "FileNotFoundError(2, 'No such file or directory')",
+    "status": "UNRESOLVED"
+   },
+   "score": {
+    "accepted": 0,
+    "accepted_wrong": 0,
+    "controls_expected": 1,
+    "controls_ok": 1,
+    "extra_hops": 0,
+    "gold_hops": 2,
+    "relation_fn": 2,
+    "relation_fp": 0,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "UNRESOLVED",
+    "unresolved": 2
+   }
+  },
+  {
+   "control": "relation_swap",
+   "expect": [
+    2
+   ],
+   "id": "2hop__198906_69926__relation_swap",
+   "pred": {
+    "hops": [],
+    "parse": "FINITE_PARSER_ERROR",
+    "raw": "FileNotFoundError(2, 'No such file or directory')",
+    "status": "UNRESOLVED"
+   },
+   "score": {
+    "accepted": 0,
+    "accepted_wrong": 0,
+    "controls_expected": 1,
+    "controls_ok": 1,
+    "extra_hops": 0,
+    "gold_hops": 2,
+    "relation_fn": 2,
+    "relation_fp": 0,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "UNRESOLVED",
+    "unresolved": 2
+   }
+  },
+  {
+   "control": "subject_swap",
+   "expect": [
+    1,
+    2
+   ],
+   "id": "2hop__198906_69926__subject_swap",
+   "pred": {
+    "hops": [],
+    "parse": "FINITE_PARSER_ERROR",
+    "raw": "FileNotFoundError(2, 'No such file or directory')",
+    "status": "UNRESOLVED"
+   },
+   "score": {
+    "accepted": 0,
+    "accepted_wrong": 0,
+    "controls_expected": 2,
+    "controls_ok": 2,
+    "extra_hops": 0,
+    "gold_hops": 2,
+    "relation_fn": 2,
+    "relation_fp": 0,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "UNRESOLVED",
+    "unresolved": 2
+   }
+  },
+  {
+   "control": "missing_source",
+   "expect": [
+    2
+   ],
+   "id": "2hop__60492_336593__missing_source",
+   "pred": {
+    "hops": [],
+    "parse": "FINITE_PARSER_ERROR",
+    "raw": "FileNotFoundError(2, 'No such file or directory')",
+    "status": "UNRESOLVED"
+   },
+   "score": {
+    "accepted": 0,
+    "accepted_wrong": 0,
+    "controls_expected": 1,
+    "controls_ok": 1,
+    "extra_hops": 0,
+    "gold_hops": 2,
+    "relation_fn": 2,
+    "relation_fp": 0,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "UNRESOLVED",
+    "unresolved": 2
+   }
+  },
+  {
+   "control": "relation_swap",
+   "expect": [
+    2
+   ],
+   "id": "2hop__60492_336593__relation_swap",
+   "pred": {
+    "hops": [],
+    "parse": "FINITE_PARSER_ERROR",
+    "raw": "FileNotFoundError(2, 'No such file or directory')",
+    "status": "UNRESOLVED"
+   },
+   "score": {
+    "accepted": 0,
+    "accepted_wrong": 0,
+    "controls_expected": 1,
+    "controls_ok": 1,
+    "extra_hops": 0,
+    "gold_hops": 2,
+    "relation_fn": 2,
+    "relation_fp": 0,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "UNRESOLVED",
+    "unresolved": 2
+   }
+  },
+  {
+   "control": "subject_swap",
+   "expect": [
+    1,
+    2
+   ],
+   "id": "2hop__60492_336593__subject_swap",
+   "pred": {
+    "hops": [],
+    "parse": "FINITE_PARSER_ERROR",
+    "raw": "FileNotFoundError(2, 'No such file or directory')",
+    "status": "UNRESOLVED"
+   },
+   "score": {
+    "accepted": 0,
+    "accepted_wrong": 0,
+    "controls_expected": 2,
+    "controls_ok": 2,
+    "extra_hops": 0,
+    "gold_hops": 2,
+    "relation_fn": 2,
+    "relation_fp": 0,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "UNRESOLVED",
+    "unresolved": 2
+   }
+  },
+  {
+   "control": "missing_source",
+   "expect": [
+    2
+   ],
+   "id": "2hop__45290_11142__missing_source",
+   "pred": {
+    "hops": [],
+    "parse": "FINITE_PARSER_ERROR",
+    "raw": "FileNotFoundError(2, 'No such file or directory')",
+    "status": "UNRESOLVED"
+   },
+   "score": {
+    "accepted": 0,
+    "accepted_wrong": 0,
+    "controls_expected": 1,
+    "controls_ok": 1,
+    "extra_hops": 0,
+    "gold_hops": 2,
+    "relation_fn": 2,
+    "relation_fp": 0,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "UNRESOLVED",
+    "unresolved": 2
+   }
+  },
+  {
+   "control": "relation_swap",
+   "expect": [
+    2
+   ],
+   "id": "2hop__45290_11142__relation_swap",
+   "pred": {
+    "hops": [],
+    "parse": "FINITE_PARSER_ERROR",
+    "raw": "FileNotFoundError(2, 'No such file or directory')",
+    "status": "UNRESOLVED"
+   },
+   "score": {
+    "accepted": 0,
+    "accepted_wrong": 0,
+    "controls_expected": 1,
+    "controls_ok": 1,
+    "extra_hops": 0,
+    "gold_hops": 2,
+    "relation_fn": 2,
+    "relation_fp": 0,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "UNRESOLVED",
+    "unresolved": 2
+   }
+  },
+  {
+   "control": "subject_swap",
+   "expect": [
+    1,
+    2
+   ],
+   "id": "2hop__45290_11142__subject_swap",
+   "pred": {
+    "hops": [],
+    "parse": "FINITE_PARSER_ERROR",
+    "raw": "FileNotFoundError(2, 'No such file or directory')",
+    "status": "UNRESOLVED"
+   },
+   "score": {
+    "accepted": 0,
+    "accepted_wrong": 0,
+    "controls_expected": 2,
+    "controls_ok": 2,
+    "extra_hops": 0,
+    "gold_hops": 2,
+    "relation_fn": 2,
+    "relation_fp": 0,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "UNRESOLVED",
+    "unresolved": 2
+   }
+  },
+  {
+   "control": "missing_source",
+   "expect": [
+    2
+   ],
+   "id": "2hop__540763_53794__missing_source",
+   "pred": {
+    "hops": [],
+    "parse": "FINITE_PARSER_ERROR",
+    "raw": "FileNotFoundError(2, 'No such file or directory')",
+    "status": "UNRESOLVED"
+   },
+   "score": {
+    "accepted": 0,
+    "accepted_wrong": 0,
+    "controls_expected": 1,
+    "controls_ok": 1,
+    "extra_hops": 0,
+    "gold_hops": 2,
+    "relation_fn": 2,
+    "relation_fp": 0,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "UNRESOLVED",
+    "unresolved": 2
+   }
+  },
+  {
+   "control": "relation_swap",
+   "expect": [
+    2
+   ],
+   "id": "2hop__540763_53794__relation_swap",
+   "pred": {
+    "hops": [],
+    "parse": "FINITE_PARSER_ERROR",
+    "raw": "FileNotFoundError(2, 'No such file or directory')",
+    "status": "UNRESOLVED"
+   },
+   "score": {
+    "accepted": 0,
+    "accepted_wrong": 0,
+    "controls_expected": 1,
+    "controls_ok": 1,
+    "extra_hops": 0,
+    "gold_hops": 2,
+    "relation_fn": 2,
+    "relation_fp": 0,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "UNRESOLVED",
+    "unresolved": 2
+   }
+  },
+  {
+   "control": "subject_swap",
+   "expect": [
+    1,
+    2
+   ],
+   "id": "2hop__540763_53794__subject_swap",
+   "pred": {
+    "hops": [],
+    "parse": "FINITE_PARSER_ERROR",
+    "raw": "FileNotFoundError(2, 'No such file or directory')",
+    "status": "UNRESOLVED"
+   },
+   "score": {
+    "accepted": 0,
+    "accepted_wrong": 0,
+    "controls_expected": 2,
+    "controls_ok": 2,
+    "extra_hops": 0,
+    "gold_hops": 2,
+    "relation_fn": 2,
+    "relation_fp": 0,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "UNRESOLVED",
+    "unresolved": 2
+   }
+  },
+  {
+   "control": "missing_source",
+   "expect": [
+    2
+   ],
+   "id": "2hop__75544_545063__missing_source",
+   "pred": {
+    "hops": [],
+    "parse": "FINITE_PARSER_ERROR",
+    "raw": "FileNotFoundError(2, 'No such file or directory')",
+    "status": "UNRESOLVED"
+   },
+   "score": {
+    "accepted": 0,
+    "accepted_wrong": 0,
+    "controls_expected": 1,
+    "controls_ok": 1,
+    "extra_hops": 0,
+    "gold_hops": 2,
+    "relation_fn": 2,
+    "relation_fp": 0,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "UNRESOLVED",
+    "unresolved": 2
+   }
+  },
+  {
+   "control": "relation_swap",
+   "expect": [
+    2
+   ],
+   "id": "2hop__75544_545063__relation_swap",
+   "pred": {
+    "hops": [],
+    "parse": "FINITE_PARSER_ERROR",
+    "raw": "FileNotFoundError(2, 'No such file or directory')",
+    "status": "UNRESOLVED"
+   },
+   "score": {
+    "accepted": 0,
+    "accepted_wrong": 0,
+    "controls_expected": 1,
+    "controls_ok": 1,
+    "extra_hops": 0,
+    "gold_hops": 2,
+    "relation_fn": 2,
+    "relation_fp": 0,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "UNRESOLVED",
+    "unresolved": 2
+   }
+  },
+  {
+   "control": "subject_swap",
+   "expect": [
+    1,
+    2
+   ],
+   "id": "2hop__75544_545063__subject_swap",
+   "pred": {
+    "hops": [],
+    "parse": "FINITE_PARSER_ERROR",
+    "raw": "FileNotFoundError(2, 'No such file or directory')",
+    "status": "UNRESOLVED"
+   },
+   "score": {
+    "accepted": 0,
+    "accepted_wrong": 0,
+    "controls_expected": 2,
+    "controls_ok": 2,
+    "extra_hops": 0,
+    "gold_hops": 2,
+    "relation_fn": 2,
+    "relation_fp": 0,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "UNRESOLVED",
+    "unresolved": 2
+   }
+  },
+  {
+   "control": "missing_source",
+   "expect": [
+    2
+   ],
+   "id": "2hop__107742_863816__missing_source",
+   "pred": {
+    "hops": [],
+    "parse": "FINITE_PARSER_ERROR",
+    "raw": "FileNotFoundError(2, 'No such file or directory')",
+    "status": "UNRESOLVED"
+   },
+   "score": {
+    "accepted": 0,
+    "accepted_wrong": 0,
+    "controls_expected": 1,
+    "controls_ok": 1,
+    "extra_hops": 0,
+    "gold_hops": 2,
+    "relation_fn": 2,
+    "relation_fp": 0,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "UNRESOLVED",
+    "unresolved": 2
+   }
+  },
+  {
+   "control": "relation_swap",
+   "expect": [
+    2
+   ],
+   "id": "2hop__107742_863816__relation_swap",
+   "pred": {
+    "hops": [],
+    "parse": "FINITE_PARSER_ERROR",
+    "raw": "FileNotFoundError(2, 'No such file or directory')",
+    "status": "UNRESOLVED"
+   },
+   "score": {
+    "accepted": 0,
+    "accepted_wrong": 0,
+    "controls_expected": 1,
+    "controls_ok": 1,
+    "extra_hops": 0,
+    "gold_hops": 2,
+    "relation_fn": 2,
+    "relation_fp": 0,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "UNRESOLVED",
+    "unresolved": 2
+   }
+  },
+  {
+   "control": "subject_swap",
+   "expect": [
+    1,
+    2
+   ],
+   "id": "2hop__107742_863816__subject_swap",
+   "pred": {
+    "hops": [],
+    "parse": "FINITE_PARSER_ERROR",
+    "raw": "FileNotFoundError(2, 'No such file or directory')",
+    "status": "UNRESOLVED"
+   },
+   "score": {
+    "accepted": 0,
+    "accepted_wrong": 0,
+    "controls_expected": 2,
+    "controls_ok": 2,
+    "extra_hops": 0,
+    "gold_hops": 2,
+    "relation_fn": 2,
+    "relation_fp": 0,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "UNRESOLVED",
+    "unresolved": 2
+   }
+  },
+  {
+   "control": "missing_source",
+   "expect": [
+    2
+   ],
+   "id": "2hop__143945_536676__missing_source",
+   "pred": {
+    "hops": [],
+    "parse": "FINITE_PARSER_ERROR",
+    "raw": "FileNotFoundError(2, 'No such file or directory')",
+    "status": "UNRESOLVED"
+   },
+   "score": {
+    "accepted": 0,
+    "accepted_wrong": 0,
+    "controls_expected": 1,
+    "controls_ok": 1,
+    "extra_hops": 0,
+    "gold_hops": 2,
+    "relation_fn": 2,
+    "relation_fp": 0,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "UNRESOLVED",
+    "unresolved": 2
+   }
+  },
+  {
+   "control": "relation_swap",
+   "expect": [
+    2
+   ],
+   "id": "2hop__143945_536676__relation_swap",
+   "pred": {
+    "hops": [],
+    "parse": "FINITE_PARSER_ERROR",
+    "raw": "FileNotFoundError(2, 'No such file or directory')",
+    "status": "UNRESOLVED"
+   },
+   "score": {
+    "accepted": 0,
+    "accepted_wrong": 0,
+    "controls_expected": 1,
+    "controls_ok": 1,
+    "extra_hops": 0,
+    "gold_hops": 2,
+    "relation_fn": 2,
+    "relation_fp": 0,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "UNRESOLVED",
+    "unresolved": 2
+   }
+  },
+  {
+   "control": "subject_swap",
+   "expect": [
+    1,
+    2
+   ],
+   "id": "2hop__143945_536676__subject_swap",
+   "pred": {
+    "hops": [],
+    "parse": "FINITE_PARSER_ERROR",
+    "raw": "FileNotFoundError(2, 'No such file or directory')",
+    "status": "UNRESOLVED"
+   },
+   "score": {
+    "accepted": 0,
+    "accepted_wrong": 0,
+    "controls_expected": 2,
+    "controls_ok": 2,
+    "extra_hops": 0,
+    "gold_hops": 2,
+    "relation_fn": 2,
+    "relation_fp": 0,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "UNRESOLVED",
+    "unresolved": 2
+   }
+  },
+  {
+   "control": "missing_source",
+   "expect": [
+    2
+   ],
+   "id": "2hop__82689_86706__missing_source",
+   "pred": {
+    "hops": [],
+    "parse": "FINITE_PARSER_ERROR",
+    "raw": "FileNotFoundError(2, 'No such file or directory')",
+    "status": "UNRESOLVED"
+   },
+   "score": {
+    "accepted": 0,
+    "accepted_wrong": 0,
+    "controls_expected": 1,
+    "controls_ok": 1,
+    "extra_hops": 0,
+    "gold_hops": 2,
+    "relation_fn": 2,
+    "relation_fp": 0,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "UNRESOLVED",
+    "unresolved": 2
+   }
+  },
+  {
+   "control": "relation_swap",
+   "expect": [
+    2
+   ],
+   "id": "2hop__82689_86706__relation_swap",
+   "pred": {
+    "hops": [],
+    "parse": "FINITE_PARSER_ERROR",
+    "raw": "FileNotFoundError(2, 'No such file or directory')",
+    "status": "UNRESOLVED"
+   },
+   "score": {
+    "accepted": 0,
+    "accepted_wrong": 0,
+    "controls_expected": 1,
+    "controls_ok": 1,
+    "extra_hops": 0,
+    "gold_hops": 2,
+    "relation_fn": 2,
+    "relation_fp": 0,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "UNRESOLVED",
+    "unresolved": 2
+   }
+  },
+  {
+   "control": "subject_swap",
+   "expect": [
+    1,
+    2
+   ],
+   "id": "2hop__82689_86706__subject_swap",
+   "pred": {
+    "hops": [],
+    "parse": "FINITE_PARSER_ERROR",
+    "raw": "FileNotFoundError(2, 'No such file or directory')",
+    "status": "UNRESOLVED"
+   },
+   "score": {
+    "accepted": 0,
+    "accepted_wrong": 0,
+    "controls_expected": 2,
+    "controls_ok": 2,
+    "extra_hops": 0,
+    "gold_hops": 2,
+    "relation_fn": 2,
+    "relation_fp": 0,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "UNRESOLVED",
+    "unresolved": 2
+   }
+  },
+  {
+   "control": "missing_source",
+   "expect": [
+    2
+   ],
+   "id": "2hop__415327_58450__missing_source",
+   "pred": {
+    "hops": [],
+    "parse": "FINITE_PARSER_ERROR",
+    "raw": "FileNotFoundError(2, 'No such file or directory')",
+    "status": "UNRESOLVED"
+   },
+   "score": {
+    "accepted": 0,
+    "accepted_wrong": 0,
+    "controls_expected": 1,
+    "controls_ok": 1,
+    "extra_hops": 0,
+    "gold_hops": 2,
+    "relation_fn": 2,
+    "relation_fp": 0,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "UNRESOLVED",
+    "unresolved": 2
+   }
+  },
+  {
+   "control": "relation_swap",
+   "expect": [
+    2
+   ],
+   "id": "2hop__415327_58450__relation_swap",
+   "pred": {
+    "hops": [],
+    "parse": "FINITE_PARSER_ERROR",
+    "raw": "FileNotFoundError(2, 'No such file or directory')",
+    "status": "UNRESOLVED"
+   },
+   "score": {
+    "accepted": 0,
+    "accepted_wrong": 0,
+    "controls_expected": 1,
+    "controls_ok": 1,
+    "extra_hops": 0,
+    "gold_hops": 2,
+    "relation_fn": 2,
+    "relation_fp": 0,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "UNRESOLVED",
+    "unresolved": 2
+   }
+  },
+  {
+   "control": "subject_swap",
+   "expect": [
+    1,
+    2
+   ],
+   "id": "2hop__415327_58450__subject_swap",
+   "pred": {
+    "hops": [],
+    "parse": "FINITE_PARSER_ERROR",
+    "raw": "FileNotFoundError(2, 'No such file or directory')",
+    "status": "UNRESOLVED"
+   },
+   "score": {
+    "accepted": 0,
+    "accepted_wrong": 0,
+    "controls_expected": 2,
+    "controls_ok": 2,
+    "extra_hops": 0,
+    "gold_hops": 2,
+    "relation_fn": 2,
+    "relation_fp": 0,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "UNRESOLVED",
+    "unresolved": 2
+   }
+  },
+  {
+   "control": "missing_source",
+   "expect": [
+    2
+   ],
+   "id": "2hop__121510_708662__missing_source",
+   "pred": {
+    "hops": [],
+    "parse": "FINITE_PARSER_ERROR",
+    "raw": "FileNotFoundError(2, 'No such file or directory')",
+    "status": "UNRESOLVED"
+   },
+   "score": {
+    "accepted": 0,
+    "accepted_wrong": 0,
+    "controls_expected": 1,
+    "controls_ok": 1,
+    "extra_hops": 0,
+    "gold_hops": 2,
+    "relation_fn": 2,
+    "relation_fp": 0,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "UNRESOLVED",
+    "unresolved": 2
+   }
+  },
+  {
+   "control": "relation_swap",
+   "expect": [
+    2
+   ],
+   "id": "2hop__121510_708662__relation_swap",
+   "pred": {
+    "hops": [],
+    "parse": "FINITE_PARSER_ERROR",
+    "raw": "FileNotFoundError(2, 'No such file or directory')",
+    "status": "UNRESOLVED"
+   },
+   "score": {
+    "accepted": 0,
+    "accepted_wrong": 0,
+    "controls_expected": 1,
+    "controls_ok": 1,
+    "extra_hops": 0,
+    "gold_hops": 2,
+    "relation_fn": 2,
+    "relation_fp": 0,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "UNRESOLVED",
+    "unresolved": 2
+   }
+  },
+  {
+   "control": "subject_swap",
+   "expect": [
+    1,
+    2
+   ],
+   "id": "2hop__121510_708662__subject_swap",
+   "pred": {
+    "hops": [],
+    "parse": "FINITE_PARSER_ERROR",
+    "raw": "FileNotFoundError(2, 'No such file or directory')",
+    "status": "UNRESOLVED"
+   },
+   "score": {
+    "accepted": 0,
+    "accepted_wrong": 0,
+    "controls_expected": 2,
+    "controls_ok": 2,
+    "extra_hops": 0,
+    "gold_hops": 2,
+    "relation_fn": 2,
+    "relation_fp": 0,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "UNRESOLVED",
+    "unresolved": 2
+   }
+  },
+  {
+   "control": "missing_source",
+   "expect": [
+    2
+   ],
+   "id": "2hop__783229_84230__missing_source",
+   "pred": {
+    "hops": [],
+    "parse": "FINITE_PARSER_ERROR",
+    "raw": "FileNotFoundError(2, 'No such file or directory')",
+    "status": "UNRESOLVED"
+   },
+   "score": {
+    "accepted": 0,
+    "accepted_wrong": 0,
+    "controls_expected": 1,
+    "controls_ok": 1,
+    "extra_hops": 0,
+    "gold_hops": 2,
+    "relation_fn": 2,
+    "relation_fp": 0,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "UNRESOLVED",
+    "unresolved": 2
+   }
+  },
+  {
+   "control": "relation_swap",
+   "expect": [
+    2
+   ],
+   "id": "2hop__783229_84230__relation_swap",
+   "pred": {
+    "hops": [],
+    "parse": "FINITE_PARSER_ERROR",
+    "raw": "FileNotFoundError(2, 'No such file or directory')",
+    "status": "UNRESOLVED"
+   },
+   "score": {
+    "accepted": 0,
+    "accepted_wrong": 0,
+    "controls_expected": 1,
+    "controls_ok": 1,
+    "extra_hops": 0,
+    "gold_hops": 2,
+    "relation_fn": 2,
+    "relation_fp": 0,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "UNRESOLVED",
+    "unresolved": 2
+   }
+  },
+  {
+   "control": "subject_swap",
+   "expect": [
+    1,
+    2
+   ],
+   "id": "2hop__783229_84230__subject_swap",
+   "pred": {
+    "hops": [],
+    "parse": "FINITE_PARSER_ERROR",
+    "raw": "FileNotFoundError(2, 'No such file or directory')",
+    "status": "UNRESOLVED"
+   },
+   "score": {
+    "accepted": 0,
+    "accepted_wrong": 0,
+    "controls_expected": 2,
+    "controls_ok": 2,
+    "extra_hops": 0,
+    "gold_hops": 2,
+    "relation_fn": 2,
+    "relation_fp": 0,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "UNRESOLVED",
+    "unresolved": 2
+   }
+  },
+  {
+   "control": "missing_source",
+   "expect": [
+    2
+   ],
+   "id": "2hop__855152_63345__missing_source",
+   "pred": {
+    "hops": [],
+    "parse": "FINITE_PARSER_ERROR",
+    "raw": "FileNotFoundError(2, 'No such file or directory')",
+    "status": "UNRESOLVED"
+   },
+   "score": {
+    "accepted": 0,
+    "accepted_wrong": 0,
+    "controls_expected": 1,
+    "controls_ok": 1,
+    "extra_hops": 0,
+    "gold_hops": 2,
+    "relation_fn": 2,
+    "relation_fp": 0,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "UNRESOLVED",
+    "unresolved": 2
+   }
+  },
+  {
+   "control": "relation_swap",
+   "expect": [
+    2
+   ],
+   "id": "2hop__855152_63345__relation_swap",
+   "pred": {
+    "hops": [],
+    "parse": "FINITE_PARSER_ERROR",
+    "raw": "FileNotFoundError(2, 'No such file or directory')",
+    "status": "UNRESOLVED"
+   },
+   "score": {
+    "accepted": 0,
+    "accepted_wrong": 0,
+    "controls_expected": 1,
+    "controls_ok": 1,
+    "extra_hops": 0,
+    "gold_hops": 2,
+    "relation_fn": 2,
+    "relation_fp": 0,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "UNRESOLVED",
+    "unresolved": 2
+   }
+  },
+  {
+   "control": "subject_swap",
+   "expect": [
+    1,
+    2
+   ],
+   "id": "2hop__855152_63345__subject_swap",
+   "pred": {
+    "hops": [],
+    "parse": "FINITE_PARSER_ERROR",
+    "raw": "FileNotFoundError(2, 'No such file or directory')",
+    "status": "UNRESOLVED"
+   },
+   "score": {
+    "accepted": 0,
+    "accepted_wrong": 0,
+    "controls_expected": 2,
+    "controls_ok": 2,
+    "extra_hops": 0,
+    "gold_hops": 2,
+    "relation_fn": 2,
+    "relation_fp": 0,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "UNRESOLVED",
+    "unresolved": 2
+   }
+  },
+  {
+   "control": "missing_source",
+   "expect": [
+    2
+   ],
+   "id": "2hop__30365_47878__missing_source",
+   "pred": {
+    "hops": [],
+    "parse": "FINITE_PARSER_ERROR",
+    "raw": "FileNotFoundError(2, 'No such file or directory')",
+    "status": "UNRESOLVED"
+   },
+   "score": {
+    "accepted": 0,
+    "accepted_wrong": 0,
+    "controls_expected": 1,
+    "controls_ok": 1,
+    "extra_hops": 0,
+    "gold_hops": 2,
+    "relation_fn": 2,
+    "relation_fp": 0,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "UNRESOLVED",
+    "unresolved": 2
+   }
+  },
+  {
+   "control": "relation_swap",
+   "expect": [
+    2
+   ],
+   "id": "2hop__30365_47878__relation_swap",
+   "pred": {
+    "hops": [],
+    "parse": "FINITE_PARSER_ERROR",
+    "raw": "FileNotFoundError(2, 'No such file or directory')",
+    "status": "UNRESOLVED"
+   },
+   "score": {
+    "accepted": 0,
+    "accepted_wrong": 0,
+    "controls_expected": 1,
+    "controls_ok": 1,
+    "extra_hops": 0,
+    "gold_hops": 2,
+    "relation_fn": 2,
+    "relation_fp": 0,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "UNRESOLVED",
+    "unresolved": 2
+   }
+  },
+  {
+   "control": "subject_swap",
+   "expect": [
+    1,
+    2
+   ],
+   "id": "2hop__30365_47878__subject_swap",
+   "pred": {
+    "hops": [],
+    "parse": "FINITE_PARSER_ERROR",
+    "raw": "FileNotFoundError(2, 'No such file or directory')",
+    "status": "UNRESOLVED"
+   },
+   "score": {
+    "accepted": 0,
+    "accepted_wrong": 0,
+    "controls_expected": 2,
+    "controls_ok": 2,
+    "extra_hops": 0,
+    "gold_hops": 2,
+    "relation_fn": 2,
+    "relation_fp": 0,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "UNRESOLVED",
+    "unresolved": 2
+   }
+  },
+  {
+   "control": "missing_source",
+   "expect": [
+    2
+   ],
+   "id": "2hop__140162_140916__missing_source",
+   "pred": {
+    "hops": [],
+    "parse": "FINITE_PARSER_ERROR",
+    "raw": "FileNotFoundError(2, 'No such file or directory')",
+    "status": "UNRESOLVED"
+   },
+   "score": {
+    "accepted": 0,
+    "accepted_wrong": 0,
+    "controls_expected": 1,
+    "controls_ok": 1,
+    "extra_hops": 0,
+    "gold_hops": 2,
+    "relation_fn": 2,
+    "relation_fp": 0,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "UNRESOLVED",
+    "unresolved": 2
+   }
+  },
+  {
+   "control": "relation_swap",
+   "expect": [
+    2
+   ],
+   "id": "2hop__140162_140916__relation_swap",
+   "pred": {
+    "hops": [],
+    "parse": "FINITE_PARSER_ERROR",
+    "raw": "FileNotFoundError(2, 'No such file or directory')",
+    "status": "UNRESOLVED"
+   },
+   "score": {
+    "accepted": 0,
+    "accepted_wrong": 0,
+    "controls_expected": 1,
+    "controls_ok": 1,
+    "extra_hops": 0,
+    "gold_hops": 2,
+    "relation_fn": 2,
+    "relation_fp": 0,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "UNRESOLVED",
+    "unresolved": 2
+   }
+  },
+  {
+   "control": "subject_swap",
+   "expect": [
+    1,
+    2
+   ],
+   "id": "2hop__140162_140916__subject_swap",
+   "pred": {
+    "hops": [],
+    "parse": "FINITE_PARSER_ERROR",
+    "raw": "FileNotFoundError(2, 'No such file or directory')",
+    "status": "UNRESOLVED"
+   },
+   "score": {
+    "accepted": 0,
+    "accepted_wrong": 0,
+    "controls_expected": 2,
+    "controls_ok": 2,
+    "extra_hops": 0,
+    "gold_hops": 2,
+    "relation_fn": 2,
+    "relation_fp": 0,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "UNRESOLVED",
+    "unresolved": 2
+   }
+  },
+  {
+   "control": "missing_source",
+   "expect": [
+    2
+   ],
+   "id": "2hop__193004_25111__missing_source",
+   "pred": {
+    "hops": [],
+    "parse": "FINITE_PARSER_ERROR",
+    "raw": "FileNotFoundError(2, 'No such file or directory')",
+    "status": "UNRESOLVED"
+   },
+   "score": {
+    "accepted": 0,
+    "accepted_wrong": 0,
+    "controls_expected": 1,
+    "controls_ok": 1,
+    "extra_hops": 0,
+    "gold_hops": 2,
+    "relation_fn": 2,
+    "relation_fp": 0,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "UNRESOLVED",
+    "unresolved": 2
+   }
+  },
+  {
+   "control": "relation_swap",
+   "expect": [
+    2
+   ],
+   "id": "2hop__193004_25111__relation_swap",
+   "pred": {
+    "hops": [],
+    "parse": "FINITE_PARSER_ERROR",
+    "raw": "FileNotFoundError(2, 'No such file or directory')",
+    "status": "UNRESOLVED"
+   },
+   "score": {
+    "accepted": 0,
+    "accepted_wrong": 0,
+    "controls_expected": 1,
+    "controls_ok": 1,
+    "extra_hops": 0,
+    "gold_hops": 2,
+    "relation_fn": 2,
+    "relation_fp": 0,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "UNRESOLVED",
+    "unresolved": 2
+   }
+  },
+  {
+   "control": "subject_swap",
+   "expect": [
+    1,
+    2
+   ],
+   "id": "2hop__193004_25111__subject_swap",
+   "pred": {
+    "hops": [],
+    "parse": "FINITE_PARSER_ERROR",
+    "raw": "FileNotFoundError(2, 'No such file or directory')",
+    "status": "UNRESOLVED"
+   },
+   "score": {
+    "accepted": 0,
+    "accepted_wrong": 0,
+    "controls_expected": 2,
+    "controls_ok": 2,
+    "extra_hops": 0,
+    "gold_hops": 2,
+    "relation_fn": 2,
+    "relation_fp": 0,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "UNRESOLVED",
+    "unresolved": 2
+   }
+  },
+  {
+   "control": "missing_source",
+   "expect": [
+    2
+   ],
+   "id": "2hop__55702_171545__missing_source",
+   "pred": {
+    "hops": [],
+    "parse": "FINITE_PARSER_ERROR",
+    "raw": "FileNotFoundError(2, 'No such file or directory')",
+    "status": "UNRESOLVED"
+   },
+   "score": {
+    "accepted": 0,
+    "accepted_wrong": 0,
+    "controls_expected": 1,
+    "controls_ok": 1,
+    "extra_hops": 0,
+    "gold_hops": 2,
+    "relation_fn": 2,
+    "relation_fp": 0,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "UNRESOLVED",
+    "unresolved": 2
+   }
+  },
+  {
+   "control": "relation_swap",
+   "expect": [
+    2
+   ],
+   "id": "2hop__55702_171545__relation_swap",
+   "pred": {
+    "hops": [],
+    "parse": "FINITE_PARSER_ERROR",
+    "raw": "FileNotFoundError(2, 'No such file or directory')",
+    "status": "UNRESOLVED"
+   },
+   "score": {
+    "accepted": 0,
+    "accepted_wrong": 0,
+    "controls_expected": 1,
+    "controls_ok": 1,
+    "extra_hops": 0,
+    "gold_hops": 2,
+    "relation_fn": 2,
+    "relation_fp": 0,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "UNRESOLVED",
+    "unresolved": 2
+   }
+  },
+  {
+   "control": "subject_swap",
+   "expect": [
+    1,
+    2
+   ],
+   "id": "2hop__55702_171545__subject_swap",
+   "pred": {
+    "hops": [],
+    "parse": "FINITE_PARSER_ERROR",
+    "raw": "FileNotFoundError(2, 'No such file or directory')",
+    "status": "UNRESOLVED"
+   },
+   "score": {
+    "accepted": 0,
+    "accepted_wrong": 0,
+    "controls_expected": 2,
+    "controls_ok": 2,
+    "extra_hops": 0,
+    "gold_hops": 2,
+    "relation_fn": 2,
+    "relation_fp": 0,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "UNRESOLVED",
+    "unresolved": 2
+   }
+  },
+  {
+   "control": "missing_source",
+   "expect": [
+    2
+   ],
+   "id": "2hop__623499_83050__missing_source",
+   "pred": {
+    "hops": [],
+    "parse": "FINITE_PARSER_ERROR",
+    "raw": "FileNotFoundError(2, 'No such file or directory')",
+    "status": "UNRESOLVED"
+   },
+   "score": {
+    "accepted": 0,
+    "accepted_wrong": 0,
+    "controls_expected": 1,
+    "controls_ok": 1,
+    "extra_hops": 0,
+    "gold_hops": 2,
+    "relation_fn": 2,
+    "relation_fp": 0,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "UNRESOLVED",
+    "unresolved": 2
+   }
+  },
+  {
+   "control": "relation_swap",
+   "expect": [
+    2
+   ],
+   "id": "2hop__623499_83050__relation_swap",
+   "pred": {
+    "hops": [],
+    "parse": "FINITE_PARSER_ERROR",
+    "raw": "FileNotFoundError(2, 'No such file or directory')",
+    "status": "UNRESOLVED"
+   },
+   "score": {
+    "accepted": 0,
+    "accepted_wrong": 0,
+    "controls_expected": 1,
+    "controls_ok": 1,
+    "extra_hops": 0,
+    "gold_hops": 2,
+    "relation_fn": 2,
+    "relation_fp": 0,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "UNRESOLVED",
+    "unresolved": 2
+   }
+  },
+  {
+   "control": "subject_swap",
+   "expect": [
+    1,
+    2
+   ],
+   "id": "2hop__623499_83050__subject_swap",
+   "pred": {
+    "hops": [],
+    "parse": "FINITE_PARSER_ERROR",
+    "raw": "FileNotFoundError(2, 'No such file or directory')",
+    "status": "UNRESOLVED"
+   },
+   "score": {
+    "accepted": 0,
+    "accepted_wrong": 0,
+    "controls_expected": 2,
+    "controls_ok": 2,
+    "extra_hops": 0,
+    "gold_hops": 2,
+    "relation_fn": 2,
+    "relation_fp": 0,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "UNRESOLVED",
+    "unresolved": 2
+   }
+  },
+  {
+   "control": "missing_source",
+   "expect": [
+    2
+   ],
+   "id": "2hop__35598_31102__missing_source",
+   "pred": {
+    "hops": [],
+    "parse": "FINITE_PARSER_ERROR",
+    "raw": "FileNotFoundError(2, 'No such file or directory')",
+    "status": "UNRESOLVED"
+   },
+   "score": {
+    "accepted": 0,
+    "accepted_wrong": 0,
+    "controls_expected": 1,
+    "controls_ok": 1,
+    "extra_hops": 0,
+    "gold_hops": 2,
+    "relation_fn": 2,
+    "relation_fp": 0,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "UNRESOLVED",
+    "unresolved": 2
+   }
+  },
+  {
+   "control": "relation_swap",
+   "expect": [
+    2
+   ],
+   "id": "2hop__35598_31102__relation_swap",
+   "pred": {
+    "hops": [],
+    "parse": "FINITE_PARSER_ERROR",
+    "raw": "FileNotFoundError(2, 'No such file or directory')",
+    "status": "UNRESOLVED"
+   },
+   "score": {
+    "accepted": 0,
+    "accepted_wrong": 0,
+    "controls_expected": 1,
+    "controls_ok": 1,
+    "extra_hops": 0,
+    "gold_hops": 2,
+    "relation_fn": 2,
+    "relation_fp": 0,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "UNRESOLVED",
+    "unresolved": 2
+   }
+  },
+  {
+   "control": "subject_swap",
+   "expect": [
+    1,
+    2
+   ],
+   "id": "2hop__35598_31102__subject_swap",
+   "pred": {
+    "hops": [],
+    "parse": "FINITE_PARSER_ERROR",
+    "raw": "FileNotFoundError(2, 'No such file or directory')",
+    "status": "UNRESOLVED"
+   },
+   "score": {
+    "accepted": 0,
+    "accepted_wrong": 0,
+    "controls_expected": 2,
+    "controls_ok": 2,
+    "extra_hops": 0,
+    "gold_hops": 2,
+    "relation_fn": 2,
+    "relation_fp": 0,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "UNRESOLVED",
+    "unresolved": 2
+   }
+  },
+  {
+   "control": "missing_source",
+   "expect": [
+    2
+   ],
+   "id": "2hop__751908_46077__missing_source",
+   "pred": {
+    "hops": [],
+    "parse": "FINITE_PARSER_ERROR",
+    "raw": "FileNotFoundError(2, 'No such file or directory')",
+    "status": "UNRESOLVED"
+   },
+   "score": {
+    "accepted": 0,
+    "accepted_wrong": 0,
+    "controls_expected": 1,
+    "controls_ok": 1,
+    "extra_hops": 0,
+    "gold_hops": 2,
+    "relation_fn": 2,
+    "relation_fp": 0,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "UNRESOLVED",
+    "unresolved": 2
+   }
+  },
+  {
+   "control": "relation_swap",
+   "expect": [
+    2
+   ],
+   "id": "2hop__751908_46077__relation_swap",
+   "pred": {
+    "hops": [],
+    "parse": "FINITE_PARSER_ERROR",
+    "raw": "FileNotFoundError(2, 'No such file or directory')",
+    "status": "UNRESOLVED"
+   },
+   "score": {
+    "accepted": 0,
+    "accepted_wrong": 0,
+    "controls_expected": 1,
+    "controls_ok": 1,
+    "extra_hops": 0,
+    "gold_hops": 2,
+    "relation_fn": 2,
+    "relation_fp": 0,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "UNRESOLVED",
+    "unresolved": 2
+   }
+  },
+  {
+   "control": "subject_swap",
+   "expect": [
+    1,
+    2
+   ],
+   "id": "2hop__751908_46077__subject_swap",
+   "pred": {
+    "hops": [],
+    "parse": "FINITE_PARSER_ERROR",
+    "raw": "FileNotFoundError(2, 'No such file or directory')",
+    "status": "UNRESOLVED"
+   },
+   "score": {
+    "accepted": 0,
+    "accepted_wrong": 0,
+    "controls_expected": 2,
+    "controls_ok": 2,
+    "extra_hops": 0,
+    "gold_hops": 2,
+    "relation_fn": 2,
+    "relation_fp": 0,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "UNRESOLVED",
+    "unresolved": 2
+   }
+  },
+  {
+   "control": "missing_source",
+   "expect": [
+    2
+   ],
+   "id": "2hop__216917_46077__missing_source",
+   "pred": {
+    "hops": [],
+    "parse": "FINITE_PARSER_ERROR",
+    "raw": "FileNotFoundError(2, 'No such file or directory')",
+    "status": "UNRESOLVED"
+   },
+   "score": {
+    "accepted": 0,
+    "accepted_wrong": 0,
+    "controls_expected": 1,
+    "controls_ok": 1,
+    "extra_hops": 0,
+    "gold_hops": 2,
+    "relation_fn": 2,
+    "relation_fp": 0,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "UNRESOLVED",
+    "unresolved": 2
+   }
+  },
+  {
+   "control": "relation_swap",
+   "expect": [
+    2
+   ],
+   "id": "2hop__216917_46077__relation_swap",
+   "pred": {
+    "hops": [],
+    "parse": "FINITE_PARSER_ERROR",
+    "raw": "FileNotFoundError(2, 'No such file or directory')",
+    "status": "UNRESOLVED"
+   },
+   "score": {
+    "accepted": 0,
+    "accepted_wrong": 0,
+    "controls_expected": 1,
+    "controls_ok": 1,
+    "extra_hops": 0,
+    "gold_hops": 2,
+    "relation_fn": 2,
+    "relation_fp": 0,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "UNRESOLVED",
+    "unresolved": 2
+   }
+  },
+  {
+   "control": "subject_swap",
+   "expect": [
+    1,
+    2
+   ],
+   "id": "2hop__216917_46077__subject_swap",
+   "pred": {
+    "hops": [],
+    "parse": "FINITE_PARSER_ERROR",
+    "raw": "FileNotFoundError(2, 'No such file or directory')",
+    "status": "UNRESOLVED"
+   },
+   "score": {
+    "accepted": 0,
+    "accepted_wrong": 0,
+    "controls_expected": 2,
+    "controls_ok": 2,
+    "extra_hops": 0,
+    "gold_hops": 2,
+    "relation_fn": 2,
+    "relation_fp": 0,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "UNRESOLVED",
+    "unresolved": 2
+   }
+  },
+  {
+   "control": "missing_source",
+   "expect": [
+    2
+   ],
+   "id": "2hop__95494_57988__missing_source",
+   "pred": {
+    "hops": [],
+    "parse": "FINITE_PARSER_ERROR",
+    "raw": "FileNotFoundError(2, 'No such file or directory')",
+    "status": "UNRESOLVED"
+   },
+   "score": {
+    "accepted": 0,
+    "accepted_wrong": 0,
+    "controls_expected": 1,
+    "controls_ok": 1,
+    "extra_hops": 0,
+    "gold_hops": 2,
+    "relation_fn": 2,
+    "relation_fp": 0,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "UNRESOLVED",
+    "unresolved": 2
+   }
+  },
+  {
+   "control": "relation_swap",
+   "expect": [
+    2
+   ],
+   "id": "2hop__95494_57988__relation_swap",
+   "pred": {
+    "hops": [],
+    "parse": "FINITE_PARSER_ERROR",
+    "raw": "FileNotFoundError(2, 'No such file or directory')",
+    "status": "UNRESOLVED"
+   },
+   "score": {
+    "accepted": 0,
+    "accepted_wrong": 0,
+    "controls_expected": 1,
+    "controls_ok": 1,
+    "extra_hops": 0,
+    "gold_hops": 2,
+    "relation_fn": 2,
+    "relation_fp": 0,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "UNRESOLVED",
+    "unresolved": 2
+   }
+  },
+  {
+   "control": "subject_swap",
+   "expect": [
+    1,
+    2
+   ],
+   "id": "2hop__95494_57988__subject_swap",
+   "pred": {
+    "hops": [],
+    "parse": "FINITE_PARSER_ERROR",
+    "raw": "FileNotFoundError(2, 'No such file or directory')",
+    "status": "UNRESOLVED"
+   },
+   "score": {
+    "accepted": 0,
+    "accepted_wrong": 0,
+    "controls_expected": 2,
+    "controls_ok": 2,
+    "extra_hops": 0,
+    "gold_hops": 2,
+    "relation_fn": 2,
+    "relation_fp": 0,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "UNRESOLVED",
+    "unresolved": 2
+   }
+  },
+  {
+   "control": "missing_source",
+   "expect": [
+    2
+   ],
+   "id": "2hop__132233_91253__missing_source",
+   "pred": {
+    "hops": [],
+    "parse": "FINITE_PARSER_ERROR",
+    "raw": "FileNotFoundError(2, 'No such file or directory')",
+    "status": "UNRESOLVED"
+   },
+   "score": {
+    "accepted": 0,
+    "accepted_wrong": 0,
+    "controls_expected": 1,
+    "controls_ok": 1,
+    "extra_hops": 0,
+    "gold_hops": 2,
+    "relation_fn": 2,
+    "relation_fp": 0,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "UNRESOLVED",
+    "unresolved": 2
+   }
+  },
+  {
+   "control": "relation_swap",
+   "expect": [
+    2
+   ],
+   "id": "2hop__132233_91253__relation_swap",
+   "pred": {
+    "hops": [],
+    "parse": "FINITE_PARSER_ERROR",
+    "raw": "FileNotFoundError(2, 'No such file or directory')",
+    "status": "UNRESOLVED"
+   },
+   "score": {
+    "accepted": 0,
+    "accepted_wrong": 0,
+    "controls_expected": 1,
+    "controls_ok": 1,
+    "extra_hops": 0,
+    "gold_hops": 2,
+    "relation_fn": 2,
+    "relation_fp": 0,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "UNRESOLVED",
+    "unresolved": 2
+   }
+  },
+  {
+   "control": "subject_swap",
+   "expect": [
+    1,
+    2
+   ],
+   "id": "2hop__132233_91253__subject_swap",
+   "pred": {
+    "hops": [],
+    "parse": "FINITE_PARSER_ERROR",
+    "raw": "FileNotFoundError(2, 'No such file or directory')",
+    "status": "UNRESOLVED"
+   },
+   "score": {
+    "accepted": 0,
+    "accepted_wrong": 0,
+    "controls_expected": 2,
+    "controls_ok": 2,
+    "extra_hops": 0,
+    "gold_hops": 2,
+    "relation_fn": 2,
+    "relation_fp": 0,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "UNRESOLVED",
+    "unresolved": 2
+   }
+  },
+  {
+   "control": "missing_source",
+   "expect": [
+    2
+   ],
+   "id": "2hop__34948_67150__missing_source",
+   "pred": {
+    "hops": [],
+    "parse": "FINITE_PARSER_ERROR",
+    "raw": "FileNotFoundError(2, 'No such file or directory')",
+    "status": "UNRESOLVED"
+   },
+   "score": {
+    "accepted": 0,
+    "accepted_wrong": 0,
+    "controls_expected": 1,
+    "controls_ok": 1,
+    "extra_hops": 0,
+    "gold_hops": 2,
+    "relation_fn": 2,
+    "relation_fp": 0,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "UNRESOLVED",
+    "unresolved": 2
+   }
+  },
+  {
+   "control": "relation_swap",
+   "expect": [
+    2
+   ],
+   "id": "2hop__34948_67150__relation_swap",
+   "pred": {
+    "hops": [],
+    "parse": "FINITE_PARSER_ERROR",
+    "raw": "FileNotFoundError(2, 'No such file or directory')",
+    "status": "UNRESOLVED"
+   },
+   "score": {
+    "accepted": 0,
+    "accepted_wrong": 0,
+    "controls_expected": 1,
+    "controls_ok": 1,
+    "extra_hops": 0,
+    "gold_hops": 2,
+    "relation_fn": 2,
+    "relation_fp": 0,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "UNRESOLVED",
+    "unresolved": 2
+   }
+  },
+  {
+   "control": "subject_swap",
+   "expect": [
+    1,
+    2
+   ],
+   "id": "2hop__34948_67150__subject_swap",
+   "pred": {
+    "hops": [],
+    "parse": "FINITE_PARSER_ERROR",
+    "raw": "FileNotFoundError(2, 'No such file or directory')",
+    "status": "UNRESOLVED"
+   },
+   "score": {
+    "accepted": 0,
+    "accepted_wrong": 0,
+    "controls_expected": 2,
+    "controls_ok": 2,
+    "extra_hops": 0,
+    "gold_hops": 2,
+    "relation_fn": 2,
+    "relation_fp": 0,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "UNRESOLVED",
+    "unresolved": 2
+   }
+  },
+  {
+   "control": "missing_source",
+   "expect": [
+    2
+   ],
+   "id": "2hop__132953_153528__missing_source",
+   "pred": {
+    "hops": [],
+    "parse": "FINITE_PARSER_ERROR",
+    "raw": "FileNotFoundError(2, 'No such file or directory')",
+    "status": "UNRESOLVED"
+   },
+   "score": {
+    "accepted": 0,
+    "accepted_wrong": 0,
+    "controls_expected": 1,
+    "controls_ok": 1,
+    "extra_hops": 0,
+    "gold_hops": 2,
+    "relation_fn": 2,
+    "relation_fp": 0,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "UNRESOLVED",
+    "unresolved": 2
+   }
+  },
+  {
+   "control": "relation_swap",
+   "expect": [
+    2
+   ],
+   "id": "2hop__132953_153528__relation_swap",
+   "pred": {
+    "hops": [],
+    "parse": "FINITE_PARSER_ERROR",
+    "raw": "FileNotFoundError(2, 'No such file or directory')",
+    "status": "UNRESOLVED"
+   },
+   "score": {
+    "accepted": 0,
+    "accepted_wrong": 0,
+    "controls_expected": 1,
+    "controls_ok": 1,
+    "extra_hops": 0,
+    "gold_hops": 2,
+    "relation_fn": 2,
+    "relation_fp": 0,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "UNRESOLVED",
+    "unresolved": 2
+   }
+  },
+  {
+   "control": "subject_swap",
+   "expect": [
+    1,
+    2
+   ],
+   "id": "2hop__132953_153528__subject_swap",
+   "pred": {
+    "hops": [],
+    "parse": "FINITE_PARSER_ERROR",
+    "raw": "FileNotFoundError(2, 'No such file or directory')",
+    "status": "UNRESOLVED"
+   },
+   "score": {
+    "accepted": 0,
+    "accepted_wrong": 0,
+    "controls_expected": 2,
+    "controls_ok": 2,
+    "extra_hops": 0,
+    "gold_hops": 2,
+    "relation_fn": 2,
+    "relation_fp": 0,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "UNRESOLVED",
+    "unresolved": 2
+   }
+  },
+  {
+   "control": "missing_source",
+   "expect": [
+    2
+   ],
+   "id": "2hop__233688_78497__missing_source",
+   "pred": {
+    "hops": [],
+    "parse": "FINITE_PARSER_ERROR",
+    "raw": "FileNotFoundError(2, 'No such file or directory')",
+    "status": "UNRESOLVED"
+   },
+   "score": {
+    "accepted": 0,
+    "accepted_wrong": 0,
+    "controls_expected": 1,
+    "controls_ok": 1,
+    "extra_hops": 0,
+    "gold_hops": 2,
+    "relation_fn": 2,
+    "relation_fp": 0,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "UNRESOLVED",
+    "unresolved": 2
+   }
+  },
+  {
+   "control": "relation_swap",
+   "expect": [
+    2
+   ],
+   "id": "2hop__233688_78497__relation_swap",
+   "pred": {
+    "hops": [],
+    "parse": "FINITE_PARSER_ERROR",
+    "raw": "FileNotFoundError(2, 'No such file or directory')",
+    "status": "UNRESOLVED"
+   },
+   "score": {
+    "accepted": 0,
+    "accepted_wrong": 0,
+    "controls_expected": 1,
+    "controls_ok": 1,
+    "extra_hops": 0,
+    "gold_hops": 2,
+    "relation_fn": 2,
+    "relation_fp": 0,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "UNRESOLVED",
+    "unresolved": 2
+   }
+  },
+  {
+   "control": "subject_swap",
+   "expect": [
+    1,
+    2
+   ],
+   "id": "2hop__233688_78497__subject_swap",
+   "pred": {
+    "hops": [],
+    "parse": "FINITE_PARSER_ERROR",
+    "raw": "FileNotFoundError(2, 'No such file or directory')",
+    "status": "UNRESOLVED"
+   },
+   "score": {
+    "accepted": 0,
+    "accepted_wrong": 0,
+    "controls_expected": 2,
+    "controls_ok": 2,
+    "extra_hops": 0,
+    "gold_hops": 2,
+    "relation_fn": 2,
+    "relation_fp": 0,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "UNRESOLVED",
+    "unresolved": 2
+   }
+  },
+  {
+   "control": "missing_source",
+   "expect": [
+    2
+   ],
+   "id": "2hop__92343_63979__missing_source",
+   "pred": {
+    "hops": [],
+    "parse": "FINITE_PARSER_ERROR",
+    "raw": "FileNotFoundError(2, 'No such file or directory')",
+    "status": "UNRESOLVED"
+   },
+   "score": {
+    "accepted": 0,
+    "accepted_wrong": 0,
+    "controls_expected": 1,
+    "controls_ok": 1,
+    "extra_hops": 0,
+    "gold_hops": 2,
+    "relation_fn": 2,
+    "relation_fp": 0,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "UNRESOLVED",
+    "unresolved": 2
+   }
+  },
+  {
+   "control": "relation_swap",
+   "expect": [
+    2
+   ],
+   "id": "2hop__92343_63979__relation_swap",
+   "pred": {
+    "hops": [],
+    "parse": "FINITE_PARSER_ERROR",
+    "raw": "FileNotFoundError(2, 'No such file or directory')",
+    "status": "UNRESOLVED"
+   },
+   "score": {
+    "accepted": 0,
+    "accepted_wrong": 0,
+    "controls_expected": 1,
+    "controls_ok": 1,
+    "extra_hops": 0,
+    "gold_hops": 2,
+    "relation_fn": 2,
+    "relation_fp": 0,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "UNRESOLVED",
+    "unresolved": 2
+   }
+  },
+  {
+   "control": "subject_swap",
+   "expect": [
+    1,
+    2
+   ],
+   "id": "2hop__92343_63979__subject_swap",
+   "pred": {
+    "hops": [],
+    "parse": "FINITE_PARSER_ERROR",
+    "raw": "FileNotFoundError(2, 'No such file or directory')",
+    "status": "UNRESOLVED"
+   },
+   "score": {
+    "accepted": 0,
+    "accepted_wrong": 0,
+    "controls_expected": 2,
+    "controls_ok": 2,
+    "extra_hops": 0,
+    "gold_hops": 2,
+    "relation_fn": 2,
+    "relation_fp": 0,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "UNRESOLVED",
+    "unresolved": 2
+   }
+  },
+  {
+   "control": "missing_source",
+   "expect": [
+    2
+   ],
+   "id": "2hop__150501_444333__missing_source",
+   "pred": {
+    "hops": [],
+    "parse": "FINITE_PARSER_ERROR",
+    "raw": "FileNotFoundError(2, 'No such file or directory')",
+    "status": "UNRESOLVED"
+   },
+   "score": {
+    "accepted": 0,
+    "accepted_wrong": 0,
+    "controls_expected": 1,
+    "controls_ok": 1,
+    "extra_hops": 0,
+    "gold_hops": 2,
+    "relation_fn": 2,
+    "relation_fp": 0,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "UNRESOLVED",
+    "unresolved": 2
+   }
+  },
+  {
+   "control": "relation_swap",
+   "expect": [
+    2
+   ],
+   "id": "2hop__150501_444333__relation_swap",
+   "pred": {
+    "hops": [],
+    "parse": "FINITE_PARSER_ERROR",
+    "raw": "FileNotFoundError(2, 'No such file or directory')",
+    "status": "UNRESOLVED"
+   },
+   "score": {
+    "accepted": 0,
+    "accepted_wrong": 0,
+    "controls_expected": 1,
+    "controls_ok": 1,
+    "extra_hops": 0,
+    "gold_hops": 2,
+    "relation_fn": 2,
+    "relation_fp": 0,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "UNRESOLVED",
+    "unresolved": 2
+   }
+  },
+  {
+   "control": "subject_swap",
+   "expect": [
+    1,
+    2
+   ],
+   "id": "2hop__150501_444333__subject_swap",
+   "pred": {
+    "hops": [],
+    "parse": "FINITE_PARSER_ERROR",
+    "raw": "FileNotFoundError(2, 'No such file or directory')",
+    "status": "UNRESOLVED"
+   },
+   "score": {
+    "accepted": 0,
+    "accepted_wrong": 0,
+    "controls_expected": 2,
+    "controls_ok": 2,
+    "extra_hops": 0,
+    "gold_hops": 2,
+    "relation_fn": 2,
+    "relation_fp": 0,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "UNRESOLVED",
+    "unresolved": 2
+   }
+  },
+  {
+   "control": "missing_source",
+   "expect": [
+    2
+   ],
+   "id": "2hop__4502_15755__missing_source",
+   "pred": {
+    "hops": [],
+    "parse": "FINITE_PARSER_ERROR",
+    "raw": "FileNotFoundError(2, 'No such file or directory')",
+    "status": "UNRESOLVED"
+   },
+   "score": {
+    "accepted": 0,
+    "accepted_wrong": 0,
+    "controls_expected": 1,
+    "controls_ok": 1,
+    "extra_hops": 0,
+    "gold_hops": 2,
+    "relation_fn": 2,
+    "relation_fp": 0,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "UNRESOLVED",
+    "unresolved": 2
+   }
+  },
+  {
+   "control": "relation_swap",
+   "expect": [
+    2
+   ],
+   "id": "2hop__4502_15755__relation_swap",
+   "pred": {
+    "hops": [],
+    "parse": "FINITE_PARSER_ERROR",
+    "raw": "FileNotFoundError(2, 'No such file or directory')",
+    "status": "UNRESOLVED"
+   },
+   "score": {
+    "accepted": 0,
+    "accepted_wrong": 0,
+    "controls_expected": 1,
+    "controls_ok": 1,
+    "extra_hops": 0,
+    "gold_hops": 2,
+    "relation_fn": 2,
+    "relation_fp": 0,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "UNRESOLVED",
+    "unresolved": 2
+   }
+  },
+  {
+   "control": "subject_swap",
+   "expect": [
+    1,
+    2
+   ],
+   "id": "2hop__4502_15755__subject_swap",
+   "pred": {
+    "hops": [],
+    "parse": "FINITE_PARSER_ERROR",
+    "raw": "FileNotFoundError(2, 'No such file or directory')",
+    "status": "UNRESOLVED"
+   },
+   "score": {
+    "accepted": 0,
+    "accepted_wrong": 0,
+    "controls_expected": 2,
+    "controls_ok": 2,
+    "extra_hops": 0,
+    "gold_hops": 2,
+    "relation_fn": 2,
+    "relation_fp": 0,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "UNRESOLVED",
+    "unresolved": 2
+   }
+  },
+  {
+   "control": "missing_source",
+   "expect": [
+    2
+   ],
+   "id": "2hop__834258_68172__missing_source",
+   "pred": {
+    "hops": [],
+    "parse": "FINITE_PARSER_ERROR",
+    "raw": "FileNotFoundError(2, 'No such file or directory')",
+    "status": "UNRESOLVED"
+   },
+   "score": {
+    "accepted": 0,
+    "accepted_wrong": 0,
+    "controls_expected": 1,
+    "controls_ok": 1,
+    "extra_hops": 0,
+    "gold_hops": 2,
+    "relation_fn": 2,
+    "relation_fp": 0,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "UNRESOLVED",
+    "unresolved": 2
+   }
+  },
+  {
+   "control": "relation_swap",
+   "expect": [
+    2
+   ],
+   "id": "2hop__834258_68172__relation_swap",
+   "pred": {
+    "hops": [],
+    "parse": "FINITE_PARSER_ERROR",
+    "raw": "FileNotFoundError(2, 'No such file or directory')",
+    "status": "UNRESOLVED"
+   },
+   "score": {
+    "accepted": 0,
+    "accepted_wrong": 0,
+    "controls_expected": 1,
+    "controls_ok": 1,
+    "extra_hops": 0,
+    "gold_hops": 2,
+    "relation_fn": 2,
+    "relation_fp": 0,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "UNRESOLVED",
+    "unresolved": 2
+   }
+  },
+  {
+   "control": "subject_swap",
+   "expect": [
+    1,
+    2
+   ],
+   "id": "2hop__834258_68172__subject_swap",
+   "pred": {
+    "hops": [],
+    "parse": "FINITE_PARSER_ERROR",
+    "raw": "FileNotFoundError(2, 'No such file or directory')",
+    "status": "UNRESOLVED"
+   },
+   "score": {
+    "accepted": 0,
+    "accepted_wrong": 0,
+    "controls_expected": 2,
+    "controls_ok": 2,
+    "extra_hops": 0,
+    "gold_hops": 2,
+    "relation_fn": 2,
+    "relation_fp": 0,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "UNRESOLVED",
+    "unresolved": 2
+   }
+  },
+  {
+   "control": "missing_source",
+   "expect": [
+    2
+   ],
+   "id": "2hop__545696_70763__missing_source",
+   "pred": {
+    "hops": [],
+    "parse": "FINITE_PARSER_ERROR",
+    "raw": "FileNotFoundError(2, 'No such file or directory')",
+    "status": "UNRESOLVED"
+   },
+   "score": {
+    "accepted": 0,
+    "accepted_wrong": 0,
+    "controls_expected": 1,
+    "controls_ok": 1,
+    "extra_hops": 0,
+    "gold_hops": 2,
+    "relation_fn": 2,
+    "relation_fp": 0,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "UNRESOLVED",
+    "unresolved": 2
+   }
+  },
+  {
+   "control": "relation_swap",
+   "expect": [
+    2
+   ],
+   "id": "2hop__545696_70763__relation_swap",
+   "pred": {
+    "hops": [],
+    "parse": "FINITE_PARSER_ERROR",
+    "raw": "FileNotFoundError(2, 'No such file or directory')",
+    "status": "UNRESOLVED"
+   },
+   "score": {
+    "accepted": 0,
+    "accepted_wrong": 0,
+    "controls_expected": 1,
+    "controls_ok": 1,
+    "extra_hops": 0,
+    "gold_hops": 2,
+    "relation_fn": 2,
+    "relation_fp": 0,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "UNRESOLVED",
+    "unresolved": 2
+   }
+  },
+  {
+   "control": "subject_swap",
+   "expect": [
+    1,
+    2
+   ],
+   "id": "2hop__545696_70763__subject_swap",
+   "pred": {
+    "hops": [],
+    "parse": "FINITE_PARSER_ERROR",
+    "raw": "FileNotFoundError(2, 'No such file or directory')",
+    "status": "UNRESOLVED"
+   },
+   "score": {
+    "accepted": 0,
+    "accepted_wrong": 0,
+    "controls_expected": 2,
+    "controls_ok": 2,
+    "extra_hops": 0,
+    "gold_hops": 2,
+    "relation_fn": 2,
+    "relation_fp": 0,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "UNRESOLVED",
+    "unresolved": 2
+   }
+  }
+ ]
+}

@@ -1,0 +1,12 @@
+Stopped at step ~1400 of 5000 because the probe's own output showed its DESIGN was wrong, not the model.
+
+Byte accuracy on the needle answer stayed at 0.016-0.047 across five checkpoints - below the 0.100 a digit-guesser
+would get - and completely flat, while validation bits per byte fell steadily 2.243 -> 1.862. A model that is
+learning language while showing no movement at all on the probe is not failing the probe; it was never asked the
+question. The needle format ("The code for GORM is 7431.") never appears in CNN news text, so this was a zero-shot
+format test, and format compliance was masking whatever carrying ability exists.
+
+The evaluation code is not at fault: tests/test_mline.py verifies it scores an oracle at 1.000 and noise below 0.2.
+
+Redesign follows U1's shape - train the format at short filler, generalise the DISTANCE - with disjoint key spaces
+so the evaluation keys cannot appear in training. Preserved, not deleted.
