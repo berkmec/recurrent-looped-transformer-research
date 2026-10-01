@@ -1,0 +1,53 @@
+Loading weights:   0%|          | 0/310 [00:00<?, ?it/s]Loading weights:  35%|###4      | 108/310 [00:00<00:00, 1074.50it/s]Loading weights:  72%|#######2  | 224/310 [00:00<00:00, 1113.39it/s]Loading weights: 100%|##########| 310/310 [00:00<00:00, 1128.08it/s]
+C:\Users\pc\Documents\ChatGPT\DaxDream\.venv\Lib\site-packages\torch\nn\modules\module.py:1369: UserWarning: expandable_segments not supported on this platform (Triggered internally at C:\actions-runner\_work\pytorch\pytorch\c10/cuda/CUDAAllocatorConfig.h:40.)
+  return t.to(
+Loading weights:   0%|          | 0/310 [00:00<?, ?it/s]Loading weights:  36%|###5      | 111/310 [00:00<00:00, 1098.60it/s]Loading weights:  87%|########6 | 269/310 [00:00<00:00, 1372.00it/s]Loading weights: 100%|##########| 310/310 [00:00<00:00, 1353.11it/s]
+{
+ "status": "MEASURED_NEGATIVE",
+ "arms": {
+  "dense": {
+   "recall@1": 0.285,
+   "coverage@1": 0.0,
+   "ndcg@1": 0.688,
+   "recall@5": 0.518,
+   "coverage@5": 0.156,
+   "ndcg@5": 0.536,
+   "recall@10": 0.599,
+   "coverage@10": 0.246,
+   "ndcg@10": 0.572,
+   "mrr": 0.786
+  },
+  "multihop": {
+   "recall@1": 0.284,
+   "coverage@1": 0.0,
+   "ndcg@1": 0.686,
+   "recall@5": 0.52,
+   "coverage@5": 0.173,
+   "ndcg@5": 0.537,
+   "recall@10": 0.603,
+   "coverage@10": 0.264,
+   "ndcg@10": 0.573,
+   "mrr": 0.781
+  },
+  "multihop_rerank": {
+   "recall@1": 0.313,
+   "coverage@1": 0.0,
+   "ndcg@1": 0.766,
+   "recall@5": 0.596,
+   "coverage@5": 0.245,
+   "ndcg@5": 0.613,
+   "recall@10": 0.663,
+   "coverage@10": 0.336,
+   "ndcg@10": 0.642,
+   "mrr": 0.845
+  }
+ },
+ "union_ceiling": {
+  "all_gold_in_union": 0.48779478692594125,
+  "mean_union_size": 31.496483243690527
+ },
+ "bridges": {
+  "mean_per_query": 3.0,
+  "no_bridge_queries": 0
+ }
+}

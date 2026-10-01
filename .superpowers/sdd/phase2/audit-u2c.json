@@ -1,0 +1,119 @@
+{
+ "cycle": "U2c",
+ "auditor": "same session, inline script (weekly API limit blocked a delegated auditor)",
+ "utc": 1790143731.8120246,
+ "checks": [
+  {
+   "id": "1-freeze",
+   "status": "PASS",
+   "evidence": "sha match=True; protocol_hash recomputed=25d9d3762218db35 match=True; source mismatches=none (8 sources)"
+  },
+  {
+   "id": "2-completeness",
+   "status": "PASS",
+   "evidence": "18 conditions declared, 18 complete; missing=none"
+  },
+  {
+   "id": "3-integrity",
+   "status": "PASS",
+   "evidence": "18 conditions: train/checkpoint/updates hashes and 2048 update rows each; problems=none"
+  },
+  {
+   "id": "4-analysis",
+   "status": "PASS",
+   "evidence": "every summary cell recomputed from the evaluation files (mean loss and df=2 t95); mismatches=none"
+  },
+  {
+   "id": "5-gate-ranges",
+   "status": "PASS",
+   "evidence": "hold rates and false-write rates within [0,1] in all 18 x 7 neutral cells; problems=none"
+  },
+  {
+   "id": "6-repair-claims",
+   "status": "PASS",
+   "evidence": "repair means recomputed: [('soft/five', 1.0), ('soft/stack', -0.0314), ('hard_st/five', 0.9406), ('hard_st/stack', 0.9893), ('supervised/five', 0.7098), ('supervised/stack', 0.9893)]; report mismatches=none"
+  },
+  {
+   "id": "7-replication",
+   "status": "PASS",
+   "evidence": "6 conditions exist in both v1 and v2; bit-identical checkpoints and accuracies; differences=none"
+  },
+  {
+   "id": "8-probe",
+   "status": "PASS",
+   "evidence": "probe freeze verifies=True; protocol carries no test/neutral endpoint keys=True; loss jumps per condition={'lr-hard_st-five-s117-lr0.0001': 0, 'lr-hard_st-five-s117-lr0.0003': 0, 'lr-hard_st-five-s117-lr0.001': 0, 'lr-hard_st-five-s117-lr0.003': 6, 'lr-soft-five-s117-lr0.0001': 0, 'lr-soft-five-s117-lr0.0003': 0, 'lr-soft-five-s117-lr0.001': 0, 'lr-soft-five-s117-lr0.003': 0}"
+  },
+  {
+   "id": "9-quarantine",
+   "status": "PASS",
+   "evidence": "both interrupted attempts preserved: ['u2c-soft-five-w32-s117', 'u2c-soft-five-w32-s143'] and ['u2c-hard_st-five-w32-s117']"
+  },
+  {
+   "id": "10-report-spotcheck",
+   "status": "PASS",
+   "evidence": "key numbers present in the report; missing=none"
+  }
+ ],
+ "summary": {
+  "pass": 10,
+  "fail": 0,
+  "unverified": 0
+ },
+ "discrepancies": [],
+ "repair_recomputed": {
+  "soft/five": {
+   "per_seed": [
+    1.0,
+    1.0,
+    1.0
+   ],
+   "mean": 1.0,
+   "clean_mean": 0.014
+  },
+  "soft/stack": {
+   "per_seed": [
+    0.305,
+    0.0492,
+    -0.4485
+   ],
+   "mean": -0.0314,
+   "clean_mean": 0.06
+  },
+  "hard_st/five": {
+   "per_seed": [
+    1.0,
+    0.8371,
+    0.9846
+   ],
+   "mean": 0.9406,
+   "clean_mean": 0.014
+  },
+  "hard_st/stack": {
+   "per_seed": [
+    1.022,
+    0.9924,
+    0.9535
+   ],
+   "mean": 0.9893,
+   "clean_mean": -0.0047
+  },
+  "supervised/five": {
+   "per_seed": [
+    0.6421,
+    1.0,
+    0.4872
+   ],
+   "mean": 0.7098,
+   "clean_mean": -0.3847
+  },
+  "supervised/stack": {
+   "per_seed": [
+    0.9906,
+    0.9773,
+    1.0
+   ],
+   "mean": 0.9893,
+   "clean_mean": 0.0493
+  }
+ }
+}

@@ -1,0 +1,14 @@
+test_saved_hook_does_not_retain_autograd_graph (review_cycle.test_memory_bench.MemoryBenchTests.test_saved_hook_does_not_retain_autograd_graph) ... FAIL
+
+======================================================================
+FAIL: test_saved_hook_does_not_retain_autograd_graph (review_cycle.test_memory_bench.MemoryBenchTests.test_saved_hook_does_not_retain_autograd_graph)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\rlt-research\2026-09-17-diagnostics\review_cycle\test_memory_bench.py", line 85, in test_saved_hook_does_not_retain_autograd_graph
+    self.assertIsNone(packed.tensor.grad_fn)
+AssertionError: <PowBackward0 object at 0x000002298F7521D0> is not None
+
+----------------------------------------------------------------------
+Ran 1 test in 0.004s
+
+FAILED (failures=1)

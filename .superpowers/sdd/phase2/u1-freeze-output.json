@@ -1,0 +1,83 @@
+{
+ "protocol": {
+  "version": 1,
+  "purpose": "U1 t-axis: fixed-state (five) versus growing-memory (stack) families trained at horizon 128",
+  "steps": 2048,
+  "batch": 32,
+  "train_length": 128,
+  "lr": 0.003,
+  "weight_decay": 0.01,
+  "clip": 1.0,
+  "width": 32,
+  "heads": 2,
+  "window": 4,
+  "alpha": 0.1,
+  "tasks": [
+   "five",
+   "stack"
+  ],
+  "primary_seeds": [
+   117,
+   143,
+   191
+  ],
+  "validation_every": 128,
+  "validation_n": 256,
+  "selection": "minimum validation final cross entropy; earliest step on ties",
+  "test_n": 1000,
+  "test_lengths": [
+   128,
+   256,
+   512,
+   1024,
+   2048,
+   4096
+  ],
+  "neutral_slots": [
+   0,
+   128,
+   512
+  ],
+  "neutral_placements": [
+   "prefix",
+   "middle",
+   "suffix"
+  ],
+  "eval_batch": 32,
+  "threshold": 0.95,
+  "source_seeds": {
+   "train": 91010000,
+   "validation": 92010000,
+   "test": 93010000,
+   "neutral": 93020000
+  },
+  "stack_probabilities": [
+   0.2125,
+   0.2125,
+   0.15,
+   0.425
+  ],
+  "vocabulary_extension": "stack: embedding replaced by seeded nn.Embedding(4, width)",
+  "device": "cpu",
+  "threads": 1,
+  "storage": "raw arrays stored as uint8",
+  "targets": {
+   "all_points_accuracy": 0.95,
+   "neutral_loss_pp": 2.0
+  }
+ },
+ "protocol_hash": "56ef56a18ce02dd0d66e19a82c3bd52d2805c29719300c5bf4895c6086447830",
+ "sources": {
+  "core/model.py": "121f11fcb3c1308b7f67d898f2aa09c37226d3b0db27dd4e5bf1ebeaea281f43",
+  "review_cycle/training_data.py": "3095902caa7d79a6f977aa3f599ccd82baf4279ac3a559ef5b8868a1c2ed7c61",
+  "horizon/task_families.py": "b7faa8be802e99b0d992506183210b238d8b3a568c6daf7629df620dd8b3a6b3",
+  "horizon/sweep.py": "931cf076516049938ac66ad463a4a9587a284ba96921eb824222432de4e8d9d1",
+  "horizon/metrics.py": "c815b550a63a0da861ed55f8f50168ebe99fafbc17cf9ad84571413113f34f52"
+ },
+ "environment": {
+  "python": "3.11.9",
+  "torch": "2.12.0+cu130",
+  "numpy": "2.3.5"
+ },
+ "frozen_utc": 1789735269.9281523
+}

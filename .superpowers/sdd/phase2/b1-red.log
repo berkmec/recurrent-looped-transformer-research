@@ -1,0 +1,113 @@
+FFFFFF
+======================================================================
+FAIL: test_batch_vs_single_and_rerank_contract (tests.test_retrieval_contract.RetrievalContractTests.test_batch_vs_single_and_rerank_contract)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\rlt-research\2026-09-18-phase2\tests\test_retrieval_contract.py", line 51, in api
+    from semantic_memory import retrieval as r
+ImportError: cannot import name 'retrieval' from 'semantic_memory' (E:\rlt-research\2026-09-18-phase2\semantic_memory\__init__.py)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "E:\rlt-research\2026-09-18-phase2\tests\test_retrieval_contract.py", line 109, in test_batch_vs_single_and_rerank_contract
+    r = self.api()
+        ^^^^^^^^^^
+  File "E:\rlt-research\2026-09-18-phase2\tests\test_retrieval_contract.py", line 53, in api
+    self.fail('B1 retrieval module is not implemented: ' + str(e))
+AssertionError: B1 retrieval module is not implemented: cannot import name 'retrieval' from 'semantic_memory' (E:\rlt-research\2026-09-18-phase2\semantic_memory\__init__.py)
+
+======================================================================
+FAIL: test_bm25_hand_computed (tests.test_retrieval_contract.RetrievalContractTests.test_bm25_hand_computed)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\rlt-research\2026-09-18-phase2\tests\test_retrieval_contract.py", line 51, in api
+    from semantic_memory import retrieval as r
+ImportError: cannot import name 'retrieval' from 'semantic_memory' (E:\rlt-research\2026-09-18-phase2\semantic_memory\__init__.py)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "E:\rlt-research\2026-09-18-phase2\tests\test_retrieval_contract.py", line 57, in test_bm25_hand_computed
+    r = self.api()
+        ^^^^^^^^^^
+  File "E:\rlt-research\2026-09-18-phase2\tests\test_retrieval_contract.py", line 53, in api
+    self.fail('B1 retrieval module is not implemented: ' + str(e))
+AssertionError: B1 retrieval module is not implemented: cannot import name 'retrieval' from 'semantic_memory' (E:\rlt-research\2026-09-18-phase2\semantic_memory\__init__.py)
+
+======================================================================
+FAIL: test_hash128_arm_uses_phase1_embedding (tests.test_retrieval_contract.RetrievalContractTests.test_hash128_arm_uses_phase1_embedding)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\rlt-research\2026-09-18-phase2\tests\test_retrieval_contract.py", line 51, in api
+    from semantic_memory import retrieval as r
+ImportError: cannot import name 'retrieval' from 'semantic_memory' (E:\rlt-research\2026-09-18-phase2\semantic_memory\__init__.py)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "E:\rlt-research\2026-09-18-phase2\tests\test_retrieval_contract.py", line 99, in test_hash128_arm_uses_phase1_embedding
+    r = self.api()
+        ^^^^^^^^^^
+  File "E:\rlt-research\2026-09-18-phase2\tests\test_retrieval_contract.py", line 53, in api
+    self.fail('B1 retrieval module is not implemented: ' + str(e))
+AssertionError: B1 retrieval module is not implemented: cannot import name 'retrieval' from 'semantic_memory' (E:\rlt-research\2026-09-18-phase2\semantic_memory\__init__.py)
+
+======================================================================
+FAIL: test_musique_loading_dedup_and_ladder (tests.test_retrieval_contract.RetrievalContractTests.test_musique_loading_dedup_and_ladder)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\rlt-research\2026-09-18-phase2\tests\test_retrieval_contract.py", line 51, in api
+    from semantic_memory import retrieval as r
+ImportError: cannot import name 'retrieval' from 'semantic_memory' (E:\rlt-research\2026-09-18-phase2\semantic_memory\__init__.py)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "E:\rlt-research\2026-09-18-phase2\tests\test_retrieval_contract.py", line 80, in test_musique_loading_dedup_and_ladder
+    r = self.api()
+        ^^^^^^^^^^
+  File "E:\rlt-research\2026-09-18-phase2\tests\test_retrieval_contract.py", line 53, in api
+    self.fail('B1 retrieval module is not implemented: ' + str(e))
+AssertionError: B1 retrieval module is not implemented: cannot import name 'retrieval' from 'semantic_memory' (E:\rlt-research\2026-09-18-phase2\semantic_memory\__init__.py)
+
+======================================================================
+FAIL: test_rrf_fusion_and_metrics (tests.test_retrieval_contract.RetrievalContractTests.test_rrf_fusion_and_metrics)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\rlt-research\2026-09-18-phase2\tests\test_retrieval_contract.py", line 51, in api
+    from semantic_memory import retrieval as r
+ImportError: cannot import name 'retrieval' from 'semantic_memory' (E:\rlt-research\2026-09-18-phase2\semantic_memory\__init__.py)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "E:\rlt-research\2026-09-18-phase2\tests\test_retrieval_contract.py", line 67, in test_rrf_fusion_and_metrics
+    r = self.api()
+        ^^^^^^^^^^
+  File "E:\rlt-research\2026-09-18-phase2\tests\test_retrieval_contract.py", line 53, in api
+    self.fail('B1 retrieval module is not implemented: ' + str(e))
+AssertionError: B1 retrieval module is not implemented: cannot import name 'retrieval' from 'semantic_memory' (E:\rlt-research\2026-09-18-phase2\semantic_memory\__init__.py)
+
+======================================================================
+FAIL: test_tiny_end_to_end_with_stubs_and_frozen_refusal (tests.test_retrieval_contract.RetrievalContractTests.test_tiny_end_to_end_with_stubs_and_frozen_refusal)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\rlt-research\2026-09-18-phase2\tests\test_retrieval_contract.py", line 51, in api
+    from semantic_memory import retrieval as r
+ImportError: cannot import name 'retrieval' from 'semantic_memory' (E:\rlt-research\2026-09-18-phase2\semantic_memory\__init__.py)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "E:\rlt-research\2026-09-18-phase2\tests\test_retrieval_contract.py", line 119, in test_tiny_end_to_end_with_stubs_and_frozen_refusal
+    r = self.api()
+        ^^^^^^^^^^
+  File "E:\rlt-research\2026-09-18-phase2\tests\test_retrieval_contract.py", line 53, in api
+    self.fail('B1 retrieval module is not implemented: ' + str(e))
+AssertionError: B1 retrieval module is not implemented: cannot import name 'retrieval' from 'semantic_memory' (E:\rlt-research\2026-09-18-phase2\semantic_memory\__init__.py)
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.006s
+
+FAILED (failures=6)

@@ -1,0 +1,33 @@
+=== 2026-09-22T17:25:37Z U2c restart: single worker, all 18 conditions (slots 1); previous 2-worker attempt quarantined in interrupted-20260918T1955
+u2c-soft-five-w32-s117 {"0-base": 1.0, "128-prefix": 1.0, "128-middle": 1.0, "128-suffix": 1.0, "512-prefix": 1.0, "512-middle": 1.0, "512-suffix": 1.0} {"128": 1.0, "1024": 1.0, "4096": 1.0} 1376s
+u2c-soft-five-w32-s143 {"0-base": 1.0, "128-prefix": 1.0, "128-middle": 1.0, "128-suffix": 1.0, "512-prefix": 1.0, "512-middle": 1.0, "512-suffix": 1.0} {"128": 1.0, "1024": 1.0, "4096": 1.0} 1351s
+u2c-soft-five-w32-s191 {"0-base": 1.0, "128-prefix": 1.0, "128-middle": 1.0, "128-suffix": 1.0, "512-prefix": 1.0, "512-middle": 0.954, "512-suffix": 1.0} {"128": 1.0, "1024": 1.0, "4096": 1.0} 1356s
+u2c-soft-stack-w32-s117 {"0-base": 0.938, "128-prefix": 0.912, "128-middle": 0.898, "128-suffix": 0.552, "512-prefix": 0.824, "512-middle": 0.85, "512-suffix": 0.486} {"128": 0.958, "1024": 0.876, "4096": 0.876} 1548s
+u2c-soft-stack-w32-s143 {"0-base": 0.94, "128-prefix": 0.92, "128-middle": 0.9, "128-suffix": 0.49, "512-prefix": 0.906, "512-middle": 0.88, "512-suffix": 0.442} {"128": 0.93, "1024": 0.802, "4096": 0.824} 1501s
+u2c-soft-stack-w32-s191 {"0-base": 0.96, "128-prefix": 0.948, "128-middle": 0.93, "128-suffix": 0.35, "512-prefix": 0.924, "512-middle": 0.916, "512-suffix": 0.078} {"128": 0.95, "1024": 0.89, "4096": 0.852} 1459s
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "E:\rlt-research\2026-09-18-phase2\horizon\gated_sweep.py", line 272, in <module>
+    main()
+  File "E:\rlt-research\2026-09-18-phase2\horizon\gated_sweep.py", line 264, in main
+    result = worker(args.out, args.worker, args.slots)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\rlt-research\2026-09-18-phase2\horizon\gated_sweep.py", line 241, in worker
+    r = run_one(out, c); e = evaluate_one(out, c)
+        ^^^^^^^^^^^^^^^
+  File "E:\rlt-research\2026-09-18-phase2\horizon\gated_sweep.py", line 151, in run_one
+    sw.append_line(directory / 'updates.jsonl', row)
+  File "E:\rlt-research\2026-09-18-phase2\horizon\sweep.py", line 60, in append_line
+    f.write(json.dumps(row, allow_nan=False) + '\n'); f.flush(); os.fsync(f.fileno())
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python311\Lib\json\__init__.py", line 238, in dumps
+    **kw).encode(obj)
+          ^^^^^^^^^^^
+  File "C:\Program Files\Python311\Lib\json\encoder.py", line 200, in encode
+    chunks = self.iterencode(o, _one_shot=True)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python311\Lib\json\encoder.py", line 258, in iterencode
+    return _iterencode(o, 0)
+           ^^^^^^^^^^^^^^^^^
+ValueError: Out of range float values are not JSON compliant

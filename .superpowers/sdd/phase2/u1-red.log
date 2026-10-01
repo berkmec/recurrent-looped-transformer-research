@@ -1,0 +1,113 @@
+FFFFFF
+======================================================================
+FAIL: test_conditions_models_and_core_immutability (tests.test_horizon_axes.HorizonAxesTests.test_conditions_models_and_core_immutability)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\rlt-research\2026-09-18-phase2\tests\test_horizon_axes.py", line 17, in api
+    from horizon import task_families as tf, sweep as sw, metrics as mt
+ModuleNotFoundError: No module named 'horizon'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "E:\rlt-research\2026-09-18-phase2\tests\test_horizon_axes.py", line 61, in test_conditions_models_and_core_immutability
+    tf, sw, _ = self.api()
+                ^^^^^^^^^^
+  File "E:\rlt-research\2026-09-18-phase2\tests\test_horizon_axes.py", line 19, in api
+    self.fail('U1 horizon modules are not implemented: ' + str(e))
+AssertionError: U1 horizon modules are not implemented: No module named 'horizon'
+
+======================================================================
+FAIL: test_effective_horizon_and_flip_metrics (tests.test_horizon_axes.HorizonAxesTests.test_effective_horizon_and_flip_metrics)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\rlt-research\2026-09-18-phase2\tests\test_horizon_axes.py", line 17, in api
+    from horizon import task_families as tf, sweep as sw, metrics as mt
+ModuleNotFoundError: No module named 'horizon'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "E:\rlt-research\2026-09-18-phase2\tests\test_horizon_axes.py", line 55, in test_effective_horizon_and_flip_metrics
+    _, _, mt = self.api()
+               ^^^^^^^^^^
+  File "E:\rlt-research\2026-09-18-phase2\tests\test_horizon_axes.py", line 19, in api
+    self.fail('U1 horizon modules are not implemented: ' + str(e))
+AssertionError: U1 horizon modules are not implemented: No module named 'horizon'
+
+======================================================================
+FAIL: test_neutral_insertion_preserves_final_target_for_both_tasks (tests.test_horizon_axes.HorizonAxesTests.test_neutral_insertion_preserves_final_target_for_both_tasks)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\rlt-research\2026-09-18-phase2\tests\test_horizon_axes.py", line 17, in api
+    from horizon import task_families as tf, sweep as sw, metrics as mt
+ModuleNotFoundError: No module named 'horizon'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "E:\rlt-research\2026-09-18-phase2\tests\test_horizon_axes.py", line 45, in test_neutral_insertion_preserves_final_target_for_both_tasks
+    tf, _, _ = self.api()
+               ^^^^^^^^^^
+  File "E:\rlt-research\2026-09-18-phase2\tests\test_horizon_axes.py", line 19, in api
+    self.fail('U1 horizon modules are not implemented: ' + str(e))
+AssertionError: U1 horizon modules are not implemented: No module named 'horizon'
+
+======================================================================
+FAIL: test_stack_memory_grows_with_length_and_five_is_finite_state (tests.test_horizon_axes.HorizonAxesTests.test_stack_memory_grows_with_length_and_five_is_finite_state)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\rlt-research\2026-09-18-phase2\tests\test_horizon_axes.py", line 17, in api
+    from horizon import task_families as tf, sweep as sw, metrics as mt
+ModuleNotFoundError: No module named 'horizon'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "E:\rlt-research\2026-09-18-phase2\tests\test_horizon_axes.py", line 33, in test_stack_memory_grows_with_length_and_five_is_finite_state
+    tf, _, _ = self.api()
+               ^^^^^^^^^^
+  File "E:\rlt-research\2026-09-18-phase2\tests\test_horizon_axes.py", line 19, in api
+    self.fail('U1 horizon modules are not implemented: ' + str(e))
+AssertionError: U1 horizon modules are not implemented: No module named 'horizon'
+
+======================================================================
+FAIL: test_stack_oracle_hand_computed (tests.test_horizon_axes.HorizonAxesTests.test_stack_oracle_hand_computed)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\rlt-research\2026-09-18-phase2\tests\test_horizon_axes.py", line 17, in api
+    from horizon import task_families as tf, sweep as sw, metrics as mt
+ModuleNotFoundError: No module named 'horizon'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "E:\rlt-research\2026-09-18-phase2\tests\test_horizon_axes.py", line 23, in test_stack_oracle_hand_computed
+    tf, _, _ = self.api()
+               ^^^^^^^^^^
+  File "E:\rlt-research\2026-09-18-phase2\tests\test_horizon_axes.py", line 19, in api
+    self.fail('U1 horizon modules are not implemented: ' + str(e))
+AssertionError: U1 horizon modules are not implemented: No module named 'horizon'
+
+======================================================================
+FAIL: test_tiny_end_to_end_run_and_frozen_refusal (tests.test_horizon_axes.HorizonAxesTests.test_tiny_end_to_end_run_and_frozen_refusal)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\rlt-research\2026-09-18-phase2\tests\test_horizon_axes.py", line 17, in api
+    from horizon import task_families as tf, sweep as sw, metrics as mt
+ModuleNotFoundError: No module named 'horizon'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "E:\rlt-research\2026-09-18-phase2\tests\test_horizon_axes.py", line 77, in test_tiny_end_to_end_run_and_frozen_refusal
+    _, sw, _ = self.api()
+               ^^^^^^^^^^
+  File "E:\rlt-research\2026-09-18-phase2\tests\test_horizon_axes.py", line 19, in api
+    self.fail('U1 horizon modules are not implemented: ' + str(e))
+AssertionError: U1 horizon modules are not implemented: No module named 'horizon'
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.006s
+
+FAILED (failures=6)

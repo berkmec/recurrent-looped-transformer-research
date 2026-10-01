@@ -1,0 +1,75 @@
+=== 2026-09-22T21:37:14Z U2c-lr probe: 2 arms x 4 lrs x seed 117, five task, training+validation only; runs concurrently with U2c-v2 (wall times contended, not evidence)
+lr-hard_st-five-s117-lr0.003 {"unstable": true, "jumps": 6, "skipped": 0, "max_norm": 1.559030966647918e+20, "val": 1.0, "hold": 0.3681640625} 1504s
+lr-hard_st-five-s117-lr0.001 {"unstable": false, "jumps": 0, "skipped": 0, "max_norm": 9281.113006715483, "val": 0.99609375, "hold": 0.353271484375} 1707s
+lr-hard_st-five-s117-lr0.0003 {"unstable": false, "jumps": 0, "skipped": 0, "max_norm": 853.860582387125, "val": 1.0, "hold": 0.12060546875} 1674s
+lr-hard_st-five-s117-lr0.0001 {"unstable": false, "jumps": 0, "skipped": 0, "max_norm": 6244.503185886483, "val": 0.94140625, "hold": 0.120361328125} 1663s
+lr-soft-five-s117-lr0.003 {"unstable": true, "jumps": 0, "skipped": 0, "max_norm": 30217.101763712017, "val": 1.0, "hold": 0.37255859375} 1494s
+lr-soft-five-s117-lr0.001 {"unstable": false, "jumps": 0, "skipped": 0, "max_norm": 102.98231870463498, "val": 1.0, "hold": 0.38623046875} 1438s
+lr-soft-five-s117-lr0.0003 {"unstable": false, "jumps": 0, "skipped": 0, "max_norm": 9178.079875360458, "val": 1.0, "hold": 0.37890625} 1450s
+lr-soft-five-s117-lr0.0001 {"unstable": true, "jumps": 0, "skipped": 0, "max_norm": 18774.68077552935, "val": 1.0, "hold": 0.27490234375} 1446s
+{
+ "lr-hard_st-five-s117-lr0.003": {
+  "unstable": true,
+  "jumps": 6,
+  "skipped": 0,
+  "max_norm": 1.559030966647918e+20,
+  "val": 1.0,
+  "hold": 0.3681640625
+ },
+ "lr-hard_st-five-s117-lr0.001": {
+  "unstable": false,
+  "jumps": 0,
+  "skipped": 0,
+  "max_norm": 9281.113006715483,
+  "val": 0.99609375,
+  "hold": 0.353271484375
+ },
+ "lr-hard_st-five-s117-lr0.0003": {
+  "unstable": false,
+  "jumps": 0,
+  "skipped": 0,
+  "max_norm": 853.860582387125,
+  "val": 1.0,
+  "hold": 0.12060546875
+ },
+ "lr-hard_st-five-s117-lr0.0001": {
+  "unstable": false,
+  "jumps": 0,
+  "skipped": 0,
+  "max_norm": 6244.503185886483,
+  "val": 0.94140625,
+  "hold": 0.120361328125
+ },
+ "lr-soft-five-s117-lr0.003": {
+  "unstable": true,
+  "jumps": 0,
+  "skipped": 0,
+  "max_norm": 30217.101763712017,
+  "val": 1.0,
+  "hold": 0.37255859375
+ },
+ "lr-soft-five-s117-lr0.001": {
+  "unstable": false,
+  "jumps": 0,
+  "skipped": 0,
+  "max_norm": 102.98231870463498,
+  "val": 1.0,
+  "hold": 0.38623046875
+ },
+ "lr-soft-five-s117-lr0.0003": {
+  "unstable": false,
+  "jumps": 0,
+  "skipped": 0,
+  "max_norm": 9178.079875360458,
+  "val": 1.0,
+  "hold": 0.37890625
+ },
+ "lr-soft-five-s117-lr0.0001": {
+  "unstable": true,
+  "jumps": 0,
+  "skipped": 0,
+  "max_norm": 18774.68077552935,
+  "val": 1.0,
+  "hold": 0.27490234375
+ }
+}

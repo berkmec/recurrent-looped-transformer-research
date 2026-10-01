@@ -1,0 +1,26 @@
+test_bad_exit_missing_items_failed_tests_are_incomplete (tests.test_receipt.ReceiptTests.test_bad_exit_missing_items_failed_tests_are_incomplete) ... ok
+test_complete_receipt_round_trips_and_validates (tests.test_receipt.ReceiptTests.test_complete_receipt_round_trips_and_validates) ... ok
+test_string_booleans_and_empty_artifacts_rejected (tests.test_receipt.ReceiptTests.test_string_booleans_and_empty_artifacts_rejected) ... ok
+test_tampered_artifact_or_wrong_run_fails_validation (tests.test_receipt.ReceiptTests.test_tampered_artifact_or_wrong_run_fails_validation) ... ok
+test_holm_step_down (tests.test_stats.StatsTests.test_holm_step_down) ... ok
+test_manifest_is_full_cartesian_product (tests.test_stats.StatsTests.test_manifest_is_full_cartesian_product) ... ok
+test_summary_consumes_all_records_not_a_prefix (tests.test_stats.StatsTests.test_summary_consumes_all_records_not_a_prefix) ... ok
+test_zero_error_bound_matches_closed_form (tests.test_stats.StatsTests.test_zero_error_bound_matches_closed_form) ... ok
+test_dependency_closure_and_freshness (tests.test_archive.ArchiveTests.test_dependency_closure_and_freshness) ... ok
+test_hash_chain_verify_and_backup (tests.test_archive.ArchiveTests.test_hash_chain_verify_and_backup) ... ok
+test_page_boundary_requires_archive_then_compaction_same_heading (tests.test_archive.ArchiveTests.test_page_boundary_requires_archive_then_compaction_same_heading) ... ok
+test_raw_bytes_are_lossless_and_summary_never_replaces_raw (tests.test_archive.ArchiveTests.test_raw_bytes_are_lossless_and_summary_never_replaces_raw) ... ok
+test_stale_writer_unknown_dependency_and_mutation_are_rejected (tests.test_archive.ArchiveTests.test_stale_writer_unknown_dependency_and_mutation_are_rejected) ... ok
+test_counter_accumulates_skips (tests.test_guards.GuardTests.test_counter_accumulates_skips) ... ok
+test_finite_step_updates_and_reports_norms (tests.test_guards.GuardTests.test_finite_step_updates_and_reports_norms) ... ok
+test_nonfinite_gradient_is_refused_without_touching_weights (tests.test_guards.GuardTests.test_nonfinite_gradient_is_refused_without_touching_weights) ... ok
+test_plain_mode_is_bit_equal_to_forward (tests.test_remat.RematTests.test_plain_mode_is_bit_equal_to_forward) ... ok
+test_segment_remat_matches_full_bptt_and_detach_does_not (tests.test_remat.RematTests.test_segment_remat_matches_full_bptt_and_detach_does_not) ... E:\rlt-research\2026-09-18-phase2\tests\test_remat.py:29: UserWarning: Converting a tensor with requires_grad=True to a scalar may lead to unexpected behavior.
+Consider using tensor.detach() first. (Triggered internally at C:\actions-runner\_work\pytorch\pytorch\torch\csrc\autograd\generated\python_variable_methods.cpp:839.)
+  return float(loss), {n: p.grad.detach().clone() for n, p in model.named_parameters() if p.grad is not None}
+ok
+
+----------------------------------------------------------------------
+Ran 18 tests in 3.942s
+
+OK

@@ -1,0 +1,13 @@
+C:\Users\pc\AppData\Roaming\Python\Python311\site-packages\opentelemetry\util\_importlib_metadata.py:32: DeprecationWarning: SelectableGroups dict interface is deprecated. Use select.
+  return EntryPoints(ep for group_eps in eps.values() for ep in group_eps)
+<frozen importlib._bootstrap>:241: DeprecationWarning: builtin type SwigPyPacked has no __module__ attribute
+<frozen importlib._bootstrap>:241: DeprecationWarning: builtin type SwigPyObject has no __module__ attribute
+Loading weights:   0%|          | 0/310 [00:00<?, ?it/s]Loading weights:   0%|          | 1/310 [00:01<07:58,  1.55s/it]Loading weights: 100%|##########| 310/310 [00:01<00:00, 195.95it/s]
+test_batching_with_left_padding_does_not_change_scores (tests.test_rerank_parity.RerankParityTests.test_batching_with_left_padding_does_not_change_scores) ... ok
+test_patched_scores_match_full_logits_reference (tests.test_rerank_parity.RerankParityTests.test_patched_scores_match_full_logits_reference) ... ok
+
+----------------------------------------------------------------------
+Ran 2 tests in 31.737s
+
+OK
+sys:1: DeprecationWarning: builtin type swigvarlink has no __module__ attribute

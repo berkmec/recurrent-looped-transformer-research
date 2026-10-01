@@ -1,0 +1,76 @@
+{
+  "arm": "segment_encoder_checkpoint",
+  "diagnostic": false,
+  "environment": {
+    "cuda": "13.0",
+    "executable": "C:\\Users\\pc\\Documents\\ChatGPT\\DaxDream\\.venv\\Scripts\\python.exe",
+    "gpu": null,
+    "platform": "Windows-10-10.0.19045-SP0",
+    "python": "3.11.9 (tags/v3.11.9:de54cf5, Apr  2 2024, 10:12:12) [MSC v.1938 64 bit (AMD64)]",
+    "torch": "2.12.0+cu130"
+  },
+  "length": 32,
+  "measurements": [],
+  "optimizer_initialized_before_measurement": false,
+  "optimizer_updates": 0,
+  "pid": 5380,
+  "protocol": {
+    "alpha": 0.1,
+    "arms": [
+      "full",
+      "detach",
+      "checkpoint",
+      "segment",
+      "segment_encoder_checkpoint"
+    ],
+    "batch": 8,
+    "chunk": 8,
+    "clip": null,
+    "data": "independent deterministic batch per optimizer update; paired across arms",
+    "data_seed": 970100,
+    "device": "cpu",
+    "equivalence": {
+      "atol": 3e-06,
+      "lengths": [
+        32,
+        128
+      ],
+      "repeats": 3,
+      "rtol": 0.0003
+    },
+    "heads": 2,
+    "hooks": "separate diagnostic run; deduplicated backing-storage save lifetime, not resident VRAM",
+    "lengths": [
+      32,
+      128,
+      512,
+      1024
+    ],
+    "loss": "parity dense sum cross entropy divided by batch*length for every chunk",
+    "lr": 0.003,
+    "memory": "CUDA phase live allocated/reserved and reset phase peak allocated/reserved; whole-update peaks reconstructed as max of phase peaks; separate process working set",
+    "oom": "record OOM with unchanged batch/precision/length; no automatic retry",
+    "optimizer": "AdamW foreach=False",
+    "precision": "float32",
+    "process": "one fresh subprocess per arm and length; no allocator sharing",
+    "purpose": "R6 real optimizer update memory diagnostics",
+    "repeats": 3,
+    "route_full": "all recurrence and global encoder/projection paths attached",
+    "route_truncated": "detach s/dk/dv each8; global e/mk/mv gradients retained",
+    "seed": 701,
+    "threads": 1,
+    "version": 1,
+    "warmup": 2,
+    "weight_decay": 0.01,
+    "width": 32,
+    "window": 4
+  },
+  "protocol_hash": "7005928ca4359939c77a164ea1207b4f0a40d1b8115b813ee707df75ac3cf4f4",
+  "sources": {
+    "core/model.py": "121f11fcb3c1308b7f67d898f2aa09c37226d3b0db27dd4e5bf1ebeaea281f43",
+    "review_cycle/memory_bench.py": "44455db89fca9deb6a5c2eef6c0645c6dfc720c7d67a6e6fb8b8e55dbf00d65f",
+    "review_cycle/test_memory_bench.py": "5bb2cd30d81c051fcd2f47972ffe97f969b397bd0282cedd19d571f4103e98b4"
+  },
+  "started": 1789596832.0607405,
+  "status": "RUNNING"
+}

@@ -1,0 +1,23 @@
+test_batch_vs_single_and_rerank_contract (tests.test_retrieval_contract.RetrievalContractTests.test_batch_vs_single_and_rerank_contract) ... ok
+test_bm25_hand_computed (tests.test_retrieval_contract.RetrievalContractTests.test_bm25_hand_computed) ... ok
+test_hash128_arm_uses_phase1_embedding (tests.test_retrieval_contract.RetrievalContractTests.test_hash128_arm_uses_phase1_embedding) ... ok
+test_musique_loading_dedup_and_ladder (tests.test_retrieval_contract.RetrievalContractTests.test_musique_loading_dedup_and_ladder) ... ok
+test_rrf_fusion_and_metrics (tests.test_retrieval_contract.RetrievalContractTests.test_rrf_fusion_and_metrics) ... ok
+test_tiny_end_to_end_with_stubs_and_frozen_refusal (tests.test_retrieval_contract.RetrievalContractTests.test_tiny_end_to_end_with_stubs_and_frozen_refusal) ... ERROR
+
+======================================================================
+ERROR: test_tiny_end_to_end_with_stubs_and_frozen_refusal (tests.test_retrieval_contract.RetrievalContractTests.test_tiny_end_to_end_with_stubs_and_frozen_refusal)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\rlt-research\2026-09-18-phase2\tests\test_retrieval_contract.py", line 126, in test_tiny_end_to_end_with_stubs_and_frozen_refusal
+    result = r.run_final(out, encoder=StubEncoder(), reranker=StubReranker())
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\rlt-research\2026-09-18-phase2\semantic_memory\retrieval.py", line 275, in run_final
+    qdense = encoder.encode([q['question'] for q in queries], batch_size=p['encode_batch'], is_query=True)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: StubEncoder.encode() got an unexpected keyword argument 'is_query'
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.079s
+
+FAILED (errors=1)

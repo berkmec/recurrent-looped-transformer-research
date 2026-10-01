@@ -1,0 +1,131 @@
+{
+  "caveat": "projections exclude validation, hashing, final evaluation; pilot allocation is not steady memory benchmark",
+  "confirm_large_conditions": 3,
+  "development_large_conditions": 9,
+  "rows": [
+    {
+      "device": "cpu",
+      "final_data_opened": false,
+      "peak_allocated_bytes": null,
+      "projected_train_seconds_per_condition": 300.9997093507222,
+      "rows": [
+        {
+          "grad_norm": 1.2259039878845215,
+          "loss": 0.7836790680885315,
+          "seconds": 0.14682209998136386,
+          "step": 1
+        },
+        {
+          "grad_norm": 0.33505529165267944,
+          "loss": 0.6973153352737427,
+          "seconds": 0.13953340001171455,
+          "step": 2
+        },
+        {
+          "grad_norm": 0.4240274727344513,
+          "loss": 0.7026048898696899,
+          "seconds": 0.1378825000138022,
+          "step": 3
+        },
+        {
+          "grad_norm": 0.4459463357925415,
+          "loss": 0.6998418569564819,
+          "seconds": 0.13861999998334795,
+          "step": 4
+        },
+        {
+          "grad_norm": 0.31126683950424194,
+          "loss": 0.6986393332481384,
+          "seconds": 0.13683459995081648,
+          "step": 5
+        },
+        {
+          "grad_norm": 0.13984733819961548,
+          "loss": 0.6870988011360168,
+          "seconds": 0.13677500002086163,
+          "step": 6
+        },
+        {
+          "grad_norm": 0.3610462248325348,
+          "loss": 0.6884119510650635,
+          "seconds": 0.1383738000295125,
+          "step": 7
+        },
+        {
+          "grad_norm": 0.1089438796043396,
+          "loss": 0.6862763166427612,
+          "seconds": 0.1360586000373587,
+          "step": 8
+        }
+      ],
+      "seed": 9117,
+      "snapshot_seconds": 0.009247100038919598,
+      "steady_update_seconds": 0.13772541429248772,
+      "updates": 8,
+      "width": 32
+    },
+    {
+      "device": "cpu",
+      "final_data_opened": false,
+      "peak_allocated_bytes": null,
+      "projected_train_seconds_per_condition": 770.4619008132389,
+      "rows": [
+        {
+          "grad_norm": 2.8057096004486084,
+          "loss": 0.7479277849197388,
+          "seconds": 0.3594641999807209,
+          "step": 1
+        },
+        {
+          "grad_norm": 10.200398445129395,
+          "loss": 4.536552429199219,
+          "seconds": 0.3588783000013791,
+          "step": 2
+        },
+        {
+          "grad_norm": 5.59539270401001,
+          "loss": 1.4295557737350464,
+          "seconds": 0.36012660001870245,
+          "step": 3
+        },
+        {
+          "grad_norm": 9.614237785339355,
+          "loss": 2.6337203979492188,
+          "seconds": 0.3497485000407323,
+          "step": 4
+        },
+        {
+          "grad_norm": 7.264237880706787,
+          "loss": 1.4313890933990479,
+          "seconds": 0.3633726999978535,
+          "step": 5
+        },
+        {
+          "grad_norm": 3.9334590435028076,
+          "loss": 0.9336679577827454,
+          "seconds": 0.35170919995289296,
+          "step": 6
+        },
+        {
+          "grad_norm": 2.4976272583007812,
+          "loss": 0.7736254334449768,
+          "seconds": 0.3534958000527695,
+          "step": 7
+        },
+        {
+          "grad_norm": 2.4038217067718506,
+          "loss": 0.7443300485610962,
+          "seconds": 0.35150280001107603,
+          "step": 8
+        }
+      ],
+      "seed": 9117,
+      "snapshot_seconds": 0.020654399995692074,
+      "steady_update_seconds": 0.35554770001077224,
+      "updates": 8,
+      "width": 256
+    }
+  ],
+  "small_conditions": 36,
+  "status": "COMPLETE"
+}

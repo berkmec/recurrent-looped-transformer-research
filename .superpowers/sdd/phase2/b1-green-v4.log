@@ -1,0 +1,13 @@
+...F..
+======================================================================
+FAIL: test_musique_loading_dedup_and_ladder (tests.test_retrieval_contract.RetrievalContractTests.test_musique_loading_dedup_and_ladder)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\rlt-research\2026-09-18-phase2\tests\test_retrieval_contract.py", line 101, in test_musique_loading_dedup_and_ladder
+    self.assertEqual(len(big), 40)
+AssertionError: 34 != 40
+
+----------------------------------------------------------------------
+Ran 6 tests in 45.651s
+
+FAILED (failures=1)

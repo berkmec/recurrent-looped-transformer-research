@@ -1,0 +1,22 @@
+..F.E
+======================================================================
+ERROR: test_gated_sweep_rows_are_json_safe (tests.test_guards.RowSafetyTests.test_gated_sweep_rows_are_json_safe)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\rlt-research\2026-09-18-phase2\tests\test_guards.py", line 76, in test_gated_sweep_rows_are_json_safe
+    self.assertIsNone(gs.finite_or_none(float('inf')))
+                      ^^^^^^^^^^^^^^^^^
+AttributeError: module 'horizon.gated_sweep' has no attribute 'finite_or_none'
+
+======================================================================
+FAIL: test_huge_but_finite_gradients_do_not_overflow_the_reported_norm (tests.test_guards.GuardTests.test_huge_but_finite_gradients_do_not_overflow_the_reported_norm)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\rlt-research\2026-09-18-phase2\tests\test_guards.py", line 53, in test_huge_but_finite_gradients_do_not_overflow_the_reported_norm
+    self.assertTrue(math.isfinite(report['grad_norm_before_clip']), report['grad_norm_before_clip'])
+AssertionError: False is not true : inf
+
+----------------------------------------------------------------------
+Ran 5 tests in 1.402s
+
+FAILED (failures=1, errors=1)

@@ -1,0 +1,100 @@
+test_conditions_and_pairing (drift.test_drift.DriftTests.test_conditions_and_pairing) ... FAIL
+test_decode_loop_matches_core_forward (drift.test_drift.DriftTests.test_decode_loop_matches_core_forward) ... FAIL
+test_invariance_loss_only_counts_neutral_positions (drift.test_drift.DriftTests.test_invariance_loss_only_counts_neutral_positions) ... FAIL
+test_reread_is_identity_at_init_and_learns (drift.test_drift.DriftTests.test_reread_is_identity_at_init_and_learns) ... FAIL
+test_tiny_end_to_end_run_writes_receipts_and_changes_parameters (drift.test_drift.DriftTests.test_tiny_end_to_end_run_writes_receipts_and_changes_parameters) ... FAIL
+
+======================================================================
+FAIL: test_conditions_and_pairing (drift.test_drift.DriftTests.test_conditions_and_pairing)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\rlt-research\2026-09-18-drift\drift\test_drift.py", line 19, in api
+    from drift import model as m
+ImportError: cannot import name 'model' from 'drift' (E:\rlt-research\2026-09-18-drift\drift\__init__.py)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "E:\rlt-research\2026-09-18-drift\drift\test_drift.py", line 64, in test_conditions_and_pairing
+    m, r = self.api()
+           ^^^^^^^^^^
+  File "E:\rlt-research\2026-09-18-drift\drift\test_drift.py", line 22, in api
+    self.fail('drift runner is not implemented: ' + str(e))
+AssertionError: drift runner is not implemented: cannot import name 'model' from 'drift' (E:\rlt-research\2026-09-18-drift\drift\__init__.py)
+
+======================================================================
+FAIL: test_decode_loop_matches_core_forward (drift.test_drift.DriftTests.test_decode_loop_matches_core_forward)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\rlt-research\2026-09-18-drift\drift\test_drift.py", line 19, in api
+    from drift import model as m
+ImportError: cannot import name 'model' from 'drift' (E:\rlt-research\2026-09-18-drift\drift\__init__.py)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "E:\rlt-research\2026-09-18-drift\drift\test_drift.py", line 26, in test_decode_loop_matches_core_forward
+    m, _ = self.api()
+           ^^^^^^^^^^
+  File "E:\rlt-research\2026-09-18-drift\drift\test_drift.py", line 22, in api
+    self.fail('drift runner is not implemented: ' + str(e))
+AssertionError: drift runner is not implemented: cannot import name 'model' from 'drift' (E:\rlt-research\2026-09-18-drift\drift\__init__.py)
+
+======================================================================
+FAIL: test_invariance_loss_only_counts_neutral_positions (drift.test_drift.DriftTests.test_invariance_loss_only_counts_neutral_positions)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\rlt-research\2026-09-18-drift\drift\test_drift.py", line 19, in api
+    from drift import model as m
+ImportError: cannot import name 'model' from 'drift' (E:\rlt-research\2026-09-18-drift\drift\__init__.py)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "E:\rlt-research\2026-09-18-drift\drift\test_drift.py", line 53, in test_invariance_loss_only_counts_neutral_positions
+    m, _ = self.api()
+           ^^^^^^^^^^
+  File "E:\rlt-research\2026-09-18-drift\drift\test_drift.py", line 22, in api
+    self.fail('drift runner is not implemented: ' + str(e))
+AssertionError: drift runner is not implemented: cannot import name 'model' from 'drift' (E:\rlt-research\2026-09-18-drift\drift\__init__.py)
+
+======================================================================
+FAIL: test_reread_is_identity_at_init_and_learns (drift.test_drift.DriftTests.test_reread_is_identity_at_init_and_learns)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\rlt-research\2026-09-18-drift\drift\test_drift.py", line 19, in api
+    from drift import model as m
+ImportError: cannot import name 'model' from 'drift' (E:\rlt-research\2026-09-18-drift\drift\__init__.py)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "E:\rlt-research\2026-09-18-drift\drift\test_drift.py", line 36, in test_reread_is_identity_at_init_and_learns
+    m, _ = self.api()
+           ^^^^^^^^^^
+  File "E:\rlt-research\2026-09-18-drift\drift\test_drift.py", line 22, in api
+    self.fail('drift runner is not implemented: ' + str(e))
+AssertionError: drift runner is not implemented: cannot import name 'model' from 'drift' (E:\rlt-research\2026-09-18-drift\drift\__init__.py)
+
+======================================================================
+FAIL: test_tiny_end_to_end_run_writes_receipts_and_changes_parameters (drift.test_drift.DriftTests.test_tiny_end_to_end_run_writes_receipts_and_changes_parameters)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\rlt-research\2026-09-18-drift\drift\test_drift.py", line 19, in api
+    from drift import model as m
+ImportError: cannot import name 'model' from 'drift' (E:\rlt-research\2026-09-18-drift\drift\__init__.py)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "E:\rlt-research\2026-09-18-drift\drift\test_drift.py", line 78, in test_tiny_end_to_end_run_writes_receipts_and_changes_parameters
+    _, r = self.api()
+           ^^^^^^^^^^
+  File "E:\rlt-research\2026-09-18-drift\drift\test_drift.py", line 22, in api
+    self.fail('drift runner is not implemented: ' + str(e))
+AssertionError: drift runner is not implemented: cannot import name 'model' from 'drift' (E:\rlt-research\2026-09-18-drift\drift\__init__.py)
+
+----------------------------------------------------------------------
+Ran 5 tests in 0.005s
+
+FAILED (failures=5)

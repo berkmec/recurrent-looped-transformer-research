@@ -1,0 +1,15 @@
+test_counter_accumulates_skips (tests.test_guards.GuardTests.test_counter_accumulates_skips) ... ok
+test_finite_step_updates_and_reports_norms (tests.test_guards.GuardTests.test_finite_step_updates_and_reports_norms) ... ok
+test_huge_but_finite_gradients_do_not_overflow_the_reported_norm (tests.test_guards.GuardTests.test_huge_but_finite_gradients_do_not_overflow_the_reported_norm) ... ok
+test_nonfinite_gradient_is_refused_without_touching_weights (tests.test_guards.GuardTests.test_nonfinite_gradient_is_refused_without_touching_weights) ... ok
+test_gated_sweep_rows_are_json_safe (tests.test_guards.RowSafetyTests.test_gated_sweep_rows_are_json_safe) ... ok
+test_gate_loss_and_rates_against_the_runaware_target (tests.test_gated.GatedTests.test_gate_loss_and_rates_against_the_runaware_target) ... ok
+test_hard_gate_holds_exactly_and_straight_through_reaches_the_gate_head (tests.test_gated.GatedTests.test_hard_gate_holds_exactly_and_straight_through_reaches_the_gate_head) ... ok
+test_open_gate_matches_core_and_oracle_matches_runaware_freeze (tests.test_gated.GatedTests.test_open_gate_matches_core_and_oracle_matches_runaware_freeze) ... ok
+test_freeze_train_select_evaluate (tests.test_gated_sweep.GatedSweepTests.test_freeze_train_select_evaluate) ... ok
+test_supervised_arm_uses_gate_loss_and_hard_st_does_not (tests.test_gated_sweep.GatedSweepTests.test_supervised_arm_uses_gate_loss_and_hard_st_does_not) ... ok
+
+----------------------------------------------------------------------
+Ran 10 tests in 2.178s
+
+OK

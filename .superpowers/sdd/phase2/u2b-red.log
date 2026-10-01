@@ -1,0 +1,59 @@
+FFF
+======================================================================
+FAIL: test_k0_equals_plain_freeze (tests.test_interventions_runaware.RunAwareTests.test_k0_equals_plain_freeze)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\rlt-research\2026-09-18-phase2\tests\test_interventions_runaware.py", line 14, in api
+    from horizon import interventions_runaware as ivr
+ImportError: cannot import name 'interventions_runaware' from 'horizon' (E:\rlt-research\2026-09-18-phase2\horizon\__init__.py)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "E:\rlt-research\2026-09-18-phase2\tests\test_interventions_runaware.py", line 45, in test_k0_equals_plain_freeze
+    ivr = self.api(); core = self.make()
+          ^^^^^^^^^^
+  File "E:\rlt-research\2026-09-18-phase2\tests\test_interventions_runaware.py", line 16, in api
+    self.fail('U2b run-aware module is not implemented: ' + str(e))
+AssertionError: U2b run-aware module is not implemented: cannot import name 'interventions_runaware' from 'horizon' (E:\rlt-research\2026-09-18-phase2\horizon\__init__.py)
+
+======================================================================
+FAIL: test_k2_leaves_short_runs_alone_and_freezes_from_the_third_neutral (tests.test_interventions_runaware.RunAwareTests.test_k2_leaves_short_runs_alone_and_freezes_from_the_third_neutral)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\rlt-research\2026-09-18-phase2\tests\test_interventions_runaware.py", line 14, in api
+    from horizon import interventions_runaware as ivr
+ImportError: cannot import name 'interventions_runaware' from 'horizon' (E:\rlt-research\2026-09-18-phase2\horizon\__init__.py)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "E:\rlt-research\2026-09-18-phase2\tests\test_interventions_runaware.py", line 30, in test_k2_leaves_short_runs_alone_and_freezes_from_the_third_neutral
+    ivr = self.api(); core = self.make()
+          ^^^^^^^^^^
+  File "E:\rlt-research\2026-09-18-phase2\tests\test_interventions_runaware.py", line 16, in api
+    self.fail('U2b run-aware module is not implemented: ' + str(e))
+AssertionError: U2b run-aware module is not implemented: cannot import name 'interventions_runaware' from 'horizon' (E:\rlt-research\2026-09-18-phase2\horizon\__init__.py)
+
+======================================================================
+FAIL: test_run_length_counts_consecutive_neutrals_from_input_only (tests.test_interventions_runaware.RunAwareTests.test_run_length_counts_consecutive_neutrals_from_input_only)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\rlt-research\2026-09-18-phase2\tests\test_interventions_runaware.py", line 14, in api
+    from horizon import interventions_runaware as ivr
+ImportError: cannot import name 'interventions_runaware' from 'horizon' (E:\rlt-research\2026-09-18-phase2\horizon\__init__.py)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "E:\rlt-research\2026-09-18-phase2\tests\test_interventions_runaware.py", line 25, in test_run_length_counts_consecutive_neutrals_from_input_only
+    ivr = self.api()
+          ^^^^^^^^^^
+  File "E:\rlt-research\2026-09-18-phase2\tests\test_interventions_runaware.py", line 16, in api
+    self.fail('U2b run-aware module is not implemented: ' + str(e))
+AssertionError: U2b run-aware module is not implemented: cannot import name 'interventions_runaware' from 'horizon' (E:\rlt-research\2026-09-18-phase2\horizon\__init__.py)
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.004s
+
+FAILED (failures=3)

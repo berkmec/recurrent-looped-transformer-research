@@ -1,0 +1,29 @@
+test_batch_vs_single_and_rerank_contract (tests.test_retrieval_contract.RetrievalContractTests.test_batch_vs_single_and_rerank_contract) ... FAIL
+test_bm25_hand_computed (tests.test_retrieval_contract.RetrievalContractTests.test_bm25_hand_computed) ... ok
+test_hash128_arm_uses_phase1_embedding (tests.test_retrieval_contract.RetrievalContractTests.test_hash128_arm_uses_phase1_embedding) ... ok
+test_musique_loading_dedup_and_ladder (tests.test_retrieval_contract.RetrievalContractTests.test_musique_loading_dedup_and_ladder) ... ok
+test_rrf_fusion_and_metrics (tests.test_retrieval_contract.RetrievalContractTests.test_rrf_fusion_and_metrics) ... ok
+test_tiny_end_to_end_with_stubs_and_frozen_refusal (tests.test_retrieval_contract.RetrievalContractTests.test_tiny_end_to_end_with_stubs_and_frozen_refusal) ... ERROR
+
+======================================================================
+ERROR: test_tiny_end_to_end_with_stubs_and_frozen_refusal (tests.test_retrieval_contract.RetrievalContractTests.test_tiny_end_to_end_with_stubs_and_frozen_refusal)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\rlt-research\2026-09-18-phase2\tests\test_retrieval_contract.py", line 124, in test_tiny_end_to_end_with_stubs_and_frozen_refusal
+    r.freeze(d, p)
+  File "E:\rlt-research\2026-09-18-phase2\semantic_memory\retrieval.py", line 178, in freeze
+    raise ValueError('new freeze requires empty output directory')
+ValueError: new freeze requires empty output directory
+
+======================================================================
+FAIL: test_batch_vs_single_and_rerank_contract (tests.test_retrieval_contract.RetrievalContractTests.test_batch_vs_single_and_rerank_contract)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\rlt-research\2026-09-18-phase2\tests\test_retrieval_contract.py", line 112, in test_batch_vs_single_and_rerank_contract
+    self.assertEqual(check['max_abs_cosine_diff'], 0.)
+AssertionError: 1.1920928955078125e-07 != 0.0
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.076s
+
+FAILED (failures=1, errors=1)

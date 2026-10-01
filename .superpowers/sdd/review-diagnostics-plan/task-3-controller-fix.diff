@@ -1,0 +1,53 @@
+--- .superpowers/sdd/review-diagnostics-plan/memory_bench-before-controller-fix.py	2026-09-17 22:09:51.952985400 +0300
++++ review_cycle/memory_bench.py	2026-09-17 22:10:24.995479100 +0300
+@@ -72,7 +72,8 @@
+         hooks='separate diagnostic run; deduplicated backing-storage save lifetime, not resident VRAM; inner nonreentrant checkpoint hooks shadow outer hooks so checkpoint-interior saves are not fully observed',
+         host_load='external CPU training may run concurrently; CPU/GPU latency is scoped to recorded host load, not isolated throughput',
+         equivalence=dict(rtol=3e-4, atol=3e-6, lengths=[32, 128], repeats=3),
+-        oom='record OOM with unchanged batch/precision/length; no automatic retry')
++        latency='phase seconds include explicit synchronization at each phase mark; segment arms keep detached chunk losses on device and convert once after the loop, so no per-chunk synchronization',
++        oom='record OOM with unchanged batch/precision/length; no automatic retry; CUDA allocated/reserved and since-reset peaks sampled in the handler')
+ 
+ 
+ def validate_protocol(p):
+@@ -129,7 +130,7 @@
+     leaves = tuple(v.detach().requires_grad_(True) for v in original)
+     e, mk, mv = leaves
+     mark('encoder')
+-    state = None; total = 0.
++    state = None; parts = []
+     for start in range(0, x.shape[1], chunk):
+         if state is not None:
+             state = {k: state[k].detach() for k in ('s', 'dk', 'dv')}
+@@ -140,7 +141,7 @@
+         logits = torch.stack(outputs, 1)
+         value = F.cross_entropy(logits.flatten(0, 1), y[:, start:start+len(outputs)].flatten(), reduction='sum') / y.numel()
+         value.backward()
+-        total += float(value.detach())
++        parts.append(value.detach())
+         del outputs, logits, value, z
+     # The final decoder state may retain references, but backward freed saves.
+     del state
+@@ -148,7 +149,7 @@
+     if bridge_global:
+         torch.autograd.backward(original, tuple(v.grad for v in leaves))
+     mark('global_backward')
+-    return total
++    return float(torch.stack(parts).sum(dtype=torch.float64))
+ 
+ 
+ class _Saved:
+@@ -314,7 +315,12 @@
+         result.update(status='PASS', final_state_hash=state_hash(model), final_checkpoint_sha256=sha(out/'final.pt'))
+         if result['initial_state_hash'] == result['final_state_hash']: raise ValueError('no parameter update')
+     except torch.cuda.OutOfMemoryError as exc:
+-        result.update(status='OOM', error=str(exc), ram_at_failure=process_ram(),
++        cuda_at_failure = None
++        if p['device'] == 'cuda':
++            cuda_at_failure = dict(allocated=torch.cuda.memory_allocated(), reserved=torch.cuda.memory_reserved(),
++                                   peak_allocated=torch.cuda.max_memory_allocated(), peak_reserved=torch.cuda.max_memory_reserved(),
++                                   note='sampled in the OOM handler after the failing allocation; peaks are since the last phase reset')
++        result.update(status='OOM', error=str(exc), ram_at_failure=process_ram(), cuda_at_failure=cuda_at_failure,
+                       interrupted_phases=phases.rows if 'phases' in locals() else [])
+     except Exception as exc:
+         result.update(status='FAIL', error=repr(exc)); write_json(out/'result.json', result); raise

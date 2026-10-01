@@ -1,0 +1,20 @@
+F
+======================================================================
+FAIL: test_runner_tiny_with_stub_and_frozen_refusal (tests.test_semantic_contract.RunnerTests.test_runner_tiny_with_stub_and_frozen_refusal)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\rlt-research\2026-09-18-phase2\tests\test_semantic_contract.py", line 124, in test_runner_tiny_with_stub_and_frozen_refusal
+    from language import run_d1 as rd, dataset as ds
+ImportError: cannot import name 'run_d1' from 'language' (E:\rlt-research\2026-09-18-phase2\language\__init__.py)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "E:\rlt-research\2026-09-18-phase2\tests\test_semantic_contract.py", line 126, in test_runner_tiny_with_stub_and_frozen_refusal
+    self.fail('D1 runner is not implemented: ' + str(e))
+AssertionError: D1 runner is not implemented: cannot import name 'run_d1' from 'language' (E:\rlt-research\2026-09-18-phase2\language\__init__.py)
+
+----------------------------------------------------------------------
+Ran 1 test in 0.151s
+
+FAILED (failures=1)

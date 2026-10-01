@@ -1,0 +1,4 @@
+five   train 0.609 s/update @L128 batch32 | eval 32 ex: L128 0.2s L1024 1.9s L4096 14.7s | neutral rows 4 | params 24325 vocab 3
+stack  train 0.710 s/update @L128 batch32 | eval 32 ex: L128 0.2s L1024 1.9s L4096 12.9s | neutral rows 4 | params 24291 vocab 4
+   stack max depth @4096: mean 73.0 max 192
+projection per condition: train 2048 updates and eval 1000 examples x 6 lengths + 7 neutral rows

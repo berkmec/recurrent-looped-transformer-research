@@ -1,0 +1,39 @@
+test_contradiction_in_other_component_rejected (review_cycle.test_certificate.PathContracts.test_contradiction_in_other_component_rejected) ... FAIL
+test_correct_query_unrelated_branch_error (review_cycle.test_certificate.PathContracts.test_correct_query_unrelated_branch_error) ... FAIL
+test_missing_off_path_candidate_is_allowed (review_cycle.test_certificate.PathContracts.test_missing_off_path_candidate_is_allowed) ... FAIL
+test_wrong_query_must_not_be_certified (review_cycle.test_certificate.PathContracts.test_wrong_query_must_not_be_certified) ... ok
+
+======================================================================
+FAIL: test_contradiction_in_other_component_rejected (review_cycle.test_certificate.PathContracts.test_contradiction_in_other_component_rejected)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\rlt-research\2026-09-17-diagnostics\review_cycle\test_certificate.py", line 32, in test_contradiction_in_other_component_rejected
+    self.assertNotEqual(result['status'], 'VERIFIED')
+AssertionError: 'VERIFIED' == 'VERIFIED'
+
+======================================================================
+FAIL: test_correct_query_unrelated_branch_error (review_cycle.test_certificate.PathContracts.test_correct_query_unrelated_branch_error)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\rlt-research\2026-09-17-diagnostics\review_cycle\test_certificate.py", line 18, in test_correct_query_unrelated_branch_error
+    self.assertEqual(result['status'], 'VERIFIED')
+AssertionError: 'CONTINUE' != 'VERIFIED'
+- CONTINUE
++ VERIFIED
+
+
+======================================================================
+FAIL: test_missing_off_path_candidate_is_allowed (review_cycle.test_certificate.PathContracts.test_missing_off_path_candidate_is_allowed)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\rlt-research\2026-09-17-diagnostics\review_cycle\test_certificate.py", line 23, in test_missing_off_path_candidate_is_allowed
+    self.assertEqual(c.verify_path(dict(a=0., q=1.), evidence, 'q')['status'], 'VERIFIED')
+AssertionError: 'UNRESOLVED_BUDGET' != 'VERIFIED'
+- UNRESOLVED_BUDGET
++ VERIFIED
+
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.001s
+
+FAILED (failures=3)

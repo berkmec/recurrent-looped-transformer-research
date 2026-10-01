@@ -1,0 +1,60 @@
+FFF
+======================================================================
+FAIL: test_freeze_run_and_report (tests.test_lr_probe.LrProbeTests.test_freeze_run_and_report)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\rlt-research\2026-09-18-phase2\tests\test_lr_probe.py", line 22, in api
+    from horizon import lr_probe as lp
+ImportError: cannot import name 'lr_probe' from 'horizon' (E:\rlt-research\2026-09-18-phase2\horizon\__init__.py)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "E:\rlt-research\2026-09-18-phase2\tests\test_lr_probe.py", line 42, in test_freeze_run_and_report
+    lp = self.api()
+         ^^^^^^^^^^
+  File "E:\rlt-research\2026-09-18-phase2\tests\test_lr_probe.py", line 24, in api
+    self.fail('horizon.lr_probe is not implemented: ' + str(e))
+AssertionError: horizon.lr_probe is not implemented: cannot import name 'lr_probe' from 'horizon' (E:\rlt-research\2026-09-18-phase2\horizon\__init__.py)
+
+======================================================================
+FAIL: test_frozen_u2c_sources_are_untouched (tests.test_lr_probe.LrProbeTests.test_frozen_u2c_sources_are_untouched)
+The probe may import the gated modules but must not be part of their frozen set, and must not edit them.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\rlt-research\2026-09-18-phase2\tests\test_lr_probe.py", line 22, in api
+    from horizon import lr_probe as lp
+ImportError: cannot import name 'lr_probe' from 'horizon' (E:\rlt-research\2026-09-18-phase2\horizon\__init__.py)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "E:\rlt-research\2026-09-18-phase2\tests\test_lr_probe.py", line 64, in test_frozen_u2c_sources_are_untouched
+    lp = self.api()
+         ^^^^^^^^^^
+  File "E:\rlt-research\2026-09-18-phase2\tests\test_lr_probe.py", line 24, in api
+    self.fail('horizon.lr_probe is not implemented: ' + str(e))
+AssertionError: horizon.lr_probe is not implemented: cannot import name 'lr_probe' from 'horizon' (E:\rlt-research\2026-09-18-phase2\horizon\__init__.py)
+
+======================================================================
+FAIL: test_probe_is_development_only (tests.test_lr_probe.LrProbeTests.test_probe_is_development_only)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\rlt-research\2026-09-18-phase2\tests\test_lr_probe.py", line 22, in api
+    from horizon import lr_probe as lp
+ImportError: cannot import name 'lr_probe' from 'horizon' (E:\rlt-research\2026-09-18-phase2\horizon\__init__.py)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "E:\rlt-research\2026-09-18-phase2\tests\test_lr_probe.py", line 34, in test_probe_is_development_only
+    lp = self.api()
+         ^^^^^^^^^^
+  File "E:\rlt-research\2026-09-18-phase2\tests\test_lr_probe.py", line 24, in api
+    self.fail('horizon.lr_probe is not implemented: ' + str(e))
+AssertionError: horizon.lr_probe is not implemented: cannot import name 'lr_probe' from 'horizon' (E:\rlt-research\2026-09-18-phase2\horizon\__init__.py)
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.002s
+
+FAILED (failures=3)

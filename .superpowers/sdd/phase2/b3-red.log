@@ -1,0 +1,104 @@
+EEFF
+======================================================================
+ERROR: test_bridge_quality_measures_hits_in_missed_gold_passages (tests.test_lm_bridge.ExtractTests.test_bridge_quality_measures_hits_in_missed_gold_passages)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\rlt-research\2026-09-18-phase2\tests\test_lm_bridge.py", line 66, in test_bridge_quality_measures_hits_in_missed_gold_passages
+    lb = self.api()
+         ^^^^^^^^^^
+  File "E:\rlt-research\2026-09-18-phase2\tests\test_lm_bridge.py", line 46, in api
+    from semantic_memory import lm_bridge as lb
+ImportError: cannot import name 'lm_bridge' from 'semantic_memory' (E:\rlt-research\2026-09-18-phase2\semantic_memory\__init__.py)
+
+======================================================================
+ERROR: test_precompute_batches_caches_and_serves_as_an_extractor (tests.test_lm_bridge.ExtractTests.test_precompute_batches_caches_and_serves_as_an_extractor)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\rlt-research\2026-09-18-phase2\tests\test_lm_bridge.py", line 50, in test_precompute_batches_caches_and_serves_as_an_extractor
+    lb = self.api()
+         ^^^^^^^^^^
+  File "E:\rlt-research\2026-09-18-phase2\tests\test_lm_bridge.py", line 46, in api
+    from semantic_memory import lm_bridge as lb
+ImportError: cannot import name 'lm_bridge' from 'semantic_memory' (E:\rlt-research\2026-09-18-phase2\semantic_memory\__init__.py)
+
+======================================================================
+FAIL: test_parse_strips_decoration_dedupes_and_caps (tests.test_lm_bridge.ParseTests.test_parse_strips_decoration_dedupes_and_caps)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\rlt-research\2026-09-18-phase2\tests\test_lm_bridge.py", line 26, in api
+    from semantic_memory import lm_bridge as lb
+ImportError: cannot import name 'lm_bridge' from 'semantic_memory' (E:\rlt-research\2026-09-18-phase2\semantic_memory\__init__.py)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "E:\rlt-research\2026-09-18-phase2\tests\test_lm_bridge.py", line 32, in test_parse_strips_decoration_dedupes_and_caps
+    lb = self.api()
+         ^^^^^^^^^^
+  File "E:\rlt-research\2026-09-18-phase2\tests\test_lm_bridge.py", line 28, in api
+    self.fail('semantic_memory.lm_bridge is not implemented: ' + str(e))
+AssertionError: semantic_memory.lm_bridge is not implemented: cannot import name 'lm_bridge' from 'semantic_memory' (E:\rlt-research\2026-09-18-phase2\semantic_memory\__init__.py)
+
+======================================================================
+FAIL: test_terms_already_in_the_question_and_NONE_are_dropped (tests.test_lm_bridge.ParseTests.test_terms_already_in_the_question_and_NONE_are_dropped)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\rlt-research\2026-09-18-phase2\tests\test_lm_bridge.py", line 26, in api
+    from semantic_memory import lm_bridge as lb
+ImportError: cannot import name 'lm_bridge' from 'semantic_memory' (E:\rlt-research\2026-09-18-phase2\semantic_memory\__init__.py)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "E:\rlt-research\2026-09-18-phase2\tests\test_lm_bridge.py", line 37, in test_terms_already_in_the_question_and_NONE_are_dropped
+    lb = self.api()
+         ^^^^^^^^^^
+  File "E:\rlt-research\2026-09-18-phase2\tests\test_lm_bridge.py", line 28, in api
+    self.fail('semantic_memory.lm_bridge is not implemented: ' + str(e))
+AssertionError: semantic_memory.lm_bridge is not implemented: cannot import name 'lm_bridge' from 'semantic_memory' (E:\rlt-research\2026-09-18-phase2\semantic_memory\__init__.py)
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.003s
+
+FAILED (failures=2, errors=2)
+FF
+======================================================================
+FAIL: test_final_applies_gates (tests.test_run_b3.RunB3Tests.test_final_applies_gates)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\rlt-research\2026-09-18-phase2\tests\test_run_b3.py", line 31, in api
+    from semantic_memory import run_b3 as rb
+ImportError: cannot import name 'run_b3' from 'semantic_memory' (E:\rlt-research\2026-09-18-phase2\semantic_memory\__init__.py)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "E:\rlt-research\2026-09-18-phase2\tests\test_run_b3.py", line 62, in test_final_applies_gates
+    rb = self.api()
+         ^^^^^^^^^^
+  File "E:\rlt-research\2026-09-18-phase2\tests\test_run_b3.py", line 33, in api
+    self.fail('semantic_memory.run_b3 is not implemented: ' + str(e))
+AssertionError: semantic_memory.run_b3 is not implemented: cannot import name 'run_b3' from 'semantic_memory' (E:\rlt-research\2026-09-18-phase2\semantic_memory\__init__.py)
+
+======================================================================
+FAIL: test_freeze_development_and_bridge_quality (tests.test_run_b3.RunB3Tests.test_freeze_development_and_bridge_quality)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\rlt-research\2026-09-18-phase2\tests\test_run_b3.py", line 31, in api
+    from semantic_memory import run_b3 as rb
+ImportError: cannot import name 'run_b3' from 'semantic_memory' (E:\rlt-research\2026-09-18-phase2\semantic_memory\__init__.py)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "E:\rlt-research\2026-09-18-phase2\tests\test_run_b3.py", line 37, in test_freeze_development_and_bridge_quality
+    rb = self.api()
+         ^^^^^^^^^^
+  File "E:\rlt-research\2026-09-18-phase2\tests\test_run_b3.py", line 33, in api
+    self.fail('semantic_memory.run_b3 is not implemented: ' + str(e))
+AssertionError: semantic_memory.run_b3 is not implemented: cannot import name 'run_b3' from 'semantic_memory' (E:\rlt-research\2026-09-18-phase2\semantic_memory\__init__.py)
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.002s
+
+FAILED (failures=2)

@@ -1,0 +1,1117 @@
+{
+ "cycle": "B1",
+ "worktree": "E:/rlt-research/2026-09-18-phase2",
+ "audit_utc": "2026-09-18T23:39:41+00:00",
+ "mode": "read-only; single-threaded scripts, one raw file at a time, no model loaded",
+ "checks": [
+  {
+   "id": "1_freeze_integrity",
+   "status": "PASS",
+   "evidence": {
+    "frozen_sha256_file": "655268bda2d0160bdb5c500d7c4190f539f57cbc1df66857909080444830a902",
+    "frozen_sha256_calc": "655268bda2d0160bdb5c500d7c4190f539f57cbc1df66857909080444830a902",
+    "protocol_hash_stored": "638b5a2b0ab323b985a770ad1da5585d0516c2b452e58481ac84441a2b1c1d6e",
+    "protocol_hash_calc_canonical_json": "638b5a2b0ab323b985a770ad1da5585d0516c2b452e58481ac84441a2b1c1d6e",
+    "sources": {
+     "memory/api.py": {
+      "stored": "826e7a185b9da272f7da559a6c01fc93ed54124406d2145447d416942ee88a92",
+      "current": "826e7a185b9da272f7da559a6c01fc93ed54124406d2145447d416942ee88a92",
+      "match": true
+     },
+     "semantic_memory/embedding.py": {
+      "stored": "423d30640c24261b707fcb0eb41d514e8d6c96c9f1bc7124af64adf5225c4b2f",
+      "current": "423d30640c24261b707fcb0eb41d514e8d6c96c9f1bc7124af64adf5225c4b2f",
+      "match": true
+     },
+     "semantic_memory/rerank.py": {
+      "stored": "22bad6125b416fe04bf6998e7b193342bf6d3d2ceb58298acf0c6419ba20299a",
+      "current": "22bad6125b416fe04bf6998e7b193342bf6d3d2ceb58298acf0c6419ba20299a",
+      "match": true
+     },
+     "semantic_memory/retrieval.py": {
+      "stored": "408b0927c34ff43da99739b713db5b82f0364fec2aa0ea023f6b0ca420929290",
+      "current": "408b0927c34ff43da99739b713db5b82f0364fec2aa0ea023f6b0ca420929290",
+      "match": true
+     }
+    },
+    "overrides": {
+     "dense_max_length": 256,
+     "dense_instruction": "Given a web search query, retrieve relevant passages that answer the query",
+     "dense_instruction_nonempty": true,
+     "rerank_depth": 50
+    },
+    "development_selected": {
+     "dense_coverage10": 0.445,
+     "hybrid_coverage10": 0.36,
+     "instruction": true,
+     "max_length": 256,
+     "rerank_coverage10": 0.515,
+     "rerank_depth": 50,
+     "rerank_p50": 2.871810499986168,
+     "rerank_recall10": 0.7525
+    },
+    "overrides_match_development_selected": true,
+    "frozen_utc_iso": "2026-09-18T19:20:21.426136Z",
+    "oom_attempt_freeze": {
+     "protocol_hash": "638b5a2b0ab323b985a770ad1da5585d0516c2b452e58481ac84441a2b1c1d6e",
+     "same_protocol_as_final": true,
+     "frozen_utc_iso": "2026-09-18T13:56:36.282003Z",
+     "source_diff": {
+      "semantic_memory/rerank.py": {
+       "oom_attempt": "592e6177ddb52566257051241d6247ab9d0bb216f868e58aa3125b7451e357ad",
+       "final": "22bad6125b416fe04bf6998e7b193342bf6d3d2ceb58298acf0c6419ba20299a"
+      }
+     },
+     "other_sources_identical": true
+    }
+   }
+  },
+  {
+   "id": "2_receipt",
+   "status": "PASS",
+   "evidence": {
+    "status": "COMPLETE",
+    "returncode": 0,
+    "expected_items": 5,
+    "completed_items": 5,
+    "tests_passed": true,
+    "run_id": "b1-final-rerun-20260918T192021Z",
+    "receipt_utc_iso": "2026-09-18T21:57:56.509968Z",
+    "final_sha256_receipt": "23b5c18ff361aeea75eae48150edf9a216c64f4509d07c40ca42e7b67e1bd686",
+    "final_sha256_current": "23b5c18ff361aeea75eae48150edf9a216c64f4509d07c40ca42e7b67e1bd686",
+    "final_bytes": 22777,
+    "frozen_sha256_receipt": "655268bda2d0160bdb5c500d7c4190f539f57cbc1df66857909080444830a902",
+    "frozen_sha256_current": "655268bda2d0160bdb5c500d7c4190f539f57cbc1df66857909080444830a902",
+    "freeze_to_receipt_seconds": 9455.1,
+    "freeze_to_receipt_hours": 2.63
+   }
+  },
+  {
+   "id": "3_final_json_consistency",
+   "status": "PASS",
+   "evidence": {
+    "data_queries": 2417,
+    "gold_per_query": {
+     "2": 1252,
+     "3": 760,
+     "4": 405
+    },
+    "gold_per_query_sum": 2417,
+    "arm_raw_sha256": {
+     "bm25": {
+      "raw_file": "final-bm25.json",
+      "match": true,
+      "n_queries": 2417,
+      "corpus_size": 21100
+     },
+     "dense": {
+      "raw_file": "final-dense.json",
+      "match": true,
+      "n_queries": 2417,
+      "corpus_size": 21100
+     },
+     "hash128": {
+      "raw_file": "final-hash128.json",
+      "match": true,
+      "n_queries": 2417,
+      "corpus_size": 21100
+     },
+     "hybrid": {
+      "raw_file": "final-hybrid.json",
+      "match": true,
+      "n_queries": 2417,
+      "corpus_size": 21100
+     },
+     "hybrid_rerank": {
+      "raw_file": "final-hybrid_rerank.json",
+      "match": true,
+      "n_queries": 2417,
+      "corpus_size": 21100
+     }
+    },
+    "ladder_raw_sha256_all_match_20_files": true,
+    "final_protocol_hash_equals_frozen": true,
+    "dataset_sha256": {
+     "dev": {
+      "stored": "15fa63794d18a94ce12411aca6e2327e65b6e83b0b1490efab3f1962e48abf3b",
+      "match": true,
+      "bytes": 30439728
+     },
+     "train_pool": {
+      "stored": "83a75b1e11e4e9bb8f8308e72ac40ca617ae4431b3a0d955b61cab259248490a",
+      "match": true,
+      "bytes": 241046755
+     }
+    },
+    "rebuilt_from_dev_jsonl": {
+     "rows": 2417,
+     "unique_paragraphs": 21100,
+     "gold_hist": {
+      "2": 1252,
+      "3": 760,
+      "4": 405
+     },
+     "query_order_identical_to_raw": true,
+     "gold_identical_to_raw": true,
+     "ranked_ids_all_in_corpus": true
+    },
+    "rebuilt_train_pool": {
+     "train_rows": 19938,
+     "train_paragraphs": 398724,
+     "unique_not_in_dev": 80862,
+     "stored_size": 80862
+    },
+    "raw_file_structure": {
+     "ranked_len": 50,
+     "note": "raw files store ranked[:max(ks+[rerank_depth])] = top-50 (retrieval.py:258); metrics were computed on the top_k=100 list"
+    }
+   }
+  },
+  {
+   "id": "4a_metrics_recall_coverage_ndcg_from_raw",
+   "status": "PASS",
+   "evidence": {
+    "tolerance": 1e-09,
+    "max_abs_diff_over_all_arms": 9.103828801926284e-15,
+    "per_arm": {
+     "dense": {
+      "coverage@1": {
+       "stored": 0.0,
+       "recomputed": 0.0,
+       "abs_diff": 0.0
+      },
+      "coverage@10": {
+       "stored": 0.24658667769962764,
+       "recomputed": 0.24658667769962764,
+       "abs_diff": 0.0
+      },
+      "coverage@5": {
+       "stored": 0.15597848572610673,
+       "recomputed": 0.15597848572610673,
+       "abs_diff": 0.0
+      },
+      "ndcg@1": {
+       "stored": 0.6884567645841952,
+       "recomputed": 0.6884567645841952,
+       "abs_diff": 0.0
+      },
+      "ndcg@10": {
+       "stored": 0.5725561255987841,
+       "recomputed": 0.5725561255987783,
+       "abs_diff": 5.773159728050814e-15
+      },
+      "ndcg@5": {
+       "stored": 0.5365402228962625,
+       "recomputed": 0.5365402228962548,
+       "abs_diff": 7.66053886991358e-15
+      },
+      "recall@1": {
+       "stored": 0.28516756309474556,
+       "recomputed": 0.28516756309474833,
+       "abs_diff": 2.7755575615628914e-15
+      },
+      "recall@10": {
+       "stored": 0.5995379947593436,
+       "recomputed": 0.5995379947593471,
+       "abs_diff": 3.552713678800501e-15
+      },
+      "recall@5": {
+       "stored": 0.5175493035443387,
+       "recomputed": 0.5175493035443375,
+       "abs_diff": 1.2212453270876722e-15
+      }
+     },
+     "hybrid_rerank": {
+      "coverage@1": {
+       "stored": 0.0,
+       "recomputed": 0.0,
+       "abs_diff": 0.0
+      },
+      "coverage@10": {
+       "stored": 0.32519652461729415,
+       "recomputed": 0.32519652461729415,
+       "abs_diff": 0.0
+      },
+      "coverage@5": {
+       "stored": 0.24327678940835748,
+       "recomputed": 0.24327678940835748,
+       "abs_diff": 0.0
+      },
+      "ndcg@1": {
+       "stored": 0.7703764997931319,
+       "recomputed": 0.7703764997931319,
+       "abs_diff": 0.0
+      },
+      "ndcg@10": {
+       "stored": 0.646173441199626,
+       "recomputed": 0.6461734411996215,
+       "abs_diff": 4.551914400963142e-15
+      },
+      "ndcg@5": {
+       "stored": 0.6169956971647763,
+       "recomputed": 0.6169956971647697,
+       "abs_diff": 6.661338147750939e-15
+      },
+      "recall@1": {
+       "stored": 0.31412908564335956,
+       "recomputed": 0.3141290856433656,
+       "abs_diff": 6.050715484207103e-15
+      },
+      "recall@10": {
+       "stored": 0.6654944145635084,
+       "recomputed": 0.6654944145635139,
+       "abs_diff": 5.440092820663267e-15
+      },
+      "recall@5": {
+       "stored": 0.5999862087987864,
+       "recomputed": 0.5999862087987892,
+       "abs_diff": 2.7755575615628914e-15
+      }
+     },
+     "hybrid": {
+      "coverage@1": {
+       "stored": 0.0,
+       "recomputed": 0.0,
+       "abs_diff": 0.0
+      },
+      "coverage@10": {
+       "stored": 0.2230037236243277,
+       "recomputed": 0.2230037236243277,
+       "abs_diff": 0.0
+      },
+      "coverage@5": {
+       "stored": 0.14687629292511378,
+       "recomputed": 0.14687629292511378,
+       "abs_diff": 0.0
+      },
+      "ndcg@1": {
+       "stored": 0.6776996276375672,
+       "recomputed": 0.6776996276375672,
+       "abs_diff": 0.0
+      },
+      "ndcg@10": {
+       "stored": 0.5606687224214834,
+       "recomputed": 0.5606687224214787,
+       "abs_diff": 4.6629367034256575e-15
+      },
+      "ndcg@5": {
+       "stored": 0.5232106277113311,
+       "recomputed": 0.523210627711322,
+       "abs_diff": 9.103828801926284e-15
+      },
+      "recall@1": {
+       "stored": 0.27927182457592054,
+       "recomputed": 0.2792718245759225,
+       "abs_diff": 1.942890293094024e-15
+      },
+      "recall@10": {
+       "stored": 0.5880223417459661,
+       "recomputed": 0.588022341745968,
+       "abs_diff": 1.887379141862766e-15
+      },
+      "recall@5": {
+       "stored": 0.5020342021790098,
+       "recomputed": 0.5020342021790102,
+       "abs_diff": 3.3306690738754696e-16
+      }
+     },
+     "bm25": {
+      "coverage@1": {
+       "stored": 0.0,
+       "recomputed": 0.0,
+       "abs_diff": 0.0
+      },
+      "coverage@10": {
+       "stored": 0.1336367397600331,
+       "recomputed": 0.1336367397600331,
+       "abs_diff": 0.0
+      },
+      "coverage@5": {
+       "stored": 0.09184940008274721,
+       "recomputed": 0.09184940008274721,
+       "abs_diff": 0.0
+      },
+      "ndcg@1": {
+       "stored": 0.5928837401737691,
+       "recomputed": 0.5928837401737691,
+       "abs_diff": 0.0
+      },
+      "ndcg@10": {
+       "stored": 0.4707758228670185,
+       "recomputed": 0.4707758228670135,
+       "abs_diff": 4.9960036108132044e-15
+      },
+      "ndcg@5": {
+       "stored": 0.4410642848103603,
+       "recomputed": 0.4410642848103561,
+       "abs_diff": 4.218847493575595e-15
+      },
+      "recall@1": {
+       "stored": 0.24465590952972005,
+       "recomputed": 0.24465590952971794,
+       "abs_diff": 2.1094237467877974e-15
+      },
+      "recall@10": {
+       "stored": 0.4872086608743622,
+       "recomputed": 0.487208660874363,
+       "abs_diff": 7.771561172376096e-16
+      },
+      "recall@5": {
+       "stored": 0.4187353468487105,
+       "recomputed": 0.4187353468487139,
+       "abs_diff": 3.3861802251067274e-15
+      }
+     },
+     "hash128": {
+      "coverage@1": {
+       "stored": 0.0,
+       "recomputed": 0.0,
+       "abs_diff": 0.0
+      },
+      "coverage@10": {
+       "stored": 0.002068680182043856,
+       "recomputed": 0.002068680182043856,
+       "abs_diff": 0.0
+      },
+      "coverage@5": {
+       "stored": 0.0004137360364087712,
+       "recomputed": 0.0004137360364087712,
+       "abs_diff": 0.0
+      },
+      "ndcg@1": {
+       "stored": 0.03847745138601572,
+       "recomputed": 0.03847745138601572,
+       "abs_diff": 0.0
+      },
+      "ndcg@10": {
+       "stored": 0.03856982978448696,
+       "recomputed": 0.03856982978448699,
+       "abs_diff": 2.7755575615628914e-17
+      },
+      "ndcg@5": {
+       "stored": 0.0326244260738146,
+       "recomputed": 0.03262442607381462,
+       "abs_diff": 2.0816681711721685e-17
+      },
+      "recall@1": {
+       "stored": 0.01796303958074748,
+       "recomputed": 0.017963039580747495,
+       "abs_diff": 1.3877787807814457e-17
+      },
+      "recall@10": {
+       "stored": 0.047924424217349326,
+       "recomputed": 0.04792442421734925,
+       "abs_diff": 7.632783294297951e-17
+      },
+      "recall@5": {
+       "stored": 0.03354709695214453,
+       "recomputed": 0.03354709695214448,
+       "abs_diff": 4.85722573273506e-17
+      }
+     }
+    },
+    "raw_sanity": {
+     "dense": {
+      "n": 2417,
+      "ids_unique": true,
+      "ranked_len": [
+       50,
+       50
+      ],
+      "ranked_dups": 0,
+      "gold_hist": {
+       "2": 1252,
+       "3": 760,
+       "4": 405
+      },
+      "id_hop_prefix_mismatch": 0
+     },
+     "hybrid_rerank": {
+      "n": 2417,
+      "ids_unique": true,
+      "ranked_len": [
+       50,
+       50
+      ],
+      "ranked_dups": 0,
+      "gold_hist": {
+       "2": 1252,
+       "3": 760,
+       "4": 405
+      },
+      "id_hop_prefix_mismatch": 0
+     },
+     "hybrid": {
+      "n": 2417,
+      "ids_unique": true,
+      "ranked_len": [
+       50,
+       50
+      ],
+      "ranked_dups": 0,
+      "gold_hist": {
+       "2": 1252,
+       "3": 760,
+       "4": 405
+      },
+      "id_hop_prefix_mismatch": 0
+     },
+     "bm25": {
+      "n": 2417,
+      "ids_unique": true,
+      "ranked_len": [
+       50,
+       50
+      ],
+      "ranked_dups": 0,
+      "gold_hist": {
+       "2": 1252,
+       "3": 760,
+       "4": 405
+      },
+      "id_hop_prefix_mismatch": 0
+     },
+     "hash128": {
+      "n": 2417,
+      "ids_unique": true,
+      "ranked_len": [
+       50,
+       50
+      ],
+      "ranked_dups": 0,
+      "gold_hist": {
+       "2": 1252,
+       "3": 760,
+       "4": 405
+      },
+      "id_hop_prefix_mismatch": 0
+     }
+    }
+   }
+  },
+  {
+   "id": "4b_metrics_mrr_from_raw",
+   "status": "UNVERIFIED",
+   "evidence": {
+    "reason": "raw files keep only the top-50 ranking while rank_metrics() ran over the top-100 list; first-hit ranks 51-100 are not recoverable",
+    "per_arm": {
+     "dense": {
+      "stored": 0.7885614008980234,
+      "recomputed_top50": 0.7885075446441471,
+      "stored_minus_recomputed": 5.385625387632764e-05,
+      "queries_with_no_gold_in_top50": 25,
+      "max_possible_diff_from_ranks_51_100": 0.00020281178255331922,
+      "within_bound_and_nonnegative": true
+     },
+     "hybrid_rerank": {
+      "stored": 0.85202924220701,
+      "recomputed_top50": 0.8520129497501373,
+      "stored_minus_recomputed": 1.6292456872735173e-05,
+      "queries_with_no_gold_in_top50": 13,
+      "max_possible_diff_from_ranks_51_100": 0.00010546212692772598,
+      "within_bound_and_nonnegative": true
+     },
+     "hybrid": {
+      "stored": 0.7779339709678854,
+      "recomputed_top50": 0.7779176785110125,
+      "stored_minus_recomputed": 1.6292456872957217e-05,
+      "queries_with_no_gold_in_top50": 13,
+      "max_possible_diff_from_ranks_51_100": 0.00010546212692772598,
+      "within_bound_and_nonnegative": true
+     },
+     "bm25": {
+      "stored": 0.6923035810787407,
+      "recomputed_top50": 0.6920759818437707,
+      "stored_minus_recomputed": 0.00022759923496995516,
+      "queries_with_no_gold_in_top50": 96,
+      "max_possible_diff_from_ranks_51_100": 0.0007787972450047458,
+      "within_bound_and_nonnegative": true
+     },
+     "hash128": {
+      "stored": 0.05956198730702983,
+      "recomputed_top50": 0.05881916833524492,
+      "stored_minus_recomputed": 0.0007428189717849087,
+      "queries_with_no_gold_in_top50": 1961,
+      "max_possible_diff_from_ranks_51_100": 0.015908556223482362,
+      "within_bound_and_nonnegative": true
+     }
+    },
+    "all_within_bound": true
+   }
+  },
+  {
+   "id": "4c_hop_breakdown_vs_report",
+   "status": "PASS",
+   "evidence": {
+    "n_by_gold_count": {
+     "2": 1252,
+     "3": 760,
+     "4": 405
+    },
+    "dense": {
+     "recomputed": {
+      "2": 0.38977635782747605,
+      "3": 0.14210526315789473,
+      "4": 0.0
+     },
+     "report": {
+      "2": 0.39,
+      "3": 0.142,
+      "4": 0.0
+     }
+    },
+    "hybrid_rerank": {
+     "recomputed": {
+      "2": 0.4696485623003195,
+      "3": 0.25394736842105264,
+      "4": 0.012345679012345678
+     },
+     "report": {
+      "2": 0.47,
+      "3": 0.254,
+      "4": 0.012
+     }
+    },
+    "recall@10_by_gold_count": {
+     "dense": {
+      "2": 0.6733226837060703,
+      "3": 0.6004385964912301,
+      "4": 0.3697530864197531
+     },
+     "hybrid_rerank": {
+      "2": 0.7240415335463258,
+      "3": 0.6828947368421089,
+      "4": 0.45185185185185184
+     }
+    }
+   }
+  },
+  {
+   "id": "4d_bootstrap_ci_reproduction",
+   "status": "PASS",
+   "evidence": {
+    "numpy": "2.3.5",
+    "bootstrap": 1000,
+    "seed": 2026091802,
+    "final_arms": {
+     "bm25": {
+      "recall@10_ci95": [
+       0.4769307681699076,
+       0.49789942766514955
+      ],
+      "coverage@10_ci95": [
+       0.12081092263136119,
+       0.14687629292511378
+      ],
+      "both_reproduced_exactly": true
+     },
+     "dense": {
+      "recall@10_ci95": [
+       0.5881938698110605,
+       0.609851227416908
+      ],
+      "coverage@10_ci95": [
+       0.2300372362432768,
+       0.2631361191559785
+      ],
+      "both_reproduced_exactly": true
+     },
+     "hash128": {
+      "recall@10_ci95": [
+       0.04258033374706936,
+       0.05413132671355674
+      ],
+      "coverage@10_ci95": [
+       0.0004137360364087712,
+       0.003723624327678941
+      ],
+      "both_reproduced_exactly": true
+     },
+     "hybrid": {
+      "recall@10_ci95": [
+       0.5773315749551786,
+       0.5989518687077644
+      ],
+      "coverage@10_ci95": [
+       0.20768514687629291,
+       0.23832230037236243
+      ],
+      "both_reproduced_exactly": true
+     },
+     "hybrid_rerank": {
+      "recall@10_ci95": [
+       0.6553225417183836,
+       0.6755680250999861
+      ],
+      "coverage@10_ci95": [
+       0.30780926768721556,
+       0.3421597021100538
+      ],
+      "both_reproduced_exactly": true
+     }
+    },
+    "ladder_20_points_all_reproduced": true
+   }
+  },
+  {
+   "id": "5_reranker_window_claim",
+   "status": "PASS",
+   "evidence": {
+    "source": "results/B1/final-hybrid.json",
+    "gold_outside_top10": 1878,
+    "all_missing_gold_within_top50": 556,
+    "some_gold_beyond_top50": 1322,
+    "report_claim": [
+     1878,
+     556,
+     1322
+    ],
+    "for_reference": {
+     "hybrid_rerank": {
+      "gold_outside_top10": 1631,
+      "all_missing_within_top50": 309,
+      "some_gold_beyond_top50": 1322,
+      "sum_check": true
+     },
+     "dense": {
+      "gold_outside_top10": 1821,
+      "all_missing_within_top50": 453,
+      "some_gold_beyond_top50": 1368,
+      "sum_check": true
+     }
+    }
+   }
+  },
+  {
+   "id": "6_ladder",
+   "status": "PASS",
+   "evidence": {
+    "corpus_size_raw_files": {
+     "1000/dense": 1000,
+     "10000/dense": 10000,
+     "100000/dense": 100000,
+     "full/dense": 21100
+    },
+    "from_extra_pool": {
+     "1000": 0,
+     "10000": 0,
+     "100000": 78900,
+     "full": null
+    },
+    "21100_plus_78900": 100000,
+    "ladder_query_ids_identical_across_20_files": true,
+    "ladder_gold_identical_across_files_and_equal_to_final_gold": true,
+    "n_ladder_queries": 250,
+    "ladder_gold_hist": {
+     "2": 122,
+     "3": 80,
+     "4": 48
+    },
+    "seeded_pick_reproduced_with_numpy_ladder_seed_2026091801": true,
+    "ladder1000_doc_ids_reproduced_corpus_subset_seed_plus_size": true,
+    "ladder10000_doc_ids_reproduced": true,
+    "doc_ids_checks_1000_10000": {
+     "1000/bm25": {
+      "doc_ids_len": 1000,
+      "unique": true,
+      "all_gold_in_doc_ids": true,
+      "ranked_subset_of_doc_ids": true
+     },
+     "1000/dense": {
+      "doc_ids_len": 1000,
+      "unique": true,
+      "all_gold_in_doc_ids": true,
+      "ranked_subset_of_doc_ids": true
+     },
+     "1000/hash128": {
+      "doc_ids_len": 1000,
+      "unique": true,
+      "all_gold_in_doc_ids": true,
+      "ranked_subset_of_doc_ids": true
+     },
+     "1000/hybrid": {
+      "doc_ids_len": 1000,
+      "unique": true,
+      "all_gold_in_doc_ids": true,
+      "ranked_subset_of_doc_ids": true
+     },
+     "1000/hybrid_rerank": {
+      "doc_ids_len": 1000,
+      "unique": true,
+      "all_gold_in_doc_ids": true,
+      "ranked_subset_of_doc_ids": true
+     },
+     "10000/bm25": {
+      "doc_ids_len": 10000,
+      "unique": true,
+      "all_gold_in_doc_ids": true,
+      "ranked_subset_of_doc_ids": true
+     },
+     "10000/dense": {
+      "doc_ids_len": 10000,
+      "unique": true,
+      "all_gold_in_doc_ids": true,
+      "ranked_subset_of_doc_ids": true
+     },
+     "10000/hash128": {
+      "doc_ids_len": 10000,
+      "unique": true,
+      "all_gold_in_doc_ids": true,
+      "ranked_subset_of_doc_ids": true
+     },
+     "10000/hybrid": {
+      "doc_ids_len": 10000,
+      "unique": true,
+      "all_gold_in_doc_ids": true,
+      "ranked_subset_of_doc_ids": true
+     },
+     "10000/hybrid_rerank": {
+      "doc_ids_len": 10000,
+      "unique": true,
+      "all_gold_in_doc_ids": true,
+      "ranked_subset_of_doc_ids": true
+     }
+    },
+    "hybrid_rerank_1000_recall_at_10": {
+     "stored": 0.8326666666666667,
+     "recomputed": 0.832666666666666,
+     "abs_diff": 6.661338147750939e-16,
+     "match_1e-9": true
+    },
+    "report_claim": 0.833,
+    "all_non_mrr_metrics_reproduced_20_files": true,
+    "mrr_truncation_files": [
+     "1000/hash128",
+     "10000/bm25",
+     "10000/dense",
+     "10000/hash128",
+     "100000/bm25",
+     "100000/dense",
+     "100000/hash128",
+     "full/bm25",
+     "full/hash128",
+     "full/hybrid",
+     "full/hybrid_rerank"
+    ]
+   }
+  },
+  {
+   "id": "7a_report_numbers",
+   "status": "PASS",
+   "evidence": {
+    "mapping_report_claim_to_stored": [
+     {
+      "claim": "hybrid_rerank recall@10 0,665 [0,655, 0,676]",
+      "stored": [
+       0.6654944145635084,
+       0.6553225417183836,
+       0.6755680250999861
+      ],
+      "match": true
+     },
+     {
+      "claim": "hybrid_rerank coverage@10 0,325 [0,308, 0,342]",
+      "stored": [
+       0.32519652461729415,
+       0.30780926768721556,
+       0.3421597021100538
+      ],
+      "match": true
+     },
+     {
+      "claim": "dense 0,600 / 0,247",
+      "stored": [
+       0.5995379947593436,
+       0.24658667769962764
+      ],
+      "match": true
+     },
+     {
+      "claim": "bm25 0,487 / 0,134",
+      "stored": [
+       0.4872086608743622,
+       0.1336367397600331
+      ],
+      "match": true
+     },
+     {
+      "claim": "hybrid 0,588 / 0,223",
+      "stored": [
+       0.5880223417459661,
+       0.2230037236243277
+      ],
+      "match": true
+     },
+     {
+      "claim": "hash128 0,048 / 0,002",
+      "stored": [
+       0.047924424217349326,
+       0.002068680182043856
+      ],
+      "match": true
+     },
+     {
+      "claim": "p50 hybrid_rerank 1,93 s; dense 3 ms",
+      "stored": [
+       1.934434599997985,
+       0.003425200000492623
+      ],
+      "match": true
+     },
+     {
+      "claim": "reranker kazanci +6,5 puan recall / +7,8 puan kapsama",
+      "stored": [
+       6.6,
+       7.86
+      ],
+      "match": false
+     },
+     {
+      "claim": "pencere 1.878 / 1.322",
+      "stored": [
+       1878,
+       1322
+      ],
+      "match": true
+     },
+     {
+      "claim": "merdiven hybrid_rerank 0,833 -> 0,692 -> 0,592 -> 0,651",
+      "stored": [
+       0.8326666666666667,
+       0.692,
+       0.5923333333333333,
+       0.6513333333333332
+      ],
+      "match": true
+     },
+     {
+      "claim": "100k: 78.900 dis havuzdan",
+      "stored": [
+       78900
+      ],
+      "match": true
+     },
+     {
+      "claim": "veri 2.417 / 21.100 / 1.252-760-405 / havuz 80.862",
+      "stored": [
+       2417,
+       21100,
+       {
+        "2": 1252,
+        "3": 760,
+        "4": 405
+       },
+       80862
+      ],
+      "match": true
+     },
+     {
+      "claim": "gelistirme kapsama@10 0,445 dense / 0,515 rerank",
+      "stored": [
+       0.445,
+       0.515
+      ],
+      "match": true
+     },
+     {
+      "claim": "toplu/tekil maks |dkosinus| 4,8e-6 (64 belge)",
+      "stored": [
+       4.827976226806641e-06,
+       64
+      ],
+      "match": true
+     },
+     {
+      "claim": "hedefler 0,95 / 0,90",
+      "stored": [
+       0.95,
+       0.9
+      ],
+      "match": true
+     },
+     {
+      "claim": "8 GB kart",
+      "stored": [
+       "OOM log: GPU 0 has a total capacity of 8.00 GiB"
+      ],
+      "match": true
+     },
+     {
+      "claim": "OOM 4,63 GiB, 58. dakika",
+      "stored": [
+       "OOM log: Tried to allocate 4.63 GiB",
+       "freeze 13:56:36Z -> failure 14:54Z = 57.4 min"
+      ],
+      "match": true
+     },
+     {
+      "claim": "parite 2/2, 19 Eylul 02:24, 1e-4",
+      "stored": [
+       "d9-rerank-parity.log mtime 2026-09-19 02:24, Ran 2 tests, OK",
+       "assertAlmostEqual places=4 (batch test places=3)"
+      ],
+      "match": true
+     }
+    ],
+    "note": "all numeric claims map to final.json/development.json/logs; the reranker-gain line differs by rounding (see discrepancies D1)"
+   }
+  },
+  {
+   "id": "7b_report_timing_fields",
+   "status": "PASS",
+   "evidence": {
+    "report_line": "kodlama 102.545 metin 1.615 s (GPU); reranker 170.850 cift 7.172 s; toplam ~2,6 saat",
+    "encoder.encoded": 102545,
+    "encoder.seconds": 1615.270963199997,
+    "index.dense_encode_seconds": 1609.059925900001,
+    "interpretation": "report uses encoder.encoded / encoder.seconds (Turkish thousands separator: 1.615 s = 1615 s). index.dense_encode_seconds = 1609.06 s covers corpus (21,100) + extra pool (78,900) = 100,000 texts only; encoder.seconds additionally includes 2,417 queries + 128 batch-check texts: 21100+2417+128+78900 = 102545 = encoder.encoded",
+    "encoded_decomposition_ok": true,
+    "encoder_minus_index_seconds": 6.21,
+    "reranker.scored_pairs": 170850,
+    "pairs_decomposition": "2417*50 + 4*250*50 = 170850",
+    "pairs_ok": true,
+    "reranker.seconds": 7172.4860266000815,
+    "total_hours_freeze_to_receipt": 2.63,
+    "batch_vs_single.max_abs_cosine_diff": 4.827976226806641e-06,
+    "mismatch": null
+   }
+  },
+  {
+   "id": "7c_report_field_references",
+   "status": "FAIL",
+   "evidence": {
+    "claim": "Durum: \"kapilar `gates` alaninda; bkz. results/B1/final.json\"",
+    "stored": "final.json has no `gates` key (0 occurrences); gate inputs are `targets` {recall_at_10: 0.95, coverage_at_10: 0.9} and per-arm `target_recall`/`target_coverage` (all five false); top-level `status` = \"MEASURED\"",
+    "severity": "low (documentation only; the MEASURED_NEGATIVE verdict itself follows from target_* = false)"
+   }
+  },
+  {
+   "id": "8_test_evidence",
+   "status": "PASS",
+   "evidence": {
+    "d9-rerank-parity.log": {
+     "ran": "Ran 2 tests in 31.737s",
+     "verdict_line": "OK",
+     "tests": [
+      "test_batching_with_left_padding_does_not_change_scores ... ok",
+      "test_patched_scores_match_full_logits_reference ... ok"
+     ],
+     "note": "the very last line is an interpreter-shutdown DeprecationWarning (swigvarlink) printed after OK",
+     "mtime_local": "2026-09-19 02:24"
+    },
+    "b1-rerun-tests.log": {
+     "ran": "Ran 6 tests in 3.510s",
+     "last_line": "OK",
+     "suite": "tests.test_retrieval_contract (per b1-rerun-chain-v3.sh)"
+    },
+    "results/B1-attempt1-oom": {
+     "exists": true,
+     "files": [
+      "frozen.json",
+      "frozen.sha256"
+     ],
+     "frozen_sha256_matches": true,
+     "log": ".superpowers/sdd/phase2/b1-final-attempt1-oom.log: torch.OutOfMemoryError, tried 4.63 GiB, GPU total 8.00 GiB, 7.42 GiB allocated, in rerank.py:36 logits = self.model(**batch).logits[:, -1, :]"
+    },
+    "patched_rerank.py": "semantic_memory/rerank.py: hidden = self.model.model(**batch).last_hidden_state[:, -1, :]; logits = self.model.lm_head(hidden) (mtime 2026-09-18 17:56 local, after the 14:54Z OOM, before the 19:20:21Z freeze)",
+    "tests_not_rerun": true
+   }
+  },
+  {
+   "id": "9_ledger",
+   "status": "PASS",
+   "evidence": {
+    "file": ".superpowers/sdd/phase2/progress.md",
+    "quotes": {
+     "oom": "L19: \"B1 final attempt 1 FAILED at 2026-09-18T14:54Z after ~58 min: torch.OutOfMemoryError (4.63 GiB single allocation, 7.42 GiB allocated) inside the reranker F.linear\"",
+     "reranker_patch": "L19: \"(1) semantic_memory/rerank.py now runs the base model and projects only the last hidden state through lm_head (CPU smoke test with the real 0.6B reranker ...)\"",
+     "chain_v2": "L49: \"B1 chain swapped: old `b1-rerun-chain.sh` (had only been waiting) killed; `b1-rerun-chain-v2.sh` armed 16:28:13Z run_id b1-final-rerun-20260918T162813Z — runs contract tests before the final and writes `results/B1/receipt.json` (E12)\"",
+     "power_outage": "L70: \"19:57–20:03 POWER OUTAGE (Event 6008 unexpected shutdown, Event 41 reboot 20:03:31): all jobs died — ... B1 rerun never started. No .tmp leftovers (atomic writes). Not an OOM.\"",
+     "sequential_restart": "L71: \"User: tek tek al başla — strictly sequential restart, one process at a time: (1) U2 stack s191, (2) U2b stack s143+s191, (3) B1 rerun, (4) D1 final ...\"",
+     "chain_v3": "L78: \"Step 3 launched: `b1-rerun-chain-v3.sh` (freeze with dev-selected overrides → contract tests → final → E12 receipt), single GPU process.\"",
+     "done": "L83: \"Step 3 done 00:57: B1 final rc=0, 5 arms, receipt COMPLETE\"; L84: \"D9 parity test GREEN 2/2\""
+    },
+    "note": "ledger mixes UTC (\"Z\", L19/L49/L79) and local UTC+3 wall-clock without marker (L68–L83); consistent when converted (v2 armed 16:28Z = 19:28 local, 29 min before the 19:57 local outage)"
+   }
+  },
+  {
+   "id": "10_development_selection_rule",
+   "status": "PASS",
+   "evidence": {
+    "rule_retrieval_py": "max over (rerank_coverage10, rerank_recall10, -rerank_p50)",
+    "selected_equals_argmax": true,
+    "tied_rows_on_coverage_and_recall": [
+     {
+      "max_length": 256,
+      "instruction": true,
+      "rerank_depth": 50,
+      "rerank_p50": 2.871810499986168
+     },
+     {
+      "max_length": 512,
+      "instruction": true,
+      "rerank_depth": 50,
+      "rerank_p50": 3.000697549956385
+     }
+    ],
+    "tie_break": "lower rerank_p50 -> max_length 256",
+    "note": "frozen protocol.development_queries=300 but development.json queries=200 (ledger L10/L13: 200 two-hop train queries); the field is unused by --final"
+   }
+  }
+ ],
+ "summary": {
+  "pass": 13,
+  "fail": 1,
+  "unverified": 1,
+  "total": 15
+ },
+ "discrepancies": [
+  {
+   "id": "D1",
+   "severity": "low",
+   "where": "notes/B1_RAPORU.md Bulgular 3",
+   "claim": "+6,5 puan recall, +7,8 puan kapsama (0,600->0,665; 0,247->0,325)",
+   "stored": "recall@10 0.5995380 -> 0.6654944 = +6.60 pp; coverage@10 0.2465867 -> 0.3251965 = +7.86 pp",
+   "note": "report subtracts already-rounded values; exact differences round to +6,6 / +7,9"
+  },
+  {
+   "id": "D2",
+   "severity": "low",
+   "where": "notes/B1_RAPORU.md Durum",
+   "claim": "kapilar `gates` alaninda (results/B1/final.json)",
+   "stored": "no `gates` key; `targets` + per-arm `target_recall`/`target_coverage` = false; status \"MEASURED\"",
+   "note": "wrong field name; verdict unaffected"
+  },
+  {
+   "id": "D3",
+   "severity": "low",
+   "where": "notes/B1_RAPORU.md Yorum ve sinirlar",
+   "claim": "CPU-da U2b-nin son kosullari 22:20–22:35 arasinda cakisti",
+   "stored": "file mtimes (local): u2b-intervene.log 22:18, u2b-analyze.log 22:19 (before the 22:20:21 freeze); 22:20–22:35 = U2 independent audit + seal (audit-u2.json 22:31, audit-u2.md 22:32, U2_RAPORU.md 22:33, phase2-U2-manifest 22:34, commit a6a3e6c 22:34:22)",
+   "note": "the overlapping CPU load appears to be the U2 audit/sealing, not U2b runs; effect claim (encoding-phase timing only) unchanged; process list not recoverable -> UNVERIFIED"
+  },
+  {
+   "id": "D4",
+   "severity": "info",
+   "where": "results/B1/final-*.json, ladder*-*.json",
+   "claim": "mrr in final.json",
+   "stored": "raw rankings truncated to top-50 (retrieval.py:258) -> mrr reproducible only as a lower bound; deltas dense 5.39e-05, hybrid_rerank 1.63e-05, hybrid 1.63e-05, bm25 2.28e-04, hash128 7.43e-04 all within the rank-51..100 bound",
+   "note": "store the full top_k=100 list next cycle"
+  },
+  {
+   "id": "D5",
+   "severity": "info",
+   "where": "notes/B1_RAPORU.md Durum / git",
+   "claim": "audit/phase2-B1-manifest.json (muhurleme sonrasi)",
+   "stored": "not present at audit time; results/B1/, notes/B1_RAPORU.md and semantic_memory/*.py are untracked in git (HEAD a6a3e6c = U2 seal); freeze source hashes verified against the working tree only",
+   "note": "expected pending state; seal + commit still to do"
+  }
+ ],
+ "not_verified": [
+  "No model loaded, no experiment code executed: the rankings themselves (encoder/reranker outputs), latencies (p50/p95/mean), VRAM and the batch_vs_single cosine check are taken as stored",
+  "Parity/contract tests not rerun (logs only)",
+  "development.json table values not recomputed from the dev-* raw files (only the selection rule and the selected row were checked)",
+  "GPU exclusivity during the run and the exact CPU processes at 22:20–22:35 local",
+  "ndcg reproduced but not in scope of the report claims"
+ ]
+}

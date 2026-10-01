@@ -1,0 +1,247 @@
+{
+ "status": "MEASURED_WITH_INCOMPLETE",
+ "complete": 22,
+ "declared": 24,
+ "decisions": {
+  "five/win16": {
+   "status": "MEASURED_NEGATIVE",
+   "incomplete": false,
+   "seeds_used": 3,
+   "primary": [
+    {
+     "endpoint": "neutral-128-middle",
+     "mean_pp": -7.747395833333333,
+     "t95_pp": [
+      -43.51080254969582,
+      28.016010883029157
+     ],
+     "direction": "INCLUDES_ZERO",
+     "missing": []
+    },
+    {
+     "endpoint": "neutral-128-suffix",
+     "mean_pp": -13.8671875,
+     "t95_pp": [
+      -35.78651417500472,
+      8.052139175004719
+     ],
+     "direction": "INCLUDES_ZERO",
+     "missing": []
+    }
+   ],
+   "cost": {
+    "endpoint": "L1024",
+    "mean_pp": -7.161458333333333,
+    "t95_pp": [
+     -24.737771696476614,
+     10.414855029809948
+    ]
+   },
+   "note": null
+  },
+  "five/idinv": {
+   "status": "MEASURED_NEGATIVE",
+   "incomplete": false,
+   "seeds_used": 3,
+   "primary": [
+    {
+     "endpoint": "neutral-128-middle",
+     "mean_pp": -1.6276041666666667,
+     "t95_pp": [
+      -49.37892753070513,
+      46.123719197371784
+     ],
+     "direction": "INCLUDES_ZERO",
+     "missing": []
+    },
+    {
+     "endpoint": "neutral-128-suffix",
+     "mean_pp": -6.380208333333333,
+     "t95_pp": [
+      -59.78195553638794,
+      47.021538869721276
+     ],
+     "direction": "INCLUDES_ZERO",
+     "missing": []
+    }
+   ],
+   "cost": {
+    "endpoint": "L1024",
+    "mean_pp": -8.138020833333332,
+    "t95_pp": [
+     -26.906102398632814,
+     10.630060731966147
+    ]
+   },
+   "note": null
+  },
+  "five/reread": {
+   "status": "MEASURED_NEGATIVE",
+   "incomplete": true,
+   "seeds_used": 2,
+   "primary": [
+    {
+     "endpoint": "neutral-128-middle",
+     "mean_pp": -11.42578125,
+     "t95_pp": [
+      -171.49418075625,
+      148.64261825625
+     ],
+     "direction": "INCLUDES_ZERO",
+     "missing": [
+      {
+       "seed": 191,
+       "arm_status": "FAILED_NONFINITE",
+       "base_status": "COMPLETE"
+      }
+     ]
+    },
+    {
+     "endpoint": "neutral-128-suffix",
+     "mean_pp": -18.65234375,
+     "t95_pp": [
+      -39.74662895625,
+      2.441941456249999
+     ],
+     "direction": "INCLUDES_ZERO",
+     "missing": [
+      {
+       "seed": 191,
+       "arm_status": "FAILED_NONFINITE",
+       "base_status": "COMPLETE"
+      }
+     ]
+    }
+   ],
+   "cost": {
+    "endpoint": "L1024",
+    "mean_pp": 1.171875,
+    "t95_pp": [
+     -11.236528062500001,
+     13.580278062500001
+    ]
+   },
+   "note": null
+  },
+  "parity/win16": {
+   "status": "MEASURED_NEGATIVE",
+   "incomplete": false,
+   "seeds_used": 3,
+   "primary": [
+    {
+     "endpoint": "neutral-128-middle",
+     "mean_pp": -45.76822916666667,
+     "t95_pp": [
+      -53.05136529648438,
+      -38.48509303684896
+     ],
+     "direction": "NEGATIVE_INTERVAL",
+     "missing": []
+    },
+    {
+     "endpoint": "neutral-128-suffix",
+     "mean_pp": -49.28385416666667,
+     "t95_pp": [
+      -57.29060120412947,
+      -41.277107129203856
+     ],
+     "direction": "NEGATIVE_INTERVAL",
+     "missing": []
+    }
+   ],
+   "cost": {
+    "endpoint": "L1024",
+    "mean_pp": -6.25,
+    "t95_pp": [
+     -27.680600555191525,
+     15.180600555191523
+    ]
+   },
+   "note": "primary task per plan is five; parity rows are secondary"
+  },
+  "parity/idinv": {
+   "status": "MEASURED_NEGATIVE",
+   "incomplete": false,
+   "seeds_used": 3,
+   "primary": [
+    {
+     "endpoint": "neutral-128-middle",
+     "mean_pp": -2.1484375,
+     "t95_pp": [
+      -26.605710954468996,
+      22.308835954469
+     ],
+     "direction": "INCLUDES_ZERO",
+     "missing": []
+    },
+    {
+     "endpoint": "neutral-128-suffix",
+     "mean_pp": 0.06510416666666666,
+     "t95_pp": [
+      -0.21501645371093753,
+      0.34522478704427084
+     ],
+     "direction": "INCLUDES_ZERO",
+     "missing": []
+    }
+   ],
+   "cost": {
+    "endpoint": "L1024",
+    "mean_pp": 0.0,
+    "t95_pp": [
+     0.0,
+     0.0
+    ]
+   },
+   "note": "primary task per plan is five; parity rows are secondary"
+  },
+  "parity/reread": {
+   "status": "MEASURED_NEGATIVE",
+   "incomplete": true,
+   "seeds_used": 2,
+   "primary": [
+    {
+     "endpoint": "neutral-128-middle",
+     "mean_pp": -1.5625,
+     "t95_pp": [
+      -21.4159449,
+      18.2909449
+     ],
+     "direction": "INCLUDES_ZERO",
+     "missing": [
+      {
+       "seed": 191,
+       "arm_status": "FAILED_NONFINITE",
+       "base_status": "COMPLETE"
+      }
+     ]
+    },
+    {
+     "endpoint": "neutral-128-suffix",
+     "mean_pp": 0.09765625,
+     "t95_pp": [
+      -1.14318405625,
+      1.33849655625
+     ],
+     "direction": "INCLUDES_ZERO",
+     "missing": [
+      {
+       "seed": 191,
+       "arm_status": "FAILED_NONFINITE",
+       "base_status": "COMPLETE"
+      }
+     ]
+    }
+   ],
+   "cost": {
+    "endpoint": "L1024",
+    "mean_pp": 0.0,
+    "t95_pp": [
+     0.0,
+     0.0
+    ]
+   },
+   "note": "primary task per plan is five; parity rows are secondary"
+  }
+ }
+}

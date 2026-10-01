@@ -1,0 +1,274 @@
+{
+  "arm": "segment",
+  "diagnostic": false,
+  "environment": {
+    "cuda": "13.0",
+    "executable": "C:\\Users\\pc\\Documents\\ChatGPT\\DaxDream\\.venv\\Scripts\\python.exe",
+    "gpu": null,
+    "platform": "Windows-10-10.0.19045-SP0",
+    "python": "3.11.9 (tags/v3.11.9:de54cf5, Apr  2 2024, 10:12:12) [MSC v.1938 64 bit (AMD64)]",
+    "torch": "2.12.0+cu130"
+  },
+  "final_checkpoint_sha256": "d710f7d2f40960589c34e28c419828f0e386ede11bcac502e9a87eb9276c9446",
+  "final_state_hash": "c95b65e3ad27aa3fd6abead619e9f29ccde6121b795b0c1576aa29926afa537e",
+  "finished": 1789596844.5027416,
+  "initial_checkpoint_sha256": "376b73c7857ae7b58820a8fdd3148473a5593639dd5d4ebf5bf8d758d5e2098e",
+  "initial_state_hash": "538cecd61800eae00997a3db2eb83395f854058ecfc04b60cdea97b8b0cb2cdd",
+  "length": 128,
+  "measurements": [
+    {
+      "cuda": null,
+      "loss": 0.7631818018853664,
+      "phases": [
+        {
+          "cuda": null,
+          "phase": "ready",
+          "ram": {
+            "lifetime_peak_working_set_bytes": 615976960,
+            "private_commit_bytes": 1285337088,
+            "working_set_bytes": 615841792
+          },
+          "saved": null,
+          "seconds": 6.199989002197981e-06
+        },
+        {
+          "cuda": null,
+          "phase": "encoder",
+          "ram": {
+            "lifetime_peak_working_set_bytes": 615976960,
+            "private_commit_bytes": 1285337088,
+            "working_set_bytes": 615849984
+          },
+          "saved": null,
+          "seconds": 0.006298199994489551
+        },
+        {
+          "cuda": null,
+          "phase": "segment_forward_backward",
+          "ram": {
+            "lifetime_peak_working_set_bytes": 616116224,
+            "private_commit_bytes": 1285996544,
+            "working_set_bytes": 616112128
+          },
+          "saved": null,
+          "seconds": 0.7818496999680065
+        },
+        {
+          "cuda": null,
+          "phase": "global_backward",
+          "ram": {
+            "lifetime_peak_working_set_bytes": 616116224,
+            "private_commit_bytes": 1285996544,
+            "working_set_bytes": 616112128
+          },
+          "saved": null,
+          "seconds": 0.007364399963989854
+        },
+        {
+          "cuda": null,
+          "phase": "optimizer",
+          "ram": {
+            "lifetime_peak_working_set_bytes": 616116224,
+            "private_commit_bytes": 1285996544,
+            "working_set_bytes": 616112128
+          },
+          "saved": null,
+          "seconds": 0.0034821999724954367
+        }
+      ],
+      "saved": null,
+      "seconds": 0.7990006998879835,
+      "update": 3
+    },
+    {
+      "cuda": null,
+      "loss": 0.7124024741351604,
+      "phases": [
+        {
+          "cuda": null,
+          "phase": "ready",
+          "ram": {
+            "lifetime_peak_working_set_bytes": 616116224,
+            "private_commit_bytes": 1285996544,
+            "working_set_bytes": 616112128
+          },
+          "saved": null,
+          "seconds": 3.500026650726795e-06
+        },
+        {
+          "cuda": null,
+          "phase": "encoder",
+          "ram": {
+            "lifetime_peak_working_set_bytes": 616116224,
+            "private_commit_bytes": 1285996544,
+            "working_set_bytes": 616112128
+          },
+          "saved": null,
+          "seconds": 0.004811699967831373
+        },
+        {
+          "cuda": null,
+          "phase": "segment_forward_backward",
+          "ram": {
+            "lifetime_peak_working_set_bytes": 616116224,
+            "private_commit_bytes": 1285996544,
+            "working_set_bytes": 616112128
+          },
+          "saved": null,
+          "seconds": 0.7210276999976486
+        },
+        {
+          "cuda": null,
+          "phase": "global_backward",
+          "ram": {
+            "lifetime_peak_working_set_bytes": 616116224,
+            "private_commit_bytes": 1285996544,
+            "working_set_bytes": 616112128
+          },
+          "saved": null,
+          "seconds": 0.010006299999076873
+        },
+        {
+          "cuda": null,
+          "phase": "optimizer",
+          "ram": {
+            "lifetime_peak_working_set_bytes": 616116224,
+            "private_commit_bytes": 1285996544,
+            "working_set_bytes": 616112128
+          },
+          "saved": null,
+          "seconds": 0.0036308999988250434
+        }
+      ],
+      "saved": null,
+      "seconds": 0.7394800999900326,
+      "update": 4
+    },
+    {
+      "cuda": null,
+      "loss": 0.7010772302746773,
+      "phases": [
+        {
+          "cuda": null,
+          "phase": "ready",
+          "ram": {
+            "lifetime_peak_working_set_bytes": 616116224,
+            "private_commit_bytes": 1285996544,
+            "working_set_bytes": 616112128
+          },
+          "saved": null,
+          "seconds": 1.9000144675374031e-06
+        },
+        {
+          "cuda": null,
+          "phase": "encoder",
+          "ram": {
+            "lifetime_peak_working_set_bytes": 616116224,
+            "private_commit_bytes": 1285996544,
+            "working_set_bytes": 616112128
+          },
+          "saved": null,
+          "seconds": 0.004931500006932765
+        },
+        {
+          "cuda": null,
+          "phase": "segment_forward_backward",
+          "ram": {
+            "lifetime_peak_working_set_bytes": 616443904,
+            "private_commit_bytes": 1285996544,
+            "working_set_bytes": 616439808
+          },
+          "saved": null,
+          "seconds": 0.7441818999941461
+        },
+        {
+          "cuda": null,
+          "phase": "global_backward",
+          "ram": {
+            "lifetime_peak_working_set_bytes": 616443904,
+            "private_commit_bytes": 1285996544,
+            "working_set_bytes": 616439808
+          },
+          "saved": null,
+          "seconds": 0.00791169999865815
+        },
+        {
+          "cuda": null,
+          "phase": "optimizer",
+          "ram": {
+            "lifetime_peak_working_set_bytes": 616443904,
+            "private_commit_bytes": 1285996544,
+            "working_set_bytes": 616439808
+          },
+          "saved": null,
+          "seconds": 0.006067600043024868
+        }
+      ],
+      "saved": null,
+      "seconds": 0.7630946000572294,
+      "update": 5
+    }
+  ],
+  "optimizer_initialized_before_measurement": true,
+  "optimizer_updates": 5,
+  "pid": 22396,
+  "protocol": {
+    "alpha": 0.1,
+    "arms": [
+      "full",
+      "detach",
+      "checkpoint",
+      "segment",
+      "segment_encoder_checkpoint"
+    ],
+    "batch": 8,
+    "chunk": 8,
+    "clip": null,
+    "data": "independent deterministic batch per optimizer update; paired across arms",
+    "data_seed": 970100,
+    "device": "cpu",
+    "equivalence": {
+      "atol": 3e-06,
+      "lengths": [
+        32,
+        128
+      ],
+      "repeats": 3,
+      "rtol": 0.0003
+    },
+    "heads": 2,
+    "hooks": "separate diagnostic run; deduplicated backing-storage save lifetime, not resident VRAM",
+    "lengths": [
+      32,
+      128,
+      512,
+      1024
+    ],
+    "loss": "parity dense sum cross entropy divided by batch*length for every chunk",
+    "lr": 0.003,
+    "memory": "CUDA phase live allocated/reserved and reset phase peak allocated/reserved; whole-update peaks reconstructed as max of phase peaks; separate process working set",
+    "oom": "record OOM with unchanged batch/precision/length; no automatic retry",
+    "optimizer": "AdamW foreach=False",
+    "precision": "float32",
+    "process": "one fresh subprocess per arm and length; no allocator sharing",
+    "purpose": "R6 real optimizer update memory diagnostics",
+    "repeats": 3,
+    "route_full": "all recurrence and global encoder/projection paths attached",
+    "route_truncated": "detach s/dk/dv each8; global e/mk/mv gradients retained",
+    "seed": 701,
+    "threads": 1,
+    "version": 1,
+    "warmup": 2,
+    "weight_decay": 0.01,
+    "width": 32,
+    "window": 4
+  },
+  "protocol_hash": "7005928ca4359939c77a164ea1207b4f0a40d1b8115b813ee707df75ac3cf4f4",
+  "sources": {
+    "core/model.py": "121f11fcb3c1308b7f67d898f2aa09c37226d3b0db27dd4e5bf1ebeaea281f43",
+    "review_cycle/memory_bench.py": "44455db89fca9deb6a5c2eef6c0645c6dfc720c7d67a6e6fb8b8e55dbf00d65f",
+    "review_cycle/test_memory_bench.py": "5bb2cd30d81c051fcd2f47972ffe97f969b397bd0282cedd19d571f4103e98b4"
+  },
+  "started": 1789596838.7167382,
+  "status": "PASS"
+}

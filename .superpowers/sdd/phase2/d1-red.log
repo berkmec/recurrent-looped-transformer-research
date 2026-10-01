@@ -1,0 +1,77 @@
+FFFF
+======================================================================
+FAIL: test_examples_hide_gold_and_keep_sources (tests.test_semantic_contract.SemanticContractTests.test_examples_hide_gold_and_keep_sources)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\rlt-research\2026-09-18-phase2\tests\test_semantic_contract.py", line 46, in api
+    from language import dataset as ds, score_semantics as sc, extract as ex
+ImportError: cannot import name 'dataset' from 'language' (E:\rlt-research\2026-09-18-phase2\language\__init__.py)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "E:\rlt-research\2026-09-18-phase2\tests\test_semantic_contract.py", line 52, in test_examples_hide_gold_and_keep_sources
+    ds, _, _ = self.api()
+               ^^^^^^^^^^
+  File "E:\rlt-research\2026-09-18-phase2\tests\test_semantic_contract.py", line 48, in api
+    self.fail('D1 language modules are not implemented: ' + str(e))
+AssertionError: D1 language modules are not implemented: cannot import name 'dataset' from 'language' (E:\rlt-research\2026-09-18-phase2\language\__init__.py)
+
+======================================================================
+FAIL: test_extractor_parses_json_and_abstains_on_garbage (tests.test_semantic_contract.SemanticContractTests.test_extractor_parses_json_and_abstains_on_garbage)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\rlt-research\2026-09-18-phase2\tests\test_semantic_contract.py", line 46, in api
+    from language import dataset as ds, score_semantics as sc, extract as ex
+ImportError: cannot import name 'dataset' from 'language' (E:\rlt-research\2026-09-18-phase2\language\__init__.py)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "E:\rlt-research\2026-09-18-phase2\tests\test_semantic_contract.py", line 99, in test_extractor_parses_json_and_abstains_on_garbage
+    ds, sc, ex = self.api()
+                 ^^^^^^^^^^
+  File "E:\rlt-research\2026-09-18-phase2\tests\test_semantic_contract.py", line 48, in api
+    self.fail('D1 language modules are not implemented: ' + str(e))
+AssertionError: D1 language modules are not implemented: cannot import name 'dataset' from 'language' (E:\rlt-research\2026-09-18-phase2\language\__init__.py)
+
+======================================================================
+FAIL: test_negative_controls_are_labelled_and_change_expectation (tests.test_semantic_contract.SemanticContractTests.test_negative_controls_are_labelled_and_change_expectation)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\rlt-research\2026-09-18-phase2\tests\test_semantic_contract.py", line 46, in api
+    from language import dataset as ds, score_semantics as sc, extract as ex
+ImportError: cannot import name 'dataset' from 'language' (E:\rlt-research\2026-09-18-phase2\language\__init__.py)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "E:\rlt-research\2026-09-18-phase2\tests\test_semantic_contract.py", line 68, in test_negative_controls_are_labelled_and_change_expectation
+    ds, _, _ = self.api()
+               ^^^^^^^^^^
+  File "E:\rlt-research\2026-09-18-phase2\tests\test_semantic_contract.py", line 48, in api
+    self.fail('D1 language modules are not implemented: ' + str(e))
+AssertionError: D1 language modules are not implemented: cannot import name 'dataset' from 'language' (E:\rlt-research\2026-09-18-phase2\language\__init__.py)
+
+======================================================================
+FAIL: test_scoring_hand_computed (tests.test_semantic_contract.SemanticContractTests.test_scoring_hand_computed)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\rlt-research\2026-09-18-phase2\tests\test_semantic_contract.py", line 46, in api
+    from language import dataset as ds, score_semantics as sc, extract as ex
+ImportError: cannot import name 'dataset' from 'language' (E:\rlt-research\2026-09-18-phase2\language\__init__.py)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "E:\rlt-research\2026-09-18-phase2\tests\test_semantic_contract.py", line 83, in test_scoring_hand_computed
+    _, sc, _ = self.api()
+               ^^^^^^^^^^
+  File "E:\rlt-research\2026-09-18-phase2\tests\test_semantic_contract.py", line 48, in api
+    self.fail('D1 language modules are not implemented: ' + str(e))
+AssertionError: D1 language modules are not implemented: cannot import name 'dataset' from 'language' (E:\rlt-research\2026-09-18-phase2\language\__init__.py)
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.004s
+
+FAILED (failures=4)

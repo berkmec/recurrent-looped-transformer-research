@@ -1,0 +1,329 @@
+FFFFFFFFFFFFFFFFFF
+======================================================================
+FAIL: test_bad_exit_missing_items_failed_tests_are_incomplete (tests.test_receipt.ReceiptTests.test_bad_exit_missing_items_failed_tests_are_incomplete)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\rlt-research\2026-09-18-phase2\tests\test_receipt.py", line 11, in api
+    from audit import receipt
+ImportError: cannot import name 'receipt' from 'audit' (unknown location)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "E:\rlt-research\2026-09-18-phase2\tests\test_receipt.py", line 36, in test_bad_exit_missing_items_failed_tests_are_incomplete
+    rc = self.api()
+         ^^^^^^^^^^
+  File "E:\rlt-research\2026-09-18-phase2\tests\test_receipt.py", line 13, in api
+    self.fail('audit.receipt is not implemented: ' + str(e))
+AssertionError: audit.receipt is not implemented: cannot import name 'receipt' from 'audit' (unknown location)
+
+======================================================================
+FAIL: test_complete_receipt_round_trips_and_validates (tests.test_receipt.ReceiptTests.test_complete_receipt_round_trips_and_validates)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\rlt-research\2026-09-18-phase2\tests\test_receipt.py", line 11, in api
+    from audit import receipt
+ImportError: cannot import name 'receipt' from 'audit' (unknown location)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "E:\rlt-research\2026-09-18-phase2\tests\test_receipt.py", line 26, in test_complete_receipt_round_trips_and_validates
+    rc = self.api()
+         ^^^^^^^^^^
+  File "E:\rlt-research\2026-09-18-phase2\tests\test_receipt.py", line 13, in api
+    self.fail('audit.receipt is not implemented: ' + str(e))
+AssertionError: audit.receipt is not implemented: cannot import name 'receipt' from 'audit' (unknown location)
+
+======================================================================
+FAIL: test_string_booleans_and_empty_artifacts_rejected (tests.test_receipt.ReceiptTests.test_string_booleans_and_empty_artifacts_rejected)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\rlt-research\2026-09-18-phase2\tests\test_receipt.py", line 11, in api
+    from audit import receipt
+ImportError: cannot import name 'receipt' from 'audit' (unknown location)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "E:\rlt-research\2026-09-18-phase2\tests\test_receipt.py", line 51, in test_string_booleans_and_empty_artifacts_rejected
+    rc = self.api()
+         ^^^^^^^^^^
+  File "E:\rlt-research\2026-09-18-phase2\tests\test_receipt.py", line 13, in api
+    self.fail('audit.receipt is not implemented: ' + str(e))
+AssertionError: audit.receipt is not implemented: cannot import name 'receipt' from 'audit' (unknown location)
+
+======================================================================
+FAIL: test_tampered_artifact_or_wrong_run_fails_validation (tests.test_receipt.ReceiptTests.test_tampered_artifact_or_wrong_run_fails_validation)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\rlt-research\2026-09-18-phase2\tests\test_receipt.py", line 11, in api
+    from audit import receipt
+ImportError: cannot import name 'receipt' from 'audit' (unknown location)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "E:\rlt-research\2026-09-18-phase2\tests\test_receipt.py", line 44, in test_tampered_artifact_or_wrong_run_fails_validation
+    rc = self.api()
+         ^^^^^^^^^^
+  File "E:\rlt-research\2026-09-18-phase2\tests\test_receipt.py", line 13, in api
+    self.fail('audit.receipt is not implemented: ' + str(e))
+AssertionError: audit.receipt is not implemented: cannot import name 'receipt' from 'audit' (unknown location)
+
+======================================================================
+FAIL: test_holm_step_down (tests.test_stats.StatsTests.test_holm_step_down)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\rlt-research\2026-09-18-phase2\tests\test_stats.py", line 9, in api
+    from audit import stats
+ImportError: cannot import name 'stats' from 'audit' (unknown location)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "E:\rlt-research\2026-09-18-phase2\tests\test_stats.py", line 15, in test_holm_step_down
+    st = self.api()
+         ^^^^^^^^^^
+  File "E:\rlt-research\2026-09-18-phase2\tests\test_stats.py", line 11, in api
+    self.fail('audit.stats is not implemented: ' + str(e))
+AssertionError: audit.stats is not implemented: cannot import name 'stats' from 'audit' (unknown location)
+
+======================================================================
+FAIL: test_manifest_is_full_cartesian_product (tests.test_stats.StatsTests.test_manifest_is_full_cartesian_product)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\rlt-research\2026-09-18-phase2\tests\test_stats.py", line 9, in api
+    from audit import stats
+ImportError: cannot import name 'stats' from 'audit' (unknown location)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "E:\rlt-research\2026-09-18-phase2\tests\test_stats.py", line 43, in test_manifest_is_full_cartesian_product
+    st = self.api()
+         ^^^^^^^^^^
+  File "E:\rlt-research\2026-09-18-phase2\tests\test_stats.py", line 11, in api
+    self.fail('audit.stats is not implemented: ' + str(e))
+AssertionError: audit.stats is not implemented: cannot import name 'stats' from 'audit' (unknown location)
+
+======================================================================
+FAIL: test_summary_consumes_all_records_not_a_prefix (tests.test_stats.StatsTests.test_summary_consumes_all_records_not_a_prefix)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\rlt-research\2026-09-18-phase2\tests\test_stats.py", line 9, in api
+    from audit import stats
+ImportError: cannot import name 'stats' from 'audit' (unknown location)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "E:\rlt-research\2026-09-18-phase2\tests\test_stats.py", line 30, in test_summary_consumes_all_records_not_a_prefix
+    st = self.api()
+         ^^^^^^^^^^
+  File "E:\rlt-research\2026-09-18-phase2\tests\test_stats.py", line 11, in api
+    self.fail('audit.stats is not implemented: ' + str(e))
+AssertionError: audit.stats is not implemented: cannot import name 'stats' from 'audit' (unknown location)
+
+======================================================================
+FAIL: test_zero_error_bound_matches_closed_form (tests.test_stats.StatsTests.test_zero_error_bound_matches_closed_form)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\rlt-research\2026-09-18-phase2\tests\test_stats.py", line 9, in api
+    from audit import stats
+ImportError: cannot import name 'stats' from 'audit' (unknown location)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "E:\rlt-research\2026-09-18-phase2\tests\test_stats.py", line 22, in test_zero_error_bound_matches_closed_form
+    st = self.api()
+         ^^^^^^^^^^
+  File "E:\rlt-research\2026-09-18-phase2\tests\test_stats.py", line 11, in api
+    self.fail('audit.stats is not implemented: ' + str(e))
+AssertionError: audit.stats is not implemented: cannot import name 'stats' from 'audit' (unknown location)
+
+======================================================================
+FAIL: test_dependency_closure_and_freshness (tests.test_archive.ArchiveTests.test_dependency_closure_and_freshness)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\rlt-research\2026-09-18-phase2\tests\test_archive.py", line 11, in api
+    from archive import store
+ModuleNotFoundError: No module named 'archive'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "E:\rlt-research\2026-09-18-phase2\tests\test_archive.py", line 59, in test_dependency_closure_and_freshness
+    st = self.api()
+         ^^^^^^^^^^
+  File "E:\rlt-research\2026-09-18-phase2\tests\test_archive.py", line 13, in api
+    self.fail('archive.store is not implemented: ' + str(e))
+AssertionError: archive.store is not implemented: No module named 'archive'
+
+======================================================================
+FAIL: test_hash_chain_verify_and_backup (tests.test_archive.ArchiveTests.test_hash_chain_verify_and_backup)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\rlt-research\2026-09-18-phase2\tests\test_archive.py", line 11, in api
+    from archive import store
+ModuleNotFoundError: No module named 'archive'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "E:\rlt-research\2026-09-18-phase2\tests\test_archive.py", line 48, in test_hash_chain_verify_and_backup
+    st = self.api(); a = st.Archive(self.root / 'a.sqlite')
+         ^^^^^^^^^^
+  File "E:\rlt-research\2026-09-18-phase2\tests\test_archive.py", line 13, in api
+    self.fail('archive.store is not implemented: ' + str(e))
+AssertionError: archive.store is not implemented: No module named 'archive'
+
+======================================================================
+FAIL: test_page_boundary_requires_archive_then_compaction_same_heading (tests.test_archive.ArchiveTests.test_page_boundary_requires_archive_then_compaction_same_heading)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\rlt-research\2026-09-18-phase2\tests\test_archive.py", line 11, in api
+    from archive import store
+ModuleNotFoundError: No module named 'archive'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "E:\rlt-research\2026-09-18-phase2\tests\test_archive.py", line 67, in test_page_boundary_requires_archive_then_compaction_same_heading
+    st = self.api()
+         ^^^^^^^^^^
+  File "E:\rlt-research\2026-09-18-phase2\tests\test_archive.py", line 13, in api
+    self.fail('archive.store is not implemented: ' + str(e))
+AssertionError: archive.store is not implemented: No module named 'archive'
+
+======================================================================
+FAIL: test_raw_bytes_are_lossless_and_summary_never_replaces_raw (tests.test_archive.ArchiveTests.test_raw_bytes_are_lossless_and_summary_never_replaces_raw)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\rlt-research\2026-09-18-phase2\tests\test_archive.py", line 11, in api
+    from archive import store
+ModuleNotFoundError: No module named 'archive'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "E:\rlt-research\2026-09-18-phase2\tests\test_archive.py", line 23, in test_raw_bytes_are_lossless_and_summary_never_replaces_raw
+    st = self.api(); a = st.Archive(self.root / 'a.sqlite')
+         ^^^^^^^^^^
+  File "E:\rlt-research\2026-09-18-phase2\tests\test_archive.py", line 13, in api
+    self.fail('archive.store is not implemented: ' + str(e))
+AssertionError: archive.store is not implemented: No module named 'archive'
+
+======================================================================
+FAIL: test_stale_writer_unknown_dependency_and_mutation_are_rejected (tests.test_archive.ArchiveTests.test_stale_writer_unknown_dependency_and_mutation_are_rejected)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\rlt-research\2026-09-18-phase2\tests\test_archive.py", line 11, in api
+    from archive import store
+ModuleNotFoundError: No module named 'archive'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "E:\rlt-research\2026-09-18-phase2\tests\test_archive.py", line 33, in test_stale_writer_unknown_dependency_and_mutation_are_rejected
+    st = self.api(); a = st.Archive(self.root / 'a.sqlite')
+         ^^^^^^^^^^
+  File "E:\rlt-research\2026-09-18-phase2\tests\test_archive.py", line 13, in api
+    self.fail('archive.store is not implemented: ' + str(e))
+AssertionError: archive.store is not implemented: No module named 'archive'
+
+======================================================================
+FAIL: test_counter_accumulates_skips (tests.test_guards.GuardTests.test_counter_accumulates_skips)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\rlt-research\2026-09-18-phase2\tests\test_guards.py", line 14, in api
+    from horizon import guards
+ImportError: cannot import name 'guards' from 'horizon' (E:\rlt-research\2026-09-18-phase2\horizon\__init__.py)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "E:\rlt-research\2026-09-18-phase2\tests\test_guards.py", line 45, in test_counter_accumulates_skips
+    g = self.api(); lin, opt = self.make()
+        ^^^^^^^^^^
+  File "E:\rlt-research\2026-09-18-phase2\tests\test_guards.py", line 16, in api
+    self.fail('horizon.guards is not implemented: ' + str(e))
+AssertionError: horizon.guards is not implemented: cannot import name 'guards' from 'horizon' (E:\rlt-research\2026-09-18-phase2\horizon\__init__.py)
+
+======================================================================
+FAIL: test_finite_step_updates_and_reports_norms (tests.test_guards.GuardTests.test_finite_step_updates_and_reports_norms)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\rlt-research\2026-09-18-phase2\tests\test_guards.py", line 14, in api
+    from horizon import guards
+ImportError: cannot import name 'guards' from 'horizon' (E:\rlt-research\2026-09-18-phase2\horizon\__init__.py)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "E:\rlt-research\2026-09-18-phase2\tests\test_guards.py", line 26, in test_finite_step_updates_and_reports_norms
+    g = self.api(); lin, opt = self.make()
+        ^^^^^^^^^^
+  File "E:\rlt-research\2026-09-18-phase2\tests\test_guards.py", line 16, in api
+    self.fail('horizon.guards is not implemented: ' + str(e))
+AssertionError: horizon.guards is not implemented: cannot import name 'guards' from 'horizon' (E:\rlt-research\2026-09-18-phase2\horizon\__init__.py)
+
+======================================================================
+FAIL: test_nonfinite_gradient_is_refused_without_touching_weights (tests.test_guards.GuardTests.test_nonfinite_gradient_is_refused_without_touching_weights)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\rlt-research\2026-09-18-phase2\tests\test_guards.py", line 14, in api
+    from horizon import guards
+ImportError: cannot import name 'guards' from 'horizon' (E:\rlt-research\2026-09-18-phase2\horizon\__init__.py)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "E:\rlt-research\2026-09-18-phase2\tests\test_guards.py", line 35, in test_nonfinite_gradient_is_refused_without_touching_weights
+    g = self.api(); lin, opt = self.make()
+        ^^^^^^^^^^
+  File "E:\rlt-research\2026-09-18-phase2\tests\test_guards.py", line 16, in api
+    self.fail('horizon.guards is not implemented: ' + str(e))
+AssertionError: horizon.guards is not implemented: cannot import name 'guards' from 'horizon' (E:\rlt-research\2026-09-18-phase2\horizon\__init__.py)
+
+======================================================================
+FAIL: test_plain_mode_is_bit_equal_to_forward (tests.test_remat.RematTests.test_plain_mode_is_bit_equal_to_forward)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\rlt-research\2026-09-18-phase2\tests\test_remat.py", line 15, in api
+    from horizon import remat
+ImportError: cannot import name 'remat' from 'horizon' (E:\rlt-research\2026-09-18-phase2\horizon\__init__.py)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "E:\rlt-research\2026-09-18-phase2\tests\test_remat.py", line 47, in test_plain_mode_is_bit_equal_to_forward
+    rm = self.api(); model = self.make()
+         ^^^^^^^^^^
+  File "E:\rlt-research\2026-09-18-phase2\tests\test_remat.py", line 17, in api
+    self.fail('horizon.remat is not implemented: ' + str(e))
+AssertionError: horizon.remat is not implemented: cannot import name 'remat' from 'horizon' (E:\rlt-research\2026-09-18-phase2\horizon\__init__.py)
+
+======================================================================
+FAIL: test_segment_remat_matches_full_bptt_and_detach_does_not (tests.test_remat.RematTests.test_segment_remat_matches_full_bptt_and_detach_does_not)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\rlt-research\2026-09-18-phase2\tests\test_remat.py", line 15, in api
+    from horizon import remat
+ImportError: cannot import name 'remat' from 'horizon' (E:\rlt-research\2026-09-18-phase2\horizon\__init__.py)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "E:\rlt-research\2026-09-18-phase2\tests\test_remat.py", line 32, in test_segment_remat_matches_full_bptt_and_detach_does_not
+    rm = self.api(); model = self.make()
+         ^^^^^^^^^^
+  File "E:\rlt-research\2026-09-18-phase2\tests\test_remat.py", line 17, in api
+    self.fail('horizon.remat is not implemented: ' + str(e))
+AssertionError: horizon.remat is not implemented: cannot import name 'remat' from 'horizon' (E:\rlt-research\2026-09-18-phase2\horizon\__init__.py)
+
+----------------------------------------------------------------------
+Ran 18 tests in 0.034s
+
+FAILED (failures=18)

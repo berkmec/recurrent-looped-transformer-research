@@ -1,0 +1,41 @@
+FF
+======================================================================
+FAIL: test_freeze_train_select_evaluate (tests.test_gated_sweep.GatedSweepTests.test_freeze_train_select_evaluate)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\rlt-research\2026-09-18-phase2\tests\test_gated_sweep.py", line 18, in api
+    from horizon import gated_sweep as gs
+ImportError: cannot import name 'gated_sweep' from 'horizon' (E:\rlt-research\2026-09-18-phase2\horizon\__init__.py)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "E:\rlt-research\2026-09-18-phase2\tests\test_gated_sweep.py", line 30, in test_freeze_train_select_evaluate
+    gs = self.api()
+         ^^^^^^^^^^
+  File "E:\rlt-research\2026-09-18-phase2\tests\test_gated_sweep.py", line 20, in api
+    self.fail('horizon.gated_sweep is not implemented: ' + str(e))
+AssertionError: horizon.gated_sweep is not implemented: cannot import name 'gated_sweep' from 'horizon' (E:\rlt-research\2026-09-18-phase2\horizon\__init__.py)
+
+======================================================================
+FAIL: test_supervised_arm_uses_gate_loss_and_hard_st_does_not (tests.test_gated_sweep.GatedSweepTests.test_supervised_arm_uses_gate_loss_and_hard_st_does_not)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\rlt-research\2026-09-18-phase2\tests\test_gated_sweep.py", line 18, in api
+    from horizon import gated_sweep as gs
+ImportError: cannot import name 'gated_sweep' from 'horizon' (E:\rlt-research\2026-09-18-phase2\horizon\__init__.py)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "E:\rlt-research\2026-09-18-phase2\tests\test_gated_sweep.py", line 56, in test_supervised_arm_uses_gate_loss_and_hard_st_does_not
+    gs = self.api()
+         ^^^^^^^^^^
+  File "E:\rlt-research\2026-09-18-phase2\tests\test_gated_sweep.py", line 20, in api
+    self.fail('horizon.gated_sweep is not implemented: ' + str(e))
+AssertionError: horizon.gated_sweep is not implemented: cannot import name 'gated_sweep' from 'horizon' (E:\rlt-research\2026-09-18-phase2\horizon\__init__.py)
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.002s
+
+FAILED (failures=2)

@@ -1,0 +1,77 @@
+FFFF
+======================================================================
+FAIL: test_anchor_separation_summary (tests.test_gated_trajectory.GatedTrajectoryTests.test_anchor_separation_summary)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\rlt-research\2026-09-18-phase2\tests\test_gated_trajectory.py", line 21, in api
+    from horizon import gated_trajectory as gt
+ImportError: cannot import name 'gated_trajectory' from 'horizon' (E:\rlt-research\2026-09-18-phase2\horizon\__init__.py)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "E:\rlt-research\2026-09-18-phase2\tests\test_gated_trajectory.py", line 65, in test_anchor_separation_summary
+    gt = self.api()
+         ^^^^^^^^^^
+  File "E:\rlt-research\2026-09-18-phase2\tests\test_gated_trajectory.py", line 23, in api
+    self.fail('horizon.gated_trajectory is not implemented: ' + str(e))
+AssertionError: horizon.gated_trajectory is not implemented: cannot import name 'gated_trajectory' from 'horizon' (E:\rlt-research\2026-09-18-phase2\horizon\__init__.py)
+
+======================================================================
+FAIL: test_committed_states_match_the_model_and_carry_gate_decisions (tests.test_gated_trajectory.GatedTrajectoryTests.test_committed_states_match_the_model_and_carry_gate_decisions)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\rlt-research\2026-09-18-phase2\tests\test_gated_trajectory.py", line 21, in api
+    from horizon import gated_trajectory as gt
+ImportError: cannot import name 'gated_trajectory' from 'horizon' (E:\rlt-research\2026-09-18-phase2\horizon\__init__.py)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "E:\rlt-research\2026-09-18-phase2\tests\test_gated_trajectory.py", line 33, in test_committed_states_match_the_model_and_carry_gate_decisions
+    gt = self.api(); m = self.model()
+         ^^^^^^^^^^
+  File "E:\rlt-research\2026-09-18-phase2\tests\test_gated_trajectory.py", line 23, in api
+    self.fail('horizon.gated_trajectory is not implemented: ' + str(e))
+AssertionError: horizon.gated_trajectory is not implemented: cannot import name 'gated_trajectory' from 'horizon' (E:\rlt-research\2026-09-18-phase2\horizon\__init__.py)
+
+======================================================================
+FAIL: test_hard_mode_holds_leave_the_committed_state_bitwise_unchanged (tests.test_gated_trajectory.GatedTrajectoryTests.test_hard_mode_holds_leave_the_committed_state_bitwise_unchanged)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\rlt-research\2026-09-18-phase2\tests\test_gated_trajectory.py", line 21, in api
+    from horizon import gated_trajectory as gt
+ImportError: cannot import name 'gated_trajectory' from 'horizon' (E:\rlt-research\2026-09-18-phase2\horizon\__init__.py)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "E:\rlt-research\2026-09-18-phase2\tests\test_gated_trajectory.py", line 43, in test_hard_mode_holds_leave_the_committed_state_bitwise_unchanged
+    gt = self.api(); m = self.model('hard_st'); m.close_all()
+         ^^^^^^^^^^
+  File "E:\rlt-research\2026-09-18-phase2\tests\test_gated_trajectory.py", line 23, in api
+    self.fail('horizon.gated_trajectory is not implemented: ' + str(e))
+AssertionError: horizon.gated_trajectory is not implemented: cannot import name 'gated_trajectory' from 'horizon' (E:\rlt-research\2026-09-18-phase2\horizon\__init__.py)
+
+======================================================================
+FAIL: test_norm_and_displacement_curves (tests.test_gated_trajectory.GatedTrajectoryTests.test_norm_and_displacement_curves)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "E:\rlt-research\2026-09-18-phase2\tests\test_gated_trajectory.py", line 21, in api
+    from horizon import gated_trajectory as gt
+ImportError: cannot import name 'gated_trajectory' from 'horizon' (E:\rlt-research\2026-09-18-phase2\horizon\__init__.py)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "E:\rlt-research\2026-09-18-phase2\tests\test_gated_trajectory.py", line 51, in test_norm_and_displacement_curves
+    gt = self.api(); m = self.model()
+         ^^^^^^^^^^
+  File "E:\rlt-research\2026-09-18-phase2\tests\test_gated_trajectory.py", line 23, in api
+    self.fail('horizon.gated_trajectory is not implemented: ' + str(e))
+AssertionError: horizon.gated_trajectory is not implemented: cannot import name 'gated_trajectory' from 'horizon' (E:\rlt-research\2026-09-18-phase2\horizon\__init__.py)
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.004s
+
+FAILED (failures=4)

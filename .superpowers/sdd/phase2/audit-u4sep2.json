@@ -1,0 +1,291 @@
+{
+ "cycle": "U4-sep2",
+ "auditor": "same session, inline script (the weekly API limit blocked a delegated auditor until 24 Sept)",
+ "utc": 1790303882.9344049,
+ "checks": [
+  {
+   "id": "1-freeze",
+   "status": "PASS",
+   "evidence": "10 sources, protocol_hash 5e10c8d741a9d545; problems=none"
+  },
+  {
+   "id": "2-completeness",
+   "status": "PASS",
+   "evidence": "10/10 complete, 10/10 evaluated"
+  },
+  {
+   "id": "3-integrity",
+   "status": "PASS",
+   "evidence": "10 conditions: checkpoint/updates/train hashes and 512 rows each; problems=none"
+  },
+  {
+   "id": "4-pairing",
+   "status": "PASS",
+   "evidence": "both arms of all 5 pairs load the identical frozen U2c checkpoint (sha compared); problems=none"
+  },
+  {
+   "id": "5-control-not-null",
+   "status": "PASS",
+   "evidence": "U2c gate_loss weight: soft=0.0, supervised=1.0. The fine-tuner uses neither, so the control is a true null only for the soft checkpoints - exactly as the report states."
+  },
+  {
+   "id": "6-pair-table",
+   "status": "PASS",
+   "evidence": "5 pairs: U2c / control / hinge repair recomputed from the frozen U2b reference; problems=none"
+  },
+  {
+   "id": "7-sign-test",
+   "status": "PASS",
+   "evidence": "over 5 matched pairs: gap/drift ratio predicts the repair direction 2/5, absolute drift (inverted) 4/5 - as reported"
+  },
+  {
+   "id": "8-ratio-rose-and-target",
+   "status": "PASS",
+   "evidence": "5/5 pairs raised gap/drift above their paired control - the intervention moved the quantity in every pair. But the pre-registered target of 1.5 is reached by 5/5 in the TRAINING measurement (64 neutral slots, what the rule reads) and only 1/5 in the EVALUATION measurement (512 slots, what the target was calibrated on: fragile <= 0.57, robust >= 0.92). Scored with the evaluation ratio the verdict becomes INTERVENTION_INEFFECTIVE, not CONFOUNDED_BY_TRAINING. Recorded in the report as correction 7."
+  },
+  {
+   "id": "9-asymmetry-retracted",
+   "status": "PASS",
+   "evidence": "mean hinge-minus-control by placement: prefix +0.053, middle -0.013, suffix -0.085. The suffix gain seen in the two soft pairs reverses overall, so the earlier \"the asymmetry replicates\" claim is correctly retracted."
+  },
+  {
+   "id": "10-verdict-and-seals",
+   "status": "PASS",
+   "evidence": "rule returns CONFOUNDED_BY_TRAINING with 2/5 rescued, which is what the report prints; sealed U2c-lr0003 sources still verify; problems=none"
+  },
+  {
+   "id": "11-start-geometry",
+   "status": "PASS",
+   "evidence": "the `ratio_u2c` field in the sealed analysis is the control arm LAST fine-tuning ratio over 64 neutral slots, not the frozen checkpoint geometry over the 200-sequence evaluation. Re-measured here from the U2c checkpoints: true start ratios soft/s117 0.570, soft/s143 0.488, supervised/s117 0.711, supervised/s143 0.433, supervised/s191 0.786; the recorded field is high by 2.08x, 3.36x, 2.39x, 8.35x, 1.06x, worst 8.35x. No verdict, sign test, audit check or report sentence reads the field, so the sealed file is left as it is and the correction is section 8 of the report plus results/U4sep2/start-geometry.json; problems=none"
+  }
+ ],
+ "summary": {
+  "pass": 11,
+  "fail": 0,
+  "unverified": 0
+ },
+ "discrepancies": [],
+ "recomputed": {
+  "start_geometry": {
+   "soft/s117": {
+    "start_ratio": 0.5703910997456458,
+    "factor": 2.0780869218104145
+   },
+   "soft/s143": {
+    "start_ratio": 0.4881891820869961,
+    "factor": 3.3605320829153356
+   },
+   "supervised/s117": {
+    "start_ratio": 0.710607935248594,
+    "factor": 2.3884619604896953
+   },
+   "supervised/s143": {
+    "start_ratio": 0.4331419310238656,
+    "factor": 8.346301816074398
+   },
+   "supervised/s191": {
+    "start_ratio": 0.7862633866683805,
+    "factor": 1.062887104220439
+   }
+  },
+  "pairs": {
+   "soft/s117": {
+    "checkpoint": "soft/s117",
+    "reference_sha256": "3b695ab05d9964194bb7560e8471f5d5e17582691e807d7505e805a387895496",
+    "u2c_repair": -40.701756339764465,
+    "u2c_accuracy": 0.1979999989271164,
+    "none_repair": -40.701756339764465,
+    "none_accuracy": 0.1979999989271164,
+    "validation_none": 1.0,
+    "ratio_none": 1.1853222846984863,
+    "eval_ratio_none": 0.5970901918651594,
+    "drift_none": 6.143718719482422,
+    "clean4096_none": 1.0,
+    "checkpoint_sha256_none": "5a15e11d6efbf9fc75ae765c170cacde39227f1a7b35330b2dc8fc5779b2b6d8",
+    "hinge_repair": 54.38596601301284,
+    "hinge_accuracy": 0.7400000095367432,
+    "validation_hinge": 1.0,
+    "ratio_hinge": 2.5368731021881104,
+    "eval_ratio_hinge": 0.9620054815043217,
+    "drift_hinge": 4.360886573791504,
+    "clean4096_hinge": 1.0,
+    "checkpoint_sha256_hinge": "4160bcd5359d9a532e0340eb17ef1a89ae75715811f719cfb13bc3141e6148a1",
+    "ratio_u2c": 1.1853222846984863
+   },
+   "soft/s143": {
+    "checkpoint": "soft/s143",
+    "reference_sha256": "11500f1f93614ed0a06680b4dedeb58e7ce1c29f2bebb05724aa141e25bc6cea",
+    "u2c_repair": 16.61341445405048,
+    "u2c_accuracy": 0.4779999852180481,
+    "none_repair": 27.476037456473613,
+    "none_accuracy": 0.5460000038146973,
+    "validation_none": 1.0,
+    "ratio_none": 1.6405754089355469,
+    "eval_ratio_none": 0.5174671843324699,
+    "drift_none": 5.6936445236206055,
+    "clean4096_none": 0.22599999606609344,
+    "checkpoint_sha256_none": "98c42d769d04852dffc1353584d3264f62afe320316fa6336cb07a809ea3bd3b",
+    "hinge_repair": 52.39616865905828,
+    "hinge_accuracy": 0.7020000219345093,
+    "validation_hinge": 1.0,
+    "ratio_hinge": 3.09391713142395,
+    "eval_ratio_hinge": 0.8108038455217239,
+    "drift_hinge": 4.0637407302856445,
+    "clean4096_hinge": 0.21400000154972076,
+    "checkpoint_sha256_hinge": "b1771221407fbd9ef93cde65dc2bb4893537aab4d06941907a737571ae4bb8a1",
+    "ratio_u2c": 1.6405754089355469
+   },
+   "supervised/s117": {
+    "checkpoint": "supervised/s117",
+    "reference_sha256": "3b695ab05d9964194bb7560e8471f5d5e17582691e807d7505e805a387895496",
+    "u2c_repair": -40.701756339764465,
+    "u2c_accuracy": 0.1979999989271164,
+    "none_repair": 61.75438640520514,
+    "none_accuracy": 0.7820000052452087,
+    "validation_none": 0.99609375,
+    "ratio_none": 1.6972600221633911,
+    "eval_ratio_none": 1.0302229841086183,
+    "drift_none": 7.515191555023193,
+    "clean4096_none": 0.1720000058412552,
+    "checkpoint_sha256_none": "d63cba9f220d3ff03035bfc59dadf3a17bdc7df39ab8eb800f95a3f413ee40ba",
+    "hinge_repair": -44.21052758163144,
+    "hinge_accuracy": 0.17800000309944153,
+    "validation_hinge": 0.9921875,
+    "ratio_hinge": 1.797398328781128,
+    "eval_ratio_hinge": 1.219955060364237,
+    "drift_hinge": 9.344579696655273,
+    "clean4096_hinge": 0.17599999904632568,
+    "checkpoint_sha256_hinge": "bf01edced77c4f2ea3991bc1da2b8f16ba4a34b24087967fc44fd2329d05ed54",
+    "ratio_u2c": 1.6972600221633911
+   },
+   "supervised/s143": {
+    "checkpoint": "supervised/s143",
+    "reference_sha256": "11500f1f93614ed0a06680b4dedeb58e7ce1c29f2bebb05724aa141e25bc6cea",
+    "u2c_repair": -30.67092979534373,
+    "u2c_accuracy": 0.18199999630451202,
+    "none_repair": 87.53993439870766,
+    "none_accuracy": 0.921999990940094,
+    "validation_none": 0.99609375,
+    "ratio_none": 3.615133285522461,
+    "eval_ratio_none": 2.6231220312748884,
+    "drift_none": 2.7936999797821045,
+    "clean4096_none": 0.21799999475479126,
+    "checkpoint_sha256_none": "9193608bd55c149208ac1b531e8623c83b9e19d420b5b278c28322c922266b9c",
+    "hinge_repair": 84.66453391213952,
+    "hinge_accuracy": 0.9039999842643738,
+    "validation_hinge": 1.0,
+    "ratio_hinge": 5.570617198944092,
+    "eval_ratio_hinge": 5.711849519810626,
+    "drift_hinge": 1.9459288120269775,
+    "clean4096_hinge": 0.1940000057220459,
+    "checkpoint_sha256_hinge": "d0f5bb96ec903d41bee56670de79cfc69f901f906be9d1d52b3f508caa5a5eed",
+    "ratio_u2c": 3.615133285522461
+   },
+   "supervised/s191": {
+    "checkpoint": "supervised/s191",
+    "reference_sha256": "785d0bad47768306ce3bd9d5a2fdc23b50b98db4fe56296ebc13428be02bf95e",
+    "u2c_repair": -99.48718607073023,
+    "u2c_accuracy": 0.22200000286102295,
+    "none_repair": -51.7948793189298,
+    "none_accuracy": 0.40799999237060547,
+    "validation_none": 0.99609375,
+    "ratio_none": 0.8357092142105103,
+    "eval_ratio_none": 0.8674370239908741,
+    "drift_none": 7.302271842956543,
+    "clean4096_none": 0.20399999618530273,
+    "checkpoint_sha256_none": "b850853348ae3be6b9c4e5bf11ef42dbad2afcbfafaa11a4138e937a45e2f0c3",
+    "hinge_repair": -103.58975099623817,
+    "hinge_accuracy": 0.20600000023841858,
+    "validation_hinge": 0.984375,
+    "ratio_hinge": 2.0662333965301514,
+    "eval_ratio_hinge": 1.1495245190105363,
+    "drift_hinge": 7.693231105804443,
+    "clean4096_hinge": 0.20800000429153442,
+    "checkpoint_sha256_hinge": "a88bd1eb9ce6cb092ddc60dbbee493ee908579cdfaa234f54baec6e868065a72",
+    "ratio_u2c": 0.8357092142105103
+   }
+  },
+  "sign_test": {
+   "pairs": 5,
+   "rows": [
+    {
+     "checkpoint": "soft/s117",
+     "d_repair": 95.0877223527773,
+     "d_ratio": 0.3649152896391623,
+     "d_drift": -1.782832145690918,
+     "ratio_predicts": true,
+     "drift_predicts": true
+    },
+    {
+     "checkpoint": "soft/s143",
+     "d_repair": 24.92013120258467,
+     "d_ratio": 0.29333666118925406,
+     "d_drift": -1.629903793334961,
+     "ratio_predicts": true,
+     "drift_predicts": true
+    },
+    {
+     "checkpoint": "supervised/s117",
+     "d_repair": -105.96491398683658,
+     "d_ratio": 0.18973207625561872,
+     "d_drift": 1.82938814163208,
+     "ratio_predicts": false,
+     "drift_predicts": true
+    },
+    {
+     "checkpoint": "supervised/s143",
+     "d_repair": -2.8754004865681395,
+     "d_ratio": 3.088727488535737,
+     "d_drift": -0.847771167755127,
+     "ratio_predicts": false,
+     "drift_predicts": false
+    },
+    {
+     "checkpoint": "supervised/s191",
+     "d_repair": -51.794871677308365,
+     "d_ratio": 0.28208749501966224,
+     "d_drift": 0.3909592628479004,
+     "ratio_predicts": false,
+     "drift_predicts": true
+    }
+   ],
+   "ratio_hits": 2,
+   "drift_hits": 4,
+   "note": "sign test only; no minimum effect size was pre-registered, so a near-zero repair change counts as a miss"
+  },
+  "verdict": {
+   "status": "CONFOUNDED_BY_TRAINING",
+   "thresholds": {
+    "vs_start_pp": 30.0,
+    "vs_control_pp": 20.0,
+    "validation_min": 0.95,
+    "control_drift_pp": 10.0,
+    "ratio_target": 1.5,
+    "min_pairs": 3
+   },
+   "pairs": 5,
+   "pairs_rescued": 2,
+   "rescued_checkpoints": [
+    "soft/s117",
+    "soft/s143"
+   ],
+   "prediction_a_ratio_reached": true,
+   "prediction_b_rescued": false,
+   "prediction_c_accuracy_kept": true,
+   "prediction_d_control_flat": false,
+   "mean_hinge_repair": 8.729278001268204,
+   "mean_control_repair": 16.85474452033843,
+   "mean_u2c_repair": -38.989642818310486,
+   "mean_gain_over_control": -8.12546651907022,
+   "meaning": "the task-loss-only control improved too, so the effect is fine-tuning, not geometry"
+  },
+  "placement_means": {
+   "128-prefix": 0.11440000534057618,
+   "128-middle": -0.008799995481967925,
+   "128-suffix": -0.14519999269396067,
+   "512-prefix": -0.007999998331069947,
+   "512-middle": -0.01800000071525574,
+   "512-suffix": -0.025199994444847107
+  }
+ }
+}
