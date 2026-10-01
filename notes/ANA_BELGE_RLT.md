@@ -1,6 +1,6 @@
 # RLT araştırma kampanyası — ana belge
 
-> **Son güncelleme:** 2026-10-01 22:57 (yerel saat). Son işlenen sonuçlar: D5 (bitti), T1p, T1w64 (bitti), D6 adım 250, 500 ve 750 ara kontrolleri, T1w256 aşama 1. Çalışan işler: D6 (GPU, adım ≈ 950/1000), T1w256 (CPU, aşama 2; aşama 1 bitti: kopyalama devresi 250–500. adım).
+> **Son güncelleme:** 2026-10-01 22:53 (yerel saat). Son işlenen sonuçlar: D5 (bitti), T1p, T1w64 (bitti), D6 adım 250, 500 ve 750 ara kontrolleri, T1w256 aşama 1. Çalışan işler: D6 (GPU, adım ≈ 950/1000), T1w256 (CPU, aşama 2; aşama 1 bitti: kopyalama devresi 250–500. adım).
 >
 > **Kural:** Bu belgenin güncel tutulması proje kuralıdır. Her yeni sonuç aynı oturumda buraya işlenir, atlanmaz. Bir bulgu düzeltilirse eski metin silinmez; "DÜZELTME" notuyla yanında kalır. Sıra: önce ham sonuç dosyası, sonra döngü raporu (`notes/`), sonra bu belge. Burası bir özet değil bir haritadır: her satır bir rapora ve bir ham dosyaya bağlanır. Bu belge ve her şey Türkçedir; sayılar, etiketler (`MEASURED_NEGATIVE`, `MIXED`…) ve kod dilden bağımsızdır.
 
