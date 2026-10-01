@@ -1,4 +1,4 @@
-Z1-G: plain GRU under the sealed U1 / U2c neutral-run protocol (written BEFORE any condition was run; 2026-10-02 ~01:00 local)
+Z1-G: plain GRU under the sealed U1 / U2c neutral-run protocol (written BEFORE any condition was run; committed 2026-10-02 00:50 local as 00c6846, whose commit time is the authoritative record)
 
 Why. The campaign's first positive architecture result, the learned HOLD/WRITE gate (U2c, hard_st), keeps the Core's state through runs of
 neutral (identity) tokens. It never had a standard-recurrence baseline, and a GRU already has an update gate. If a plain GRU trained on the
