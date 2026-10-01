@@ -47,6 +47,7 @@ Aralık içinde düz, eğitilen azami mesafenin hemen ötesinde keskin çöküş
 `mline/decoy_probe.py` (testli; `decoy-plain.json`, `ft384-plain-s217/decoy.json`): ilk olgu ile soru arasına **farklı anahtarlı ikinci bir olgu** (yem) konup ilki ya da yemi soruluyor; tüm mesafeler eğitilen aralık içinde, görülen anahtarlar.
 
 - **Orijinal M1 modeli:** model **en yakın (en son görülen) olgunun değerini** söylüyor, sorulan anahtardan bağımsız. İlk olgu soruluyken yem soruya bitişikse (a=30, b=0) cevap yemin değeri %94, sorulanın %3; yem soruluyorsa %95 doğru (çünkü yem en yakın olan). Tüm 12 hücrede tam eşleşme ilk olgu için 0,00–0,02.
+- **Bağımsız eğitilmiş `hard_st` (aynı fonksiyon; `decoy-hard_st.json`):** saf "en son görülen olgu" kuralı: ilk olgu soruluyorken yemin değeri %94–100 (sorulan %0–2), yem soruluyorken %95–100 doğru; 6 yerleşimin hepsinde. Kestirme sistematik.
 - **İnce-ayarlı model:** ters yanlılık: ilk (daha eski) olguyu tercih ediyor (yem soruluyor olsa bile %64–84 ilk olgunun değeri), büyük aralıklarda (gap 227) yakın olguyu. Yine anahtara değil konuma bağlı.
 - **Okuma:** eğitim görevinde (tek olgu, soru hep onu soruyor) "en yakın olgunun değerini kopyala" mükemmel çözüm; model anahtarla bulmayı hiç öğrenmedi. İki modelde de farklı bir konum önyargısı var. Dolayısıyla M1 tipi iğne görevi, başlık/anahtarla bellek (projenin asıl hedefi) hakkında hiçbir şey söylemiyor. Mesafe aralığını genişletmek **nerede** bakacağını genişletiyor, **neyle eşleşeceğini** öğretmiyor. Gereken: yem olgulu, sorulan olgunun rastgele seçildiği eğitim (B3).
 
