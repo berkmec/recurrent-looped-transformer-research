@@ -78,6 +78,54 @@ class RowTests(unittest.TestCase):
         self.assertTrue(torch.equal(a['x'], b['x']))
 
 
+class KeyLengthTests(unittest.TestCase):
+    """Matching a 4-letter key is a harder circuit to find than matching a 1-letter one, so the key length can be mixed:
+    one length per example, drawn from a range, the same for every fact and question of that example."""
+
+    def test_a_range_draws_one_length_per_example_and_uses_it_everywhere(self):
+        rng = np.random.default_rng(2)
+        seen = set()
+        for _ in range(80):
+            ex = dt.example(rng, 3, 0, 20, 'repeat', None, key_length=(1, 4))
+            seen.add(ex['key_length'])
+            self.assertTrue(all(len(k) == ex['key_length'] for k in ex['keys']))
+            text = ex['text'].decode('ascii')
+            self.assertTrue(text.endswith('\nThe code for %s is %s' % (ex['keys'][ex['asked']], ex['values'][ex['asked']])))
+        self.assertEqual(seen, {1, 2, 3, 4})
+
+    def test_the_length_follows_the_key_length(self):
+        rng = np.random.default_rng(3)
+        for _ in range(20):
+            ex = dt.example(rng, 3, 0, 30, 'repeat', None, n_queries=2, key_length=(2, 2))
+            self.assertEqual(len(ex['text']), 3 * (23 + 2) + ex['total'] + 2 * (22 + 2))
+
+    def test_keys_stay_distinct_even_with_one_letter_keys(self):
+        rng = np.random.default_rng(4)
+        for _ in range(50):
+            ex = dt.example(rng, 4, 0, 10, 'repeat', None, key_length=(1, 1))
+            self.assertEqual(len(set(ex['keys'])), 4)
+
+    def test_the_default_is_the_four_letter_key(self):
+        rng = np.random.default_rng(5)
+        self.assertEqual(dt.example(rng, 2, 0, 10)['key_length'], 4)
+
+    def test_the_range_parses_and_bad_ranges_are_refused(self):
+        self.assertEqual(dt.parse_key_length('1-4'), (1, 4))
+        self.assertEqual(dt.parse_key_length('2'), (2, 2))
+        for bad in ('0-3', '4-2', '1-9', 'x'):
+            with self.assertRaises(ValueError, msg=bad):
+                dt.parse_key_length(bad)
+
+    def test_the_patch_applies_the_key_length(self):
+        with dt.patched(3, key_length=(1, 1)):
+            items = nd.training_items(3, filler_range=(0, 10), seed=1, pad_to=512)
+        self.assertTrue(any('The code for A is' in t or 'The code for B is' in t or 'The code for C is' in t
+                            or 'The code for D is' in t or 'The code for E is' in t or 'The code for F is' in t
+                            or 'The code for G is' in t or 'The code for H is' in t or 'The code for J is' in t
+                            or 'The code for K is' in t or 'The code for L is' in t or 'The code for M is' in t
+                            for t in items['texts']))
+
+
 class MultiQueryTests(unittest.TestCase):
     """MQAR-style examples: n facts, then several questions, each about a DIFFERENT fact, in random order.
 

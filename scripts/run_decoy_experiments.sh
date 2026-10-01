@@ -31,8 +31,8 @@ log() { echo "[$(date +%H:%M:%S)] $*" >> "$LOG"; }
 lines() { if [ -f "$1" ]; then wc -l < "$1"; else echo 0; fi; }
 wait_idle() { while powershell.exe -NoProfile -ExecutionPolicy Bypass -File scripts/_gpu_busy.ps1 > /dev/null 2>&1; do sleep 30; done; }
 
-decoy() {   # name init facts train_filler steps seed rate purpose [queries]
-  local name=$1 init=$2 facts=$3 fill=$4 steps=$5 seed=$6 rate=$7 purpose=$8 queries=${9:-1}
+decoy() {   # name init facts train_filler steps seed rate purpose [queries] [key_length]
+  local name=$1 init=$2 facts=$3 fill=$4 steps=$5 seed=$6 rate=$7 purpose=$8 queries=${9:-1} keylen=${10:-4}
   local out=$ROOT/$name
   mkdir -p "$out"
   if [ ! -f "$out/README.txt" ]; then
@@ -50,7 +50,8 @@ EOF
     wait_idle
     log "BASLA egitim $name (yemli: $facts olgu, dolgu $fill, $steps adim, iğne orani $rate)"
     $PY -B -m mline.decoy_train --out "$out" --init-from "$init" --facts "$facts" --queries "$queries" \
-        --train-filler "$fill" --steps "$steps" --seed "$seed" --needle-rate "$rate" >> "$out/train.log" 2>&1
+        --key-length "$keylen" --train-filler "$fill" --steps "$steps" --seed "$seed" --needle-rate "$rate" \
+        >> "$out/train.log" 2>&1
   fi
   local n
   n=$(lines "$out/probe.jsonl")
@@ -76,7 +77,7 @@ EOF
   log "BITTI $name"
 }
 
-log "TAKEOVER BASLADI (v3)"
+log "TAKEOVER BASLADI (v4)"
 wait_idle
 decoy D1-decoy3-f128 "$M1P" 3 0,128 500 217 0.25 "D1: does decoy-aware training (3 facts, random asked one) teach matching on the KEY? The nearest fact is right only 1 time in 3."
 decoy D1b-decoy3-cont "$ROOT/D1-decoy3-f128/latest.pt" 3 0,128 1000 218 0.5 "D1b: D1 continued for 1000 updates on fresh data with 50 % needle rows. D1 collapsed onto 'answer the first fact'; this asks whether more updates and twice the signal teach the key."
@@ -84,6 +85,9 @@ decoy D1b-decoy3-cont "$ROOT/D1-decoy3-f128/latest.pt" 3 0,128 1000 218 0.5 "D1b
 #        1000 updates, 50 % needle rows. About 5x the key -> value signal of D1 per batch, and "answer the first fact" is wrong
 #        for 3 of the 4 questions. Falsifier: asked value still below 0.5 when the decoy is asked.
 decoy D2-mqar4-f64 "$M1P" 4 0,64 1000 219 0.5 "D2: MQAR-style, 4 facts / 4 questions (each fact asked once, random order), from the original checkpoint. Denser key->value signal; does the key get used?" 4
+#   D3   D2 with the key length mixed 1-4 per example (one length per example): a 1-letter key is far easier to match on than a
+#        4-letter one, so the circuit may be found there and carry over. The only difference from D2 is the key length.
+decoy D3-mqar4-k14 "$M1P" 4 0,64 1000 220 0.5 "D3: D2 with key length drawn 1-4 per example. Short keys are easier to match on; does the key get used, and does it carry to 4-letter keys?" 4 1-4
 log "TAKEOVER: yemli kosular bitti, kontrol kuyrugu devam ediyor"
 bash scripts/run_distance_controls.sh
 log "TAKEOVER BITTI"

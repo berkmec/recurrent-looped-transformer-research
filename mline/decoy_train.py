@@ -32,7 +32,20 @@ from mline import needle as nd
 from mline import train as mt
 
 
-def example(rng, n_facts, lo, hi, kind='repeat', corpus=None, n_queries=1):
+def parse_key_length(text):
+    """'2' -> (2, 2); '1-4' -> (1, 4): the key length, or the range one length per example is drawn from."""
+    try:
+        parts = [int(v) for v in text.split('-')]
+    except ValueError:
+        raise ValueError('a key length is N or LOW-HIGH')
+    if len(parts) == 1:
+        parts = parts * 2
+    if len(parts) != 2 or not 1 <= parts[0] <= parts[1] <= 8:
+        raise ValueError('a key length is N or LOW-HIGH with 1 <= LOW <= HIGH <= 8')
+    return parts[0], parts[1]
+
+
+def example(rng, n_facts, lo, hi, kind='repeat', corpus=None, n_queries=1, key_length=(4, 4)):
     """One example. With n_facts == 1 the random draws are exactly the original generator's (key, value, filler length).
 
     With n_queries > 1 the example is MQAR-style: after the facts and the filler come n_queries questions, each about a
@@ -40,9 +53,13 @@ def example(rng, n_facts, lo, hi, kind='repeat', corpus=None, n_queries=1):
     wrong for most of the questions."""
     if n_queries > n_facts:
         raise ValueError('cannot ask %d distinct facts out of %d' % (n_queries, n_facts))
+    klo, khi = key_length
+    key_len = klo if klo == khi else int(rng.integers(klo, khi + 1))         # no draw for a fixed length: the original stream
+    if len(nd.TRAIN_KEYS) ** key_len < n_facts:
+        raise ValueError('%d distinct keys do not exist at length %d' % (n_facts, key_len))
     keys = []
     while len(keys) < n_facts:
-        key = nd._key(rng, alphabet=nd.TRAIN_KEYS)
+        key = nd._key(rng, length=key_len, alphabet=nd.TRAIN_KEYS)
         if key not in keys:
             keys.append(key)
     values = [nd._value(rng) for _ in keys]
@@ -65,11 +82,11 @@ def example(rng, n_facts, lo, hi, kind='repeat', corpus=None, n_queries=1):
     for j in asked_all:
         text += b'\nThe code for ' + keys[j] + b' is ' + values[j]
     return dict(text=text, total=total, asked=asked_all[0], asked_all=asked_all, keys=[k.decode('ascii') for k in keys],
-                values=[v.decode('ascii') for v in values])
+                values=[v.decode('ascii') for v in values], key_length=key_len)
 
 
 def decoy_items(n_items, filler_range=(0, 128), seed=0, kind='repeat', corpus=None, pad_to=None, pack=True, n_facts=1,
-                n_queries=1):
+                n_queries=1, key_length=(4, 4)):
     """Same contract as mline.needle.training_items, with n_facts facts and n_queries questions per example."""
     rng = np.random.default_rng(seed + 31_337)
     lo, hi = filler_range
@@ -77,7 +94,7 @@ def decoy_items(n_items, filler_range=(0, 128), seed=0, kind='repeat', corpus=No
     for _ in range(n_items):
         blob, used = b'', []
         while True:
-            ex = example(rng, n_facts, lo, hi, kind, corpus, n_queries)
+            ex = example(rng, n_facts, lo, hi, kind, corpus, n_queries, key_length)
             piece, n = ex['text'], ex['total']
             if blob and pack and pad_to is not None and len(blob) + 1 + len(piece) > pad_to:
                 break
@@ -104,11 +121,11 @@ def decoy_items(n_items, filler_range=(0, 128), seed=0, kind='repeat', corpus=No
         y[i, -1] = arr[-1]
     return dict(x=torch.from_numpy(x), y=torch.from_numpy(y), texts=texts, fillers=fillers, filler_range=filler_range,
                 kind=kind, packed=bool(pack and pad_to is not None), fillers_per_row=per_row,
-                examples_per_row=[len(f) for f in per_row], n_facts=n_facts, n_queries=n_queries)
+                examples_per_row=[len(f) for f in per_row], n_facts=n_facts, n_queries=n_queries, key_length=key_length)
 
 
 @contextlib.contextmanager
-def patched(n_facts, kind='repeat', corpus=None, n_queries=1):
+def patched(n_facts, kind='repeat', corpus=None, n_queries=1, key_length=(4, 4)):
     """Replace needle.training_items with the decoy generator for the length of the block; always restore it.
 
     `kind` is 'repeat', 'text' (a slice of `corpus` per filler) or 'mix' (a coin per example); the trainer calls the
@@ -119,7 +136,8 @@ def patched(n_facts, kind='repeat', corpus=None, n_queries=1):
     original = nd.training_items
 
     def replacement(n_items, filler_range=(0, 128), seed=0, kind_=None, corpus_=None, pad_to=None, pack=True, **_ignored):
-        return decoy_items(n_items, filler_range, seed, kind, corpus, pad_to, pack, n_facts=n_facts, n_queries=n_queries)
+        return decoy_items(n_items, filler_range, seed, kind, corpus, pad_to, pack, n_facts=n_facts, n_queries=n_queries,
+                           key_length=key_length)
 
     nd.training_items = replacement
     try:
@@ -144,6 +162,8 @@ def main():
     parser.add_argument('--facts', type=int, default=3)
     parser.add_argument('--queries', type=int, default=1,
                         help='questions per example, each about a different fact in random order (MQAR-style when > 1)')
+    parser.add_argument('--key-length', default='4',
+                        help='N, or LOW-HIGH to draw one key length per example (short keys are easier to match on)')
     parser.add_argument('--filler', default='repeat', choices=('repeat', 'text', 'mix'),
                         help='filler content: the repeated phrase, slices of the TRAINING corpus, or a coin per example')
     parser.add_argument('--device', default='cuda')
@@ -153,11 +173,12 @@ def main():
         corpus = md.load(mt.protocol()['data'], 'train')
     Path(args.out).mkdir(parents=True, exist_ok=True)
     Path(args.out, 'decoy_train.json').write_text(json.dumps(dict(facts=args.facts, queries=args.queries,
+                                                                  key_length=args.key_length,
                                                                   train_filler=args.train_filler, filler=args.filler,
                                                                   note='needle.training_items replaced for this run by '
                                                                        'mline.decoy_train.decoy_items'), indent=1),
                                                   encoding='utf8')
-    with patched(args.facts, args.filler, corpus, args.queries):
+    with patched(args.facts, args.filler, corpus, args.queries, parse_key_length(args.key_length)):
         em.run(args.out, arm=args.arm, steps=args.steps, batch=args.batch, every=args.every, device=args.device,
                seed=args.seed, needle_rate=args.needle_rate, train_filler=em.parse_range(args.train_filler),
                pack=True, lr=args.lr, init_from=args.init_from)
