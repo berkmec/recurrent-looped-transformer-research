@@ -1,0 +1,197 @@
+{
+ "arm": "plain",
+ "checkpoint": "results/M1-finetune-distance/ft384-plain-s217/selected.pt",
+ "checkpoint_sha256": "54b81c37acea6ccdba70b810ef279c3ca26e90ba3d915659c24c8b0cace6144a",
+ "filler_kind": "repeat",
+ "items": 128,
+ "kind": "M1_CHANNEL_PROBE",
+ "reading": "Survival of in-range accuracy under nofeedback / gate_open+nofeedback means attention carries the fact. A collapse means the recurrent path or the gate carries it.",
+ "role": "development diagnostic: which channel carries the needle inside the trained range?",
+ "rows": [
+  {
+   "alphabet": "TRAIN_KEYS",
+   "byte_accuracy": 1.0,
+   "exact_match": 1.0,
+   "in_training_range": true,
+   "mode": "full",
+   "n_filler": 32,
+   "width": 85
+  },
+  {
+   "alphabet": "TRAIN_KEYS",
+   "byte_accuracy": 1.0,
+   "exact_match": 1.0,
+   "in_training_range": true,
+   "mode": "full",
+   "n_filler": 64,
+   "width": 117
+  },
+  {
+   "alphabet": "TRAIN_KEYS",
+   "byte_accuracy": 1.0,
+   "exact_match": 1.0,
+   "in_training_range": false,
+   "mode": "full",
+   "n_filler": 128,
+   "width": 181
+  },
+  {
+   "alphabet": "TRAIN_KEYS",
+   "byte_accuracy": 1.0,
+   "exact_match": 1.0,
+   "in_training_range": false,
+   "mode": "full",
+   "n_filler": 256,
+   "width": 309
+  },
+  {
+   "alphabet": "TRAIN_KEYS",
+   "byte_accuracy": 1.0,
+   "exact_match": 1.0,
+   "in_training_range": false,
+   "mode": "full",
+   "n_filler": 384,
+   "width": 437
+  },
+  {
+   "alphabet": "EVAL_KEYS",
+   "byte_accuracy": 0.705078125,
+   "exact_match": 0.546875,
+   "in_training_range": true,
+   "mode": "full",
+   "n_filler": 32,
+   "width": 85
+  },
+  {
+   "alphabet": "EVAL_KEYS",
+   "byte_accuracy": 0.775390625,
+   "exact_match": 0.53125,
+   "in_training_range": true,
+   "mode": "full",
+   "n_filler": 64,
+   "width": 117
+  },
+  {
+   "alphabet": "EVAL_KEYS",
+   "byte_accuracy": 0.6015625,
+   "exact_match": 0.484375,
+   "in_training_range": false,
+   "mode": "full",
+   "n_filler": 128,
+   "width": 181
+  },
+  {
+   "alphabet": "EVAL_KEYS",
+   "byte_accuracy": 0.42578125,
+   "exact_match": 0.3984375,
+   "in_training_range": false,
+   "mode": "full",
+   "n_filler": 256,
+   "width": 309
+  },
+  {
+   "alphabet": "EVAL_KEYS",
+   "byte_accuracy": 0.451171875,
+   "exact_match": 0.421875,
+   "in_training_range": false,
+   "mode": "full",
+   "n_filler": 384,
+   "width": 437
+  },
+  {
+   "alphabet": "TRAIN_KEYS",
+   "byte_accuracy": 0.998046875,
+   "exact_match": 0.9921875,
+   "in_training_range": true,
+   "mode": "nofeedback",
+   "n_filler": 32,
+   "width": 85
+  },
+  {
+   "alphabet": "TRAIN_KEYS",
+   "byte_accuracy": 0.9921875,
+   "exact_match": 0.96875,
+   "in_training_range": true,
+   "mode": "nofeedback",
+   "n_filler": 64,
+   "width": 117
+  },
+  {
+   "alphabet": "TRAIN_KEYS",
+   "byte_accuracy": 0.986328125,
+   "exact_match": 0.9453125,
+   "in_training_range": false,
+   "mode": "nofeedback",
+   "n_filler": 128,
+   "width": 181
+  },
+  {
+   "alphabet": "TRAIN_KEYS",
+   "byte_accuracy": 0.9296875,
+   "exact_match": 0.734375,
+   "in_training_range": false,
+   "mode": "nofeedback",
+   "n_filler": 256,
+   "width": 309
+  },
+  {
+   "alphabet": "TRAIN_KEYS",
+   "byte_accuracy": 0.591796875,
+   "exact_match": 0.0078125,
+   "in_training_range": false,
+   "mode": "nofeedback",
+   "n_filler": 384,
+   "width": 437
+  },
+  {
+   "alphabet": "EVAL_KEYS",
+   "byte_accuracy": 0.84375,
+   "exact_match": 0.5234375,
+   "in_training_range": true,
+   "mode": "nofeedback",
+   "n_filler": 32,
+   "width": 85
+  },
+  {
+   "alphabet": "EVAL_KEYS",
+   "byte_accuracy": 0.857421875,
+   "exact_match": 0.515625,
+   "in_training_range": true,
+   "mode": "nofeedback",
+   "n_filler": 64,
+   "width": 117
+  },
+  {
+   "alphabet": "EVAL_KEYS",
+   "byte_accuracy": 0.783203125,
+   "exact_match": 0.4375,
+   "in_training_range": false,
+   "mode": "nofeedback",
+   "n_filler": 128,
+   "width": 181
+  },
+  {
+   "alphabet": "EVAL_KEYS",
+   "byte_accuracy": 0.517578125,
+   "exact_match": 0.1875,
+   "in_training_range": false,
+   "mode": "nofeedback",
+   "n_filler": 256,
+   "width": 309
+  },
+  {
+   "alphabet": "EVAL_KEYS",
+   "byte_accuracy": 0.33984375,
+   "exact_match": 0.0078125,
+   "in_training_range": false,
+   "mode": "nofeedback",
+   "n_filler": 384,
+   "width": 437
+  }
+ ],
+ "trained_filler_range": [
+  0,
+  64
+ ],
+ "utc": 1790813776.4674814
+}
