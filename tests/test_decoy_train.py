@@ -78,6 +78,37 @@ class RowTests(unittest.TestCase):
         self.assertTrue(torch.equal(a['x'], b['x']))
 
 
+class PangramFillerTests(unittest.TestCase):
+    """A small model trained only on MQAR rows never sees U-Z (or most of T-Z) anywhere, so their embeddings stay at their random
+    initial values and 'does matching generalise to T-Z' is answered by construction. A pangram as filler puts every letter in the
+    text - never in a key - so what is tested is the matching, not an untrained embedding."""
+
+    def test_the_pangram_contains_every_upper_case_letter(self):
+        self.assertTrue(set(b'ABCDEFGHIJKLMNOPQRSTUVWXYZ') <= set(dt.PANGRAM))
+
+    def test_the_pangram_filler_has_the_asked_length_and_is_the_pangram_repeated(self):
+        rng = np.random.default_rng(1)
+        for n in (0, 1, 30, 200):
+            got = dt._filler('pangram', n, rng, None)
+            self.assertEqual(len(got), n)
+            self.assertEqual(got, (dt.PANGRAM * 10)[:n])
+
+    def test_the_other_kinds_are_unchanged(self):
+        rng = np.random.default_rng(1)
+        self.assertEqual(dt._filler('repeat', 50, rng, None), nd.filler_bytes('repeat', 50, rng))
+
+    def test_an_example_with_pangram_filler_contains_the_pangram_between_the_facts(self):
+        rng = np.random.default_rng(2)
+        ex = dt.example(rng, 3, 60, 60, 'pangram', None, n_queries=2)
+        self.assertEqual(ex['total'], 60)
+        self.assertIn(dt.PANGRAM[:20], ex['text'])
+
+    def test_the_default_filler_is_still_the_repeated_phrase(self):
+        rng = np.random.default_rng(3)
+        ex = dt.example(rng, 3, 60, 60, 'repeat', None, n_queries=2)
+        self.assertNotIn(dt.PANGRAM[:20], ex['text'])
+
+
 class WithReplacementTests(unittest.TestCase):
     """Without replacement every question asks a different fact, so the last question is answered by elimination (the one fact
     not asked yet) - T1b scored 1.00 on it with no key use at all. Asking with replacement removes that shortcut."""

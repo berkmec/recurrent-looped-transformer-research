@@ -13,10 +13,10 @@ from mline import lm as ml
 
 
 def mqar_accuracy(model, alphabet, key_length, facts, queries, filler, pad_to, n_items=64, batch=16, seed=777, device='cpu',
-                  with_replacement=False):
+                  with_replacement=False, filler_kind='repeat'):
     """{'first': [share of first digits right, per question number], 'exact': [...four digits right...], 'first_all', 'exact_all',
     'answers': how many answers were scored}. The digits fed in are the true ones (teacher forcing); chance for a first digit is 0.1."""
-    items = dt.decoy_items(n_items, filler, seed, 'repeat', None, pad_to, True, facts, queries, key_length, alphabet,
+    items = dt.decoy_items(n_items, filler, seed, filler_kind, None, pad_to, True, facts, queries, key_length, alphabet,
                            with_replacement)
     x, starts = items['x'], items['answer_starts']
     first = [[0, 0] for _ in range(queries)]                  # [right, total] per question number
@@ -45,7 +45,8 @@ def mqar_accuracy(model, alphabet, key_length, facts, queries, filler, pad_to, n
                 exact_all=sum(h for h, _ in exact) / total, answers=total)
 
 
-def extra_eval(alphabet, facts, queries, filler, pad_to, n_items=64, key_lengths=(1, 4), seed=777, with_replacement=False):
+def extra_eval(alphabet, facts, queries, filler, pad_to, n_items=64, key_lengths=(1, 4), seed=777, with_replacement=False,
+               filler_kind='repeat'):
     """model -> {'train_k1_first': ..., 'held_k4_exact': ...}: the training-shaped score on the training letters and on letters
     (T-Z) that no run ever trains on, at each key length. Averaged over the questions."""
     held = dp.ALPHABETS['HELD_KEYS']
@@ -55,7 +56,7 @@ def extra_eval(alphabet, facts, queries, filler, pad_to, n_items=64, key_lengths
         for tag, letters in (('train', alphabet), ('held', held)):
             for k in key_lengths:
                 r = mqar_accuracy(model, letters, (k, k), facts, queries, filler, pad_to, n_items, seed=seed,
-                                  with_replacement=with_replacement)
+                                  with_replacement=with_replacement, filler_kind=filler_kind)
                 out['%s_k%d_first' % (tag, k)] = float(r['first_all'])
                 out['%s_k%d_exact' % (tag, k)] = float(r['exact_all'])
         return out
@@ -85,6 +86,7 @@ def main():
     parser.add_argument('--facts', type=int, default=4)
     parser.add_argument('--queries', type=int, default=4)
     parser.add_argument('--with-replacement', action='store_true', help='score rows whose questions are drawn with replacement')
+    parser.add_argument('--filler-kind', default='repeat', choices=('repeat', 'pangram'), help='the filler the rows are drawn with')
     parser.add_argument('--filler', default='0,64')
     parser.add_argument('--pad-to', type=int, default=320)
     parser.add_argument('--items', type=int, default=32)
@@ -106,7 +108,8 @@ def main():
     for tag, letters in (('train', dt.ALPHABETS[args.alphabet]), ('held', dp.ALPHABETS['HELD_KEYS'])):
         for k in (int(v) for v in args.key_lengths.split(',')):
             r = mqar_accuracy(model, letters, (k, k), args.facts, args.queries, filler, args.pad_to, args.items,
-                              args.batch, device=args.device, with_replacement=args.with_replacement)
+                              args.batch, device=args.device, with_replacement=args.with_replacement,
+                              filler_kind=args.filler_kind)
             report['%s_k%d' % (tag, k)] = r
             print('%-5s key %d  first digit per question %s | exact %s | all: first %.2f exact %.2f (%d answers)'
                   % (tag, k, ' '.join('%.2f' % v for v in r['first']), ' '.join('%.2f' % v for v in r['exact']),

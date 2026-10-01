@@ -81,6 +81,16 @@ class WithReplacementTests(unittest.TestCase):
             me.mqar_accuracy(Shifted(), **dict(KW, facts=2, queries=4))
 
 
+class FillerKindTests(unittest.TestCase):
+    def test_an_oracle_scores_one_on_pangram_rows_too_and_the_rows_differ_from_the_repeat_ones(self):
+        r = me.mqar_accuracy(Shifted(), **dict(KW, filler_kind='pangram'))
+        self.assertEqual(r['first_all'], 1.0)
+        from mline import decoy_train as dt
+        a = dt.decoy_items(4, (10, 20), 1, 'repeat', None, 300, True, 3, 3, (1, 2), b'ABCDEFG')['x']
+        b = dt.decoy_items(4, (10, 20), 1, 'pangram', None, 300, True, 3, 3, (1, 2), b'ABCDEFG')['x']
+        self.assertFalse(torch.equal(a, b))
+
+
 class ExtraEvalTests(unittest.TestCase):
     def test_the_hook_scores_the_training_letters_and_the_held_out_letters_at_each_key_length(self):
         fn = me.extra_eval(alphabet=b'ABCDEFGHJKLM', facts=3, queries=3, filler=(0, 12), pad_to=300, n_items=8,

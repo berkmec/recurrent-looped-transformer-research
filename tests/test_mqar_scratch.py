@@ -170,6 +170,18 @@ class TrainTests(unittest.TestCase):
             tiny(d, steps=2, with_replacement=True)
             self.assertTrue(json.loads(Path(d, 'probe.json').read_text(encoding='utf8'))['with_replacement'])
 
+    def test_the_pangram_filler_changes_the_batch_is_recorded_and_the_default_is_unchanged(self):
+        kw = dict(facts=3, queries=3, key_length=(1, 2), alphabet=b'ABCDEFG', filler=(20, 30), pad_to=200)
+        a, _ = ms.draw(4, 1, 1, **kw)
+        b, _ = ms.draw(4, 1, 1, filler_kind='repeat', **kw)
+        c, _ = ms.draw(4, 1, 1, filler_kind='pangram', **kw)
+        self.assertTrue(torch.equal(a, b))
+        self.assertFalse(torch.equal(a, c))
+        self.assertIn(b'THE QUICK', bytes(c[0].tolist()))
+        with tempfile.TemporaryDirectory() as d:
+            tiny(d, steps=2, filler_kind='pangram')
+            self.assertEqual(json.loads(Path(d, 'probe.json').read_text(encoding='utf8'))['filler_kind'], 'pangram')
+
     def test_a_span_parses_and_bad_spans_are_refused(self):
         self.assertEqual(ms.parse_span('8-32'), (8, 32))
         self.assertEqual(ms.parse_span('5'), (5, 5))

@@ -42,6 +42,18 @@ ALPHABETS = dict(default=nd.TRAIN_KEYS, wide=b'ABCDEFGHJKLMNPQRS',
                  broad=b'ABCDEFGHJKLMNPQRS' + b'abcdefghijklmnopqrstuvwxyz' + b'0123456789')
 
 
+# A filler that puts EVERY upper-case letter in the text without ever putting one in a key: a small model trained only on the facts
+# never sees most of T-Z at all, so their embeddings stay at the random values they were created with and "does key matching
+# generalise to T-Z" would be answered by construction. (The 30M models trained on language text; their T-Z embeddings are trained.)
+PANGRAM = b'THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG. '
+
+
+def _filler(kind, n, rng, corpus):
+    if kind == 'pangram':
+        return (PANGRAM * (n // len(PANGRAM) + 1))[:n] if n > 0 else b''
+    return nd.filler_bytes(kind, n, rng, corpus)
+
+
 def parse_key_length(text):
     """'2' -> (2, 2); '1-4' -> (1, 4): the key length, or the range one length per example is drawn from."""
     try:
@@ -89,7 +101,7 @@ def example(rng, n_facts, lo, hi, kind='repeat', corpus=None, n_queries=1, key_l
         kind = 'repeat' if int(rng.integers(0, 2)) == 0 else 'text'       # one coin per example; no draw for the pure kinds
     body = b''
     for key, value, length in zip(keys, values, segments):
-        body += b'The code for ' + key + b' is ' + value + b'.\n' + nd.filler_bytes(kind, length, rng, corpus)
+        body += b'The code for ' + key + b' is ' + value + b'.\n' + _filler(kind, length, rng, corpus)
     if n_queries == 1:
         asked_all = [int(rng.integers(0, n_facts)) if n_facts > 1 else 0]       # the draw the single-question mix always made
     elif with_replacement:
@@ -220,8 +232,8 @@ def main():
     parser.add_argument('--gap', default='0,96', help='induction rows: filler between the two copies')
     parser.add_argument('--lead', default='0,16', help='induction rows: filler before the first copy')
     parser.add_argument('--skip', type=int, default=2, help='induction rows: bytes of a copy shown before it is scored')
-    parser.add_argument('--filler', default='repeat', choices=('repeat', 'text', 'mix'),
-                        help='filler content: the repeated phrase, slices of the TRAINING corpus, or a coin per example')
+    parser.add_argument('--filler', default='repeat', choices=('repeat', 'text', 'mix', 'pangram'),
+                        help='filler content: the repeated phrase, slices of the TRAINING corpus, a coin per example, or a pangram')
     parser.add_argument('--device', default='cuda')
     args = parser.parse_args()
     corpus = None
