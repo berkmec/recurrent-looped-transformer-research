@@ -68,7 +68,7 @@ def parse_key_length(text):
 
 
 def example(rng, n_facts, lo, hi, kind='repeat', corpus=None, n_queries=1, key_length=(4, 4), alphabet=None,
-            with_replacement=False):
+            with_replacement=False, key_source=None):
     """One example. With n_facts == 1 the random draws are exactly the original generator's (key, value, filler length).
 
     With n_queries > 1 the example is MQAR-style: after the facts and the filler come n_queries questions, each about a
@@ -80,16 +80,22 @@ def example(rng, n_facts, lo, hi, kind='repeat', corpus=None, n_queries=1, key_l
     `with_replacement` draws every asked fact independently, so each question needs the key (and a fact may be asked twice)."""
     if n_queries > n_facts and not with_replacement:
         raise ValueError('cannot ask %d distinct facts out of %d' % (n_queries, n_facts))
-    klo, khi = key_length
-    key_len = klo if klo == khi else int(rng.integers(klo, khi + 1))         # no draw for a fixed length: the original stream
-    alphabet = nd.TRAIN_KEYS if alphabet is None else alphabet
-    if len(alphabet) ** key_len < n_facts:
-        raise ValueError('%d distinct keys do not exist at length %d over %d letters' % (n_facts, key_len, len(alphabet)))
-    keys = []
-    while len(keys) < n_facts:
-        key = nd._key(rng, length=key_len, alphabet=alphabet)
-        if key not in keys:
-            keys.append(key)
+    if key_source is not None:                      # natural keys (real words, names, of any length) instead of random strings
+        if len(key_source) < n_facts:
+            raise ValueError('the key source holds %d keys, %d facts need distinct ones' % (len(key_source), n_facts))
+        keys = [key_source[int(i)] for i in rng.choice(len(key_source), size=n_facts, replace=False)]
+        key_len = None
+    else:
+        klo, khi = key_length
+        key_len = klo if klo == khi else int(rng.integers(klo, khi + 1))     # no draw for a fixed length: the original stream
+        alphabet = nd.TRAIN_KEYS if alphabet is None else alphabet
+        if len(alphabet) ** key_len < n_facts:
+            raise ValueError('%d distinct keys do not exist at length %d over %d letters' % (n_facts, key_len, len(alphabet)))
+        keys = []
+        while len(keys) < n_facts:
+            key = nd._key(rng, length=key_len, alphabet=alphabet)
+            if key not in keys:
+                keys.append(key)
     values = [nd._value(rng) for _ in keys]
     total = int(rng.integers(lo, hi + 1))
     if n_facts == 1:
@@ -119,7 +125,7 @@ def example(rng, n_facts, lo, hi, kind='repeat', corpus=None, n_queries=1, key_l
 
 
 def decoy_items(n_items, filler_range=(0, 128), seed=0, kind='repeat', corpus=None, pad_to=None, pack=True, n_facts=1,
-                n_queries=1, key_length=(4, 4), alphabet=None, with_replacement=False):
+                n_queries=1, key_length=(4, 4), alphabet=None, with_replacement=False, key_source=None):
     """Same contract as mline.needle.training_items, with n_facts facts and n_queries questions per example."""
     rng = np.random.default_rng(seed + 31_337)
     lo, hi = filler_range
@@ -127,7 +133,7 @@ def decoy_items(n_items, filler_range=(0, 128), seed=0, kind='repeat', corpus=No
     for _ in range(n_items):
         blob, used, row_starts = b'', [], []
         while True:
-            ex = example(rng, n_facts, lo, hi, kind, corpus, n_queries, key_length, alphabet, with_replacement)
+            ex = example(rng, n_facts, lo, hi, kind, corpus, n_queries, key_length, alphabet, with_replacement, key_source)
             piece, n = ex['text'], ex['total']
             if blob and pack and pad_to is not None and len(blob) + 1 + len(piece) > pad_to:
                 break

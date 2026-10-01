@@ -81,6 +81,26 @@ class WithReplacementTests(unittest.TestCase):
             me.mqar_accuracy(Shifted(), **dict(KW, facts=2, queries=4))
 
 
+class NaturalKeyTests(unittest.TestCase):
+    CORPUS = (b'The Prime Minister Theresa May said on Monday that Great Britain would leave. Officials in Washington said the '
+              b'president had spoken with Angela Merkel about trade agreements and international negotiations. Local residents '
+              b'described destruction across neighborhoods. Marie Curie discovered radium. ') * 20
+
+    def test_natural_keys_are_deterministic_distinct_and_look_like_words_and_names(self):
+        a = me.natural_keys(self.CORPUS, n=12, seed=1)
+        b = me.natural_keys(self.CORPUS, n=12, seed=1)
+        self.assertEqual(a, b)
+        self.assertEqual(len(set(a)), len(a))
+        self.assertTrue(all(isinstance(k, bytes) and 4 <= len(k) <= 24 for k in a))
+        self.assertTrue(any(k[:1].isupper() for k in a) and any(k[:1].islower() for k in a))
+        self.assertNotEqual(a, me.natural_keys(self.CORPUS, n=12, seed=2))
+
+    def test_an_oracle_scores_one_on_natural_keys_and_the_source_is_what_the_rows_use(self):
+        keys = me.natural_keys(self.CORPUS, n=12, seed=1)
+        r = me.mqar_accuracy(Shifted(), **dict(KW, key_source=keys, alphabet=None))
+        self.assertEqual(r['first_all'], 1.0)
+
+
 class FillerKindTests(unittest.TestCase):
     def test_an_oracle_scores_one_on_pangram_rows_too_and_the_rows_differ_from_the_repeat_ones(self):
         r = me.mqar_accuracy(Shifted(), **dict(KW, filler_kind='pangram'))

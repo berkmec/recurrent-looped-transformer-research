@@ -78,6 +78,43 @@ class RowTests(unittest.TestCase):
         self.assertTrue(torch.equal(a['x'], b['x']))
 
 
+class KeySourceTests(unittest.TestCase):
+    """Natural keys - real words and names, of any length - instead of random strings: the closest the generator gets to the
+    headings a memory would be asked about."""
+    SOURCE = [b'Marie Curie', b'Nile', b'photosynthesis', b'Great Wall', b'Everest', b'delta']
+
+    def test_every_key_comes_from_the_source_and_they_are_distinct(self):
+        rng = np.random.default_rng(1)
+        for _ in range(60):
+            ex = dt.example(rng, 4, 0, 10, 'repeat', None, n_queries=4, key_source=self.SOURCE)
+            self.assertEqual(len(set(ex['keys'])), 4)
+            self.assertTrue(all(k.encode('ascii') in self.SOURCE for k in ex['keys']))
+
+    def test_the_text_carries_the_natural_key_in_the_fact_and_the_question_and_the_answer_positions_hold(self):
+        rng = np.random.default_rng(2)
+        for _ in range(30):
+            ex = dt.example(rng, 3, 0, 10, 'repeat', None, n_queries=3, key_source=self.SOURCE, with_replacement=True)
+            text = ex['text']
+            for key, value in zip(ex['keys'], ex['values']):
+                self.assertIn(('The code for %s is %s.' % (key, value)).encode('ascii'), text)
+            for j, start in zip(ex['asked_all'], ex['value_starts']):
+                self.assertEqual(text[start:start + 4].decode('ascii'), ex['values'][j])
+                self.assertTrue(text[:start].endswith(('The code for %s is ' % ex['keys'][j]).encode('ascii')))
+
+    def test_a_source_with_fewer_keys_than_facts_is_refused(self):
+        with self.assertRaises(ValueError):
+            dt.example(np.random.default_rng(3), 4, 0, 10, 'repeat', None, key_source=self.SOURCE[:3])
+
+    def test_without_a_source_nothing_changes(self):
+        a = dt.example(np.random.default_rng(4), 3, 0, 10, 'repeat', None, n_queries=2)
+        b = dt.example(np.random.default_rng(4), 3, 0, 10, 'repeat', None, n_queries=2, key_source=None)
+        self.assertEqual(a['text'], b['text'])
+
+    def test_decoy_items_passes_the_source_through(self):
+        items = dt.decoy_items(4, (0, 10), 5, 'repeat', None, 400, True, 3, 3, key_source=self.SOURCE)
+        self.assertTrue(any(b'Marie Curie' in t.encode('ascii') or b'Nile' in t.encode('ascii') for t in items['texts']))
+
+
 class PangramFillerTests(unittest.TestCase):
     """A small model trained only on MQAR rows never sees U-Z (or most of T-Z) anywhere, so their embeddings stay at their random
     initial values and 'does matching generalise to T-Z' is answered by construction. A pangram as filler puts every letter in the
