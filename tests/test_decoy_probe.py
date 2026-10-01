@@ -68,6 +68,61 @@ class LayoutTests(unittest.TestCase):
         self.assertIn('%s.\nThe code for %s' % (items['answers'][0], k2), text)
 
 
+class KeyLengthTests(unittest.TestCase):
+    """A model trained on mixed key lengths has to be probed at every length it saw, not only the longest."""
+
+    def test_every_key_has_the_asked_length_and_the_row_is_laid_out_around_it(self):
+        items = dp.make(8, a=3, b=4, ask='decoy', seed=5, alphabet=nd.TRAIN_KEYS, key_length=2)
+        for i in range(8):
+            self.assertEqual(len(items['keys'][i]), 2)
+            self.assertEqual(len(items['decoy_keys'][i]), 2)
+            text = decode(items['x'][i])
+            k1, k2 = items['keys'][i], items['decoy_keys'][i]
+            v1, v2 = items['answers'][i], items['decoy_answers'][i]
+            expected = ('The code for %s is %s.\n' % (k1, v1) + (nd.FILLER_PHRASE * 2)[:3].decode('ascii')
+                        + 'The code for %s is %s.\n' % (k2, v2) + (nd.FILLER_PHRASE * 2)[:4].decode('ascii')
+                        + '\nThe code for %s is %s' % (k2, v2))
+            self.assertEqual(text, expected)
+
+    def test_the_default_is_still_the_four_letter_key(self):
+        items = dp.make(4, a=1, b=1, seed=3)
+        self.assertTrue(all(len(k) == 4 for k in items['keys']))
+
+    def test_one_letter_keys_stay_distinct(self):
+        items = dp.make(60, a=0, b=0, seed=9, alphabet=nd.TRAIN_KEYS, key_length=1)
+        for k1, k2 in zip(items['keys'], items['decoy_keys']):
+            self.assertNotEqual(k1, k2)
+
+    def test_an_alphabet_too_small_for_two_distinct_keys_is_refused_not_looped_on(self):
+        with self.assertRaises(ValueError):
+            dp.make(2, a=0, b=0, seed=1, alphabet=b'A', key_length=1)
+
+    def test_the_fact_size_follows_the_key_length(self):
+        self.assertEqual(dp.fact_bytes(4), 27)
+        self.assertEqual(dp.fact_bytes(1), 24)
+        items = dp.make(2, a=0, b=0, seed=1, key_length=3)
+        self.assertEqual(items['x'].shape[1], 2 * dp.fact_bytes(3) + len(b'\nThe code for ') + 3 + len(b' is ') + 4)
+
+
+class TableTests(unittest.TestCase):
+    ROWS = [dict(alphabet=al, key_length=kl, a=a, b=b, ask=ask, gap_to_question=a + dp.fact_bytes(kl) + b,
+                 decoy_to_question=b, exact_match=.5, usable=10, asked=.25 if ask == 'first' else .75, decoy=.5,
+                 neither=.25)
+            for al in ('TRAIN_KEYS', 'HELD_KEYS') for kl in (1, 4) for a, b in ((0, 0), (10, 0)) for ask in dp.ASK]
+
+    def test_the_table_has_one_block_per_alphabet_and_key_length_and_shows_both_asks(self):
+        text = dp.format_table(dict(rows=self.ROWS, items=64))
+        for al in ('TRAIN_KEYS', 'HELD_KEYS'):
+            for kl in (1, 4):
+                self.assertIn('%s, key length %d' % (al, kl), text)
+        self.assertIn('0.75', text)
+        self.assertIn('10:0', text)
+
+    def test_a_report_from_before_key_lengths_existed_still_prints_as_length_four(self):
+        old = [{k: v for k, v in r.items() if k != 'key_length'} for r in self.ROWS if r['key_length'] == 4]
+        self.assertIn('key length 4', dp.format_table(dict(rows=old, items=128)))
+
+
 class AttributionTests(unittest.TestCase):
     def test_a_prediction_is_attributed_to_the_asked_fact_the_decoy_or_neither(self):
         got = torch.tensor([1, 9, 5, 0])
