@@ -1,14 +1,14 @@
 Traceback (most recent call last):
   File "<frozen runpy>", line 198, in _run_module_as_main
   File "<frozen runpy>", line 88, in _run_code
-  File "E:\rlt-research\2026-09-18-drift\drift\run.py", line 382, in <module>
+  File "__RLT_ROOT__\2026-09-18-drift\drift\run.py", line 382, in <module>
     main()
-  File "E:\rlt-research\2026-09-18-drift\drift\run.py", line 375, in main
+  File "__RLT_ROOT__\2026-09-18-drift\drift\run.py", line 375, in main
     result = worker(args.out, args.worker, args.slots)
              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "E:\rlt-research\2026-09-18-drift\drift\run.py", line 352, in worker
+  File "__RLT_ROOT__\2026-09-18-drift\drift\run.py", line 352, in worker
     r = run_one(out, c)
         ^^^^^^^^^^^^^^^
-  File "E:\rlt-research\2026-09-18-drift\drift\run.py", line 216, in run_one
+  File "__RLT_ROOT__\2026-09-18-drift\drift\run.py", line 216, in run_one
     raise ValueError('nonfinite loss/gradient; failure preserved')
 ValueError: nonfinite loss/gradient; failure preserved

@@ -178,18 +178,18 @@
    "3": 760,
    "4": 405
   },
-  "path": "E:/rlt-research/datasets/dgslibisey__MuSiQue/musique_ans_v1.0_dev.jsonl",
+  "path": "__RLT_ROOT__/datasets/dgslibisey__MuSiQue/musique_ans_v1.0_dev.jsonl",
   "queries": 2417,
   "sha256": "15fa63794d18a94ce12411aca6e2327e65b6e83b0b1490efab3f1962e48abf3b"
  },
  "distractor_pool": {
-  "path": "E:/rlt-research/datasets/dgslibisey__MuSiQue/musique_ans_v1.0_train.jsonl",
+  "path": "__RLT_ROOT__/datasets/dgslibisey__MuSiQue/musique_ans_v1.0_train.jsonl",
   "sha256": "83a75b1e11e4e9bb8f8308e72ac40ca617ae4431b3a0d955b61cab259248490a",
   "size": 80862
  },
  "encoder": {
   "encoded": 102545,
-  "name": "E:/rlt-research/models/Qwen3-Embedding-0.6B",
+  "name": "__RLT_ROOT__/models/Qwen3-Embedding-0.6B",
   "seconds": 1615.270963199997
  },
  "index": {
@@ -839,7 +839,7 @@
  "ladder_queries": 250,
  "protocol_hash": "638b5a2b0ab323b985a770ad1da5585d0516c2b452e58481ac84441a2b1c1d6e",
  "reranker": {
-  "name": "E:/rlt-research/models/Qwen3-Reranker-0.6B",
+  "name": "__RLT_ROOT__/models/Qwen3-Reranker-0.6B",
   "scored_pairs": 170850,
   "seconds": 7172.4860266000815
  },

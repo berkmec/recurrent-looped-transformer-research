@@ -4,7 +4,7 @@ test_supplement_has_genuinely_unseen_depth_and_consistent_labels (test_learning_
 FAIL: test_supplement_has_genuinely_unseen_depth_and_consistent_labels (test_learning_structural.StructuralTransfer.test_supplement_has_genuinely_unseen_depth_and_consistent_labels)
 ----------------------------------------------------------------------
 Traceback (most recent call last):
-  File "E:\rlt-research\2026-09-16-e2e\tests\test_learning_structural.py", line 7, in test_supplement_has_genuinely_unseen_depth_and_consistent_labels
+  File "__RLT_ROOT__\2026-09-16-e2e\tests\test_learning_structural.py", line 7, in test_supplement_has_genuinely_unseen_depth_and_consistent_labels
     self.assertIsNotNone(importlib.util.find_spec('learning.structural_extra'),'structurally unseen-depth evaluation absent')
 AssertionError: unexpectedly None : structurally unseen-depth evaluation absent
 

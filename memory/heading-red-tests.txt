@@ -9,7 +9,7 @@ Traceback (most recent call last):
              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   File "C:\Program Files\Python311\Lib\unittest\loader.py", line 362, in _get_module_from_name
     __import__(name)
-  File "E:\rlt-research\2026-09-16-e2e\tests\test_memory_headings.py", line 2, in <module>
+  File "__RLT_ROOT__\2026-09-16-e2e\tests\test_memory_headings.py", line 2, in <module>
     from memory.headings import HeadingRegistry
 ModuleNotFoundError: No module named 'memory.headings'
 

@@ -1,13 +1,13 @@
 Traceback (most recent call last):
   File "<frozen runpy>", line 198, in _run_module_as_main
   File "<frozen runpy>", line 88, in _run_code
-  File "E:\rlt-research\2026-09-16-e2e\core\summarize.py", line 68, in <module>
+  File "__RLT_ROOT__\2026-09-16-e2e\core\summarize.py", line 68, in <module>
     if __name__=='__main__':main()
                             ^^^^^^
-  File "E:\rlt-research\2026-09-16-e2e\core\summarize.py", line 18, in main
+  File "__RLT_ROOT__\2026-09-16-e2e\core\summarize.py", line 18, in main
     metrics=read(ROOT/'results'/'metrics.json');final=read(ROOT/'results'/'final-only-metrics.json');diag=read(ROOT/'results'/'diagnostics.json');assert metrics['status']==final['status']=='COMPLETE';recomputed=[];groups={};lines=['# Core research measured report','',f"Primary protocol SHA256: `{metrics['protocol_hash']}`.",'','Scope: packages1–4 and the model-width portion of14. Independent tiny implementation, not an official accuracy reproduction. Pinned source commit cc05cfe0b24bc5eb353c6f3c14990ea4e7be0a39: [official README](https://raw.githubusercontent.com/yifanzhang-pro/recurrent-looped-tranformer/cc05cfe0b24bc5eb353c6f3c14990ea4e7be0a39/README.md). All experimental models and oracle labels are local synthetic tasks. No infinite-depth or unrestricted-language conclusions.','','## Execution and controls','','All 27 trained conditions completed 2,000 optimizer updates each, batch 32, training length 32;21 prefix-supervised primary conditions and6 separate final-target-only conditions. Seeds 17, 43, 91. Validation-only checkpoint selection, no test-based tuning. Same initialization tensors and input streams are paired within task/width/seed. No-feedback keeps encoder, global cross-attention and SWA; only hidden feedback is disabled. All allocated merge parameters remain present but are inactive in no-feedback. FLOPs differ; no equal-FLOP claim. CPU 1 thread per training process; training seconds include validation/checkpoint overhead and concurrent system activity. Primary and companion later run concurrently on separate CPU threads, so their durations must not be added as elapsed wall time.','','## Primary final-state accuracy','','Each cell lists seed17 /43 /91 as percentages (512 independent examples per seed/condition). Length is actual consumed tokens and generated operations, including identity. Seeds are replication units; do not pool1536 examples as independent model replications.','', '| Task | Width | Mode |32|64|128|256|512|1024|','|---|---:|---|---:|---:|---:|---:|---:|---:|']
             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "E:\rlt-research\2026-09-16-e2e\core\summarize.py", line 7, in read
+  File "__RLT_ROOT__\2026-09-16-e2e\core\summarize.py", line 7, in read
     def read(p):return json.loads(p.read_text(encoding='utf8-sig'))
                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   File "C:\Program Files\Python311\Lib\pathlib.py", line 1058, in read_text

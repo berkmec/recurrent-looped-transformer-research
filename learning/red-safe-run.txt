@@ -4,7 +4,7 @@ test_restart_refuses_existing_evidence_without_changes (test_learning_runner.Pre
 FAIL: test_restart_refuses_existing_evidence_without_changes (test_learning_runner.PreserveEvidence.test_restart_refuses_existing_evidence_without_changes)
 ----------------------------------------------------------------------
 Traceback (most recent call last):
-  File "E:\rlt-research\2026-09-16-e2e\tests\test_learning_runner.py", line 7, in test_restart_refuses_existing_evidence_without_changes
+  File "__RLT_ROOT__\2026-09-16-e2e\tests\test_learning_runner.py", line 7, in test_restart_refuses_existing_evidence_without_changes
     self.assertIsNotNone(importlib.util.find_spec('learning.safe_run'),'fail-closed entrypoint absent')
 AssertionError: unexpectedly None : fail-closed entrypoint absent
 

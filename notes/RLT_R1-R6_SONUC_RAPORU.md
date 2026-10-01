@@ -2,7 +2,7 @@
 
 **Durum:** MEASURED_BOUNDED_DIAGNOSTICS. 16 Eylül incelemesinin önerdiği altı tanı kontrolünün (R1–R6) tamamı yerel olarak yürütüldü, ayrı ayrı dondurulmuş protokollerle ölçüldü ve bağımsız ham denetimlerden geçti. Bu döngü Faz 2'nin on iki deneyini (D1–D4, B1–B4, U1–U4) **yerine geçmez**; yalnız onların ön koşulu olan belirsizlikleri çözer. Serbest doğal dil, anlamsal bellek ve sınırsız doğru düşünme iddiaları bu döngüde ölçülmedi.
 
-Tarih: 17–18 Eylül 2026. Kök: `E:/rlt-research/2026-09-17-diagnostics` (git worktree, dal `codex/rlt-review-diagnostics`, taban `3c118c7`). Mühürlü Faz 1 kökü (`2026-09-16-e2e`, manifest `146eb693…`) ve Faz 2 plan dosyaları değiştirilmedi; kapanışta kimlikleri yeniden doğrulandı.
+Tarih: 17–18 Eylül 2026. Kök: `__RLT_ROOT__/2026-09-17-diagnostics` (git worktree, dal `codex/rlt-review-diagnostics`, taban `3c118c7`). Mühürlü Faz 1 kökü (`2026-09-16-e2e`, manifest `146eb693…`) ve Faz 2 plan dosyaları değiştirilmedi; kapanışta kimlikleri yeniden doğrulandı.
 
 ## Beş bulgu
 

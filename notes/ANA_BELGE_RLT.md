@@ -38,7 +38,7 @@
 
 Dört kök **tek bir git deposunun** çalışma ağaçlarıdır (ortak `.git`: `2026-09-16-e2e/.git`); tarihçe doğrusal bir zincirdir: e2e → diagnostics → drift → phase2.
 
-| Dizin (`E:\rlt-research\…`) | Ne | Dal · commit | Mühür |
+| Dizin (`__RLT_ROOT__\…`) | Ne | Dal · commit | Mühür |
 |---|---|---|---|
 | `2026-09-16-e2e` | Faz 1: 14 paket | `codex/rlt-e2e` · 3c118c7 | `audit/final-manifest.json`, sha 146eb693…, 9.073 dosya |
 | `2026-09-16-phase2-plan` | Faz 2 planı (12 deney + G0) ve dış yorum değerlendirmesi | git yok | plan dosyaları `docs/phase2-plan-snapshot/` altında bayt bayt kopya |

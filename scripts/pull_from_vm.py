@@ -33,7 +33,7 @@ import time
 from pathlib import Path
 
 DEFAULT_REMOTE = '/data/rlt/2026-09-18-phase2'
-DEFAULT_MIRROR = 'E:/rlt-research/vm-mirror'
+DEFAULT_MIRROR = '__RLT_ROOT__/vm-mirror'
 # Only what the VM PRODUCES. Its results/ also holds the 225 MB of sealed evidence that was uploaded so the test
 # suite could run there, and pulling that back would re-download what this machine is the source of. Measured:
 # the first version of this puller stalled for ten minutes doing exactly that.

@@ -96,7 +96,7 @@ def batch(data, seed, step, batch_size, length):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--out', default=os.environ.get('MLINE_DATA', 'E:/rlt-research/mline-data/cnn-bytes'))
+    parser.add_argument('--out', default=os.environ.get('MLINE_DATA', '__RLT_ROOT__/mline-data/cnn-bytes'))
     parser.add_argument('--source', default='cnn_dailymail', choices=sorted(SOURCES))
     parser.add_argument('--target-mb', type=float, default=200)
     parser.add_argument('--validation-mb', type=float, default=8)

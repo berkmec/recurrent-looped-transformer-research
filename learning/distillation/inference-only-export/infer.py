@@ -1,6 +1,6 @@
 from pathlib import Path
 import sys,importlib.util,json
-sys.path.insert(0,str(Path(__file__).resolve().parent));sys.path.append('C:\\Users\\pc\\AppData\\Roaming\\Python\\Python311\\site-packages')
+sys.path.insert(0,str(Path(__file__).resolve().parent));sys.path.append('__USER_HOME__\\AppData\\Roaming\\Python\\Python311\\site-packages')
 import torch,numpy as np
 from learning.api import load_model
 torch.set_num_threads(1)

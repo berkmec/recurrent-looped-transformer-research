@@ -21,7 +21,7 @@ EXCLUDED_FILES = {MANIFEST, DIGEST, VERIFICATION}
 EXCLUDED_DIRECTORIES = {'.git', '__pycache__', '.pytest_cache'}
 PHASE1_MANIFEST_SHA256 = '146eb693e3303e17b1caa6bba2b1eb7662e20d87bb0ff3e71bbdaeb1e54484af'
 PHASE1_HEAD = '3c118c7afd21fb1b04733ad0e12c32fef3d895ba'
-PHASE2_PLAN = Path('E:/rlt-research/2026-09-16-phase2-plan')
+PHASE2_PLAN = Path('__RLT_ROOT__/2026-09-16-phase2-plan')
 
 
 class IntegrityError(RuntimeError):

@@ -9,7 +9,7 @@ test_uncertified_node_values_never_affect_auxiliary_loss (test_learning_distilla
 FAIL: test_empty_evaluation_cannot_be_classified_positive (test_learning_distillation.ActualTraceContracts.test_empty_evaluation_cannot_be_classified_positive)
 ----------------------------------------------------------------------
 Traceback (most recent call last):
-  File "E:\rlt-research\2026-09-16-e2e\tests\test_learning_distillation.py", line 59, in test_empty_evaluation_cannot_be_classified_positive
+  File "__RLT_ROOT__\2026-09-16-e2e\tests\test_learning_distillation.py", line 59, in test_empty_evaluation_cannot_be_classified_positive
     self.assertTrue(hasattr(postprocess,'validate_expected_results'),'complete-result guard absent')
 AssertionError: False is not true : complete-result guard absent
 

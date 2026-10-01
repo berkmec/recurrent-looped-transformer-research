@@ -1,6 +1,6 @@
 # U1 — t ekseni: sabit-durum ve büyüyen-bellek görevlerinde uzun ufuk (2026-09-18)
 
-**Durum:** beş durum (sabit bellek) **MIXED**; yığın (büyüyen bellek) **MEASURED_NEGATIVE**. Kapsam: yalnız t (token/işlem) ekseni; k (başlık turu) ve d (bağımlılık derinliği) eksenleri başlık/graf mekanizması gerektirdiğinden U1b'ye ertelendi (ledger `Ruling`). Kök `E:/rlt-research/2026-09-18-phase2`, dal `codex/rlt-phase2`. Mühürlü kökler değişmedi.
+**Durum:** beş durum (sabit bellek) **MIXED**; yığın (büyüyen bellek) **MEASURED_NEGATIVE**. Kapsam: yalnız t (token/işlem) ekseni; k (başlık turu) ve d (bağımlılık derinliği) eksenleri başlık/graf mekanizması gerektirdiğinden U1b'ye ertelendi (ledger `Ruling`). Kök `__RLT_ROOT__/2026-09-18-phase2`, dal `codex/rlt-phase2`. Mühürlü kökler değişmedi.
 
 ## Soru
 

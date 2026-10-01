@@ -79,20 +79,20 @@
   "gold_per_query": {
    "2": 100
   },
-  "path": "E:/rlt-research/datasets/dgslibisey__MuSiQue/musique_ans_v1.0_train.jsonl",
+  "path": "__RLT_ROOT__/datasets/dgslibisey__MuSiQue/musique_ans_v1.0_train.jsonl",
   "queries": 100,
   "sha256": "83a75b1e11e4e9bb8f8308e72ac40ca617ae4431b3a0d955b61cab259248490a"
  },
  "encoder": {
   "encoded": 2107,
-  "name": "E:/rlt-research/models/Qwen3-Embedding-0.6B"
+  "name": "__RLT_ROOT__/models/Qwen3-Embedding-0.6B"
  },
  "n_queries": 100,
  "per_query_file": "development-per-query.json",
  "per_query_sha256": "8b9ef2ec126fdaf52f1b7b4d4012948d4a708f575a078bed0891d2ded5981275",
  "protocol_hash": "7c658de8a98f28d0eeb10c392a251d325aeb66da8f58048a787632f5028b250a",
  "reranker": {
-  "name": "E:/rlt-research/models/Qwen3-Reranker-0.6B",
+  "name": "__RLT_ROOT__/models/Qwen3-Reranker-0.6B",
   "scored_pairs": 2727
  },
  "split": "development",

@@ -7,7 +7,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-UPSTREAM = Path('C:/Users/pc/Documents/Codex/2026-09-16')
+UPSTREAM = Path('__WORKSPACE__')
 
 
 def main():

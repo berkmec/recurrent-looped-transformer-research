@@ -37,7 +37,7 @@ from mline import needle as nd
 ROOT = Path(__file__).resolve().parents[1]
 SOURCES = ('core/model.py', 'horizon/gated.py', 'horizon/guards.py', 'mline/lm.py', 'mline/data.py',
            'mline/needle.py', 'mline/train.py', 'mline/analyze.py')
-DATA = os.environ.get('MLINE_DATA', 'E:/rlt-research/mline-data/cnn-bytes')
+DATA = os.environ.get('MLINE_DATA', '__RLT_ROOT__/mline-data/cnn-bytes')
 
 
 def protocol():

@@ -3,7 +3,7 @@ this repository's standing convention (zero .pt files are tracked, across every 
 
 They live on the main machine in the verified VM mirror:
 
-    E:/rlt-research/vm-mirror/<this same relative path>/
+    __RLT_ROOT__/vm-mirror/<this same relative path>/
 
 Every one of them was compared by sha256 against the VM that produced it, on the final pull before that VM was
 powered off, and matched. They are not duplicated here because the mirror copy is the verified one and this pair

@@ -49,7 +49,7 @@ Her adımda hedef verilen öğrenme ile yalnız son cevaptan hedef verilen öğr
 
 Kesilmiş gradyan gizli durum ve yerel decoder KV yollarını sekiz adımda keser; encoder/global bellek yollarını kesmez. Küçük veya sıfır yerel türev tek başına unutma, sıfır olmayan türev de öğrenme kanıtı değildir. Gerçek checkpoint yeniden hesaplamasında backward/AdamW eşliği kontrol edildi. Kısa süreç benchmark'ında koşul başına üç tekrarın ortalama toplam tepe çalışma belleği 592,1–599,4 MiB arasında kaldı. Bu ölçüm belirgin toplam bellek tasarrufu göstermedi; aktivasyon belleği ayrı ölçülmedi.
 
-![Çekirdeğin uzun ufuk sonuçları](E:/rlt-research/2026-09-16-e2e/reports/figures/core-long-horizon.png)
+![Çekirdeğin uzun ufuk sonuçları](__RLT_ROOT__/2026-09-16-e2e/reports/figures/core-long-horizon.png)
 
 Ayrı kimlik-son-eki deneyinde aynı 32 işlemin sonuna cevabı değiştirmeyen 128 işlem eklendi. Aşağıdaki modellerin son ek yokken doğruluğu üç tohumda da %100'dü. Tablo son ekten sonraki doğrulukları gösteriyor. Rastgele uzun dizilerde başarı, farklı işlem düzeninde gereksiz adımlara dayanıklılık sağlamadı; etki model ve tohuma göre değişti.
 
@@ -66,13 +66,13 @@ Sabit yerel tur sayısında çift yönlü ağ, eğitim benzeri yeni görevlerde 
 
 Gerçek model geri beslemesi sonraki token durumuna bağlandı; ayrı ek yararı küçük ve belirsiz kaldı. Seçici revizyonun önceden belirlenen güçlü ölçütü geçmedi. Sözcük karma vektörüyle erişim@5 yalnız %4,17 idi; kalıcı arşivin doğru çalışması bunu başarılı anlamsal erişim yapmaz.
 
-![Başlık ağı ve ara gözetim](E:/rlt-research/2026-09-16-e2e/reports/figures/learning-generalization.png)
+![Başlık ağı ve ara gözetim](__RLT_ROOT__/2026-09-16-e2e/reports/figures/learning-generalization.png)
 
 Ana bağlı sistemde eğitim benzeri yeni problemlerde doğru sayısal aday %98,18, doğru ve doğrulayıcıdan geçen son cevap kapsamı %38,93 çıktı. Sabit 8 tura göre gerçek güncelleme sayısı %24,14 azaldı. Yeni derinlikte aday doğruluğu %37,63'e, kabul kapsamı %0,13'e indi. Yeni cümle düzenlerinde ayrıştırma reddi sonrası son cevapların tamamı eksik kaldı.
 
 Güncel kısıt özetinden modeli yeniden başlatmak, derinlik 8 aday doğruluğunu %37,63'ten %20,57'ye düşürdü. Buna karşılık sabit bağlamda **gerçek son z durumunu saklayıp yeniden yükleyen** ayrı pencere deneyi bütün eşlenik izleri ve çıktıları korudu: 70.080 gerçek iz, 8.760 sınır/okuma, aktif tepe geçmiş 8→4. Bu ikinci mekanizma genel anlamsal özet değildir. Serileştirilmiş aktif yük yaklaşık yarıya inerken ek sınır kayıtları diski yaklaşık %21 büyüttü; toplam RAM tasarrufu gösterilmedi.
 
-![Bağlı sistemde aday ve kabul kapsamı](E:/rlt-research/2026-09-16-e2e/reports/figures/connected-quality-coverage.png)
+![Bağlı sistemde aday ve kabul kapsamı](__RLT_ROOT__/2026-09-16-e2e/reports/figures/connected-quality-coverage.png)
 
 ## Geçmişteki gerçek düşünme yolunu sonraki eğitime aktarma
 
@@ -95,7 +95,7 @@ Altı öğrencinin 512'şer örnekte arşiv ve üretici modülleri bulunmayan ç
 
 Genişlikle dikkat başı sayısı ve küçük çekirdeğe göre cihaz değişti. Öğrenme oranı ölçek başına eniyilenmedi. Bu, belirtilen protokol altında duyarlılık ölçümüdür; ölçek yasası veya büyük modelin evrensel kapasite sınırı değildir.
 
-![Ölçek, tohum ve kimlik işlemleri](E:/rlt-research/2026-09-16-e2e/reports/figures/scale-seeds-and-neutral.png)
+![Ölçek, tohum ve kimlik işlemleri](__RLT_ROOT__/2026-09-16-e2e/reports/figures/scale-seeds-and-neutral.png)
 
 ## Teslimat ve açık geçerlilik sınırları
 
@@ -107,10 +107,10 @@ Serbest doğal dil, öğrenilmiş genel konu bölme, güvenilir anlamsal vektör
 
 Kanıt yolları:
 
-- [Çekirdek ayrıntıları](E:/rlt-research/2026-09-16-e2e/reports/core-report.md) ve [bağımsız çekirdek denetimi](E:/rlt-research/2026-09-16-e2e/reports/core-independent-audit.md).
-- [Ağ, revizyon ve ara gözetim](E:/rlt-research/2026-09-16-e2e/reports/learning-report.md) ve [bağımsız öğrenme denetimi](E:/rlt-research/2026-09-16-e2e/reports/learning-independent-audit.md).
-- [Metinden sonuca bağlı sistem](E:/rlt-research/2026-09-16-e2e/reports/connected-report.md) ve [6.144 arşivin denetimi](E:/rlt-research/2026-09-16-e2e/reports/connected-independent-audit.md).
-- [Üretilmiş durum penceresi](E:/rlt-research/2026-09-16-e2e/reports/reasoning-window-report.md) ve [1.536 arşivin denetimi](E:/rlt-research/2026-09-16-e2e/reports/reasoning-window-independent-audit.md).
-- [Gerçek izlerden sonraki eğitim](E:/rlt-research/2026-09-16-e2e/learning/distillation/report.md) ve [bağımsız aktarım ve başlangıç referansı](E:/rlt-research/2026-09-16-e2e/reports/distillation-independent-audit.md).
-- [Büyük yerel modelin sonuçları](E:/rlt-research/2026-09-16-e2e/reports/scale-report.md), [yirmi fikrin ayrı karşılığı](E:/rlt-research/2026-09-16-e2e/reports/user-requirement-map.md), [matematik ve otuz risk kapsamı](E:/rlt-research/2026-09-16-e2e/reports/mathematical-interpretation.md).
-- [Kapanış kaydı](E:/rlt-research/2026-09-16-e2e/audit/campaign-closure.json), [kapanış öncesi güncel karma kontrolü ve kapsam sınırları](E:/rlt-research/2026-09-16-e2e/audit/closure-pins.json), [bütün dosyaların SHA256 manifesti](E:/rlt-research/2026-09-16-e2e/audit/final-manifest.json), [doğrulama yönergesi](E:/rlt-research/2026-09-16-e2e/README.md).
+- [Çekirdek ayrıntıları](__RLT_ROOT__/2026-09-16-e2e/reports/core-report.md) ve [bağımsız çekirdek denetimi](__RLT_ROOT__/2026-09-16-e2e/reports/core-independent-audit.md).
+- [Ağ, revizyon ve ara gözetim](__RLT_ROOT__/2026-09-16-e2e/reports/learning-report.md) ve [bağımsız öğrenme denetimi](__RLT_ROOT__/2026-09-16-e2e/reports/learning-independent-audit.md).
+- [Metinden sonuca bağlı sistem](__RLT_ROOT__/2026-09-16-e2e/reports/connected-report.md) ve [6.144 arşivin denetimi](__RLT_ROOT__/2026-09-16-e2e/reports/connected-independent-audit.md).
+- [Üretilmiş durum penceresi](__RLT_ROOT__/2026-09-16-e2e/reports/reasoning-window-report.md) ve [1.536 arşivin denetimi](__RLT_ROOT__/2026-09-16-e2e/reports/reasoning-window-independent-audit.md).
+- [Gerçek izlerden sonraki eğitim](__RLT_ROOT__/2026-09-16-e2e/learning/distillation/report.md) ve [bağımsız aktarım ve başlangıç referansı](__RLT_ROOT__/2026-09-16-e2e/reports/distillation-independent-audit.md).
+- [Büyük yerel modelin sonuçları](__RLT_ROOT__/2026-09-16-e2e/reports/scale-report.md), [yirmi fikrin ayrı karşılığı](__RLT_ROOT__/2026-09-16-e2e/reports/user-requirement-map.md), [matematik ve otuz risk kapsamı](__RLT_ROOT__/2026-09-16-e2e/reports/mathematical-interpretation.md).
+- [Kapanış kaydı](__RLT_ROOT__/2026-09-16-e2e/audit/campaign-closure.json), [kapanış öncesi güncel karma kontrolü ve kapsam sınırları](__RLT_ROOT__/2026-09-16-e2e/audit/closure-pins.json), [bütün dosyaların SHA256 manifesti](__RLT_ROOT__/2026-09-16-e2e/audit/final-manifest.json), [doğrulama yönergesi](__RLT_ROOT__/2026-09-16-e2e/README.md).

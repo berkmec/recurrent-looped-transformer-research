@@ -1,9 +1,0 @@
-test_freeze_run_and_report (tests.test_lr_probe.LrProbeTests.test_freeze_run_and_report) ... ok
-test_frozen_u2c_sources_are_untouched (tests.test_lr_probe.LrProbeTests.test_frozen_u2c_sources_are_untouched)
-The probe may import the gated modules but must not be part of their frozen set, and must not edit them. ... ok
-test_probe_is_development_only (tests.test_lr_probe.LrProbeTests.test_probe_is_development_only) ... ok
-
-----------------------------------------------------------------------
-Ran 3 tests in 1.943s
-
-OK

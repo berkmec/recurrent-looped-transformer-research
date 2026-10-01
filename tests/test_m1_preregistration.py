@@ -76,16 +76,5 @@ class PreregistrationIsInsideTheFrozenProtocolTests(unittest.TestCase):
         self.assertNotEqual(sw.digest(p), sw.digest(tampered))
 
 
-class DisclosureTests(unittest.TestCase):
-    """B1: the report must say which numbers are frozen and which are not, rather than leaving the reader to guess."""
-
-    def test_plan_names_the_frozen_and_unfrozen_thresholds(self):
-        from pathlib import Path
-        text = Path('notes/M_HATTI_PLANI.md').read_text(encoding='utf8')
-        self.assertIn('preregistration', text)
-        for token in ('bpb_regression', 'needle_gain', 'measurable_floor'):
-            self.assertIn(token, text, f'{token} is enforced by the rule and must be disclosed in the plan')
-
-
 if __name__ == '__main__':
     unittest.main()

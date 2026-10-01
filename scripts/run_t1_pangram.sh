@@ -12,7 +12,7 @@
 # Usage: nohup bash scripts/run_t1_pangram.sh > /dev/null 2>&1 &
 set -u
 cd "$(dirname "$0")/.."
-PY="C:/Users/pc/Documents/ChatGPT/DaxDream/.venv/Scripts/python.exe"
+PY="__PY_ENV_DIR__/.venv/Scripts/python.exe"
 export PYTHONIOENCODING=utf-8
 ROOT=results/M1-finetune-distance
 LOG=$ROOT/queue.log

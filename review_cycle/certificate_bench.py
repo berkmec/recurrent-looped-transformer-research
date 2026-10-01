@@ -17,7 +17,7 @@ from .certificate import (verify_path, verify_envelope, bind_candidate,
                           audit_certificate, digest)
 
 ROOT = Path(__file__).resolve().parents[1]
-OLD = Path('E:/rlt-research/2026-09-16-e2e')
+OLD = Path('__RLT_ROOT__/2026-09-16-e2e')
 
 
 def sha(path):
