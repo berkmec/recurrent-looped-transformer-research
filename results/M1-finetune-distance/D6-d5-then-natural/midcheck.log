@@ -1,0 +1,54 @@
+TRAIN_KEYS key 4 a   0 b   0  ask first   gap  27  exact 0.98 | asked 1.00  other-fact 0.00  neither 0.00
+TRAIN_KEYS key 4 a   0 b   0  ask decoy   gap  27  exact 0.70 | asked 0.75  other-fact 0.25  neither 0.00
+TRAIN_KEYS key 4 a  10 b   0  ask first   gap  37  exact 0.97 | asked 1.00  other-fact 0.00  neither 0.00
+TRAIN_KEYS key 4 a  10 b   0  ask decoy   gap  37  exact 0.69 | asked 0.75  other-fact 0.25  neither 0.00
+TRAIN_KEYS key 4 a  30 b   0  ask first   gap  57  exact 0.69 | asked 0.86  other-fact 0.09  neither 0.05
+TRAIN_KEYS key 4 a  30 b   0  ask decoy   gap  57  exact 0.72 | asked 0.84  other-fact 0.12  neither 0.03
+TRAIN_KEYS key 4 a   0 b  30  ask first   gap  57  exact 0.81 | asked 0.86  other-fact 0.12  neither 0.02
+TRAIN_KEYS key 4 a   0 b  30  ask decoy   gap  57  exact 0.84 | asked 0.88  other-fact 0.12  neither 0.00
+TRAIN_KEYS key 4 a  15 b  15  ask first   gap  57  exact 0.80 | asked 0.84  other-fact 0.14  neither 0.02
+TRAIN_KEYS key 4 a  15 b  15  ask decoy   gap  57  exact 0.77 | asked 0.83  other-fact 0.14  neither 0.03
+TRAIN_KEYS key 4 a  50 b   0  ask first   gap  77  exact 0.86 | asked 0.88  other-fact 0.06  neither 0.06
+TRAIN_KEYS key 4 a  50 b   0  ask decoy   gap  77  exact 0.62 | asked 0.81  other-fact 0.19  neither 0.00
+HELD_KEYS  key 4 a   0 b   0  ask first   gap  27  exact 0.78 | asked 0.80  other-fact 0.20  neither 0.00
+HELD_KEYS  key 4 a   0 b   0  ask decoy   gap  27  exact 0.38 | asked 0.39  other-fact 0.61  neither 0.00
+HELD_KEYS  key 4 a  10 b   0  ask first   gap  37  exact 0.75 | asked 0.78  other-fact 0.22  neither 0.00
+HELD_KEYS  key 4 a  10 b   0  ask decoy   gap  37  exact 0.34 | asked 0.38  other-fact 0.59  neither 0.03
+HELD_KEYS  key 4 a  30 b   0  ask first   gap  57  exact 0.19 | asked 0.48  other-fact 0.36  neither 0.16
+HELD_KEYS  key 4 a  30 b   0  ask decoy   gap  57  exact 0.19 | asked 0.44  other-fact 0.39  neither 0.17
+HELD_KEYS  key 4 a   0 b  30  ask first   gap  57  exact 0.23 | asked 0.41  other-fact 0.55  neither 0.05
+HELD_KEYS  key 4 a   0 b  30  ask decoy   gap  57  exact 0.36 | asked 0.66  other-fact 0.31  neither 0.03
+HELD_KEYS  key 4 a  15 b  15  ask first   gap  57  exact 0.33 | asked 0.50  other-fact 0.39  neither 0.11
+HELD_KEYS  key 4 a  15 b  15  ask decoy   gap  57  exact 0.38 | asked 0.50  other-fact 0.39  neither 0.11
+HELD_KEYS  key 4 a  50 b   0  ask first   gap  77  exact 0.19 | asked 0.52  other-fact 0.33  neither 0.16
+HELD_KEYS  key 4 a  50 b   0  ask decoy   gap  77  exact 0.12 | asked 0.42  other-fact 0.41  neither 0.17
+written results/M1-finetune-distance/D6-d5-then-natural/decoy-step250.json
+TRAIN_KEYS key 4   0:0  ask first  selectivity mean 0.56 | per head 0.49 0.84 0.28 0.68 0.38 0.38 0.68 0.75 | top regions template_question 0.37, value_first 0.22, key_question 0.10, value_decoy 0.07
+TRAIN_KEYS key 4   0:0  ask decoy  selectivity mean 0.66 | per head 0.58 0.76 0.74 0.74 0.63 0.65 0.56 0.66 | top regions template_question 0.37, value_decoy 0.20, value_first 0.10, key_question 0.09
+TRAIN_KEYS key 4  15:15 ask first  selectivity mean 0.49 | per head 0.35 0.78 0.32 0.61 0.39 0.24 0.62 0.62 | top regions template_question 0.39, is_question 0.14, is_first 0.13, value_first 0.09
+TRAIN_KEYS key 4  15:15 ask decoy  selectivity mean 0.70 | per head 0.65 0.81 0.69 0.76 0.64 0.78 0.56 0.75 | top regions template_question 0.38, value_decoy 0.14, is_question 0.14, key_question 0.08
+TRAIN_KEYS key 4   0:30 ask first  selectivity mean 0.48 | per head 0.24 0.77 0.31 0.75 0.41 0.22 0.61 0.55 | top regions template_question 0.40, is_question 0.13, is_first 0.12, value_first 0.10
+TRAIN_KEYS key 4   0:30 ask decoy  selectivity mean 0.71 | per head 0.78 0.83 0.69 0.63 0.62 0.78 0.58 0.79 | top regions template_question 0.38, value_decoy 0.17, key_question 0.11, is_question 0.11
+TRAIN_KEYS key 4  30:0  ask first  selectivity mean 0.40 | per head 0.15 0.79 0.12 0.65 0.23 0.17 0.60 0.50 | top regions template_question 0.44, is_question 0.14, is_first 0.12, value_decoy 0.07
+TRAIN_KEYS key 4  30:0  ask decoy  selectivity mean 0.79 | per head 0.88 0.80 0.88 0.73 0.79 0.86 0.59 0.83 | top regions template_question 0.43, value_decoy 0.14, is_question 0.13, is_decoy 0.08
+TRAIN_KEYS key 4   0:0  key-conditional (first + decoy selectivity - 1): mean 0.22 best 0.60 | per head 0.07 0.60 0.02 0.42 0.01 0.02 0.25 0.40
+TRAIN_KEYS key 4  15:15 key-conditional (first + decoy selectivity - 1): mean 0.19 best 0.58 | per head 0.00 0.58 0.00 0.38 0.03 0.02 0.18 0.36
+TRAIN_KEYS key 4   0:30 key-conditional (first + decoy selectivity - 1): mean 0.20 best 0.60 | per head 0.02 0.60 0.00 0.38 0.02 0.01 0.19 0.34
+TRAIN_KEYS key 4  30:0  key-conditional (first + decoy selectivity - 1): mean 0.20 best 0.59 | per head 0.03 0.59 0.00 0.38 0.02 0.02 0.19 0.34
+written results/M1-finetune-distance/D6-d5-then-natural/attn-step250-TRAIN_KEYS-k4.json
+HELD_KEYS  key 4   0:0  ask first  selectivity mean 0.50 | per head 0.58 0.65 0.31 0.43 0.42 0.53 0.57 0.48 | top regions template_question 0.44, value_first 0.14, value_decoy 0.10, is_question 0.10
+HELD_KEYS  key 4   0:0  ask decoy  selectivity mean 0.52 | per head 0.40 0.42 0.68 0.58 0.59 0.48 0.44 0.54 | top regions template_question 0.42, value_first 0.12, value_decoy 0.11, is_question 0.11
+HELD_KEYS  key 4  15:15 ask first  selectivity mean 0.39 | per head 0.39 0.54 0.33 0.35 0.30 0.21 0.50 0.50 | top regions template_question 0.49, is_question 0.12, is_first 0.07, filler_b 0.05
+HELD_KEYS  key 4  15:15 ask decoy  selectivity mean 0.62 | per head 0.61 0.53 0.65 0.64 0.70 0.77 0.50 0.53 | top regions template_question 0.47, is_question 0.14, is_first 0.06, value_decoy 0.06
+HELD_KEYS  key 4   0:30 ask first  selectivity mean 0.39 | per head 0.24 0.46 0.22 0.57 0.38 0.27 0.47 0.49 | top regions template_question 0.51, is_question 0.14, value_decoy 0.08, is_first 0.06
+HELD_KEYS  key 4   0:30 ask decoy  selectivity mean 0.62 | per head 0.75 0.62 0.78 0.43 0.61 0.73 0.53 0.55 | top regions template_question 0.50, is_question 0.14, value_decoy 0.09, is_first 0.05
+HELD_KEYS  key 4  30:0  ask first  selectivity mean 0.32 | per head 0.24 0.56 0.13 0.39 0.25 0.14 0.47 0.41 | top regions template_question 0.54, is_question 0.13, value_decoy 0.06, is_first 0.06
+HELD_KEYS  key 4  30:0  ask decoy  selectivity mean 0.69 | per head 0.75 0.51 0.86 0.61 0.76 0.85 0.53 0.63 | top regions template_question 0.51, is_question 0.14, value_decoy 0.06, key_question 0.06
+HELD_KEYS  key 4   0:0  key-conditional (first + decoy selectivity - 1): mean 0.01 best 0.07 | per head -0.01 0.07 -0.01 0.01 0.00 0.01 0.01 0.02
+HELD_KEYS  key 4  15:15 key-conditional (first + decoy selectivity - 1): mean 0.01 best 0.06 | per head 0.00 0.06 -0.02 -0.00 -0.01 -0.02 0.00 0.03
+HELD_KEYS  key 4   0:30 key-conditional (first + decoy selectivity - 1): mean 0.01 best 0.08 | per head -0.01 0.08 0.00 0.00 -0.01 -0.00 0.00 0.03
+HELD_KEYS  key 4  30:0  key-conditional (first + decoy selectivity - 1): mean 0.01 best 0.07 | per head -0.01 0.07 -0.01 0.00 0.01 -0.01 -0.00 0.05
+written results/M1-finetune-distance/D6-d5-then-natural/attn-step250-HELD_KEYS-k4.json
+train key 4  first digit per question 0.93 0.93 0.98 0.98 | exact 0.86 0.88 0.93 0.98 | all: first 0.96 exact 0.91 (232 answers)
+held  key 4  first digit per question 0.47 0.35 0.38 0.30 | exact 0.30 0.23 0.23 0.17 | all: first 0.38 exact 0.23 (240 answers)
+natural (300 real words/names)  first digit per question 0.91 0.89 0.91 1.00 | exact 0.83 0.77 0.71 0.89 | all: first 0.93 exact 0.80 (140 answers)
