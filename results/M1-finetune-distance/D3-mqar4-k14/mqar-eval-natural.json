@@ -1,0 +1,89 @@
+{
+ "checkpoint": "results/M1-finetune-distance/D3-mqar4-k14/selected.pt",
+ "args": {
+  "checkpoint": "results/M1-finetune-distance/D3-mqar4-k14/selected.pt",
+  "out": "results/M1-finetune-distance/D3-mqar4-k14/mqar-eval-natural.json",
+  "width": null,
+  "heads": 4,
+  "feedback": "on",
+  "alphabet": "default",
+  "key_lengths": "4",
+  "facts": 4,
+  "queries": 4,
+  "with_replacement": false,
+  "filler_kind": "repeat",
+  "natural_keys": 300,
+  "filler": "0,64",
+  "pad_to": 512,
+  "items": 32,
+  "batch": 8,
+  "device": "cpu"
+ },
+ "report": {
+  "train_k4": {
+   "first": [
+    0.8392857142857143,
+    0.7857142857142857,
+    0.875,
+    0.8928571428571429
+   ],
+   "exact": [
+    0.75,
+    0.7142857142857143,
+    0.8035714285714286,
+    0.7321428571428571
+   ],
+   "first_all": 0.8482142857142857,
+   "exact_all": 0.75,
+   "answers": 224
+  },
+  "held_k4": {
+   "first": [
+    0.25,
+    0.44642857142857145,
+    0.375,
+    0.4107142857142857
+   ],
+   "exact": [
+    0.17857142857142858,
+    0.35714285714285715,
+    0.30357142857142855,
+    0.26785714285714285
+   ],
+   "first_all": 0.3705357142857143,
+   "exact_all": 0.2767857142857143,
+   "answers": 224
+  },
+  "natural": {
+   "first": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "exact": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "first_all": 0.0,
+   "exact_all": 0.0,
+   "answers": 140,
+   "sample_keys": [
+    "Fortunately",
+    "Secretly",
+    "cement",
+    "toilets",
+    "guerre",
+    "unforgiving",
+    "moviemaker",
+    "spans",
+    "chaos",
+    "wheeled",
+    "Fourie",
+    "loyalists"
+   ]
+  }
+ }
+}
