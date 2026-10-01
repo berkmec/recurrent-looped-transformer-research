@@ -1,0 +1,25 @@
+"""BULGU B1 — horizon/depth_tasks.py:172-176: train_batch, source_seed cagrisina `depth`
+parametresini GECIRMEZ (heldout gecirir, satir 180). Boylece ayni (ad alani, gorev, tohum, adim,
+uzunluk) icin farkli depth'ler AYNI source_seed'i alir ama FARKLI veri uretir: kayitli source_seed
+veriyi belirlemez (provenans cakismasi).
+
+Beklenen sonuc: BAŞARISIZ (bulgu gercekse).
+Kok dizinden: PYTHONPATH=. python -m pytest <bu dosya>
+"""
+import torch
+
+torch.set_num_threads(1)
+
+from horizon import depth_tasks as dt
+
+
+def test_source_seed_uniquely_names_the_training_data():
+    ns = dict(train='z1-train', dev='z1-dev', test='z1-test')
+    # depth=0: peak 0 -> it imkansiz, tum belirtecler 1 (yapisal)
+    a = dt.train_batch(ns, 'count', 1, 5, 8, length=64, depth=0)
+    # depth=5: peak 5 -> tirmanma belirtecleri (0'lar) icerir
+    b = dt.train_batch(ns, 'count', 1, 5, 8, length=64, depth=5)
+    # dogru ozellik: ayni source_seed => ozdeş veri  (karsi dili: farkli veri => farkli source_seed)
+    assert a['source_seed'] != b['source_seed'] or torch.equal(a['x'], b['x']), (
+        'train_batch: ayni source_seed iki farkli veri setini adlandiriyor '
+        '(depth, tohum zincirinde eksik: depth_tasks.py:174)')

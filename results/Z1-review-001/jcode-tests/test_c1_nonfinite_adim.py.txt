@@ -1,0 +1,32 @@
+"""Bulgu 1 — gru_control.train, non-finite adımda U1 gibi durmuyor (atlar ve devam eder).
+
+Beklenen davranış (horizon/sweep.py:180-182 ile aynı): non-finite kayıp ValueError ile iptal
+edilmeli. Bulgu gerçekse bu test BAŞARISIZ olur (gc.train hata vermeden döner).
+
+Çalıştırma (repo kökünden): PYTHONPATH=. python -m pytest <bu dosya>
+"""
+import torch
+torch.set_num_threads(1)
+
+from unittest import mock
+
+import pytest
+
+from horizon import gru_control as gc
+
+
+def test_nonfinite_kayip_egitimi_iptal_etmeli():
+    real_ce = torch.nn.functional.cross_entropy
+    calls = {'n': 0}
+
+    def fake_ce(*args, **kwargs):
+        calls['n'] += 1
+        if calls['n'] == 1:                      # yalnız ilk EĞİTİM kaybı non-finite
+            return torch.tensor(float('nan'))
+        return real_ce(*args, **kwargs)
+
+    p = {**gc.protocol(), 'batch': 2, 'train_length': 8}
+    c = dict(arm='gru8', task='five', width=8, seed=117)
+    with mock.patch('torch.nn.functional.cross_entropy', side_effect=fake_ce):
+        with pytest.raises(ValueError, match='nonfinite'):     # U1: ValueError('nonfinite loss/gradient; failure preserved')
+            gc.train(c, p, steps=2, validation_every=2, validation_n=2)

@@ -1,0 +1,23 @@
+"""BULGU B4 — horizon/depth_run.py:3-4: modul docstring'i degerlendirmeyi "lengths / peak depths
+up to 256x what was trained" olarak tanitir; varsayilan noktalar bunu vermez:
+perm uzunluk 1024/16 = 64x, count tepe 256/8 = 32x, count uzunluk 1536/64 = 24x.
+
+Beklenen sonuc: BAŞARISIZ (bulgu gercekse).
+Kok dizinden: PYTHONPATH=. python -m pytest <bu dosya>
+"""
+import torch
+
+torch.set_num_threads(1)
+
+from horizon import depth_run as dr
+from horizon import depth_tasks as dt
+
+
+def test_default_eval_scale_reaches_the_claimed_256x():
+    # iddia: "up to 256x what was trained" -> en az bir varsayilan olcek 256x olmali
+    assert max(dr.default_points('perm5')) >= 256 * dt.TRAIN_LENGTH, (
+        'perm: en buyuk varsayilan uzunluk %dx, iddia 256x (depth_run.py:4)'
+        % (max(dr.default_points('perm5')) // dt.TRAIN_LENGTH))
+    assert max(dr.default_points('count')) >= 256 * dt.TRAIN_DEPTH, (
+        'count: en buyuk varsayilan tepe %dx, iddia 256x (depth_run.py:4)'
+        % (max(dr.default_points('count')) // dt.TRAIN_DEPTH))

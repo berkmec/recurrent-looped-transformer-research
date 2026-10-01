@@ -1,0 +1,22 @@
+"""BULGU B2 — horizon/depth_tasks.py:174 vs 180: train_batch(step=0) ile heldout(split='train')
+ayni tohum zincirine duser (z1-train|task|seed|0|length|0) ve ayni generate cagrisini yaptiklari
+icin "heldout" verisi egitim verisiyle BAYT-BAYT OZDES olur. API bunu engellemez (aktif cagri
+grafiginde adim 1'den baslar ve eval 'dev' kullanir; koruma yalnizca cagri geleneginde).
+
+Beklenen sonuc: BAŞARISIZ (bulgu gercekse).
+Kok dizinden: PYTHONPATH=. python -m pytest <bu dosya>
+"""
+import torch
+
+torch.set_num_threads(1)
+
+from horizon import depth_tasks as dt
+
+
+def test_a_heldout_draw_never_coincides_with_a_training_draw():
+    ns = dict(train='z1-train', dev='z1-dev', test='z1-test')
+    b = dt.train_batch(ns, 'count', 1, 0, 8, length=64)        # step=0: yasal cagri
+    hx, hy, hs = dt.heldout(ns, 'count', 1, 'train', 8, 64)    # split='train': yasal cagri
+    assert not torch.equal(b['x'], hx) or b['source_seed'] != hs, (
+        'train_batch(step=0) ile heldout(split="train") ayni tohumdan ozdes veri uretiyor '
+        '(depth_tasks.py:174, 180)')

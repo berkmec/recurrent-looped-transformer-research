@@ -1,0 +1,48 @@
+"""B3 (behavior pin): the 'deep' result field (depth_run.py:113) is accuracy on positions whose LABEL is
+capped at LABEL_CAP ("label saturates at the trained peak", depth_tasks.py:105), so it measures whether
+the model emits the saturated label at deep positions -- not whether it tracks depth past training.
+
+A model that cannot count at all and always votes for the cap scores 1.0 on 'deep', tying a perfect
+counter; only 'reentry' separates the two. The JSON key name reads like deep-regime counting accuracy;
+this test pins what it really measures so a later change or rename cannot go unnoticed.
+
+Run from the repo root:  PYTHONPATH=. python -m pytest <this file>
+This test PASSES today (it pins the current behaviour); it FAILS if 'deep' ever changes meaning.
+Self-contained: no network, no GPU, no file writes, tiny fixed batches.
+"""
+import torch
+
+torch.set_num_threads(1)
+
+from horizon import depth_run as dr
+from horizon import depth_tasks as dt
+
+
+class ConstantCap:
+    """A model that cannot count: it always votes for the saturated label."""
+
+    def eval(self):
+        return self
+
+    def __call__(self, x):
+        out = torch.zeros(x.shape[0], x.shape[1], dt.classes('count'))
+        out[:, :, dt.LABEL_CAP] = 1.0
+        return out
+
+
+class PerfectCounter:
+    """A model that answers every position exactly (oracle labels)."""
+
+    def eval(self):
+        return self
+
+    def __call__(self, x):
+        return torch.nn.functional.one_hot(dt.oracle('count', x), dt.classes('count')).float()
+
+
+def test_deep_is_maxed_by_a_model_that_always_outputs_the_cap():
+    constant = dr.evaluate(ConstantCap(), 'count', [16], n=6, seed=1)[16]
+    perfect = dr.evaluate(PerfectCounter(), 'count', [16], n=6, seed=1)[16]
+    assert constant['deep'] == 1.0                   # a non-counter is still perfect on 'deep'
+    assert constant['deep'] == perfect['deep']       # 'deep' cannot tell a counter from a capper
+    assert perfect['reentry'] > constant['reentry']  # only 'reentry' separates the two

@@ -9,6 +9,7 @@ U1 / U2c did: clean lengths 128..4096 and neutral insertions (128 / 512 slots at
 """
 import argparse
 import json
+import math
 import time
 from pathlib import Path
 
@@ -25,8 +26,22 @@ from .guards import GuardCounter, guarded_step
 WIDTHS = (32, 64)    # 32: the width of the Core arms (about 6.7k GRU parameters); 64: about 25k parameters, matched to the Core arm's 24k
 
 
+# The U1 numbers, pinned literally. sweep.protocol() is still READ (nothing is copied) but is checked against these, so a change in the sealed
+# file or an accidental edit cannot pass silently (independent review 001, finding B4).
+SEALED = dict(steps=2048, batch=32, train_length=128, lr=.003, weight_decay=.01, clip=1., validation_every=128, validation_n=256, test_n=1000,
+              primary_seeds=[117, 143, 191], source_seeds=dict(train=91010000, validation=92010000, test=93010000, neutral=93020000))
+
+
+class NonFiniteError(ValueError):
+    pass
+
+
 def protocol():
-    return sw.protocol()
+    p = sw.protocol()
+    for key, value in SEALED.items():
+        if p[key] != value:
+            raise ValueError(f'the sealed U1 protocol changed: {key} is {p[key]!r}, expected {value!r}')
+    return p
 
 
 def conditions(p=None):
@@ -60,6 +75,8 @@ def predict(model, x, y, batch=32):
 
 def train(c, p, steps=None, validation_every=None, validation_n=None):
     steps = p['steps'] if steps is None else steps
+    if steps < 1:
+        raise ValueError('steps must be at least 1')
     validation_every = p['validation_every'] if validation_every is None else validation_every
     validation_n = p['validation_n'] if validation_n is None else validation_n
     model = make_model(c)
@@ -71,12 +88,17 @@ def train(c, p, steps=None, validation_every=None, validation_n=None):
         model.train()
         loss = F.cross_entropy(model(batch['x']).flatten(0, 1), batch['y'].flatten())
         report = counter.record(guarded_step(opt, model.parameters(), loss, clip_norm=p['clip']))
+        if not report['applied']:        # U1 aborts on a non-finite loss or gradient and keeps the evidence; so does this control (review 001, B3)
+            raise NonFiniteError(f'nonfinite loss/gradient at step {step}; failure preserved')
         if step % validation_every == 0 or step == steps:
             stats, _ = predict(model, vx, vy)
             history.append(dict(step=step, loss=report['loss'], **stats))
-            if best is None or stats['final_loss'] < best:        # strictly lower: the earliest step wins ties
+            # strictly lower: the earliest step wins ties; a NaN/inf candidate is never selected and never blocks a finite one (review 001, B9)
+            if math.isfinite(stats['final_loss']) and (best is None or stats['final_loss'] < best):
                 best = stats['final_loss']
                 selected = dict(step=step, validation=stats, state={k: v.detach().clone() for k, v in model.state_dict().items()})
+    if selected is None:
+        raise ValueError('no finite validation loss: nothing to select')
     model.load_state_dict(selected['state'])
     return model, dict(selected_step=selected['step'], selected_validation=selected['validation'], history=history, guard=counter.summary(),
                        train_seconds=time.perf_counter() - started, steps=steps)
@@ -115,7 +137,11 @@ def run_one(out, c, steps=None, validation_every=None, validation_n=None, n=None
         return json.loads(path.read_text(encoding='utf8'))
     p = protocol()
     started = time.perf_counter()
-    model, trained = train(c, p, steps=steps, validation_every=validation_every, validation_n=validation_n)
+    try:
+        model, trained = train(c, p, steps=steps, validation_every=validation_every, validation_n=validation_n)
+    except NonFiniteError as e:           # like U1: the failure is preserved, no result is written for this condition
+        (out / f'{ident(c)}-failure.json').write_text(json.dumps(dict(status='FAIL_NONFINITE', condition=c, message=str(e)), indent=1), encoding='utf8')
+        raise
     torch.save(dict(state_dict=model.state_dict(), meta=dict(task=c['task'], arm=c['arm'], width=int(c['width']), seed=int(c['seed']),
                                                             selected_step=int(trained['selected_step']), parameters=int(parameter_count(model)))),
                out / f'{ident(c)}.pt')                                    # before the slow evaluation
@@ -134,7 +160,17 @@ CELLS_ALL = ('128-prefix', '128-middle', '128-suffix', '512-prefix', '512-middle
 
 
 def losses_from_gru(row):
-    return {cell: row['neutral'][cell]['loss_pp'] for cell in CELLS_ALL}
+    """The stored loss_pp, but only if it agrees with the accuracies it was computed from (review 001, B8: a read-back alone cannot catch a
+    row whose two numbers contradict each other)."""
+    base = row['neutral']['0-base']['final_accuracy']
+    out = {}
+    for cell in CELLS_ALL:
+        stored = row['neutral'][cell]['loss_pp']
+        derived = 100 * (base - row['neutral'][cell]['final_accuracy'])
+        if abs(stored - derived) > 1e-6:
+            raise ValueError(f'inconsistent row: {cell} stores loss_pp {stored} but its accuracies imply {derived}')
+        out[cell] = stored
+    return out
 
 
 def losses_from_u2c(row):

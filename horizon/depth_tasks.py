@@ -92,8 +92,10 @@ def reentry_mask(trajectory):
 
 
 def resync_mask(trajectory):
-    """Everything after that first floor visit. The floor resets the count (pops at 0 stay 0), so these positions measure how fast a model
-    re-synchronises, not whether it counted the excursion."""
+    """Positions back inside the trained range AFTER that first floor visit. The floor resets the count (pops at 0 stay 0), so these positions
+    measure how fast a model re-synchronises, not whether it counted the excursion. Positions deeper than the trained peak after the reset are
+    not here: they belong to `deep`. Every position after the first exceedance is in exactly one of deep (depth above the peak), reentry
+    (first descent) and resync (back in range after the first floor visit)."""
     back, floor_visits = _after_exceeding(trajectory)
     return back & (floor_visits >= 1)
 
@@ -171,12 +173,18 @@ def train_length(task):
 
 def train_batch(namespace, task, seed, step, batch, length=None, depth=None):
     length = train_length(task) if length is None else length
-    s = source_seed(namespace, task, seed, 'train', step=step, length=length)
+    # the depth is part of the seed so that one source_seed names exactly one dataset; depth=None (the training distribution) maps to 0,
+    # i.e. the derivation every recorded pilot used
+    s = source_seed(namespace, task, seed, 'train', step=step, length=length, depth=0 if depth is None else depth)
     x, y = generate(task, batch, length, s, depth=depth)
     return dict(x=x, y=y, source_seed=s)
 
 
 def heldout(namespace, task, seed, split, n, length, depth=None):
+    """A fixed evaluation draw for the split 'dev' or 'test' (or 'validation' where the caller's namespace has one). The training split is drawn
+    only by train_batch. n is NOT part of the seed: draws of different sizes share one seed (permutation draws nest), so use one n per point."""
+    if split == 'train':
+        raise ValueError("the 'train' split is drawn by train_batch only; a held-out draw from it could reproduce a training batch")
     s = source_seed(namespace, task, seed, split, length=length, depth=0 if depth is None else depth)
     x, y = generate(task, n, length, s, depth=depth)
     return x, y, s

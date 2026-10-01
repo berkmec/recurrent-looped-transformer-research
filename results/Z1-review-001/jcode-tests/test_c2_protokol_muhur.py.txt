@@ -1,0 +1,33 @@
+"""Bulgu 2 — "sealed numbers" testi tautolojik; mühür sayıları hiçbir yerde sabitlenmiyor.
+
+tests/test_gru_control.py:14-19, gc.protocol() == sw.protocol() passthrough'unu kendi
+kendisiyle karşılaştırır (gru_control.py:28-29). Beklenen davranış: mühürlü U1 sayıları
+sabitlenmiş olmalı; protokol sürüklenmesi test takımı tarafından yakalanmalı.
+Bulgu gerçekse bu test BAŞARISIZ olur (sürüklenme miras alınır).
+
+Çalıştırma (repo kökünden): PYTHONPATH=. python -m pytest <bu dosya>
+"""
+import torch
+torch.set_num_threads(1)
+
+from unittest import mock
+
+from horizon import gru_control as gc
+
+# U1 protokolünün mühürlü sayıları (horizon/sweep.py protocol(); Z1-G docstring "same numbers")
+SEAL = dict(steps=2048, batch=32, train_length=128, lr=.003, weight_decay=.01, clip=1.,
+            validation_every=128, validation_n=256, test_n=1000,
+            primary_seeds=[117, 143, 191],
+            source_seeds=dict(train=91010000, validation=92010000, test=93010000, neutral=93020000))
+
+
+def test_muhur_sayilari_suruklenmeye_bagli_olmamali():
+    p0 = gc.protocol()
+    for key, value in SEAL.items():
+        assert p0[key] == value, key                        # bugünkü değerler mühre uygun
+
+    drifted = dict(p0, steps=9999, batch=7)                 # mühür ihlali simülasyonu
+    with mock.patch('horizon.sweep.protocol', return_value=drifted):
+        p = gc.protocol()
+    for key, value in SEAL.items():                         # mühür sürüklenmesi yakalanmalı
+        assert p[key] == value, ('mühür sürüklenmesi yakalanmadı', key, p[key])

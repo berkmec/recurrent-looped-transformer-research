@@ -1,0 +1,20 @@
+"""S6(c) DOGRULAMA PINI — cikti siniflari 0..LABEL_CAP (9 sinif) ve hepsi egitimde gorulur.
+Derinlik 8 (sinif 8) ramp=8 ile (olasilik 1/9) ya da yuruyusle ulasilir; tek batch'te kacirma
+olasiligi <= (8/9)^n. LABEL_CAP = TRAIN_DEPTH = 8 (depth_tasks.py:22-23). Bu test davranisi sabitler.
+
+Beklenen sonuc: GEÇMELİ (bulgu testi degil, dogrulama pini).
+Kok dizinden: PYTHONPATH=. python -m pytest <bu dosya>
+"""
+import torch
+
+torch.set_num_threads(1)
+
+from horizon import depth_tasks as dt
+
+
+def test_every_label_class_occurs_in_training():
+    assert dt.LABEL_CAP == dt.TRAIN_DEPTH == 8
+    assert dt.classes('count') == dt.TRAIN_DEPTH + 1 == 9
+    x, y = dt.generate('count', 400, 64, seed=2026)      # depth=None: egitim dagilimi
+    assert set(y.flatten().tolist()) == set(range(dt.TRAIN_DEPTH + 1)), (
+        'egitim cekiminde gorulmeyen etiket sinifi var')

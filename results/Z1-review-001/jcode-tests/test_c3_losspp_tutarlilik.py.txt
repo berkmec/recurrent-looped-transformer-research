@@ -1,0 +1,23 @@
+"""Bulgu 3 — loss_pp okuma tautolojisi; tutarsız satır doğrulanmıyor.
+
+tests/test_gru_control.py:166-168, _row'un kendi yazdığı loss_pp'yi geri okur. Beklenen
+davranış: losses_from_gru, loss_pp ile final_accuracy'den türetilen kaybın (100*(base-inserted))
+tutarsız olduğu satırı reddetmeli. Bulgu gerçekse bu test BAŞARISIZ olur (sessizce geçer).
+
+Çalıştırma (repo kökünden): PYTHONPATH=. python -m pytest <bu dosya>
+"""
+import torch
+torch.set_num_threads(1)
+
+import pytest
+
+from horizon import gru_control as gc
+
+
+def test_losses_from_gru_tutarsiz_satiri_reddetmeli():
+    row = dict(neutral={'0-base': dict(final_accuracy=1.0)})
+    for cell in gc.CELLS_ALL:
+        # final_accuracy %30 kayıp diyor (1.0 -> 0.7) ama loss_pp 1 puan diyor: tutarsız satır
+        row['neutral'][cell] = dict(final_accuracy=0.7, loss_pp=1.0)
+    with pytest.raises(ValueError):
+        gc.losses_from_gru(row)

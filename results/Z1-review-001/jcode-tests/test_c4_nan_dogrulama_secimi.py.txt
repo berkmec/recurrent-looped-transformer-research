@@ -1,0 +1,34 @@
+"""Bulgu 4 — NaN/inf doğrulama kaybı model seçimini kilitler.
+
+horizon/gru_control.py:77 (ve sweep.py:189): `best is None or stats['final_loss'] < best`.
+İlk doğrulama NaN ise best=NaN olur; x < NaN daima False olduğundan sonraki sonlu adaylar
+asla seçilmez. Beklenen davranış: non-finite doğrulama adayı seçilemez, sonlu aday seçilmeli.
+Bulgu gerçekse bu test BAŞARISIZ olur (seçim 2. adımda, NaN adayda kalır).
+
+Çalıştırma (repo kökünden): PYTHONPATH=. python -m pytest <bu dosya>
+"""
+import math
+
+import torch
+torch.set_num_threads(1)
+
+from unittest import mock
+
+from horizon import gru_control as gc
+
+
+def test_nan_dogrulama_kaybi_secilemez():
+    calls = {'n': 0}
+
+    def fake_predict(model, x, y, batch=32):
+        calls['n'] += 1
+        loss = float('nan') if calls['n'] == 1 else 1.0     # 2. adımda NaN, 4. adımda sonlu
+        return dict(final_loss=loss, final_accuracy=0.5, prefix_accuracy=0.5), None
+
+    p = {**gc.protocol(), 'batch': 2, 'train_length': 8}
+    c = dict(arm='gru8', task='five', width=8, seed=117)
+    with mock.patch('horizon.gru_control.predict', side_effect=fake_predict):
+        _, info = gc.train(c, p, steps=4, validation_every=2, validation_n=2)
+
+    assert info['selected_step'] == 4, 'NaN doğrulama adayı (2. adım) seçildi; sonlu aday (4. adım) seçilmeli'
+    assert math.isfinite(info['selected_validation']['final_loss']), 'seçili doğrulama kaybı sonlu değil'

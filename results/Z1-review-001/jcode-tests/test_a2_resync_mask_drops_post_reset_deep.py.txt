@@ -1,0 +1,33 @@
+"""B2: resync_mask claims "Everything after that first floor visit" (depth_tasks.py:95) but drops every
+post-reset position deeper than TRAIN_DEPTH.
+
+After the first return to depth 0 the walk can climb above TRAIN_DEPTH again (the test generator wanders
+with push probability 0.25 and re-ascends, depth_tasks.py:127-128). Such positions have
+floor_visits >= 1 so they are not reentry, and trajectory > TRAIN_DEPTH so they are not resync either
+(resync_mask = back & (floor_visits >= 1) where back = exceeded & (trajectory <= TRAIN_DEPTH)):
+they vanish from BOTH named 'reentry'/'resync' metrics even though the docstring says resync covers
+everything after the reset ("so these positions measure how fast a model re-synchronises").
+
+Run from the repo root:  PYTHONPATH=. python -m pytest <this file>
+The finding is real if this test FAILS. Self-contained: no network, no GPU, no file writes.
+"""
+import torch
+
+torch.set_num_threads(1)
+
+from horizon import depth_tasks as dt
+
+
+def test_resync_mask_covers_everything_after_the_first_floor_visit():
+    # climb to 9 (past the trained peak 8), fall all the way to the floor, then climb to 10 and come back to 8
+    x = torch.tensor([[0] * 9 + [1] * 9 + [0] * 10 + [1] * 2])
+    traj = dt.depth_trajectory(x)                                   # ... 8..0 (first floor visit), 1..10, 9, 8
+    first_floor = int(torch.argmax((traj[0] == 0).int()))           # first return to depth 0 after the excursion
+    resync = dt.resync_mask(traj)
+    reentry = dt.reentry_mask(traj)
+    after = slice(first_floor + 1, None)
+    missing = (torch.nonzero(~resync[0, after]).flatten() + (first_floor + 1)).tolist()
+    assert bool(resync[0, after].all()), (
+        'resync_mask claims "everything after that first floor visit" but drops positions %s' % missing)
+    # and those dropped positions belong to neither named metric (they fall into 'deep' only)
+    assert not bool((reentry | resync)[0, after].all())

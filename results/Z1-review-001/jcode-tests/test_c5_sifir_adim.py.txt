@@ -1,0 +1,27 @@
+"""Bulgu 5 — gru_control.train(steps=0) tanımsız TypeError üretiyor.
+
+horizon/gru_control.py:68-80: döngü hiç çalışmaz, selected=None kalır ve
+`model.load_state_dict(selected['state'])` TypeError verir. Beklenen davranış: temiz
+ValueError (depth_run.train/run steps=0'ı tanımlı yönetir; bkz. tests/test_depth_run.py:188).
+Bulgu gerçekse bu test BAŞARISIZ olur (TypeError).
+
+Çalıştırma (repo kökünden): PYTHONPATH=. python -m pytest <bu dosya>
+"""
+import torch
+torch.set_num_threads(1)
+
+import pytest
+
+from horizon import gru_control as gc
+
+
+def test_sifir_adim_temiz_hata_vermeli():
+    p = {**gc.protocol(), 'batch': 2, 'train_length': 8}
+    c = dict(arm='gru8', task='five', width=8, seed=117)
+    try:
+        gc.train(c, p, steps=0, validation_every=2, validation_n=2)
+    except ValueError:
+        return                                       # beklenen: temiz, açıklayıcı hata
+    except TypeError as exc:
+        pytest.fail(f'tanımsız davranış: TypeError ({exc}) — ValueError beklenirdi')
+    pytest.fail('steps=0 sessizce geçti; temiz hata beklenirdi')

@@ -1,7 +1,8 @@
 """Z1 runner: train one (task, arm, width, seed) on SHORT sequences and measure how far past the training depth it still works.
 
 Training sees perm sequences of length TRAIN_LENGTH and counter sequences whose peak depth is at most TRAIN_DEPTH. Evaluation uses fresh
-sequences from a separate source-seed namespace at lengths / peak depths up to 256x what was trained.
+sequences from a separate source-seed namespace. The default points reach 64x the trained length (permutation tasks, 1,024 vs 16) and 32x the
+trained peak depth (counter, 256 vs 8; its sequences are up to 1,536 long); other points can be given with --points.
 
   python -B -m horizon.depth_run --task perm5 --arm core --width 128 --seed 1 --steps 6000 --out results/Z1-pilot/perm5-core-w128-s1.json
 """
@@ -110,7 +111,9 @@ def evaluate(model, task, points, n, seed, split='dev', namespace=None, batch=50
         if task == 'count':
             trajectory = dt.depth_trajectory(x)
             deep, reentry, resync = trajectory > dt.TRAIN_DEPTH, dt.reentry_mask(trajectory), dt.resync_mask(trajectory)
-            row['deep'] = float(ok[deep].float().mean()) if bool(deep.any()) else None           # label saturates at the trained peak
+            # `deep` = accuracy where the true depth exceeds the trained peak. The label saturates there, so this measures whether the model keeps
+            # emitting the saturated label (a model that always says LABEL_CAP scores 1.0, like a perfect counter); it does NOT measure counting.
+            row['deep'] = float(ok[deep].float().mean()) if bool(deep.any()) else None
             row['reentry'] = float(ok[reentry].float().mean()) if bool(reentry.any()) else None   # first descent: needs the exact count
             row['reentry_positions'] = int(reentry.sum())
             row['resync'] = float(ok[resync].float().mean()) if bool(resync.any()) else None      # after the floor reset: re-synchronisation
@@ -176,15 +179,15 @@ def run(task, arm, width, seed, steps, points=None, n_eval=100, out=None, **kw):
     model, trained = train(task, arm, width, seed, steps, **kw)
     if out:   # before the slow evaluation: a crash there must not lose the trained model
         save_model(model, Path(out).with_suffix('.pt'), task, arm, width, seed, trained)
-    points = points or default_points(task)
+    # a horizon only means something if the task was learned inside the trained range, so that point is ALWAYS evaluated (never fail open)
+    in_range_point = dt.TRAIN_DEPTH if task == 'count' else dt.TRAIN_LENGTH
+    in_range_key = 'prefix' if task == 'count' else 'final'
+    points = sorted(set(points or default_points(task)) | {in_range_point})
     eval_batch = 8 if arm == 'tfm' else 50          # attention is quadratic in the length: the transformer arm needs small batches at 1,000+ positions
     curve = evaluate(model, task, points, n_eval, seed, batch=eval_batch)
     key = 'reentry' if task == 'count' else 'final'
-    # a horizon only means something if the task was learned inside the trained range
-    in_range_point = dt.TRAIN_DEPTH if task == 'count' else dt.TRAIN_LENGTH
-    in_range_key = 'prefix' if task == 'count' else 'final'
-    in_range = curve[in_range_point][in_range_key] if in_range_point in curve else None
-    learned = in_range is None or in_range >= THRESHOLD
+    in_range = curve[in_range_point][in_range_key]
+    learned = in_range >= THRESHOLD
     result = dict(task=task, arm=arm, width=width, seed=seed, train=trained, eval_points=points, curve=curve,
                   learned_in_range=learned, in_range_accuracy=in_range,
                   effective_horizon=effective_horizon(curve, key) if learned else 0, horizon_metric=key,

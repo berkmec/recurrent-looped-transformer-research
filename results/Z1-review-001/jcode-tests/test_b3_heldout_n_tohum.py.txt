@@ -1,0 +1,23 @@
+"""BULGU B3 — horizon/depth_tasks.py:179-182: heldout tohum turetmesi ornek sayisini (n) KATMAZ.
+Farkli boyutlu degerlendirme cekimleri ayni source_seed'i paylasir ve perm gorevinde kucuk cekim
+buyugun ilk satirlaridir (depth_tasks.py:157: rng.integers(..., size=(n, length)) satir-major
+doldurulur) — eval verisi cekimler arasinda yeniden kullanilir, provenans ayni kalir.
+
+Beklenen sonuc: BAŞARISIZ (bulgu gercekse).
+Kok dizinden: PYTHONPATH=. python -m pytest <bu dosya>
+"""
+import torch
+
+torch.set_num_threads(1)
+
+from horizon import depth_tasks as dt
+
+
+def test_one_source_seed_names_exactly_one_eval_dataset():
+    ns = dict(train='z1-train', dev='z1-dev', test='z1-test')
+    a = dt.heldout(ns, 'perm4', 1, 'dev', 4, 12)
+    b = dt.heldout(ns, 'perm4', 1, 'dev', 8, 12)
+    # dogru ozellik: farkli veri kumeleri farkli source_seed alir VE satir paylasmaz
+    assert a[2] != b[2] or not torch.equal(a[0][:4], b[0][:4]), (
+        'heldout: n tohum zincirinde degil; ayni source_seed farkli boyutta kumeleri '
+        'ortak satirlarla adlandiriyor (depth_tasks.py:180)')

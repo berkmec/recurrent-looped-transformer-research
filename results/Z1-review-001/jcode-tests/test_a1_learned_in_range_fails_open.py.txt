@@ -1,0 +1,24 @@
+"""B1: run() reports learned_in_range=True even when the trained-range point was never evaluated.
+
+Claim (depth_run.py:183-187): "a horizon only means something if the task was learned inside the trained
+range", so the result flag `learned_in_range` claims the task was learned inside the trained range.
+With eval points that omit the trained-range point (count: peak 8), `in_range` is None and
+`learned = in_range is None or ...` silently becomes True, so the flag claims "learned" without ever
+measuring in-range accuracy -- and the effective-horizon gate is bypassed.
+
+Run from the repo root:  PYTHONPATH=. python -m pytest <this file>
+The finding is real if this test FAILS (the flag must not claim "learned" when nothing was measured).
+Self-contained: no network, no GPU, no file writes, fixed seeds, untrained model (steps=0).
+"""
+import torch
+
+torch.set_num_threads(1)
+
+from horizon import depth_run as dr
+
+
+def test_learned_in_range_requires_an_in_range_measurement():
+    # steps=0: an untrained model -- nothing was learned at all; points=[16, 32] omit the trained-range peak 8
+    r = dr.run('count', 'gru', 16, seed=1, steps=0, points=[16, 32], n_eval=6)
+    assert 8 not in r['curve']                     # the trained-range point (peak 8) was never evaluated
+    assert not r['learned_in_range']               # ... so the flag must not claim "learned in range"

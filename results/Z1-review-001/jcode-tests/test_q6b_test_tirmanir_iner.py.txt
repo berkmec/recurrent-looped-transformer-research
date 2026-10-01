@@ -1,0 +1,25 @@
+"""S6(b) DOGRULAMA PINI — test dizileri tam tepeye tirmanir (t <= length//2'den sonra it zorunlu;
+climbing yalniz tepede kapanir; count_eval_length = max(6D, 64) her zaman length >= 2D saglar) ve
+egitilen araliga geri iner (ilk-inis / reentry konumlari olusur). Bu test davranisi sabitler.
+
+Beklenen sonuc: GEÇMELİ (bulgu testi degil, dogrulama pini).
+Kok dizinden: PYTHONPATH=. python -m pytest <bu dosya>
+"""
+import torch
+
+torch.set_num_threads(1)
+
+from horizon import depth_tasks as dt
+
+
+def test_test_sequences_reach_the_peak_and_have_a_descent():
+    # (b1) tam tepe: her satir tam D'ye cikar ve asla asmaz — protokol uzunluklarinda sert garanti
+    for depth in (8, 16, 32, 64, 128, 256):
+        x, _ = dt.generate('count', 30, dt.count_eval_length(depth), seed=5, depth=depth)
+        traj = dt.depth_trajectory(x)
+        assert bool((traj.max(dim=1).values == depth).all()), (
+            'derinlik %d icin tepeye cikmayan satir var' % depth)
+    # (b2) geri inis: ilk-inis konumlari her satirda olusur (projenin mevcut testiyle ayni ayar)
+    x, _ = dt.generate('count', 20, 5 * 64, seed=4, depth=64)
+    reentry = dt.reentry_mask(dt.depth_trajectory(x))
+    assert bool(reentry.any(1).all()), 'hic inis yapmayan satir var'

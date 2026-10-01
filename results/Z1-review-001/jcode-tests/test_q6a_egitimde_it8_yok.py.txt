@@ -1,0 +1,22 @@
+"""S6(a) DOGRULAMA PINI — egitim dagiliminda "derinlik 8'de it" gecisi HIC YOK.
+Kanit: depth_tasks.py:139 `push = np.where(t < ramp, True, (u < p_push) & (current < peak))`;
+ramp fazinda t < ramp <= 8 oldugundan it derinligi en fazla 7, yuruyus fazinda `current < 8`
+kapisi var. Bu test davranisi sabitler.
+
+Beklenen sonuc: GEÇMELİ (bulgu testi degil, dogrulama pini).
+Kok dizinden: PYTHONPATH=. python -m pytest <bu dosya>
+"""
+import torch
+
+torch.set_num_threads(1)
+
+from horizon import depth_tasks as dt
+
+
+def test_training_never_pushes_at_the_cap_depth():
+    x, y = dt.generate('count', 300, 80, seed=2026)      # depth=None: egitim dagilimi
+    traj = dt.depth_trajectory(x)                        # belirteç SONRASI gercek derinlik
+    pre = torch.cat([torch.zeros_like(traj[:, :1]), traj[:, :-1]], dim=1)   # belirteç ÖNCESİ derinlik
+    pushes_at_cap = (x == 0) & (pre == dt.TRAIN_DEPTH)   # "derinlik 8'de it" gecisi
+    assert int(pushes_at_cap.sum()) == 0, 'egitimde derinlik 8\'de it gecisi bulundu'
+    assert int(traj.max()) <= dt.TRAIN_DEPTH, 'egitim derinligi TRAIN_DEPTH\'i asti'
