@@ -130,6 +130,54 @@ CELLS = ('128-middle', '128-suffix', '512-middle', '512-suffix')    # the pre-re
 HOLD_POINTS, DRIFT_POINTS = 2.0, 10.0
 
 
+CELLS_ALL = ('128-prefix', '128-middle', '128-suffix', '512-prefix', '512-middle', '512-suffix')
+
+
+def losses_from_gru(row):
+    return {cell: row['neutral'][cell]['loss_pp'] for cell in CELLS_ALL}
+
+
+def losses_from_u2c(row):
+    """U2c (and the U2c-v2 / lr variants) evaluation.json: neutral rows keyed '<slots>-<placement>' plus '0-base'."""
+    base = row['neutral']['0-base']['final_accuracy']
+    return {cell: 100 * (base - row['neutral'][cell]['final_accuracy']) for cell in CELLS_ALL}
+
+
+def losses_from_u1(row):
+    """U1 evaluation.json: neutral is a LIST of entries with a placement and consumed_tokens; slots = consumed_tokens minus the base length."""
+    base = next(e for e in row['neutral'] if e['placement'] == 'base')
+    out = {}
+    for e in row['neutral']:
+        if e['placement'] != 'base':
+            out[f"{e['consumed_tokens'] - base['consumed_tokens']}-{e['placement']}"] = 100 * (base['final_accuracy'] - e['final_accuracy'])
+    return {cell: out[cell] for cell in CELLS_ALL}
+
+
+def mean_over_seeds(per_seed):
+    return {cell: dict(mean=sum(s[cell] for s in per_seed) / len(per_seed), per_seed=[s[cell] for s in per_seed]) for cell in CELLS_ALL}
+
+
+def comparison(results='results', task='five'):
+    """Neutral-insertion loss (points of final accuracy, base minus inserted) per cell, mean over the three U1 seeds, computed from the raw
+    per-condition files of every arm that was run under the U1 protocol: the Core without a gate (U1), the three gated Core arms (U2c-v2) and
+    the plain GRU (Z1-G). Missing files are an error, not a silent skip."""
+    seeds = protocol()['primary_seeds']
+    root = Path(results)
+    sources = {
+        'Core, no gate (U1)': ('U1/u1-%s-w32-s{seed}/evaluation.json' % task, losses_from_u1),
+        'Core + soft gate (U2c-v2)': ('U2c-v2/u2c-soft-%s-w32-s{seed}/evaluation.json' % task, losses_from_u2c),
+        'Core + hard_st gate (U2c-v2)': ('U2c-v2/u2c-hard_st-%s-w32-s{seed}/evaluation.json' % task, losses_from_u2c),
+        'Core + supervised gate (U2c-v2)': ('U2c-v2/u2c-supervised-%s-w32-s{seed}/evaluation.json' % task, losses_from_u2c),
+        'GRU w32 (Z1-G)': ('Z1-G/z1g-gru32-%s-s{seed}.json' % task, losses_from_gru),
+        'GRU w64 (Z1-G)': ('Z1-G/z1g-gru64-%s-s{seed}.json' % task, losses_from_gru),
+    }
+    table = {}
+    for arm, (pattern, reader) in sources.items():
+        per_seed = [reader(json.loads((root / pattern.format(seed=s)).read_text(encoding='utf8'))) for s in seeds]
+        table[arm] = mean_over_seeds(per_seed)
+    return table
+
+
 def load_results(out):
     return [json.loads(path.read_text(encoding='utf8')) for path in sorted(Path(out).glob('z1g-*.json'))]
 
@@ -164,8 +212,18 @@ def main():
     parser.add_argument('--lanes', type=int, default=1)
     parser.add_argument('--list', action='store_true')
     parser.add_argument('--verdict', action='store_true', help='print the pre-registered reading from the finished results and exit')
+    parser.add_argument('--compare', action='store_true', help='print the neutral-loss comparison against the Core arms and write comparison-<task>.json')
+    parser.add_argument('--task', default='five', choices=['five', 'stack'], help='task for --compare')
     args = parser.parse_args()
     cs = conditions()
+    if args.compare:
+        table = comparison('results', task=args.task)
+        print('%-34s' % 'arm (mean loss, points; per seed)', *['%-22s' % c for c in CELLS_ALL])
+        for arm, cells in table.items():
+            print('%-34s' % arm, *['%-22s' % ('%5.1f (%s)' % (cells[c]['mean'], '/'.join('%.0f' % v for v in cells[c]['per_seed']))) for c in CELLS_ALL])
+        Path(args.out).mkdir(parents=True, exist_ok=True)
+        (Path(args.out) / f'comparison-{args.task}.json').write_text(json.dumps(table, indent=1), encoding='utf8')
+        return
     if args.list:
         for c in cs:
             print(ident(c))
