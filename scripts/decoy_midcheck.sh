@@ -68,7 +68,8 @@ for step in ${STEPS//,/ }; do
     fi
   done; done
   if [ ! -f "$OUT/mqar-step$step.json" ]; then
-    $PY -B -m mline.mqar_eval --checkpoint "$OUT/step$step.pt" --out "$OUT/mqar-step$step.json" --alphabet "$TRAINALPHA" \n        --key-lengths "$SCORELENS" --items 32 --batch 8 >> "$OUT/midcheck.log" 2>&1
+    $PY -B -m mline.mqar_eval --checkpoint "$OUT/step$step.pt" --out "$OUT/mqar-step$step.json" --alphabet "$TRAINALPHA" \
+        --key-lengths "$SCORELENS" --items 32 --batch 8 >> "$OUT/midcheck.log" 2>&1
   fi
   log "BITTI midcheck $RUN adim $step"
 done
