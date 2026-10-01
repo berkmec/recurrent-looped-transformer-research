@@ -31,10 +31,17 @@ log() { echo "[$(date +%H:%M:%S)] $*" >> "$LOG"; }
 lines() { if [ -f "$1" ]; then wc -l < "$1"; else echo 0; fi; }
 wait_idle() { while powershell.exe -NoProfile -ExecutionPolicy Bypass -File scripts/_gpu_busy.ps1 > /dev/null 2>&1; do sleep 30; done; }
 
-decoy() {   # name init facts train_filler steps seed rate purpose [queries] [key_length] [key_alphabet] [probe_alphabets] [probe_key_lengths] [score_key_lengths]
+decoy() {   # name init facts train_filler steps seed rate purpose [queries] [key_length] [key_alphabet] [probe_alphabets] [probe_key_lengths] [score_key_lengths] [with_replacement 0|1] [natural_share 0..1]
   local name=$1 init=$2 facts=$3 fill=$4 steps=$5 seed=$6 rate=$7 purpose=$8 queries=${9:-1} keylen=${10:-4}
   local keyalpha=${11:-default} probealpha=${12:-TRAIN_KEYS,EVAL_KEYS} probekeylens=${13:-4}
-  local scorelens=${14:-1,4}
+  local scorelens=${14:-1,4} replace=${15:-0} natural=${16:-0}
+  local rflag=""
+  if [ "$replace" = 1 ]; then rflag="--with-replacement"; fi     # every asked fact drawn independently: no elimination shortcut
+  local nflag="" nscore=""
+  if [ "$natural" != 0 ]; then                                   # real words and names as keys for a share of the examples
+    nflag="--natural-keys-share $natural"
+    nscore="--natural-keys 300 --pad-to 512"                     # scored on 300 validation words that are not in the training list
+  fi
   local out=$ROOT/$name
   mkdir -p "$out"
   if [ ! -f "$out/README.txt" ]; then
@@ -53,7 +60,7 @@ EOF
     log "BASLA egitim $name (yemli: $facts olgu, dolgu $fill, $steps adim, iğne orani $rate)"
     $PY -B -m mline.decoy_train --out "$out" --init-from "$init" --facts "$facts" --queries "$queries" \
         --key-length "$keylen" --key-alphabet "$keyalpha" --train-filler "$fill" --steps "$steps" --seed "$seed" \
-        --needle-rate "$rate" >> "$out/train.log" 2>&1
+        --needle-rate "$rate" $rflag $nflag >> "$out/train.log" 2>&1
   fi
   local n
   n=$(lines "$out/probe.jsonl")
@@ -65,12 +72,13 @@ EOF
     wait_idle
     $PY -B -m mline.decoy_probe --checkpoint "$out/selected.pt" --out "$out/decoy.json" --configs $DECOY_CONFIGS \
         --alphabets "$probealpha" --key-lengths "$probekeylens" --items 128 --batch 32 --device cuda >> "$out/sweep.log" 2>&1
-    log "BITTI $name: yem olgu probu"
+    if [ -f "$out/decoy.json" ]; then log "BITTI $name: yem olgu probu"; else log "HATA $name: yem olgu probu dosya uretmedi (bkz $out/sweep.log)"; fi
   fi
   if [ ! -f "$out/mqar-eval.json" ]; then       # the score the run is judged by: training-shaped rows, training letters and T-Z
     wait_idle
-    $PY -B -m mline.mqar_eval --checkpoint "$out/selected.pt" --out "$out/mqar-eval.json" --alphabet "$keyalpha"         --key-lengths "$scorelens" --items 128 --batch 32 --device cuda >> "$out/sweep.log" 2>&1
-    log "BITTI $name: egitim-dagilimi MQAR skoru"
+    $PY -B -m mline.mqar_eval --checkpoint "$out/selected.pt" --out "$out/mqar-eval.json" --alphabet "$keyalpha" \
+        --key-lengths "$scorelens" --items 128 --batch 32 --device cuda $rflag $nscore >> "$out/sweep.log" 2>&1
+    if [ -f "$out/mqar-eval.json" ]; then log "BITTI $name: egitim-dagilimi MQAR skoru"; else log "HATA $name: MQAR skoru dosya uretmedi (bkz $out/sweep.log)"; fi
   fi
   local keys tag
   for keys in TRAIN_KEYS EVAL_KEYS; do
@@ -84,7 +92,7 @@ EOF
   log "BITTI $name"
 }
 
-log "TAKEOVER BASLADI (v7)"
+log "TAKEOVER BASLADI (v9)"
 wait_idle
 decoy D1-decoy3-f128 "$M1P" 3 0,128 500 217 0.25 "D1: does decoy-aware training (3 facts, random asked one) teach matching on the KEY? The nearest fact is right only 1 time in 3."
 decoy D1b-decoy3-cont "$ROOT/D1-decoy3-f128/latest.pt" 3 0,128 1000 218 0.5 "D1b: D1 continued for 1000 updates on fresh data with 50 % needle rows. D1 collapsed onto 'answer the first fact'; this asks whether more updates and twice the signal teach the key."
@@ -96,11 +104,19 @@ decoy D2-mqar4-f64 "$M1P" 4 0,64 1000 219 0.5 "D2: MQAR-style, 4 facts / 4 quest
 #        4-letter one, so the circuit may be found there and carry over. The only difference from D2 is the key length.
 decoy D3-mqar4-k14 "$M1P" 4 0,64 1000 220 0.5 "D3: D2 with key length drawn 1-4 per example. Short keys are easier to match on; does the key get used, and does it carry to 4-letter keys?" 4 1-4 default TRAIN_KEYS,EVAL_KEYS 1,2,3,4
 #   D5   D2's recipe with the BROAD key alphabet (17 upper-case letters, 26 lower-case, 10 digits; T-Z never in a training key), 1500
-#        updates. Scored on training-shaped rows, D2 reached first-digit accuracy 0.91 on its 12 training letters and 0.36 (first
+#        updates, and the questions drawn WITH replacement (no elimination shortcut: the last question of a no-replacement example is
+#        answered by the one fact not asked yet). Scored on training-shaped rows, D2 reached first-digit accuracy 0.91 on its 12 training letters and 0.36 (first
 #        question 0.25 = chance) on T-Z: it learned letter-specific routing, not a comparison of keys. With 53 symbols there is
 #        little letter-specific routing left to learn. Replaces D4 (17 letters): a model that cannot generalise from 53 symbols
 #        will not from 17.
-decoy D5-mqar4-broad "$M1P" 4 0,64 1500 222 0.5 "D5: D2 with the broad key alphabet (53 symbols); T-Z were never seen. Does key matching generalise to unseen letters?" 4 4 broad TRAIN_KEYS,HELD_KEYS 4 4
+decoy D5-mqar4-broad "$M1P" 4 0,64 1500 222 0.5 "D5: D2 with the broad key alphabet (53 symbols); T-Z were never seen. Does key matching generalise to unseen letters?" 4 4 broad TRAIN_KEYS,HELD_KEYS 4 4 1
+#   D6   D5's final weights, then 1000 more updates with REAL keys: half of the examples key on words and names drawn from the
+#        TRAINING text (2000 distinct, up to 24 bytes) instead of random strings, the other half on random 53-symbol strings as in D5;
+#        filler 0-128 (the widest an example with 24-byte keys fits in a 512-byte row; it also widens the single-fact reach), questions
+#        with replacement. D2 and D3 scored exactly 0.00 on real validation words (they did not even produce digits) and D5 at 500
+#        updates 0.14: what is learned on random strings does not carry to real words and names - the keys a heading memory meets.
+#        Scored on 300 validation words that are NOT in the training list.
+decoy D6-d5-then-natural "$ROOT/D5-mqar4-broad/selected.pt" 4 0,128 1000 223 0.5 "D6: D5 then real keys (half of the examples key on words and names from the training text, 2000 distinct), filler 0-128, questions with replacement. Does key matching carry to real words and names it never keyed on?" 4 4 broad TRAIN_KEYS,HELD_KEYS 4 4 1 0.5
 # D4 (17 letters, wide) is superseded by D5 and left out of the queue; to run it anyway:
 # decoy D4-mqar4-wide "$M1P" 4 0,64 1000 221 0.5 "D4: D2 with the wide key alphabet" 4 4 wide TRAIN_KEYS,EVAL_KEYS,HELD_KEYS 4 4
 log "TAKEOVER: yemli kosular bitti, kontrol kuyrugu devam ediyor"

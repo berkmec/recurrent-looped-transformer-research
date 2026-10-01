@@ -68,7 +68,7 @@ def parse_key_length(text):
 
 
 def example(rng, n_facts, lo, hi, kind='repeat', corpus=None, n_queries=1, key_length=(4, 4), alphabet=None,
-            with_replacement=False, key_source=None):
+            with_replacement=False, key_source=None, key_source_share=1.0):
     """One example. With n_facts == 1 the random draws are exactly the original generator's (key, value, filler length).
 
     With n_queries > 1 the example is MQAR-style: after the facts and the filler come n_queries questions, each about a
@@ -80,7 +80,10 @@ def example(rng, n_facts, lo, hi, kind='repeat', corpus=None, n_queries=1, key_l
     `with_replacement` draws every asked fact independently, so each question needs the key (and a fact may be asked twice)."""
     if n_queries > n_facts and not with_replacement:
         raise ValueError('cannot ask %d distinct facts out of %d' % (n_queries, n_facts))
-    if key_source is not None:                      # natural keys (real words, names, of any length) instead of random strings
+    # natural keys (real words, names, of any length) instead of random strings - for every example when the share is 1, for a
+    # random share of the examples otherwise (one type per example, never mixed inside one); no coin is drawn at 0 or 1
+    use_natural = key_source is not None and (key_source_share >= 1.0 or (key_source_share > 0.0 and rng.random() < key_source_share))
+    if use_natural:
         if len(key_source) < n_facts:
             raise ValueError('the key source holds %d keys, %d facts need distinct ones' % (len(key_source), n_facts))
         keys = [key_source[int(i)] for i in rng.choice(len(key_source), size=n_facts, replace=False)]
@@ -125,7 +128,7 @@ def example(rng, n_facts, lo, hi, kind='repeat', corpus=None, n_queries=1, key_l
 
 
 def decoy_items(n_items, filler_range=(0, 128), seed=0, kind='repeat', corpus=None, pad_to=None, pack=True, n_facts=1,
-                n_queries=1, key_length=(4, 4), alphabet=None, with_replacement=False, key_source=None):
+                n_queries=1, key_length=(4, 4), alphabet=None, with_replacement=False, key_source=None, key_source_share=1.0):
     """Same contract as mline.needle.training_items, with n_facts facts and n_queries questions per example."""
     rng = np.random.default_rng(seed + 31_337)
     lo, hi = filler_range
@@ -133,7 +136,8 @@ def decoy_items(n_items, filler_range=(0, 128), seed=0, kind='repeat', corpus=No
     for _ in range(n_items):
         blob, used, row_starts = b'', [], []
         while True:
-            ex = example(rng, n_facts, lo, hi, kind, corpus, n_queries, key_length, alphabet, with_replacement, key_source)
+            ex = example(rng, n_facts, lo, hi, kind, corpus, n_queries, key_length, alphabet, with_replacement, key_source,
+                         key_source_share)
             piece, n = ex['text'], ex['total']
             if blob and pack and pad_to is not None and len(blob) + 1 + len(piece) > pad_to:
                 break
@@ -172,7 +176,7 @@ def decoy_items(n_items, filler_range=(0, 128), seed=0, kind='repeat', corpus=No
 
 @contextlib.contextmanager
 def patched(n_facts, kind='repeat', corpus=None, n_queries=1, key_length=(4, 4), alphabet=None, induction_share=0.0,
-            induction_shape=None, with_replacement=False):
+            induction_shape=None, with_replacement=False, key_source=None, key_source_share=1.0):
     """Replace needle.training_items with the decoy generator for the length of the block; always restore it.
 
     `kind` is 'repeat', 'text' (a slice of `corpus` per filler) or 'mix' (a coin per example); the trainer calls the
@@ -192,7 +196,8 @@ def patched(n_facts, kind='repeat', corpus=None, n_queries=1, key_length=(4, 4),
             raise ValueError('induction rows need a row width (pad_to)')
         mqar = decoy_items(n_items - n_induction, filler_range, seed, kind, corpus, pad_to, pack, n_facts=n_facts,
                            n_queries=n_queries, key_length=key_length, alphabet=alphabet,
-                           with_replacement=with_replacement) if n_items - n_induction else None
+                           with_replacement=with_replacement, key_source=key_source,
+                           key_source_share=key_source_share) if n_items - n_induction else None
         if not n_induction:
             return mqar
         x, y, _ = ind.items(n_induction, seed + 7919, pad_to, **induction_shape)
@@ -229,6 +234,10 @@ def main():
                         help='N, or LOW-HIGH to draw one key length per example (short keys are easier to match on)')
     parser.add_argument('--key-alphabet', default='default', choices=tuple(ALPHABETS),
                         help="training key letters: 'default' A-M, 'wide' adds N P Q R S (T-Z stay unseen for the probe)")
+    parser.add_argument('--natural-keys-share', type=float, default=0.0,
+                        help='fraction of the examples whose keys are real words and names from the TRAINING text instead of random '
+                             'strings (one type per example); the run is scored on validation words that are not in this list')
+    parser.add_argument('--natural-keys-n', type=int, default=2000, help='how many distinct natural keys the run can key on')
     parser.add_argument('--with-replacement', action='store_true',
                         help='draw every asked fact independently: removes the elimination shortcut (the last question is otherwise '
                              'answered by the one fact not asked yet)')
@@ -251,14 +260,25 @@ def main():
                                                                   key_alphabet=args.key_alphabet,
                                                                   induction_share=args.induction_share,
                                                                   with_replacement=args.with_replacement,
+                                                                  natural_keys_share=args.natural_keys_share,
+                                                                  natural_keys_n=args.natural_keys_n,
                                                                   train_filler=args.train_filler, filler=args.filler,
                                                                   note='needle.training_items replaced for this run by '
                                                                        'mline.decoy_train.decoy_items'), indent=1),
                                                   encoding='utf8')
     shape = dict(seg=ind.parse_span(args.seg_length), gap=em.parse_range(args.gap), lead=em.parse_range(args.lead),
                  skip=args.skip) if args.induction_share > 0 else None
+    key_source = None
+    if args.natural_keys_share > 0:
+        from mline import mqar_eval as me                     # imported here: mqar_eval imports this module
+        data = mt.protocol()['data']
+        key_source, _ = me.natural_key_sets(md.load(data, 'train'), md.load(data, 'validation'), n_train=args.natural_keys_n,
+                                            n_val=300, seed=7)
+        print('natural keys: %d from the training text, e.g. %s' % (len(key_source), [k.decode() for k in key_source[:8]]),
+              flush=True)
     with patched(args.facts, args.filler, corpus, args.queries, parse_key_length(args.key_length),
-                 ALPHABETS[args.key_alphabet], args.induction_share, shape, args.with_replacement):
+                 ALPHABETS[args.key_alphabet], args.induction_share, shape, args.with_replacement, key_source,
+                 args.natural_keys_share):
         em.run(args.out, arm=args.arm, steps=args.steps, batch=args.batch, every=args.every, device=args.device,
                seed=args.seed, needle_rate=args.needle_rate, train_filler=em.parse_range(args.train_filler),
                pack=True, lr=args.lr, init_from=args.init_from)

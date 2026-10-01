@@ -101,6 +101,27 @@ class NaturalKeyTests(unittest.TestCase):
         self.assertEqual(r['first_all'], 1.0)
 
 
+class NaturalKeySetsTests(unittest.TestCase):
+    TRAIN = (b'The Prime Minister Theresa May said that Great Britain would leave. Officials in Washington said the president '
+             b'had spoken about trade agreements and negotiations. Residents described destruction across neighborhoods. ') * 10
+    VAL = (b'The Prime Minister said that Great Britain would leave. Scientists in Geneva described experiments about particle '
+           b'physics and detectors. Marie Curie discovered radium. Mountaineers reached Everest during summer. '
+           b'The president described trade agreements. ') * 10
+
+    def test_the_validation_keys_exclude_every_training_key_and_both_lists_are_deterministic(self):
+        train, val = me.natural_key_sets(self.TRAIN, self.VAL, n_train=10, n_val=10, seed=1)
+        self.assertTrue(set(train).isdisjoint(set(val)))
+        self.assertGreater(len(train), 0)
+        self.assertGreater(len(val), 0)
+        again = me.natural_key_sets(self.TRAIN, self.VAL, n_train=10, n_val=10, seed=1)
+        self.assertEqual((train, val), again)
+
+    def test_the_validation_keys_really_come_from_the_validation_text(self):
+        _, val = me.natural_key_sets(self.TRAIN, self.VAL, n_train=10, n_val=10, seed=1)
+        text = self.VAL.decode('ascii')
+        self.assertTrue(all(k.decode('ascii') in text for k in val))
+
+
 class FillerKindTests(unittest.TestCase):
     def test_an_oracle_scores_one_on_pangram_rows_too_and_the_rows_differ_from_the_repeat_ones(self):
         r = me.mqar_accuracy(Shifted(), **dict(KW, filler_kind='pangram'))

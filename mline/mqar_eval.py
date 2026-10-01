@@ -48,6 +48,15 @@ def mqar_accuracy(model, alphabet, key_length, facts, queries, filler, pad_to, n
                 exact_all=sum(h for h, _ in exact) / total, answers=total)
 
 
+def natural_key_sets(train_corpus, val_corpus, n_train=2000, n_val=300, seed=7, sample_bytes=2_000_000):
+    """(training keys, held-out keys): real words and names from the training text for a run to key on, and from the validation
+    text for it to be scored on - minus every key the training list holds, so no scored key was ever a training key."""
+    train = natural_keys(train_corpus, n_train, seed, sample_bytes)
+    seen = set(train)
+    pool = natural_keys(val_corpus, n_val * 3, seed + 1, sample_bytes)
+    return train, [k for k in pool if k not in seen][:n_val]
+
+
 def natural_keys(corpus, n=300, seed=0, sample_bytes=2_000_000):
     """Real keys pulled from a text corpus: half capitalised names (one or two words), half lower-case words, deterministic.
 
@@ -109,7 +118,8 @@ def main():
     parser.add_argument('--with-replacement', action='store_true', help='score rows whose questions are drawn with replacement')
     parser.add_argument('--filler-kind', default='repeat', choices=('repeat', 'pangram'), help='the filler the rows are drawn with')
     parser.add_argument('--natural-keys', type=int, default=0,
-                        help='also score on N real words and names drawn from the VALIDATION text (use --pad-to 512: keys run to 24 bytes)')
+                        help='also score on N real words and names from the VALIDATION text, minus every key of the 2000-key training '
+                             'list a run can key on (use --pad-to 512: keys run to 24 bytes)')
     parser.add_argument('--filler', default='0,64')
     parser.add_argument('--pad-to', type=int, default=320)
     parser.add_argument('--items', type=int, default=32)
@@ -139,7 +149,8 @@ def main():
                      r['first_all'], r['exact_all'], r['answers']), flush=True)
     if args.natural_keys:
         from mline import data as md
-        keys = natural_keys(md.load(mt.protocol()['data'], 'validation'), args.natural_keys, seed=1)
+        _, keys = natural_key_sets(md.load(mt.protocol()['data'], 'train'), md.load(mt.protocol()['data'], 'validation'),
+                                   n_train=2000, n_val=args.natural_keys, seed=7)
         r = mqar_accuracy(model, None, (4, 4), args.facts, args.queries, filler, args.pad_to, args.items, args.batch,
                           device=args.device, with_replacement=args.with_replacement, filler_kind=args.filler_kind, key_source=keys)
         r['sample_keys'] = [k.decode('ascii') for k in keys[:12]]

@@ -9,10 +9,11 @@
 # score (first-digit / exact accuracy per question on training-shaped rows, on the training letters and on T-Z - the number the
 # run is actually judged by). Each is skipped if its file already exists, so the script can be stopped and started again.
 #
-# Usage: nohup bash scripts/decoy_midcheck.sh RUN STEPS [ALPHABETS] [KEY_LENGTHS] [TRAIN_ALPHABET] [SCORE_KEY_LENGTHS] [REPLACE] > /dev/null 2>&1 &
+# Usage: nohup bash scripts/decoy_midcheck.sh RUN STEPS [ALPHABETS] [KEY_LENGTHS] [TRAIN_ALPHABET] [SCORE_KEY_LENGTHS] [REPLACE] [NATURAL] > /dev/null 2>&1 &
 #   e.g.  bash scripts/decoy_midcheck.sh D3-mqar4-k14 250,500,750 TRAIN_KEYS 1,2,4 default 1,4
 #   (TRAIN_ALPHABET: the key alphabet the run trains on - default, wide or broad - which the MQAR score reads as 'training letters';
-#    REPLACE=1: the run draws its questions with replacement, and so does the score)
+#    REPLACE=1: the run draws its questions with replacement, and so does the score; NATURAL=1: also score on 300 real validation
+#    words and names that are not in the training list a run can key on)
 # Writes results/M1-finetune-distance/RUN/step<N>.pt, decoy-step<N>.json, attn-step<N>-<alphabet>-k<L>.json and mqar-step<N>.json;
 # progress goes to queue.log (BASLA/BITTI midcheck).
 set -u
@@ -26,6 +27,9 @@ KEYLENS=${4:-4}
 TRAINALPHA=${5:-default}
 SCORELENS=${6:-1,4}
 REPLACE=${7:-0}
+NATURAL=${8:-0}
+NFLAG=""
+if [ "$NATURAL" = 1 ]; then NFLAG="--natural-keys 300 --pad-to 512"; fi
 RFLAG=""
 if [ "$REPLACE" = 1 ]; then RFLAG="--with-replacement"; fi
 OUT=results/M1-finetune-distance/$RUN
@@ -78,7 +82,7 @@ for step in ${STEPS//,/ }; do
   done; done
   if [ ! -f "$OUT/mqar-step$step.json" ]; then
     $PY -B -m mline.mqar_eval --checkpoint "$OUT/step$step.pt" --out "$OUT/mqar-step$step.json" --alphabet "$TRAINALPHA" \
-        --key-lengths "$SCORELENS" --items 32 --batch 8 $RFLAG >> "$OUT/midcheck.log" 2>&1
+        --key-lengths "$SCORELENS" --items 32 --batch 8 $RFLAG $NFLAG >> "$OUT/midcheck.log" 2>&1
     need "$OUT/mqar-step$step.json" "egitim-dagilimi MQAR skoru"
   fi
   log "BITTI midcheck $RUN adim $step"

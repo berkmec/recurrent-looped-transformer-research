@@ -115,6 +115,44 @@ class KeySourceTests(unittest.TestCase):
         self.assertTrue(any(b'Marie Curie' in t.encode('ascii') or b'Nile' in t.encode('ascii') for t in items['texts']))
 
 
+class KeySourceShareTests(unittest.TestCase):
+    """A run can mix natural keys with random strings: per example, one type for all of its facts and questions."""
+    SOURCE = [b'Marie Curie', b'Nile', b'photosynthesis', b'Great Wall', b'Everest', b'delta', b'Washington', b'harvest']
+
+    def keys_are_natural(self, ex):
+        return all(k.encode('ascii') in self.SOURCE for k in ex['keys'])
+
+    def test_a_share_of_one_means_natural_keys_only_and_zero_means_random_only(self):
+        rng = np.random.default_rng(1)
+        for _ in range(40):
+            self.assertTrue(self.keys_are_natural(dt.example(rng, 3, 0, 10, 'repeat', None, key_source=self.SOURCE,
+                                                            key_source_share=1.0)))
+            self.assertFalse(self.keys_are_natural(dt.example(rng, 3, 0, 10, 'repeat', None, key_source=self.SOURCE,
+                                                             key_source_share=0.0)))
+
+    def test_a_share_between_mixes_the_two_types_in_about_that_proportion_and_never_within_an_example(self):
+        rng = np.random.default_rng(2)
+        natural = 0
+        for _ in range(400):
+            ex = dt.example(rng, 3, 0, 10, 'repeat', None, n_queries=3, key_source=self.SOURCE, key_source_share=0.25)
+            kinds = {k.encode('ascii') in self.SOURCE for k in ex['keys']}
+            self.assertEqual(len(kinds), 1)                        # all natural or all random, never mixed
+            natural += kinds == {True}
+        self.assertTrue(0.15 < natural / 400 < 0.35)
+
+    def test_the_default_share_keeps_the_earlier_behaviour(self):
+        a = dt.example(np.random.default_rng(3), 3, 0, 10, 'repeat', None, n_queries=2, key_source=self.SOURCE)
+        self.assertTrue(self.keys_are_natural(a))                  # share defaults to 1.0: a source given means natural keys
+
+    def test_decoy_items_and_the_patch_pass_the_share_through(self):
+        items = dt.decoy_items(20, (0, 10), 5, 'repeat', None, 400, True, 3, 3, key_source=self.SOURCE, key_source_share=0.5)
+        natural_rows = sum(any(k in t.encode('ascii') for k in self.SOURCE) for t in items['texts'])
+        self.assertTrue(0 < natural_rows < 20)
+        with dt.patched(3, n_queries=3, key_source=self.SOURCE, key_source_share=1.0):
+            patched = nd.training_items(6, filler_range=(0, 10), seed=5, pad_to=400)
+        self.assertTrue(all(any(k in t.encode('ascii') for k in self.SOURCE) for t in patched['texts']))
+
+
 class PangramFillerTests(unittest.TestCase):
     """A small model trained only on MQAR rows never sees U-Z (or most of T-Z) anywhere, so their embeddings stay at their random
     initial values and 'does matching generalise to T-Z' is answered by construction. A pangram as filler puts every letter in the
