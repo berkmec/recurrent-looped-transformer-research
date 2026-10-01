@@ -78,6 +78,49 @@ class RowTests(unittest.TestCase):
         self.assertTrue(torch.equal(a['x'], b['x']))
 
 
+class MultiQueryTests(unittest.TestCase):
+    """MQAR-style examples: n facts, then several questions, each about a DIFFERENT fact, in random order.
+
+    Several answers per example is far more key->value signal for the same bytes, and 'answer the first fact' - the shortcut D1
+    collapsed onto - is wrong for most of the questions."""
+
+    def draw(self, n_facts, n_queries, count=1, lo=0, hi=64, seed=1):
+        rng = np.random.default_rng(seed)
+        return [dt.example(rng, n_facts, lo, hi, 'repeat', None, n_queries=n_queries) for _ in range(count)]
+
+    def test_each_question_asks_a_different_fact_and_carries_its_own_value(self):
+        for ex in self.draw(3, 3, count=30):
+            text = ex['text'].decode('ascii')
+            self.assertEqual(len(set(ex['asked_all'])), 3)
+            tail = text[len(text) - 26 * 3:]
+            for slot, j in enumerate(ex['asked_all']):
+                piece = tail[26 * slot:26 * (slot + 1)]
+                self.assertEqual(piece, '\nThe code for %s is %s' % (ex['keys'][j], ex['values'][j]))
+
+    def test_the_length_adds_one_question_per_query(self):
+        for ex in self.draw(4, 2, count=20):
+            self.assertEqual(len(ex['text']), 27 * 4 + ex['total'] + 26 * 2)
+
+    def test_the_first_asked_fact_is_random(self):
+        counts = np.bincount([ex['asked'] for ex in self.draw(3, 3, count=240)], minlength=3)
+        self.assertTrue((counts > 40).all(), counts)
+
+    def test_more_questions_than_facts_is_refused(self):
+        rng = np.random.default_rng(1)
+        with self.assertRaises(ValueError):
+            dt.example(rng, 2, 0, 10, 'repeat', None, n_queries=3)
+
+    def test_one_query_still_exposes_the_old_fields(self):
+        ex = self.draw(3, 1)[0]
+        self.assertEqual(ex['asked_all'], [ex['asked']])
+
+    def test_rows_pack_and_patch_with_several_queries(self):
+        with dt.patched(3, n_queries=3):
+            items = nd.training_items(4, filler_range=(0, 32), seed=3, pad_to=512)
+        self.assertEqual(tuple(items['x'].shape), (4, 512))
+        self.assertTrue(torch.equal(items['y'][:, :-1], items['x'][:, 1:]))
+
+
 class FillerKindTests(unittest.TestCase):
     """Natural-text filler never generalised from a repeat-only mix, so the filler TYPE has to be in the training mix too."""
     CORPUS = np.frombuffer(bytes((i * 7 + 3) % 200 + 32 for i in range(5000)), dtype=np.uint8)
