@@ -134,14 +134,7 @@ def train(out, width, heads, feedback, steps, batch, lr, warmup, seed, facts, qu
     return out
 
 
-def parse_span(text):
-    """'N' -> (N, N); 'LOW-HIGH' -> (LOW, HIGH): a length range with 1 <= LOW <= HIGH."""
-    parts = [int(v) for v in text.split('-')]
-    if len(parts) == 1:
-        parts = parts * 2
-    if len(parts) != 2 or not 1 <= parts[0] <= parts[1]:
-        raise ValueError('a span is N or LOW-HIGH with 1 <= LOW <= HIGH')
-    return parts[0], parts[1]
+parse_span = ind.parse_span
 
 
 def parse_configs(text):

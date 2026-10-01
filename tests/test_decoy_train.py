@@ -78,6 +78,53 @@ class RowTests(unittest.TestCase):
         self.assertTrue(torch.equal(a['x'], b['x']))
 
 
+class InductionMixTests(unittest.TestCase):
+    """A share of the needle rows can be induction rows (a random string repeated later) instead of MQAR facts: the rows that
+    demand the match-then-copy circuit without a key/value template to shortcut on."""
+    SHAPE = dict(seg=(6, 10), gap=(0, 20), lead=(0, 4), skip=2)
+
+    def rows(self, n, share, seed=1):
+        with dt.patched(3, n_queries=3, induction_share=share, induction_shape=self.SHAPE):
+            items = nd.training_items(n, filler_range=(0, 10), seed=seed, pad_to=256)
+        return items
+
+    def test_the_share_of_rows_that_are_induction_rows_follows_induction_share(self):
+        for share, n_induction in ((0.0, 0), (0.25, 2), (0.5, 4), (1.0, 8)):
+            with self.subTest(share=share):
+                items = self.rows(8, share)
+                self.assertEqual(tuple(items['x'].shape), (8, 256))
+                facts = sum('The code for' in t for t in items['texts'])
+                self.assertEqual(facts, 8 - n_induction)
+
+    def test_the_induction_rows_come_after_the_mqar_rows_and_the_batch_is_deterministic(self):
+        a, b = self.rows(8, 0.5, seed=3), self.rows(8, 0.5, seed=3)
+        self.assertTrue(torch.equal(a['x'], b['x']))
+        self.assertFalse(torch.equal(a['x'], self.rows(8, 0.5, seed=4)['x']))
+        self.assertTrue(all('The code for' in t for t in a['texts'][:4]))
+        self.assertFalse(any('The code for' in t for t in a['texts'][4:]))
+
+    def test_next_byte_targets_hold_for_the_whole_mixed_batch(self):
+        items = self.rows(8, 0.5)
+        self.assertTrue(torch.equal(items['y'][:, :-1], items['x'][:, 1:]))
+
+    def test_no_induction_is_the_plain_mqar_generator_byte_for_byte(self):
+        with dt.patched(3, n_queries=3):
+            plain = nd.training_items(4, filler_range=(0, 10), seed=5, pad_to=256)
+        mixed = self.rows(4, 0.0, seed=5)
+        self.assertTrue(torch.equal(plain['x'], mixed['x']))
+
+    def test_a_share_outside_zero_to_one_is_refused(self):
+        for bad in (-0.1, 1.5):
+            with self.assertRaises(ValueError):
+                with dt.patched(3, induction_share=bad, induction_shape=self.SHAPE):
+                    pass
+
+    def test_a_share_without_a_shape_is_refused(self):
+        with self.assertRaises(ValueError):
+            with dt.patched(3, induction_share=0.5):
+                pass
+
+
 class AlphabetTests(unittest.TestCase):
     """Key matching generalises only if the key LETTERS in training are varied enough that equality, not a particular letter's
     routing, is what gets learned. The wide training alphabet must stay disjoint from the letters the probe holds out."""

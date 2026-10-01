@@ -28,6 +28,7 @@ import torch
 
 from mline import data as md
 from mline import emergence as em
+from mline import induction as ind
 from mline import needle as nd
 from mline import train as mt
 
@@ -132,7 +133,8 @@ def decoy_items(n_items, filler_range=(0, 128), seed=0, kind='repeat', corpus=No
 
 
 @contextlib.contextmanager
-def patched(n_facts, kind='repeat', corpus=None, n_queries=1, key_length=(4, 4), alphabet=None):
+def patched(n_facts, kind='repeat', corpus=None, n_queries=1, key_length=(4, 4), alphabet=None, induction_share=0.0,
+            induction_shape=None):
     """Replace needle.training_items with the decoy generator for the length of the block; always restore it.
 
     `kind` is 'repeat', 'text' (a slice of `corpus` per filler) or 'mix' (a coin per example); the trainer calls the
@@ -140,11 +142,26 @@ def patched(n_facts, kind='repeat', corpus=None, n_queries=1, key_length=(4, 4),
     """
     if kind in ('text', 'mix') and corpus is None:
         raise ValueError("filler kind %r needs a corpus" % kind)
+    if not 0.0 <= induction_share <= 1.0:
+        raise ValueError('induction_share is a fraction of the needle rows, between 0 and 1')
+    if induction_share > 0 and induction_shape is None:
+        raise ValueError('induction rows need induction_shape = dict(seg=, gap=, lead=, skip=)')
     original = nd.training_items
 
     def replacement(n_items, filler_range=(0, 128), seed=0, kind_=None, corpus_=None, pad_to=None, pack=True, **_ignored):
-        return decoy_items(n_items, filler_range, seed, kind, corpus, pad_to, pack, n_facts=n_facts, n_queries=n_queries,
-                           key_length=key_length, alphabet=alphabet)
+        n_induction = int(round(n_items * induction_share))          # the LAST rows of the batch are induction rows
+        if n_induction and pad_to is None:
+            raise ValueError('induction rows need a row width (pad_to)')
+        mqar = decoy_items(n_items - n_induction, filler_range, seed, kind, corpus, pad_to, pack, n_facts=n_facts,
+                           n_queries=n_queries, key_length=key_length, alphabet=alphabet) if n_items - n_induction else None
+        if not n_induction:
+            return mqar
+        x, y, _ = ind.items(n_induction, seed + 7919, pad_to, **induction_shape)
+        texts = [bytes(row.tolist()).decode('ascii', errors='ignore') for row in x]
+        if mqar is None:
+            return dict(x=x, y=y, texts=texts, fillers=[], induction_rows=n_induction)
+        return dict(mqar, x=torch.cat([mqar['x'], x]), y=torch.cat([mqar['y'], y]), texts=mqar['texts'] + texts,
+                    induction_rows=n_induction)
 
     nd.training_items = replacement
     try:
@@ -173,6 +190,12 @@ def main():
                         help='N, or LOW-HIGH to draw one key length per example (short keys are easier to match on)')
     parser.add_argument('--key-alphabet', default='default', choices=tuple(ALPHABETS),
                         help="training key letters: 'default' A-M, 'wide' adds N P Q R S (T-Z stay unseen for the probe)")
+    parser.add_argument('--induction-share', type=float, default=0.0,
+                        help='fraction of the needle rows that are induction rows (a random string repeated later) instead of MQAR facts')
+    parser.add_argument('--seg-length', default='8-32', help='induction rows: length range of the repeated string')
+    parser.add_argument('--gap', default='0,96', help='induction rows: filler between the two copies')
+    parser.add_argument('--lead', default='0,16', help='induction rows: filler before the first copy')
+    parser.add_argument('--skip', type=int, default=2, help='induction rows: bytes of a copy shown before it is scored')
     parser.add_argument('--filler', default='repeat', choices=('repeat', 'text', 'mix'),
                         help='filler content: the repeated phrase, slices of the TRAINING corpus, or a coin per example')
     parser.add_argument('--device', default='cuda')
@@ -184,12 +207,15 @@ def main():
     Path(args.out, 'decoy_train.json').write_text(json.dumps(dict(facts=args.facts, queries=args.queries,
                                                                   key_length=args.key_length,
                                                                   key_alphabet=args.key_alphabet,
+                                                                  induction_share=args.induction_share,
                                                                   train_filler=args.train_filler, filler=args.filler,
                                                                   note='needle.training_items replaced for this run by '
                                                                        'mline.decoy_train.decoy_items'), indent=1),
                                                   encoding='utf8')
+    shape = dict(seg=ind.parse_span(args.seg_length), gap=em.parse_range(args.gap), lead=em.parse_range(args.lead),
+                 skip=args.skip) if args.induction_share > 0 else None
     with patched(args.facts, args.filler, corpus, args.queries, parse_key_length(args.key_length),
-                 ALPHABETS[args.key_alphabet]):
+                 ALPHABETS[args.key_alphabet], args.induction_share, shape):
         em.run(args.out, arm=args.arm, steps=args.steps, batch=args.batch, every=args.every, device=args.device,
                seed=args.seed, needle_rate=args.needle_rate, train_filler=em.parse_range(args.train_filler),
                pack=True, lr=args.lr, init_from=args.init_from)

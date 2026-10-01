@@ -19,6 +19,16 @@ from mline import needle as nd
 ALPHABET = bytes(range(48, 58)) + bytes(range(65, 91)) + bytes(range(97, 123))
 
 
+def parse_span(text):
+    """'N' -> (N, N); 'LOW-HIGH' -> (LOW, HIGH): a length range with 1 <= LOW <= HIGH."""
+    parts = [int(v) for v in text.split('-')]
+    if len(parts) == 1:
+        parts = parts * 2
+    if len(parts) != 2 or not 1 <= parts[0] <= parts[1]:
+        raise ValueError('a span is N or LOW-HIGH with 1 <= LOW <= HIGH')
+    return parts[0], parts[1]
+
+
 def example(rng, seg=(8, 32), gap=(0, 96), lead=(0, 16), alphabet=ALPHABET):
     """lead filler, a random string, gap filler, the same string. `copy_start` is where the second copy begins."""
     length = int(rng.integers(seg[0], seg[1] + 1))
