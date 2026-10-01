@@ -177,6 +177,14 @@ class AlphabetTests(unittest.TestCase):
         self.assertTrue(wide.isdisjoint(set(dp.ALPHABETS['HELD_KEYS'])))
         self.assertGreater(len(wide), len(nd.TRAIN_KEYS))
 
+    def test_the_broad_alphabet_holds_out_only_the_probes_letters_and_has_many_symbols(self):
+        from mline import decoy_probe as dp
+        broad = set(dt.ALPHABETS['broad'])
+        self.assertTrue(set(dt.ALPHABETS['wide']) <= broad)
+        self.assertTrue(broad.isdisjoint(set(dp.ALPHABETS['HELD_KEYS'])))
+        self.assertGreaterEqual(len(broad), 50)
+        self.assertTrue(set(b'abcdefghijklmnopqrstuvwxyz0123456789') <= broad)
+
     def test_too_few_letters_for_distinct_keys_is_refused(self):
         rng = np.random.default_rng(1)
         with self.assertRaises(ValueError):

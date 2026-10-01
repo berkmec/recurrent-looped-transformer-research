@@ -58,3 +58,59 @@ def extra_eval(alphabet, facts, queries, filler, pad_to, n_items=64, key_lengths
         return out
 
     return fn
+
+
+def main():
+    """Score a checkpoint on training-shaped MQAR rows: python -B -m mline.mqar_eval --checkpoint <pt> [--width 128 --heads 4]."""
+    import argparse
+    import json
+    import sys
+    from pathlib import Path
+
+    from mline import emergence as em
+    from mline import mqar_scratch as ms          # imported here: mqar_scratch imports this module
+    from mline import train as mt
+    sys.stdout.reconfigure(encoding='utf-8', errors='replace')
+    parser = argparse.ArgumentParser(description=main.__doc__)
+    parser.add_argument('--checkpoint', required=True)
+    parser.add_argument('--out', default=None, help='also write the numbers here as JSON')
+    parser.add_argument('--width', type=int, default=None, help='a small Core of this width instead of the 30M protocol model')
+    parser.add_argument('--heads', type=int, default=4)
+    parser.add_argument('--feedback', choices=('on', 'off'), default='on')
+    parser.add_argument('--alphabet', choices=tuple(dt.ALPHABETS), default='default', help='the training letters to score on')
+    parser.add_argument('--key-lengths', default='4')
+    parser.add_argument('--facts', type=int, default=4)
+    parser.add_argument('--queries', type=int, default=4)
+    parser.add_argument('--filler', default='0,64')
+    parser.add_argument('--pad-to', type=int, default=320)
+    parser.add_argument('--items', type=int, default=32)
+    parser.add_argument('--batch', type=int, default=8)
+    parser.add_argument('--device', default='cpu')
+    args = parser.parse_args()
+    if args.device == 'cpu':
+        torch.set_num_threads(1)
+    if args.width is None:
+        p = mt.protocol()
+        model = ml.build('plain', width=p['width'], heads=p['heads'], window=p['window'], alpha=p['alpha'], seed=117,
+                         gate_k=p['gate_k'])
+    else:
+        model = ms.build_small(args.width, args.heads, args.feedback == 'on', seed=0)
+    model = model.to(args.device)
+    em.load_init(model, args.checkpoint)
+    filler = em.parse_range(args.filler)
+    report = {}
+    for tag, letters in (('train', dt.ALPHABETS[args.alphabet]), ('held', dp.ALPHABETS['HELD_KEYS'])):
+        for k in (int(v) for v in args.key_lengths.split(',')):
+            r = mqar_accuracy(model, letters, (k, k), args.facts, args.queries, filler, args.pad_to, args.items,
+                              args.batch, device=args.device)
+            report['%s_k%d' % (tag, k)] = r
+            print('%-5s key %d  first digit per question %s | exact %s | all: first %.2f exact %.2f (%d answers)'
+                  % (tag, k, ' '.join('%.2f' % v for v in r['first']), ' '.join('%.2f' % v for v in r['exact']),
+                     r['first_all'], r['exact_all'], r['answers']), flush=True)
+    if args.out:
+        Path(args.out).write_text(json.dumps(dict(checkpoint=str(args.checkpoint), args=vars(args), report=report), indent=1),
+                                  encoding='utf8')
+
+
+if __name__ == '__main__':
+    main()

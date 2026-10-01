@@ -36,7 +36,10 @@ from mline import train as mt
 # Training key alphabets. 'wide' adds letters the original mix kept for evaluation, but leaves T-Z (the probe's HELD_KEYS)
 # unseen, so that a model which learned "are these letters equal" can be told from one that learned routing for particular
 # letters. Values are fresh random digits per item, so no key can be memorised either way.
-ALPHABETS = dict(default=nd.TRAIN_KEYS, wide=b'ABCDEFGHJKLMNPQRS')
+# 'broad' adds lower-case letters and digits: no letter-specific routing is left to learn, so what a model does with keys it
+# has never seen (T-Z) is a statement about whether it compares keys, not about which letters it was shown.
+ALPHABETS = dict(default=nd.TRAIN_KEYS, wide=b'ABCDEFGHJKLMNPQRS',
+                 broad=b'ABCDEFGHJKLMNPQRS' + b'abcdefghijklmnopqrstuvwxyz' + b'0123456789')
 
 
 def parse_key_length(text):
