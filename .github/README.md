@@ -29,7 +29,7 @@ Not: "D1" adı iki yerde geçer. Faz 2'nin D1'i dil ayrıştırmasıdır (`resul
 
 ## Güncel durum (2026-10-01)
 
-M-hattı sürüyor: D5/D6 (53 sembollü anahtar alfabesi ve gerçek anahtarlarla MQAR ince ayarı), T1 serisi (küçük çekirdekte sıfırdan anahtar eşleştirme) ve L1 (sıfırdan 20M parametreli bayt modeli, 500M bayt, plato yüzünden durdurulmayan uzun koşu; hazır, henüz başlamadı). Sonuçlar geldikçe notlara ve bu depoya eklenir.
+M-hattı sürüyor: D5/D6 (53 sembollü anahtar alfabesi ve gerçek anahtarlarla MQAR ince ayarı; D5 son adımlarında), T1 serisi (küçük çekirdekte sıfırdan anahtar eşleştirme; T1p ve T1w64 bitti, genişlik 256 denemesi karar bekliyor) ve L1 (sıfırdan 20M parametreli bayt modeli, 500M bayt, plato yüzünden durdurulmayan uzun koşu; hazır, henüz başlamadı). Sonuçlar geldikçe notlara ve bu depoya eklenir.
 
 ## Depo düzeni
 
