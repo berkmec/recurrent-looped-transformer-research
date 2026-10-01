@@ -32,10 +32,10 @@ Keep width32,heads2,batch8,float32, chunk8 and lengths32/128/512/1024. Each arm/
 
 Freeze source and protocol only after review. Then fresh-process CUDA equivalence uses L32 and128, all five arms, and checks raw final gradients, final model weights, all AdamW states and measured losses for full/checkpoint and detach/each segment arm. Default tolerance rtol3e-4,atol3e-6 is predeclared for float32; CPU double tests use stricter rtol2e-9,atol2e-11. Main runner requires matching source/protocol-equivalence evidence.
 
-Runtime: `C:/Users/pc/Documents/ChatGPT/DaxDream/.venv/Scripts/python.exe`. Run commands from `E:/rlt-research/2026-09-17-diagnostics`:
+Runtime: `__PY_ENV_DIR__/.venv/Scripts/python.exe`. Run commands from `__RLT_ROOT__/2026-09-17-diagnostics`:
 
 ```powershell
-$py = 'C:/Users/pc/Documents/ChatGPT/DaxDream/.venv/Scripts/python.exe'
+$py = '__PY_ENV_DIR__/.venv/Scripts/python.exe'
 # Only after parent grants GPU slot:
 & $py -m review_cycle.memory_bench pilot --device cuda --arm full --length 32 --out .superpowers/sdd/review-diagnostics-plan/task-3-gpu-dev-full32
 & $py -m review_cycle.memory_bench pilot --device cuda --arm segment --length 32 --out .superpowers/sdd/review-diagnostics-plan/task-3-gpu-dev-segment32

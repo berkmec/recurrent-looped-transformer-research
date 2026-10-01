@@ -1,50 +1,0 @@
-Loading weights:   0%|          | 0/310 [00:00<?, ?it/s]Loading weights:   0%|          | 1/310 [00:00<03:10,  1.62it/s]Loading weights:  97%|#########7| 301/310 [00:00<00:00, 561.74it/s]Loading weights: 100%|##########| 310/310 [00:00<00:00, 426.07it/s]
-Loading weights:   0%|          | 0/310 [00:00<?, ?it/s]Loading weights:   0%|          | 1/310 [00:00<03:06,  1.66it/s]Loading weights:  93%|#########3| 289/310 [00:00<00:00, 541.20it/s]Loading weights: 100%|##########| 310/310 [00:00<00:00, 416.63it/s]
-Traceback (most recent call last):
-  File "<frozen runpy>", line 198, in _run_module_as_main
-  File "<frozen runpy>", line 88, in _run_code
-  File "E:\rlt-research\2026-09-18-phase2\semantic_memory\retrieval.py", line 377, in <module>
-    main()
-  File "E:\rlt-research\2026-09-18-phase2\semantic_memory\retrieval.py", line 372, in main
-    result = run_final(args.out); result = dict(status=result['status'], arms={a: r['metrics'] for a, r in result['arms'].items()})
-             ^^^^^^^^^^^^^^^^^^^
-  File "E:\rlt-research\2026-09-18-phase2\semantic_memory\retrieval.py", line 300, in run_final
-    arms = evaluate_arms(full, queries, qdense, qhash, reranker, p, out, 'final')
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "E:\rlt-research\2026-09-18-phase2\semantic_memory\retrieval.py", line 256, in evaluate_arms
-    ranked, timing = index.retrieve(q['question'], query_dense[i], query_hash[i], reranker)
-                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "E:\rlt-research\2026-09-18-phase2\semantic_memory\retrieval.py", line 238, in retrieve
-    order = rerank_order(query, [self.texts[self.position[d]] for d in head], reranker, p['rerank_batch']) if reranker is not None else list(range(len(head)))
-            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "E:\rlt-research\2026-09-18-phase2\semantic_memory\retrieval.py", line 117, in rerank_order
-    scores = reranker.score(query, docs, batch_size=batch_size)
-             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\pc\Documents\ChatGPT\DaxDream\.venv\Lib\site-packages\torch\utils\_contextlib.py", line 124, in decorate_context
-    return func(*args, **kwargs)
-           ^^^^^^^^^^^^^^^^^^^^^
-  File "E:\rlt-research\2026-09-18-phase2\semantic_memory\rerank.py", line 36, in score
-    logits = self.model(**batch).logits[:, -1, :]
-             ^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\pc\Documents\ChatGPT\DaxDream\.venv\Lib\site-packages\torch\nn\modules\module.py", line 1778, in _wrapped_call_impl
-    return self._call_impl(*args, **kwargs)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\pc\Documents\ChatGPT\DaxDream\.venv\Lib\site-packages\torch\nn\modules\module.py", line 1789, in _call_impl
-    return forward_call(*args, **kwargs)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\pc\AppData\Roaming\Python\Python311\site-packages\transformers\utils\generic.py", line 900, in wrapper
-    output = func(self, *args, **kwargs)
-             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\pc\AppData\Roaming\Python\Python311\site-packages\transformers\models\qwen3\modeling_qwen3.py", line 505, in forward
-    logits = self.lm_head(hidden_states[:, slice_indices, :])
-             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\pc\Documents\ChatGPT\DaxDream\.venv\Lib\site-packages\torch\nn\modules\module.py", line 1778, in _wrapped_call_impl
-    return self._call_impl(*args, **kwargs)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\pc\Documents\ChatGPT\DaxDream\.venv\Lib\site-packages\torch\nn\modules\module.py", line 1789, in _call_impl
-    return forward_call(*args, **kwargs)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\pc\Documents\ChatGPT\DaxDream\.venv\Lib\site-packages\torch\nn\modules\linear.py", line 134, in forward
-    return F.linear(input, self.weight, self.bias)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 4.63 GiB. GPU 0 has a total capacity of 8.00 GiB of which 0 bytes is free. Of the allocated memory 7.42 GiB is allocated by PyTorch, and 2.92 GiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://docs.pytorch.org/docs/stable/notes/cuda.html#optimizing-memory-usage-with-pytorch-cuda-alloc-conf)

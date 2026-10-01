@@ -22,7 +22,7 @@ class RerankParityTests(unittest.TestCase):
         torch.set_num_threads(1)
         pins = json.loads((ROOT / 'protocols' / 'G0-pins.json').read_text(encoding='utf8'))
         models = pins.get('models', {})
-        cls.model_dir = next((v['local_dir'] for k, v in models.items() if 'Reranker' in k), 'E:/rlt-research/models/Qwen3-Reranker-0.6B')
+        cls.model_dir = next((v['local_dir'] for k, v in models.items() if 'Reranker' in k), '__RLT_ROOT__/models/Qwen3-Reranker-0.6B')
         if not Path(cls.model_dir).exists():
             raise unittest.SkipTest('MISSING_ASSET: ' + cls.model_dir)
         if os.environ.get('RLT_SKIP_HEAVY', '') not in ('', '0'):

@@ -5,10 +5,10 @@ test_swap_can_fix_the_current_five_state (test_core_reporting.Reporting.test_swa
 ERROR: test_read_utf8_bom_receipt (test_core_reporting.Reporting.test_read_utf8_bom_receipt)
 ----------------------------------------------------------------------
 Traceback (most recent call last):
-  File "E:\rlt-research\2026-09-16-e2e\tests\test_core_reporting.py", line 7, in test_read_utf8_bom_receipt
+  File "__RLT_ROOT__\2026-09-16-e2e\tests\test_core_reporting.py", line 7, in test_read_utf8_bom_receipt
     self.assertEqual(read(p),{'status':'COMPLETE'})
                      ^^^^^^^
-  File "E:\rlt-research\2026-09-16-e2e\core\summarize.py", line 7, in read
+  File "__RLT_ROOT__\2026-09-16-e2e\core\summarize.py", line 7, in read
     def read(p):return json.loads(p.read_text(encoding='utf8-sig'))
                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   File "C:\Program Files\Python311\Lib\pathlib.py", line 1058, in read_text

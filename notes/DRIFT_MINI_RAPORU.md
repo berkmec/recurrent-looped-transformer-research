@@ -1,6 +1,6 @@
 # Sürüklenme mini deneyi — sonuç raporu (2026-09-18)
 
-**Durum:** MEASURED_NEGATIVE (üç müdahalenin üçü de). 22/24 koşul tamamlandı, 2 koşul (reread kolu, tohum 191, iki görevde de) sonsuz gradyanla ıraksadı ve kanıtı korunarak INCOMPLETE bırakıldı. Ön-kayıtlı plan: [`docs/drift-mini-plan.md`](../docs/drift-mini-plan.md) (sha `bca4c455…`, final veriden önce ledger'a yazıldı). Kök: `E:/rlt-research/2026-09-18-drift`, dal `codex/rlt-drift-mini`, taban `f83b527`. Mühürlü kökler değişmedi.
+**Durum:** MEASURED_NEGATIVE (üç müdahalenin üçü de). 22/24 koşul tamamlandı, 2 koşul (reread kolu, tohum 191, iki görevde de) sonsuz gradyanla ıraksadı ve kanıtı korunarak INCOMPLETE bırakıldı. Ön-kayıtlı plan: [`docs/drift-mini-plan.md`](../docs/drift-mini-plan.md) (sha `bca4c455…`, final veriden önce ledger'a yazıldı). Kök: `__RLT_ROOT__/2026-09-18-drift`, dal `codex/rlt-drift-mini`, taban `f83b527`. Mühürlü kökler değişmedi.
 
 ## Soru ve cevap
 

@@ -168,13 +168,13 @@ def corpus_subset(data, queries, size, seed, extra=None):
 
 def protocol():
     return dict(version=1, purpose='B1 lexical versus semantic retrieval on MuSiQue with exact cosine search',
-                development_path='E:/rlt-research/datasets/dgslibisey__MuSiQue/musique_ans_v1.0_train.jsonl', development_queries=300,
-                final_path='E:/rlt-research/datasets/dgslibisey__MuSiQue/musique_ans_v1.0_dev.jsonl', final_queries=None,
-                embedding_model='E:/rlt-research/models/Qwen3-Embedding-0.6B', reranker_model='E:/rlt-research/models/Qwen3-Reranker-0.6B',
+                development_path='__RLT_ROOT__/datasets/dgslibisey__MuSiQue/musique_ans_v1.0_train.jsonl', development_queries=300,
+                final_path='__RLT_ROOT__/datasets/dgslibisey__MuSiQue/musique_ans_v1.0_dev.jsonl', final_queries=None,
+                embedding_model='__RLT_ROOT__/models/Qwen3-Embedding-0.6B', reranker_model='__RLT_ROOT__/models/Qwen3-Reranker-0.6B',
                 arms=list(ARMS), ks=[1, 5, 10], rrf_k=60, fusion_depth=100, rerank_depth=50, top_k=100,
                 dense_max_length=512, dense_instruction='Given a web search query, retrieve relevant passages that answer the query',
                 rerank_max_length=1024, encode_batch=32, rerank_batch=16,
-                distractor_path='E:/rlt-research/datasets/dgslibisey__MuSiQue/musique_ans_v1.0_train.jsonl',
+                distractor_path='__RLT_ROOT__/datasets/dgslibisey__MuSiQue/musique_ans_v1.0_train.jsonl',
                 ladder_sizes=[1000, 10000, 100000], ladder_queries=250, ladder_seed=2026091801, batch_check_docs=64,
                 bootstrap=1000, bootstrap_seed=2026091802, device='cuda', dtype='float16',
                 targets=dict(recall_at_10=.95, coverage_at_10=.90),

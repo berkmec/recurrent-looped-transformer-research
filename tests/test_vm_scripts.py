@@ -47,7 +47,7 @@ class SetupScriptTests(unittest.TestCase):
 
     def test_setup_does_not_touch_the_local_sealed_environment(self):
         text = SETUP.read_text(encoding='utf8')
-        for forbidden in ('DaxDream', 'C:/', 'E:/'):
+        for forbidden in ('__PY_ENV_DIR__', '__RLT_ROOT__', '__USER_HOME__', 'C:/', 'E:/'):
             self.assertNotIn(forbidden, text, 'the VM script must not reference the local machine')
 
 

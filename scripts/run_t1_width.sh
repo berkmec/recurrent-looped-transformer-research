@@ -10,7 +10,7 @@ set -u
 cd "$(dirname "$0")/.."
 W=${1:?width}
 H=$((W / 32))
-PY="C:/Users/pc/Documents/ChatGPT/DaxDream/.venv/Scripts/python.exe"
+PY="__PY_ENV_DIR__/.venv/Scripts/python.exe"
 export PYTHONIOENCODING=utf-8
 ROOT=results/M1-finetune-distance
 LOG=$ROOT/queue.log

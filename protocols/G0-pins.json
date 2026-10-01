@@ -10,7 +10,7 @@
    ],
    "files": 12,
    "bytes": 1207489041,
-   "local_dir": "E:/rlt-research/models/Qwen3-Embedding-0.6B"
+   "local_dir": "__RLT_ROOT__/models/Qwen3-Embedding-0.6B"
   },
   "Qwen/Qwen3-Reranker-0.6B": {
    "revision": "e61197ed45024b0ed8a2d74b80b4d909f1255473",
@@ -20,7 +20,7 @@
    ],
    "files": 14,
    "bytes": 1207488344,
-   "local_dir": "E:/rlt-research/models/Qwen3-Reranker-0.6B"
+   "local_dir": "__RLT_ROOT__/models/Qwen3-Reranker-0.6B"
   },
   "Qwen/Qwen3-4B": {
    "revision": "1cfa9a7208912126459214e8b04321603b3df60c",
@@ -30,7 +30,7 @@
    ],
    "files": 13,
    "bytes": 8060926626,
-   "local_dir": "E:/rlt-research/models/Qwen3-4B"
+   "local_dir": "__RLT_ROOT__/models/Qwen3-4B"
   }
  },
  "datasets": {
@@ -45,7 +45,7 @@
    ],
    "bytes": 271488940,
    "skipped": [],
-   "local_dir": "E:/rlt-research/datasets/dgslibisey__MuSiQue"
+   "local_dir": "__RLT_ROOT__/datasets/dgslibisey__MuSiQue"
   },
   "xiaowu0162/longmemeval-cleaned": {
    "revision": "98d7416c24c778c2fee6e6f3006e7a073259d48f",
@@ -63,7 +63,7 @@
     ".gitattributes",
     "longmemeval_m_cleaned.json"
    ],
-   "local_dir": "E:/rlt-research/datasets/xiaowu0162__longmemeval-cleaned"
+   "local_dir": "__RLT_ROOT__/datasets/xiaowu0162__longmemeval-cleaned"
   },
   "bigcode/bigcodebench": {
    "revision": "b74c0d0bf70d2c0bc459be537895cca163007f1a",
@@ -84,11 +84,11 @@
    ],
    "bytes": 16590169,
    "skipped": [],
-   "local_dir": "E:/rlt-research/datasets/bigcode__bigcodebench"
+   "local_dir": "__RLT_ROOT__/datasets/bigcode__bigcodebench"
   }
  },
  "venv": {
-  "path": "E:/rlt-research/.venv-phase2",
+  "path": "__RLT_ROOT__/.venv-phase2",
   "freeze": [
    "accelerate==1.15.0",
    "aiohappyeyeballs==2.7.1",
@@ -153,7 +153,7 @@
   "note": "new environment; existing venvs untouched"
  },
  "runtime_existing": {
-  "cuda": "C:/Users/pc/Documents/ChatGPT/DaxDream/.venv (torch 2.12.0+cu130, transformers 5.8.1) used read-only for downloads and 0.6B inference"
+  "cuda": "__PY_ENV_DIR__/.venv (torch 2.12.0+cu130, transformers 5.8.1) used read-only for downloads and 0.6B inference"
  },
  "plan_snapshot": {
   "2026-09-16-anlamsal-bellek.md": "0e11b8769eb653b22af514d09ba6127a4baf68c305128a591a89aadd6ee46124",

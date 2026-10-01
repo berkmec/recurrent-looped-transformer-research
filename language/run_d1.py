@@ -37,10 +37,10 @@ def write_json(path, value):
 
 def protocol():
     return dict(version=1, purpose='D1 free text -> headings, claims, source bindings on MuSiQue decompositions',
-                development_path='E:/rlt-research/datasets/dgslibisey__MuSiQue/musique_ans_v1.0_train.jsonl', development_stages=[32, 200],
-                final_path='E:/rlt-research/datasets/dgslibisey__MuSiQue/musique_ans_v1.0_dev.jsonl', final_n=600, controls_n=100,
+                development_path='__RLT_ROOT__/datasets/dgslibisey__MuSiQue/musique_ans_v1.0_train.jsonl', development_stages=[32, 200],
+                final_path='__RLT_ROOT__/datasets/dgslibisey__MuSiQue/musique_ans_v1.0_dev.jsonl', final_n=600, controls_n=100,
                 distractors=2, seed=2026091810, batch_size=4, max_new_tokens=384,
-                model_dir='E:/rlt-research/models/Qwen3-4B', quant='nf4', decoding='greedy, thinking disabled',
+                model_dir='__RLT_ROOT__/models/Qwen3-4B', quant='nf4', decoding='greedy, thinking disabled',
                 arms=['finite_parser', 'lm_zero', 'lm_schema'], bootstrap=1000,
                 targets=dict(relation_f1=.95, risk_upper=.01, coverage=.80),
                 note='human-authored gold (MuSiQue decomposition); controls are programmatic perturbations; Turkish UNMEASURED')

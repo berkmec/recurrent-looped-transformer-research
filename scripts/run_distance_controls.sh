@@ -14,11 +14,11 @@
 # Usage: nohup bash scripts/run_distance_controls.sh > /dev/null 2>&1 &     (progress: results/M1-finetune-distance/queue.log)
 set -u
 cd "$(dirname "$0")/.."
-PY="C:/Users/pc/Documents/ChatGPT/DaxDream/.venv/Scripts/python.exe"
+PY="__PY_ENV_DIR__/.venv/Scripts/python.exe"
 export PYTHONIOENCODING=utf-8
 ROOT=results/M1-finetune-distance
-M1P=E:/rlt-research/vm-mirror/results/M1/m1-plain-w1152-s117/selected.pt
-M1H=E:/rlt-research/vm-mirror/results/M1/m1-hard_st-w1152-s117/selected.pt
+M1P=__RLT_ROOT__/vm-mirror/results/M1/m1-plain-w1152-s117/selected.pt
+M1H=__RLT_ROOT__/vm-mirror/results/M1/m1-hard_st-w1152-s117/selected.pt
 GRID=0,32,64,72,80,96,128,160,192,224,256,320,384,448,512
 LOG=$ROOT/queue.log
 mkdir -p "$ROOT"

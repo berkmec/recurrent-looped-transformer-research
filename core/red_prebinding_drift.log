@@ -9,9 +9,9 @@ Traceback (most recent call last):
              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   File "C:\Program Files\Python311\Lib\unittest\loader.py", line 362, in _get_module_from_name
     __import__(name)
-  File "E:\rlt-research\2026-09-16-e2e\tests\test_core_safe_entrypoint.py", line 3, in <module>
+  File "__RLT_ROOT__\2026-09-16-e2e\tests\test_core_safe_entrypoint.py", line 3, in <module>
     from core.safe_entrypoint import check_entry,Refusal,verify_file_receipts,verify_manifest_only
-ImportError: cannot import name 'verify_file_receipts' from 'core.safe_entrypoint' (E:\rlt-research\2026-09-16-e2e\core\safe_entrypoint.py)
+ImportError: cannot import name 'verify_file_receipts' from 'core.safe_entrypoint' (__RLT_ROOT__\2026-09-16-e2e\core\safe_entrypoint.py)
 
 
 ----------------------------------------------------------------------

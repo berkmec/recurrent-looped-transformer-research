@@ -8,7 +8,7 @@ from pathlib import Path
 import torch
 
 ROOT = Path(__file__).resolve().parents[1]
-MODEL = 'E:/rlt-research/models/Qwen3-4B'
+MODEL = '__RLT_ROOT__/models/Qwen3-4B'
 PROMPTS = [
     'What is the capital of France? Answer with one word.',
     "Ali is older than Ayşe. Is Ayşe younger than Ali? Answer yes or no.",

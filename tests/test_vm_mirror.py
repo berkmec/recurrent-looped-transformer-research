@@ -68,7 +68,7 @@ class MirrorContractTests(unittest.TestCase):
         import re
         module = self.api()
         default = module.DEFAULT_MIRROR.replace(chr(92), '/')
-        self.assertRegex(default, r'^([A-Za-z]:/|/)', 'the mirror default must be an absolute path')
+        self.assertRegex(default, r'^([A-Za-z]:/|/|__RLT_ROOT__/)', 'the mirror default must be an absolute path')
         repo = ROOT.as_posix()
         self.assertFalse(default == repo or default.startswith(repo + '/'),
                          'the mirror must live outside the repo, or a sync could overwrite sealed evidence')

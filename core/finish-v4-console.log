@@ -1,9 +1,9 @@
 Traceback (most recent call last):
   File "<frozen runpy>", line 198, in _run_module_as_main
   File "<frozen runpy>", line 88, in _run_code
-  File "E:\rlt-research\2026-09-16-e2e\core\finish_v4.py", line 10, in <module>
+  File "__RLT_ROOT__\2026-09-16-e2e\core\finish_v4.py", line 10, in <module>
     with (r/(module.split('.')[-1]+'-v4-finish.log')).open('x',encoding='utf8') as out:subprocess.run([executable,'-u','-m',module],cwd=r.parent,stdout=out,stderr=subprocess.STDOUT,check=True)
                                                                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   File "C:\Program Files\Python311\Lib\subprocess.py", line 571, in run
     raise CalledProcessError(retcode, process.args,
-subprocess.CalledProcessError: Command '['C:\\Users\\pc\\Documents\\ChatGPT\\DaxDream\\.venv\\Scripts\\python.exe', '-u', '-m', 'core.summarize']' returned non-zero exit status 1.
+subprocess.CalledProcessError: Command '['__PY_ENV_DIR__\\.venv\\Scripts\\python.exe', '-u', '-m', 'core.summarize']' returned non-zero exit status 1.

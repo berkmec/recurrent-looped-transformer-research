@@ -9,9 +9,9 @@ Traceback (most recent call last):
              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   File "C:\Program Files\Python311\Lib\unittest\loader.py", line 362, in _get_module_from_name
     __import__(name)
-  File "E:\rlt-research\2026-09-16-e2e\tests\test_core_reporting.py", line 2, in <module>
+  File "__RLT_ROOT__\2026-09-16-e2e\tests\test_core_reporting.py", line 2, in <module>
     from core.summarize import actual_state_changes
-ImportError: cannot import name 'actual_state_changes' from 'core.summarize' (E:\rlt-research\2026-09-16-e2e\core\summarize.py)
+ImportError: cannot import name 'actual_state_changes' from 'core.summarize' (__RLT_ROOT__\2026-09-16-e2e\core\summarize.py)
 
 
 ----------------------------------------------------------------------

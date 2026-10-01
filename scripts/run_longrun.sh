@@ -14,7 +14,7 @@ set -u
 cd "$(dirname "$0")/.."
 OUT=${1:?output directory}
 RECIPE=${2:-m2-draft}
-PY="C:/Users/pc/Documents/ChatGPT/DaxDream/.venv/Scripts/python.exe"
+PY="__PY_ENV_DIR__/.venv/Scripts/python.exe"
 export PYTHONIOENCODING=utf-8
 LOG=results/M1-finetune-distance/queue.log
 log() { echo "[$(date +%H:%M:%S)] $*" >> "$LOG"; }

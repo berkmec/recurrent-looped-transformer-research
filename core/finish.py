@@ -7,7 +7,7 @@ while True:
   if json.loads((r/'results'/'final-only-metrics.json').read_text())['status']=='COMPLETE':break
  except (FileNotFoundError,json.JSONDecodeError):pass
  time.sleep(10)
-jobs=[(sys.executable,'core.benchmark'),('C:/Users/pc/Documents/Codex/2026-09-16/rlt-derin-arastirma/.venv/Scripts/python.exe','core.plots'),(sys.executable,'core.summarize'),(sys.executable,'core.safe_entrypoint')]
+jobs=[(sys.executable,'core.benchmark'),('__WORKSPACE__/rlt-derin-arastirma/.venv/Scripts/python.exe','core.plots'),(sys.executable,'core.summarize'),(sys.executable,'core.safe_entrypoint')]
 for executable,module in jobs:
  with (r/(module.split('.')[-1]+'-finish.log')).open('x',encoding='utf8') as out:
   command=[executable,'-u','-m',module]+(['--bind-completed'] if module=='core.safe_entrypoint' else [])

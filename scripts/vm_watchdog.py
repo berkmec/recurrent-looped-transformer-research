@@ -86,7 +86,7 @@ def main():
     parser.add_argument('--host', required=True)
     parser.add_argument('--key', required=True)
     parser.add_argument('--remote', default='/data/rlt/2026-09-18-phase2')
-    parser.add_argument('--mirror', default='E:/rlt-research/vm-mirror')
+    parser.add_argument('--mirror', default='__RLT_ROOT__/vm-mirror')
     parser.add_argument('--interval', type=int, default=600)
     parser.add_argument('--max-hours', type=float, default=72.)
     parser.add_argument('--no-shutdown', action='store_true')

@@ -31,7 +31,7 @@ SOURCES = ('semantic_memory/retrieval.py', 'semantic_memory/multihop.py', 'seman
 def protocol():
     p = copy.deepcopy(b2.protocol())
     p.update(version=1, purpose='B3 multi-hop retrieval with an LM-named bridge; union ceiling is a first-class gate and bridge quality is measured directly',
-             extractor='lm_bridge_v1', generator_model='E:/rlt-research/models/Qwen3-4B', quant='nf4', decoding='greedy, thinking disabled',
+             extractor='lm_bridge_v1', generator_model='__RLT_ROOT__/models/Qwen3-4B', quant='nf4', decoding='greedy, thinking disabled',
              gen_batch=8, gen_max_new_tokens=48, development_queries=100, reference='results/B2',
              targets=dict(recall_at_10=.95, coverage_at_10=.90, union_ceiling=.90),
              note='same MuSiQue pins, encoder settings and endpoints as B2; only the bridge extractor changes. One LM call per unique question, batched and cached.')

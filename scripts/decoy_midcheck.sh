@@ -18,7 +18,7 @@
 # progress goes to queue.log (BASLA/BITTI midcheck).
 set -u
 cd "$(dirname "$0")/.."
-PY="C:/Users/pc/Documents/ChatGPT/DaxDream/.venv/Scripts/python.exe"
+PY="__PY_ENV_DIR__/.venv/Scripts/python.exe"
 export PYTHONIOENCODING=utf-8
 RUN=$1
 STEPS=$2

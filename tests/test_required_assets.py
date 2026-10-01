@@ -3,7 +3,7 @@
 Found on 2026-09-25, the first time the runner actually executed every test in the directory: seven tests in
 `test_reasoning_window.py` and `test_integration_pipeline.py` were failing with a bare
 
-    FileNotFoundError: E:\\rlt-research\\2026-09-18-phase2\\memory\\checkpoints\\extractor-17.pt
+    FileNotFoundError: __RLT_ROOT__\\2026-09-18-phase2\\memory\\checkpoints\\extractor-17.pt
 
 thrown from inside `torch.serialization`, six frames below anything this worktree wrote. They call
 `memory.api.load_parser()` with no argument, which defaults to a phase-1 training checkpoint that exists only in

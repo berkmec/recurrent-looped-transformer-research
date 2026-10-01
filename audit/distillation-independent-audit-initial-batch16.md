@@ -36,4 +36,4 @@ The original protocol has no heldout initial-model reference. Before additional 
 - Archive-off verifies six actual student models and512 observation-only inputs each against exported prediction artifacts; no OS filesystem sandbox or rerun by this audit.
 - Shared row IDs require split namespace; generated archives retained rejected examples; selection is strongly shallow-component biased.
 
-Post-hoc raw predictions/protocol: `E:\rlt-research\2026-09-16-e2e\audit\distillation-initial-reference`. Full audit: `audit/distillation-independent-audit.json`.
+Post-hoc raw predictions/protocol: `__RLT_ROOT__\2026-09-16-e2e\audit\distillation-initial-reference`. Full audit: `audit/distillation-independent-audit.json`.
