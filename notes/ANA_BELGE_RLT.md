@@ -1,6 +1,6 @@
 # RLT araştırma kampanyası — ana belge
 
-> **Son güncelleme:** 2026-10-01 23:07 (yerel saat). Son işlenen sonuçlar: D5 (bitti), D6 (bitti: son skor ve mesafe eğrisi), T1p, T1w64 (bitti), T1w256 aşama 1. Çalışan işler: T1w256 (CPU, aşama 2); GPU boş.
+> **Son güncelleme:** 2026-10-01 23:49 (yerel saat). Son işlenen sonuçlar: D5, D6 (bitti), T1p, T1w64, T1w256 aşama 1; depo GitHub'a (özel) gönderildi ve uzaktan doğrulandı. Çalışan işler: L1 (GPU, 23:39'da başladı, 6,25 s/adım), T1w256 (CPU, aşama 2).
 >
 > **Kural:** Bu belgenin güncel tutulması proje kuralıdır. Her yeni sonuç aynı oturumda buraya işlenir, atlanmaz. Bir bulgu düzeltilirse eski metin silinmez; "DÜZELTME" notuyla yanında kalır. Sıra: önce ham sonuç dosyası, sonra döngü raporu (`notes/`), sonra bu belge. Burası bir özet değil bir haritadır: her satır bir rapora ve bir ham dosyaya bağlanır. Bu belge ve her şey Türkçedir; sayılar, etiketler (`MEASURED_NEGATIVE`, `MIXED`…) ve kod dilden bağımsızdır.
 
@@ -25,11 +25,11 @@
 
 | Alan | Durum |
 |---|---|
-| Çalışan | **T1w256** (CPU, genişlik 256, iki aşama: 1.500 + 4.000 güncelleme; aşama 2 çalışıyor). GPU boş. |
+| Çalışan | **L1** (GPU): sıfırdan 20.297.472 parametreli bayt modeli, 500M bayt, plato için durdurulmayan uzun koşu; **2026-10-01 23:39:56'da başladı** (`results/L1-scratch-w928-s401`, tarif `m2-draft`, tohum 401). Gerçek hız **6,25 s/adım** ⇒ 30.518 güncelleme ≈ 53 saat (≈ 2,2 gün); ilk 78 adımda kayıp 5,73 → 2,10, gradyan normu 0,4–0,5, kararsızlık yok. **T1w256** (CPU, genişlik 256; aşama 2 çalışıyor). |
 | Biten bu oturumda | D5 (1.500), D6 (1.000; son skor ve mesafe eğrisi §6.5), T1p, T1w64, T1w256 aşama 1; sonuçlar `notes/M1_EK_KAPI_OLU_2026-10-01.md`. |
-| Hazır, başlamadı | **L1**: sıfırdan 20.297.472 parametreli bayt modeli, 500M bayt, plato için durdurulmayan uzun koşu (`scripts/run_longrun.sh`). D6 bitti; elle başlatılacak, ilk 100 adımda gerçek adım süresi ölçülecek. |
+| Hazır, başlamadı | Derinlik-genelleme paketi (§11, madde 3): tasarım ve protokol yazılıyor. |
 | Bekleyen karar | Kapının geçerli testi (kapanabilir kapı, dikkati sınırlı kol, manipülasyon kontrolü) tasarımı; B taraması (`feedback=False` + `gate_input='input'`, lr 1e-3, ≈ 5 saat CPU); kesintiye karşı Windows zamanlanmış görevi. Hepsi kullanıcı onayı bekliyor. |
-| Yayın | Depo açık kaynak yapılacak (MIT) ve eğitilmiş bütün modeller paylaşılacak; hazırlık bitti, **gönderme adımı** otomatik izin sisteminde bekliyor (bkz. §10). |
+| Yayın | **Depo GitHub'a gönderildi (özel):** `berkmec/rlt-research`, `main` + üç mühürlü ata dalı, 2026-10-01 23:38; uzak uç yayın kopyasıyla aynı, yeni klonda hassas dizgi sıfır, uç ağaç yerel uçla birebir (bkz. §10). Bekleyen: model yüklemesi (739 dosya, 13,03 GB) ve özelden açığa çevirme (kullanıcı). |
 | Güvenlik | VM erişim bilgisi proje klasörlerinden ve depo geçmişinin yayın kopyasından çıkarıldı; depo dışında şifreli bir klasörde tutulur. |
 
 ## 3. Harita
@@ -289,13 +289,13 @@ Her koşu dizininde (çoğunda): `README.txt` (ön-kayıtlı okuma ve tarif), `t
 - **Envanter (2026-10-01, 21:55):** 960 `.pt` dosyası, 12,60 GB, **732 farklı içerik** (83 hash birden çok yolda), 956'sı zip arşivi, okuma hatası yok, 271'i optimizer durumu taşıyor. Kökler: Faz 1 e2e 239 dosya (251 MB), diagnostics 319 (1,12 GB), drift 68 (8 MB), phase2 326 (9,23 GB), `vm-mirror` 8 (1,99 GB). Gömülü metadata taraması temiz (yalnız 4 dosyada yerel Windows yolu).
 - **Karar (kullanıcı, 2026-10-01):** eğitilmiş bütün modeller, iyi/kötü ayrımı yapılmadan paylaşılacak; çöken ve yarım kalan koşular dahil. `selected.pt` raporlarda değerlendirilen ağırlıklar; `latest.pt`/`previous.pt`/`resume.pt`/`stepN.pt` eğitim durumu.
 - **Plan:** GitHub Release (her dosya < 2 GiB; en büyüğü 374 MB), özgün baytlar korunur (SHA-256 mühür manifestleriyle örtüşür), ad = yolun `/` yerine `__` konmuş hâli, aynı içerik bir kez yüklenir; manifest `docs/model-manifest.json` olarak depoya girer. D6 ve L1 bitince eklenir. Yükleme betiği ve hazırlık dosyaları depo dışında hazır.
-- **Durum:** depo yayını (MIT lisanslı, özel depo olarak) ve model yüklemesi hazır; **gönderme adımı otomatik izin sisteminde bekliyor** (kullanıcı onayı sohbetle verildi, ama sistem bu sınıf eylemi izin kuralı ya da kullanıcının kendi çalıştırması olmadan geçirmiyor). Özelden açığa çevirme kullanıcının kendi komutuyla yapılacak.
+- **Durum (2026-10-01 23:38):** **depo GitHub'a gönderildi, özel:** `https://github.com/berkmec/rlt-research` (MIT lisansı tanındı, varsayılan dal `main`, üç mühürlü ata dalı `codex/rlt-e2e`, `codex/rlt-review-diagnostics`, `codex/rlt-drift-mini`; GitHub ön sayfa olarak `.github/README.md`'yi gösteriyor). Gönderimi kullanıcı kendi çalıştırdı (`publish.cmd`): otomatik izin sistemi bu sınıf eylemi (`gh repo create` + `git push`) sohbet onayıyla ya da ajandan geçirmiyor, kullanıcının kendi çalıştırması gerekiyor. **Uzaktan doğrulama (yeni klon):** uzak `main` ucu yayın kopyasıyla aynı commit; 119 commit; hassas dizgiler geçmişte sıfır; uç ağaç yerel uçla birebir (`ca10a643…`); mühür manifestleri klonun dosyalarıyla bayt bayt örtüşüyor (yeni sürüm manifestlerde uyuşmazlık sıfır). Model envanteri yenilendi: **969 dosya, 15,00 GB, 739 farklı içerik** (yüklenecek 13,03 GB; D6 dahil, eğitimi süren T1w256-r hariç). Bekleyen: model yüklemesi (`upload-models.cmd`) ve özelden açığa çevirme (kullanıcının kendi komutu).
 - **Güvenlik:** gönderim öncesi denetimde tam tarama (token, özel anahtar, IP, kullanıcı@IP, e-posta) sıfır; izlenen ağırlık/dizi/anahtar dosyası yok; VM erişim dizgileri hiçbir commit'te yok; depodaki dosyalar mühür manifestlerindeki SHA-256'larla bayt bayt örtüşüyor (yalnız belgelenmiş eski sürüm manifestlerde 18 fark). Hâlâ açık: commit'lerde yazar adı ve e-posta herkese açık olacak; 112 commit'in 106'sında oturum bağlantısı var; notlardaki serbest metinde kişisel bilgi desen taramasıyla görülemez.
 
 ## 11. Açık sorular ve sıradaki işler
 
-1. **D6 bitişi** (≈ 23:00): son skor (gerçek anahtarlar, T–Z, tek-olgu mesafe, dikkat); sonra L1 tarifini kesinleştir.
-2. **L1'i başlat** (elle; ilk 100 adımda gerçek adım süresini ölç, tahminleri güncelle).
+1. ~~D6 bitişi~~ **bitti (22:57)**; son skor §6.5'te.
+2. ~~L1'i başlat~~ **L1 başladı (23:39:56)**, gerçek hız 6,25 s/adım (≈ 53 saat); izle: `results/L1-scratch-w928-s401/probe.jsonl` (her adım), 1.000 adımda ölçüm pili; önceden yazılmış eşikler koşu dizinindeki `README.txt`'te.
 3. **T1w256** sonucu: genişlik 64'te oluşmayan devre 256'da erken mi oluşur (üç nokta: 64, 128, 256).
 4. **Kapının geçerli testi** (kullanıcı onayı bekliyor): kapanabilir kapı (HOLD önyargısı, normlanmış girdi, kapıya özel lr), dikkati sınırlı bir görev (yoksa iğne görevi durumu hiç gerektirmez), manipülasyon kontrolü ve `MANIPULATION_NOT_APPLIED` kuralı; ayrı döngü, ayrı önkayıt.
 5. **B taraması** (`feedback=False` + `gate_input='input'`, lr 1e-3, ≈ 5 saat CPU): kullanıcının sözü bekleniyor.
@@ -303,7 +303,8 @@ Her koşu dizininde (çoğunda): `README.txt` (ön-kayıtlı okuma ve tarif), `t
 7. **Kontrol kuyruğu** (B2 / B6 doz-yanıt / B5 tekrarlar) L1'in arkasında bekliyor; ft384'ün karşılaştırma kolu eksik (aynı tarif, dolgu 0–64).
 8. **Düşük öncelik:** B3 (LM köprü çıkarıcı; önce birleşim tavanı), D2/D5 üretici batching (sessiz makine ister), Windows zamanlanmış görevi (L1 ve kuyruk kesintiden sonra kendiliğinden devam etsin; kullanıcı onayı bekliyor).
 9. **Masaüstü raporuna "Ek C"** (D1b–D6 ve T1 sonuçları) yazılacak.
-10. **Yayın:** gönderme izni; model yüklemesi; yüklemeden sonra manifest + README güncellemesi; açığa çevirme.
+10. **Yayın:** depo özel olarak yayında; sıradaki: model yüklemesi (kullanıcı çalıştırır), yüklemeden sonra manifest (`docs/model-manifest.json`) + README "Veri erişilebilirliği" güncellemesi, açığa çevirme (kullanıcının kararı). Yeni yerel commit'ler yayın kopyasına `publish.cmd` yeniden çalıştırılarak (hızlı ileri sarma) gider.
+11. **Derinlik-genelleme paketi (RLT'nin "sonsuz derinlik" iddiasının asıl testi; kullanıcı 2026-10-01: ucuzluk ölçüt değil, bütçe sınırı yok):** şimdiye kadar ölçülen görevler sonlu durumluydu (parite, beş-durum); iddia bunlarla sınanamaz. Plan: gereken hesabın girdiyle büyüdüğü görevler (işaretçi takibi / art arda fonksiyon uygulama k = 1…4.096, çalışan modüler toplam, Dyck/yığın, çok basamaklı toplama); kollar: Core, Core + HOLD kapısı, geri beslemesiz Core (şans tabanı), eşit parametreli geleneksel transformer (devre derinliği sınırlı taban); eğitimde k ≤ 8, testte 2×…512×; bütçe oyuncak değil (genişlik 128–256, 20–50 bin güncelleme, 3 tohum), protokol SHA-256 ile dondurulup eşikler önceden yazılır; sonuç yoksa genişlik/müfredat/ölçek (20M–30M bayt modeli, GPU) büyütülür. Ayrıca test-zamanı döngü sayısı ölçeği (eğitimde k, testte 2×–64×), kapının geçerli testi ve yazarların 26–29M modellerinin yeniden üretimi (bulut GPU; kullanıcının makineyi açması gerekir).
 
 ## 12. Kaynaklar ve ilgili ayrı proje
 
