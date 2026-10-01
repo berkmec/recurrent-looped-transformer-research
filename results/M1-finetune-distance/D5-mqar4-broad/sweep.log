@@ -37,3 +37,35 @@ HELD_KEYS  key 4 a  25 b  25  ask decoy   gap  77  exact 0.55 | asked 0.57  othe
 written results/M1-finetune-distance/D5-mqar4-broad/decoy.json
 train key 4  first digit per question 0.97 0.95 0.95 0.94 | exact 0.94 0.91 0.88 0.88 | all: first 0.95 exact 0.90 (512 answers)
 held  key 4  first digit per question 0.45 0.46 0.41 0.33 | exact 0.31 0.35 0.28 0.23 | all: first 0.41 exact 0.29 (512 answers)
+identity 1      filler     0  exact 0.9766  byte 0.9941
+identity 1      filler    32  exact 1.0000  byte 1.0000
+identity 1      filler    64  exact 1.0000  byte 1.0000
+identity 1      filler    72  exact 1.0000  byte 1.0000
+identity 1      filler    80  exact 0.9844  byte 0.9961
+identity 1      filler    96  exact 1.0000  byte 1.0000
+identity 1      filler   128  exact 1.0000  byte 1.0000
+identity 1      filler   160  exact 1.0000  byte 1.0000
+identity 1      filler   192  exact 0.9922  byte 0.9980
+identity 1      filler   224  exact 1.0000  byte 1.0000
+identity 1      filler   256  exact 0.9844  byte 0.9961
+identity 1      filler   320  exact 0.5469  byte 0.8730
+identity 1      filler   384  exact 0.1172  byte 0.5586
+identity 1      filler   448  exact 0.0078  byte 0.2715
+identity 1      filler   512  exact 0.0156  byte 0.1973
+written results/M1-finetune-distance/D5-mqar4-broad/sweep-train-keys.json
+identity 1      filler     0  exact 1.0000  byte 1.0000
+identity 1      filler    32  exact 1.0000  byte 1.0000
+identity 1      filler    64  exact 0.9844  byte 0.9961
+identity 1      filler    72  exact 0.9609  byte 0.9902
+identity 1      filler    80  exact 0.8906  byte 0.9727
+identity 1      filler    96  exact 1.0000  byte 1.0000
+identity 1      filler   128  exact 1.0000  byte 1.0000
+identity 1      filler   160  exact 1.0000  byte 1.0000
+identity 1      filler   192  exact 1.0000  byte 1.0000
+identity 1      filler   224  exact 1.0000  byte 1.0000
+identity 1      filler   256  exact 0.9688  byte 0.9922
+identity 1      filler   320  exact 0.1719  byte 0.7305
+identity 1      filler   384  exact 0.1016  byte 0.6133
+identity 1      filler   448  exact 0.0078  byte 0.3418
+identity 1      filler   512  exact 0.0234  byte 0.2734
+written results/M1-finetune-distance/D5-mqar4-broad/sweep-eval-keys.json
