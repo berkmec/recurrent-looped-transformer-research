@@ -1,0 +1,14 @@
+test_combined_restart_guard_preserves_primary_and_combined_evidence (test_learning_combined.CombinedProtocol.test_combined_restart_guard_preserves_primary_and_combined_evidence) ... FAIL
+
+======================================================================
+FAIL: test_combined_restart_guard_preserves_primary_and_combined_evidence (test_learning_combined.CombinedProtocol.test_combined_restart_guard_preserves_primary_and_combined_evidence)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "__RLT_ROOT__\2026-09-16-e2e\tests\test_learning_combined.py", line 7, in test_combined_restart_guard_preserves_primary_and_combined_evidence
+    self.assertIsNotNone(importlib.util.find_spec('learning.combined_run'),'predeclared combined runner absent')
+AssertionError: unexpectedly None : predeclared combined runner absent
+
+----------------------------------------------------------------------
+Ran 1 test in 0.002s
+
+FAILED (failures=1)

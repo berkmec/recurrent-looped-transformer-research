@@ -1,0 +1,271 @@
+{
+ "endpoint": "512-suffix",
+ "kind": "U5SCAN_ANALYSIS",
+ "preregistration": {
+  "falsification": "if gate_input repair falls more than 15 points below gate_state on either task in 2 of 3 seeds, the state dependence is load-bearing and the scan route closes",
+  "licenses": "a positive makes removing the candidate feedback worth testing; it does NOT make the model scannable, since that second state dependence remains",
+  "prediction": "exact preservation survives the gate losing its view of the state, because the campaign measured the VALUE of exact preservation, not of state-conditioned gating - U2c never varied what the head reads",
+  "thresholds": {
+   "seeds_required": 2,
+   "survives_pp": 15.0,
+   "tasks_required": 2
+  }
+ },
+ "protocol_hash": "c1a91e64f860bfd5082996e74c767b85c0d2f3e8fd30e3b40a212eeb18c4d304",
+ "rows": {
+  "u5-gate_input-five-w32-s117": {
+   "accuracy": 1.0,
+   "arm": "gate_input",
+   "ceiling": 1.0,
+   "clean4096": 0.9980000257492065,
+   "hold_rate": 0.8250218629837036,
+   "lr": 0.003,
+   "none": 0.4300000071525574,
+   "repair": 100.0,
+   "seed": 117,
+   "task": "five",
+   "validation": 1.0
+  },
+  "u5-gate_input-five-w32-s143": {
+   "accuracy": 0.19599999487400055,
+   "arm": "gate_input",
+   "ceiling": 1.0,
+   "clean4096": 0.20999999344348907,
+   "hold_rate": 0.9114187359809875,
+   "lr": 0.003,
+   "none": 0.37400001287460327,
+   "repair": -28.434508252625058,
+   "seed": 143,
+   "task": "five",
+   "validation": 0.23046875
+  },
+  "u5-gate_input-five-w32-s191": {
+   "accuracy": 1.0,
+   "arm": "gate_input",
+   "ceiling": 1.0,
+   "clean4096": 1.0,
+   "hold_rate": 0.824806272983551,
+   "lr": 0.003,
+   "none": 0.6100000143051147,
+   "repair": 100.0,
+   "seed": 191,
+   "task": "five",
+   "validation": 1.0
+  },
+  "u5-gate_input-stack-w32-s117": {
+   "accuracy": 0.9399999976158142,
+   "arm": "gate_input",
+   "ceiling": 0.9279999732971191,
+   "clean4096": 0.8659999966621399,
+   "hold_rate": 0.8303031325340271,
+   "lr": 0.003,
+   "none": 0.2919999957084656,
+   "repair": 101.88679634301126,
+   "seed": 117,
+   "task": "stack",
+   "validation": 0.9375
+  },
+  "u5-gate_input-stack-w32-s143": {
+   "accuracy": 0.9139999747276306,
+   "arm": "gate_input",
+   "ceiling": 0.9440000057220459,
+   "clean4096": 0.8159999847412109,
+   "hold_rate": 0.8267562389373779,
+   "lr": 0.003,
+   "none": 0.41600000858306885,
+   "repair": 94.31817591723986,
+   "seed": 143,
+   "task": "stack",
+   "validation": 0.953125
+  },
+  "u5-gate_input-stack-w32-s191": {
+   "accuracy": 0.9559999704360962,
+   "arm": "gate_input",
+   "ceiling": 0.949999988079071,
+   "clean4096": 0.7720000147819519,
+   "hold_rate": 0.8296718597412109,
+   "lr": 0.003,
+   "none": 0.3479999899864197,
+   "repair": 100.99667481329489,
+   "seed": 191,
+   "task": "stack",
+   "validation": 0.9375
+  },
+  "u5-gate_state-five-w32-s117": {
+   "accuracy": 1.0,
+   "arm": "gate_state",
+   "ceiling": 1.0,
+   "clean4096": 1.0,
+   "hold_rate": 0.8766531348228455,
+   "lr": 0.003,
+   "none": 0.4300000071525574,
+   "repair": 100.0,
+   "seed": 117,
+   "task": "five",
+   "validation": 1.0
+  },
+  "u5-gate_state-five-w32-s143": {
+   "accuracy": 0.8980000019073486,
+   "arm": "gate_state",
+   "ceiling": 1.0,
+   "clean4096": 1.0,
+   "hold_rate": 0.8766093850135803,
+   "lr": 0.003,
+   "none": 0.37400001287460327,
+   "repair": 83.70607025711978,
+   "seed": 143,
+   "task": "five",
+   "validation": 1.0
+  },
+  "u5-gate_state-five-w32-s191": {
+   "accuracy": 0.9940000176429749,
+   "arm": "gate_state",
+   "ceiling": 1.0,
+   "clean4096": 1.0,
+   "hold_rate": 0.7738749980926514,
+   "lr": 0.003,
+   "none": 0.6100000143051147,
+   "repair": 98.46154292894789,
+   "seed": 191,
+   "task": "five",
+   "validation": 1.0
+  },
+  "u5-gate_state-stack-w32-s117": {
+   "accuracy": 0.9419999718666077,
+   "arm": "gate_state",
+   "ceiling": 0.9279999732971191,
+   "clean4096": 0.8619999885559082,
+   "hold_rate": 0.8303093910217285,
+   "lr": 0.003,
+   "none": 0.2919999957084656,
+   "repair": 102.20125771427988,
+   "seed": 117,
+   "task": "stack",
+   "validation": 0.94140625
+  },
+  "u5-gate_state-stack-w32-s143": {
+   "accuracy": 0.9399999976158142,
+   "arm": "gate_state",
+   "ceiling": 0.9440000057220459,
+   "clean4096": 0.7599999904632568,
+   "hold_rate": 0.8305531144142151,
+   "lr": 0.003,
+   "none": 0.41600000858306885,
+   "repair": 99.24242270304808,
+   "seed": 143,
+   "task": "stack",
+   "validation": 0.93359375
+  },
+  "u5-gate_state-stack-w32-s191": {
+   "accuracy": 0.921999990940094,
+   "arm": "gate_state",
+   "ceiling": 0.949999988079071,
+   "clean4096": 0.7360000014305115,
+   "hold_rate": 0.8297562599182129,
+   "lr": 0.003,
+   "none": 0.3479999899864197,
+   "repair": 95.34883766981879,
+   "seed": 191,
+   "task": "stack",
+   "validation": 0.92578125
+  }
+ },
+ "source_drift": [
+  "horizon/scan_sweep.py"
+ ],
+ "source_drift_note": "files hashed at freeze time whose bytes changed afterwards. The evaluation and the verdict rule were appended to horizon/scan_sweep.py AFTER the 12 conditions finished training, so this drift is expected and is recorded rather than hidden. The registered thresholds and predictions are inside protocol_hash and did NOT change; training still refuses to run against drifted sources.",
+ "utc": 1790419407.5812423,
+ "verdict": {
+  "collapsed_input_arm": [
+   "five/s143"
+  ],
+  "collapsed_state_arm": [],
+  "meaning": "repair survives where the arm learns, but the input-only gate failed to learn on at least one seed. Cheaper recurrence at the cost of training stability, and the instability has to be characterised before it can be called a win.",
+  "pairs": [
+   {
+    "gap_pp": 0.0,
+    "input_learned": true,
+    "input_repair": 100.0,
+    "input_val": 1.0,
+    "seed": 117,
+    "state_learned": true,
+    "state_repair": 100.0,
+    "state_val": 1.0,
+    "task": "five",
+    "within": true
+   },
+   {
+    "gap_pp": 112.14057850974484,
+    "input_learned": false,
+    "input_repair": -28.434508252625058,
+    "input_val": 0.23046875,
+    "seed": 143,
+    "state_learned": true,
+    "state_repair": 83.70607025711978,
+    "state_val": 1.0,
+    "task": "five",
+    "within": false
+   },
+   {
+    "gap_pp": -1.5384570710521075,
+    "input_learned": true,
+    "input_repair": 100.0,
+    "input_val": 1.0,
+    "seed": 191,
+    "state_learned": true,
+    "state_repair": 98.46154292894789,
+    "state_val": 1.0,
+    "task": "five",
+    "within": true
+   },
+   {
+    "gap_pp": 0.31446137126862084,
+    "input_learned": true,
+    "input_repair": 101.88679634301126,
+    "input_val": 0.9375,
+    "seed": 117,
+    "state_learned": true,
+    "state_repair": 102.20125771427988,
+    "state_val": 0.94140625,
+    "task": "stack",
+    "within": true
+   },
+   {
+    "gap_pp": 4.924246785808222,
+    "input_learned": true,
+    "input_repair": 94.31817591723986,
+    "input_val": 0.953125,
+    "seed": 143,
+    "state_learned": true,
+    "state_repair": 99.24242270304808,
+    "state_val": 0.93359375,
+    "task": "stack",
+    "within": true
+   },
+   {
+    "gap_pp": -5.647837143476096,
+    "input_learned": true,
+    "input_repair": 100.99667481329489,
+    "input_val": 0.9375,
+    "seed": 191,
+    "state_learned": true,
+    "state_repair": 95.34883766981879,
+    "state_val": 0.92578125,
+    "task": "stack",
+    "within": true
+   }
+  ],
+  "seeds_within_by_task": {
+   "five": 2,
+   "stack": 3
+  },
+  "status": "SURVIVES_BUT_LESS_STABLE",
+  "tasks_survived": 2,
+  "thresholds": {
+   "seeds_required": 2,
+   "survives_pp": 15.0,
+   "tasks_required": 2
+  },
+  "unreadable": []
+ }
+}

@@ -1,0 +1,86 @@
+{
+ "environment": {
+  "numpy": "2.3.5",
+  "python": "3.11.9",
+  "torch": "2.12.0+cu130"
+ },
+ "frozen_utc": 1789749342.3970757,
+ "protocol": {
+  "alpha": 0.1,
+  "arms": [
+   "soft",
+   "hard_st",
+   "supervised"
+  ],
+  "batch": 32,
+  "clean_lengths": [
+   128,
+   1024,
+   4096
+  ],
+  "clip": 1.0,
+  "device": "cpu",
+  "eval_batch": 32,
+  "gate_k": 2,
+  "gate_loss_weight": 1.0,
+  "heads": 2,
+  "lr": 0.003,
+  "n_clean": 500,
+  "n_neutral": 500,
+  "neutral_slots": [
+   128,
+   512
+  ],
+  "placements": [
+   "prefix",
+   "middle",
+   "suffix"
+  ],
+  "primary_seeds": [
+   117,
+   143,
+   191
+  ],
+  "purpose": "U2c learned HOLD/WRITE gate over the Core: can a trained gate reproduce the U2b run-aware freeze ceiling without oracle neutral knowledge?",
+  "reference": "results/U2b-intervene",
+  "selection": "minimum validation final cross entropy; earliest step on ties",
+  "source_seeds": {
+   "neutral": 93020000,
+   "test": 93010000,
+   "train": 91010000,
+   "validation": 92010000
+  },
+  "steps": 2048,
+  "targets": {
+   "clean_regression_pp": 1.0,
+   "false_hold_max": 0.01,
+   "neutral_loss_pp": 2.0,
+   "skipped_steps_max": 0.01
+  },
+  "tasks": [
+   "five",
+   "stack"
+  ],
+  "threads": 1,
+  "train_length": 128,
+  "u1": "results/U1",
+  "validation_every": 128,
+  "validation_n": 256,
+  "version": 1,
+  "weight_decay": 0.01,
+  "width": 32,
+  "window": 4
+ },
+ "protocol_hash": "25d9d3762218db35f98ca47f28eeea89a1d03aa75c5296ff6da1e9a79ec92b8b",
+ "sources": {
+  "core/model.py": "121f11fcb3c1308b7f67d898f2aa09c37226d3b0db27dd4e5bf1ebeaea281f43",
+  "horizon/gated.py": "2d2b93156ebb7d2953f6673982c53c98196abe635b324e5c06a1caeb17c061c4",
+  "horizon/gated_sweep.py": "737db8a1b18d602881577bf0f72728e910d6f8ef6ccb5a8868908bcb65690dff",
+  "horizon/guards.py": "c21833de248c97d2d5b01e31a64d8204be605d6e6444db2f4a498325cfde29ec",
+  "horizon/interventions.py": "45a8298b1d1dfba90336f0f2b344d8f80fcbf12e5e723e5332f31286b0322d89",
+  "horizon/interventions_runaware.py": "66d06007820d268e77f7929b962d46da723cbce8fe6696261ad4d7edff4fa428",
+  "horizon/sweep.py": "931cf076516049938ac66ad463a4a9587a284ba96921eb824222432de4e8d9d1",
+  "horizon/task_families.py": "b7faa8be802e99b0d992506183210b238d8b3a568c6daf7629df620dd8b3a6b3"
+ },
+ "u1_protocol_hash": "56ef56a18ce02dd0d66e19a82c3bd52d2805c29719300c5bf4895c6086447830"
+}

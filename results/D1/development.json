@@ -1,0 +1,274 @@
+{
+ "role": "development diagnostics only; not final evidence",
+ "stages": {
+  "32": {
+   "finite_parser": {
+    "arm": "finite_parser",
+    "controls": {
+     "by_kind": {
+      "missing_source": {
+       "controls": 6,
+       "correctly_unresolved": 6,
+       "expected_unresolved": 6,
+       "false_accept_rate": 0.0,
+       "false_accepts": 0
+      },
+      "relation_swap": {
+       "controls": 6,
+       "correctly_unresolved": 6,
+       "expected_unresolved": 6,
+       "false_accept_rate": 0.0,
+       "false_accepts": 0
+      },
+      "subject_swap": {
+       "controls": 6,
+       "correctly_unresolved": 12,
+       "expected_unresolved": 12,
+       "false_accept_rate": 0.0,
+       "false_accepts": 0
+      }
+     },
+     "total_expected": 24,
+     "total_false_accepts": 0
+    },
+    "errors": {
+     "FINITE_PARSER_ERROR": 32
+    },
+    "generator": null,
+    "metrics": {
+     "accepted_hops": 0,
+     "accepted_wrong": 0,
+     "accepted_wrong_rate": null,
+     "by_hops": {
+      "2": {
+       "coverage": 0.0,
+       "examples": 20,
+       "relation_f1": 0.0
+      },
+      "3": {
+       "coverage": 0.0,
+       "examples": 11,
+       "relation_f1": 0.0
+      },
+      "4": {
+       "coverage": 0.0,
+       "examples": 1,
+       "relation_f1": 0.0
+      }
+     },
+     "controls_expected": 0,
+     "controls_ok": 0,
+     "coverage": 0.0,
+     "examples": 32,
+     "gold_hops": 77,
+     "relation_f1": 0.0,
+     "relation_f1_group_ci95": [
+      0.0,
+      0.0
+     ],
+     "relation_fn": 77,
+     "relation_fp": 0,
+     "relation_precision": 0.0,
+     "relation_recall": 0.0,
+     "relation_tp": 0,
+     "risk_upper_95": null,
+     "source_binding_accuracy": null,
+     "unresolved_hops": 77
+    },
+    "raw_file": "dev32-finite_parser.json",
+    "raw_sha256": "e84f93dbda18cdf8ee0bc1ad4dec5dd442f8b89094538f859d9346960e9dc30f",
+    "seconds": 0.06997429998591542
+   },
+   "lm_schema": {
+    "arm": "lm_schema",
+    "controls": {
+     "by_kind": {
+      "missing_source": {
+       "controls": 6,
+       "correctly_unresolved": 5,
+       "expected_unresolved": 6,
+       "false_accept_rate": 0.3333333333333333,
+       "false_accepts": 2
+      },
+      "relation_swap": {
+       "controls": 6,
+       "correctly_unresolved": 0,
+       "expected_unresolved": 6,
+       "false_accept_rate": 1.0,
+       "false_accepts": 6
+      },
+      "subject_swap": {
+       "controls": 6,
+       "correctly_unresolved": 0,
+       "expected_unresolved": 12,
+       "false_accept_rate": 1.0,
+       "false_accepts": 12
+      }
+     },
+     "total_expected": 24,
+     "total_false_accepts": 20
+    },
+    "errors": {
+     "INVALID_JSON": 5,
+     "correct": 6,
+     "extra_hops": 20,
+     "wrong_relation": 58
+    },
+    "gates": {
+     "coverage": true,
+     "relation_f1": false,
+     "risk": false
+    },
+    "generator": {
+     "calls": 26,
+     "generated_tokens": 21283,
+     "name": "__RLT_ROOT__/models/Qwen3-4B@nf4",
+     "prompt_tokens": 80014,
+     "seconds": 3313.9382912999718,
+     "tokens_per_second": 6.422268047619931,
+     "vram_peak_allocated": 8443152384
+    },
+    "metrics": {
+     "accepted_hops": 84,
+     "accepted_wrong": 78,
+     "accepted_wrong_rate": 0.9285714285714286,
+     "by_hops": {
+      "2": {
+       "coverage": 1.275,
+       "examples": 20,
+       "relation_f1": 0.08791208791208792
+      },
+      "3": {
+       "coverage": 0.8484848484848485,
+       "examples": 11,
+       "relation_f1": 0.06557377049180328
+      },
+      "4": {
+       "coverage": 1.25,
+       "examples": 1,
+       "relation_f1": 0.0
+      }
+     },
+     "controls_expected": 0,
+     "controls_ok": 0,
+     "coverage": 1.0909090909090908,
+     "examples": 32,
+     "gold_hops": 77,
+     "relation_f1": 0.07453416149068323,
+     "relation_f1_group_ci95": [
+      0.02291666666666667,
+      0.13020833333333334
+     ],
+     "relation_fn": 71,
+     "relation_fp": 78,
+     "relation_precision": 0.07142857142857142,
+     "relation_recall": 0.07792207792207792,
+     "relation_tp": 6,
+     "risk_upper_95": 0.9684376238097344,
+     "source_binding_accuracy": 1.0,
+     "unresolved_hops": 13
+    },
+    "raw_file": "dev32-lm_schema.json",
+    "raw_sha256": "effe782018e777d591f4f1c523c40780818b05eafe86f917dc7b283aa7b86dd4",
+    "seconds": 2064.538455400034,
+    "status": "MEASURED_NEGATIVE"
+   },
+   "lm_zero": {
+    "arm": "lm_zero",
+    "controls": {
+     "by_kind": {
+      "missing_source": {
+       "controls": 6,
+       "correctly_unresolved": 5,
+       "expected_unresolved": 6,
+       "false_accept_rate": 0.6666666666666666,
+       "false_accepts": 4
+      },
+      "relation_swap": {
+       "controls": 6,
+       "correctly_unresolved": 3,
+       "expected_unresolved": 6,
+       "false_accept_rate": 0.5,
+       "false_accepts": 3
+      },
+      "subject_swap": {
+       "controls": 6,
+       "correctly_unresolved": 1,
+       "expected_unresolved": 12,
+       "false_accept_rate": 0.9166666666666666,
+       "false_accepts": 11
+      }
+     },
+     "total_expected": 24,
+     "total_false_accepts": 18
+    },
+    "errors": {
+     "INVALID_JSON": 1,
+     "correct": 3,
+     "extra_hops": 34,
+     "unresolved": 6,
+     "wrong_relation": 64,
+     "wrong_source": 1
+    },
+    "gates": {
+     "coverage": true,
+     "relation_f1": false,
+     "risk": false
+    },
+    "generator": {
+     "calls": 13,
+     "generated_tokens": 9683,
+     "name": "__RLT_ROOT__/models/Qwen3-4B@nf4",
+     "prompt_tokens": 37932,
+     "seconds": 1249.641778600053,
+     "tokens_per_second": 7.748620577368707,
+     "vram_peak_allocated": 8020758016
+    },
+    "metrics": {
+     "accepted_hops": 96,
+     "accepted_wrong": 92,
+     "accepted_wrong_rate": 0.9583333333333334,
+     "by_hops": {
+      "2": {
+       "coverage": 1.375,
+       "examples": 20,
+       "relation_f1": 0.042105263157894736
+      },
+      "3": {
+       "coverage": 1.121212121212121,
+       "examples": 11,
+       "relation_f1": 0.05714285714285714
+      },
+      "4": {
+       "coverage": 1.0,
+       "examples": 1,
+       "relation_f1": 0.0
+      }
+     },
+     "controls_expected": 0,
+     "controls_ok": 0,
+     "coverage": 1.2467532467532467,
+     "examples": 32,
+     "gold_hops": 77,
+     "relation_f1": 0.046242774566473986,
+     "relation_f1_group_ci95": [
+      0.010416666666666666,
+      0.11052083333333323
+     ],
+     "relation_fn": 73,
+     "relation_fp": 92,
+     "relation_precision": 0.041666666666666664,
+     "relation_recall": 0.05194805194805195,
+     "relation_tp": 4,
+     "risk_upper_95": 0.9856443548093505,
+     "source_binding_accuracy": 0.75,
+     "unresolved_hops": 10
+    },
+    "raw_file": "dev32-lm_zero.json",
+    "raw_sha256": "6c7ea0ded196274098cb533dfed299754e26792c54bc5635106338613c791c53",
+    "seconds": 1251.7044097000035,
+    "status": "MEASURED_NEGATIVE"
+   }
+  }
+ }
+}

@@ -1,0 +1,57 @@
+{
+ "checkpoint": "results/M1-finetune-distance/D5-mqar4-broad/step500.pt",
+ "args": {
+  "checkpoint": "results/M1-finetune-distance/D5-mqar4-broad/step500.pt",
+  "out": "results/M1-finetune-distance/D5-mqar4-broad/mqar-step500.json",
+  "width": null,
+  "heads": 4,
+  "feedback": "on",
+  "alphabet": "broad",
+  "key_lengths": "4",
+  "facts": 4,
+  "queries": 4,
+  "with_replacement": true,
+  "filler_kind": "repeat",
+  "filler": "0,64",
+  "pad_to": 320,
+  "items": 32,
+  "batch": 8,
+  "device": "cpu"
+ },
+ "report": {
+  "train_k4": {
+   "first": [
+    0.625,
+    0.625,
+    0.6875,
+    0.625
+   ],
+   "exact": [
+    0.21875,
+    0.34375,
+    0.34375,
+    0.21875
+   ],
+   "first_all": 0.640625,
+   "exact_all": 0.28125,
+   "answers": 128
+  },
+  "held_k4": {
+   "first": [
+    0.375,
+    0.3125,
+    0.28125,
+    0.375
+   ],
+   "exact": [
+    0.21875,
+    0.21875,
+    0.09375,
+    0.125
+   ],
+   "first_all": 0.3359375,
+   "exact_all": 0.1640625,
+   "answers": 128
+  }
+ }
+}

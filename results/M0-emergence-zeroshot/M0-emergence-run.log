@@ -1,0 +1,7 @@
+{"role": "development probe: sizes the training budget, never used as evidence about the gate", "arm": "plain", "steps": 5000, "batch": 32, "length": 512, "width": 1152, "lr": 0.0006, "seed": 117, "bytes_per_step": 16384, "utc": 1790190481.0937684}
+step   250     4.1 MB  val bpb 2.243  needle@0 0.000  @128 0.000  @512 0.000  text@512 0.000  28.4 min
+step   500     8.2 MB  val bpb 2.050  needle@0 0.000  @128 0.000  @512 0.000  text@512 0.000  57.2 min
+step   750    12.3 MB  val bpb 1.967  needle@0 0.000  @128 0.000  @512 0.000  text@512 0.000  84.9 min
+step  1000    16.4 MB  val bpb 1.900  needle@0 0.000  @128 0.000  @512 0.000  text@512 0.000  113.0 min
+step  1250    20.5 MB  val bpb 1.862  needle@0 0.000  @128 0.000  @512 0.000  text@512 0.000  140.6 min
+exit 127

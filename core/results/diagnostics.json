@@ -1,0 +1,838 @@
+{
+  "protocol_hash": "ab8852eb2f76accf28ff0ac489684bf11dd918227dddadb569639d7d4e5f97ba",
+  "rows": [
+    {
+      "seed": 17,
+      "mode": "rlt",
+      "influence": {
+        "loss": 1.896161649379074e-05,
+        "evaluation_dtype": "torch.float64",
+        "state_norms": [
+          {
+            "lag": 1,
+            "norm": 5.308026371710607e-08
+          },
+          {
+            "lag": 4,
+            "norm": 2.305285863760031e-09
+          },
+          {
+            "lag": 8,
+            "norm": 1.6317661745523555e-11
+          },
+          {
+            "lag": 16,
+            "norm": 1.1722310823266674e-16
+          },
+          {
+            "lag": 31,
+            "norm": 4.6105139896943185e-24
+          }
+        ],
+        "embedding_norms": [
+          {
+            "lag": 1,
+            "norm": 5.530631640003191e-07
+          },
+          {
+            "lag": 4,
+            "norm": 4.835527950262599e-08
+          },
+          {
+            "lag": 8,
+            "norm": 7.070069587125916e-08
+          },
+          {
+            "lag": 16,
+            "norm": 2.4116191068732075e-08
+          },
+          {
+            "lag": 31,
+            "norm": 4.27497974328939e-08
+          }
+        ],
+        "directional_autograd": -5.552011216286459e-25,
+        "directional_finite_difference": 0.0,
+        "epsilon": 0.001,
+        "oracle": "final independently generated state target; no inference oracle"
+      },
+      "noise": [
+        {
+          "std": 0,
+          "accuracy": 1.0,
+          "seconds": 0.3173698000027798,
+          "file": "__RLT_ROOT__\\2026-09-16-e2e\\core\\results\\parity-w32-rlt-s17-noise0.npz",
+          "sha256": "12cd3be20dc86aff19468d13d7bf36fcd4b73ca6b03ce576ff94ac74e6a46cca"
+        },
+        {
+          "std": 0.001,
+          "accuracy": 1.0,
+          "seconds": 0.3353578000096604,
+          "file": "__RLT_ROOT__\\2026-09-16-e2e\\core\\results\\parity-w32-rlt-s17-noise0.001.npz",
+          "sha256": "12cd3be20dc86aff19468d13d7bf36fcd4b73ca6b03ce576ff94ac74e6a46cca"
+        },
+        {
+          "std": 0.01,
+          "accuracy": 1.0,
+          "seconds": 0.25594030000502244,
+          "file": "__RLT_ROOT__\\2026-09-16-e2e\\core\\results\\parity-w32-rlt-s17-noise0.01.npz",
+          "sha256": "12cd3be20dc86aff19468d13d7bf36fcd4b73ca6b03ce576ff94ac74e6a46cca"
+        },
+        {
+          "std": 0.1,
+          "accuracy": 1.0,
+          "seconds": 0.2523086000001058,
+          "file": "__RLT_ROOT__\\2026-09-16-e2e\\core\\results\\parity-w32-rlt-s17-noise0.1.npz",
+          "sha256": "12cd3be20dc86aff19468d13d7bf36fcd4b73ca6b03ce576ff94ac74e6a46cca"
+        }
+      ],
+      "checkpoint_repeats": [
+        {
+          "steps": [
+            {
+              "checkpoint": false,
+              "seconds": 0.17882999998982996,
+              "loss": 1.6876931113074534e-05
+            },
+            {
+              "checkpoint": true,
+              "seconds": 0.3327815000084229,
+              "loss": 1.6876931113074534e-05
+            }
+          ],
+          "loss_difference": 0.0,
+          "max_gradient_difference": 0.0,
+          "max_parameter_update_difference": 0.0,
+          "memory": "UNMEASURED: CPU native peak allocation not instrumented; no memory saving claim",
+          "scope": "whole-forward activation recomputation; real backward and one AdamW update from identical model/optimizer states, restored afterward"
+        },
+        {
+          "steps": [
+            {
+              "checkpoint": false,
+              "seconds": 0.16383289999794215,
+              "loss": 1.6876931113074534e-05
+            },
+            {
+              "checkpoint": true,
+              "seconds": 0.3437897000112571,
+              "loss": 1.6876931113074534e-05
+            }
+          ],
+          "loss_difference": 0.0,
+          "max_gradient_difference": 0.0,
+          "max_parameter_update_difference": 0.0,
+          "memory": "UNMEASURED: CPU native peak allocation not instrumented; no memory saving claim",
+          "scope": "whole-forward activation recomputation; real backward and one AdamW update from identical model/optimizer states, restored afterward"
+        },
+        {
+          "steps": [
+            {
+              "checkpoint": false,
+              "seconds": 0.17915099998936057,
+              "loss": 1.6876931113074534e-05
+            },
+            {
+              "checkpoint": true,
+              "seconds": 0.4613948999904096,
+              "loss": 1.6876931113074534e-05
+            }
+          ],
+          "loss_difference": 0.0,
+          "max_gradient_difference": 0.0,
+          "max_parameter_update_difference": 0.0,
+          "memory": "UNMEASURED: CPU native peak allocation not instrumented; no memory saving claim",
+          "scope": "whole-forward activation recomputation; real backward and one AdamW update from identical model/optimizer states, restored afterward"
+        }
+      ]
+    },
+    {
+      "seed": 17,
+      "mode": "nofeedback",
+      "influence": {
+        "loss": 0.6701380802716701,
+        "evaluation_dtype": "torch.float64",
+        "state_norms": [
+          {
+            "lag": 1,
+            "norm": 0.0
+          },
+          {
+            "lag": 4,
+            "norm": 0.0
+          },
+          {
+            "lag": 8,
+            "norm": 0.0
+          },
+          {
+            "lag": 16,
+            "norm": 0.0
+          },
+          {
+            "lag": 31,
+            "norm": 0.0
+          }
+        ],
+        "embedding_norms": [
+          {
+            "lag": 1,
+            "norm": 0.006312462595276759
+          },
+          {
+            "lag": 4,
+            "norm": 0.036476029309668714
+          },
+          {
+            "lag": 8,
+            "norm": 0.00470122656070646
+          },
+          {
+            "lag": 16,
+            "norm": 0.0009690388528681612
+          },
+          {
+            "lag": 31,
+            "norm": 0.01482031405079249
+          }
+        ],
+        "directional_autograd": 0.0,
+        "directional_finite_difference": 0.0,
+        "epsilon": 0.001,
+        "oracle": "final independently generated state target; no inference oracle"
+      },
+      "noise": [
+        {
+          "std": 0,
+          "accuracy": 0.49609375,
+          "seconds": 0.233431400032714,
+          "file": "__RLT_ROOT__\\2026-09-16-e2e\\core\\results\\parity-w32-nofeedback-s17-noise0.npz",
+          "sha256": "b4646a1035e2b2c2171303e9dedb20ea972c68b16d1c5cb13ce9bc4e2efa42a5"
+        },
+        {
+          "std": 0.001,
+          "accuracy": 0.49609375,
+          "seconds": 0.30202609999105334,
+          "file": "__RLT_ROOT__\\2026-09-16-e2e\\core\\results\\parity-w32-nofeedback-s17-noise0.001.npz",
+          "sha256": "b4646a1035e2b2c2171303e9dedb20ea972c68b16d1c5cb13ce9bc4e2efa42a5"
+        },
+        {
+          "std": 0.01,
+          "accuracy": 0.49609375,
+          "seconds": 0.3074993000482209,
+          "file": "__RLT_ROOT__\\2026-09-16-e2e\\core\\results\\parity-w32-nofeedback-s17-noise0.01.npz",
+          "sha256": "b4646a1035e2b2c2171303e9dedb20ea972c68b16d1c5cb13ce9bc4e2efa42a5"
+        },
+        {
+          "std": 0.1,
+          "accuracy": 0.49609375,
+          "seconds": 0.40077779995044693,
+          "file": "__RLT_ROOT__\\2026-09-16-e2e\\core\\results\\parity-w32-nofeedback-s17-noise0.1.npz",
+          "sha256": "b4646a1035e2b2c2171303e9dedb20ea972c68b16d1c5cb13ce9bc4e2efa42a5"
+        }
+      ]
+    },
+    {
+      "seed": 17,
+      "mode": "tbptt",
+      "influence": {
+        "loss": 1.8603846407029552e-05,
+        "evaluation_dtype": "torch.float64",
+        "state_norms": [
+          {
+            "lag": 1,
+            "norm": 3.841545469615548e-08
+          },
+          {
+            "lag": 4,
+            "norm": 3.5589626084961333e-09
+          },
+          {
+            "lag": 8,
+            "norm": 2.8510039802053606e-11
+          },
+          {
+            "lag": 16,
+            "norm": 1.38338421362224e-15
+          },
+          {
+            "lag": 31,
+            "norm": 2.4417713729301618e-23
+          }
+        ],
+        "embedding_norms": [
+          {
+            "lag": 1,
+            "norm": 2.3936777097413746e-07
+          },
+          {
+            "lag": 4,
+            "norm": 3.864844258685205e-08
+          },
+          {
+            "lag": 8,
+            "norm": 2.3132489090352447e-08
+          },
+          {
+            "lag": 16,
+            "norm": 2.725813258857583e-08
+          },
+          {
+            "lag": 31,
+            "norm": 2.8414675352801328e-08
+          }
+        ],
+        "directional_autograd": -1.7470905994804894e-24,
+        "directional_finite_difference": 0.0,
+        "epsilon": 0.001,
+        "oracle": "final independently generated state target; no inference oracle"
+      },
+      "noise": [
+        {
+          "std": 0,
+          "accuracy": 1.0,
+          "seconds": 0.3422916000126861,
+          "file": "__RLT_ROOT__\\2026-09-16-e2e\\core\\results\\parity-w32-tbptt-s17-noise0.npz",
+          "sha256": "12cd3be20dc86aff19468d13d7bf36fcd4b73ca6b03ce576ff94ac74e6a46cca"
+        },
+        {
+          "std": 0.001,
+          "accuracy": 1.0,
+          "seconds": 0.3377242999849841,
+          "file": "__RLT_ROOT__\\2026-09-16-e2e\\core\\results\\parity-w32-tbptt-s17-noise0.001.npz",
+          "sha256": "12cd3be20dc86aff19468d13d7bf36fcd4b73ca6b03ce576ff94ac74e6a46cca"
+        },
+        {
+          "std": 0.01,
+          "accuracy": 1.0,
+          "seconds": 0.3307833999861032,
+          "file": "__RLT_ROOT__\\2026-09-16-e2e\\core\\results\\parity-w32-tbptt-s17-noise0.01.npz",
+          "sha256": "12cd3be20dc86aff19468d13d7bf36fcd4b73ca6b03ce576ff94ac74e6a46cca"
+        },
+        {
+          "std": 0.1,
+          "accuracy": 1.0,
+          "seconds": 0.24319399998057634,
+          "file": "__RLT_ROOT__\\2026-09-16-e2e\\core\\results\\parity-w32-tbptt-s17-noise0.1.npz",
+          "sha256": "12cd3be20dc86aff19468d13d7bf36fcd4b73ca6b03ce576ff94ac74e6a46cca"
+        }
+      ]
+    },
+    {
+      "seed": 43,
+      "mode": "rlt",
+      "influence": {
+        "loss": 9.896334256406902e-06,
+        "evaluation_dtype": "torch.float64",
+        "state_norms": [
+          {
+            "lag": 1,
+            "norm": 1.688239187675399e-08
+          },
+          {
+            "lag": 4,
+            "norm": 1.3598128452395458e-08
+          },
+          {
+            "lag": 8,
+            "norm": 2.0011380822627755e-11
+          },
+          {
+            "lag": 16,
+            "norm": 6.563571256191482e-15
+          },
+          {
+            "lag": 31,
+            "norm": 1.6596273208557975e-22
+          }
+        ],
+        "embedding_norms": [
+          {
+            "lag": 1,
+            "norm": 1.2931283907587108e-07
+          },
+          {
+            "lag": 4,
+            "norm": 6.54745374499081e-08
+          },
+          {
+            "lag": 8,
+            "norm": 1.6230501948729e-08
+          },
+          {
+            "lag": 16,
+            "norm": 1.616485673029756e-08
+          },
+          {
+            "lag": 31,
+            "norm": 2.6682744578438624e-08
+          }
+        ],
+        "directional_autograd": -1.0984738108628856e-24,
+        "directional_finite_difference": 0.0,
+        "epsilon": 0.001,
+        "oracle": "final independently generated state target; no inference oracle"
+      },
+      "noise": [
+        {
+          "std": 0,
+          "accuracy": 1.0,
+          "seconds": 0.3157399999909103,
+          "file": "__RLT_ROOT__\\2026-09-16-e2e\\core\\results\\parity-w32-rlt-s43-noise0.npz",
+          "sha256": "2c08c0a6276ceec2b98adab6004fad38052a6649606719e17a29baab042f795d"
+        },
+        {
+          "std": 0.001,
+          "accuracy": 1.0,
+          "seconds": 0.31348039995646104,
+          "file": "__RLT_ROOT__\\2026-09-16-e2e\\core\\results\\parity-w32-rlt-s43-noise0.001.npz",
+          "sha256": "2c08c0a6276ceec2b98adab6004fad38052a6649606719e17a29baab042f795d"
+        },
+        {
+          "std": 0.01,
+          "accuracy": 1.0,
+          "seconds": 0.296280000009574,
+          "file": "__RLT_ROOT__\\2026-09-16-e2e\\core\\results\\parity-w32-rlt-s43-noise0.01.npz",
+          "sha256": "2c08c0a6276ceec2b98adab6004fad38052a6649606719e17a29baab042f795d"
+        },
+        {
+          "std": 0.1,
+          "accuracy": 1.0,
+          "seconds": 0.29038060002494603,
+          "file": "__RLT_ROOT__\\2026-09-16-e2e\\core\\results\\parity-w32-rlt-s43-noise0.1.npz",
+          "sha256": "2c08c0a6276ceec2b98adab6004fad38052a6649606719e17a29baab042f795d"
+        }
+      ]
+    },
+    {
+      "seed": 43,
+      "mode": "nofeedback",
+      "influence": {
+        "loss": 0.6850597194563659,
+        "evaluation_dtype": "torch.float64",
+        "state_norms": [
+          {
+            "lag": 1,
+            "norm": 0.0
+          },
+          {
+            "lag": 4,
+            "norm": 0.0
+          },
+          {
+            "lag": 8,
+            "norm": 0.0
+          },
+          {
+            "lag": 16,
+            "norm": 0.0
+          },
+          {
+            "lag": 31,
+            "norm": 0.0
+          }
+        ],
+        "embedding_norms": [
+          {
+            "lag": 1,
+            "norm": 0.004838637455444329
+          },
+          {
+            "lag": 4,
+            "norm": 0.007043363584707097
+          },
+          {
+            "lag": 8,
+            "norm": 0.0005657578834177471
+          },
+          {
+            "lag": 16,
+            "norm": 0.004950429956304259
+          },
+          {
+            "lag": 31,
+            "norm": 0.0006995655814002497
+          }
+        ],
+        "directional_autograd": 0.0,
+        "directional_finite_difference": 0.0,
+        "epsilon": 0.001,
+        "oracle": "final independently generated state target; no inference oracle"
+      },
+      "noise": [
+        {
+          "std": 0,
+          "accuracy": 0.529296875,
+          "seconds": 0.2852671999717131,
+          "file": "__RLT_ROOT__\\2026-09-16-e2e\\core\\results\\parity-w32-nofeedback-s43-noise0.npz",
+          "sha256": "1500e206fcf3d4a62452c8cd0187de81b0715bd0646c239ec14b0c3db35d6224"
+        },
+        {
+          "std": 0.001,
+          "accuracy": 0.529296875,
+          "seconds": 0.2903465999988839,
+          "file": "__RLT_ROOT__\\2026-09-16-e2e\\core\\results\\parity-w32-nofeedback-s43-noise0.001.npz",
+          "sha256": "1500e206fcf3d4a62452c8cd0187de81b0715bd0646c239ec14b0c3db35d6224"
+        },
+        {
+          "std": 0.01,
+          "accuracy": 0.529296875,
+          "seconds": 0.305027499969583,
+          "file": "__RLT_ROOT__\\2026-09-16-e2e\\core\\results\\parity-w32-nofeedback-s43-noise0.01.npz",
+          "sha256": "1500e206fcf3d4a62452c8cd0187de81b0715bd0646c239ec14b0c3db35d6224"
+        },
+        {
+          "std": 0.1,
+          "accuracy": 0.529296875,
+          "seconds": 0.2852666000253521,
+          "file": "__RLT_ROOT__\\2026-09-16-e2e\\core\\results\\parity-w32-nofeedback-s43-noise0.1.npz",
+          "sha256": "1500e206fcf3d4a62452c8cd0187de81b0715bd0646c239ec14b0c3db35d6224"
+        }
+      ]
+    },
+    {
+      "seed": 43,
+      "mode": "tbptt",
+      "influence": {
+        "loss": 1.3145042842460465e-05,
+        "evaluation_dtype": "torch.float64",
+        "state_norms": [
+          {
+            "lag": 1,
+            "norm": 1.9078857931247275e-08
+          },
+          {
+            "lag": 4,
+            "norm": 7.15369104150187e-09
+          },
+          {
+            "lag": 8,
+            "norm": 5.2969852481905903e-11
+          },
+          {
+            "lag": 16,
+            "norm": 1.3124093596382383e-14
+          },
+          {
+            "lag": 31,
+            "norm": 2.2590858741966475e-22
+          }
+        ],
+        "embedding_norms": [
+          {
+            "lag": 1,
+            "norm": 1.5112983026827344e-07
+          },
+          {
+            "lag": 4,
+            "norm": 4.568120964546431e-08
+          },
+          {
+            "lag": 8,
+            "norm": 3.319686982714085e-08
+          },
+          {
+            "lag": 16,
+            "norm": 1.2949466267952206e-08
+          },
+          {
+            "lag": 31,
+            "norm": 4.521349686424945e-08
+          }
+        ],
+        "directional_autograd": 1.1604756444578591e-23,
+        "directional_finite_difference": 0.0,
+        "epsilon": 0.001,
+        "oracle": "final independently generated state target; no inference oracle"
+      },
+      "noise": [
+        {
+          "std": 0,
+          "accuracy": 1.0,
+          "seconds": 0.25062760000582784,
+          "file": "__RLT_ROOT__\\2026-09-16-e2e\\core\\results\\parity-w32-tbptt-s43-noise0.npz",
+          "sha256": "2c08c0a6276ceec2b98adab6004fad38052a6649606719e17a29baab042f795d"
+        },
+        {
+          "std": 0.001,
+          "accuracy": 1.0,
+          "seconds": 0.2613320000236854,
+          "file": "__RLT_ROOT__\\2026-09-16-e2e\\core\\results\\parity-w32-tbptt-s43-noise0.001.npz",
+          "sha256": "2c08c0a6276ceec2b98adab6004fad38052a6649606719e17a29baab042f795d"
+        },
+        {
+          "std": 0.01,
+          "accuracy": 1.0,
+          "seconds": 0.26609029999235645,
+          "file": "__RLT_ROOT__\\2026-09-16-e2e\\core\\results\\parity-w32-tbptt-s43-noise0.01.npz",
+          "sha256": "2c08c0a6276ceec2b98adab6004fad38052a6649606719e17a29baab042f795d"
+        },
+        {
+          "std": 0.1,
+          "accuracy": 1.0,
+          "seconds": 0.2635611000005156,
+          "file": "__RLT_ROOT__\\2026-09-16-e2e\\core\\results\\parity-w32-tbptt-s43-noise0.1.npz",
+          "sha256": "2c08c0a6276ceec2b98adab6004fad38052a6649606719e17a29baab042f795d"
+        }
+      ]
+    },
+    {
+      "seed": 91,
+      "mode": "rlt",
+      "influence": {
+        "loss": 2.8462990735626405e-05,
+        "evaluation_dtype": "torch.float64",
+        "state_norms": [
+          {
+            "lag": 1,
+            "norm": 1.3270396101703396e-08
+          },
+          {
+            "lag": 4,
+            "norm": 2.8629758694834927e-09
+          },
+          {
+            "lag": 8,
+            "norm": 2.1997176660776042e-11
+          },
+          {
+            "lag": 16,
+            "norm": 4.73875533061764e-16
+          },
+          {
+            "lag": 31,
+            "norm": 6.866063511819417e-25
+          }
+        ],
+        "embedding_norms": [
+          {
+            "lag": 1,
+            "norm": 2.1778928183905348e-07
+          },
+          {
+            "lag": 4,
+            "norm": 4.609983006262261e-08
+          },
+          {
+            "lag": 8,
+            "norm": 3.911210398564099e-08
+          },
+          {
+            "lag": 16,
+            "norm": 1.2553995786338285e-08
+          },
+          {
+            "lag": 31,
+            "norm": 1.5205298069835354e-08
+          }
+        ],
+        "directional_autograd": -1.0389621738945288e-25,
+        "directional_finite_difference": 0.0,
+        "epsilon": 0.001,
+        "oracle": "final independently generated state target; no inference oracle"
+      },
+      "noise": [
+        {
+          "std": 0,
+          "accuracy": 1.0,
+          "seconds": 0.26112699997611344,
+          "file": "__RLT_ROOT__\\2026-09-16-e2e\\core\\results\\parity-w32-rlt-s91-noise0.npz",
+          "sha256": "adba764de8ac75b677871ec31051f76dd3a39c37340f00f040bf04b976e33f7e"
+        },
+        {
+          "std": 0.001,
+          "accuracy": 1.0,
+          "seconds": 0.28586099995300174,
+          "file": "__RLT_ROOT__\\2026-09-16-e2e\\core\\results\\parity-w32-rlt-s91-noise0.001.npz",
+          "sha256": "adba764de8ac75b677871ec31051f76dd3a39c37340f00f040bf04b976e33f7e"
+        },
+        {
+          "std": 0.01,
+          "accuracy": 1.0,
+          "seconds": 0.33046939998166636,
+          "file": "__RLT_ROOT__\\2026-09-16-e2e\\core\\results\\parity-w32-rlt-s91-noise0.01.npz",
+          "sha256": "adba764de8ac75b677871ec31051f76dd3a39c37340f00f040bf04b976e33f7e"
+        },
+        {
+          "std": 0.1,
+          "accuracy": 1.0,
+          "seconds": 0.28422829997725785,
+          "file": "__RLT_ROOT__\\2026-09-16-e2e\\core\\results\\parity-w32-rlt-s91-noise0.1.npz",
+          "sha256": "adba764de8ac75b677871ec31051f76dd3a39c37340f00f040bf04b976e33f7e"
+        }
+      ]
+    },
+    {
+      "seed": 91,
+      "mode": "nofeedback",
+      "influence": {
+        "loss": 0.694598461339334,
+        "evaluation_dtype": "torch.float64",
+        "state_norms": [
+          {
+            "lag": 1,
+            "norm": 0.0
+          },
+          {
+            "lag": 4,
+            "norm": 0.0
+          },
+          {
+            "lag": 8,
+            "norm": 0.0
+          },
+          {
+            "lag": 16,
+            "norm": 0.0
+          },
+          {
+            "lag": 31,
+            "norm": 0.0
+          }
+        ],
+        "embedding_norms": [
+          {
+            "lag": 1,
+            "norm": 0.0053320426084416325
+          },
+          {
+            "lag": 4,
+            "norm": 0.0011102509085640947
+          },
+          {
+            "lag": 8,
+            "norm": 0.001210012254509064
+          },
+          {
+            "lag": 16,
+            "norm": 0.001165360171253191
+          },
+          {
+            "lag": 31,
+            "norm": 0.0044814915278357514
+          }
+        ],
+        "directional_autograd": 0.0,
+        "directional_finite_difference": 0.0,
+        "epsilon": 0.001,
+        "oracle": "final independently generated state target; no inference oracle"
+      },
+      "noise": [
+        {
+          "std": 0,
+          "accuracy": 0.509765625,
+          "seconds": 0.2837823000154458,
+          "file": "__RLT_ROOT__\\2026-09-16-e2e\\core\\results\\parity-w32-nofeedback-s91-noise0.npz",
+          "sha256": "94a7e7bf92cc6a6aaaf4c319bf18bbe746b6ed8fd5642b290083f34eba459b29"
+        },
+        {
+          "std": 0.001,
+          "accuracy": 0.509765625,
+          "seconds": 0.4117056000395678,
+          "file": "__RLT_ROOT__\\2026-09-16-e2e\\core\\results\\parity-w32-nofeedback-s91-noise0.001.npz",
+          "sha256": "94a7e7bf92cc6a6aaaf4c319bf18bbe746b6ed8fd5642b290083f34eba459b29"
+        },
+        {
+          "std": 0.01,
+          "accuracy": 0.509765625,
+          "seconds": 0.3885518999886699,
+          "file": "__RLT_ROOT__\\2026-09-16-e2e\\core\\results\\parity-w32-nofeedback-s91-noise0.01.npz",
+          "sha256": "94a7e7bf92cc6a6aaaf4c319bf18bbe746b6ed8fd5642b290083f34eba459b29"
+        },
+        {
+          "std": 0.1,
+          "accuracy": 0.509765625,
+          "seconds": 0.30181849998189136,
+          "file": "__RLT_ROOT__\\2026-09-16-e2e\\core\\results\\parity-w32-nofeedback-s91-noise0.1.npz",
+          "sha256": "94a7e7bf92cc6a6aaaf4c319bf18bbe746b6ed8fd5642b290083f34eba459b29"
+        }
+      ]
+    },
+    {
+      "seed": 91,
+      "mode": "tbptt",
+      "influence": {
+        "loss": 8.639919538886512e-06,
+        "evaluation_dtype": "torch.float64",
+        "state_norms": [
+          {
+            "lag": 1,
+            "norm": 9.586423840575631e-09
+          },
+          {
+            "lag": 4,
+            "norm": 2.8685543849030197e-09
+          },
+          {
+            "lag": 8,
+            "norm": 9.968702837131055e-12
+          },
+          {
+            "lag": 16,
+            "norm": 3.3712536625577926e-16
+          },
+          {
+            "lag": 31,
+            "norm": 1.361226438521551e-24
+          }
+        ],
+        "embedding_norms": [
+          {
+            "lag": 1,
+            "norm": 6.147164279143449e-08
+          },
+          {
+            "lag": 4,
+            "norm": 8.528145533922844e-09
+          },
+          {
+            "lag": 8,
+            "norm": 1.474481655173298e-08
+          },
+          {
+            "lag": 16,
+            "norm": 3.369209919116413e-09
+          },
+          {
+            "lag": 31,
+            "norm": 9.742397656377684e-09
+          }
+        ],
+        "directional_autograd": -5.628377428636774e-26,
+        "directional_finite_difference": 0.0,
+        "epsilon": 0.001,
+        "oracle": "final independently generated state target; no inference oracle"
+      },
+      "noise": [
+        {
+          "std": 0,
+          "accuracy": 1.0,
+          "seconds": 0.4036261000437662,
+          "file": "__RLT_ROOT__\\2026-09-16-e2e\\core\\results\\parity-w32-tbptt-s91-noise0.npz",
+          "sha256": "adba764de8ac75b677871ec31051f76dd3a39c37340f00f040bf04b976e33f7e"
+        },
+        {
+          "std": 0.001,
+          "accuracy": 1.0,
+          "seconds": 0.2727471999824047,
+          "file": "__RLT_ROOT__\\2026-09-16-e2e\\core\\results\\parity-w32-tbptt-s91-noise0.001.npz",
+          "sha256": "adba764de8ac75b677871ec31051f76dd3a39c37340f00f040bf04b976e33f7e"
+        },
+        {
+          "std": 0.01,
+          "accuracy": 1.0,
+          "seconds": 0.2821291000000201,
+          "file": "__RLT_ROOT__\\2026-09-16-e2e\\core\\results\\parity-w32-tbptt-s91-noise0.01.npz",
+          "sha256": "adba764de8ac75b677871ec31051f76dd3a39c37340f00f040bf04b976e33f7e"
+        },
+        {
+          "std": 0.1,
+          "accuracy": 1.0,
+          "seconds": 0.2654653000063263,
+          "file": "__RLT_ROOT__\\2026-09-16-e2e\\core\\results\\parity-w32-tbptt-s91-noise0.1.npz",
+          "sha256": "adba764de8ac75b677871ec31051f76dd3a39c37340f00f040bf04b976e33f7e"
+        }
+      ]
+    }
+  ]
+}

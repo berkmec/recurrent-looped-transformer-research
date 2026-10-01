@@ -1,0 +1,36 @@
+{
+ "condition": {
+  "arm": "supervised",
+  "heads": 2,
+  "lr": 0.003,
+  "seed": 191,
+  "stage": "u2c",
+  "task": "five",
+  "width": 32,
+  "window": 4
+ },
+ "guard": {
+  "clipped": 163,
+  "max_grad_norm_before_clip": 3.662093473175991e+27,
+  "skip_reasons": {
+   "nonfinite_gradient": 1
+  },
+  "skipped": 1,
+  "steps": 2048
+ },
+ "ident": "u2c-supervised-five-w32-s191",
+ "initial_sha256": "8e17fbd3cfa585ea9d0eb6481e1181a396f75f29e12664180473c16224c2bb05",
+ "protocol_hash": "25d9d3762218db35f98ca47f28eeea89a1d03aa75c5296ff6da1e9a79ec92b8b",
+ "selected_sha256": "3d3fdea0a4d70098510e31226504bb4467163b7e8ff4954b8c3d578f728f8207",
+ "selected_step": 2048,
+ "selected_validation": {
+  "all_accuracy": 0.999725341796875,
+  "final_accuracy": 1.0,
+  "final_loss": 0.008395649492740631,
+  "hold_rate": 0.00445556640625
+ },
+ "steps": 2048,
+ "train_seconds": 1477.5796333001344,
+ "updates_sha256": "213c95509f59dfbca1db657b8866c9c7cde704adb9a522e01be235fcad2e904c",
+ "wall_seconds": 1509.7773108000038
+}

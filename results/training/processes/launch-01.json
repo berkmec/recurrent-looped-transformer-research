@@ -1,0 +1,50 @@
+[
+  {
+    "name": "small-0",
+    "pid": 2464,
+    "started_utc": "2026-09-16T22:08:50.9675608Z",
+    "arguments": [
+      "-B",
+      "-m",
+      "review_cycle.campaign",
+      "--out",
+      "__RLT_ROOT__\\2026-09-17-diagnostics\\results\\training",
+      "--role",
+      "small",
+      "--slot",
+      "0"
+    ]
+  },
+  {
+    "name": "small-1",
+    "pid": 12208,
+    "started_utc": "2026-09-16T22:08:50.9876077Z",
+    "arguments": [
+      "-B",
+      "-m",
+      "review_cycle.campaign",
+      "--out",
+      "__RLT_ROOT__\\2026-09-17-diagnostics\\results\\training",
+      "--role",
+      "small",
+      "--slot",
+      "1"
+    ]
+  },
+  {
+    "name": "r5-first",
+    "pid": 16480,
+    "started_utc": "2026-09-16T22:08:50.9963125Z",
+    "arguments": [
+      "-B",
+      "-m",
+      "review_cycle.campaign",
+      "--out",
+      "__RLT_ROOT__\\2026-09-17-diagnostics\\results\\training",
+      "--role",
+      "one",
+      "--condition",
+      "development-parity-w256-rlt-random-dense-lr0.0003-s117"
+    ]
+  }
+]

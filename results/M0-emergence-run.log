@@ -1,0 +1,22 @@
+{"role": "development probe: sizes the training budget, never used as evidence about the gate", "arm": "plain", "steps": 5000, "batch": 32, "length": 512, "width": 1152, "lr": 0.0006, "seed": 117, "bytes_per_step": 16384, "utc": 1790301340.1462011, "needle_rate": 0.125, "needles_per_batch": 4, "train_filler": [0, 64], "design": "the needle FORMAT is taught at short filler; the evaluation uses fillers never seen, so what has to generalise is the DISTANCE - the U1 shape (trained at 128, tested to 4096) in language. Training and evaluation key alphabets are disjoint, so no evaluation key can be memorised."}
+step   250     4.1 MB  val bpb 2.267  needle@0 0.000  @128 0.000  @512 0.000  text@512 0.000  28.0 min
+step   500     8.2 MB  val bpb 2.072  needle@0 0.000  @128 0.000  @512 0.000  text@512 0.000  55.9 min
+step   750    12.3 MB  val bpb 1.973  needle@0 0.000  @128 0.000  @512 0.000  text@512 0.000  83.1 min
+step  1000    16.4 MB  val bpb 1.920  needle@0 0.000  @128 0.000  @512 0.000  text@512 0.000  110.3 min
+step  1250    20.5 MB  val bpb 1.877  needle@0 0.000  @128 0.000  @512 0.000  text@512 0.000  137.4 min
+step  1500    24.6 MB  val bpb 1.844  needle@0 0.000  @128 0.000  @512 0.000  text@512 0.000  164.6 min
+step  1750    28.7 MB  val bpb 1.820  needle@0 0.000  @128 0.000  @512 0.000  text@512 0.000  191.8 min
+step  2000    32.8 MB  val bpb 1.791  needle@0 0.000  @128 0.000  @512 0.000  text@512 0.000  218.9 min
+step  2250    36.9 MB  val bpb 1.774  needle@0 0.000  @128 0.000  @512 0.000  text@512 0.000  246.1 min
+step  2500    41.0 MB  val bpb 1.765  needle@0 0.000  @128 0.000  @512 0.000  text@512 0.000  273.2 min
+step  2750    45.1 MB  val bpb 1.748  needle@0 0.000  @128 0.000  @512 0.000  text@512 0.000  300.4 min
+step  3000    49.2 MB  val bpb 1.729  needle@0 0.000  @128 0.000  @512 0.000  text@512 0.000  327.6 min
+step  3250    53.2 MB  val bpb 1.716  needle@0 0.000  @128 0.000  @512 0.000  text@512 0.000  354.7 min
+step  3500    57.3 MB  val bpb 1.702  needle@0 0.000  @128 0.000  @512 0.000  text@512 0.000  382.0 min
+step  3750    61.4 MB  val bpb 1.695  needle@0 0.000  @128 0.000  @512 0.000  text@512 0.000  409.1 min
+step  4000    65.5 MB  val bpb 1.684  needle@0 0.000  @128 0.000  @512 0.000  text@512 0.000  436.3 min
+step  4250    69.6 MB  val bpb 1.688  needle@0 0.000  @128 0.000  @512 0.000  text@512 0.000  463.5 min
+step  4500    73.7 MB  val bpb 1.666  needle@0 0.000  @128 0.000  @512 0.000  text@512 0.000  490.7 min
+step  4750    77.8 MB  val bpb 1.660  needle@0 0.000  @128 0.000  @512 0.000  text@512 0.000  517.8 min
+step  5000    81.9 MB  val bpb 1.655  needle@0 0.000  @128 0.000  @512 0.000  text@512 0.000  545.4 min
+exit 0

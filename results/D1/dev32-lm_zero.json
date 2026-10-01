@@ -1,0 +1,2693 @@
+{
+ "arm": "lm_zero",
+ "rows": [
+  {
+   "gold": {
+    "answer": "1865",
+    "hops": [
+     {
+      "aliases": [],
+      "answer": "Palmerston",
+      "depends_on": null,
+      "relation": "Who resigned their position following the scandal due to Orsini's bomb being made in England?",
+      "source": "p174c31ba5c",
+      "step": 1,
+      "subject": null
+     },
+     {
+      "aliases": [],
+      "answer": "1865",
+      "depends_on": null,
+      "relation": "What year did #1 die?",
+      "source": "p3184aa87e6",
+      "step": 2,
+      "subject": null
+     }
+    ]
+   },
+   "hops": 2,
+   "id": "2hop__16764_16772",
+   "pred": {
+    "headings": null,
+    "hops": [
+     {
+      "answer": "Napoleon III",
+      "depends_on": null,
+      "relation": "attempted to assassinate",
+      "source": "p174c31ba5c",
+      "step": 1,
+      "subject": "Orsini",
+      "unresolved": false
+     },
+     {
+      "answer": "1858",
+      "depends_on": 1,
+      "relation": "resigned",
+      "source": "p174c31ba5c",
+      "step": 2,
+      "subject": "Palmerston",
+      "unresolved": false
+     },
+     {
+      "answer": "UNRESOLVED",
+      "depends_on": 2,
+      "relation": "died",
+      "source": "UNRESOLVED",
+      "step": 3,
+      "subject": "Palmerston",
+      "unresolved": true
+     }
+    ],
+    "parse": "OK",
+    "prompt_chars": 3201,
+    "raw": "{\"status\": \"OK\", \"hops\": [{\"step\": 1, \"subject\": \"Orsini\", \"relation\": \"attempted to assassinate\", \"answer\": \"Napoleon III\", \"source\": \"p174c31ba5c\", \"depends_on\": null}, {\"step\": 2, \"subject\": \"Palmerston\", \"relation\": \"resigned\", \"answer\": \"1858\", \"source\": \"p174c31ba5c\", \"depends_on\": 1}, {\"step\": 3, \"subject\": \"Palmerston\", \"relation\": \"died\", \"answer\": \"UNRESOLVED\", \"source\": \"UNRESOLVED\", \"depends_on\": 2}]}",
+    "status": "OK"
+   },
+   "score": {
+    "accepted": 3,
+    "accepted_wrong": 3,
+    "controls_expected": 0,
+    "controls_ok": 0,
+    "extra_hops": 1,
+    "gold_hops": 2,
+    "relation_fn": 2,
+    "relation_fp": 3,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "OK",
+    "unresolved": 0
+   }
+  },
+  {
+   "gold": {
+    "answer": "season two",
+    "hops": [
+     {
+      "aliases": [],
+      "answer": "Lionel Richie",
+      "depends_on": null,
+      "relation": "composer",
+      "source": "p0df7adb3ea",
+      "step": 1,
+      "subject": "Endless Love"
+     },
+     {
+      "aliases": [],
+      "answer": "season two",
+      "depends_on": null,
+      "relation": "In what season was #1 a guest judge on American Idol?",
+      "source": "p64531aee32",
+      "step": 2,
+      "subject": null
+     }
+    ]
+   },
+   "hops": 2,
+   "id": "2hop__777506_3001",
+   "pred": {
+    "headings": null,
+    "hops": [
+     {
+      "answer": "Lionel Richie",
+      "depends_on": null,
+      "relation": "composer",
+      "source": "p0df7adb3ea",
+      "step": 1,
+      "subject": "Endless Love",
+      "unresolved": false
+     },
+     {
+      "answer": "American Idol",
+      "depends_on": 1,
+      "relation": "appeared as guest judge",
+      "source": "p0df7adb3ea",
+      "step": 2,
+      "subject": "Lionel Richie",
+      "unresolved": false
+     },
+     {
+      "answer": "season three",
+      "depends_on": 2,
+      "relation": "season",
+      "source": "p64531aee32",
+      "step": 3,
+      "subject": "Lionel Richie",
+      "unresolved": false
+     }
+    ],
+    "parse": "OK",
+    "prompt_chars": 2565,
+    "raw": "{\"status\": \"OK\", \"hops\": [{\"step\": 1, \"subject\": \"Endless Love\", \"relation\": \"composer\", \"answer\": \"Lionel Richie\", \"source\": \"p0df7adb3ea\", \"depends_on\": null}, {\"step\": 2, \"subject\": \"Lionel Richie\", \"relation\": \"appeared as guest judge\", \"answer\": \"American Idol\", \"source\": \"p0df7adb3ea\", \"depends_on\": 1}, {\"step\": 3, \"subject\": \"Lionel Richie\", \"relation\": \"season\", \"answer\": \"season three\", \"source\": \"p64531aee32\", \"depends_on\": 2}]}",
+    "status": "OK"
+   },
+   "score": {
+    "accepted": 3,
+    "accepted_wrong": 2,
+    "controls_expected": 0,
+    "controls_ok": 0,
+    "extra_hops": 1,
+    "gold_hops": 2,
+    "relation_fn": 1,
+    "relation_fp": 2,
+    "relation_tp": 1,
+    "source_correct": 1,
+    "status": "OK",
+    "unresolved": 0
+   }
+  },
+  {
+   "gold": {
+    "answer": "April 28",
+    "hops": [
+     {
+      "aliases": [],
+      "answer": "Pyongyang",
+      "depends_on": null,
+      "relation": "located in the administrative territorial entity",
+      "source": "p0df3ddbe56",
+      "step": 1,
+      "subject": "Kangdong County"
+     },
+     {
+      "aliases": [],
+      "answer": "April 28",
+      "depends_on": null,
+      "relation": "When did the torch arrive in #1 ?",
+      "source": "paa5d47cda3",
+      "step": 2,
+      "subject": null
+     }
+    ]
+   },
+   "hops": 2,
+   "id": "2hop__175400_3814",
+   "pred": {
+    "headings": null,
+    "hops": [
+     {
+      "answer": "Pyongyang",
+      "depends_on": null,
+      "relation": "is located in",
+      "source": "p0df3ddbe56",
+      "step": 1,
+      "subject": "Kangdong County",
+      "unresolved": false
+     },
+     {
+      "answer": "2008 Summer Olympics torch relay",
+      "depends_on": 1,
+      "relation": "has",
+      "source": "paa5d47cda3",
+      "step": 2,
+      "subject": "North Korea",
+      "unresolved": false
+     },
+     {
+      "answer": "Pyongyang",
+      "depends_on": 2,
+      "relation": "was held in",
+      "source": "paa5d47cda3",
+      "step": 3,
+      "subject": "2008 Summer Olympics torch relay",
+      "unresolved": false
+     },
+     {
+      "answer": "Kangdong County",
+      "depends_on": 3,
+      "relation": "contains",
+      "source": "p0df3ddbe56",
+      "step": 4,
+      "subject": "Pyongyang",
+      "unresolved": false
+     }
+    ],
+    "parse": "OK",
+    "prompt_chars": 2768,
+    "raw": "{\"status\": \"OK\", \"hops\": [{\"step\": 1, \"subject\": \"Kangdong County\", \"relation\": \"is located in\", \"answer\": \"Pyongyang\", \"source\": \"p0df3ddbe56\", \"depends_on\": null}, {\"step\": 2, \"subject\": \"North Korea\", \"relation\": \"has\", \"answer\": \"2008 Summer Olympics torch relay\", \"source\": \"paa5d47cda3\", \"depends_on\": 1}, {\"step\": 3, \"subject\": \"2008 Summer Olympics torch relay\", \"relation\": \"was held in\", \"answer\": \"Pyongyang\", \"source\": \"paa5d47cda3\", \"depends_on\": 2}, {\"step\": 4, \"subject\": \"Pyongyang\", \"relation\": \"contains\", \"answer\": \"Kangdong County\", \"source\": \"p0df3ddbe56\", \"depends_on\": 3}]}",
+    "status": "OK"
+   },
+   "score": {
+    "accepted": 4,
+    "accepted_wrong": 4,
+    "controls_expected": 0,
+    "controls_ok": 0,
+    "extra_hops": 2,
+    "gold_hops": 2,
+    "relation_fn": 2,
+    "relation_fp": 4,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "OK",
+    "unresolved": 0
+   }
+  },
+  {
+   "gold": {
+    "answer": "Windhoek Country Club Resort",
+    "hops": [
+     {
+      "aliases": [],
+      "answer": "Windhoek",
+      "depends_on": null,
+      "relation": "place of death",
+      "source": "p3ce821d92a",
+      "step": 1,
+      "subject": "Adolph Jentsch"
+     },
+     {
+      "aliases": [],
+      "answer": "Windhoek Country Club Resort",
+      "depends_on": null,
+      "relation": "What is the most popular hotel in #1 ?",
+      "source": "pc7cb4cba59",
+      "step": 2,
+      "subject": null
+     }
+    ]
+   },
+   "hops": 2,
+   "id": "2hop__689229_36340",
+   "pred": {
+    "headings": null,
+    "hops": [
+     {
+      "answer": "UNRESOLVED",
+      "depends_on": null,
+      "relation": "died in",
+      "source": "UNRESOLVED",
+      "step": 1,
+      "subject": "Adolph Jentsch",
+      "unresolved": true
+     },
+     {
+      "answer": "Namibia",
+      "depends_on": 1,
+      "relation": "capital of",
+      "source": "pc7cb4cba59",
+      "step": 2,
+      "subject": "Windhoek",
+      "unresolved": false
+     },
+     {
+      "answer": "UNRESOLVED",
+      "depends_on": 2,
+      "relation": "has notable hotels",
+      "source": "pc7cb4cba59",
+      "step": 3,
+      "subject": "Windhoek",
+      "unresolved": true
+     },
+     {
+      "answer": "UNRESOLVED",
+      "depends_on": 3,
+      "relation": "has international hotels",
+      "source": "pc7cb4cba59",
+      "step": 4,
+      "subject": "Windhoek",
+      "unresolved": true
+     },
+     {
+      "answer": "Windhoek",
+      "depends_on": 1,
+      "relation": "died in",
+      "source": "p3ce821d92a",
+      "step": 5,
+      "subject": "Adolph Jentsch",
+      "unresolved": false
+     },
+     {
+      "answer": "UNRESOLVED",
+      "depends_on": 5,
+      "relation": "has hotels",
+      "source": "pc7cb4cba59",
+      "step": 6,
+      "subject": "Windhoek",
+      "unresolved": true
+     },
+     {
+      "answer": "UNRESOLVED",
+      "depends_on": 6,
+      "relation": "has hotels",
+      "source": "pc7cb4cba59",
+      "step": 7,
+      "subject": "Windhoek",
+      "unresolved": true
+     }
+    ],
+    "parse": "OK",
+    "prompt_chars": 3072,
+    "raw": "{\"status\": \"UNRESOLVED\", \"hops\": [{\"step\": 1, \"subject\": \"Adolph Jentsch\", \"relation\": \"died in\", \"answer\": \"UNRESOLVED\", \"source\": \"UNRESOLVED\", \"depends_on\": null}, {\"step\": 2, \"subject\": \"Windhoek\", \"relation\": \"capital of\", \"answer\": \"Namibia\", \"source\": \"pc7cb4cba59\", \"depends_on\": 1}, {\"step\": 3, \"subject\": \"Windhoek\", \"relation\": \"has notable hotels\", \"answer\": \"UNRESOLVED\", \"source\": \"pc7cb4cba59\", \"depends_on\": 2}, {\"step\": 4, \"subject\": \"Windhoek\", \"relation\": \"has international hotels\", \"answer\": \"UNRESOLVED\", \"source\": \"pc7cb4cba59\", \"depends_on\": 3}, {\"step\": 5, \"subject\": \"Adolph Jentsch\", \"relation\": \"died in\", \"answer\": \"Windhoek\", \"source\": \"p3ce821d92a\", \"depends_on\": 1}, {\"step\": 6, \"subject\": \"Windhoek\", \"relation\": \"has hotels\", \"answer\": \"UNRESOLVED\", \"source\": \"pc7cb4cba59\", \"depends_on\": 5}, {\"step\": 7, \"subject\": \"Windhoek\", \"relation\": \"has hotels\", \"answer\": \"UNRESOLVED\", \"source\": \"pc7cb4cba59\", \"depends_on\": 6}]}",
+    "status": "UNRESOLVED"
+   },
+   "score": {
+    "accepted": 0,
+    "accepted_wrong": 0,
+    "controls_expected": 0,
+    "controls_ok": 0,
+    "extra_hops": 0,
+    "gold_hops": 2,
+    "relation_fn": 2,
+    "relation_fp": 0,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "UNRESOLVED",
+    "unresolved": 2
+   }
+  },
+  {
+   "gold": {
+    "answer": "Leopold Mozart",
+    "hops": [
+     {
+      "aliases": [],
+      "answer": "Wolfgang Amadeus Mozart",
+      "depends_on": null,
+      "relation": "composer",
+      "source": "p33b3e30734",
+      "step": 1,
+      "subject": "Violin Concerto No. 1"
+     },
+     {
+      "aliases": [],
+      "answer": "Leopold Mozart",
+      "depends_on": null,
+      "relation": "Who was the dad of #1 ?",
+      "source": "p84fe9150ad",
+      "step": 2,
+      "subject": null
+     }
+    ]
+   },
+   "hops": 2,
+   "id": "2hop__235222_125776",
+   "pred": {
+    "headings": null,
+    "hops": [
+     {
+      "answer": "Wolfgang Amadeus Mozart",
+      "depends_on": null,
+      "relation": "composer of",
+      "source": "p33b3e30734",
+      "step": 1,
+      "subject": "Violin Concerto No. 1",
+      "unresolved": false
+     },
+     {
+      "answer": "Leopold Mozart",
+      "depends_on": 1,
+      "relation": "father of",
+      "source": "p84fe9150ad",
+      "step": 2,
+      "subject": "Wolfgang Amadeus Mozart",
+      "unresolved": false
+     }
+    ],
+    "parse": "OK",
+    "prompt_chars": 2880,
+    "raw": "{\"status\": \"OK\", \"hops\": [{\"step\": 1, \"subject\": \"Violin Concerto No. 1\", \"relation\": \"composer of\", \"answer\": \"Wolfgang Amadeus Mozart\", \"source\": \"p33b3e30734\", \"depends_on\": null}, {\"step\": 2, \"subject\": \"Wolfgang Amadeus Mozart\", \"relation\": \"father of\", \"answer\": \"Leopold Mozart\", \"source\": \"p84fe9150ad\", \"depends_on\": 1}]}",
+    "status": "OK"
+   },
+   "score": {
+    "accepted": 2,
+    "accepted_wrong": 2,
+    "controls_expected": 0,
+    "controls_ok": 0,
+    "extra_hops": 0,
+    "gold_hops": 2,
+    "relation_fn": 2,
+    "relation_fp": 2,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "OK",
+    "unresolved": 0
+   }
+  },
+  {
+   "gold": {
+    "answer": "G. Stanley Hall",
+    "hops": [
+     {
+      "aliases": [],
+      "answer": "American Psychological Association",
+      "depends_on": null,
+      "relation": "publisher",
+      "source": "p1d0aa6a0ad",
+      "step": 1,
+      "subject": "Health Psychology"
+     },
+     {
+      "aliases": [
+       "Stanley Hall"
+      ],
+      "answer": "G. Stanley Hall",
+      "depends_on": null,
+      "relation": "Who was the first president of #1 ?",
+      "source": "p328eb3f9f5",
+      "step": 2,
+      "subject": null
+     }
+    ]
+   },
+   "hops": 2,
+   "id": "2hop__440195_14904",
+   "pred": {
+    "headings": null,
+    "hops": [
+     {
+      "answer": "American Psychological Association",
+      "depends_on": null,
+      "relation": "publisher",
+      "source": "p1d0aa6a0ad",
+      "step": 1,
+      "subject": "Health Psychology",
+      "unresolved": false
+     },
+     {
+      "answer": "UNRESOLVED",
+      "depends_on": 1,
+      "relation": "president",
+      "source": "UNRESOLVED",
+      "step": 2,
+      "subject": "American Psychological Association",
+      "unresolved": true
+     }
+    ],
+    "parse": "OK",
+    "prompt_chars": 3667,
+    "raw": "{\"status\": \"OK\", \"hops\": [{\"step\": 1, \"subject\": \"Health Psychology\", \"relation\": \"publisher\", \"answer\": \"American Psychological Association\", \"source\": \"p1d0aa6a0ad\", \"depends_on\": null}, {\"step\": 2, \"subject\": \"American Psychological Association\", \"relation\": \"president\", \"answer\": \"UNRESOLVED\", \"source\": \"UNRESOLVED\", \"depends_on\": 1}]}",
+    "status": "OK"
+   },
+   "score": {
+    "accepted": 1,
+    "accepted_wrong": 0,
+    "controls_expected": 0,
+    "controls_ok": 0,
+    "extra_hops": 0,
+    "gold_hops": 2,
+    "relation_fn": 1,
+    "relation_fp": 0,
+    "relation_tp": 1,
+    "source_correct": 1,
+    "status": "OK",
+    "unresolved": 1
+   }
+  },
+  {
+   "gold": {
+    "answer": "8",
+    "hops": [
+     {
+      "aliases": [],
+      "answer": "Whitney Houston",
+      "depends_on": null,
+      "relation": "performer",
+      "source": "p6c83e2c5f0",
+      "step": 1,
+      "subject": "Why Does It Hurt So Bad"
+     },
+     {
+      "aliases": [],
+      "answer": "8",
+      "depends_on": null,
+      "relation": "how many grammy awards does #1 have",
+      "source": "p495db67a2b",
+      "step": 2,
+      "subject": null
+     }
+    ]
+   },
+   "hops": 2,
+   "id": "2hop__176779_69322",
+   "pred": {
+    "headings": null,
+    "hops": [
+     {
+      "answer": "Whitney Houston",
+      "depends_on": null,
+      "relation": "performed by",
+      "source": "p6c83e2c5f0",
+      "step": 1,
+      "subject": "Why Does It Hurt So Bad",
+      "unresolved": false
+     },
+     {
+      "answer": "400 + Awards won",
+      "depends_on": 1,
+      "relation": "awards and nominations",
+      "source": "p495db67a2b",
+      "step": 2,
+      "subject": "Whitney Houston",
+      "unresolved": false
+     },
+     {
+      "answer": "8",
+      "depends_on": 2,
+      "relation": "Grammy Awards",
+      "source": "p495db67a2b",
+      "step": 3,
+      "subject": "Whitney Houston",
+      "unresolved": false
+     },
+     {
+      "answer": "UNRESOLVED",
+      "depends_on": 3,
+      "relation": "Grammy Awards",
+      "source": "UNRESOLVED",
+      "step": 4,
+      "subject": "Whitney Houston",
+      "unresolved": true
+     }
+    ],
+    "parse": "OK",
+    "prompt_chars": 2143,
+    "raw": "{\"status\": \"OK\", \"hops\": [{\"step\": 1, \"subject\": \"Why Does It Hurt So Bad\", \"relation\": \"performed by\", \"answer\": \"Whitney Houston\", \"source\": \"p6c83e2c5f0\", \"depends_on\": null}, {\"step\": 2, \"subject\": \"Whitney Houston\", \"relation\": \"awards and nominations\", \"answer\": \"400 + Awards won\", \"source\": \"p495db67a2b\", \"depends_on\": 1}, {\"step\": 3, \"subject\": \"Whitney Houston\", \"relation\": \"Grammy Awards\", \"answer\": \"8\", \"source\": \"p495db67a2b\", \"depends_on\": 2}, {\"step\": 4, \"subject\": \"Whitney Houston\", \"relation\": \"Grammy Awards\", \"answer\": \"UNRESOLVED\", \"source\": \"UNRESOLVED\", \"depends_on\": 3}]}",
+    "status": "OK"
+   },
+   "score": {
+    "accepted": 4,
+    "accepted_wrong": 4,
+    "controls_expected": 0,
+    "controls_ok": 0,
+    "extra_hops": 2,
+    "gold_hops": 2,
+    "relation_fn": 2,
+    "relation_fp": 4,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "OK",
+    "unresolved": 0
+   }
+  },
+  {
+   "gold": {
+    "answer": "Roc-A-Fella Records",
+    "hops": [
+     {
+      "aliases": [],
+      "answer": "Jay-Z",
+      "depends_on": null,
+      "relation": "performer",
+      "source": "p6dac76fefd",
+      "step": 1,
+      "subject": "Change the Game"
+     },
+     {
+      "aliases": [],
+      "answer": "Roc-A-Fella Records",
+      "depends_on": 1,
+      "relation": "record label",
+      "source": "p089b32513e",
+      "step": 2,
+      "subject": null
+     }
+    ]
+   },
+   "hops": 2,
+   "id": "2hop__817870_278127",
+   "pred": {
+    "headings": null,
+    "hops": [
+     {
+      "answer": "Jay-Z",
+      "depends_on": null,
+      "relation": "is the second single from",
+      "source": "p6dac76fefd",
+      "step": 1,
+      "subject": "Change the Game",
+      "unresolved": false
+     },
+     {
+      "answer": "Roc-A-Fella Records",
+      "depends_on": 1,
+      "relation": "is a rapper",
+      "source": "p089b32513e",
+      "step": 2,
+      "subject": "Jay-Z",
+      "unresolved": false
+     },
+     {
+      "answer": "Roc-A-Fella Records",
+      "depends_on": 2,
+      "relation": "is a record label",
+      "source": "p089b32513e",
+      "step": 3,
+      "subject": "Roc-A-Fella Records",
+      "unresolved": false
+     }
+    ],
+    "parse": "OK",
+    "prompt_chars": 1832,
+    "raw": "{\"status\": \"OK\", \"hops\": [{\"step\": 1, \"subject\": \"Change the Game\", \"relation\": \"is the second single from\", \"answer\": \"Jay-Z\", \"source\": \"p6dac76fefd\", \"depends_on\": null}, {\"step\": 2, \"subject\": \"Jay-Z\", \"relation\": \"is a rapper\", \"answer\": \"Roc-A-Fella Records\", \"source\": \"p089b32513e\", \"depends_on\": 1}, {\"step\": 3, \"subject\": \"Roc-A-Fella Records\", \"relation\": \"is a record label\", \"answer\": \"Roc-A-Fella Records\", \"source\": \"p089b32513e\", \"depends_on\": 2}]}",
+    "status": "OK"
+   },
+   "score": {
+    "accepted": 3,
+    "accepted_wrong": 3,
+    "controls_expected": 0,
+    "controls_ok": 0,
+    "extra_hops": 1,
+    "gold_hops": 2,
+    "relation_fn": 2,
+    "relation_fp": 3,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "OK",
+    "unresolved": 0
+   }
+  },
+  {
+   "gold": {
+    "answer": "Reg Watson",
+    "hops": [
+     {
+      "aliases": [],
+      "answer": "Verbotene Liebe",
+      "depends_on": null,
+      "relation": "Which show is Sarah von Lahnstein in?",
+      "source": "pdbbfdde6e5",
+      "step": 1,
+      "subject": null
+     },
+     {
+      "aliases": [],
+      "answer": "Reg Watson",
+      "depends_on": null,
+      "relation": "Who is #1 by?",
+      "source": "pafaea64ef0",
+      "step": 2,
+      "subject": null
+     }
+    ]
+   },
+   "hops": 2,
+   "id": "2hop__149842_107869",
+   "pred": {
+    "headings": null,
+    "hops": [
+     {
+      "answer": "Verbotene Liebe",
+      "depends_on": null,
+      "relation": "is a fictional character on",
+      "source": "pdbbfdde6e5",
+      "step": 1,
+      "subject": "Sarah von Lahnstein",
+      "unresolved": false
+     },
+     {
+      "answer": "Reg Watson",
+      "depends_on": 1,
+      "relation": "is created by",
+      "source": "pafaea64ef0",
+      "step": 2,
+      "subject": "Verbotene Liebe",
+      "unresolved": false
+     }
+    ],
+    "parse": "OK",
+    "prompt_chars": 2167,
+    "raw": "{\"status\": \"OK\", \"hops\": [{\"step\": 1, \"subject\": \"Sarah von Lahnstein\", \"relation\": \"is a fictional character on\", \"answer\": \"Verbotene Liebe\", \"source\": \"pdbbfdde6e5\", \"depends_on\": null}, {\"step\": 2, \"subject\": \"Verbotene Liebe\", \"relation\": \"is created by\", \"answer\": \"Reg Watson\", \"source\": \"pafaea64ef0\", \"depends_on\": 1}]}",
+    "status": "OK"
+   },
+   "score": {
+    "accepted": 2,
+    "accepted_wrong": 2,
+    "controls_expected": 0,
+    "controls_ok": 0,
+    "extra_hops": 0,
+    "gold_hops": 2,
+    "relation_fn": 2,
+    "relation_fp": 2,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "OK",
+    "unresolved": 0
+   }
+  },
+  {
+   "gold": {
+    "answer": "15 September 1510",
+    "hops": [
+     {
+      "aliases": [],
+      "answer": "Genoa",
+      "depends_on": null,
+      "relation": "In what city did Pietro Boetto die?",
+      "source": "p972e6496ba",
+      "step": 1,
+      "subject": null
+     },
+     {
+      "aliases": [],
+      "answer": "15 September 1510",
+      "depends_on": null,
+      "relation": "What was the date of death of Catherine of #1 ?",
+      "source": "p9caa54223e",
+      "step": 2,
+      "subject": null
+     }
+    ]
+   },
+   "hops": 2,
+   "id": "2hop__146184_114112",
+   "pred": {
+    "headings": null,
+    "hops": [
+     {
+      "answer": "1447",
+      "depends_on": null,
+      "relation": "was born",
+      "source": "p9caa54223e",
+      "step": 1,
+      "subject": "Catherine",
+      "unresolved": false
+     },
+     {
+      "answer": "Genoa",
+      "depends_on": 1,
+      "relation": "was born in",
+      "source": "p9caa54223e",
+      "step": 2,
+      "subject": "Catherine",
+      "unresolved": false
+     },
+     {
+      "answer": "Pietro Boetto",
+      "depends_on": 2,
+      "relation": "was the city where",
+      "source": "p972e6496ba",
+      "step": 3,
+      "subject": "Genoa",
+      "unresolved": false
+     },
+     {
+      "answer": "January 31, 1946",
+      "depends_on": 3,
+      "relation": "died on",
+      "source": "p972e6496ba",
+      "step": 4,
+      "subject": "Pietro Boetto",
+      "unresolved": false
+     },
+     {
+      "answer": "Genoa",
+      "depends_on": 3,
+      "relation": "died in",
+      "source": "p972e6496ba",
+      "step": 5,
+      "subject": "Pietro Boetto",
+      "unresolved": false
+     },
+     {
+      "answer": "September 15, 1510",
+      "depends_on": 2,
+      "relation": "died on",
+      "source": "p9caa54223e",
+      "step": 6,
+      "subject": "Catherine",
+      "unresolved": false
+     }
+    ],
+    "parse": "OK",
+    "prompt_chars": 2130,
+    "raw": "{\"status\": \"OK\", \"hops\": [{\"step\": 1, \"subject\": \"Catherine\", \"relation\": \"was born\", \"answer\": \"1447\", \"source\": \"p9caa54223e\", \"depends_on\": null}, {\"step\": 2, \"subject\": \"Catherine\", \"relation\": \"was born in\", \"answer\": \"Genoa\", \"source\": \"p9caa54223e\", \"depends_on\": 1}, {\"step\": 3, \"subject\": \"Genoa\", \"relation\": \"was the city where\", \"answer\": \"Pietro Boetto\", \"source\": \"p972e6496ba\", \"depends_on\": 2}, {\"step\": 4, \"subject\": \"Pietro Boetto\", \"relation\": \"died on\", \"answer\": \"January 31, 1946\", \"source\": \"p972e6496ba\", \"depends_on\": 3}, {\"step\": 5, \"subject\": \"Pietro Boetto\", \"relation\": \"died in\", \"answer\": \"Genoa\", \"source\": \"p972e6496ba\", \"depends_on\": 3}, {\"step\": 6, \"subject\": \"Catherine\", \"relation\": \"died on\", \"answer\": \"September 15, 1510\", \"source\": \"p9caa54223e\", \"depends_on\": 2}]}",
+    "status": "OK"
+   },
+   "score": {
+    "accepted": 6,
+    "accepted_wrong": 6,
+    "controls_expected": 0,
+    "controls_ok": 0,
+    "extra_hops": 4,
+    "gold_hops": 2,
+    "relation_fn": 2,
+    "relation_fp": 6,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "OK",
+    "unresolved": 0
+   }
+  },
+  {
+   "gold": {
+    "answer": "1971",
+    "hops": [
+     {
+      "aliases": [],
+      "answer": "Bahrain",
+      "depends_on": null,
+      "relation": "country",
+      "source": "pff1f974064",
+      "step": 1,
+      "subject": "Wadyan"
+     },
+     {
+      "aliases": [],
+      "answer": "1971",
+      "depends_on": null,
+      "relation": "When did Britain withdraw from #1 ?",
+      "source": "pb42b392a7e",
+      "step": 2,
+      "subject": null
+     }
+    ]
+   },
+   "hops": 2,
+   "id": "2hop__195347_20661",
+   "pred": {
+    "headings": null,
+    "hops": [
+     {
+      "answer": "Bahrain",
+      "depends_on": null,
+      "relation": "located in",
+      "source": "pff1f974064",
+      "step": 1,
+      "subject": "Wadyan",
+      "unresolved": false
+     },
+     {
+      "answer": "1971",
+      "depends_on": 1,
+      "relation": "withdrawal from",
+      "source": "pb42b392a7e",
+      "step": 2,
+      "subject": "Bahrain",
+      "unresolved": false
+     }
+    ],
+    "parse": "OK",
+    "prompt_chars": 3137,
+    "raw": "{\"status\": \"OK\", \"hops\": [{\"step\": 1, \"subject\": \"Wadyan\", \"relation\": \"located in\", \"answer\": \"Bahrain\", \"source\": \"pff1f974064\", \"depends_on\": null}, {\"step\": 2, \"subject\": \"Bahrain\", \"relation\": \"withdrawal from\", \"answer\": \"1971\", \"source\": \"pb42b392a7e\", \"depends_on\": 1}]}",
+    "status": "OK"
+   },
+   "score": {
+    "accepted": 2,
+    "accepted_wrong": 2,
+    "controls_expected": 0,
+    "controls_ok": 0,
+    "extra_hops": 0,
+    "gold_hops": 2,
+    "relation_fn": 2,
+    "relation_fp": 2,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "OK",
+    "unresolved": 0
+   }
+  },
+  {
+   "gold": {
+    "answer": "Álvaro de Mendaña",
+    "hops": [
+     {
+      "aliases": [],
+      "answer": "Tuvalu",
+      "depends_on": null,
+      "relation": "country",
+      "source": "pf01f1aae19",
+      "step": 1,
+      "subject": "Sakalua"
+     },
+     {
+      "aliases": [],
+      "answer": "Álvaro de Mendaña",
+      "depends_on": null,
+      "relation": "Who was the discoverer of #1 ?",
+      "source": "pc3f4dba4b3",
+      "step": 2,
+      "subject": null
+     }
+    ]
+   },
+   "hops": 2,
+   "id": "2hop__195466_36090",
+   "pred": {
+    "headings": null,
+    "hops": [
+     {
+      "answer": "Nukufetau",
+      "depends_on": null,
+      "relation": "is an islet of",
+      "source": "pf01f1aae19",
+      "step": 1,
+      "subject": "Sakalua",
+      "unresolved": false
+     },
+     {
+      "answer": "Tuvalu",
+      "depends_on": 1,
+      "relation": "is an island of",
+      "source": "pf01f1aae19",
+      "step": 2,
+      "subject": "Nukufetau",
+      "unresolved": false
+     },
+     {
+      "answer": "Tuvalu",
+      "depends_on": 2,
+      "relation": "is a country",
+      "source": "pc3f4dba4b3",
+      "step": 3,
+      "subject": "Tuvalu",
+      "unresolved": false
+     },
+     {
+      "answer": "Spain",
+      "depends_on": 3,
+      "relation": "discovered by",
+      "source": "pc3f4dba4b3",
+      "step": 4,
+      "subject": "Tuvalu",
+      "unresolved": false
+     }
+    ],
+    "parse": "OK",
+    "prompt_chars": 2206,
+    "raw": "{\"status\": \"OK\", \"hops\": [{\"step\": 1, \"subject\": \"Sakalua\", \"relation\": \"is an islet of\", \"answer\": \"Nukufetau\", \"source\": \"pf01f1aae19\", \"depends_on\": null}, {\"step\": 2, \"subject\": \"Nukufetau\", \"relation\": \"is an island of\", \"answer\": \"Tuvalu\", \"source\": \"pf01f1aae19\", \"depends_on\": 1}, {\"step\": 3, \"subject\": \"Tuvalu\", \"relation\": \"is a country\", \"answer\": \"Tuvalu\", \"source\": \"pc3f4dba4b3\", \"depends_on\": 2}, {\"step\": 4, \"subject\": \"Tuvalu\", \"relation\": \"discovered by\", \"answer\": \"Spain\", \"source\": \"pc3f4dba4b3\", \"depends_on\": 3}]}",
+    "status": "OK"
+   },
+   "score": {
+    "accepted": 4,
+    "accepted_wrong": 4,
+    "controls_expected": 0,
+    "controls_ok": 0,
+    "extra_hops": 2,
+    "gold_hops": 2,
+    "relation_fn": 2,
+    "relation_fp": 4,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "OK",
+    "unresolved": 0
+   }
+  },
+  {
+   "gold": {
+    "answer": "Tuvalu Overseas Seamen's Union",
+    "hops": [
+     {
+      "aliases": [],
+      "answer": "Tuvalu",
+      "depends_on": null,
+      "relation": "Who has the only Reformed church?",
+      "source": "p98a1f114a3",
+      "step": 1,
+      "subject": null
+     },
+     {
+      "aliases": [],
+      "answer": "Tuvalu Overseas Seamen's Union",
+      "depends_on": null,
+      "relation": "What is the only trade union on #1 ?",
+      "source": "p0460bf10a1",
+      "step": 2,
+      "subject": null
+     }
+    ]
+   },
+   "hops": 2,
+   "id": "2hop__37715_36180",
+   "pred": {
+    "headings": null,
+    "hops": [
+     {
+      "answer": "Tuvalu Overseas Seamen's Union (TOSU)",
+      "depends_on": null,
+      "relation": "is known for",
+      "source": "p0460bf10a1",
+      "step": 1,
+      "subject": "Tuvalu",
+      "unresolved": false
+     },
+     {
+      "answer": "Congregational Christian Church of Tuvalu",
+      "depends_on": 1,
+      "relation": "has the only established church in the Reformed tradition",
+      "source": "p3c98fcff8e",
+      "step": 2,
+      "subject": "Tuvalu",
+      "unresolved": false
+     }
+    ],
+    "parse": "OK",
+    "prompt_chars": 3072,
+    "raw": "{\"status\": \"OK\", \"hops\": [{\"step\": 1, \"subject\": \"Tuvalu\", \"relation\": \"is known for\", \"answer\": \"Tuvalu Overseas Seamen's Union (TOSU)\", \"source\": \"p0460bf10a1\", \"depends_on\": null}, {\"step\": 2, \"subject\": \"Tuvalu\", \"relation\": \"has the only established church in the Reformed tradition\", \"answer\": \"Congregational Christian Church of Tuvalu\", \"source\": \"p3c98fcff8e\", \"depends_on\": 1}]}",
+    "status": "OK"
+   },
+   "score": {
+    "accepted": 2,
+    "accepted_wrong": 2,
+    "controls_expected": 0,
+    "controls_ok": 0,
+    "extra_hops": 0,
+    "gold_hops": 2,
+    "relation_fn": 2,
+    "relation_fp": 2,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "OK",
+    "unresolved": 0
+   }
+  },
+  {
+   "gold": {
+    "answer": "Minnehaha County",
+    "hops": [
+     {
+      "aliases": [],
+      "answer": "South Dakota",
+      "depends_on": null,
+      "relation": "What is the name of the state where Episcopal Church of All Angels is located?",
+      "source": "pa309d0ddf0",
+      "step": 1,
+      "subject": null
+     },
+     {
+      "aliases": [
+       "Minnehaha County, South Dakota"
+      ],
+      "answer": "Minnehaha County",
+      "depends_on": null,
+      "relation": "located in the administrative territorial entity",
+      "source": "pa13b0850d2",
+      "step": 2,
+      "subject": "#1 Highway 42"
+     }
+    ]
+   },
+   "hops": 2,
+   "id": "2hop__129910_687286",
+   "pred": {
+    "headings": null,
+    "hops": [
+     {
+      "answer": "Spearfish, South Dakota",
+      "depends_on": null,
+      "relation": "located in",
+      "source": "pa309d0ddf0",
+      "step": 1,
+      "subject": "Episcopal Church of All Angels",
+      "unresolved": false
+     },
+     {
+      "answer": "South Dakota",
+      "depends_on": 1,
+      "relation": "located in",
+      "source": "pa309d0ddf0",
+      "step": 2,
+      "subject": "Spearfish, South Dakota",
+      "unresolved": false
+     },
+     {
+      "answer": "East Sioux Falls",
+      "depends_on": 2,
+      "relation": "Highway 42",
+      "source": "pa13b0850d2",
+      "step": 3,
+      "subject": "South Dakota",
+      "unresolved": false
+     },
+     {
+      "answer": "Minnehaha County",
+      "depends_on": 3,
+      "relation": "located in",
+      "source": "pa13b0850d2",
+      "step": 4,
+      "subject": "East Sioux Falls",
+      "unresolved": false
+     },
+     {
+      "answer": "South Dakota",
+      "depends_on": 4,
+      "relation": "located in",
+      "source": "pa13b0850d2",
+      "step": 5,
+      "subject": "Minnehaha County",
+      "unresolved": false
+     }
+    ],
+    "parse": "OK",
+    "prompt_chars": 2044,
+    "raw": "{\"status\": \"OK\", \"hops\": [{\"step\": 1, \"subject\": \"Episcopal Church of All Angels\", \"relation\": \"located in\", \"answer\": \"Spearfish, South Dakota\", \"source\": \"pa309d0ddf0\", \"depends_on\": null}, {\"step\": 2, \"subject\": \"Spearfish, South Dakota\", \"relation\": \"located in\", \"answer\": \"South Dakota\", \"source\": \"pa309d0ddf0\", \"depends_on\": 1}, {\"step\": 3, \"subject\": \"South Dakota\", \"relation\": \"Highway 42\", \"answer\": \"East Sioux Falls\", \"source\": \"pa13b0850d2\", \"depends_on\": 2}, {\"step\": 4, \"subject\": \"East Sioux Falls\", \"relation\": \"located in\", \"answer\": \"Minnehaha County\", \"source\": \"pa13b0850d2\", \"depends_on\": 3}, {\"step\": 5, \"subject\": \"Minnehaha County\", \"relation\": \"located in\", \"answer\": \"South Dakota\", \"source\": \"pa13b0850d2\", \"depends_on\": 4}]}",
+    "status": "OK"
+   },
+   "score": {
+    "accepted": 5,
+    "accepted_wrong": 5,
+    "controls_expected": 0,
+    "controls_ok": 0,
+    "extra_hops": 3,
+    "gold_hops": 2,
+    "relation_fn": 2,
+    "relation_fp": 5,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "OK",
+    "unresolved": 0
+   }
+  },
+  {
+   "gold": {
+    "answer": "northwestern New Mexico",
+    "hops": [
+     {
+      "aliases": [],
+      "answer": "New Mexico",
+      "depends_on": null,
+      "relation": "What city is Charlotte Cortlandt Ellis from?",
+      "source": "p6f23e6912e",
+      "step": 1,
+      "subject": null
+     },
+     {
+      "aliases": [
+       "New Mexico"
+      ],
+      "answer": "northwestern New Mexico",
+      "depends_on": null,
+      "relation": "where are the san juan mountains in #1",
+      "source": "pa4952478cf",
+      "step": 2,
+      "subject": null
+     }
+    ]
+   },
+   "hops": 2,
+   "id": "2hop__152899_92427",
+   "pred": {
+    "headings": null,
+    "hops": [
+     {
+      "answer": "Colorado",
+      "depends_on": null,
+      "relation": "located in",
+      "source": "pa4952478cf",
+      "step": 1,
+      "subject": "San Juan Mountains",
+      "unresolved": false
+     },
+     {
+      "answer": "New Mexico",
+      "depends_on": null,
+      "relation": "from",
+      "source": "p6f23e6912e",
+      "step": 2,
+      "subject": "Charlotte Cortlandt Ellis",
+      "unresolved": false
+     },
+     {
+      "answer": "Colorado",
+      "depends_on": 1,
+      "relation": "state",
+      "source": "UNRESOLVED",
+      "step": 3,
+      "subject": "New Mexico",
+      "unresolved": true
+     }
+    ],
+    "parse": "OK",
+    "prompt_chars": 2824,
+    "raw": "{\"status\": \"OK\", \"hops\": [{\"step\": 1, \"subject\": \"San Juan Mountains\", \"relation\": \"located in\", \"answer\": \"Colorado\", \"source\": \"pa4952478cf\", \"depends_on\": null}, {\"step\": 2, \"subject\": \"Charlotte Cortlandt Ellis\", \"relation\": \"from\", \"answer\": \"New Mexico\", \"source\": \"p6f23e6912e\", \"depends_on\": null}, {\"step\": 3, \"subject\": \"New Mexico\", \"relation\": \"state\", \"answer\": \"Colorado\", \"source\": \"UNRESOLVED\", \"depends_on\": 1}]}",
+    "status": "OK"
+   },
+   "score": {
+    "accepted": 3,
+    "accepted_wrong": 3,
+    "controls_expected": 0,
+    "controls_ok": 0,
+    "extra_hops": 1,
+    "gold_hops": 2,
+    "relation_fn": 2,
+    "relation_fp": 3,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "OK",
+    "unresolved": 0
+   }
+  },
+  {
+   "gold": {
+    "answer": "November 5, 2019",
+    "hops": [
+     {
+      "aliases": [],
+      "answer": "Mississippi",
+      "depends_on": null,
+      "relation": "place of death",
+      "source": "pb1c931013b",
+      "step": 1,
+      "subject": "Michael Schwerner"
+     },
+     {
+      "aliases": [],
+      "answer": "November 5, 2019",
+      "depends_on": null,
+      "relation": "when is the next governor election in #1",
+      "source": "pc32b238798",
+      "step": 2,
+      "subject": null
+     }
+    ]
+   },
+   "hops": 2,
+   "id": "2hop__333835_70585",
+   "pred": {
+    "headings": null,
+    "hops": [
+     {
+      "answer": "1964",
+      "depends_on": null,
+      "relation": "died",
+      "source": "pb1c931013b",
+      "step": 1,
+      "subject": "Michael Schwerner",
+      "unresolved": false
+     },
+     {
+      "answer": "Mississippi",
+      "depends_on": 1,
+      "relation": "year",
+      "source": "pb1c931013b",
+      "step": 2,
+      "subject": "1964",
+      "unresolved": false
+     },
+     {
+      "answer": "November 5, 2019",
+      "depends_on": 2,
+      "relation": "gubernatorial election",
+      "source": "pc32b238798",
+      "step": 3,
+      "subject": "Mississippi",
+      "unresolved": false
+     }
+    ],
+    "parse": "OK",
+    "prompt_chars": 2004,
+    "raw": "{\"status\": \"OK\", \"hops\": [{\"step\": 1, \"subject\": \"Michael Schwerner\", \"relation\": \"died\", \"answer\": \"1964\", \"source\": \"pb1c931013b\", \"depends_on\": null}, {\"step\": 2, \"subject\": \"1964\", \"relation\": \"year\", \"answer\": \"Mississippi\", \"source\": \"pb1c931013b\", \"depends_on\": 1}, {\"step\": 3, \"subject\": \"Mississippi\", \"relation\": \"gubernatorial election\", \"answer\": \"November 5, 2019\", \"source\": \"pc32b238798\", \"depends_on\": 2}]}",
+    "status": "OK"
+   },
+   "score": {
+    "accepted": 3,
+    "accepted_wrong": 3,
+    "controls_expected": 0,
+    "controls_ok": 0,
+    "extra_hops": 1,
+    "gold_hops": 2,
+    "relation_fn": 2,
+    "relation_fp": 3,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "OK",
+    "unresolved": 0
+   }
+  },
+  {
+   "gold": {
+    "answer": "Sawatch Range",
+    "hops": [
+     {
+      "aliases": [],
+      "answer": "Colorado",
+      "depends_on": null,
+      "relation": "Hinsdale county resides in which US state?",
+      "source": "p41d479d2dd",
+      "step": 1,
+      "subject": null
+     },
+     {
+      "aliases": [],
+      "answer": "Sawatch Range",
+      "depends_on": null,
+      "relation": "part of",
+      "source": "p9dbc102088",
+      "step": 2,
+      "subject": "Garfield Peak (#1 )"
+     }
+    ]
+   },
+   "hops": 2,
+   "id": "2hop__161955_609442",
+   "pred": {
+    "headings": null,
+    "hops": [
+     {
+      "answer": "Sawatch Range",
+      "depends_on": null,
+      "relation": "is part of",
+      "source": "p9dbc102088",
+      "step": 1,
+      "subject": "Garfield Peak",
+      "unresolved": false
+     }
+    ],
+    "parse": "OK",
+    "prompt_chars": 3119,
+    "raw": "{\n  \"status\": \"OK\",\n  \"hops\": [\n    {\n      \"step\": 1,\n      \"subject\": \"Garfield Peak\",\n      \"relation\": \"is part of\",\n      \"answer\": \"Sawatch Range\",\n      \"source\": \"p9dbc102088\",\n      \"depends_on\": null\n    }\n  ]\n}",
+    "status": "OK"
+   },
+   "score": {
+    "accepted": 1,
+    "accepted_wrong": 1,
+    "controls_expected": 0,
+    "controls_ok": 0,
+    "extra_hops": 0,
+    "gold_hops": 2,
+    "relation_fn": 2,
+    "relation_fp": 1,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "OK",
+    "unresolved": 1
+   }
+  },
+  {
+   "gold": {
+    "answer": "Saint Francis",
+    "hops": [
+     {
+      "aliases": [],
+      "answer": "San Francisco",
+      "depends_on": null,
+      "relation": "headquarters location",
+      "source": "pe254ced3b1",
+      "step": 1,
+      "subject": "Coinbase"
+     },
+     {
+      "aliases": [],
+      "answer": "Saint Francis",
+      "depends_on": null,
+      "relation": "who is the city of #1 named after",
+      "source": "pa29823ad6a",
+      "step": 2,
+      "subject": null
+     }
+    ]
+   },
+   "hops": 2,
+   "id": "2hop__228063_49870",
+   "pred": {
+    "headings": null,
+    "hops": [
+     {
+      "answer": "San Francisco",
+      "depends_on": null,
+      "relation": "headquartered in",
+      "source": "pa29823ad6a",
+      "step": 1,
+      "subject": "Coinbase",
+      "unresolved": false
+     },
+     {
+      "answer": "Saint Francis",
+      "depends_on": 1,
+      "relation": "named after",
+      "source": "pa29823ad6a",
+      "step": 2,
+      "subject": "San Francisco",
+      "unresolved": false
+     }
+    ],
+    "parse": "OK",
+    "prompt_chars": 2451,
+    "raw": "{\"status\": \"OK\", \"hops\": [{\"step\": 1, \"subject\": \"Coinbase\", \"relation\": \"headquartered in\", \"answer\": \"San Francisco\", \"source\": \"pa29823ad6a\", \"depends_on\": null}, {\"step\": 2, \"subject\": \"San Francisco\", \"relation\": \"named after\", \"answer\": \"Saint Francis\", \"source\": \"pa29823ad6a\", \"depends_on\": 1}]}",
+    "status": "OK"
+   },
+   "score": {
+    "accepted": 2,
+    "accepted_wrong": 2,
+    "controls_expected": 0,
+    "controls_ok": 0,
+    "extra_hops": 0,
+    "gold_hops": 2,
+    "relation_fn": 2,
+    "relation_fp": 2,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "OK",
+    "unresolved": 0
+   }
+  },
+  {
+   "gold": {
+    "answer": "58%",
+    "hops": [
+     {
+      "aliases": [],
+      "answer": "Nigeria",
+      "depends_on": null,
+      "relation": "Which sub-Saharan African nation does the most trade with the US?",
+      "source": "p5a2e4dcc5d",
+      "step": 1,
+      "subject": null
+     },
+     {
+      "aliases": [],
+      "answer": "58%",
+      "depends_on": null,
+      "relation": "How much of #1 's population is Christian?",
+      "source": "p2b85ce1667",
+      "step": 2,
+      "subject": null
+     }
+    ]
+   },
+   "hops": 2,
+   "id": "2hop__23203_23235",
+   "pred": {
+    "headings": null,
+    "hops": [
+     {
+      "answer": "Nigeria",
+      "depends_on": null,
+      "relation": "is the sub-Saharan African nation which does the most trade with the US",
+      "source": "p5a2e4dcc5d",
+      "step": 1,
+      "subject": "Nigeria",
+      "unresolved": false
+     },
+     {
+      "answer": "58%",
+      "depends_on": 1,
+      "relation": "has a population where Christianity is practiced by",
+      "source": "p2b85ce1667",
+      "step": 2,
+      "subject": "Nigeria",
+      "unresolved": false
+     }
+    ],
+    "parse": "OK",
+    "prompt_chars": 3380,
+    "raw": "{\"status\": \"OK\", \"hops\": [{\"step\": 1, \"subject\": \"Nigeria\", \"relation\": \"is the sub-Saharan African nation which does the most trade with the US\", \"answer\": \"Nigeria\", \"source\": \"p5a2e4dcc5d\", \"depends_on\": null}, {\"step\": 2, \"subject\": \"Nigeria\", \"relation\": \"has a population where Christianity is practiced by\", \"answer\": \"58%\", \"source\": \"p2b85ce1667\", \"depends_on\": 1}]}",
+    "status": "OK"
+   },
+   "score": {
+    "accepted": 2,
+    "accepted_wrong": 2,
+    "controls_expected": 0,
+    "controls_ok": 0,
+    "extra_hops": 0,
+    "gold_hops": 2,
+    "relation_fn": 2,
+    "relation_fp": 2,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "OK",
+    "unresolved": 0
+   }
+  },
+  {
+   "gold": {
+    "answer": "a Polar Satellite Launch Vehicle (PSLV) rocket C25",
+    "hops": [
+     {
+      "aliases": [],
+      "answer": "India",
+      "depends_on": null,
+      "relation": "Where was Goa?",
+      "source": "p75acaece69",
+      "step": 1,
+      "subject": null
+     },
+     {
+      "aliases": [],
+      "answer": "Mars",
+      "depends_on": null,
+      "relation": "Where is Olympia Undae found?",
+      "source": "pbc6525dbd5",
+      "step": 2,
+      "subject": null
+     },
+     {
+      "aliases": [
+       "PSLV",
+       "Polar Satellite Launch Vehicle"
+      ],
+      "answer": "a Polar Satellite Launch Vehicle (PSLV) rocket C25",
+      "depends_on": null,
+      "relation": "#1 's mangalyaan was sent to the #2 by launching",
+      "source": "pa08cbc2c40",
+      "step": 3,
+      "subject": null
+     }
+    ]
+   },
+   "hops": 3,
+   "id": "3hop2__29467_132159_73594",
+   "pred": {
+    "hops": [],
+    "parse": "INVALID_JSON",
+    "prompt_chars": 3216,
+    "raw": "```json\n{\n  \"status\": \"OK\",\n  \"hops\": [\n    {\n      \"step\": 1,\n      \"subject\": \"Mars Orbiter Mission\",\n      \"relation\": \"launched from\",\n      \"answer\": \"First Launch Pad at Satish Dhawan Space Centre (Sriharikota Range SHAR), Andhra Pradesh\",\n      \"source\": \"pa08cbc2c40\",\n      \"depends_on\": null\n    },\n    {\n      \"step\": 2,\n      \"subject\": \"First Launch Pad at Satish Dhawan Space Centre (Sriharikota Range SHAR), Andhra Pradesh\",\n      \"relation\": \"located in\",\n      \"answer\": \"India\",\n      \"source\": \"pa08cbc2c40\",\n      \"depends_on\": 1\n    },\n    {\n      \"step\": 3,\n      \"subject\": \"Mars Orbiter Mission\",\n      \"relation\": \"destination\",\n      \"answer\": \"Mars\",\n      \"source\": \"pa08cbc2c40\",\n      \"depends_on\": 1\n    },\n    {\n      \"step\": 4,\n      \"subject\": \"Mars\",\n      \"relation\": \"has\",\n      \"answer\": \"Olympia Undae\",\n      \"source\": \"pbc6525dbd5\",\n      \"depends_on\": 3\n    },\n    {\n      \"step\": 5,\n      \"subject\": \"Goa\",\n      \"relation\": \"is located in\",\n      \"answer\": \"India\",\n      \"source\": \"pa08cbc2c40\",\n      \"depends_on\": null\n    },\n    {\n      \"step\": 6,\n      \"subject\": \"India\",\n      \"relation\": \"contains\",\n      \"answer\": \"Goa\",\n      \"source",
+    "status": "UNRESOLVED"
+   },
+   "score": {
+    "accepted": 0,
+    "accepted_wrong": 0,
+    "controls_expected": 0,
+    "controls_ok": 0,
+    "extra_hops": 0,
+    "gold_hops": 3,
+    "relation_fn": 3,
+    "relation_fp": 0,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "UNRESOLVED",
+    "unresolved": 3
+   }
+  },
+  {
+   "gold": {
+    "answer": "56.1",
+    "hops": [
+     {
+      "aliases": [],
+      "answer": "Henrico County",
+      "depends_on": null,
+      "relation": "place of birth",
+      "source": "p706e0fbd08",
+      "step": 1,
+      "subject": "William Selden"
+     },
+     {
+      "aliases": [],
+      "answer": "Richmond",
+      "depends_on": 1,
+      "relation": "shares border with",
+      "source": "p214d5938cb",
+      "step": 2,
+      "subject": null
+     },
+     {
+      "aliases": [],
+      "answer": "56.1",
+      "depends_on": null,
+      "relation": "How many people per 100,000 were murdered in #2 in 1990?",
+      "source": "pe95e9ce373",
+      "step": 3,
+      "subject": null
+     }
+    ]
+   },
+   "hops": 3,
+   "id": "3hop1__296445_691163_39762",
+   "pred": {
+    "headings": null,
+    "hops": [
+     {
+      "answer": "Henrico County, Virginia",
+      "depends_on": null,
+      "relation": "is located in",
+      "source": "p706e0fbd08",
+      "step": 1,
+      "subject": "William Selden's county of birth",
+      "unresolved": false
+     },
+     {
+      "answer": "Richmond, Virginia",
+      "depends_on": 1,
+      "relation": "is bordered by",
+      "source": "p214d5938cb",
+      "step": 2,
+      "subject": "City bordering Henrico County, Virginia",
+      "unresolved": false
+     },
+     {
+      "answer": "56.1 killings per 100,000 residents",
+      "depends_on": 2,
+      "relation": "had a murder rate of",
+      "source": "pe95e9ce373",
+      "step": 3,
+      "subject": "Murder rate in Richmond, Virginia in 1990",
+      "unresolved": false
+     }
+    ],
+    "parse": "OK",
+    "prompt_chars": 3349,
+    "raw": "```json\n{\n  \"status\": \"OK\",\n  \"hops\": [\n    {\n      \"step\": 1,\n      \"subject\": \"William Selden's county of birth\",\n      \"relation\": \"is located in\",\n      \"answer\": \"Henrico County, Virginia\",\n      \"source\": \"p706e0fbd08\",\n      \"depends_on\": null\n    },\n    {\n      \"step\": 2,\n      \"subject\": \"City bordering Henrico County, Virginia\",\n      \"relation\": \"is bordered by\",\n      \"answer\": \"Richmond, Virginia\",\n      \"source\": \"p214d5938cb\",\n      \"depends_on\": 1\n    },\n    {\n      \"step\": 3,\n      \"subject\": \"Murder rate in Richmond, Virginia in 1990\",\n      \"relation\": \"had a murder rate of\",\n      \"answer\": \"56.1 killings per 100,000 residents\",\n      \"source\": \"pe95e9ce373\",\n      \"depends_on\": 2\n    }\n  ]\n}\n```",
+    "status": "OK"
+   },
+   "score": {
+    "accepted": 3,
+    "accepted_wrong": 3,
+    "controls_expected": 0,
+    "controls_ok": 0,
+    "extra_hops": 0,
+    "gold_hops": 3,
+    "relation_fn": 3,
+    "relation_fp": 3,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "OK",
+    "unresolved": 0
+   }
+  },
+  {
+   "gold": {
+    "answer": "Caroline Islands",
+    "hops": [
+     {
+      "aliases": [],
+      "answer": "Nukufetau",
+      "depends_on": null,
+      "relation": "Where is there a deep water berth available on Tuvalu?",
+      "source": "p8598bbe7c6",
+      "step": 1,
+      "subject": null
+     },
+     {
+      "aliases": [],
+      "answer": "Pacific Ocean",
+      "depends_on": 1,
+      "relation": "located in or next to body of water",
+      "source": "p5ef45e28e1",
+      "step": 2,
+      "subject": null
+     },
+     {
+      "aliases": [],
+      "answer": "Caroline Islands",
+      "depends_on": null,
+      "relation": "country in the middle of #2",
+      "source": "p5a6aa44f7d",
+      "step": 3,
+      "subject": null
+     }
+    ]
+   },
+   "hops": 3,
+   "id": "3hop1__36186_715233_43805",
+   "pred": {
+    "headings": null,
+    "hops": [
+     {
+      "answer": "Pacific Ocean",
+      "depends_on": null,
+      "relation": "is located in",
+      "source": "p8598bbe7c6",
+      "step": 1,
+      "subject": "Tuvalu",
+      "unresolved": false
+     },
+     {
+      "answer": "Tuvalu",
+      "depends_on": 1,
+      "relation": "contains",
+      "source": "p5ef45e28e1",
+      "step": 2,
+      "subject": "Pacific Ocean",
+      "unresolved": false
+     },
+     {
+      "answer": "Nukufetau",
+      "depends_on": null,
+      "relation": "has",
+      "source": "p8598bbe7c6",
+      "step": 3,
+      "subject": "Tuvalu",
+      "unresolved": false
+     },
+     {
+      "answer": "Tuvalu",
+      "depends_on": null,
+      "relation": "is an atoll of",
+      "source": "p8598bbe7c6",
+      "step": 4,
+      "subject": "Nukufetau",
+      "unresolved": false
+     },
+     {
+      "answer": "deep-water berth",
+      "depends_on": null,
+      "relation": "has",
+      "source": "p8598bbe7c6",
+      "step": 5,
+      "subject": "Nukufetau",
+      "unresolved": false
+     },
+     {
+      "answer": "middle of the ocean",
+      "depends_on": null,
+      "relation": "is in the",
+      "source": "p5ef45e28e1",
+      "step": 6,
+      "subject": "Tuvalu",
+      "unresolved": false
+     }
+    ],
+    "parse": "OK",
+    "prompt_chars": 3142,
+    "raw": "{\"status\": \"OK\", \"hops\": [{\"step\": 1, \"subject\": \"Tuvalu\", \"relation\": \"is located in\", \"answer\": \"Pacific Ocean\", \"source\": \"p8598bbe7c6\", \"depends_on\": null}, {\"step\": 2, \"subject\": \"Pacific Ocean\", \"relation\": \"contains\", \"answer\": \"Tuvalu\", \"source\": \"p5ef45e28e1\", \"depends_on\": 1}, {\"step\": 3, \"subject\": \"Tuvalu\", \"relation\": \"has\", \"answer\": \"Nukufetau\", \"source\": \"p8598bbe7c6\", \"depends_on\": null}, {\"step\": 4, \"subject\": \"Nukufetau\", \"relation\": \"is an atoll of\", \"answer\": \"Tuvalu\", \"source\": \"p8598bbe7c6\", \"depends_on\": null}, {\"step\": 5, \"subject\": \"Nukufetau\", \"relation\": \"has\", \"answer\": \"deep-water berth\", \"source\": \"p8598bbe7c6\", \"depends_on\": null}, {\"step\": 6, \"subject\": \"Tuvalu\", \"relation\": \"is in the\", \"answer\": \"middle of the ocean\", \"source\": \"p5ef45e28e1\", \"depends_on\": null}]}",
+    "status": "OK"
+   },
+   "score": {
+    "accepted": 6,
+    "accepted_wrong": 6,
+    "controls_expected": 0,
+    "controls_ok": 0,
+    "extra_hops": 3,
+    "gold_hops": 3,
+    "relation_fn": 3,
+    "relation_fp": 6,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "OK",
+    "unresolved": 0
+   }
+  },
+  {
+   "gold": {
+    "answer": "Congress rejected",
+    "hops": [
+     {
+      "aliases": [],
+      "answer": "Supreme Court",
+      "depends_on": null,
+      "relation": "What is the highest tier?",
+      "source": "p8a54f74fc6",
+      "step": 1,
+      "subject": null
+     },
+     {
+      "aliases": [],
+      "answer": "Congress",
+      "depends_on": null,
+      "relation": "who has the power to remove a #1 justice",
+      "source": "pb636e9a6bc",
+      "step": 2,
+      "subject": null
+     },
+     {
+      "aliases": [],
+      "answer": "Congress rejected",
+      "depends_on": null,
+      "relation": "What did #2 do to the Executive Order that would have included financial considerations as a factor for a species to be listed?",
+      "source": "pfccbbef802",
+      "step": 3,
+      "subject": null
+     }
+    ]
+   },
+   "hops": 3,
+   "id": "3hop1__17249_45116_32699",
+   "pred": {
+    "headings": null,
+    "hops": [
+     {
+      "answer": "President Ronald Reagan's Executive Order 12291",
+      "depends_on": null,
+      "relation": "rejected",
+      "source": "pfccbbef802",
+      "step": 1,
+      "subject": "Congress",
+      "unresolved": false
+     },
+     {
+      "answer": "Executive Order 12291",
+      "depends_on": 1,
+      "relation": "rejected",
+      "source": "pfccbbef802",
+      "step": 2,
+      "subject": "Congress",
+      "unresolved": false
+     }
+    ],
+    "parse": "OK",
+    "prompt_chars": 4259,
+    "raw": "{\"status\": \"OK\", \"hops\": [{\"step\": 1, \"subject\": \"Congress\", \"relation\": \"rejected\", \"answer\": \"President Ronald Reagan's Executive Order 12291\", \"source\": \"pfccbbef802\", \"depends_on\": null}, {\"step\": 2, \"subject\": \"Congress\", \"relation\": \"rejected\", \"answer\": \"Executive Order 12291\", \"source\": \"pfccbbef802\", \"depends_on\": 1}]}",
+    "status": "OK"
+   },
+   "score": {
+    "accepted": 2,
+    "accepted_wrong": 2,
+    "controls_expected": 0,
+    "controls_ok": 0,
+    "extra_hops": 0,
+    "gold_hops": 3,
+    "relation_fn": 3,
+    "relation_fp": 2,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "OK",
+    "unresolved": 1
+   }
+  },
+  {
+   "gold": {
+    "answer": "Bledsoe County",
+    "hops": [
+     {
+      "aliases": [],
+      "answer": "Hank Snow",
+      "depends_on": null,
+      "relation": "performer",
+      "source": "pded22a4ae8",
+      "step": 1,
+      "subject": "Hello Love"
+     },
+     {
+      "aliases": [],
+      "answer": "Tennessee",
+      "depends_on": null,
+      "relation": "What city did #1 live when he died?",
+      "source": "pe8787ff001",
+      "step": 2,
+      "subject": null
+     },
+     {
+      "aliases": [
+       "Bledsoe",
+       "Bledsoe County, Tennessee"
+      ],
+      "answer": "Bledsoe County",
+      "depends_on": null,
+      "relation": "located in the administrative territorial entity",
+      "source": "pce8364ca3e",
+      "step": 3,
+      "subject": "Dill, #2"
+     }
+    ]
+   },
+   "hops": 3,
+   "id": "3hop1__709382_146811_353329",
+   "pred": {
+    "headings": null,
+    "hops": [
+     {
+      "answer": "Hank Snow",
+      "depends_on": null,
+      "relation": "is performed by",
+      "source": "pded22a4ae8",
+      "step": 1,
+      "subject": "Hello Love performer",
+      "unresolved": false
+     },
+     {
+      "answer": "Nashville, Tennessee",
+      "depends_on": 1,
+      "relation": "lived in",
+      "source": "pe8787ff001",
+      "step": 2,
+      "subject": "Hank Snow",
+      "unresolved": false
+     },
+     {
+      "answer": "Tennessee",
+      "depends_on": 2,
+      "relation": "is in the state of",
+      "source": "pe8787ff001",
+      "step": 3,
+      "subject": "Nashville, Tennessee",
+      "unresolved": false
+     },
+     {
+      "answer": "Bledsoe County",
+      "depends_on": 3,
+      "relation": "has county",
+      "source": "pce8364ca3e",
+      "step": 4,
+      "subject": "Tennessee",
+      "unresolved": false
+     },
+     {
+      "answer": "Dill",
+      "depends_on": 4,
+      "relation": "is where Dill is located",
+      "source": "pce8364ca3e",
+      "step": 5,
+      "subject": "Bledsoe County",
+      "unresolved": false
+     }
+    ],
+    "parse": "OK",
+    "prompt_chars": 3018,
+    "raw": "```json\n{\n  \"status\": \"OK\",\n  \"hops\": [\n    {\n      \"step\": 1,\n      \"subject\": \"Hello Love performer\",\n      \"relation\": \"is performed by\",\n      \"answer\": \"Hank Snow\",\n      \"source\": \"pded22a4ae8\",\n      \"depends_on\": null\n    },\n    {\n      \"step\": 2,\n      \"subject\": \"Hank Snow\",\n      \"relation\": \"lived in\",\n      \"answer\": \"Nashville, Tennessee\",\n      \"source\": \"pe8787ff001\",\n      \"depends_on\": 1\n    },\n    {\n      \"step\": 3,\n      \"subject\": \"Nashville, Tennessee\",\n      \"relation\": \"is in the state of\",\n      \"answer\": \"Tennessee\",\n      \"source\": \"pe8787ff001\",\n      \"depends_on\": 2\n    },\n    {\n      \"step\": 4,\n      \"subject\": \"Tennessee\",\n      \"relation\": \"has county\",\n      \"answer\": \"Bledsoe County\",\n      \"source\": \"pce8364ca3e\",\n      \"depends_on\": 3\n    },\n    {\n      \"step\": 5,\n      \"subject\": \"Bledsoe County\",\n      \"relation\": \"is where Dill is located\",\n      \"answer\": \"Dill\",\n      \"source\": \"pce8364ca3e\",\n      \"depends_on\": 4\n    }\n  ]\n}\n```",
+    "status": "OK"
+   },
+   "score": {
+    "accepted": 5,
+    "accepted_wrong": 5,
+    "controls_expected": 0,
+    "controls_ok": 0,
+    "extra_hops": 2,
+    "gold_hops": 3,
+    "relation_fn": 3,
+    "relation_fp": 5,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "OK",
+    "unresolved": 0
+   }
+  },
+  {
+   "gold": {
+    "answer": "32",
+    "hops": [
+     {
+      "aliases": [],
+      "answer": "Hank Snow",
+      "depends_on": null,
+      "relation": "performer",
+      "source": "pe9f177ac17",
+      "step": 1,
+      "subject": "Hello Love"
+     },
+     {
+      "aliases": [],
+      "answer": "Tennessee",
+      "depends_on": null,
+      "relation": "What city did #1 live when he died?",
+      "source": "p11bd9dc2ff",
+      "step": 2,
+      "subject": null
+     },
+     {
+      "aliases": [],
+      "answer": "32",
+      "depends_on": null,
+      "relation": "What is #2 's average high temperature in degree Celsius during the summer?",
+      "source": "p851789c8c0",
+      "step": 3,
+      "subject": null
+     }
+    ]
+   },
+   "hops": 3,
+   "id": "3hop1__709382_146811_31262",
+   "pred": {
+    "headings": null,
+    "hops": [
+     {
+      "answer": "Hank Snow",
+      "depends_on": null,
+      "relation": "performer",
+      "source": "pe9f177ac17",
+      "step": 1,
+      "subject": "Hello Love (song)",
+      "unresolved": false
+     },
+     {
+      "answer": "Nashville, Tennessee",
+      "depends_on": 1,
+      "relation": "lived in",
+      "source": "p11bd9dc2ff",
+      "step": 2,
+      "subject": "Hank Snow",
+      "unresolved": false
+     },
+     {
+      "answer": "32 °C",
+      "depends_on": 2,
+      "relation": "average high temperature in summer",
+      "source": "p851789c8c0",
+      "step": 3,
+      "subject": "Nashville, Tennessee",
+      "unresolved": false
+     }
+    ],
+    "parse": "OK",
+    "prompt_chars": 3279,
+    "raw": "```json\n{\n  \"status\": \"OK\",\n  \"hops\": [\n    {\n      \"step\": 1,\n      \"subject\": \"Hello Love (song)\",\n      \"relation\": \"performer\",\n      \"answer\": \"Hank Snow\",\n      \"source\": \"pe9f177ac17\",\n      \"depends_on\": null\n    },\n    {\n      \"step\": 2,\n      \"subject\": \"Hank Snow\",\n      \"relation\": \"lived in\",\n      \"answer\": \"Nashville, Tennessee\",\n      \"source\": \"p11bd9dc2ff\",\n      \"depends_on\": 1\n    },\n    {\n      \"step\": 3,\n      \"subject\": \"Nashville, Tennessee\",\n      \"relation\": \"average high temperature in summer\",\n      \"answer\": \"32 °C\",\n      \"source\": \"p851789c8c0\",\n      \"depends_on\": 2\n    }\n  ]\n}\n```",
+    "status": "OK"
+   },
+   "score": {
+    "accepted": 3,
+    "accepted_wrong": 2,
+    "controls_expected": 0,
+    "controls_ok": 0,
+    "extra_hops": 0,
+    "gold_hops": 3,
+    "relation_fn": 2,
+    "relation_fp": 2,
+    "relation_tp": 1,
+    "source_correct": 1,
+    "status": "OK",
+    "unresolved": 0
+   }
+  },
+  {
+   "gold": {
+    "answer": "Italian Republic",
+    "hops": [
+     {
+      "aliases": [],
+      "answer": "Hitler",
+      "depends_on": null,
+      "relation": "owned by",
+      "source": "pf79d9cc085",
+      "step": 1,
+      "subject": "Blondi"
+     },
+     {
+      "aliases": [],
+      "answer": "Italy",
+      "depends_on": null,
+      "relation": "Which country did #1 align Germany with?",
+      "source": "p907b33fe09",
+      "step": 2,
+      "subject": null
+     },
+     {
+      "aliases": [],
+      "answer": "Italian Republic",
+      "depends_on": null,
+      "relation": "country",
+      "source": "pcbcf2dab7b",
+      "step": 3,
+      "subject": "President of #2"
+     }
+    ]
+   },
+   "hops": 3,
+   "id": "3hop1__368999_4658_796745",
+   "pred": {
+    "headings": null,
+    "hops": [
+     {
+      "answer": "Nazi regime",
+      "depends_on": null,
+      "relation": "aligned with during WWII",
+      "source": "pf79d9cc085",
+      "step": 1,
+      "subject": "Blondi",
+      "unresolved": false
+     },
+     {
+      "answer": "Germany",
+      "depends_on": 1,
+      "relation": "governed by",
+      "source": "p907b33fe09",
+      "step": 2,
+      "subject": "Nazi regime",
+      "unresolved": false
+     },
+     {
+      "answer": "Federal Republic of Germany",
+      "depends_on": 2,
+      "relation": "republic",
+      "source": "p907b33fe09",
+      "step": 3,
+      "subject": "Germany",
+      "unresolved": false
+     }
+    ],
+    "parse": "OK",
+    "prompt_chars": 2539,
+    "raw": "{\"status\": \"OK\", \"hops\": [{\"step\": 1, \"subject\": \"Blondi\", \"relation\": \"aligned with during WWII\", \"answer\": \"Nazi regime\", \"source\": \"pf79d9cc085\", \"depends_on\": null}, {\"step\": 2, \"subject\": \"Nazi regime\", \"relation\": \"governed by\", \"answer\": \"Germany\", \"source\": \"p907b33fe09\", \"depends_on\": 1}, {\"step\": 3, \"subject\": \"Germany\", \"relation\": \"republic\", \"answer\": \"Federal Republic of Germany\", \"source\": \"p907b33fe09\", \"depends_on\": 2}]}",
+    "status": "OK"
+   },
+   "score": {
+    "accepted": 3,
+    "accepted_wrong": 3,
+    "controls_expected": 0,
+    "controls_ok": 0,
+    "extra_hops": 0,
+    "gold_hops": 3,
+    "relation_fn": 3,
+    "relation_fp": 3,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "OK",
+    "unresolved": 0
+   }
+  },
+  {
+   "gold": {
+    "answer": "sometime between 1820 and 1840",
+    "hops": [
+     {
+      "aliases": [],
+      "answer": "James II",
+      "depends_on": null,
+      "relation": "What was the regnal name of the Duke of York?",
+      "source": "p2d2708cf86",
+      "step": 1,
+      "subject": null
+     },
+     {
+      "aliases": [],
+      "answer": "England",
+      "depends_on": null,
+      "relation": "What location did #1 come back to?",
+      "source": "p0601cb9c21",
+      "step": 2,
+      "subject": null
+     },
+     {
+      "aliases": [
+       "Industrial Revolution",
+       "Industrial revolution"
+      ],
+      "answer": "sometime between 1820 and 1840",
+      "depends_on": null,
+      "relation": "when did the industrial revolution end in #2",
+      "source": "p389e82202a",
+      "step": 3,
+      "subject": null
+     }
+    ]
+   },
+   "hops": 3,
+   "id": "3hop1__1707_158293_43132",
+   "pred": {
+    "headings": null,
+    "hops": [
+     {
+      "answer": "1840",
+      "depends_on": null,
+      "relation": "ended in",
+      "source": "p389e82202a",
+      "step": 1,
+      "subject": "Industrial Revolution",
+      "unresolved": false
+     },
+     {
+      "answer": "England",
+      "depends_on": 1,
+      "relation": "came back to",
+      "source": "p2d2708cf86",
+      "step": 2,
+      "subject": "Duke of York",
+      "unresolved": false
+     },
+     {
+      "answer": "United Kingdom",
+      "depends_on": 2,
+      "relation": "country",
+      "source": "UNRESOLVED",
+      "step": 3,
+      "subject": "England",
+      "unresolved": true
+     },
+     {
+      "answer": "1840",
+      "depends_on": 3,
+      "relation": "end of Industrial Revolution",
+      "source": "p389e82202a",
+      "step": 4,
+      "subject": "United Kingdom",
+      "unresolved": false
+     }
+    ],
+    "parse": "OK",
+    "prompt_chars": 2686,
+    "raw": "{\"status\": \"OK\", \"hops\": [{\"step\": 1, \"subject\": \"Industrial Revolution\", \"relation\": \"ended in\", \"answer\": \"1840\", \"source\": \"p389e82202a\", \"depends_on\": null}, {\"step\": 2, \"subject\": \"Duke of York\", \"relation\": \"came back to\", \"answer\": \"England\", \"source\": \"p2d2708cf86\", \"depends_on\": 1}, {\"step\": 3, \"subject\": \"England\", \"relation\": \"country\", \"answer\": \"United Kingdom\", \"source\": \"UNRESOLVED\", \"depends_on\": 2}, {\"step\": 4, \"subject\": \"United Kingdom\", \"relation\": \"end of Industrial Revolution\", \"answer\": \"1840\", \"source\": \"p389e82202a\", \"depends_on\": 3}]}",
+    "status": "OK"
+   },
+   "score": {
+    "accepted": 3,
+    "accepted_wrong": 3,
+    "controls_expected": 0,
+    "controls_ok": 0,
+    "extra_hops": 1,
+    "gold_hops": 3,
+    "relation_fn": 3,
+    "relation_fp": 3,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "OK",
+    "unresolved": 1
+   }
+  },
+  {
+   "gold": {
+    "answer": "October 28, 2012",
+    "hops": [
+     {
+      "aliases": [],
+      "answer": "Mal Waldron",
+      "depends_on": null,
+      "relation": "performer",
+      "source": "pa31e28751d",
+      "step": 1,
+      "subject": "Left Alone"
+     },
+     {
+      "aliases": [],
+      "answer": "New York City",
+      "depends_on": 1,
+      "relation": "place of birth",
+      "source": "pa74dd2f323",
+      "step": 2,
+      "subject": null
+     },
+     {
+      "aliases": [],
+      "answer": "October 28, 2012",
+      "depends_on": null,
+      "relation": "when did hurricane sandy hit #2",
+      "source": "pbfee3bb120",
+      "step": 3,
+      "subject": null
+     }
+    ]
+   },
+   "hops": 3,
+   "id": "3hop1__598326_861630_87032",
+   "pred": {
+    "headings": null,
+    "hops": [
+     {
+      "answer": "Mal Waldron",
+      "depends_on": null,
+      "relation": "album by",
+      "source": "pa31e28751d",
+      "step": 1,
+      "subject": "Left Alone",
+      "unresolved": false
+     },
+     {
+      "answer": "UNRESOLVED",
+      "depends_on": 1,
+      "relation": "born",
+      "source": "UNRESOLVED",
+      "step": 2,
+      "subject": "Mal Waldron",
+      "unresolved": true
+     },
+     {
+      "answer": "October 29, 2012",
+      "depends_on": null,
+      "relation": "landfall",
+      "source": "pbfee3bb120",
+      "step": 3,
+      "subject": "Hurricane Sandy",
+      "unresolved": false
+     },
+     {
+      "answer": "New York",
+      "depends_on": null,
+      "relation": "affected",
+      "source": "pbfee3bb120",
+      "step": 4,
+      "subject": "Hurricane Sandy",
+      "unresolved": false
+     },
+     {
+      "answer": "UNRESOLVED",
+      "depends_on": 4,
+      "relation": "city where",
+      "source": "UNRESOLVED",
+      "step": 5,
+      "subject": "New York",
+      "unresolved": true
+     }
+    ],
+    "parse": "OK",
+    "prompt_chars": 3666,
+    "raw": "{\"status\": \"OK\", \"hops\": [{\"step\": 1, \"subject\": \"Left Alone\", \"relation\": \"album by\", \"answer\": \"Mal Waldron\", \"source\": \"pa31e28751d\", \"depends_on\": null}, {\"step\": 2, \"subject\": \"Mal Waldron\", \"relation\": \"born\", \"answer\": \"UNRESOLVED\", \"source\": \"UNRESOLVED\", \"depends_on\": 1}, {\"step\": 3, \"subject\": \"Hurricane Sandy\", \"relation\": \"landfall\", \"answer\": \"October 29, 2012\", \"source\": \"pbfee3bb120\", \"depends_on\": null}, {\"step\": 4, \"subject\": \"Hurricane Sandy\", \"relation\": \"affected\", \"answer\": \"New York\", \"source\": \"pbfee3bb120\", \"depends_on\": null}, {\"step\": 5, \"subject\": \"New York\", \"relation\": \"city where\", \"answer\": \"UNRESOLVED\", \"source\": \"UNRESOLVED\", \"depends_on\": 4}]}",
+    "status": "OK"
+   },
+   "score": {
+    "accepted": 4,
+    "accepted_wrong": 4,
+    "controls_expected": 0,
+    "controls_ok": 0,
+    "extra_hops": 2,
+    "gold_hops": 3,
+    "relation_fn": 3,
+    "relation_fp": 4,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "OK",
+    "unresolved": 1
+   }
+  },
+  {
+   "gold": {
+    "answer": "Michael Manning",
+    "hops": [
+     {
+      "aliases": [],
+      "answer": "Scotland",
+      "depends_on": null,
+      "relation": "Where do they travel to?",
+      "source": "pcf9ae83830",
+      "step": 1,
+      "subject": null
+     },
+     {
+      "aliases": [],
+      "answer": "Ireland",
+      "depends_on": null,
+      "relation": "A lion is to #1 as a stringed agent is to?",
+      "source": "pce5c11149c",
+      "step": 2,
+      "subject": null
+     },
+     {
+      "aliases": [],
+      "answer": "Michael Manning",
+      "depends_on": null,
+      "relation": "who was the last person executed in #2",
+      "source": "pb0775b06cc",
+      "step": 3,
+      "subject": null
+     }
+    ]
+   },
+   "hops": 3,
+   "id": "3hop1__161080_158722_44900",
+   "pred": {
+    "headings": null,
+    "hops": [
+     {
+      "answer": "United Kingdom",
+      "depends_on": null,
+      "relation": "has coat of arms with stringed agent",
+      "source": "pce5c11149c",
+      "step": 1,
+      "subject": "country with a stringed agent in its coat of arms",
+      "unresolved": false
+     },
+     {
+      "answer": "Leonard Shockley",
+      "depends_on": 1,
+      "relation": "last person executed",
+      "source": "p0b9d26db8e",
+      "step": 2,
+      "subject": "United Kingdom",
+      "unresolved": false
+     },
+     {
+      "answer": "17",
+      "depends_on": 2,
+      "relation": "age at execution",
+      "source": "p0b9d26db8e",
+      "step": 3,
+      "subject": "Leonard Shockley",
+      "unresolved": false
+     },
+     {
+      "answer": "Scotland",
+      "depends_on": null,
+      "relation": "travel to",
+      "source": "pcf9ae83830",
+      "step": 4,
+      "subject": "country they travel to",
+      "unresolved": false
+     },
+     {
+      "answer": "UNRESOLVED",
+      "depends_on": 4,
+      "relation": "last person executed",
+      "source": "UNRESOLVED",
+      "step": 5,
+      "subject": "Scotland",
+      "unresolved": true
+     }
+    ],
+    "parse": "OK",
+    "prompt_chars": 3850,
+    "raw": "{\"status\": \"OK\", \"hops\": [{\"step\": 1, \"subject\": \"country with a stringed agent in its coat of arms\", \"relation\": \"has coat of arms with stringed agent\", \"answer\": \"United Kingdom\", \"source\": \"pce5c11149c\", \"depends_on\": null}, {\"step\": 2, \"subject\": \"United Kingdom\", \"relation\": \"last person executed\", \"answer\": \"Leonard Shockley\", \"source\": \"p0b9d26db8e\", \"depends_on\": 1}, {\"step\": 3, \"subject\": \"Leonard Shockley\", \"relation\": \"age at execution\", \"answer\": \"17\", \"source\": \"p0b9d26db8e\", \"depends_on\": 2}, {\"step\": 4, \"subject\": \"country they travel to\", \"relation\": \"travel to\", \"answer\": \"Scotland\", \"source\": \"pcf9ae83830\", \"depends_on\": null}, {\"step\": 5, \"subject\": \"Scotland\", \"relation\": \"last person executed\", \"answer\": \"UNRESOLVED\", \"source\": \"UNRESOLVED\", \"depends_on\": 4}]}",
+    "status": "OK"
+   },
+   "score": {
+    "accepted": 5,
+    "accepted_wrong": 5,
+    "controls_expected": 0,
+    "controls_ok": 0,
+    "extra_hops": 2,
+    "gold_hops": 3,
+    "relation_fn": 3,
+    "relation_fp": 5,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "OK",
+    "unresolved": 0
+   }
+  },
+  {
+   "gold": {
+    "answer": "11,420,163",
+    "hops": [
+     {
+      "aliases": [],
+      "answer": "the League of Nations",
+      "depends_on": null,
+      "relation": "Who intervened with mediation for the governments?",
+      "source": "p1de2545597",
+      "step": 1,
+      "subject": null
+     },
+     {
+      "aliases": [],
+      "answer": "Switzerland",
+      "depends_on": null,
+      "relation": "Where is #1 located?",
+      "source": "p8f56894acf",
+      "step": 2,
+      "subject": null
+     },
+     {
+      "aliases": [],
+      "answer": "Belgium",
+      "depends_on": null,
+      "relation": "country",
+      "source": "p1c3ec0c7aa",
+      "step": 3,
+      "subject": "#2 at the 1920 Summer Olympics"
+     },
+     {
+      "aliases": [],
+      "answer": "11,420,163",
+      "depends_on": null,
+      "relation": "what is the population of #3 in 2018",
+      "source": "p46925d7091",
+      "step": 4,
+      "subject": null
+     }
+    ]
+   },
+   "hops": 4,
+   "id": "4hop1__159612_22372_375457_49140",
+   "pred": {
+    "headings": null,
+    "hops": [
+     {
+      "answer": "Belgium",
+      "depends_on": null,
+      "relation": "hosted",
+      "source": "p1c3ec0c7aa",
+      "step": 1,
+      "subject": "country that hosted the 1920 Summer Olympics",
+      "unresolved": false
+     },
+     {
+      "answer": "League of Nations",
+      "depends_on": 1,
+      "relation": "intervened with mediation",
+      "source": "p1de2545597",
+      "step": 2,
+      "subject": "country containing the organization that intervened with mediation",
+      "unresolved": false
+     },
+     {
+      "answer": "Switzerland",
+      "depends_on": 1,
+      "relation": "competed",
+      "source": "p1c3ec0c7aa",
+      "step": 3,
+      "subject": "country that competed in the 1920 Summer Olympics",
+      "unresolved": false
+     },
+     {
+      "answer": "11,420,163",
+      "depends_on": 3,
+      "relation": "population",
+      "source": "p46925d7091",
+      "step": 4,
+      "subject": "population of the country",
+      "unresolved": false
+     }
+    ],
+    "parse": "OK",
+    "prompt_chars": 6140,
+    "raw": "```json\n{\n  \"status\": \"OK\",\n  \"hops\": [\n    {\n      \"step\": 1,\n      \"subject\": \"country that hosted the 1920 Summer Olympics\",\n      \"relation\": \"hosted\",\n      \"answer\": \"Belgium\",\n      \"source\": \"p1c3ec0c7aa\",\n      \"depends_on\": null\n    },\n    {\n      \"step\": 2,\n      \"subject\": \"country containing the organization that intervened with mediation\",\n      \"relation\": \"intervened with mediation\",\n      \"answer\": \"League of Nations\",\n      \"source\": \"p1de2545597\",\n      \"depends_on\": 1\n    },\n    {\n      \"step\": 3,\n      \"subject\": \"country that competed in the 1920 Summer Olympics\",\n      \"relation\": \"competed\",\n      \"answer\": \"Switzerland\",\n      \"source\": \"p1c3ec0c7aa\",\n      \"depends_on\": 1\n    },\n    {\n      \"step\": 4,\n      \"subject\": \"population of the country\",\n      \"relation\": \"population\",\n      \"answer\": \"11,420,163\",\n      \"source\": \"p46925d7091\",\n      \"depends_on\": 3\n    }\n  ]\n}\n```",
+    "status": "OK"
+   },
+   "score": {
+    "accepted": 4,
+    "accepted_wrong": 4,
+    "controls_expected": 0,
+    "controls_ok": 0,
+    "extra_hops": 0,
+    "gold_hops": 4,
+    "relation_fn": 4,
+    "relation_fp": 4,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "OK",
+    "unresolved": 0
+   }
+  },
+  {
+   "gold": {
+    "answer": "Cape Agulhas",
+    "hops": [
+     {
+      "aliases": [],
+      "answer": "Africa",
+      "depends_on": null,
+      "relation": "The continent that Togo is on is what?",
+      "source": "p894cae4708",
+      "step": 1,
+      "subject": null
+     },
+     {
+      "aliases": [
+       "Agulhas"
+      ],
+      "answer": "Cape Agulhas",
+      "depends_on": null,
+      "relation": "what is the name of the southern tip of #1",
+      "source": "p44ba7e0234",
+      "step": 2,
+      "subject": null
+     }
+    ]
+   },
+   "hops": 2,
+   "id": "2hop__100331_85374",
+   "pred": {
+    "headings": null,
+    "hops": [
+     {
+      "answer": "West Africa",
+      "depends_on": null,
+      "relation": "is located in",
+      "source": "p894cae4708",
+      "step": 1,
+      "subject": "Togo",
+      "unresolved": false
+     },
+     {
+      "answer": "Gulf of Guinea",
+      "depends_on": 1,
+      "relation": "has a southern tip",
+      "source": "p894cae4708",
+      "step": 2,
+      "subject": "West Africa",
+      "unresolved": false
+     },
+     {
+      "answer": "Africa",
+      "depends_on": 2,
+      "relation": "is the southern tip of",
+      "source": "p894cae4708",
+      "step": 3,
+      "subject": "Gulf of Guinea",
+      "unresolved": false
+     }
+    ],
+    "parse": "OK",
+    "prompt_chars": 3152,
+    "raw": "{\"status\": \"OK\", \"hops\": [{\"step\": 1, \"subject\": \"Togo\", \"relation\": \"is located in\", \"answer\": \"West Africa\", \"source\": \"p894cae4708\", \"depends_on\": null}, {\"step\": 2, \"subject\": \"West Africa\", \"relation\": \"has a southern tip\", \"answer\": \"Gulf of Guinea\", \"source\": \"p894cae4708\", \"depends_on\": 1}, {\"step\": 3, \"subject\": \"Gulf of Guinea\", \"relation\": \"is the southern tip of\", \"answer\": \"Africa\", \"source\": \"p894cae4708\", \"depends_on\": 2}]}",
+    "status": "OK"
+   },
+   "score": {
+    "accepted": 3,
+    "accepted_wrong": 3,
+    "controls_expected": 0,
+    "controls_ok": 0,
+    "extra_hops": 1,
+    "gold_hops": 2,
+    "relation_fn": 2,
+    "relation_fp": 3,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "OK",
+    "unresolved": 0
+   }
+  },
+  {
+   "gold": {
+    "answer": "Stroudsburg",
+    "hops": [
+     {
+      "aliases": [],
+      "answer": "Lackawanna County",
+      "depends_on": null,
+      "relation": "located in the administrative territorial entity",
+      "source": "p3ff8e40797",
+      "step": 1,
+      "subject": "Carbondale"
+     },
+     {
+      "aliases": [],
+      "answer": "Monroe County",
+      "depends_on": 1,
+      "relation": "shares border with",
+      "source": "p606949050c",
+      "step": 2,
+      "subject": null
+     },
+     {
+      "aliases": [
+       "Stroudsburg, Pennsylvania"
+      ],
+      "answer": "Stroudsburg",
+      "depends_on": 2,
+      "relation": "capital",
+      "source": "p72bded6fba",
+      "step": 3,
+      "subject": null
+     }
+    ]
+   },
+   "hops": 3,
+   "id": "3hop1__536182_295863_534758",
+   "pred": {
+    "headings": null,
+    "hops": [
+     {
+      "answer": "Lackawanna County",
+      "depends_on": null,
+      "relation": "located in",
+      "source": "p3ff8e40797",
+      "step": 1,
+      "subject": "Carbondale",
+      "unresolved": false
+     },
+     {
+      "answer": "Monroe County",
+      "depends_on": 1,
+      "relation": "shares a border with",
+      "source": "p72bded6fba",
+      "step": 2,
+      "subject": "Lackawanna County",
+      "unresolved": false
+     },
+     {
+      "answer": "Stroudsburg",
+      "depends_on": 2,
+      "relation": "capital of",
+      "source": "p72bded6fba",
+      "step": 3,
+      "subject": "Monroe County",
+      "unresolved": false
+     }
+    ],
+    "parse": "OK",
+    "prompt_chars": 3068,
+    "raw": "```json\n{\n  \"status\": \"OK\",\n  \"hops\": [\n    {\n      \"step\": 1,\n      \"subject\": \"Carbondale\",\n      \"relation\": \"located in\",\n      \"answer\": \"Lackawanna County\",\n      \"source\": \"p3ff8e40797\",\n      \"depends_on\": null\n    },\n    {\n      \"step\": 2,\n      \"subject\": \"Lackawanna County\",\n      \"relation\": \"shares a border with\",\n      \"answer\": \"Monroe County\",\n      \"source\": \"p72bded6fba\",\n      \"depends_on\": 1\n    },\n    {\n      \"step\": 3,\n      \"subject\": \"Monroe County\",\n      \"relation\": \"capital of\",\n      \"answer\": \"Stroudsburg\",\n      \"source\": \"p72bded6fba\",\n      \"depends_on\": 2\n    }\n  ]\n}\n```",
+    "status": "OK"
+   },
+   "score": {
+    "accepted": 3,
+    "accepted_wrong": 2,
+    "controls_expected": 0,
+    "controls_ok": 0,
+    "extra_hops": 0,
+    "gold_hops": 3,
+    "relation_fn": 2,
+    "relation_fp": 2,
+    "relation_tp": 1,
+    "source_correct": 0,
+    "status": "OK",
+    "unresolved": 0
+   }
+  }
+ ]
+}

@@ -1,0 +1,55 @@
+{
+ "checkpoint": "results/M1-finetune-distance/D2-mqar4-f64/selected.pt",
+ "args": {
+  "checkpoint": "results/M1-finetune-distance/D2-mqar4-f64/selected.pt",
+  "out": "results/M1-finetune-distance/D2-mqar4-f64/mqar-eval.json",
+  "width": null,
+  "heads": 4,
+  "feedback": "on",
+  "alphabet": "default",
+  "key_lengths": "4",
+  "facts": 4,
+  "queries": 4,
+  "filler": "0,64",
+  "pad_to": 320,
+  "items": 32,
+  "batch": 8,
+  "device": "cpu"
+ },
+ "report": {
+  "train_k4": {
+   "first": [
+    0.90625,
+    0.875,
+    0.9375,
+    0.9375
+   ],
+   "exact": [
+    0.84375,
+    0.8125,
+    0.9375,
+    0.90625
+   ],
+   "first_all": 0.9140625,
+   "exact_all": 0.875,
+   "answers": 128
+  },
+  "held_k4": {
+   "first": [
+    0.25,
+    0.34375,
+    0.4375,
+    0.40625
+   ],
+   "exact": [
+    0.21875,
+    0.21875,
+    0.3125,
+    0.3125
+   ],
+   "first_all": 0.359375,
+   "exact_all": 0.265625,
+   "answers": 128
+  }
+ }
+}

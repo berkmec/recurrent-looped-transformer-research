@@ -1,0 +1,89 @@
+{
+ "checkpoint": "results/M1-finetune-distance/D6-d5-then-natural/selected.pt",
+ "args": {
+  "checkpoint": "results/M1-finetune-distance/D6-d5-then-natural/selected.pt",
+  "out": "results/M1-finetune-distance/D6-d5-then-natural/mqar-eval.json",
+  "width": null,
+  "heads": 4,
+  "feedback": "on",
+  "alphabet": "broad",
+  "key_lengths": "4",
+  "facts": 4,
+  "queries": 4,
+  "with_replacement": true,
+  "filler_kind": "repeat",
+  "natural_keys": 300,
+  "filler": "0,64",
+  "pad_to": 512,
+  "items": 128,
+  "batch": 32,
+  "device": "cuda"
+ },
+ "report": {
+  "train_k4": {
+   "first": [
+    0.9606986899563319,
+    0.9301310043668122,
+    0.9563318777292577,
+    0.982532751091703
+   ],
+   "exact": [
+    0.9388646288209607,
+    0.8908296943231441,
+    0.9170305676855895,
+    0.9344978165938864
+   ],
+   "first_all": 0.9574235807860262,
+   "exact_all": 0.9203056768558951,
+   "answers": 916
+  },
+  "held_k4": {
+   "first": [
+    0.4117647058823529,
+    0.3697478991596639,
+    0.36554621848739494,
+    0.3865546218487395
+   ],
+   "exact": [
+    0.2647058823529412,
+    0.24789915966386555,
+    0.24369747899159663,
+    0.25210084033613445
+   ],
+   "first_all": 0.38340336134453784,
+   "exact_all": 0.25210084033613445,
+   "answers": 952
+  },
+  "natural": {
+   "first": [
+    0.9624060150375939,
+    0.9548872180451128,
+    0.9548872180451128,
+    0.9548872180451128
+   ],
+   "exact": [
+    0.9022556390977443,
+    0.8796992481203008,
+    0.8571428571428571,
+    0.8872180451127819
+   ],
+   "first_all": 0.956766917293233,
+   "exact_all": 0.881578947368421,
+   "answers": 532,
+   "sample_keys": [
+    "readers",
+    "identified",
+    "Macedonia",
+    "Universal Studios",
+    "improvised",
+    "Hector Cuper",
+    "strides",
+    "cleaners",
+    "North College",
+    "Rock",
+    "roomy",
+    "Scott Pelley"
+   ]
+  }
+ }
+}

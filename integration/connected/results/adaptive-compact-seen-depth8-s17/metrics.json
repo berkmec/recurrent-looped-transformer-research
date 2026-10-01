@@ -1,0 +1,239 @@
+{
+  "seed": 17,
+  "split": "depth8",
+  "condition": {
+    "name": "adaptive-compact-seen",
+    "view": "compact",
+    "adaptive": true,
+    "style": "seen"
+  },
+  "episodes": 256,
+  "source_event_exact_accuracy": 1.0,
+  "source_episode_exact_accuracy": 1.0,
+  "spurious_query_outputs": 0,
+  "spurious_accepted_outputs": 0,
+  "all_certificate_outputs": {
+    "count": 0,
+    "source_failures": 0,
+    "source_failure_rate": null,
+    "scope": "all emitted certificates, including unsolicited/misparsed query positions as source alignment failures; correlated queries, no binomial interval"
+  },
+  "final": {
+    "intended_queries": 256,
+    "emitted_count": 256,
+    "coverage": 0.0,
+    "accepted_count": 0,
+    "accepted_failures": 0,
+    "accepted_error_rate": null,
+    "accepted_error_rate_ci95": null,
+    "accuracy_all_intended": 0.22265625,
+    "mse_emitted": 0.34255597642285784,
+    "missing_outputs": 0,
+    "mean_refinements_at_query": 8.0,
+    "interval_scope": "fixed-model independent final cases"
+  },
+  "all_queries": {
+    "intended_queries": 768,
+    "emitted_count": 768,
+    "coverage": 0.0,
+    "accepted_count": 0,
+    "accepted_failures": 0,
+    "accepted_error_rate": null,
+    "accepted_error_rate_ci95": null,
+    "accuracy_all_intended": 0.2265625,
+    "mse_emitted": 0.30215665698531474,
+    "missing_outputs": 0,
+    "mean_refinements_at_query": 8.0,
+    "interval_scope": "correlated within episode; no binomial interval"
+  },
+  "costs_mean": {
+    "total_refinements_executed": 24.0,
+    "total_consumed_tokens_including_replay": 33.0,
+    "seconds": 0.35259309257935456,
+    "raw_records": 40.0,
+    "compactions": 3.0,
+    "premature_compactions": 0.0,
+    "reopens": 0.16796875,
+    "max_active_records": 4.0,
+    "heading_count": 10.0,
+    "archive_bytes": 270976.0
+  },
+  "costs_max": {
+    "total_refinements_executed": 24,
+    "total_consumed_tokens_including_replay": 33,
+    "seconds": 0.44985029997769743,
+    "raw_records": 40,
+    "compactions": 3,
+    "premature_compactions": 0,
+    "reopens": 1,
+    "max_active_records": 4,
+    "heading_count": 10,
+    "archive_bytes": 278528
+  },
+  "wall_seconds": 91.18081549997441,
+  "predictions_sha256": "bd880f08b2e674e731e6f448712a7f548b945434f8b87e9abbe59ec2c9608313",
+  "affected": {
+    "episodes": 128,
+    "source_event_exact_accuracy": 1.0,
+    "source_episode_exact_accuracy": 1.0,
+    "spurious_query_outputs": 0,
+    "spurious_accepted_outputs": 0,
+    "all_certificate_outputs": {
+      "count": 0,
+      "source_failures": 0,
+      "source_failure_rate": null,
+      "scope": "all emitted certificates, including unsolicited/misparsed query positions as source alignment failures; correlated queries, no binomial interval"
+    },
+    "final": {
+      "intended_queries": 128,
+      "emitted_count": 128,
+      "coverage": 0.0,
+      "accepted_count": 0,
+      "accepted_failures": 0,
+      "accepted_error_rate": null,
+      "accepted_error_rate_ci95": null,
+      "accuracy_all_intended": 0.1875,
+      "mse_emitted": 0.46655100720541887,
+      "missing_outputs": 0,
+      "mean_refinements_at_query": 8.0,
+      "interval_scope": "fixed-model independent final cases"
+    },
+    "all_queries": {
+      "intended_queries": 384,
+      "emitted_count": 384,
+      "coverage": 0.0,
+      "accepted_count": 0,
+      "accepted_failures": 0,
+      "accepted_error_rate": null,
+      "accepted_error_rate_ci95": null,
+      "accuracy_all_intended": 0.20052083333333334,
+      "mse_emitted": 0.3857522502501533,
+      "missing_outputs": 0,
+      "mean_refinements_at_query": 8.0,
+      "interval_scope": "correlated within episode; no binomial interval"
+    }
+  },
+  "unaffected": {
+    "episodes": 128,
+    "source_event_exact_accuracy": 1.0,
+    "source_episode_exact_accuracy": 1.0,
+    "spurious_query_outputs": 0,
+    "spurious_accepted_outputs": 0,
+    "all_certificate_outputs": {
+      "count": 0,
+      "source_failures": 0,
+      "source_failure_rate": null,
+      "scope": "all emitted certificates, including unsolicited/misparsed query positions as source alignment failures; correlated queries, no binomial interval"
+    },
+    "final": {
+      "intended_queries": 128,
+      "emitted_count": 128,
+      "coverage": 0.0,
+      "accepted_count": 0,
+      "accepted_failures": 0,
+      "accepted_error_rate": null,
+      "accepted_error_rate_ci95": null,
+      "accuracy_all_intended": 0.2578125,
+      "mse_emitted": 0.2185609456402968,
+      "missing_outputs": 0,
+      "mean_refinements_at_query": 8.0,
+      "interval_scope": "fixed-model independent final cases"
+    },
+    "all_queries": {
+      "intended_queries": 384,
+      "emitted_count": 384,
+      "coverage": 0.0,
+      "accepted_count": 0,
+      "accepted_failures": 0,
+      "accepted_error_rate": null,
+      "accepted_error_rate_ci95": null,
+      "accuracy_all_intended": 0.2526041666666667,
+      "mse_emitted": 0.21856106372047626,
+      "missing_outputs": 0,
+      "mean_refinements_at_query": 8.0,
+      "interval_scope": "correlated within episode; no binomial interval"
+    }
+  },
+  "inverse": {
+    "episodes": 128,
+    "source_event_exact_accuracy": 1.0,
+    "source_episode_exact_accuracy": 1.0,
+    "spurious_query_outputs": 0,
+    "spurious_accepted_outputs": 0,
+    "all_certificate_outputs": {
+      "count": 0,
+      "source_failures": 0,
+      "source_failure_rate": null,
+      "scope": "all emitted certificates, including unsolicited/misparsed query positions as source alignment failures; correlated queries, no binomial interval"
+    },
+    "final": {
+      "intended_queries": 128,
+      "emitted_count": 128,
+      "coverage": 0.0,
+      "accepted_count": 0,
+      "accepted_failures": 0,
+      "accepted_error_rate": null,
+      "accepted_error_rate_ci95": null,
+      "accuracy_all_intended": 0.1015625,
+      "mse_emitted": 0.5873464457112122,
+      "missing_outputs": 0,
+      "mean_refinements_at_query": 8.0,
+      "interval_scope": "fixed-model independent final cases"
+    },
+    "all_queries": {
+      "intended_queries": 384,
+      "emitted_count": 384,
+      "coverage": 0.0,
+      "accepted_count": 0,
+      "accepted_failures": 0,
+      "accepted_error_rate": null,
+      "accepted_error_rate_ci95": null,
+      "accuracy_all_intended": 0.11458333333333333,
+      "mse_emitted": 0.5263555035291568,
+      "missing_outputs": 0,
+      "mean_refinements_at_query": 8.0,
+      "interval_scope": "correlated within episode; no binomial interval"
+    }
+  },
+  "forward": {
+    "episodes": 128,
+    "source_event_exact_accuracy": 1.0,
+    "source_episode_exact_accuracy": 1.0,
+    "spurious_query_outputs": 0,
+    "spurious_accepted_outputs": 0,
+    "all_certificate_outputs": {
+      "count": 0,
+      "source_failures": 0,
+      "source_failure_rate": null,
+      "scope": "all emitted certificates, including unsolicited/misparsed query positions as source alignment failures; correlated queries, no binomial interval"
+    },
+    "final": {
+      "intended_queries": 128,
+      "emitted_count": 128,
+      "coverage": 0.0,
+      "accepted_count": 0,
+      "accepted_failures": 0,
+      "accepted_error_rate": null,
+      "accepted_error_rate_ci95": null,
+      "accuracy_all_intended": 0.34375,
+      "mse_emitted": 0.09776550713450344,
+      "missing_outputs": 0,
+      "mean_refinements_at_query": 8.0,
+      "interval_scope": "fixed-model independent final cases"
+    },
+    "all_queries": {
+      "intended_queries": 384,
+      "emitted_count": 384,
+      "coverage": 0.0,
+      "accepted_count": 0,
+      "accepted_failures": 0,
+      "accepted_error_rate": null,
+      "accepted_error_rate_ci95": null,
+      "accuracy_all_intended": 0.3385416666666667,
+      "mse_emitted": 0.07795781044147276,
+      "missing_outputs": 0,
+      "mean_refinements_at_query": 8.0,
+      "interval_scope": "correlated within episode; no binomial interval"
+    }
+  }
+}

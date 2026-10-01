@@ -1,0 +1,30 @@
+{
+ "batch": 32,
+ "eval_every": 250,
+ "eval_items": 64,
+ "facts": 4,
+ "feedback": false,
+ "filler": [
+  0,
+  64
+ ],
+ "heads": 4,
+ "init_from": null,
+ "init_sha256": null,
+ "key_alphabet": "ABCDEFGHJKLMNPQRS",
+ "key_length": [
+  1,
+  4
+ ],
+ "lr": 0.001,
+ "pad_to": 320,
+ "parameters": 444672,
+ "queries": 4,
+ "role": "development diagnostic: can the Core learn key-addressed retrieval from scratch, and does a single-fact start get in the way?",
+ "seed": 321,
+ "source": "induction",
+ "steps": 2000,
+ "utc": 1790849042.5953496,
+ "warmup": 100,
+ "width": 128
+}

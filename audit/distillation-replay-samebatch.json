@@ -1,0 +1,25 @@
+{
+  "status": "PASS",
+  "rows": [
+    {
+      "seed": 17,
+      "episodes": 64,
+      "batch_size": 64,
+      "max_difference": 0.0
+    },
+    {
+      "seed": 43,
+      "episodes": 64,
+      "batch_size": 64,
+      "max_difference": 0.0
+    },
+    {
+      "seed": 91,
+      "episodes": 64,
+      "batch_size": 64,
+      "max_difference": 0.0
+    }
+  ],
+  "reason": "Original independent16 batch changed floating-point execution shape; original collection64 restored for exact comparison. No tolerance widened.",
+  "source_sha256": "78c9e4a3ecd8de1b0170f0d26f0c14392d1d5638bc8d0a99cb95b6fa66947408"
+}

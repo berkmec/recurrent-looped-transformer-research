@@ -1,0 +1,28 @@
+{
+  "version": 1,
+  "reason": "Primary depth5 is unseen query depth only: all-node train targets include other-component depths up to7. Depth8 is outside all training dependency depths.",
+  "train_unchanged": true,
+  "primary_protocol_sha256": "2647a34ff4a0c23fe2f275d1ac99e76906046a69f96c5f6f1eedcefb43e1b62f",
+  "count": 512,
+  "seed": 98338,
+  "seeds": [
+    17,
+    43,
+    91
+  ],
+  "arms": [
+    "forward",
+    "bidir",
+    "wrong",
+    "flat",
+    "feedback",
+    "method"
+  ],
+  "checkpoint_step": 600,
+  "rounds_per_query": 6,
+  "depth": 8,
+  "components": "nine-node chain and isolated observed node",
+  "selection": "none; all arms fixed; no tuning from primary or supplemental held-out",
+  "metrics": "final MSE, accuracy0.1, inverse/forward subgroups, method-minus-final-only paired seed uncertainty",
+  "source_sha256": "301f1ccdae7d63979f7a160901a7ae5b20564cd67935c3e9d625f98c293c28b3"
+}

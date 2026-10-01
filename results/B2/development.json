@@ -1,0 +1,114 @@
+{
+ "arms": {
+  "dense": {
+   "metrics": {
+    "coverage@1": 0.0,
+    "coverage@10": 0.56,
+    "coverage@10_ci95": [
+     0.46,
+     0.65
+    ],
+    "coverage@5": 0.38,
+    "mrr": 0.8866785714285714,
+    "ndcg@1": 0.83,
+    "ndcg@10": 0.7192095038359672,
+    "ndcg@5": 0.6778188333095428,
+    "recall@1": 0.415,
+    "recall@10": 0.775,
+    "recall@10_ci95": [
+     0.72,
+     0.82
+    ],
+    "recall@5": 0.67
+   },
+   "n_queries": 100
+  },
+  "multihop": {
+   "metrics": {
+    "coverage@1": 0.0,
+    "coverage@10": 0.58,
+    "coverage@10_ci95": [
+     0.48,
+     0.67
+    ],
+    "coverage@5": 0.42,
+    "mrr": 0.888095238095238,
+    "ndcg@1": 0.83,
+    "ndcg@10": 0.7284926402771192,
+    "ndcg@5": 0.6909462851780694,
+    "recall@1": 0.415,
+    "recall@10": 0.785,
+    "recall@10_ci95": [
+     0.735,
+     0.835
+    ],
+    "recall@5": 0.69
+   },
+   "n_queries": 100
+  },
+  "multihop_rerank": {
+   "metrics": {
+    "coverage@1": 0.0,
+    "coverage@10": 0.66,
+    "coverage@10_ci95": [
+     0.56,
+     0.75
+    ],
+    "coverage@5": 0.47,
+    "mrr": 0.9143333333333333,
+    "ndcg@1": 0.87,
+    "ndcg@10": 0.7688505814689621,
+    "ndcg@5": 0.7272738271292344,
+    "recall@1": 0.435,
+    "recall@10": 0.825,
+    "recall@10_ci95": [
+     0.775,
+     0.87
+    ],
+    "recall@5": 0.72
+   },
+   "n_queries": 100
+  }
+ },
+ "bridges": {
+  "mean_per_query": 3.0,
+  "no_bridge_queries": 0
+ },
+ "data": {
+  "corpus": 1707,
+  "gold_per_query": {
+   "2": 100
+  },
+  "path": "__RLT_ROOT__/datasets/dgslibisey__MuSiQue/musique_ans_v1.0_train.jsonl",
+  "queries": 100,
+  "sha256": "83a75b1e11e4e9bb8f8308e72ac40ca617ae4431b3a0d955b61cab259248490a"
+ },
+ "encoder": {
+  "encoded": 2107,
+  "name": "__RLT_ROOT__/models/Qwen3-Embedding-0.6B"
+ },
+ "n_queries": 100,
+ "per_query_file": "development-per-query.json",
+ "per_query_sha256": "8b9ef2ec126fdaf52f1b7b4d4012948d4a708f575a078bed0891d2ded5981275",
+ "protocol_hash": "7c658de8a98f28d0eeb10c392a251d325aeb66da8f58048a787632f5028b250a",
+ "reranker": {
+  "name": "__RLT_ROOT__/models/Qwen3-Reranker-0.6B",
+  "scored_pairs": 2727
+ },
+ "split": "development",
+ "status": "DEVELOPMENT",
+ "targets": {
+  "coverage_at_10": 0.9,
+  "recall_at_10": 0.95
+ },
+ "timing": {
+  "encode_seconds": 34.59805790000246,
+  "per_query_seconds": 2.132366856000008,
+  "retrieval_seconds": 213.23668560000078
+ },
+ "turkish_slice": "UNMEASURED",
+ "union_ceiling": {
+  "all_gold_in_union": 0.86,
+  "mean_union_size": 27.27
+ }
+}

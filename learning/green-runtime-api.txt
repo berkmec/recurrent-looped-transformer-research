@@ -1,0 +1,16 @@
+test_causal_global_encoder_matches_streamed_core (test_learning.LearningContracts.test_causal_global_encoder_matches_streamed_core) ... ok
+test_feedback_changes_future_only_and_preserves_clocks (test_learning.LearningContracts.test_feedback_changes_future_only_and_preserves_clocks) ... ok
+test_final_error_gate_rejects_no_drift_but_wrong_answer (test_learning.LearningContracts.test_final_error_gate_rejects_no_drift_but_wrong_answer) ... ok
+test_forward_one_step_cannot_read_child (test_learning.LearningContracts.test_forward_one_step_cannot_read_child) ... ok
+test_incremental_refinement_preserves_cache_values_and_single_commit (test_learning.LearningContracts.test_incremental_refinement_preserves_cache_values_and_single_commit) ... ok
+test_labels_match_independent_linear_solve (test_learning.LearningContracts.test_labels_match_independent_linear_solve) ... ok
+test_lazy_candidate_iterator_does_not_execute_unrequested_rounds (test_learning.LearningContracts.test_lazy_candidate_iterator_does_not_execute_unrequested_rounds) ... ok
+test_oracle_unavailable_at_inference (test_learning.LearningContracts.test_oracle_unavailable_at_inference) ... ok
+test_rejects_mixed_query_alignment_and_fractional_ids (test_learning.LearningContracts.test_rejects_mixed_query_alignment_and_fractional_ids) ... ok
+test_revision_policy_has_no_target_or_effect_input (test_learning.LearningContracts.test_revision_policy_has_no_target_or_effect_input) ... ok
+test_unobserved_parent_is_active_for_inverse_evidence (test_learning.LearningContracts.test_unobserved_parent_is_active_for_inverse_evidence) ... ok
+
+----------------------------------------------------------------------
+Ran 11 tests in 1.357s
+
+OK

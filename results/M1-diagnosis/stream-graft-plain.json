@@ -1,0 +1,139 @@
+{
+ "checkpoint": "__RLT_ROOT__/vm-mirror/results/M1/m1-plain-w1152-s117/selected.pt",
+ "checkpoint_sha256": "cbae11951e38b96dc5282cf7966619cd21f5af95a78a829a4bc6c39f63d82c69",
+ "items": 32,
+ "kind": "M1_STREAM_GRAFT",
+ "reading": "near-stream-into-far recovering means the question phase needs an in-range stream and attention is fine at the far distance; staying at zero means the cliff is in attention. far-stream-into-near collapsing means an out-of-range stream is enough to break an in-range row.",
+ "role": "development diagnostic: is the cliff in the recurrent stream or in attention?",
+ "rows": [
+  {
+   "alphabet": "TRAIN_KEYS",
+   "condition": "far",
+   "exact_match": 0.0,
+   "first_digit": 0.46875,
+   "n_far": 80,
+   "n_near": 64
+  },
+  {
+   "alphabet": "TRAIN_KEYS",
+   "condition": "near",
+   "exact_match": 1.0,
+   "first_digit": 1.0,
+   "n_far": 80,
+   "n_near": 64
+  },
+  {
+   "alphabet": "TRAIN_KEYS",
+   "condition": "near-stream-into-far",
+   "exact_match": 0.0,
+   "first_digit": 0.4375,
+   "n_far": 80,
+   "n_near": 64
+  },
+  {
+   "alphabet": "TRAIN_KEYS",
+   "condition": "far-stream-into-near",
+   "exact_match": 1.0,
+   "first_digit": 1.0,
+   "n_far": 80,
+   "n_near": 64
+  },
+  {
+   "alphabet": "TRAIN_KEYS",
+   "condition": "far",
+   "exact_match": 0.0,
+   "first_digit": 0.71875,
+   "n_far": 96,
+   "n_near": 64
+  },
+  {
+   "alphabet": "TRAIN_KEYS",
+   "condition": "near",
+   "exact_match": 1.0,
+   "first_digit": 1.0,
+   "n_far": 96,
+   "n_near": 64
+  },
+  {
+   "alphabet": "TRAIN_KEYS",
+   "condition": "near-stream-into-far",
+   "exact_match": 0.0,
+   "first_digit": 0.71875,
+   "n_far": 96,
+   "n_near": 64
+  },
+  {
+   "alphabet": "TRAIN_KEYS",
+   "condition": "far-stream-into-near",
+   "exact_match": 1.0,
+   "first_digit": 1.0,
+   "n_far": 96,
+   "n_near": 64
+  },
+  {
+   "alphabet": "TRAIN_KEYS",
+   "condition": "far",
+   "exact_match": 0.0,
+   "first_digit": 0.125,
+   "n_far": 128,
+   "n_near": 64
+  },
+  {
+   "alphabet": "TRAIN_KEYS",
+   "condition": "near",
+   "exact_match": 1.0,
+   "first_digit": 1.0,
+   "n_far": 128,
+   "n_near": 64
+  },
+  {
+   "alphabet": "TRAIN_KEYS",
+   "condition": "near-stream-into-far",
+   "exact_match": 0.0,
+   "first_digit": 0.125,
+   "n_far": 128,
+   "n_near": 64
+  },
+  {
+   "alphabet": "TRAIN_KEYS",
+   "condition": "far-stream-into-near",
+   "exact_match": 1.0,
+   "first_digit": 1.0,
+   "n_far": 128,
+   "n_near": 64
+  },
+  {
+   "alphabet": "TRAIN_KEYS",
+   "condition": "far",
+   "exact_match": 0.0,
+   "first_digit": 0.09375,
+   "n_far": 192,
+   "n_near": 64
+  },
+  {
+   "alphabet": "TRAIN_KEYS",
+   "condition": "near",
+   "exact_match": 1.0,
+   "first_digit": 1.0,
+   "n_far": 192,
+   "n_near": 64
+  },
+  {
+   "alphabet": "TRAIN_KEYS",
+   "condition": "near-stream-into-far",
+   "exact_match": 0.0,
+   "first_digit": 0.09375,
+   "n_far": 192,
+   "n_near": 64
+  },
+  {
+   "alphabet": "TRAIN_KEYS",
+   "condition": "far-stream-into-near",
+   "exact_match": 1.0,
+   "first_digit": 1.0,
+   "n_far": 192,
+   "n_near": 64
+  }
+ ],
+ "utc": 1790824070.046006
+}

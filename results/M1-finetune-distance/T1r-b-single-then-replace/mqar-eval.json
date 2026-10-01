@@ -1,0 +1,124 @@
+{
+ "checkpoint": "results/M1-finetune-distance/T1r-b-single-then-replace/latest.pt",
+ "args": {
+  "checkpoint": "results/M1-finetune-distance/T1r-b-single-then-replace/latest.pt",
+  "out": "results/M1-finetune-distance/T1r-b-single-then-replace/mqar-eval.json",
+  "width": 128,
+  "heads": 4,
+  "feedback": "off",
+  "alphabet": "wide",
+  "key_lengths": "1,2,4",
+  "facts": 4,
+  "queries": 4,
+  "with_replacement": true,
+  "filler": "0,64",
+  "pad_to": 320,
+  "items": 64,
+  "batch": 8,
+  "device": "cpu"
+ },
+ "report": {
+  "train_k1": {
+   "first": [
+    0.921875,
+    0.9375,
+    0.9375,
+    0.9375
+   ],
+   "exact": [
+    0.890625,
+    0.890625,
+    0.921875,
+    0.921875
+   ],
+   "first_all": 0.93359375,
+   "exact_all": 0.90625,
+   "answers": 256
+  },
+  "train_k2": {
+   "first": [
+    1.0,
+    0.96875,
+    0.953125,
+    0.953125
+   ],
+   "exact": [
+    0.96875,
+    0.9375,
+    0.9375,
+    0.90625
+   ],
+   "first_all": 0.96875,
+   "exact_all": 0.9375,
+   "answers": 256
+  },
+  "train_k4": {
+   "first": [
+    0.984375,
+    0.984375,
+    0.984375,
+    0.96875
+   ],
+   "exact": [
+    0.96875,
+    0.953125,
+    0.96875,
+    0.90625
+   ],
+   "first_all": 0.98046875,
+   "exact_all": 0.94921875,
+   "answers": 256
+  },
+  "held_k1": {
+   "first": [
+    0.3125,
+    0.328125,
+    0.21875,
+    0.3125
+   ],
+   "exact": [
+    0.1875,
+    0.15625,
+    0.171875,
+    0.15625
+   ],
+   "first_all": 0.29296875,
+   "exact_all": 0.16796875,
+   "answers": 256
+  },
+  "held_k2": {
+   "first": [
+    0.296875,
+    0.375,
+    0.359375,
+    0.359375
+   ],
+   "exact": [
+    0.203125,
+    0.203125,
+    0.203125,
+    0.15625
+   ],
+   "first_all": 0.34765625,
+   "exact_all": 0.19140625,
+   "answers": 256
+  },
+  "held_k4": {
+   "first": [
+    0.265625,
+    0.328125,
+    0.359375,
+    0.390625
+   ],
+   "exact": [
+    0.15625,
+    0.15625,
+    0.265625,
+    0.28125
+   ],
+   "first_all": 0.3359375,
+   "exact_all": 0.21484375,
+   "answers": 256
+  }
+ }
+}

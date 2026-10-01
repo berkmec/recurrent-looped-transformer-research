@@ -1,0 +1,146 @@
+{
+  "rows": [
+    {
+      "observation_id": 1,
+      "record_ids": [
+        1
+      ],
+      "parsed": {
+        "events": [
+          {
+            "kind": "root",
+            "child": "x0",
+            "parent": null,
+            "value": 0.4
+          }
+        ],
+        "confidence": 0.9997267127037048,
+        "valid": true,
+        "abstained": false,
+        "provenance": {
+          "checkpoint_sha256": "97d6dc86f668f4071689c84a461b5c1866a38886f56be9b0d10b1ef1e641121b",
+          "text_sha256": "0fa76fdce0b514a711276ddf4e27e9c3e9289d3fbd33beec9da7a99291398e8a",
+          "reason": "learned_roles_copied_tokens",
+          "model_class": 0
+        }
+      }
+    },
+    {
+      "observation_id": 2,
+      "record_ids": [
+        2
+      ],
+      "parsed": {
+        "events": [
+          {
+            "kind": "edge",
+            "child": "x1",
+            "parent": "x0",
+            "value": -0.2
+          }
+        ],
+        "confidence": 0.9982544779777527,
+        "valid": true,
+        "abstained": false,
+        "provenance": {
+          "checkpoint_sha256": "97d6dc86f668f4071689c84a461b5c1866a38886f56be9b0d10b1ef1e641121b",
+          "text_sha256": "47b28cc3b5ce8a223dac44bc63c700118b45dc46320c8d724b9f56b1de927f52",
+          "reason": "learned_roles_copied_tokens",
+          "model_class": 1
+        }
+      }
+    },
+    {
+      "observation_id": 3,
+      "record_ids": [
+        3
+      ],
+      "parsed": {
+        "events": [
+          {
+            "kind": "revision",
+            "child": "x1",
+            "parent": "x0",
+            "value": 0.3
+          }
+        ],
+        "confidence": 0.9985983967781067,
+        "valid": true,
+        "abstained": false,
+        "provenance": {
+          "checkpoint_sha256": "97d6dc86f668f4071689c84a461b5c1866a38886f56be9b0d10b1ef1e641121b",
+          "text_sha256": "49bc31589754d90a95bced0daeeefaa057e1eb6a26aea5898fa85f9dddc6ddf1",
+          "reason": "learned_roles_copied_tokens",
+          "model_class": 3
+        }
+      }
+    },
+    {
+      "observation_id": 4,
+      "record_ids": [
+        4
+      ],
+      "parsed": {
+        "events": [
+          {
+            "kind": "query",
+            "child": "x1",
+            "parent": null,
+            "value": null
+          }
+        ],
+        "confidence": 0.9998422861099243,
+        "valid": true,
+        "abstained": false,
+        "provenance": {
+          "checkpoint_sha256": "97d6dc86f668f4071689c84a461b5c1866a38886f56be9b0d10b1ef1e641121b",
+          "text_sha256": "b018901f154146a7e0f3a7bcc20e73714d25afbcbb078b5afea8204b4f227051",
+          "reason": "learned_roles_copied_tokens",
+          "model_class": 4
+        }
+      }
+    },
+    {
+      "observation_id": 5,
+      "record_ids": [],
+      "parsed": {
+        "events": [],
+        "confidence": 0.9998798370361328,
+        "valid": false,
+        "abstained": true,
+        "provenance": {
+          "checkpoint_sha256": "97d6dc86f668f4071689c84a461b5c1866a38886f56be9b0d10b1ef1e641121b",
+          "text_sha256": "b3bef4c660a3f3dacbc95bbb2076bf950cbc1c460db1c9cd1977a8171bd02d16",
+          "reason": "learned_rejection_or_invalid_roles",
+          "model_class": 5
+        }
+      }
+    },
+    {
+      "observation_id": 6,
+      "record_ids": [],
+      "parsed": {
+        "events": [],
+        "confidence": 0.0,
+        "valid": false,
+        "abstained": true,
+        "provenance": {
+          "checkpoint_sha256": "97d6dc86f668f4071689c84a461b5c1866a38886f56be9b0d10b1ef1e641121b",
+          "reason": "empty_text"
+        }
+      }
+    }
+  ],
+  "fresh_process": {
+    "observations": 6,
+    "source_texts": [
+      "set x0 to 0.4 .",
+      "x1 equals x0 plus -0.2 .",
+      "revise x1 to x0 plus 0.3 .",
+      "query x1 .",
+      "do not set x0 to 0.4 .",
+      ""
+    ],
+    "abstentions": 2
+  }
+}

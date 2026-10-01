@@ -1,0 +1,164 @@
+{
+ "anchors": {
+  "counts": [
+   52582,
+   54172,
+   52502,
+   51925,
+   50963
+  ],
+  "mean_spread": 1.4385299285573327,
+  "min_center_distance": 0.8338052088282406,
+  "separation_ratio": 0.579623122380529
+ },
+ "clean": {
+  "1024": {
+   "final_accuracy": 0.1979999989271164,
+   "gate": {
+    "false_hold": 0.5572403073310852,
+    "false_write": 0.0,
+    "hold_positions": 1075,
+    "hold_rate": 0.5581699013710022,
+    "write_positions": 510925
+   },
+   "prefix_accuracy": 0.21284960210323334,
+   "source_seed": 51489863540104060
+  },
+  "128": {
+   "final_accuracy": 0.1940000057220459,
+   "gate": {
+    "false_hold": 0.5258535742759705,
+    "false_write": 0.0,
+    "hold_positions": 121,
+    "hold_rate": 0.5267500281333923,
+    "write_positions": 63879
+   },
+   "prefix_accuracy": 0.31193751096725464,
+   "source_seed": 8351119588096178727
+  },
+  "4096": {
+   "final_accuracy": 0.18400000035762787,
+   "gate": {
+    "false_hold": 0.5213589072227478,
+    "false_write": 0.0,
+    "hold_positions": 4030,
+    "hold_rate": 0.5223007798194885,
+    "write_positions": 2043970
+   },
+   "prefix_accuracy": 0.20259033143520355,
+   "source_seed": 5895119358736147793
+  }
+ },
+ "condition": {
+  "arm": "soft_sep",
+  "heads": 2,
+  "lr": 0.0003,
+  "seed": 117,
+  "stage": "u4sep",
+  "task": "five",
+  "width": 32,
+  "window": 4
+ },
+ "ident": "u4sep-soft_sep-five-w32-s117",
+ "neutral": {
+  "0-base": {
+   "final_accuracy": 0.2160000056028366,
+   "gate": {
+    "false_hold": 0.5249616503715515,
+    "false_write": 0.0,
+    "hold_positions": 142,
+    "hold_rate": 0.5260156393051147,
+    "write_positions": 63858
+   },
+   "source_seed": 17010480628976185854
+  },
+  "128-middle": {
+   "correct_to_wrong": 91,
+   "final_accuracy": 0.18799999356269836,
+   "gate": {
+    "false_hold": 0.5117098093032837,
+    "false_write": 0.0,
+    "hold_positions": 63268,
+    "hold_rate": 0.7530624866485596,
+    "write_positions": 64732
+   },
+   "n": 500,
+   "prediction_changes": 407,
+   "wrong_to_correct": 77
+  },
+  "128-prefix": {
+   "correct_to_wrong": 75,
+   "final_accuracy": 0.23199999332427979,
+   "gate": {
+    "false_hold": 0.4921044111251831,
+    "false_write": 0.0,
+    "hold_positions": 63217,
+    "hold_rate": 0.7429453134536743,
+    "write_positions": 64783
+   },
+   "n": 500,
+   "prediction_changes": 359,
+   "wrong_to_correct": 83
+  },
+  "128-suffix": {
+   "correct_to_wrong": 97,
+   "final_accuracy": 0.1979999989271164,
+   "gate": {
+    "false_hold": 0.5317661166191101,
+    "false_write": 0.0,
+    "hold_positions": 63214,
+    "hold_rate": 0.7630078196525574,
+    "write_positions": 64786
+   },
+   "n": 500,
+   "prediction_changes": 445,
+   "wrong_to_correct": 88
+  },
+  "512-middle": {
+   "correct_to_wrong": 91,
+   "final_accuracy": 0.18400000035762787,
+   "gate": {
+    "false_hold": 0.4246585965156555,
+    "false_write": 0.0,
+    "hold_positions": 255268,
+    "hold_rate": 0.8836156129837036,
+    "write_positions": 64732
+   },
+   "n": 500,
+   "prediction_changes": 422,
+   "wrong_to_correct": 75
+  },
+  "512-prefix": {
+   "correct_to_wrong": 92,
+   "final_accuracy": 0.1899999976158142,
+   "gate": {
+    "false_hold": 0.3323865830898285,
+    "false_write": 0.0,
+    "hold_positions": 255217,
+    "hold_rate": 0.8648437261581421,
+    "write_positions": 64783
+   },
+   "n": 500,
+   "prediction_changes": 417,
+   "wrong_to_correct": 79
+  },
+  "512-suffix": {
+   "correct_to_wrong": 97,
+   "final_accuracy": 0.1979999989271164,
+   "gate": {
+    "false_hold": 0.5317661166191101,
+    "false_write": 0.0,
+    "hold_positions": 255214,
+    "hold_rate": 0.905203104019165,
+    "write_positions": 64786
+   },
+   "n": 500,
+   "prediction_changes": 445,
+   "wrong_to_correct": 88
+  }
+ },
+ "protocol_hash": "627993ae7535eda45f37b81f9eae55556a9b18176578b855b0318905f1bdcbb1",
+ "seconds": 393.83161090000067,
+ "selected_sha256": "34a99f7ccf675494b233810cda27b710a67e993dfaddfcb4ff0f6777c36101f9",
+ "separation_ratio": 0.579623122380529
+}

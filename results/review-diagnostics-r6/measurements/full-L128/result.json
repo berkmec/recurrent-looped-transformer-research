@@ -1,0 +1,327 @@
+{
+  "arm": "full",
+  "diagnostic": false,
+  "environment": {
+    "cuda": "13.0",
+    "executable": "__PY_ENV_DIR__\\.venv\\Scripts\\python.exe",
+    "gpu": "NVIDIA GeForce RTX 2060 SUPER",
+    "host_load_note": "external CPU training may run concurrently; CPU/GPU latency is scoped to recorded host load, not isolated throughput",
+    "logical_cpu_count": 8,
+    "platform": "Windows-10-10.0.19045-SP0",
+    "python": "3.11.9 (tags/v3.11.9:de54cf5, Apr  2 2024, 10:12:12) [MSC v.1938 64 bit (AMD64)]",
+    "torch": "2.12.0+cu130"
+  },
+  "final_checkpoint_sha256": "cc19e9af9cc79fede2bc3887c0ec40305666f241c61cb26d42e88a883ca2d28b",
+  "final_state_hash": "ea30df250e60a65d2bc03f38a9100dafe91fa38667159cd632ad83074b147bea",
+  "finished": 1789672441.110684,
+  "host_cpu_observation": {
+    "busy_fraction": 0.16249197174052665,
+    "end": {
+      "idle": 25859603906250,
+      "total": 29830185468750,
+      "unit": "100ns"
+    },
+    "start": {
+      "idle": 25859196406250,
+      "total": 29829698906250,
+      "unit": "100ns"
+    }
+  },
+  "initial_checkpoint_sha256": "376b73c7857ae7b58820a8fdd3148473a5593639dd5d4ebf5bf8d758d5e2098e",
+  "initial_state_hash": "538cecd61800eae00997a3db2eb83395f854058ecfc04b60cdea97b8b0cb2cdd",
+  "length": 128,
+  "measurements": [
+    {
+      "cuda": {
+        "peak_allocated": 26667008,
+        "peak_reserved": 31457280
+      },
+      "loss": 0.7625927925109863,
+      "phases": [
+        {
+          "cuda": {
+            "allocated": 17364480,
+            "peak_allocated": 17364480,
+            "peak_reserved": 31457280,
+            "reserved": 31457280
+          },
+          "phase": "ready",
+          "ram": {
+            "lifetime_peak_working_set_bytes": 1077669888,
+            "private_commit_bytes": 2042175488,
+            "working_set_bytes": 1077665792
+          },
+          "saved": null,
+          "seconds": 1.9199971575289965e-05
+        },
+        {
+          "cuda": {
+            "allocated": 25737728,
+            "peak_allocated": 25794048,
+            "peak_reserved": 31457280,
+            "reserved": 31457280
+          },
+          "phase": "forward",
+          "ram": {
+            "lifetime_peak_working_set_bytes": 1077686272,
+            "private_commit_bytes": 2042175488,
+            "working_set_bytes": 1077637120
+          },
+          "saved": null,
+          "seconds": 0.34285600000293925
+        },
+        {
+          "cuda": {
+            "allocated": 17476096,
+            "peak_allocated": 26667008,
+            "peak_reserved": 31457280,
+            "reserved": 31457280
+          },
+          "phase": "backward",
+          "ram": {
+            "lifetime_peak_working_set_bytes": 1078042624,
+            "private_commit_bytes": 2042642432,
+            "working_set_bytes": 1078034432
+          },
+          "saved": null,
+          "seconds": 0.5571792999980971
+        },
+        {
+          "cuda": {
+            "allocated": 17467392,
+            "peak_allocated": 17487872,
+            "peak_reserved": 31457280,
+            "reserved": 31457280
+          },
+          "phase": "optimizer",
+          "ram": {
+            "lifetime_peak_working_set_bytes": 1078042624,
+            "private_commit_bytes": 2042642432,
+            "working_set_bytes": 1078038528
+          },
+          "saved": null,
+          "seconds": 0.012480399978812784
+        }
+      ],
+      "saved": null,
+      "seconds": 0.9125348999514244,
+      "update": 3
+    },
+    {
+      "cuda": {
+        "peak_allocated": 26667008,
+        "peak_reserved": 31457280
+      },
+      "loss": 0.7119230031967163,
+      "phases": [
+        {
+          "cuda": {
+            "allocated": 17364480,
+            "peak_allocated": 17364480,
+            "peak_reserved": 31457280,
+            "reserved": 31457280
+          },
+          "phase": "ready",
+          "ram": {
+            "lifetime_peak_working_set_bytes": 1078173696,
+            "private_commit_bytes": 2042642432,
+            "working_set_bytes": 1078169600
+          },
+          "saved": null,
+          "seconds": 1.5099998563528061e-05
+        },
+        {
+          "cuda": {
+            "allocated": 25737728,
+            "peak_allocated": 25794048,
+            "peak_reserved": 31457280,
+            "reserved": 31457280
+          },
+          "phase": "forward",
+          "ram": {
+            "lifetime_peak_working_set_bytes": 1078206464,
+            "private_commit_bytes": 2042642432,
+            "working_set_bytes": 1078181888
+          },
+          "saved": null,
+          "seconds": 0.34617239999352023
+        },
+        {
+          "cuda": {
+            "allocated": 17476096,
+            "peak_allocated": 26667008,
+            "peak_reserved": 31457280,
+            "reserved": 31457280
+          },
+          "phase": "backward",
+          "ram": {
+            "lifetime_peak_working_set_bytes": 1078206464,
+            "private_commit_bytes": 2035879936,
+            "working_set_bytes": 1078157312
+          },
+          "saved": null,
+          "seconds": 0.5261776000261307
+        },
+        {
+          "cuda": {
+            "allocated": 17467392,
+            "peak_allocated": 17487872,
+            "peak_reserved": 31457280,
+            "reserved": 31457280
+          },
+          "phase": "optimizer",
+          "ram": {
+            "lifetime_peak_working_set_bytes": 1078206464,
+            "private_commit_bytes": 2035879936,
+            "working_set_bytes": 1078161408
+          },
+          "saved": null,
+          "seconds": 0.01116090000141412
+        }
+      ],
+      "saved": null,
+      "seconds": 0.8835260000196286,
+      "update": 4
+    },
+    {
+      "cuda": {
+        "peak_allocated": 26667008,
+        "peak_reserved": 31457280
+      },
+      "loss": 0.7009453773498535,
+      "phases": [
+        {
+          "cuda": {
+            "allocated": 17364480,
+            "peak_allocated": 17364480,
+            "peak_reserved": 31457280,
+            "reserved": 31457280
+          },
+          "phase": "ready",
+          "ram": {
+            "lifetime_peak_working_set_bytes": 1078206464,
+            "private_commit_bytes": 2035879936,
+            "working_set_bytes": 1078165504
+          },
+          "saved": null,
+          "seconds": 1.479999627918005e-05
+        },
+        {
+          "cuda": {
+            "allocated": 25737728,
+            "peak_allocated": 25794048,
+            "peak_reserved": 31457280,
+            "reserved": 31457280
+          },
+          "phase": "forward",
+          "ram": {
+            "lifetime_peak_working_set_bytes": 1078222848,
+            "private_commit_bytes": 2035879936,
+            "working_set_bytes": 1078194176
+          },
+          "saved": null,
+          "seconds": 0.3503190000192262
+        },
+        {
+          "cuda": {
+            "allocated": 17476096,
+            "peak_allocated": 26667008,
+            "peak_reserved": 31457280,
+            "reserved": 31457280
+          },
+          "phase": "backward",
+          "ram": {
+            "lifetime_peak_working_set_bytes": 1078521856,
+            "private_commit_bytes": 2036269056,
+            "working_set_bytes": 1078513664
+          },
+          "saved": null,
+          "seconds": 0.5304051999701187
+        },
+        {
+          "cuda": {
+            "allocated": 17467392,
+            "peak_allocated": 17487872,
+            "peak_reserved": 31457280,
+            "reserved": 31457280
+          },
+          "phase": "optimizer",
+          "ram": {
+            "lifetime_peak_working_set_bytes": 1078521856,
+            "private_commit_bytes": 2036269056,
+            "working_set_bytes": 1078517760
+          },
+          "saved": null,
+          "seconds": 0.01110760000301525
+        }
+      ],
+      "saved": null,
+      "seconds": 0.8918465999886394,
+      "update": 5
+    }
+  ],
+  "optimizer_initialized_before_measurement": true,
+  "optimizer_updates": 5,
+  "pid": 9908,
+  "protocol": {
+    "alpha": 0.1,
+    "arms": [
+      "full",
+      "detach",
+      "checkpoint",
+      "segment",
+      "segment_encoder_checkpoint"
+    ],
+    "batch": 8,
+    "chunk": 8,
+    "clip": null,
+    "data": "independent deterministic batch per optimizer update; paired across arms",
+    "data_seed": 970100,
+    "device": "cuda",
+    "equivalence": {
+      "atol": 3e-06,
+      "lengths": [
+        32,
+        128
+      ],
+      "repeats": 3,
+      "rtol": 0.0003
+    },
+    "heads": 2,
+    "hooks": "separate diagnostic run; deduplicated backing-storage save lifetime, not resident VRAM; inner nonreentrant checkpoint hooks shadow outer hooks so checkpoint-interior saves are not fully observed",
+    "host_load": "external CPU training may run concurrently; CPU/GPU latency is scoped to recorded host load, not isolated throughput",
+    "latency": "phase seconds include explicit synchronization at each phase mark; segment arms keep detached chunk losses on device and convert once after the loop, so no per-chunk synchronization",
+    "lengths": [
+      32,
+      128,
+      512,
+      1024
+    ],
+    "loss": "parity dense sum cross entropy divided by batch*length for every chunk",
+    "lr": 0.003,
+    "memory": "CUDA phase live allocated/reserved and reset phase peak allocated/reserved; whole-update peaks reconstructed as max of phase peaks; separate process working set",
+    "oom": "record OOM with unchanged batch/precision/length; no automatic retry; CUDA allocated/reserved and since-reset peaks sampled in the handler",
+    "optimizer": "AdamW foreach=False",
+    "precision": "float32",
+    "process": "one fresh subprocess per arm and length; no allocator sharing",
+    "purpose": "R6 real optimizer update memory diagnostics",
+    "repeats": 3,
+    "route_full": "all recurrence and global encoder/projection paths attached",
+    "route_truncated": "detach s/dk/dv each8; global e/mk/mv gradients retained",
+    "seed": 701,
+    "threads": 1,
+    "version": 1,
+    "warmup": 2,
+    "weight_decay": 0.01,
+    "width": 32,
+    "window": 4
+  },
+  "protocol_hash": "2eb5f530a8275b37082c076eefd11c4d5529a0f99157842e8fdfd95851877149",
+  "sources": {
+    "core/model.py": "121f11fcb3c1308b7f67d898f2aa09c37226d3b0db27dd4e5bf1ebeaea281f43",
+    "review_cycle/memory_bench.py": "5830610d207c8dff2cdf238efa9f18c36167fac37174d1dcab2371773f804dde",
+    "review_cycle/test_memory_bench.py": "381a8418c2b58c8016fa51cba26c0daa87fde6697a2654c0fb903bf7bbe75d76"
+  },
+  "started": 1789672435.0208118,
+  "status": "PASS"
+}

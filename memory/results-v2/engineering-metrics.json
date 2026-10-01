@@ -1,0 +1,113 @@
+{
+  "protocol_sha256": "2c9c577931afa49b94eeee55a63bd4ee6762eecdc6afb9303716c29270383bb7",
+  "engineering_examples": 192,
+  "memory": {
+    "full_raw": {
+      "mean_absolute_error": 0.0,
+      "max_absolute_error": 0.0
+    },
+    "boundary_compact": {
+      "mean_absolute_error": 0.0,
+      "max_absolute_error": 0.0
+    },
+    "answer_only": {
+      "mean_absolute_error": 2.0,
+      "max_absolute_error": 2.0000000000000018
+    },
+    "mean": {
+      "mean_absolute_error": 2.3389044156901044,
+      "max_absolute_error": 8.45476
+    },
+    "forced_stale": {
+      "mean_absolute_error": 2.0,
+      "max_absolute_error": 2.0000000000000018
+    }
+  },
+  "controller": {
+    "capacity_violations": 0,
+    "premature_compactions": 0,
+    "compactions": 1216,
+    "restoration_exact": 192,
+    "stale_detection": 192,
+    "reopen_repairs": 192,
+    "mean_compact_to_raw_bytes": 0.9429011934384232,
+    "mean_read_records": 225.0,
+    "active_budget_scope": "resident raw records only; constraint summaries/metadata and transient reconstruction are separately unbounded"
+  },
+  "retrieval": {
+    "1": {
+      "recall_at_k": 0.0,
+      "filtered_precision": null,
+      "filtered_coverage": 0.0,
+      "unfiltered_top1_inapplicable": 1.0,
+      "unfiltered_numeric_damage": 0.0,
+      "filtered_numeric_damage": 0,
+      "oracle_exact_key_coverage": 1.0,
+      "missing_reference_coverage": 0.0
+    },
+    "3": {
+      "recall_at_k": 0.020833333333333332,
+      "filtered_precision": 1.0,
+      "filtered_coverage": 0.020833333333333332,
+      "unfiltered_top1_inapplicable": 1.0,
+      "unfiltered_numeric_damage": 0.0,
+      "filtered_numeric_damage": 0,
+      "oracle_exact_key_coverage": 1.0,
+      "missing_reference_coverage": 0.0
+    },
+    "5": {
+      "recall_at_k": 0.03125,
+      "filtered_precision": 1.0,
+      "filtered_coverage": 0.03125,
+      "unfiltered_top1_inapplicable": 1.0,
+      "unfiltered_numeric_damage": 0.0,
+      "filtered_numeric_damage": 0,
+      "oracle_exact_key_coverage": 1.0,
+      "missing_reference_coverage": 0.0
+    }
+  },
+  "halting": {
+    "1": {
+      "accepted_coverage": 0.0,
+      "wrong_accepted": 0,
+      "accepted_error_max": null,
+      "mean_executed_steps": 1.0,
+      "fixed_steps": 1,
+      "saved_step_fraction": 0.0,
+      "candidate_source": "synthetic, not learned"
+    },
+    "2": {
+      "accepted_coverage": 0.0,
+      "wrong_accepted": 0,
+      "accepted_error_max": null,
+      "mean_executed_steps": 2.0,
+      "fixed_steps": 2,
+      "saved_step_fraction": 0.0,
+      "candidate_source": "synthetic, not learned"
+    },
+    "4": {
+      "accepted_coverage": 0.0,
+      "wrong_accepted": 0,
+      "accepted_error_max": null,
+      "mean_executed_steps": 4.0,
+      "fixed_steps": 4,
+      "saved_step_fraction": 0.0,
+      "candidate_source": "synthetic, not learned"
+    },
+    "8": {
+      "accepted_coverage": 0.75,
+      "wrong_accepted": 0,
+      "accepted_error_max": 0.05000000000000071,
+      "mean_executed_steps": 5.75,
+      "fixed_steps": 8,
+      "saved_step_fraction": 0.28125,
+      "candidate_source": "synthetic, not learned"
+    }
+  },
+  "persisted_records": 10304,
+  "fresh_process": {
+    "hashes_verified": 10304,
+    "vectors": 10304
+  },
+  "wall_seconds": 39.3843280999572
+}

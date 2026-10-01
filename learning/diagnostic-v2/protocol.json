@@ -1,0 +1,93 @@
+{
+  "version": 2,
+  "source_pin": "cc05cfe0b24bc5eb353c6f3c14990ea4e7be0a39",
+  "scope": "fresh controlled affine forests; independent learned event model, not official RLT implementation",
+  "seeds": [
+    17,
+    43,
+    91
+  ],
+  "arms": [
+    "forward",
+    "bidir",
+    "wrong",
+    "flat",
+    "feedback",
+    "method"
+  ],
+  "steps": 600,
+  "batch_size": 16,
+  "width": 32,
+  "heads": 2,
+  "ff_width": 64,
+  "rounds": 6,
+  "swa_window": 4,
+  "optimizer": {
+    "name": "AdamW",
+    "lr": 0.002,
+    "weight_decay": 0.0001,
+    "gradient_clip": 1.0
+  },
+  "method_auxiliary_weight": 0.3,
+  "method_targets": "TRAIN ONLY exact all-node values at three query states from tree traversal oracle; independently checked linear solve",
+  "train": {
+    "count": 8192,
+    "seed": 81231
+  },
+  "validation": {
+    "count": 512,
+    "seed": 81232
+  },
+  "iid": {
+    "count": 512,
+    "seed": 91331
+  },
+  "shift": {
+    "count": 512,
+    "seed": 91332
+  },
+  "train_depths": [
+    1,
+    3
+  ],
+  "shift_depth": 5,
+  "balanced_factors": [
+    "inverse_evidence",
+    "affected",
+    "train_depth"
+  ],
+  "revision_candidates": [
+    1,
+    2,
+    6
+  ],
+  "revision_selection": "minimum affected final validation MSE among candidates with unaffected final deterioration <=0.01; if none feasible minimum total MSE, explicit failed gate",
+  "revision_final_tolerance": 0.01,
+  "revision_rounds": "first query6; post-update6; continuation query6 for every policy",
+  "revision_policies": "same learned bidir checkpoint retain,all,validation-selected undirected local radius",
+  "feedback_interventions": [
+    "none",
+    "zero",
+    "permute"
+  ],
+  "feedback_intervention_timing": "after current readout before next recurrent token state",
+  "efficiency_snapshots": [
+    150,
+    300,
+    600
+  ],
+  "paired_batches": true,
+  "paired_initialization": true,
+  "evaluation": "final-answer MSE and abs-error<=0.1; query delta; affected/unaffected FINAL MSE; forward/inverse and depths separately",
+  "uncertainty": "paired seed differences, seed-level t interval df2; hierarchical seed and common example bootstrap1000",
+  "no_test_tuning": true,
+  "archive_off_inference": true,
+  "device": "cpu",
+  "threads": 1,
+  "deviations": [
+    "Source-style causal global encoder/RoPE and recurrent gated hidden merge/global cross attention/layerwise SWA, event-feature embedding replacing vocabulary embedding.",
+    "Title graph inputs use explicit canonical IDs; text extraction evaluated separately.",
+    "Direct facts refresh title anchor; retain means retaining other title states.",
+    "All parameters trainable including title propagation; no symbolic solver in inference."
+  ]
+}

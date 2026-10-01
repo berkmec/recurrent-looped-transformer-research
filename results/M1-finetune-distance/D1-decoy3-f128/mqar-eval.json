@@ -1,0 +1,90 @@
+{
+ "checkpoint": "results/M1-finetune-distance/D1-decoy3-f128/selected.pt",
+ "args": {
+  "checkpoint": "results/M1-finetune-distance/D1-decoy3-f128/selected.pt",
+  "out": "results/M1-finetune-distance/D1-decoy3-f128/mqar-eval.json",
+  "width": null,
+  "heads": 4,
+  "feedback": "on",
+  "alphabet": "default",
+  "key_lengths": "1,4",
+  "facts": 4,
+  "queries": 4,
+  "with_replacement": false,
+  "filler": "0,64",
+  "pad_to": 320,
+  "items": 128,
+  "batch": 32,
+  "device": "cuda"
+ },
+ "report": {
+  "train_k1": {
+   "first": [
+    0.1328125,
+    0.0625,
+    0.1171875,
+    0.0859375
+   ],
+   "exact": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "first_all": 0.099609375,
+   "exact_all": 0.0,
+   "answers": 512
+  },
+  "train_k4": {
+   "first": [
+    0.390625,
+    0.0859375,
+    0.1171875,
+    0.1328125
+   ],
+   "exact": [
+    0.046875,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "first_all": 0.181640625,
+   "exact_all": 0.01171875,
+   "answers": 512
+  },
+  "held_k1": {
+   "first": [
+    0.078125,
+    0.09375,
+    0.140625,
+    0.0703125
+   ],
+   "exact": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "first_all": 0.095703125,
+   "exact_all": 0.0,
+   "answers": 512
+  },
+  "held_k4": {
+   "first": [
+    0.4140625,
+    0.078125,
+    0.109375,
+    0.1328125
+   ],
+   "exact": [
+    0.046875,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "first_all": 0.18359375,
+   "exact_all": 0.01171875,
+   "answers": 512
+  }
+ }
+}

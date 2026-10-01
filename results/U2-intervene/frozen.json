@@ -1,0 +1,57 @@
+{
+ "environment": {
+  "python": "3.11.9",
+  "torch": "2.12.0+cu130"
+ },
+ "frozen_utc": 1789743626.251541,
+ "protocol": {
+  "anchor_batches": 8,
+  "arms": {
+   "five": [
+    "none",
+    "freeze",
+    "snap",
+    "wrong_snap"
+   ],
+   "stack": [
+    "none",
+    "freeze"
+   ]
+  },
+  "clean_lengths": [
+   128,
+   1024,
+   4096
+  ],
+  "device": "cpu",
+  "n_clean": 500,
+  "n_neutral": 500,
+  "neutral_slots": [
+   128,
+   512
+  ],
+  "placements": [
+   "prefix",
+   "middle",
+   "suffix"
+  ],
+  "purpose": "U2 test-time interventions at neutral positions (ceiling with oracle neutral knowledge)",
+  "targets": {
+   "clean_regression_pp": 1.0,
+   "neutral_loss_pp": 2.0
+  },
+  "threads": 1,
+  "u1": "results/U1",
+  "version": 1
+ },
+ "protocol_hash": "dbdd3395a62770287aa1235b6cdfe2797b830ca66df7cf0f1b29f169d19e8f38",
+ "sources": {
+  "core/model.py": "121f11fcb3c1308b7f67d898f2aa09c37226d3b0db27dd4e5bf1ebeaea281f43",
+  "drift/model.py": "f03ed9cecc1a9f51c98f8a4fb05d39e62c359df2699ca53d458d636e3491a931",
+  "horizon/interventions.py": "45a8298b1d1dfba90336f0f2b344d8f80fcbf12e5e723e5332f31286b0322d89",
+  "horizon/sweep.py": "931cf076516049938ac66ad463a4a9587a284ba96921eb824222432de4e8d9d1",
+  "horizon/task_families.py": "b7faa8be802e99b0d992506183210b238d8b3a568c6daf7629df620dd8b3a6b3",
+  "horizon/trajectory.py": "b463a0a14b641edb5e13b39537ec79b55cfff675679c5bc8dd84aa86b04c1963"
+ },
+ "u1_protocol_hash": "56ef56a18ce02dd0d66e19a82c3bd52d2805c29719300c5bf4895c6086447830"
+}

@@ -1,0 +1,65 @@
+{
+ "environment": {
+  "numpy": "2.3.5",
+  "python": "3.11.9",
+  "torch": "2.12.0+cu130"
+ },
+ "frozen_utc": 1790113034.0719326,
+ "protocol": {
+  "alpha": 0.1,
+  "arms": [
+   "hard_st",
+   "soft"
+  ],
+  "batch": 32,
+  "clip": 1.0,
+  "device": "cpu",
+  "eval_batch": 32,
+  "gate_k": 2,
+  "gate_loss_weight": 1.0,
+  "heads": 2,
+  "instability": {
+   "grad_norm": 10000.0,
+   "loss_jump_absolute": 0.5,
+   "loss_jump_ratio": 10.0
+  },
+  "lrs": [
+   0.003,
+   0.001,
+   0.0003,
+   0.0001
+  ],
+  "note": "soft is the stable control; the probe reports, it does not select. Run concurrently with U2c-v2, so wall times are contended and must not be used as timing evidence.",
+  "purpose": "is the U2c hard_st instability an artifact of the inherited learning rate 0.003?",
+  "role": "development probe: training stability and validation only; never test or neutral",
+  "seeds": [
+   117
+  ],
+  "source_seeds": {
+   "neutral": 93020000,
+   "test": 93010000,
+   "train": 91010000,
+   "validation": 92010000
+  },
+  "steps": 2048,
+  "tasks": [
+   "five"
+  ],
+  "threads": 1,
+  "train_length": 128,
+  "validation_every": 128,
+  "validation_n": 256,
+  "version": 1,
+  "weight_decay": 0.01,
+  "width": 32,
+  "window": 4
+ },
+ "protocol_hash": "556b0598a62c470387a6f2fdf63091f0309ad5a5b074c4597462d598e4cdb432",
+ "sources": {
+  "core/model.py": "121f11fcb3c1308b7f67d898f2aa09c37226d3b0db27dd4e5bf1ebeaea281f43",
+  "horizon/gated.py": "2d2b93156ebb7d2953f6673982c53c98196abe635b324e5c06a1caeb17c061c4",
+  "horizon/gated_sweep.py": "4c69db4c430fa797a1544225dba91acb171f8ec143e7b6c1ebc5d2386ed921a8",
+  "horizon/guards.py": "bbcca8d70d86027d5fd17dcbfc9f7666f8e135b56bf6a23b11a5b1b3ad820ff5",
+  "horizon/lr_probe.py": "dcb4b9a11044132c5875ddbc16489c4e0ec481256ce7a48b476abb7b14eff526"
+ }
+}

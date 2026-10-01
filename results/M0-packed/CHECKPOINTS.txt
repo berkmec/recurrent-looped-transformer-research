@@ -1,0 +1,14 @@
+Checkpoints (*.pt) for this run are NOT in this directory and NOT in git: .gitignore excludes *.pt, which is
+this repository's standing convention (zero .pt files are tracked, across every cycle).
+
+They live on the main machine in the verified VM mirror:
+
+    __RLT_ROOT__/vm-mirror/<this same relative path>/
+
+Every one of them was compared by sha256 against the VM that produced it, on the final pull before that VM was
+powered off, and matched. They are not duplicated here because the mirror copy is the verified one and this pair
+of runs is 2.0 GB; a second copy on the same drive would add risk (two things to keep in step) rather than
+safety.
+
+What IS here is the complete record the analysis reads: probe.json / probe.jsonl (or train.json /
+updates.jsonl / complete.json), the frozen manifest, and the analysis output.

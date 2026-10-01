@@ -1,0 +1,124 @@
+{
+ "checkpoint": "results/M1-finetune-distance/T1r-a-scratch-replace/latest.pt",
+ "args": {
+  "checkpoint": "results/M1-finetune-distance/T1r-a-scratch-replace/latest.pt",
+  "out": "results/M1-finetune-distance/T1r-a-scratch-replace/mqar-eval.json",
+  "width": 128,
+  "heads": 4,
+  "feedback": "off",
+  "alphabet": "wide",
+  "key_lengths": "1,2,4",
+  "facts": 4,
+  "queries": 4,
+  "with_replacement": true,
+  "filler": "0,64",
+  "pad_to": 320,
+  "items": 64,
+  "batch": 8,
+  "device": "cpu"
+ },
+ "report": {
+  "train_k1": {
+   "first": [
+    0.328125,
+    0.34375,
+    0.3125,
+    0.3125
+   ],
+   "exact": [
+    0.21875,
+    0.234375,
+    0.171875,
+    0.203125
+   ],
+   "first_all": 0.32421875,
+   "exact_all": 0.20703125,
+   "answers": 256
+  },
+  "train_k2": {
+   "first": [
+    0.453125,
+    0.421875,
+    0.40625,
+    0.421875
+   ],
+   "exact": [
+    0.28125,
+    0.328125,
+    0.296875,
+    0.21875
+   ],
+   "first_all": 0.42578125,
+   "exact_all": 0.28125,
+   "answers": 256
+  },
+  "train_k4": {
+   "first": [
+    0.296875,
+    0.28125,
+    0.421875,
+    0.453125
+   ],
+   "exact": [
+    0.21875,
+    0.1875,
+    0.265625,
+    0.328125
+   ],
+   "first_all": 0.36328125,
+   "exact_all": 0.25,
+   "answers": 256
+  },
+  "held_k1": {
+   "first": [
+    0.328125,
+    0.375,
+    0.34375,
+    0.359375
+   ],
+   "exact": [
+    0.25,
+    0.21875,
+    0.25,
+    0.3125
+   ],
+   "first_all": 0.3515625,
+   "exact_all": 0.2578125,
+   "answers": 256
+  },
+  "held_k2": {
+   "first": [
+    0.328125,
+    0.390625,
+    0.34375,
+    0.375
+   ],
+   "exact": [
+    0.171875,
+    0.25,
+    0.21875,
+    0.203125
+   ],
+   "first_all": 0.359375,
+   "exact_all": 0.2109375,
+   "answers": 256
+  },
+  "held_k4": {
+   "first": [
+    0.1875,
+    0.328125,
+    0.34375,
+    0.359375
+   ],
+   "exact": [
+    0.140625,
+    0.15625,
+    0.203125,
+    0.265625
+   ],
+   "first_all": 0.3046875,
+   "exact_all": 0.19140625,
+   "answers": 256
+  }
+ }
+}

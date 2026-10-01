@@ -1,0 +1,1747 @@
+{
+  "scope": "same seed17 initial tensors and first TRAIN batch; observed gradient support is a probe, not all possible active computation",
+  "matching_limit": "Dense title shapes, allocated parameters, samples and optimizer steps match. Forward zeros reverse-channel inputs, feedback enables an extra title projection, method adds auxiliary backward work. Effective parameters and compute are NOT exactly matched.",
+  "train_data_sha256": "e87c4b8567695fba3d08c1370c7c35626d3afe63acaab4b2003723a6eea34c57",
+  "rows": [
+    {
+      "arm": "forward",
+      "allocated": 29475,
+      "gradient_present_parameters": 28386,
+      "nonzero_gradient_parameters": 27170,
+      "details": [
+        {
+          "name": "token_core.initial",
+          "allocated": 32,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 32
+        },
+        {
+          "name": "token_core.embedding.weight",
+          "allocated": 896,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 832
+        },
+        {
+          "name": "token_core.embedding.bias",
+          "allocated": 32,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 32
+        },
+        {
+          "name": "token_core.en.weight",
+          "allocated": 32,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 32
+        },
+        {
+          "name": "token_core.efn.weight",
+          "allocated": 32,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 32
+        },
+        {
+          "name": "token_core.pn.weight",
+          "allocated": 32,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 32
+        },
+        {
+          "name": "token_core.dn.weight",
+          "allocated": 32,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 32
+        },
+        {
+          "name": "token_core.cn.weight",
+          "allocated": 32,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 32
+        },
+        {
+          "name": "token_core.dfn.weight",
+          "allocated": 32,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 32
+        },
+        {
+          "name": "token_core.mn.weight",
+          "allocated": 32,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 32
+        },
+        {
+          "name": "token_core.outn.weight",
+          "allocated": 32,
+          "gradient_present": false,
+          "nonzero_gradient_entries": 0
+        },
+        {
+          "name": "token_core.eq.weight",
+          "allocated": 1024,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 1024
+        },
+        {
+          "name": "token_core.ek.weight",
+          "allocated": 1024,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 1024
+        },
+        {
+          "name": "token_core.ev.weight",
+          "allocated": 1024,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 1024
+        },
+        {
+          "name": "token_core.eo.weight",
+          "allocated": 1024,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 1024
+        },
+        {
+          "name": "token_core.merge.weight",
+          "allocated": 1024,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 1024
+        },
+        {
+          "name": "token_core.dq.weight",
+          "allocated": 1024,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 1024
+        },
+        {
+          "name": "token_core.dk.weight",
+          "allocated": 1024,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 1024
+        },
+        {
+          "name": "token_core.dv.weight",
+          "allocated": 1024,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 1024
+        },
+        {
+          "name": "token_core.do.weight",
+          "allocated": 1024,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 1024
+        },
+        {
+          "name": "token_core.cq.weight",
+          "allocated": 1024,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 1024
+        },
+        {
+          "name": "token_core.co.weight",
+          "allocated": 1024,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 1024
+        },
+        {
+          "name": "token_core.mk.weight",
+          "allocated": 1024,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 1024
+        },
+        {
+          "name": "token_core.mv.weight",
+          "allocated": 1024,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 1024
+        },
+        {
+          "name": "token_core.gate.weight",
+          "allocated": 2048,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 2048
+        },
+        {
+          "name": "token_core.gate.bias",
+          "allocated": 32,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 32
+        },
+        {
+          "name": "token_core.eff.0.weight",
+          "allocated": 2048,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 2048
+        },
+        {
+          "name": "token_core.eff.0.bias",
+          "allocated": 64,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 64
+        },
+        {
+          "name": "token_core.eff.2.weight",
+          "allocated": 2048,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 2048
+        },
+        {
+          "name": "token_core.eff.2.bias",
+          "allocated": 32,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 32
+        },
+        {
+          "name": "token_core.dff.0.weight",
+          "allocated": 2048,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 2048
+        },
+        {
+          "name": "token_core.dff.0.bias",
+          "allocated": 64,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 64
+        },
+        {
+          "name": "token_core.dff.2.weight",
+          "allocated": 2048,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 2048
+        },
+        {
+          "name": "token_core.dff.2.bias",
+          "allocated": 32,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 32
+        },
+        {
+          "name": "token_core.read.weight",
+          "allocated": 32,
+          "gradient_present": false,
+          "nonzero_gradient_entries": 0
+        },
+        {
+          "name": "token_core.read.bias",
+          "allocated": 1,
+          "gradient_present": false,
+          "nonzero_gradient_entries": 0
+        },
+        {
+          "name": "anchor.weight",
+          "allocated": 128,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 128
+        },
+        {
+          "name": "anchor.bias",
+          "allocated": 32,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 32
+        },
+        {
+          "name": "self_map.weight",
+          "allocated": 1024,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 1024
+        },
+        {
+          "name": "parent_map.weight",
+          "allocated": 1024,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 1024
+        },
+        {
+          "name": "child_map.weight",
+          "allocated": 1024,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 0
+        },
+        {
+          "name": "child_anchor.weight",
+          "allocated": 128,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 0
+        },
+        {
+          "name": "title_head.weight",
+          "allocated": 32,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 32
+        },
+        {
+          "name": "title_head.bias",
+          "allocated": 1,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 1
+        },
+        {
+          "name": "token_head.weight",
+          "allocated": 32,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 32
+        },
+        {
+          "name": "token_head.bias",
+          "allocated": 1,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 1
+        },
+        {
+          "name": "feedback_map.weight",
+          "allocated": 1024,
+          "gradient_present": false,
+          "nonzero_gradient_entries": 0
+        }
+      ]
+    },
+    {
+      "arm": "bidir",
+      "allocated": 29475,
+      "gradient_present_parameters": 28386,
+      "nonzero_gradient_parameters": 28322,
+      "details": [
+        {
+          "name": "token_core.initial",
+          "allocated": 32,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 32
+        },
+        {
+          "name": "token_core.embedding.weight",
+          "allocated": 896,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 832
+        },
+        {
+          "name": "token_core.embedding.bias",
+          "allocated": 32,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 32
+        },
+        {
+          "name": "token_core.en.weight",
+          "allocated": 32,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 32
+        },
+        {
+          "name": "token_core.efn.weight",
+          "allocated": 32,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 32
+        },
+        {
+          "name": "token_core.pn.weight",
+          "allocated": 32,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 32
+        },
+        {
+          "name": "token_core.dn.weight",
+          "allocated": 32,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 32
+        },
+        {
+          "name": "token_core.cn.weight",
+          "allocated": 32,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 32
+        },
+        {
+          "name": "token_core.dfn.weight",
+          "allocated": 32,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 32
+        },
+        {
+          "name": "token_core.mn.weight",
+          "allocated": 32,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 32
+        },
+        {
+          "name": "token_core.outn.weight",
+          "allocated": 32,
+          "gradient_present": false,
+          "nonzero_gradient_entries": 0
+        },
+        {
+          "name": "token_core.eq.weight",
+          "allocated": 1024,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 1024
+        },
+        {
+          "name": "token_core.ek.weight",
+          "allocated": 1024,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 1024
+        },
+        {
+          "name": "token_core.ev.weight",
+          "allocated": 1024,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 1024
+        },
+        {
+          "name": "token_core.eo.weight",
+          "allocated": 1024,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 1024
+        },
+        {
+          "name": "token_core.merge.weight",
+          "allocated": 1024,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 1024
+        },
+        {
+          "name": "token_core.dq.weight",
+          "allocated": 1024,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 1024
+        },
+        {
+          "name": "token_core.dk.weight",
+          "allocated": 1024,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 1024
+        },
+        {
+          "name": "token_core.dv.weight",
+          "allocated": 1024,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 1024
+        },
+        {
+          "name": "token_core.do.weight",
+          "allocated": 1024,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 1024
+        },
+        {
+          "name": "token_core.cq.weight",
+          "allocated": 1024,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 1024
+        },
+        {
+          "name": "token_core.co.weight",
+          "allocated": 1024,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 1024
+        },
+        {
+          "name": "token_core.mk.weight",
+          "allocated": 1024,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 1024
+        },
+        {
+          "name": "token_core.mv.weight",
+          "allocated": 1024,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 1024
+        },
+        {
+          "name": "token_core.gate.weight",
+          "allocated": 2048,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 2048
+        },
+        {
+          "name": "token_core.gate.bias",
+          "allocated": 32,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 32
+        },
+        {
+          "name": "token_core.eff.0.weight",
+          "allocated": 2048,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 2048
+        },
+        {
+          "name": "token_core.eff.0.bias",
+          "allocated": 64,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 64
+        },
+        {
+          "name": "token_core.eff.2.weight",
+          "allocated": 2048,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 2048
+        },
+        {
+          "name": "token_core.eff.2.bias",
+          "allocated": 32,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 32
+        },
+        {
+          "name": "token_core.dff.0.weight",
+          "allocated": 2048,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 2048
+        },
+        {
+          "name": "token_core.dff.0.bias",
+          "allocated": 64,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 64
+        },
+        {
+          "name": "token_core.dff.2.weight",
+          "allocated": 2048,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 2048
+        },
+        {
+          "name": "token_core.dff.2.bias",
+          "allocated": 32,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 32
+        },
+        {
+          "name": "token_core.read.weight",
+          "allocated": 32,
+          "gradient_present": false,
+          "nonzero_gradient_entries": 0
+        },
+        {
+          "name": "token_core.read.bias",
+          "allocated": 1,
+          "gradient_present": false,
+          "nonzero_gradient_entries": 0
+        },
+        {
+          "name": "anchor.weight",
+          "allocated": 128,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 128
+        },
+        {
+          "name": "anchor.bias",
+          "allocated": 32,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 32
+        },
+        {
+          "name": "self_map.weight",
+          "allocated": 1024,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 1024
+        },
+        {
+          "name": "parent_map.weight",
+          "allocated": 1024,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 1024
+        },
+        {
+          "name": "child_map.weight",
+          "allocated": 1024,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 1024
+        },
+        {
+          "name": "child_anchor.weight",
+          "allocated": 128,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 128
+        },
+        {
+          "name": "title_head.weight",
+          "allocated": 32,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 32
+        },
+        {
+          "name": "title_head.bias",
+          "allocated": 1,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 1
+        },
+        {
+          "name": "token_head.weight",
+          "allocated": 32,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 32
+        },
+        {
+          "name": "token_head.bias",
+          "allocated": 1,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 1
+        },
+        {
+          "name": "feedback_map.weight",
+          "allocated": 1024,
+          "gradient_present": false,
+          "nonzero_gradient_entries": 0
+        }
+      ]
+    },
+    {
+      "arm": "wrong",
+      "allocated": 29475,
+      "gradient_present_parameters": 28386,
+      "nonzero_gradient_parameters": 28322,
+      "details": [
+        {
+          "name": "token_core.initial",
+          "allocated": 32,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 32
+        },
+        {
+          "name": "token_core.embedding.weight",
+          "allocated": 896,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 832
+        },
+        {
+          "name": "token_core.embedding.bias",
+          "allocated": 32,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 32
+        },
+        {
+          "name": "token_core.en.weight",
+          "allocated": 32,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 32
+        },
+        {
+          "name": "token_core.efn.weight",
+          "allocated": 32,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 32
+        },
+        {
+          "name": "token_core.pn.weight",
+          "allocated": 32,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 32
+        },
+        {
+          "name": "token_core.dn.weight",
+          "allocated": 32,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 32
+        },
+        {
+          "name": "token_core.cn.weight",
+          "allocated": 32,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 32
+        },
+        {
+          "name": "token_core.dfn.weight",
+          "allocated": 32,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 32
+        },
+        {
+          "name": "token_core.mn.weight",
+          "allocated": 32,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 32
+        },
+        {
+          "name": "token_core.outn.weight",
+          "allocated": 32,
+          "gradient_present": false,
+          "nonzero_gradient_entries": 0
+        },
+        {
+          "name": "token_core.eq.weight",
+          "allocated": 1024,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 1024
+        },
+        {
+          "name": "token_core.ek.weight",
+          "allocated": 1024,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 1024
+        },
+        {
+          "name": "token_core.ev.weight",
+          "allocated": 1024,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 1024
+        },
+        {
+          "name": "token_core.eo.weight",
+          "allocated": 1024,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 1024
+        },
+        {
+          "name": "token_core.merge.weight",
+          "allocated": 1024,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 1024
+        },
+        {
+          "name": "token_core.dq.weight",
+          "allocated": 1024,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 1024
+        },
+        {
+          "name": "token_core.dk.weight",
+          "allocated": 1024,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 1024
+        },
+        {
+          "name": "token_core.dv.weight",
+          "allocated": 1024,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 1024
+        },
+        {
+          "name": "token_core.do.weight",
+          "allocated": 1024,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 1024
+        },
+        {
+          "name": "token_core.cq.weight",
+          "allocated": 1024,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 1024
+        },
+        {
+          "name": "token_core.co.weight",
+          "allocated": 1024,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 1024
+        },
+        {
+          "name": "token_core.mk.weight",
+          "allocated": 1024,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 1024
+        },
+        {
+          "name": "token_core.mv.weight",
+          "allocated": 1024,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 1024
+        },
+        {
+          "name": "token_core.gate.weight",
+          "allocated": 2048,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 2048
+        },
+        {
+          "name": "token_core.gate.bias",
+          "allocated": 32,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 32
+        },
+        {
+          "name": "token_core.eff.0.weight",
+          "allocated": 2048,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 2048
+        },
+        {
+          "name": "token_core.eff.0.bias",
+          "allocated": 64,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 64
+        },
+        {
+          "name": "token_core.eff.2.weight",
+          "allocated": 2048,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 2048
+        },
+        {
+          "name": "token_core.eff.2.bias",
+          "allocated": 32,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 32
+        },
+        {
+          "name": "token_core.dff.0.weight",
+          "allocated": 2048,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 2048
+        },
+        {
+          "name": "token_core.dff.0.bias",
+          "allocated": 64,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 64
+        },
+        {
+          "name": "token_core.dff.2.weight",
+          "allocated": 2048,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 2048
+        },
+        {
+          "name": "token_core.dff.2.bias",
+          "allocated": 32,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 32
+        },
+        {
+          "name": "token_core.read.weight",
+          "allocated": 32,
+          "gradient_present": false,
+          "nonzero_gradient_entries": 0
+        },
+        {
+          "name": "token_core.read.bias",
+          "allocated": 1,
+          "gradient_present": false,
+          "nonzero_gradient_entries": 0
+        },
+        {
+          "name": "anchor.weight",
+          "allocated": 128,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 128
+        },
+        {
+          "name": "anchor.bias",
+          "allocated": 32,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 32
+        },
+        {
+          "name": "self_map.weight",
+          "allocated": 1024,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 1024
+        },
+        {
+          "name": "parent_map.weight",
+          "allocated": 1024,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 1024
+        },
+        {
+          "name": "child_map.weight",
+          "allocated": 1024,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 1024
+        },
+        {
+          "name": "child_anchor.weight",
+          "allocated": 128,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 128
+        },
+        {
+          "name": "title_head.weight",
+          "allocated": 32,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 32
+        },
+        {
+          "name": "title_head.bias",
+          "allocated": 1,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 1
+        },
+        {
+          "name": "token_head.weight",
+          "allocated": 32,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 32
+        },
+        {
+          "name": "token_head.bias",
+          "allocated": 1,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 1
+        },
+        {
+          "name": "feedback_map.weight",
+          "allocated": 1024,
+          "gradient_present": false,
+          "nonzero_gradient_entries": 0
+        }
+      ]
+    },
+    {
+      "arm": "flat",
+      "allocated": 29475,
+      "gradient_present_parameters": 28386,
+      "nonzero_gradient_parameters": 28322,
+      "details": [
+        {
+          "name": "token_core.initial",
+          "allocated": 32,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 32
+        },
+        {
+          "name": "token_core.embedding.weight",
+          "allocated": 896,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 832
+        },
+        {
+          "name": "token_core.embedding.bias",
+          "allocated": 32,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 32
+        },
+        {
+          "name": "token_core.en.weight",
+          "allocated": 32,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 32
+        },
+        {
+          "name": "token_core.efn.weight",
+          "allocated": 32,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 32
+        },
+        {
+          "name": "token_core.pn.weight",
+          "allocated": 32,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 32
+        },
+        {
+          "name": "token_core.dn.weight",
+          "allocated": 32,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 32
+        },
+        {
+          "name": "token_core.cn.weight",
+          "allocated": 32,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 32
+        },
+        {
+          "name": "token_core.dfn.weight",
+          "allocated": 32,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 32
+        },
+        {
+          "name": "token_core.mn.weight",
+          "allocated": 32,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 32
+        },
+        {
+          "name": "token_core.outn.weight",
+          "allocated": 32,
+          "gradient_present": false,
+          "nonzero_gradient_entries": 0
+        },
+        {
+          "name": "token_core.eq.weight",
+          "allocated": 1024,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 1024
+        },
+        {
+          "name": "token_core.ek.weight",
+          "allocated": 1024,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 1024
+        },
+        {
+          "name": "token_core.ev.weight",
+          "allocated": 1024,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 1024
+        },
+        {
+          "name": "token_core.eo.weight",
+          "allocated": 1024,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 1024
+        },
+        {
+          "name": "token_core.merge.weight",
+          "allocated": 1024,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 1024
+        },
+        {
+          "name": "token_core.dq.weight",
+          "allocated": 1024,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 1024
+        },
+        {
+          "name": "token_core.dk.weight",
+          "allocated": 1024,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 1024
+        },
+        {
+          "name": "token_core.dv.weight",
+          "allocated": 1024,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 1024
+        },
+        {
+          "name": "token_core.do.weight",
+          "allocated": 1024,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 1024
+        },
+        {
+          "name": "token_core.cq.weight",
+          "allocated": 1024,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 1024
+        },
+        {
+          "name": "token_core.co.weight",
+          "allocated": 1024,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 1024
+        },
+        {
+          "name": "token_core.mk.weight",
+          "allocated": 1024,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 1024
+        },
+        {
+          "name": "token_core.mv.weight",
+          "allocated": 1024,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 1024
+        },
+        {
+          "name": "token_core.gate.weight",
+          "allocated": 2048,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 2048
+        },
+        {
+          "name": "token_core.gate.bias",
+          "allocated": 32,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 32
+        },
+        {
+          "name": "token_core.eff.0.weight",
+          "allocated": 2048,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 2048
+        },
+        {
+          "name": "token_core.eff.0.bias",
+          "allocated": 64,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 64
+        },
+        {
+          "name": "token_core.eff.2.weight",
+          "allocated": 2048,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 2048
+        },
+        {
+          "name": "token_core.eff.2.bias",
+          "allocated": 32,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 32
+        },
+        {
+          "name": "token_core.dff.0.weight",
+          "allocated": 2048,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 2048
+        },
+        {
+          "name": "token_core.dff.0.bias",
+          "allocated": 64,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 64
+        },
+        {
+          "name": "token_core.dff.2.weight",
+          "allocated": 2048,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 2048
+        },
+        {
+          "name": "token_core.dff.2.bias",
+          "allocated": 32,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 32
+        },
+        {
+          "name": "token_core.read.weight",
+          "allocated": 32,
+          "gradient_present": false,
+          "nonzero_gradient_entries": 0
+        },
+        {
+          "name": "token_core.read.bias",
+          "allocated": 1,
+          "gradient_present": false,
+          "nonzero_gradient_entries": 0
+        },
+        {
+          "name": "anchor.weight",
+          "allocated": 128,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 128
+        },
+        {
+          "name": "anchor.bias",
+          "allocated": 32,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 32
+        },
+        {
+          "name": "self_map.weight",
+          "allocated": 1024,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 1024
+        },
+        {
+          "name": "parent_map.weight",
+          "allocated": 1024,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 1024
+        },
+        {
+          "name": "child_map.weight",
+          "allocated": 1024,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 1024
+        },
+        {
+          "name": "child_anchor.weight",
+          "allocated": 128,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 128
+        },
+        {
+          "name": "title_head.weight",
+          "allocated": 32,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 32
+        },
+        {
+          "name": "title_head.bias",
+          "allocated": 1,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 1
+        },
+        {
+          "name": "token_head.weight",
+          "allocated": 32,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 32
+        },
+        {
+          "name": "token_head.bias",
+          "allocated": 1,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 1
+        },
+        {
+          "name": "feedback_map.weight",
+          "allocated": 1024,
+          "gradient_present": false,
+          "nonzero_gradient_entries": 0
+        }
+      ]
+    },
+    {
+      "arm": "feedback",
+      "allocated": 29475,
+      "gradient_present_parameters": 29410,
+      "nonzero_gradient_parameters": 29346,
+      "details": [
+        {
+          "name": "token_core.initial",
+          "allocated": 32,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 32
+        },
+        {
+          "name": "token_core.embedding.weight",
+          "allocated": 896,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 832
+        },
+        {
+          "name": "token_core.embedding.bias",
+          "allocated": 32,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 32
+        },
+        {
+          "name": "token_core.en.weight",
+          "allocated": 32,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 32
+        },
+        {
+          "name": "token_core.efn.weight",
+          "allocated": 32,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 32
+        },
+        {
+          "name": "token_core.pn.weight",
+          "allocated": 32,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 32
+        },
+        {
+          "name": "token_core.dn.weight",
+          "allocated": 32,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 32
+        },
+        {
+          "name": "token_core.cn.weight",
+          "allocated": 32,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 32
+        },
+        {
+          "name": "token_core.dfn.weight",
+          "allocated": 32,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 32
+        },
+        {
+          "name": "token_core.mn.weight",
+          "allocated": 32,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 32
+        },
+        {
+          "name": "token_core.outn.weight",
+          "allocated": 32,
+          "gradient_present": false,
+          "nonzero_gradient_entries": 0
+        },
+        {
+          "name": "token_core.eq.weight",
+          "allocated": 1024,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 1024
+        },
+        {
+          "name": "token_core.ek.weight",
+          "allocated": 1024,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 1024
+        },
+        {
+          "name": "token_core.ev.weight",
+          "allocated": 1024,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 1024
+        },
+        {
+          "name": "token_core.eo.weight",
+          "allocated": 1024,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 1024
+        },
+        {
+          "name": "token_core.merge.weight",
+          "allocated": 1024,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 1024
+        },
+        {
+          "name": "token_core.dq.weight",
+          "allocated": 1024,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 1024
+        },
+        {
+          "name": "token_core.dk.weight",
+          "allocated": 1024,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 1024
+        },
+        {
+          "name": "token_core.dv.weight",
+          "allocated": 1024,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 1024
+        },
+        {
+          "name": "token_core.do.weight",
+          "allocated": 1024,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 1024
+        },
+        {
+          "name": "token_core.cq.weight",
+          "allocated": 1024,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 1024
+        },
+        {
+          "name": "token_core.co.weight",
+          "allocated": 1024,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 1024
+        },
+        {
+          "name": "token_core.mk.weight",
+          "allocated": 1024,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 1024
+        },
+        {
+          "name": "token_core.mv.weight",
+          "allocated": 1024,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 1024
+        },
+        {
+          "name": "token_core.gate.weight",
+          "allocated": 2048,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 2048
+        },
+        {
+          "name": "token_core.gate.bias",
+          "allocated": 32,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 32
+        },
+        {
+          "name": "token_core.eff.0.weight",
+          "allocated": 2048,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 2048
+        },
+        {
+          "name": "token_core.eff.0.bias",
+          "allocated": 64,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 64
+        },
+        {
+          "name": "token_core.eff.2.weight",
+          "allocated": 2048,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 2048
+        },
+        {
+          "name": "token_core.eff.2.bias",
+          "allocated": 32,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 32
+        },
+        {
+          "name": "token_core.dff.0.weight",
+          "allocated": 2048,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 2048
+        },
+        {
+          "name": "token_core.dff.0.bias",
+          "allocated": 64,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 64
+        },
+        {
+          "name": "token_core.dff.2.weight",
+          "allocated": 2048,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 2048
+        },
+        {
+          "name": "token_core.dff.2.bias",
+          "allocated": 32,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 32
+        },
+        {
+          "name": "token_core.read.weight",
+          "allocated": 32,
+          "gradient_present": false,
+          "nonzero_gradient_entries": 0
+        },
+        {
+          "name": "token_core.read.bias",
+          "allocated": 1,
+          "gradient_present": false,
+          "nonzero_gradient_entries": 0
+        },
+        {
+          "name": "anchor.weight",
+          "allocated": 128,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 128
+        },
+        {
+          "name": "anchor.bias",
+          "allocated": 32,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 32
+        },
+        {
+          "name": "self_map.weight",
+          "allocated": 1024,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 1024
+        },
+        {
+          "name": "parent_map.weight",
+          "allocated": 1024,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 1024
+        },
+        {
+          "name": "child_map.weight",
+          "allocated": 1024,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 1024
+        },
+        {
+          "name": "child_anchor.weight",
+          "allocated": 128,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 128
+        },
+        {
+          "name": "title_head.weight",
+          "allocated": 32,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 32
+        },
+        {
+          "name": "title_head.bias",
+          "allocated": 1,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 1
+        },
+        {
+          "name": "token_head.weight",
+          "allocated": 32,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 32
+        },
+        {
+          "name": "token_head.bias",
+          "allocated": 1,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 1
+        },
+        {
+          "name": "feedback_map.weight",
+          "allocated": 1024,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 1024
+        }
+      ]
+    },
+    {
+      "arm": "method",
+      "allocated": 29475,
+      "gradient_present_parameters": 28386,
+      "nonzero_gradient_parameters": 28322,
+      "details": [
+        {
+          "name": "token_core.initial",
+          "allocated": 32,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 32
+        },
+        {
+          "name": "token_core.embedding.weight",
+          "allocated": 896,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 832
+        },
+        {
+          "name": "token_core.embedding.bias",
+          "allocated": 32,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 32
+        },
+        {
+          "name": "token_core.en.weight",
+          "allocated": 32,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 32
+        },
+        {
+          "name": "token_core.efn.weight",
+          "allocated": 32,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 32
+        },
+        {
+          "name": "token_core.pn.weight",
+          "allocated": 32,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 32
+        },
+        {
+          "name": "token_core.dn.weight",
+          "allocated": 32,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 32
+        },
+        {
+          "name": "token_core.cn.weight",
+          "allocated": 32,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 32
+        },
+        {
+          "name": "token_core.dfn.weight",
+          "allocated": 32,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 32
+        },
+        {
+          "name": "token_core.mn.weight",
+          "allocated": 32,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 32
+        },
+        {
+          "name": "token_core.outn.weight",
+          "allocated": 32,
+          "gradient_present": false,
+          "nonzero_gradient_entries": 0
+        },
+        {
+          "name": "token_core.eq.weight",
+          "allocated": 1024,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 1024
+        },
+        {
+          "name": "token_core.ek.weight",
+          "allocated": 1024,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 1024
+        },
+        {
+          "name": "token_core.ev.weight",
+          "allocated": 1024,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 1024
+        },
+        {
+          "name": "token_core.eo.weight",
+          "allocated": 1024,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 1024
+        },
+        {
+          "name": "token_core.merge.weight",
+          "allocated": 1024,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 1024
+        },
+        {
+          "name": "token_core.dq.weight",
+          "allocated": 1024,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 1024
+        },
+        {
+          "name": "token_core.dk.weight",
+          "allocated": 1024,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 1024
+        },
+        {
+          "name": "token_core.dv.weight",
+          "allocated": 1024,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 1024
+        },
+        {
+          "name": "token_core.do.weight",
+          "allocated": 1024,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 1024
+        },
+        {
+          "name": "token_core.cq.weight",
+          "allocated": 1024,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 1024
+        },
+        {
+          "name": "token_core.co.weight",
+          "allocated": 1024,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 1024
+        },
+        {
+          "name": "token_core.mk.weight",
+          "allocated": 1024,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 1024
+        },
+        {
+          "name": "token_core.mv.weight",
+          "allocated": 1024,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 1024
+        },
+        {
+          "name": "token_core.gate.weight",
+          "allocated": 2048,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 2048
+        },
+        {
+          "name": "token_core.gate.bias",
+          "allocated": 32,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 32
+        },
+        {
+          "name": "token_core.eff.0.weight",
+          "allocated": 2048,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 2048
+        },
+        {
+          "name": "token_core.eff.0.bias",
+          "allocated": 64,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 64
+        },
+        {
+          "name": "token_core.eff.2.weight",
+          "allocated": 2048,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 2048
+        },
+        {
+          "name": "token_core.eff.2.bias",
+          "allocated": 32,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 32
+        },
+        {
+          "name": "token_core.dff.0.weight",
+          "allocated": 2048,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 2048
+        },
+        {
+          "name": "token_core.dff.0.bias",
+          "allocated": 64,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 64
+        },
+        {
+          "name": "token_core.dff.2.weight",
+          "allocated": 2048,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 2048
+        },
+        {
+          "name": "token_core.dff.2.bias",
+          "allocated": 32,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 32
+        },
+        {
+          "name": "token_core.read.weight",
+          "allocated": 32,
+          "gradient_present": false,
+          "nonzero_gradient_entries": 0
+        },
+        {
+          "name": "token_core.read.bias",
+          "allocated": 1,
+          "gradient_present": false,
+          "nonzero_gradient_entries": 0
+        },
+        {
+          "name": "anchor.weight",
+          "allocated": 128,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 128
+        },
+        {
+          "name": "anchor.bias",
+          "allocated": 32,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 32
+        },
+        {
+          "name": "self_map.weight",
+          "allocated": 1024,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 1024
+        },
+        {
+          "name": "parent_map.weight",
+          "allocated": 1024,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 1024
+        },
+        {
+          "name": "child_map.weight",
+          "allocated": 1024,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 1024
+        },
+        {
+          "name": "child_anchor.weight",
+          "allocated": 128,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 128
+        },
+        {
+          "name": "title_head.weight",
+          "allocated": 32,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 32
+        },
+        {
+          "name": "title_head.bias",
+          "allocated": 1,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 1
+        },
+        {
+          "name": "token_head.weight",
+          "allocated": 32,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 32
+        },
+        {
+          "name": "token_head.bias",
+          "allocated": 1,
+          "gradient_present": true,
+          "nonzero_gradient_entries": 1
+        },
+        {
+          "name": "feedback_map.weight",
+          "allocated": 1024,
+          "gradient_present": false,
+          "nonzero_gradient_entries": 0
+        }
+      ]
+    }
+  ]
+}

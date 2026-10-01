@@ -1,0 +1,92 @@
+{
+ "frozen_utc": 1790419429.2733183,
+ "protocol": {
+  "alpha": 0.1,
+  "arms": [
+   "gate_state",
+   "gate_input"
+  ],
+  "batch": 32,
+  "clean_lengths": [
+   128,
+   1024,
+   4096
+  ],
+  "clip": 1.0,
+  "device": "cpu",
+  "eval_batch": 32,
+  "gate_k": 2,
+  "gate_loss_weight": 0.0,
+  "heads": 2,
+  "lr": 0.003,
+  "lrs": [
+   0.003,
+   0.001,
+   0.0003
+  ],
+  "n_clean": 500,
+  "n_neutral": 500,
+  "neutral_slots": [
+   128,
+   512
+  ],
+  "placements": [
+   "prefix",
+   "middle",
+   "suffix"
+  ],
+  "preregistration": {
+   "falsification": "if the input-only arm fails to learn at ALL three rates while the state arm learns at some, the instability is a property of the gate rather than of the rate, and it must be characterised before an input-only gate can be built on",
+   "licenses": "a positive makes removing the candidate feedback worth testing; it does NOT make the model scannable, since that second state dependence remains",
+   "prediction": "the input-only gate trains at a lower rate; the collapse is rate sensitivity, not a broken gate",
+   "thresholds": {
+    "learned_validation": 0.5,
+    "rates": 3
+   }
+  },
+  "primary_seeds": [
+   143
+  ],
+  "purpose": "U5-lr (A): is the input-only gate collapse at five/s143 a learning-rate phenomenon? lr decided the solution family three times in this campaign (U2c cross-lr, U4-sep phase transition, R5 rescued at 3e-4), so the rate axis is tried before any redesign.",
+  "reference": "results/U2b-intervene",
+  "selection": "minimum validation final cross entropy; earliest step on ties",
+  "source_seeds": {
+   "neutral": 93020000,
+   "test": 93010000,
+   "train": 91010000,
+   "validation": 92010000
+  },
+  "steps": 2048,
+  "targets": {
+   "clean_regression_pp": 1.0,
+   "false_hold_max": 0.01,
+   "neutral_loss_pp": 2.0,
+   "skipped_steps_max": 0.01
+  },
+  "tasks": [
+   "five"
+  ],
+  "threads": 1,
+  "train_length": 128,
+  "u1": "results/U1",
+  "validation_every": 128,
+  "validation_n": 256,
+  "version": 1,
+  "weight_decay": 0.01,
+  "width": 32,
+  "window": 4
+ },
+ "protocol_hash": "702d221e606ff337a669ddf37ce3bbd7e515649148a365b0d75fab2a3b1c1868",
+ "sources": {
+  "core/model.py": "121f11fcb3c1308b7f67d898f2aa09c37226d3b0db27dd4e5bf1ebeaea281f43",
+  "horizon/gated.py": "2d2b93156ebb7d2953f6673982c53c98196abe635b324e5c06a1caeb17c061c4",
+  "horizon/gated_sweep.py": "4c69db4c430fa797a1544225dba91acb171f8ec143e7b6c1ebc5d2386ed921a8",
+  "horizon/guards.py": "bbcca8d70d86027d5fd17dcbfc9f7666f8e135b56bf6a23b11a5b1b3ad820ff5",
+  "horizon/interventions.py": "45a8298b1d1dfba90336f0f2b344d8f80fcbf12e5e723e5332f31286b0322d89",
+  "horizon/interventions_runaware.py": "66d06007820d268e77f7929b962d46da723cbce8fe6696261ad4d7edff4fa428",
+  "horizon/scan_sweep.py": "b5efbadf0dd5a267e1c54d0f964840e91b4b3ca23ed735d22b1815f0780fb369",
+  "horizon/scanable.py": "f1a8cecf678d9760afe3cf00aadd3c3e8a36041cb050456fcf7e3a875e2b324b",
+  "horizon/sweep.py": "931cf076516049938ac66ad463a4a9587a284ba96921eb824222432de4e8d9d1",
+  "horizon/task_families.py": "b7faa8be802e99b0d992506183210b238d8b3a568c6daf7629df620dd8b3a6b3"
+ }
+}

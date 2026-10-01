@@ -1,0 +1,29 @@
+{
+  "replay": {
+    "absolute_difference": 0.0,
+    "actual_refinements": 6,
+    "tokens": 6
+  },
+  "reset_isolation_exact": true,
+  "inverse_compaction": {
+    "facets": 2,
+    "old_raw_rows_unchanged": true,
+    "compactions": 3,
+    "reopens": 1
+  },
+  "heading_roundtrip_exact": true,
+  "contradictory_adapter": {
+    "output_status": "VERIFIED_PARSED_CONSTRAINTS",
+    "heading_count": 0,
+    "rejected": 0,
+    "scope": "inconsistent injected adapter, not production LearnedParser output"
+  },
+  "learning_guard_protocol_only_mismatch_admitted": true,
+  "learning_guard_existing_evidence_refused": true,
+  "core_guard_partial_evidence_refused": true,
+  "memory_v3_recomputed": {
+    "memory_examples": 192,
+    "halting_records": 768,
+    "match": true
+  }
+}

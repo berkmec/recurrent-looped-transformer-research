@@ -1,0 +1,56 @@
+u5-gate_state-five-w32-s143 val 1.0000 | 1514s
+u5-gate_state-five-w32-s143-lr0.001 val 1.0000 | 1593s
+u5-gate_state-five-w32-s143-lr0.0003 val 1.0000 | 1504s
+u5-gate_input-five-w32-s143 val 0.2305 | 1536s
+u5-gate_state-five-w32-s143 val 1.0000 | 1514s
+u5-gate_state-five-w32-s143-lr0.001 val 1.0000 | 1593s
+u5-gate_state-five-w32-s143-lr0.0003 val 1.0000 | 1504s
+u5-gate_input-five-w32-s143 val 0.2305 | 1536s
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "__RLT_ROOT__\2026-09-18-phase2\horizon\scan_sweep.py", line 430, in <module>
+    main()
+  File "__RLT_ROOT__\2026-09-18-phase2\horizon\scan_sweep.py", line 425, in main
+    r = run_one(args.out, c)
+        ^^^^^^^^^^^^^^^^^^^^
+  File "__RLT_ROOT__\2026-09-18-phase2\horizon\scan_sweep.py", line 177, in run_one
+    raise ValueError('incomplete condition directory requires audit; no automatic reuse: ' + str(directory))
+ValueError: incomplete condition directory requires audit; no automatic reuse: results\U5lr\u5-gate_input-five-w32-s143-lr0.001
+exit 1
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "__RLT_ROOT__\2026-09-18-phase2\horizon\scan_sweep.py", line 430, in <module>
+    main()
+  File "__RLT_ROOT__\2026-09-18-phase2\horizon\scan_sweep.py", line 409, in main
+    r = lr_report(args.out)
+        ^^^^^^^^^^^^^^^^^^^
+  File "__RLT_ROOT__\2026-09-18-phase2\horizon\scan_sweep.py", line 345, in lr_report
+    manifest, rows, drift = collect(out)
+                            ^^^^^^^^^^^^
+  File "__RLT_ROOT__\2026-09-18-phase2\horizon\scan_sweep.py", line 262, in collect
+    out = Path(out); manifest, drift = verify_evidence(out); p = manifest['protocol']
+                                       ^^^^^^^^^^^^^^^^^^^^
+  File "__RLT_ROOT__\2026-09-18-phase2\horizon\scan_sweep.py", line 163, in verify_evidence
+    raise ValueError('evidence integrity failed:\n  ' + '\n  '.join(problems))
+ValueError: evidence integrity failed:
+  u5-gate_input-five-w32-s143-lr0.001: no train.json
+  u5-gate_input-five-w32-s143-lr0.0003: no train.json
+u5-gate_state-five-w32-s143 val 1.0000 | 1514s
+u5-gate_state-five-w32-s143-lr0.001 val 1.0000 | 1593s
+u5-gate_state-five-w32-s143-lr0.0003 val 1.0000 | 1504s
+u5-gate_input-five-w32-s143 val 0.2305 | 1536s
+u5-gate_input-five-w32-s143-lr0.001 val 0.9961 | 1432s
+u5-gate_input-five-w32-s143-lr0.0003 val 1.0000 | 1426s
+exit 0
+kosul                              lr  dogrulama     onarim      hold
+u5-gate_input-five-w32-s143     0.003     0.2305      -28.4     0.911
+u5-gate_input-five-w32-s143-lr0.0003 0.0003     1.0000      -30.7     0.649
+u5-gate_input-five-w32-s143-lr0.001  0.001     0.9961       99.7     0.825
+u5-gate_state-five-w32-s143     0.003     1.0000       83.7     0.877
+u5-gate_state-five-w32-s143-lr0.0003 0.0003     1.0000       67.4     0.824
+u5-gate_state-five-w32-s143-lr0.001  0.001     1.0000       65.5     0.858
+
+ogrenen kosul sayisi (kol@lr): {'gate_input@0.0003': 1, 'gate_input@0.001': 1, 'gate_input@0.003': 0, 'gate_state@0.0003': 1, 'gate_state@0.001': 1, 'gate_state@0.003': 1}
+written results\U5lr\lr-report.json

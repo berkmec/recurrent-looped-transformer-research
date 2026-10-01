@@ -1,0 +1,23 @@
+{
+ "note": "secondary view computed post hoc from the frozen raw files; the frozen relation_f1 metric (exact relation match) is the protocol metric",
+ "arms": {
+  "lm_zero": {
+   "gold_hops": 1570,
+   "answer_correct": 351,
+   "answer_and_source": 295,
+   "answer_source_relation": 28,
+   "examples": 600,
+   "final_answer_correct": 105,
+   "all_hops_answer_source": 50
+  },
+  "lm_schema": {
+   "gold_hops": 1570,
+   "answer_correct": 333,
+   "answer_and_source": 268,
+   "answer_source_relation": 39,
+   "examples": 600,
+   "final_answer_correct": 114,
+   "all_hops_answer_source": 41
+  }
+ }
+}

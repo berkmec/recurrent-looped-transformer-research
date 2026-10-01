@@ -1,0 +1,73 @@
+{
+  "seed": 17,
+  "split": "depth8",
+  "condition": "uncompacted",
+  "episodes": 128,
+  "source_event_exact_accuracy": 1.0,
+  "source_episode_exact_accuracy": 1.0,
+  "spurious_query_outputs": 0,
+  "spurious_accepted_outputs": 0,
+  "all_certificate_outputs": {
+    "count": 0,
+    "source_failures": 0,
+    "source_failure_rate": null,
+    "scope": "all emitted certificates, including unsolicited/misparsed query positions as source alignment failures; correlated queries, no binomial interval"
+  },
+  "final": {
+    "intended_queries": 128,
+    "emitted_count": 128,
+    "coverage": 0.0,
+    "accepted_count": 0,
+    "accepted_failures": 0,
+    "accepted_error_rate": null,
+    "accepted_error_rate_ci95": null,
+    "accuracy_all_intended": 0.2890625,
+    "mse_emitted": 0.3432987753374185,
+    "missing_outputs": 0,
+    "mean_refinements_at_query": 8.0,
+    "interval_scope": "fixed-model independent final cases"
+  },
+  "all_queries": {
+    "intended_queries": 384,
+    "emitted_count": 384,
+    "coverage": 0.0,
+    "accepted_count": 0,
+    "accepted_failures": 0,
+    "accepted_error_rate": null,
+    "accepted_error_rate_ci95": null,
+    "accuracy_all_intended": 0.24479166666666666,
+    "mse_emitted": 0.30784378088593417,
+    "missing_outputs": 0,
+    "mean_refinements_at_query": 8.0,
+    "interval_scope": "correlated within episode; no binomial interval"
+  },
+  "cost_mean": {
+    "seconds": 0.5824143789041045,
+    "total_refinements_executed": 48.0,
+    "total_consumed_tokens_including_replay": 38.0,
+    "reasoning_compactions": 0.0,
+    "reasoning_rereads": 0.0,
+    "reasoning_max_resident_traces": 8.0,
+    "reasoning_generated_traces": 48.0,
+    "reasoning_peak_active_serialized_bytes": 55868.25,
+    "reasoning_maximum_reload_difference": 0.0,
+    "same_heading_reasoning_continuations": 0.0,
+    "archive_bytes": 479744.0
+  },
+  "cost_max": {
+    "seconds": 0.8562147000338882,
+    "total_refinements_executed": 48,
+    "total_consumed_tokens_including_replay": 38,
+    "reasoning_compactions": 0,
+    "reasoning_rereads": 0,
+    "reasoning_max_resident_traces": 8,
+    "reasoning_generated_traces": 48,
+    "reasoning_peak_active_serialized_bytes": 56020,
+    "reasoning_maximum_reload_difference": 0.0,
+    "same_heading_reasoning_continuations": 0,
+    "archive_bytes": 487424
+  },
+  "all_reloads_bitwise_equal": true,
+  "prediction_sha256": "74e2e0f9c7fa33f816970d18b35f8d686f71b53a3c576b8fb85818432b53b441",
+  "seconds": 75.12728040001821
+}

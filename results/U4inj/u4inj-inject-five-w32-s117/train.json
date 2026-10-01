@@ -1,0 +1,37 @@
+{
+ "condition": {
+  "arm": "inject",
+  "heads": 2,
+  "lr": 0.003,
+  "seed": 117,
+  "stage": "u4inj",
+  "task": "five",
+  "width": 32,
+  "window": 4
+ },
+ "guard": {
+  "clipped": 39,
+  "max_grad_norm_before_clip": 9.60496185974089,
+  "skip_reasons": {},
+  "skipped": 0,
+  "steps": 2048
+ },
+ "ident": "u4inj-inject-five-w32-s117",
+ "initial_sha256": "ec3884bf471bea83a1d0dc40ece776ad3289f3e8daf193f2b7e35087ba656539",
+ "parameters": {
+  "core_allocated": 24325,
+  "injection": 2048
+ },
+ "protocol_hash": "523dba46f448674672137eb02042b65b243741bb98119963af4ed2c44486a0fe",
+ "selected_sha256": "dea817a0dc3bf753eaa92a3d3cbed66818cebc1e3222f0b9626a4f156430edb9",
+ "selected_step": 512,
+ "selected_validation": {
+  "all_accuracy": 0.2431640625,
+  "final_accuracy": 0.234375,
+  "final_loss": 1.60622239112854
+ },
+ "steps": 2048,
+ "train_seconds": 1464.4589585993235,
+ "updates_sha256": "34aea0e494e619d753513e9a6fc9f259966c1655ba567c39550f7ac8ccf5b733",
+ "wall_seconds": 1496.981869700001
+}

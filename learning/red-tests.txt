@@ -1,0 +1,87 @@
+test_feedback_changes_future_only_and_preserves_clocks (test_learning.LearningContracts.test_feedback_changes_future_only_and_preserves_clocks) ... FAIL
+test_final_error_gate_rejects_no_drift_but_wrong_answer (test_learning.LearningContracts.test_final_error_gate_rejects_no_drift_but_wrong_answer) ... FAIL
+test_forward_one_step_cannot_read_child (test_learning.LearningContracts.test_forward_one_step_cannot_read_child) ... FAIL
+test_labels_match_independent_linear_solve (test_learning.LearningContracts.test_labels_match_independent_linear_solve) ... FAIL
+test_oracle_unavailable_at_inference (test_learning.LearningContracts.test_oracle_unavailable_at_inference) ... FAIL
+test_rejects_mixed_query_alignment_and_fractional_ids (test_learning.LearningContracts.test_rejects_mixed_query_alignment_and_fractional_ids) ... FAIL
+test_revision_policy_has_no_target_or_effect_input (test_learning.LearningContracts.test_revision_policy_has_no_target_or_effect_input) ... FAIL
+
+======================================================================
+FAIL: test_feedback_changes_future_only_and_preserves_clocks (test_learning.LearningContracts.test_feedback_changes_future_only_and_preserves_clocks)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "__RLT_ROOT__\2026-09-16-e2e\tests\test_learning.py", line 29, in test_feedback_changes_future_only_and_preserves_clocks
+    Model,_=self.modules(); torch.manual_seed(17); m=Model(feedback=True)
+            ^^^^^^^^^^^^^^
+  File "__RLT_ROOT__\2026-09-16-e2e\tests\test_learning.py", line 14, in modules
+    self.assertIsNotNone(importlib.util.find_spec('learning.model'), 'learned event model not implemented')
+AssertionError: unexpectedly None : learned event model not implemented
+
+======================================================================
+FAIL: test_final_error_gate_rejects_no_drift_but_wrong_answer (test_learning.LearningContracts.test_final_error_gate_rejects_no_drift_but_wrong_answer)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "__RLT_ROOT__\2026-09-16-e2e\tests\test_learning.py", line 49, in test_final_error_gate_rejects_no_drift_but_wrong_answer
+    self.modules()
+  File "__RLT_ROOT__\2026-09-16-e2e\tests\test_learning.py", line 14, in modules
+    self.assertIsNotNone(importlib.util.find_spec('learning.model'), 'learned event model not implemented')
+AssertionError: unexpectedly None : learned event model not implemented
+
+======================================================================
+FAIL: test_forward_one_step_cannot_read_child (test_learning.LearningContracts.test_forward_one_step_cannot_read_child)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "__RLT_ROOT__\2026-09-16-e2e\tests\test_learning.py", line 19, in test_forward_one_step_cannot_read_child
+    Model, _ = self.modules()
+               ^^^^^^^^^^^^^^
+  File "__RLT_ROOT__\2026-09-16-e2e\tests\test_learning.py", line 14, in modules
+    self.assertIsNotNone(importlib.util.find_spec('learning.model'), 'learned event model not implemented')
+AssertionError: unexpectedly None : learned event model not implemented
+
+======================================================================
+FAIL: test_labels_match_independent_linear_solve (test_learning.LearningContracts.test_labels_match_independent_linear_solve)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "__RLT_ROOT__\2026-09-16-e2e\tests\test_learning.py", line 57, in test_labels_match_independent_linear_solve
+    self.modules()
+  File "__RLT_ROOT__\2026-09-16-e2e\tests\test_learning.py", line 14, in modules
+    self.assertIsNotNone(importlib.util.find_spec('learning.model'), 'learned event model not implemented')
+AssertionError: unexpectedly None : learned event model not implemented
+
+======================================================================
+FAIL: test_oracle_unavailable_at_inference (test_learning.LearningContracts.test_oracle_unavailable_at_inference)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "__RLT_ROOT__\2026-09-16-e2e\tests\test_learning.py", line 77, in test_oracle_unavailable_at_inference
+    Model,_=self.modules()
+            ^^^^^^^^^^^^^^
+  File "__RLT_ROOT__\2026-09-16-e2e\tests\test_learning.py", line 14, in modules
+    self.assertIsNotNone(importlib.util.find_spec('learning.model'), 'learned event model not implemented')
+AssertionError: unexpectedly None : learned event model not implemented
+
+======================================================================
+FAIL: test_rejects_mixed_query_alignment_and_fractional_ids (test_learning.LearningContracts.test_rejects_mixed_query_alignment_and_fractional_ids)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "__RLT_ROOT__\2026-09-16-e2e\tests\test_learning.py", line 90, in test_rejects_mixed_query_alignment_and_fractional_ids
+    Model,_=self.modules();m=Model()
+            ^^^^^^^^^^^^^^
+  File "__RLT_ROOT__\2026-09-16-e2e\tests\test_learning.py", line 14, in modules
+    self.assertIsNotNone(importlib.util.find_spec('learning.model'), 'learned event model not implemented')
+AssertionError: unexpectedly None : learned event model not implemented
+
+======================================================================
+FAIL: test_revision_policy_has_no_target_or_effect_input (test_learning.LearningContracts.test_revision_policy_has_no_target_or_effect_input)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "__RLT_ROOT__\2026-09-16-e2e\tests\test_learning.py", line 41, in test_revision_policy_has_no_target_or_effect_input
+    _,mask=self.modules()
+           ^^^^^^^^^^^^^^
+  File "__RLT_ROOT__\2026-09-16-e2e\tests\test_learning.py", line 14, in modules
+    self.assertIsNotNone(importlib.util.find_spec('learning.model'), 'learned event model not implemented')
+AssertionError: unexpectedly None : learned event model not implemented
+
+----------------------------------------------------------------------
+Ran 7 tests in 0.004s
+
+FAILED (failures=7)

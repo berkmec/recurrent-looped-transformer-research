@@ -1,0 +1,19 @@
+{
+ "arm": "plain",
+ "batch": 32,
+ "bytes_per_step": 16384,
+ "design": "the needle FORMAT is taught at short filler; the evaluation uses fillers never seen, so what has to generalise is the DISTANCE - the U1 shape (trained at 128, tested to 4096) in language. Training and evaluation key alphabets are disjoint, so no evaluation key can be memorised.",
+ "length": 512,
+ "lr": 0.0006,
+ "needle_rate": 0.125,
+ "needles_per_batch": 4,
+ "role": "development probe: sizes the training budget, never used as evidence about the gate",
+ "seed": 117,
+ "steps": 5000,
+ "train_filler": [
+  0,
+  64
+ ],
+ "utc": 1790334664.1019423,
+ "width": 1152
+}

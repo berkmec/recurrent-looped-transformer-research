@@ -1,0 +1,141 @@
+{
+  "seed": 91,
+  "mode": "rlt",
+  "protocol_sha256": "54ee3d844cd21435b98563c8ae5d077da9b498ba867c33e660ee992d72e9b41d",
+  "long_horizon": [
+    {
+      "seed": 91,
+      "mode": "rlt",
+      "length": 32,
+      "t": 32,
+      "k": 0,
+      "examples": 512,
+      "final_accuracy": 0.66796875,
+      "prefix_accuracy": 0.84228515625,
+      "prefix_loss": 0.33183157071471214,
+      "seconds": 2.267862399981823,
+      "file": "__RLT_ROOT__\\2026-09-16-e2e\\integration\\scale\\parity-w256-rlt-s91\\heldout-L32.npz",
+      "sha256": "79a3d7a3edeebc8fcc6eb43c436f127b5fb92d63ff61aabc19cb2eab7e41e7ab"
+    },
+    {
+      "seed": 91,
+      "mode": "rlt",
+      "length": 64,
+      "t": 64,
+      "k": 0,
+      "examples": 512,
+      "final_accuracy": 0.509765625,
+      "prefix_accuracy": 0.664215087890625,
+      "prefix_loss": 0.7385364286601543,
+      "seconds": 4.4743336999672465,
+      "file": "__RLT_ROOT__\\2026-09-16-e2e\\integration\\scale\\parity-w256-rlt-s91\\heldout-L64.npz",
+      "sha256": "7edbc5c58c6bff940ed292f9007e1aabe68571231e166ba048fe919efa7e4761"
+    },
+    {
+      "seed": 91,
+      "mode": "rlt",
+      "length": 128,
+      "t": 128,
+      "k": 0,
+      "examples": 512,
+      "final_accuracy": 0.5,
+      "prefix_accuracy": 0.5972747802734375,
+      "prefix_loss": 0.8982608392834663,
+      "seconds": 8.872571200015955,
+      "file": "__RLT_ROOT__\\2026-09-16-e2e\\integration\\scale\\parity-w256-rlt-s91\\heldout-L128.npz",
+      "sha256": "368f545f4d89d9c04c21b82e6e71eff2d92a62218ad6fa4f4b056e06da78f0f3"
+    },
+    {
+      "seed": 91,
+      "mode": "rlt",
+      "length": 256,
+      "t": 256,
+      "k": 0,
+      "examples": 512,
+      "final_accuracy": 0.47265625,
+      "prefix_accuracy": 0.5536041259765625,
+      "prefix_loss": 1.0220030955970287,
+      "seconds": 17.929742800013628,
+      "file": "__RLT_ROOT__\\2026-09-16-e2e\\integration\\scale\\parity-w256-rlt-s91\\heldout-L256.npz",
+      "sha256": "7074f27b4787ab0761c669ce653aae655058d2c6699847ef797d14657b021b82"
+    },
+    {
+      "seed": 91,
+      "mode": "rlt",
+      "length": 512,
+      "t": 512,
+      "k": 0,
+      "examples": 512,
+      "final_accuracy": 0.51171875,
+      "prefix_accuracy": 0.5230865478515625,
+      "prefix_loss": 1.0912492340430617,
+      "seconds": 162.03793130000122,
+      "file": "__RLT_ROOT__\\2026-09-16-e2e\\integration\\scale\\parity-w256-rlt-s91\\heldout-L512.npz",
+      "sha256": "b56d9e05a0b8c368ba4b1a837a66cd54b0738bc76e015ddbfeba83aea4c8a7db"
+    },
+    {
+      "seed": 91,
+      "mode": "rlt",
+      "length": 1024,
+      "t": 1024,
+      "k": 0,
+      "examples": 512,
+      "final_accuracy": 0.484375,
+      "prefix_accuracy": 0.5082454681396484,
+      "prefix_loss": 1.115969150327146,
+      "seconds": 271.8863266000408,
+      "file": "__RLT_ROOT__\\2026-09-16-e2e\\integration\\scale\\parity-w256-rlt-s91\\heldout-L1024.npz",
+      "sha256": "b7f7355937c81b9ae68aba1c518aab5e7e420ea798e681349c752e04116008b2"
+    }
+  ],
+  "neutral_slots": [
+    {
+      "slots": 0,
+      "t": 32,
+      "k": 0,
+      "useful_input_length": 32,
+      "final_accuracy": 0.619140625,
+      "prefix_accuracy": 0.81817626953125,
+      "prefix_loss": 0.3841075487434864,
+      "seconds": 2.17539259995101,
+      "file": "__RLT_ROOT__\\2026-09-16-e2e\\integration\\scale\\parity-w256-rlt-s91\\neutral-0.npz",
+      "sha256": "f7d524c7c51e5190cdb6f4363d722274128764eb92b0ca3dc54580fca298042f"
+    },
+    {
+      "slots": 8,
+      "t": 40,
+      "k": 0,
+      "useful_input_length": 32,
+      "final_accuracy": 0.501953125,
+      "prefix_accuracy": 0.760546875,
+      "prefix_loss": 0.4598331466317177,
+      "seconds": 2.6117810000432655,
+      "file": "__RLT_ROOT__\\2026-09-16-e2e\\integration\\scale\\parity-w256-rlt-s91\\neutral-8.npz",
+      "sha256": "af879516621abae56e809384a01bb6bae635d78e21fb028ba7a57b4e1a24b206"
+    },
+    {
+      "slots": 32,
+      "t": 64,
+      "k": 0,
+      "useful_input_length": 32,
+      "final_accuracy": 0.48828125,
+      "prefix_accuracy": 0.664337158203125,
+      "prefix_loss": 0.5826363898813725,
+      "seconds": 4.232654599996749,
+      "file": "__RLT_ROOT__\\2026-09-16-e2e\\integration\\scale\\parity-w256-rlt-s91\\neutral-32.npz",
+      "sha256": "772a4cb3258bd371d064525ef6d46fac78abf617b1de801443a11ab16e530035"
+    },
+    {
+      "slots": 128,
+      "t": 160,
+      "k": 0,
+      "useful_input_length": 32,
+      "final_accuracy": 0.501953125,
+      "prefix_accuracy": 0.5677978515625,
+      "prefix_loss": 0.7231137335300446,
+      "seconds": 9.983539699984249,
+      "file": "__RLT_ROOT__\\2026-09-16-e2e\\integration\\scale\\parity-w256-rlt-s91\\neutral-128.npz",
+      "sha256": "8d0cb4c4169d8d97f81eb82a8281cf1cea388ad77f7e45651d78d38ab459d143"
+    }
+  ]
+}

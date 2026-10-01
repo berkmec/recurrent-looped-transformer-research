@@ -1,0 +1,1008 @@
+{
+ "arm": "lm_zero",
+ "rows": [
+  {
+   "control": "missing_source",
+   "expect": [
+    2
+   ],
+   "id": "2hop__16764_16772__missing_source",
+   "pred": {
+    "headings": null,
+    "hops": [
+     {
+      "answer": "1858",
+      "depends_on": null,
+      "relation": "resigned",
+      "source": "p174c31ba5c",
+      "step": 1,
+      "subject": "Palmerston",
+      "unresolved": false
+     },
+     {
+      "answer": "1859",
+      "depends_on": 1,
+      "relation": "died",
+      "source": "p174c31ba5c",
+      "step": 2,
+      "subject": "Palmerston",
+      "unresolved": false
+     }
+    ],
+    "parse": "OK",
+    "prompt_chars": 2229,
+    "raw": "{\"status\": \"OK\", \"hops\": [{\"step\": 1, \"subject\": \"Palmerston\", \"relation\": \"resigned\", \"answer\": \"1858\", \"source\": \"p174c31ba5c\", \"depends_on\": null}, {\"step\": 2, \"subject\": \"Palmerston\", \"relation\": \"died\", \"answer\": \"1859\", \"source\": \"p174c31ba5c\", \"depends_on\": 1}]}",
+    "status": "OK"
+   },
+   "score": {
+    "accepted": 2,
+    "accepted_wrong": 2,
+    "controls_expected": 1,
+    "controls_ok": 0,
+    "extra_hops": 0,
+    "gold_hops": 2,
+    "relation_fn": 2,
+    "relation_fp": 2,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "OK",
+    "unresolved": 0
+   }
+  },
+  {
+   "control": "relation_swap",
+   "expect": [
+    2
+   ],
+   "id": "2hop__16764_16772__relation_swap",
+   "pred": {
+    "hops": [],
+    "parse": "INVALID_JSON",
+    "prompt_chars": 3241,
+    "raw": "{\"status\": \"UNRESOLVED\", \"hops\": [{\"step\": 1, \"subject\": \"Orsini\", \"relation\": \"attempted to assassinate\", \"answer\": \"Napoleon III\", \"source\": \"p174c31ba5c\", \"depends_on\": null}, {\"step\": 2, \"subject\": \"Orsini\", \"relation\": \"was an Italian refugee from Britain\", \"answer\": \"Italy\", \"source\": \"p174c31ba5c\", \"depends_on\": 1}, {\"step\": 3, \"subject\": \"Orsini\", \"relation\": \"attempted to assassinate\", \"answer\": \"Napoleon III\", \"source\": \"p174c31ba5c\", \"depends_on\": 1}, {\"step\": 4, \"subject\": \"Orsini\", \"relation\": \"was an Italian refugee from Britain\", \"answer\": \"Italy\", \"source\": \"p174c31ba5c\", \"depends_on\": 2}, {\"step\": 5, \"subject\": \"Orsini\", \"relation\": \"attempted to assassinate\", \"answer\": \"Napoleon III\", \"source\": \"p174c31ba5c\", \"depends_on\": 3}, {\"step\": 6, \"subject\": \"Orsini\", \"relation\": \"was an Italian refugee from Britain\", \"answer\": \"Italy\", \"source\": \"p174c31ba5c\", \"depends_on\": 4}, {\"step\": 7, \"subject\": \"Orsini\", \"relation\": \"attempted to assassinate\", \"answer\": \"Napoleon III\", \"source\": \"p174c31ba5c\",",
+    "status": "UNRESOLVED"
+   },
+   "score": {
+    "accepted": 0,
+    "accepted_wrong": 0,
+    "controls_expected": 1,
+    "controls_ok": 1,
+    "extra_hops": 0,
+    "gold_hops": 2,
+    "relation_fn": 2,
+    "relation_fp": 0,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "UNRESOLVED",
+    "unresolved": 2
+   }
+  },
+  {
+   "control": "subject_swap",
+   "expect": [
+    1,
+    2
+   ],
+   "id": "2hop__16764_16772__subject_swap",
+   "pred": {
+    "headings": null,
+    "hops": [
+     {
+      "answer": "Palmerston",
+      "depends_on": null,
+      "relation": "resigned",
+      "source": "p3184aa87e6",
+      "step": 1,
+      "subject": "Orsini",
+      "unresolved": false
+     },
+     {
+      "answer": "1865",
+      "depends_on": 1,
+      "relation": "died",
+      "source": "p3184aa87e6",
+      "step": 2,
+      "subject": "Palmerston",
+      "unresolved": false
+     },
+     {
+      "answer": "1965",
+      "depends_on": 2,
+      "relation": "reversed",
+      "source": "UNRESOLVED",
+      "step": 3,
+      "subject": "1865",
+      "unresolved": true
+     }
+    ],
+    "parse": "OK",
+    "prompt_chars": 3240,
+    "raw": "{\"status\": \"OK\", \"hops\": [{\"step\": 1, \"subject\": \"Orsini\", \"relation\": \"resigned\", \"answer\": \"Palmerston\", \"source\": \"p3184aa87e6\", \"depends_on\": null}, {\"step\": 2, \"subject\": \"Palmerston\", \"relation\": \"died\", \"answer\": \"1865\", \"source\": \"p3184aa87e6\", \"depends_on\": 1}, {\"step\": 3, \"subject\": \"1865\", \"relation\": \"reversed\", \"answer\": \"1965\", \"source\": \"UNRESOLVED\", \"depends_on\": 2}]}",
+    "status": "OK"
+   },
+   "score": {
+    "accepted": 3,
+    "accepted_wrong": 3,
+    "controls_expected": 2,
+    "controls_ok": 0,
+    "extra_hops": 1,
+    "gold_hops": 2,
+    "relation_fn": 2,
+    "relation_fp": 3,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "OK",
+    "unresolved": 0
+   }
+  },
+  {
+   "control": "missing_source",
+   "expect": [
+    2
+   ],
+   "id": "2hop__777506_3001__missing_source",
+   "pred": {
+    "headings": null,
+    "hops": [
+     {
+      "answer": "Lionel Richie",
+      "depends_on": null,
+      "relation": "composer",
+      "source": "p0df7adb3ea",
+      "step": 1,
+      "subject": "Endless Love",
+      "unresolved": false
+     },
+     {
+      "answer": "American Idol",
+      "depends_on": 1,
+      "relation": "appeared as guest judge",
+      "source": "UNRESOLVED",
+      "step": 2,
+      "subject": "Lionel Richie",
+      "unresolved": true
+     },
+     {
+      "answer": "UNRESOLVED",
+      "depends_on": 2,
+      "relation": "season",
+      "source": "UNRESOLVED",
+      "step": 3,
+      "subject": "American Idol",
+      "unresolved": true
+     }
+    ],
+    "parse": "OK",
+    "prompt_chars": 1942,
+    "raw": "{\"status\": \"OK\", \"hops\": [{\"step\": 1, \"subject\": \"Endless Love\", \"relation\": \"composer\", \"answer\": \"Lionel Richie\", \"source\": \"p0df7adb3ea\", \"depends_on\": null}, {\"step\": 2, \"subject\": \"Lionel Richie\", \"relation\": \"appeared as guest judge\", \"answer\": \"American Idol\", \"source\": \"UNRESOLVED\", \"depends_on\": 1}, {\"step\": 3, \"subject\": \"American Idol\", \"relation\": \"season\", \"answer\": \"UNRESOLVED\", \"source\": \"UNRESOLVED\", \"depends_on\": 2}]}",
+    "status": "OK"
+   },
+   "score": {
+    "accepted": 2,
+    "accepted_wrong": 1,
+    "controls_expected": 1,
+    "controls_ok": 1,
+    "extra_hops": 1,
+    "gold_hops": 2,
+    "relation_fn": 1,
+    "relation_fp": 1,
+    "relation_tp": 1,
+    "source_correct": 1,
+    "status": "OK",
+    "unresolved": 1
+   }
+  },
+  {
+   "control": "relation_swap",
+   "expect": [
+    2
+   ],
+   "id": "2hop__777506_3001__relation_swap",
+   "pred": {
+    "headings": null,
+    "hops": [
+     {
+      "answer": "Lionel Richie",
+      "depends_on": null,
+      "relation": "is the composer of Endless Love",
+      "source": "p0df7adb3ea",
+      "step": 1,
+      "subject": "Lionel Richie",
+      "unresolved": false
+     },
+     {
+      "answer": "American Idol",
+      "depends_on": 1,
+      "relation": "was a guest judge on American Idol",
+      "source": "p64531aee32",
+      "step": 2,
+      "subject": "Lionel Richie",
+      "unresolved": false
+     },
+     {
+      "answer": "season two",
+      "depends_on": 2,
+      "relation": "was a guest judge in season",
+      "source": "p64531aee32",
+      "step": 3,
+      "subject": "Lionel Richie",
+      "unresolved": false
+     }
+    ],
+    "parse": "OK",
+    "prompt_chars": 2605,
+    "raw": "{\"status\": \"OK\", \"hops\": [{\"step\": 1, \"subject\": \"Lionel Richie\", \"relation\": \"is the composer of Endless Love\", \"answer\": \"Lionel Richie\", \"source\": \"p0df7adb3ea\", \"depends_on\": null}, {\"step\": 2, \"subject\": \"Lionel Richie\", \"relation\": \"was a guest judge on American Idol\", \"answer\": \"American Idol\", \"source\": \"p64531aee32\", \"depends_on\": 1}, {\"step\": 3, \"subject\": \"Lionel Richie\", \"relation\": \"was a guest judge in season\", \"answer\": \"season two\", \"source\": \"p64531aee32\", \"depends_on\": 2}]}",
+    "status": "OK"
+   },
+   "score": {
+    "accepted": 3,
+    "accepted_wrong": 3,
+    "controls_expected": 1,
+    "controls_ok": 0,
+    "extra_hops": 1,
+    "gold_hops": 2,
+    "relation_fn": 2,
+    "relation_fp": 3,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "OK",
+    "unresolved": 0
+   }
+  },
+  {
+   "control": "subject_swap",
+   "expect": [
+    1,
+    2
+   ],
+   "id": "2hop__777506_3001__subject_swap",
+   "pred": {
+    "headings": null,
+    "hops": [
+     {
+      "answer": "Lionel Richie",
+      "depends_on": null,
+      "relation": "composer",
+      "source": "p0df7adb3ea",
+      "step": 1,
+      "subject": "Endless Love",
+      "unresolved": false
+     },
+     {
+      "answer": "American Idol",
+      "depends_on": 1,
+      "relation": "guest judge",
+      "source": "p0df7adb3ea",
+      "step": 2,
+      "subject": "Lionel Richie",
+      "unresolved": false
+     },
+     {
+      "answer": "season fourteen",
+      "depends_on": 2,
+      "relation": "season",
+      "source": "p64531aee32",
+      "step": 3,
+      "subject": "American Idol",
+      "unresolved": false
+     },
+     {
+      "answer": "season six",
+      "depends_on": 3,
+      "relation": "reverse order",
+      "source": "p64531aee32",
+      "step": 4,
+      "subject": "season fourteen",
+      "unresolved": false
+     }
+    ],
+    "parse": "OK",
+    "prompt_chars": 2604,
+    "raw": "{\"status\": \"OK\", \"hops\": [{\"step\": 1, \"subject\": \"Endless Love\", \"relation\": \"composer\", \"answer\": \"Lionel Richie\", \"source\": \"p0df7adb3ea\", \"depends_on\": null}, {\"step\": 2, \"subject\": \"Lionel Richie\", \"relation\": \"guest judge\", \"answer\": \"American Idol\", \"source\": \"p0df7adb3ea\", \"depends_on\": 1}, {\"step\": 3, \"subject\": \"American Idol\", \"relation\": \"season\", \"answer\": \"season fourteen\", \"source\": \"p64531aee32\", \"depends_on\": 2}, {\"step\": 4, \"subject\": \"season fourteen\", \"relation\": \"reverse order\", \"answer\": \"season six\", \"source\": \"p64531aee32\", \"depends_on\": 3}]}",
+    "status": "OK"
+   },
+   "score": {
+    "accepted": 4,
+    "accepted_wrong": 4,
+    "controls_expected": 2,
+    "controls_ok": 0,
+    "extra_hops": 2,
+    "gold_hops": 2,
+    "relation_fn": 2,
+    "relation_fp": 4,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "OK",
+    "unresolved": 0
+   }
+  },
+  {
+   "control": "missing_source",
+   "expect": [
+    2
+   ],
+   "id": "2hop__175400_3814__missing_source",
+   "pred": {
+    "headings": null,
+    "hops": [
+     {
+      "answer": "UNRESOLVED",
+      "depends_on": null,
+      "relation": "is located in",
+      "source": "UNRESOLVED",
+      "step": 1,
+      "subject": "Kangdong County",
+      "unresolved": true
+     },
+     {
+      "answer": "UNRESOLVED",
+      "depends_on": 1,
+      "relation": "contains",
+      "source": "UNRESOLVED",
+      "step": 2,
+      "subject": "location",
+      "unresolved": true
+     },
+     {
+      "answer": "UNRESOLVED",
+      "depends_on": 2,
+      "relation": "arrived in",
+      "source": "UNRESOLVED",
+      "step": 3,
+      "subject": "torch",
+      "unresolved": true
+     }
+    ],
+    "parse": "OK",
+    "prompt_chars": 1723,
+    "raw": "{\"status\": \"UNRESOLVED\", \"hops\": [{\"step\": 1, \"subject\": \"Kangdong County\", \"relation\": \"is located in\", \"answer\": \"UNRESOLVED\", \"source\": \"UNRESOLVED\", \"depends_on\": null}, {\"step\": 2, \"subject\": \"location\", \"relation\": \"contains\", \"answer\": \"UNRESOLVED\", \"source\": \"UNRESOLVED\", \"depends_on\": 1}, {\"step\": 3, \"subject\": \"torch\", \"relation\": \"arrived in\", \"answer\": \"UNRESOLVED\", \"source\": \"UNRESOLVED\", \"depends_on\": 2}]}",
+    "status": "UNRESOLVED"
+   },
+   "score": {
+    "accepted": 0,
+    "accepted_wrong": 0,
+    "controls_expected": 1,
+    "controls_ok": 1,
+    "extra_hops": 0,
+    "gold_hops": 2,
+    "relation_fn": 2,
+    "relation_fp": 0,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "UNRESOLVED",
+    "unresolved": 2
+   }
+  },
+  {
+   "control": "relation_swap",
+   "expect": [
+    2
+   ],
+   "id": "2hop__175400_3814__relation_swap",
+   "pred": {
+    "headings": null,
+    "hops": [
+     {
+      "answer": "Pyongyang",
+      "depends_on": null,
+      "relation": "is located in",
+      "source": "p0df3ddbe56",
+      "step": 1,
+      "subject": "Kangdong County",
+      "unresolved": false
+     },
+     {
+      "answer": "2008 Summer Olympics torch relay",
+      "depends_on": 1,
+      "relation": "is the location of",
+      "source": "paa5d47cda3",
+      "step": 2,
+      "subject": "Pyongyang",
+      "unresolved": false
+     },
+     {
+      "answer": "April 28",
+      "depends_on": 2,
+      "relation": "occurred on",
+      "source": "paa5d47cda3",
+      "step": 3,
+      "subject": "2008 Summer Olympics torch relay",
+      "unresolved": false
+     }
+    ],
+    "parse": "OK",
+    "prompt_chars": 2808,
+    "raw": "{\"status\": \"OK\", \"hops\": [{\"step\": 1, \"subject\": \"Kangdong County\", \"relation\": \"is located in\", \"answer\": \"Pyongyang\", \"source\": \"p0df3ddbe56\", \"depends_on\": null}, {\"step\": 2, \"subject\": \"Pyongyang\", \"relation\": \"is the location of\", \"answer\": \"2008 Summer Olympics torch relay\", \"source\": \"paa5d47cda3\", \"depends_on\": 1}, {\"step\": 3, \"subject\": \"2008 Summer Olympics torch relay\", \"relation\": \"occurred on\", \"answer\": \"April 28\", \"source\": \"paa5d47cda3\", \"depends_on\": 2}]}",
+    "status": "OK"
+   },
+   "score": {
+    "accepted": 3,
+    "accepted_wrong": 3,
+    "controls_expected": 1,
+    "controls_ok": 0,
+    "extra_hops": 1,
+    "gold_hops": 2,
+    "relation_fn": 2,
+    "relation_fp": 3,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "OK",
+    "unresolved": 0
+   }
+  },
+  {
+   "control": "subject_swap",
+   "expect": [
+    1,
+    2
+   ],
+   "id": "2hop__175400_3814__subject_swap",
+   "pred": {
+    "headings": null,
+    "hops": [
+     {
+      "answer": "Pyongyang",
+      "depends_on": null,
+      "relation": "is located in",
+      "source": "p0df3ddbe56",
+      "step": 1,
+      "subject": "Kangdong County",
+      "unresolved": false
+     },
+     {
+      "answer": "2008 Summer Olympics torch relay",
+      "depends_on": 1,
+      "relation": "is the location of",
+      "source": "paa5d47cda3",
+      "step": 2,
+      "subject": "Pyongyang",
+      "unresolved": false
+     },
+     {
+      "answer": "April 28",
+      "depends_on": 2,
+      "relation": "occurred on",
+      "source": "paa5d47cda3",
+      "step": 3,
+      "subject": "2008 Summer Olympics torch relay",
+      "unresolved": false
+     }
+    ],
+    "parse": "OK",
+    "prompt_chars": 2807,
+    "raw": "{\"status\": \"OK\", \"hops\": [{\"step\": 1, \"subject\": \"Kangdong County\", \"relation\": \"is located in\", \"answer\": \"Pyongyang\", \"source\": \"p0df3ddbe56\", \"depends_on\": null}, {\"step\": 2, \"subject\": \"Pyongyang\", \"relation\": \"is the location of\", \"answer\": \"2008 Summer Olympics torch relay\", \"source\": \"paa5d47cda3\", \"depends_on\": 1}, {\"step\": 3, \"subject\": \"2008 Summer Olympics torch relay\", \"relation\": \"occurred on\", \"answer\": \"April 28\", \"source\": \"paa5d47cda3\", \"depends_on\": 2}]}",
+    "status": "OK"
+   },
+   "score": {
+    "accepted": 3,
+    "accepted_wrong": 3,
+    "controls_expected": 2,
+    "controls_ok": 0,
+    "extra_hops": 1,
+    "gold_hops": 2,
+    "relation_fn": 2,
+    "relation_fp": 3,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "OK",
+    "unresolved": 0
+   }
+  },
+  {
+   "control": "missing_source",
+   "expect": [
+    2
+   ],
+   "id": "2hop__689229_36340__missing_source",
+   "pred": {
+    "headings": null,
+    "hops": [
+     {
+      "answer": "UNRESOLVED",
+      "depends_on": null,
+      "relation": "died in",
+      "source": "UNRESOLVED",
+      "step": 1,
+      "subject": "Adolph Jentsch",
+      "unresolved": true
+     },
+     {
+      "answer": "UNRESOLVED",
+      "depends_on": null,
+      "relation": "is the capital of",
+      "source": "UNRESOLVED",
+      "step": 2,
+      "subject": "Windhoek",
+      "unresolved": true
+     },
+     {
+      "answer": "UNRESOLVED",
+      "depends_on": null,
+      "relation": "has the",
+      "source": "UNRESOLVED",
+      "step": 3,
+      "subject": "Windhoek",
+      "unresolved": true
+     },
+     {
+      "answer": "UNRESOLVED",
+      "depends_on": null,
+      "relation": "is located in",
+      "source": "UNRESOLVED",
+      "step": 4,
+      "subject": "Commodore Hotel",
+      "unresolved": true
+     },
+     {
+      "answer": "UNRESOLVED",
+      "depends_on": null,
+      "relation": "is a musical based on",
+      "source": "UNRESOLVED",
+      "step": 5,
+      "subject": "Grand Hotel",
+      "unresolved": true
+     }
+    ],
+    "parse": "OK",
+    "prompt_chars": 2159,
+    "raw": "{\"status\": \"UNRESOLVED\", \"hops\": [{\"step\": 1, \"subject\": \"Adolph Jentsch\", \"relation\": \"died in\", \"answer\": \"UNRESOLVED\", \"source\": \"UNRESOLVED\", \"depends_on\": null}, {\"step\": 2, \"subject\": \"Windhoek\", \"relation\": \"is the capital of\", \"answer\": \"UNRESOLVED\", \"source\": \"UNRESOLVED\", \"depends_on\": null}, {\"step\": 3, \"subject\": \"Windhoek\", \"relation\": \"has the\", \"answer\": \"UNRESOLVED\", \"source\": \"UNRESOLVED\", \"depends_on\": null}, {\"step\": 4, \"subject\": \"Commodore Hotel\", \"relation\": \"is located in\", \"answer\": \"UNRESOLVED\", \"source\": \"UNRESOLVED\", \"depends_on\": null}, {\"step\": 5, \"subject\": \"Grand Hotel\", \"relation\": \"is a musical based on\", \"answer\": \"UNRESOLVED\", \"source\": \"UNRESOLVED\", \"depends_on\": null}]}",
+    "status": "UNRESOLVED"
+   },
+   "score": {
+    "accepted": 0,
+    "accepted_wrong": 0,
+    "controls_expected": 1,
+    "controls_ok": 1,
+    "extra_hops": 0,
+    "gold_hops": 2,
+    "relation_fn": 2,
+    "relation_fp": 0,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "UNRESOLVED",
+    "unresolved": 2
+   }
+  },
+  {
+   "control": "relation_swap",
+   "expect": [
+    2
+   ],
+   "id": "2hop__689229_36340__relation_swap",
+   "pred": {
+    "headings": null,
+    "hops": [
+     {
+      "answer": "UNRESOLVED",
+      "depends_on": null,
+      "relation": "died in",
+      "source": "UNRESOLVED",
+      "step": 1,
+      "subject": "Adolph Jentsch",
+      "unresolved": true
+     },
+     {
+      "answer": "UNRESOLVED",
+      "depends_on": null,
+      "relation": "has a hotel",
+      "source": "UNRESOLVED",
+      "step": 2,
+      "subject": "Windhoek",
+      "unresolved": true
+     },
+     {
+      "answer": "UNRESOLVED",
+      "depends_on": null,
+      "relation": "has a hotel",
+      "source": "UNRESOLVED",
+      "step": 3,
+      "subject": "Windhoek",
+      "unresolved": true
+     },
+     {
+      "answer": "UNRESOLVED",
+      "depends_on": null,
+      "relation": "has a hotel",
+      "source": "UNRESOLVED",
+      "step": 4,
+      "subject": "Windhoek",
+      "unresolved": true
+     }
+    ],
+    "parse": "OK",
+    "prompt_chars": 3112,
+    "raw": "{\"status\": \"UNRESOLVED\", \"hops\": [{\"step\": 1, \"subject\": \"Adolph Jentsch\", \"relation\": \"died in\", \"answer\": \"UNRESOLVED\", \"source\": \"UNRESOLVED\", \"depends_on\": null}, {\"step\": 2, \"subject\": \"Windhoek\", \"relation\": \"has a hotel\", \"answer\": \"UNRESOLVED\", \"source\": \"UNRESOLVED\", \"depends_on\": null}, {\"step\": 3, \"subject\": \"Windhoek\", \"relation\": \"has a hotel\", \"answer\": \"UNRESOLVED\", \"source\": \"UNRESOLVED\", \"depends_on\": null}, {\"step\": 4, \"subject\": \"Windhoek\", \"relation\": \"has a hotel\", \"answer\": \"UNRESOLVED\", \"source\": \"UNRESOLVED\", \"depends_on\": null}]}",
+    "status": "UNRESOLVED"
+   },
+   "score": {
+    "accepted": 0,
+    "accepted_wrong": 0,
+    "controls_expected": 1,
+    "controls_ok": 1,
+    "extra_hops": 0,
+    "gold_hops": 2,
+    "relation_fn": 2,
+    "relation_fp": 0,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "UNRESOLVED",
+    "unresolved": 2
+   }
+  },
+  {
+   "control": "subject_swap",
+   "expect": [
+    1,
+    2
+   ],
+   "id": "2hop__689229_36340__subject_swap",
+   "pred": {
+    "headings": null,
+    "hops": [
+     {
+      "answer": "Windhoek",
+      "depends_on": null,
+      "relation": "died in",
+      "source": "p3ce821d92a",
+      "step": 1,
+      "subject": "Adolph Jentsch",
+      "unresolved": false
+     },
+     {
+      "answer": "Windhoek Country Club Resort",
+      "depends_on": 1,
+      "relation": "has notable hotels",
+      "source": "p3ce821d92a",
+      "step": 2,
+      "subject": "Windhoek",
+      "unresolved": false
+     },
+     {
+      "answer": "Windhoek Country Club Resort",
+      "depends_on": 2,
+      "relation": "is the most popular hotel",
+      "source": "p3ce821d92a",
+      "step": 3,
+      "subject": "Windhoek Country Club Resort",
+      "unresolved": false
+     }
+    ],
+    "parse": "OK",
+    "prompt_chars": 3111,
+    "raw": "{\"status\": \"OK\", \"hops\": [{\"step\": 1, \"subject\": \"Adolph Jentsch\", \"relation\": \"died in\", \"answer\": \"Windhoek\", \"source\": \"p3ce821d92a\", \"depends_on\": null}, {\"step\": 2, \"subject\": \"Windhoek\", \"relation\": \"has notable hotels\", \"answer\": \"Windhoek Country Club Resort\", \"source\": \"p3ce821d92a\", \"depends_on\": 1}, {\"step\": 3, \"subject\": \"Windhoek Country Club Resort\", \"relation\": \"is the most popular hotel\", \"answer\": \"Windhoek Country Club Resort\", \"source\": \"p3ce821d92a\", \"depends_on\": 2}]}",
+    "status": "OK"
+   },
+   "score": {
+    "accepted": 3,
+    "accepted_wrong": 3,
+    "controls_expected": 2,
+    "controls_ok": 0,
+    "extra_hops": 1,
+    "gold_hops": 2,
+    "relation_fn": 2,
+    "relation_fp": 3,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "OK",
+    "unresolved": 0
+   }
+  },
+  {
+   "control": "missing_source",
+   "expect": [
+    2
+   ],
+   "id": "2hop__235222_125776__missing_source",
+   "pred": {
+    "headings": null,
+    "hops": [
+     {
+      "answer": "Wolfgang Amadeus Mozart",
+      "depends_on": null,
+      "relation": "composer of",
+      "source": "p33b3e30734",
+      "step": 1,
+      "subject": "Violin Concerto No. 1",
+      "unresolved": false
+     },
+     {
+      "answer": "UNRESOLVED",
+      "depends_on": 1,
+      "relation": "father of",
+      "source": "UNRESOLVED",
+      "step": 2,
+      "subject": "Wolfgang Amadeus Mozart",
+      "unresolved": true
+     }
+    ],
+    "parse": "OK",
+    "prompt_chars": 2127,
+    "raw": "{\"status\": \"OK\", \"hops\": [{\"step\": 1, \"subject\": \"Violin Concerto No. 1\", \"relation\": \"composer of\", \"answer\": \"Wolfgang Amadeus Mozart\", \"source\": \"p33b3e30734\", \"depends_on\": null}, {\"step\": 2, \"subject\": \"Wolfgang Amadeus Mozart\", \"relation\": \"father of\", \"answer\": \"UNRESOLVED\", \"source\": \"UNRESOLVED\", \"depends_on\": 1}]}",
+    "status": "OK"
+   },
+   "score": {
+    "accepted": 1,
+    "accepted_wrong": 1,
+    "controls_expected": 1,
+    "controls_ok": 1,
+    "extra_hops": 0,
+    "gold_hops": 2,
+    "relation_fn": 2,
+    "relation_fp": 1,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "OK",
+    "unresolved": 1
+   }
+  },
+  {
+   "control": "relation_swap",
+   "expect": [
+    2
+   ],
+   "id": "2hop__235222_125776__relation_swap",
+   "pred": {
+    "headings": null,
+    "hops": [
+     {
+      "answer": "Wolfgang Amadeus Mozart",
+      "depends_on": null,
+      "relation": "composer of",
+      "source": "p33b3e30734",
+      "step": 1,
+      "subject": "Violin Concerto No. 1",
+      "unresolved": false
+     },
+     {
+      "answer": "Leopold Mozart",
+      "depends_on": 1,
+      "relation": "father of",
+      "source": "p84fe9150ad",
+      "step": 2,
+      "subject": "Wolfgang Amadeus Mozart",
+      "unresolved": false
+     },
+     {
+      "answer": "Wolfgang Amadeus Mozart",
+      "depends_on": 2,
+      "relation": "child of",
+      "source": "p84fe9150ad",
+      "step": 3,
+      "subject": "Leopold Mozart",
+      "unresolved": false
+     }
+    ],
+    "parse": "OK",
+    "prompt_chars": 2920,
+    "raw": "{\"status\": \"OK\", \"hops\": [{\"step\": 1, \"subject\": \"Violin Concerto No. 1\", \"relation\": \"composer of\", \"answer\": \"Wolfgang Amadeus Mozart\", \"source\": \"p33b3e30734\", \"depends_on\": null}, {\"step\": 2, \"subject\": \"Wolfgang Amadeus Mozart\", \"relation\": \"father of\", \"answer\": \"Leopold Mozart\", \"source\": \"p84fe9150ad\", \"depends_on\": 1}, {\"step\": 3, \"subject\": \"Leopold Mozart\", \"relation\": \"child of\", \"answer\": \"Wolfgang Amadeus Mozart\", \"source\": \"p84fe9150ad\", \"depends_on\": 2}]}",
+    "status": "OK"
+   },
+   "score": {
+    "accepted": 3,
+    "accepted_wrong": 3,
+    "controls_expected": 1,
+    "controls_ok": 0,
+    "extra_hops": 1,
+    "gold_hops": 2,
+    "relation_fn": 2,
+    "relation_fp": 3,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "OK",
+    "unresolved": 0
+   }
+  },
+  {
+   "control": "subject_swap",
+   "expect": [
+    1,
+    2
+   ],
+   "id": "2hop__235222_125776__subject_swap",
+   "pred": {
+    "headings": null,
+    "hops": [
+     {
+      "answer": "Wolfgang Amadeus Mozart",
+      "depends_on": null,
+      "relation": "composer of",
+      "source": "p33b3e30734",
+      "step": 1,
+      "subject": "Violin Concerto No. 1",
+      "unresolved": false
+     },
+     {
+      "answer": "Leopold Mozart",
+      "depends_on": 1,
+      "relation": "father of",
+      "source": "p84fe9150ad",
+      "step": 2,
+      "subject": "Wolfgang Amadeus Mozart",
+      "unresolved": false
+     },
+     {
+      "answer": "Wolfgang Amadeus Mozart",
+      "depends_on": 2,
+      "relation": "child of",
+      "source": "p84fe9150ad",
+      "step": 3,
+      "subject": "Leopold Mozart",
+      "unresolved": false
+     },
+     {
+      "answer": "UNRESOLVED",
+      "depends_on": 3,
+      "relation": "father of",
+      "source": "UNRESOLVED",
+      "step": 4,
+      "subject": "Wolfgang Amadeus Mozart",
+      "unresolved": true
+     }
+    ],
+    "parse": "OK",
+    "prompt_chars": 2919,
+    "raw": "{\"status\": \"OK\", \"hops\": [{\"step\": 1, \"subject\": \"Violin Concerto No. 1\", \"relation\": \"composer of\", \"answer\": \"Wolfgang Amadeus Mozart\", \"source\": \"p33b3e30734\", \"depends_on\": null}, {\"step\": 2, \"subject\": \"Wolfgang Amadeus Mozart\", \"relation\": \"father of\", \"answer\": \"Leopold Mozart\", \"source\": \"p84fe9150ad\", \"depends_on\": 1}, {\"step\": 3, \"subject\": \"Leopold Mozart\", \"relation\": \"child of\", \"answer\": \"Wolfgang Amadeus Mozart\", \"source\": \"p84fe9150ad\", \"depends_on\": 2}, {\"step\": 4, \"subject\": \"Wolfgang Amadeus Mozart\", \"relation\": \"father of\", \"answer\": \"UNRESOLVED\", \"source\": \"UNRESOLVED\", \"depends_on\": 3}]}",
+    "status": "OK"
+   },
+   "score": {
+    "accepted": 4,
+    "accepted_wrong": 4,
+    "controls_expected": 2,
+    "controls_ok": 0,
+    "extra_hops": 2,
+    "gold_hops": 2,
+    "relation_fn": 2,
+    "relation_fp": 4,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "OK",
+    "unresolved": 0
+   }
+  },
+  {
+   "control": "missing_source",
+   "expect": [
+    2
+   ],
+   "id": "2hop__440195_14904__missing_source",
+   "pred": {
+    "headings": null,
+    "hops": [
+     {
+      "answer": "American Psychological Association",
+      "depends_on": null,
+      "relation": "is published by",
+      "source": "p1d0aa6a0ad",
+      "step": 1,
+      "subject": "Health Psychology",
+      "unresolved": false
+     },
+     {
+      "answer": "UNRESOLVED",
+      "depends_on": 1,
+      "relation": "has publisher",
+      "source": "UNRESOLVED",
+      "step": 2,
+      "subject": "American Psychological Association",
+      "unresolved": true
+     }
+    ],
+    "parse": "OK",
+    "prompt_chars": 2288,
+    "raw": "{\"status\": \"OK\", \"hops\": [{\"step\": 1, \"subject\": \"Health Psychology\", \"relation\": \"is published by\", \"answer\": \"American Psychological Association\", \"source\": \"p1d0aa6a0ad\", \"depends_on\": null}, {\"step\": 2, \"subject\": \"American Psychological Association\", \"relation\": \"has publisher\", \"answer\": \"UNRESOLVED\", \"source\": \"UNRESOLVED\", \"depends_on\": 1}]}",
+    "status": "OK"
+   },
+   "score": {
+    "accepted": 1,
+    "accepted_wrong": 1,
+    "controls_expected": 1,
+    "controls_ok": 1,
+    "extra_hops": 0,
+    "gold_hops": 2,
+    "relation_fn": 2,
+    "relation_fp": 1,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "OK",
+    "unresolved": 1
+   }
+  },
+  {
+   "control": "relation_swap",
+   "expect": [
+    2
+   ],
+   "id": "2hop__440195_14904__relation_swap",
+   "pred": {
+    "headings": null,
+    "hops": [
+     {
+      "answer": "American Psychological Association",
+      "depends_on": null,
+      "relation": "publisher",
+      "source": "p1d0aa6a0ad",
+      "step": 1,
+      "subject": "Health Psychology (journal)",
+      "unresolved": false
+     },
+     {
+      "answer": "UNRESOLVED",
+      "depends_on": 1,
+      "relation": "president",
+      "source": "UNRESOLVED",
+      "step": 2,
+      "subject": "American Psychological Association",
+      "unresolved": true
+     }
+    ],
+    "parse": "OK",
+    "prompt_chars": 3707,
+    "raw": "{\"status\": \"OK\", \"hops\": [{\"step\": 1, \"subject\": \"Health Psychology (journal)\", \"relation\": \"publisher\", \"answer\": \"American Psychological Association\", \"source\": \"p1d0aa6a0ad\", \"depends_on\": null}, {\"step\": 2, \"subject\": \"American Psychological Association\", \"relation\": \"president\", \"answer\": \"UNRESOLVED\", \"source\": \"UNRESOLVED\", \"depends_on\": 1}]}",
+    "status": "OK"
+   },
+   "score": {
+    "accepted": 1,
+    "accepted_wrong": 0,
+    "controls_expected": 1,
+    "controls_ok": 1,
+    "extra_hops": 0,
+    "gold_hops": 2,
+    "relation_fn": 1,
+    "relation_fp": 0,
+    "relation_tp": 1,
+    "source_correct": 1,
+    "status": "OK",
+    "unresolved": 1
+   }
+  },
+  {
+   "control": "subject_swap",
+   "expect": [
+    1,
+    2
+   ],
+   "id": "2hop__440195_14904__subject_swap",
+   "pred": {
+    "headings": null,
+    "hops": [
+     {
+      "answer": "American Psychological Association",
+      "depends_on": null,
+      "relation": "is published by",
+      "source": "p1d0aa6a0ad",
+      "step": 1,
+      "subject": "Health Psychology",
+      "unresolved": false
+     },
+     {
+      "answer": "UNRESOLVED",
+      "depends_on": 1,
+      "relation": "has president",
+      "source": "UNRESOLVED",
+      "step": 2,
+      "subject": "American Psychological Association",
+      "unresolved": true
+     }
+    ],
+    "parse": "OK",
+    "prompt_chars": 3706,
+    "raw": "{\"status\": \"OK\", \"hops\": [{\"step\": 1, \"subject\": \"Health Psychology\", \"relation\": \"is published by\", \"answer\": \"American Psychological Association\", \"source\": \"p1d0aa6a0ad\", \"depends_on\": null}, {\"step\": 2, \"subject\": \"American Psychological Association\", \"relation\": \"has president\", \"answer\": \"UNRESOLVED\", \"source\": \"UNRESOLVED\", \"depends_on\": 1}]}",
+    "status": "OK"
+   },
+   "score": {
+    "accepted": 1,
+    "accepted_wrong": 1,
+    "controls_expected": 2,
+    "controls_ok": 1,
+    "extra_hops": 0,
+    "gold_hops": 2,
+    "relation_fn": 2,
+    "relation_fp": 1,
+    "relation_tp": 0,
+    "source_correct": 0,
+    "status": "OK",
+    "unresolved": 1
+   }
+  }
+ ]
+}

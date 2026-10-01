@@ -1,0 +1,37 @@
+{
+ "condition": {
+  "arm": "additive",
+  "heads": 2,
+  "lr": 0.003,
+  "seed": 117,
+  "stage": "u4inj",
+  "task": "five",
+  "width": 32,
+  "window": 4
+ },
+ "guard": {
+  "clipped": 67,
+  "max_grad_norm_before_clip": 17765.846545263612,
+  "skip_reasons": {},
+  "skipped": 0,
+  "steps": 2048
+ },
+ "ident": "u4inj-additive-five-w32-s117",
+ "initial_sha256": "2032806843ef732f5358482298d8fbbef530a8861c48e83f71a1901041c19506",
+ "parameters": {
+  "core_allocated": 24325,
+  "injection": 0
+ },
+ "protocol_hash": "523dba46f448674672137eb02042b65b243741bb98119963af4ed2c44486a0fe",
+ "selected_sha256": "a2f24639282d180f803584fde35bf3e42680d264fc4367624574d0cee5bf859b",
+ "selected_step": 2048,
+ "selected_validation": {
+  "all_accuracy": 1.0,
+  "final_accuracy": 1.0,
+  "final_loss": 0.00014211054076440632
+ },
+ "steps": 2048,
+ "train_seconds": 1422.8378496000223,
+ "updates_sha256": "aa22a9508b8c65c64c02694f7e09e9e0bc41f4f69690b224b7b4f48f51b5a734",
+ "wall_seconds": 1456.3769236999942
+}

@@ -1,0 +1,128 @@
+{
+ "corpus": {
+  "config": "3.0.0",
+  "dataset": "cnn_dailymail",
+  "split": "train",
+  "train_bytes": 209720360,
+  "train_documents": 55552,
+  "train_sha256": "edeef82f388f81526652bfb7247e0dcc3f7c85ce691513d77a527aad0c17b8e4",
+  "validation_bytes": 8389474,
+  "validation_documents": 2336,
+  "validation_sha256": "451b7be62e1548db80160709c5cd527f5f660600f182f3a2cbf2fffa33c7ac39"
+ },
+ "environment": {
+  "gpu": "NVIDIA L4",
+  "numpy": "2.5.3",
+  "python": "3.13.5",
+  "torch": "2.6.0+cu124"
+ },
+ "frozen_utc": 1790421039.8647943,
+ "protocol": {
+  "alpha": 0.1,
+  "arms": [
+   "plain",
+   "hard_st"
+  ],
+  "batch": 32,
+  "clip": 1.0,
+  "data": "/data/rlt/mline-data/cnn-bytes",
+  "device": "cuda",
+  "dropped_arms": {
+   "soft": "budget: ~10.4 GPU-hours. It tests prediction (c), which does not change the status. Consequence: prediction (c) is NOT MEASURED in this run, so a GATE_TRANSFERS verdict here carries no evidence about the mechanism."
+  },
+  "dtype": "float32",
+  "gate_k": 2,
+  "heads": 8,
+  "length": 512,
+  "long_filler": [
+   512,
+   2048
+  ],
+  "lr": 0.0006,
+  "needle_batch": 32,
+  "needle_filler": [
+   0,
+   128,
+   512,
+   2048
+  ],
+  "needle_items": 256,
+  "needle_kinds": [
+   "repeat",
+   "text"
+  ],
+  "needle_placements": [
+   "far",
+   "near"
+  ],
+  "needle_train_filler": [
+   0,
+   64
+  ],
+  "needle_train_rate": 0.125,
+  "note": "fp32 on purpose (B2: fp16 re-encoding is not bit-identical and the arms must be comparable); the three arms share identical core weights at initialisation, verified by tests/test_mline.py. batch 32 is the measured optimum on this card (2.70x the throughput of batch 8; batch 48 spills to host memory and loses a factor of ten). 4000 steps is 65.5 MB per arm, about 8.5 hours each at the measured 2148 bytes/s, which fits three arms inside the available window. The needle FORMAT is mixed into training at short filler (0-64) and evaluated at 128, 512 and 2048 - two, eight and thirty-two times the longest distance training ever saw, the same ladder U1 used (trained at 128, tested to 4096). Every non-zero evaluated distance is therefore out of distribution, so what has to generalise is the DISTANCE and not the format. Without this the arms would be compared on a zero-shot format none of them was taught, which is exactly what the emergence probe demonstrated before it was corrected.",
+  "preregistration": {
+   "falsification": "if (b) fails while the length-matched near control shows the arms CAN process sequences of that length, the gate is a property of the toy setting and the M-line stops at rung one",
+   "predictions": {
+    "a": "hard_st costs no language ability: its bits per byte is within 0.02 of plain",
+    "b": "hard_st beats plain on needle exact match by more than 0.05 at BOTH long fillers, 512 and 2048, in the far placement",
+    "c": "soft stays below hard_st at both long fillers, because language state carries contents the way the toy `stack` task did and U2c measured soft mixing leaking on that kind of state; recorded as a prediction about WHY, and it does not change the status"
+   },
+   "registered_before": "every M1 arm: at freeze time no condition directory exists, which the manifest frozen_utc and the empty output directory both witness. The only 30M training in flight is the M0 emergence probe, whose recorded role is budget sizing and which is excluded from evidence about the gate; its thresholds are not derived from any probe measurement.",
+   "resolution": {
+    "basis": "the registered effect size must be resolvable by the measurement it is read from. The standard error of a difference of two proportions is sqrt(2p(1-p)/n). At the original 64 items that is 0.053 near p=0.10 and 0.081 near p=0.30, so a 0.05 threshold sat inside its own noise for any score above about 7 per cent - a coin flip reportable as GATE_TRANSFERS. 256 items brings it to 0.041 near p=0.30, and the rule additionally requires the gain to clear two standard errors computed from the scores observed, which can only make a positive claim harder.",
+    "batch": 32,
+    "cost": "cheaper than the setting it replaces, not more expensive: 8 launches of 32 against 16 of 4, on a workload measured to be launch-bound rather than arithmetic-bound",
+    "inherited_from": "the thresholds were chosen while the needle task was still the zero-shot version whose format no arm was ever taught; nothing rechecked them after the task was redesigned",
+    "items": 256,
+    "objective_floor": 0.003
+   },
+   "statuses": [
+    "GATE_TRANSFERS",
+    "GATE_AT_A_COST",
+    "GATE_DOES_NOT_TRANSFER",
+    "NOT_MEASURABLE_AT_THIS_LENGTH",
+    "NOT_MEASURABLE_AT_THIS_BUDGET",
+    "INCOMPLETE"
+   ],
+   "thresholds": {
+    "bpb_regression": 0.02,
+    "items": 256,
+    "long_filler": [
+     512,
+     2048
+    ],
+    "measurable_floor": 0.02,
+    "needle_gain": 0.05
+   }
+  },
+  "purpose": "M1: does the exact-preservation gate, the one result replicated across 3 seeds x 2 task families x 2 learning rates on the toy automata, still help at 30M on real text?",
+  "seeds": [
+   117
+  ],
+  "selection": "minimum validation bits per byte; earliest step on ties",
+  "steps": 4000,
+  "targets": {
+   "bpb_regression": 0.02,
+   "needle_gain": 0.05
+  },
+  "validation_batches": 24,
+  "validation_every": 250,
+  "version": 1,
+  "vocabulary": 256,
+  "weight_decay": 0.01,
+  "width": 1152,
+  "window": 4
+ },
+ "protocol_hash": "9da7da584641ff0e2514cd31195116d0c313a5cb4cb68e9bfcbbba0f4863f48d",
+ "sources": {
+  "core/model.py": "121f11fcb3c1308b7f67d898f2aa09c37226d3b0db27dd4e5bf1ebeaea281f43",
+  "horizon/gated.py": "2d2b93156ebb7d2953f6673982c53c98196abe635b324e5c06a1caeb17c061c4",
+  "horizon/guards.py": "bbcca8d70d86027d5fd17dcbfc9f7666f8e135b56bf6a23b11a5b1b3ad820ff5",
+  "mline/analyze.py": "7b0949875c099a819c6d69d9428115ed2dded4926cb061989cc92e11dc0fc192",
+  "mline/data.py": "1670948c0bebb9212c28598e41493e15c2bcc48989fcead67c9f8cf5dd7b43d3",
+  "mline/lm.py": "0c57d3dafca3cd80cf6f60bf2a4b070766ae6f7a6d2d184ee94c95457611928a",
+  "mline/needle.py": "ab75adb24b839a451bdb0873cf1eec87774341e2b0e57d6e728dd45f3e638f68",
+  "mline/train.py": "5fed9b731743ae582bcf272b095340388aac5f8136f01fc4d41a5ec602831601"
+ }
+}

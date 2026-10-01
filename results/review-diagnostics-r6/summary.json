@@ -1,0 +1,893 @@
+{
+  "counts": {
+    "fail": 0,
+    "missing": 0,
+    "oom": 0,
+    "pass_": 20,
+    "planned": 20
+  },
+  "diagnostics": [
+    {
+      "arm": "segment",
+      "cuda_allocated_after_optimizer_bytes": 17467392,
+      "cuda_peak_allocated_bytes": 21668352,
+      "cuda_peak_reserved_bytes": 27262976,
+      "diagnostic": true,
+      "final_state_hash": "b763fb7d66f7045bdf0ae75ebcd797d3470a49106ca57f93d67333bd6679eb2a",
+      "host_busy_fraction": 0.23905723905723908,
+      "initial_state_hash": "538cecd61800eae00997a3db2eb83395f854058ecfc04b60cdea97b8b0cb2cdd",
+      "length": 128,
+      "losses": [
+        0.7631817869842052,
+        0.7124024741351604,
+        0.7010772302746773
+      ],
+      "mean_update_seconds": 1.082144033338409,
+      "measured_updates": 3,
+      "optimizer_updates": 5,
+      "phase_mean_seconds": {
+        "encoder": 0.0032270333419243493,
+        "global_backward": 0.0035825666467038295,
+        "optimizer": 0.004754299996420741,
+        "segment_forward_backward": 1.0705618333498326
+      },
+      "ram_lifetime_peak_working_set_bytes": 1047904256,
+      "ram_private_commit_bytes": 2010267648,
+      "ram_working_set_after_optimizer_bytes": 1047900160,
+      "result_sha256": "6138b129893a00ebe289407f5ed36bbf95e508cb53ae281bfed403022d9f4d64",
+      "saved_peak_unique_storage_bytes": 2962676,
+      "saved_requests": 10540,
+      "status": "PASS",
+      "update_seconds": [
+        1.1456905999802984,
+        1.0442387000075541,
+        1.0565028000273742
+      ]
+    }
+  ],
+  "equivalence": {
+    "comparisons": [
+      {
+        "base": "full",
+        "candidate": "checkpoint",
+        "length": 32,
+        "max_abs": 0.0,
+        "status": "PASS"
+      },
+      {
+        "base": "detach",
+        "candidate": "segment",
+        "length": 32,
+        "max_abs": 1.434236764907837e-07,
+        "status": "PASS"
+      },
+      {
+        "base": "detach",
+        "candidate": "segment_encoder_checkpoint",
+        "length": 32,
+        "max_abs": 1.434236764907837e-07,
+        "status": "PASS"
+      },
+      {
+        "base": "full",
+        "candidate": "checkpoint",
+        "length": 128,
+        "max_abs": 3.129243850708008e-07,
+        "status": "PASS"
+      },
+      {
+        "base": "detach",
+        "candidate": "segment",
+        "length": 128,
+        "max_abs": 1.5273690223693848e-07,
+        "status": "PASS"
+      },
+      {
+        "base": "detach",
+        "candidate": "segment_encoder_checkpoint",
+        "length": 128,
+        "max_abs": 8.195638656616211e-08,
+        "status": "PASS"
+      }
+    ],
+    "sha256": "ca577a9a8705d3ebe96a93848966ef0a3d3cd0f7c881f0eb07191c764487fbd0",
+    "status": "PASS"
+  },
+  "protocol_hash": "2eb5f530a8275b37082c076eefd11c4d5529a0f99157842e8fdfd95851877149",
+  "rows": [
+    {
+      "arm": "full",
+      "cuda_allocated_after_optimizer_bytes": 17455104,
+      "cuda_peak_allocated_bytes": 19874816,
+      "cuda_peak_reserved_bytes": 25165824,
+      "diagnostic": false,
+      "final_state_hash": "50e5df12fc561571beb6b313b09840288bd2a1224bc10157155183f759047a8d",
+      "host_busy_fraction": 0.15296640457469624,
+      "initial_state_hash": "538cecd61800eae00997a3db2eb83395f854058ecfc04b60cdea97b8b0cb2cdd",
+      "length": 32,
+      "losses": [
+        0.7628791332244873,
+        0.7003194689750671,
+        0.7555971145629883
+      ],
+      "mean_update_seconds": 0.23179066666246703,
+      "measured_updates": 3,
+      "optimizer_updates": 5,
+      "phase_mean_seconds": {
+        "backward": 0.1378446666446204,
+        "forward": 0.08738116667761157,
+        "optimizer": 0.0065494666729743285
+      },
+      "ram_lifetime_peak_working_set_bytes": 1052909568,
+      "ram_private_commit_bytes": 2014957568,
+      "ram_working_set_after_optimizer_bytes": 1052905472,
+      "ratio_to_full": {
+        "cuda_peak_allocated": 1.0,
+        "cuda_peak_reserved": 1.0,
+        "update_seconds": 1.0
+      },
+      "result_sha256": "670c21e1dcd96d87494f8c624dd614fe36fa4308a6f69620252deea00a2296b4",
+      "status": "PASS",
+      "update_seconds": [
+        0.23460109997540712,
+        0.23617789999116212,
+        0.22459300002083182
+      ]
+    },
+    {
+      "arm": "detach",
+      "cuda_allocated_after_optimizer_bytes": 17455104,
+      "cuda_peak_allocated_bytes": 19873280,
+      "cuda_peak_reserved_bytes": 25165824,
+      "diagnostic": false,
+      "final_state_hash": "1ccb514f4ca13c0aad66127a6ef8e4dfb05af9d3cb55da7d7be5e17beea62bc7",
+      "host_busy_fraction": 0.153954802259887,
+      "initial_state_hash": "538cecd61800eae00997a3db2eb83395f854058ecfc04b60cdea97b8b0cb2cdd",
+      "length": 32,
+      "losses": [
+        0.763463020324707,
+        0.7009950876235962,
+        0.7568181753158569
+      ],
+      "mean_update_seconds": 0.2262473666924052,
+      "measured_updates": 3,
+      "optimizer_updates": 5,
+      "phase_mean_seconds": {
+        "backward": 0.1308565333407993,
+        "forward": 0.08914530001735936,
+        "optimizer": 0.006229433347471058
+      },
+      "ram_lifetime_peak_working_set_bytes": 1052868608,
+      "ram_private_commit_bytes": 2015641600,
+      "ram_working_set_after_optimizer_bytes": 1052864512,
+      "ratio_to_full": {
+        "cuda_peak_allocated": 0.99992271626565,
+        "cuda_peak_reserved": 1.0,
+        "update_seconds": 0.9760848870669414
+      },
+      "result_sha256": "f9e68d89e85987bbc5f7d161c3bb9300a7a68c736b4400ba39039cf2bd30ece6",
+      "status": "PASS",
+      "update_seconds": [
+        0.22688190004555508,
+        0.22507099999347702,
+        0.22678920003818348
+      ]
+    },
+    {
+      "arm": "checkpoint",
+      "cuda_allocated_after_optimizer_bytes": 17455104,
+      "cuda_peak_allocated_bytes": 19874816,
+      "cuda_peak_reserved_bytes": 25165824,
+      "diagnostic": false,
+      "final_state_hash": "50e5df12fc561571beb6b313b09840288bd2a1224bc10157155183f759047a8d",
+      "host_busy_fraction": 0.15747613997879106,
+      "initial_state_hash": "538cecd61800eae00997a3db2eb83395f854058ecfc04b60cdea97b8b0cb2cdd",
+      "length": 32,
+      "losses": [
+        0.7628791332244873,
+        0.7003194689750671,
+        0.7555971145629883
+      ],
+      "mean_update_seconds": 0.42347023335363093,
+      "measured_updates": 3,
+      "optimizer_updates": 5,
+      "phase_mean_seconds": {
+        "backward": 0.30082320000898716,
+        "forward": 0.1160508999795032,
+        "optimizer": 0.0065746666708340245
+      },
+      "ram_lifetime_peak_working_set_bytes": 1061691392,
+      "ram_private_commit_bytes": 2022289408,
+      "ram_working_set_after_optimizer_bytes": 1061675008,
+      "ratio_to_full": {
+        "cuda_peak_allocated": 1.0,
+        "cuda_peak_reserved": 1.0,
+        "update_seconds": 1.8269511859607668
+      },
+      "result_sha256": "16a54b9f0ada5f61b3aa26295a6ac2ca2414541f64f9e411121617a0938b9451",
+      "status": "PASS",
+      "update_seconds": [
+        0.40708910004468635,
+        0.4701614999794401,
+        0.3931601000367664
+      ]
+    },
+    {
+      "arm": "segment",
+      "cuda_allocated_after_optimizer_bytes": 17455104,
+      "cuda_peak_allocated_bytes": 18961920,
+      "cuda_peak_reserved_bytes": 23068672,
+      "diagnostic": false,
+      "final_state_hash": "77dbb6b435b950ef74e9fa550bc0c3a85532149bef79af08e9bb19d1de359a7e",
+      "host_busy_fraction": 0.19293478260869568,
+      "initial_state_hash": "538cecd61800eae00997a3db2eb83395f854058ecfc04b60cdea97b8b0cb2cdd",
+      "length": 32,
+      "losses": [
+        0.7634629905223846,
+        0.7009950876235962,
+        0.7568181753158569
+      ],
+      "mean_update_seconds": 0.2569601333040434,
+      "measured_updates": 3,
+      "optimizer_updates": 5,
+      "phase_mean_seconds": {
+        "encoder": 0.002825466663731883,
+        "global_backward": 0.0036861999930503466,
+        "optimizer": 0.005218833335675299,
+        "segment_forward_backward": 0.2452126333179573
+      },
+      "ram_lifetime_peak_working_set_bytes": 1048084480,
+      "ram_private_commit_bytes": 2012110848,
+      "ram_working_set_after_optimizer_bytes": 1048080384,
+      "ratio_to_full": {
+        "cuda_peak_allocated": 0.9540677005512906,
+        "cuda_peak_reserved": 0.9166666666666666,
+        "update_seconds": 1.1085870583315076
+      },
+      "result_sha256": "87a4463d5ca77fc715b19fb6ee617e6932053f834ae86b1955d020c94df7f8b5",
+      "status": "PASS",
+      "update_seconds": [
+        0.2785288999439217,
+        0.24976129998685792,
+        0.24259019998135045
+      ]
+    },
+    {
+      "arm": "segment_encoder_checkpoint",
+      "cuda_allocated_after_optimizer_bytes": 17455104,
+      "cuda_peak_allocated_bytes": 18426368,
+      "cuda_peak_reserved_bytes": 23068672,
+      "diagnostic": false,
+      "final_state_hash": "77dbb6b435b950ef74e9fa550bc0c3a85532149bef79af08e9bb19d1de359a7e",
+      "host_busy_fraction": 0.1761092150170649,
+      "initial_state_hash": "538cecd61800eae00997a3db2eb83395f854058ecfc04b60cdea97b8b0cb2cdd",
+      "length": 32,
+      "losses": [
+        0.7634629905223846,
+        0.7009950876235962,
+        0.7568181753158569
+      ],
+      "mean_update_seconds": 0.24220313329715282,
+      "measured_updates": 3,
+      "optimizer_updates": 5,
+      "phase_mean_seconds": {
+        "encoder": 0.003722866667279353,
+        "global_backward": 0.007117999989228944,
+        "optimizer": 0.004836199999166031,
+        "segment_forward_backward": 0.2265061333309859
+      },
+      "ram_lifetime_peak_working_set_bytes": 1047162880,
+      "ram_private_commit_bytes": 2009391104,
+      "ram_working_set_after_optimizer_bytes": 1047158784,
+      "ratio_to_full": {
+        "cuda_peak_allocated": 0.9271214385079087,
+        "cuda_peak_reserved": 0.9166666666666666,
+        "update_seconds": 1.0449218546398522
+      },
+      "result_sha256": "5972f00130310e5129aa25747a52295247111ef6207a2c39c9428f665e2f922b",
+      "status": "PASS",
+      "update_seconds": [
+        0.24196630000369623,
+        0.24164149991702288,
+        0.24300159997073933
+      ]
+    },
+    {
+      "arm": "full",
+      "cuda_allocated_after_optimizer_bytes": 17467392,
+      "cuda_peak_allocated_bytes": 26667008,
+      "cuda_peak_reserved_bytes": 31457280,
+      "diagnostic": false,
+      "final_state_hash": "ea30df250e60a65d2bc03f38a9100dafe91fa38667159cd632ad83074b147bea",
+      "host_busy_fraction": 0.16249197174052665,
+      "initial_state_hash": "538cecd61800eae00997a3db2eb83395f854058ecfc04b60cdea97b8b0cb2cdd",
+      "length": 128,
+      "losses": [
+        0.7625927925109863,
+        0.7119230031967163,
+        0.7009453773498535
+      ],
+      "mean_update_seconds": 0.8959691666532308,
+      "measured_updates": 3,
+      "optimizer_updates": 5,
+      "phase_mean_seconds": {
+        "backward": 0.5379206999981155,
+        "forward": 0.3464491333385619,
+        "optimizer": 0.011582966661080718
+      },
+      "ram_lifetime_peak_working_set_bytes": 1078521856,
+      "ram_private_commit_bytes": 2042642432,
+      "ram_working_set_after_optimizer_bytes": 1078517760,
+      "ratio_to_full": {
+        "cuda_peak_allocated": 1.0,
+        "cuda_peak_reserved": 1.0,
+        "update_seconds": 1.0
+      },
+      "result_sha256": "92fc082e8b8493a1545715893203c88690be1dcb09e69f8d77233c2a19fec248",
+      "status": "PASS",
+      "update_seconds": [
+        0.9125348999514244,
+        0.8835260000196286,
+        0.8918465999886394
+      ]
+    },
+    {
+      "arm": "detach",
+      "cuda_allocated_after_optimizer_bytes": 17467392,
+      "cuda_peak_allocated_bytes": 26659328,
+      "cuda_peak_reserved_bytes": 31457280,
+      "diagnostic": false,
+      "final_state_hash": "373a33e4a11d764d68129dba8b5fe0fc0229f081383a0306514f2a1691aa962a",
+      "host_busy_fraction": 0.1690989847715736,
+      "initial_state_hash": "538cecd61800eae00997a3db2eb83395f854058ecfc04b60cdea97b8b0cb2cdd",
+      "length": 128,
+      "losses": [
+        0.7631818056106567,
+        0.7124024629592896,
+        0.7010772228240967
+      ],
+      "mean_update_seconds": 0.9075543667034557,
+      "measured_updates": 3,
+      "optimizer_updates": 5,
+      "phase_mean_seconds": {
+        "backward": 0.5414786333373437,
+        "forward": 0.35461909999139607,
+        "optimizer": 0.011440433348373821
+      },
+      "ram_lifetime_peak_working_set_bytes": 1080422400,
+      "ram_private_commit_bytes": 2045779968,
+      "ram_working_set_after_optimizer_bytes": 1080360960,
+      "ratio_to_full": {
+        "cuda_peak_allocated": 0.9997120036863528,
+        "cuda_peak_reserved": 1.0,
+        "update_seconds": 1.0129303557325524
+      },
+      "result_sha256": "0ee0717bb0a0aa9a1fdf250aa153d7ff8276e2c6654178a61c73e176845a8a17",
+      "status": "PASS",
+      "update_seconds": [
+        0.890612700022757,
+        0.9237402001162991,
+        0.9083101999713108
+      ]
+    },
+    {
+      "arm": "checkpoint",
+      "cuda_allocated_after_optimizer_bytes": 17467392,
+      "cuda_peak_allocated_bytes": 26667008,
+      "cuda_peak_reserved_bytes": 31457280,
+      "diagnostic": false,
+      "final_state_hash": "6b9dab6ee55b055b782f310efde6e8bfeb1ec1397ee83e1c3fe5aecf1f65d5ba",
+      "host_busy_fraction": 0.17229662202678397,
+      "initial_state_hash": "538cecd61800eae00997a3db2eb83395f854058ecfc04b60cdea97b8b0cb2cdd",
+      "length": 128,
+      "losses": [
+        0.7625927925109863,
+        0.7119230031967163,
+        0.7009453773498535
+      ],
+      "mean_update_seconds": 1.65602513338672,
+      "measured_updates": 3,
+      "optimizer_updates": 5,
+      "phase_mean_seconds": {
+        "backward": 1.1144680000143126,
+        "forward": 0.5295696999916496,
+        "optimizer": 0.011965733351341138
+      },
+      "ram_lifetime_peak_working_set_bytes": 1112051712,
+      "ram_private_commit_bytes": 2061139968,
+      "ram_working_set_after_optimizer_bytes": 1111003136,
+      "ratio_to_full": {
+        "cuda_peak_allocated": 1.0,
+        "cuda_peak_reserved": 1.0,
+        "update_seconds": 1.8483059406749156
+      },
+      "result_sha256": "b0dd89b1a4d3c312b5753f260af640ecd4b1d45c56c1f6c4b93ca1a7d4558897",
+      "status": "PASS",
+      "update_seconds": [
+        1.674495100043714,
+        1.6510899000568315,
+        1.6424904000596143
+      ]
+    },
+    {
+      "arm": "segment",
+      "cuda_allocated_after_optimizer_bytes": 17467392,
+      "cuda_peak_allocated_bytes": 21668352,
+      "cuda_peak_reserved_bytes": 27262976,
+      "diagnostic": false,
+      "final_state_hash": "d8ca1ffb5ddbcd9ebc5e5680c10eb1f90e3e6d351559629f8f1d96548e204e50",
+      "host_busy_fraction": 0.15291878172588835,
+      "initial_state_hash": "538cecd61800eae00997a3db2eb83395f854058ecfc04b60cdea97b8b0cb2cdd",
+      "length": 128,
+      "losses": [
+        0.7631817981600761,
+        0.7124024666845798,
+        0.7010772339999676
+      ],
+      "mean_update_seconds": 0.9173896333474355,
+      "measured_updates": 3,
+      "optimizer_updates": 5,
+      "phase_mean_seconds": {
+        "encoder": 0.002602866676170379,
+        "global_backward": 0.0034436666949962578,
+        "optimizer": 0.005000466655474156,
+        "segment_forward_backward": 0.9063262999795066
+      },
+      "ram_lifetime_peak_working_set_bytes": 1047326720,
+      "ram_private_commit_bytes": 2010693632,
+      "ram_working_set_after_optimizer_bytes": 1047322624,
+      "ratio_to_full": {
+        "cuda_peak_allocated": 0.8125527993241687,
+        "cuda_peak_reserved": 0.8666666666666667,
+        "update_seconds": 1.023907593577375
+      },
+      "result_sha256": "857de14f8ea3729eb940e013171f512f6c0adbedf1e41ecdeb610be73803a125",
+      "status": "PASS",
+      "update_seconds": [
+        0.9227593999821693,
+        0.9244128000573255,
+        0.9049967000028118
+      ]
+    },
+    {
+      "arm": "segment_encoder_checkpoint",
+      "cuda_allocated_after_optimizer_bytes": 17467392,
+      "cuda_peak_allocated_bytes": 20954112,
+      "cuda_peak_reserved_bytes": 27262976,
+      "diagnostic": false,
+      "final_state_hash": "604ad65bf6e760c8a2f28a626fcbb9063f6117cc1273ed9172adc6ab395a3be2",
+      "host_busy_fraction": 0.15276476101218373,
+      "initial_state_hash": "538cecd61800eae00997a3db2eb83395f854058ecfc04b60cdea97b8b0cb2cdd",
+      "length": 128,
+      "losses": [
+        0.7631817944347858,
+        0.7124024741351604,
+        0.7010772302746773
+      ],
+      "mean_update_seconds": 0.944121299990608,
+      "measured_updates": 3,
+      "optimizer_updates": 5,
+      "phase_mean_seconds": {
+        "encoder": 0.0036635666619986296,
+        "global_backward": 0.007271966664120555,
+        "optimizer": 0.0052226000116206706,
+        "segment_forward_backward": 0.9279469999989184
+      },
+      "ram_lifetime_peak_working_set_bytes": 1048248320,
+      "ram_private_commit_bytes": 2010243072,
+      "ram_working_set_after_optimizer_bytes": 1048244224,
+      "ratio_to_full": {
+        "cuda_peak_allocated": 0.7857691421549804,
+        "cuda_peak_reserved": 0.8666666666666667,
+        "update_seconds": 1.053743069660804
+      },
+      "result_sha256": "fe0b6fdd717050db94566b284ad76c0b644a7c22a9a9d50d40bf8d7266120198",
+      "status": "PASS",
+      "update_seconds": [
+        0.9828568999073468,
+        0.9154062999878079,
+        0.9341007000766695
+      ]
+    },
+    {
+      "arm": "full",
+      "cuda_allocated_after_optimizer_bytes": 17516544,
+      "cuda_peak_allocated_bytes": 54061568,
+      "cuda_peak_reserved_bytes": 58720256,
+      "diagnostic": false,
+      "final_state_hash": "e9a4862e2afd7e6dae9bc436b180b233ddb854b97000a48116af65a123399430",
+      "host_busy_fraction": 0.5005489335006273,
+      "initial_state_hash": "538cecd61800eae00997a3db2eb83395f854058ecfc04b60cdea97b8b0cb2cdd",
+      "length": 512,
+      "losses": [
+        0.7461010217666626,
+        0.722763180732727,
+        0.7007860541343689
+      ],
+      "mean_update_seconds": 5.29888226664237,
+      "measured_updates": 3,
+      "optimizer_updates": 5,
+      "phase_mean_seconds": {
+        "backward": 3.0638872333220206,
+        "forward": 2.1862158333533444,
+        "optimizer": 0.048758399983247123
+      },
+      "ram_lifetime_peak_working_set_bytes": 1187483648,
+      "ram_private_commit_bytes": 2176176128,
+      "ram_working_set_after_optimizer_bytes": 1122164736,
+      "ratio_to_full": {
+        "cuda_peak_allocated": 1.0,
+        "cuda_peak_reserved": 1.0,
+        "update_seconds": 1.0
+      },
+      "result_sha256": "c6da244a7ea078a1cf0b3c0284c9bacdf9ea8ac5ab0814badb1d9e24a4bf78d5",
+      "status": "PASS",
+      "update_seconds": [
+        3.8690349000389688,
+        5.138771299971268,
+        6.888840599916875
+      ]
+    },
+    {
+      "arm": "detach",
+      "cuda_allocated_after_optimizer_bytes": 17516544,
+      "cuda_peak_allocated_bytes": 54029312,
+      "cuda_peak_reserved_bytes": 58720256,
+      "diagnostic": false,
+      "final_state_hash": "867bf2847ab74056908fb0f65250387ba364c0becb22d698cf994fdd13c8d9c0",
+      "host_busy_fraction": 0.2046067848882035,
+      "initial_state_hash": "538cecd61800eae00997a3db2eb83395f854058ecfc04b60cdea97b8b0cb2cdd",
+      "length": 512,
+      "losses": [
+        0.7462112903594971,
+        0.7227568030357361,
+        0.7007293701171875
+      ],
+      "mean_update_seconds": 3.7770952333618575,
+      "measured_updates": 3,
+      "optimizer_updates": 5,
+      "phase_mean_seconds": {
+        "backward": 2.190981100022327,
+        "forward": 1.5517957666694808,
+        "optimizer": 0.034301899994413056
+      },
+      "ram_lifetime_peak_working_set_bytes": 1182883840,
+      "ram_private_commit_bytes": 2173833216,
+      "ram_working_set_after_optimizer_bytes": 1116409856,
+      "ratio_to_full": {
+        "cuda_peak_allocated": 0.9994033469395486,
+        "cuda_peak_reserved": 1.0,
+        "update_seconds": 0.7128098046524836
+      },
+      "result_sha256": "4aa3e069863a15e124c891d7d2dbae72e139e86552ba9d5af2fa6ec856ef9b57",
+      "status": "PASS",
+      "update_seconds": [
+        3.870285000069998,
+        3.818357499956619,
+        3.6426432000589557
+      ]
+    },
+    {
+      "arm": "checkpoint",
+      "cuda_allocated_after_optimizer_bytes": 17516544,
+      "cuda_peak_allocated_bytes": 54061568,
+      "cuda_peak_reserved_bytes": 58720256,
+      "diagnostic": false,
+      "final_state_hash": "09ae0f0d68c19e05837d6d4b67df33e0186377b031c861a1bd1528a424a67637",
+      "host_busy_fraction": 0.19007076514816457,
+      "initial_state_hash": "538cecd61800eae00997a3db2eb83395f854058ecfc04b60cdea97b8b0cb2cdd",
+      "length": 512,
+      "losses": [
+        0.7461010217666626,
+        0.722763180732727,
+        0.7007860541343689
+      ],
+      "mean_update_seconds": 6.765603400029552,
+      "measured_updates": 3,
+      "optimizer_updates": 5,
+      "phase_mean_seconds": {
+        "backward": 4.75437296666981,
+        "forward": 1.9763152333131682,
+        "optimizer": 0.0348984333492505
+      },
+      "ram_lifetime_peak_working_set_bytes": 1282838528,
+      "ram_private_commit_bytes": 2225750016,
+      "ram_working_set_after_optimizer_bytes": 1158283264,
+      "ratio_to_full": {
+        "cuda_peak_allocated": 1.0,
+        "cuda_peak_reserved": 1.0,
+        "update_seconds": 1.2767982113172271
+      },
+      "result_sha256": "5457f37c3170a7004161d071d380c7195ad62fc7721fc42c41e86d821ec16039",
+      "status": "PASS",
+      "update_seconds": [
+        6.823843799997121,
+        6.867092500033323,
+        6.605873900058214
+      ]
+    },
+    {
+      "arm": "segment",
+      "cuda_allocated_after_optimizer_bytes": 17516544,
+      "cuda_peak_allocated_bytes": 32719872,
+      "cuda_peak_reserved_bytes": 37748736,
+      "diagnostic": false,
+      "final_state_hash": "967916955f60ea1653c30100e79c28b6a7375bc93df23e61539a92698aaf3563",
+      "host_busy_fraction": 0.16634260159440017,
+      "initial_state_hash": "538cecd61800eae00997a3db2eb83395f854058ecfc04b60cdea97b8b0cb2cdd",
+      "length": 512,
+      "losses": [
+        0.7462113108485937,
+        0.7227567927911878,
+        0.7007293328642845
+      ],
+      "mean_update_seconds": 3.74119436663265,
+      "measured_updates": 3,
+      "optimizer_updates": 5,
+      "phase_mean_seconds": {
+        "encoder": 0.003019066663303723,
+        "global_backward": 0.004647933334733049,
+        "optimizer": 0.005101299999902646,
+        "segment_forward_backward": 3.728410066648697
+      },
+      "ram_lifetime_peak_working_set_bytes": 1073143808,
+      "ram_private_commit_bytes": 2049662976,
+      "ram_working_set_after_optimizer_bytes": 1073139712,
+      "ratio_to_full": {
+        "cuda_peak_allocated": 0.6052334997016735,
+        "cuda_peak_reserved": 0.6428571428571429,
+        "update_seconds": 0.7060346273749639
+      },
+      "result_sha256": "b10902fccd999a99f4c7e5eaf93a8b492630b344dd1d07e10d91d5b508469812",
+      "status": "PASS",
+      "update_seconds": [
+        3.7933690999634564,
+        3.7730762999271974,
+        3.657137700007297
+      ]
+    },
+    {
+      "arm": "segment_encoder_checkpoint",
+      "cuda_allocated_after_optimizer_bytes": 17516544,
+      "cuda_peak_allocated_bytes": 31583232,
+      "cuda_peak_reserved_bytes": 37748736,
+      "diagnostic": false,
+      "final_state_hash": "2ed67d94aac58f9c86354137ba184fd7eb864a5b43df84dcc65fafea9e807103",
+      "host_busy_fraction": 0.5732667272176809,
+      "initial_state_hash": "538cecd61800eae00997a3db2eb83395f854058ecfc04b60cdea97b8b0cb2cdd",
+      "length": 512,
+      "losses": [
+        0.7462113061919808,
+        0.7227567853406072,
+        0.7007293356582522
+      ],
+      "mean_update_seconds": 3.7990959999733604,
+      "measured_updates": 3,
+      "optimizer_updates": 5,
+      "phase_mean_seconds": {
+        "encoder": 0.004373133337746064,
+        "global_backward": 0.00905456665592889,
+        "optimizer": 0.00496783332588772,
+        "segment_forward_backward": 3.780684466648381
+      },
+      "ram_lifetime_peak_working_set_bytes": 1073098752,
+      "ram_private_commit_bytes": 2051604480,
+      "ram_working_set_after_optimizer_bytes": 1073094656,
+      "ratio_to_full": {
+        "cuda_peak_allocated": 0.584208582333387,
+        "cuda_peak_reserved": 0.6428571428571429,
+        "update_seconds": 0.7169617683128205
+      },
+      "result_sha256": "b106440d1c4c934dbdf56050f0877b604253495c98ee6ec322e5188a32d569ee",
+      "status": "PASS",
+      "update_seconds": [
+        3.692883699957747,
+        3.906488200009335,
+        3.7979160999529995
+      ]
+    },
+    {
+      "arm": "full",
+      "cuda_allocated_after_optimizer_bytes": 17582080,
+      "cuda_peak_allocated_bytes": 90810880,
+      "cuda_peak_reserved_bytes": 113246208,
+      "diagnostic": false,
+      "final_state_hash": "69b73d9ccf5c1c1f14e8d1bdcac8c549d90d0372a2d69390f316b4aa1a4ee36b",
+      "host_busy_fraction": 0.16078774167009457,
+      "initial_state_hash": "538cecd61800eae00997a3db2eb83395f854058ecfc04b60cdea97b8b0cb2cdd",
+      "length": 1024,
+      "losses": [
+        0.7469375133514404,
+        0.7244092226028442,
+        0.7005641460418701
+      ],
+      "mean_update_seconds": 7.280690366654501,
+      "measured_updates": 3,
+      "optimizer_updates": 5,
+      "phase_mean_seconds": {
+        "backward": 4.304406133325149,
+        "forward": 2.9130814666471756,
+        "optimizer": 0.06318670000958566
+      },
+      "ram_lifetime_peak_working_set_bytes": 1275056128,
+      "ram_private_commit_bytes": 2327879680,
+      "ram_working_set_after_optimizer_bytes": 1127710720,
+      "ratio_to_full": {
+        "cuda_peak_allocated": 1.0,
+        "cuda_peak_reserved": 1.0,
+        "update_seconds": 1.0
+      },
+      "result_sha256": "a33f9502f68450e0c3e329ccfa31091ca5d872394df16668f94a094d0d40ce0d",
+      "status": "PASS",
+      "update_seconds": [
+        7.243554500048049,
+        7.3518675999948755,
+        7.2466489999205805
+      ]
+    },
+    {
+      "arm": "detach",
+      "cuda_allocated_after_optimizer_bytes": 17582080,
+      "cuda_peak_allocated_bytes": 90745856,
+      "cuda_peak_reserved_bytes": 113246208,
+      "diagnostic": false,
+      "final_state_hash": "368533991db2fec4eef1bcff2db2b906dd95ce87ca35a6122f7a1f4333e8c296",
+      "host_busy_fraction": 0.22197077778324392,
+      "initial_state_hash": "538cecd61800eae00997a3db2eb83395f854058ecfc04b60cdea97b8b0cb2cdd",
+      "length": 1024,
+      "losses": [
+        0.7470263242721558,
+        0.724332332611084,
+        0.7004773020744324
+      ],
+      "mean_update_seconds": 7.904612700008632,
+      "measured_updates": 3,
+      "optimizer_updates": 5,
+      "phase_mean_seconds": {
+        "backward": 4.53546146666243,
+        "forward": 3.306955666669334,
+        "optimizer": 0.06217953333786378
+      },
+      "ram_lifetime_peak_working_set_bytes": 1274896384,
+      "ram_private_commit_bytes": 2330681344,
+      "ram_working_set_after_optimizer_bytes": 1129455616,
+      "ratio_to_full": {
+        "cuda_peak_allocated": 0.9992839624503144,
+        "cuda_peak_reserved": 1.0,
+        "update_seconds": 1.085695490665513
+      },
+      "result_sha256": "3afda65fdd364fe07278b7be0d9b57d895d1d502462a62b9763fe7994739d039",
+      "status": "PASS",
+      "update_seconds": [
+        7.15201709989924,
+        7.421799100120552,
+        9.140021900006104
+      ]
+    },
+    {
+      "arm": "checkpoint",
+      "cuda_allocated_after_optimizer_bytes": 17582080,
+      "cuda_peak_allocated_bytes": 90810880,
+      "cuda_peak_reserved_bytes": 113246208,
+      "diagnostic": false,
+      "final_state_hash": "2f0ad2307c7675d99b80b4c433c992537f77806319733917f5b7cb08bb01b9d4",
+      "host_busy_fraction": 0.21254336513443195,
+      "initial_state_hash": "538cecd61800eae00997a3db2eb83395f854058ecfc04b60cdea97b8b0cb2cdd",
+      "length": 1024,
+      "losses": [
+        0.7469375133514404,
+        0.7244092226028442,
+        0.7005641460418701
+      ],
+      "mean_update_seconds": 14.224462599998029,
+      "measured_updates": 3,
+      "optimizer_updates": 5,
+      "phase_mean_seconds": {
+        "backward": 10.138633633342883,
+        "forward": 4.021465633316741,
+        "optimizer": 0.06434576667379588
+      },
+      "ram_lifetime_peak_working_set_bytes": 1477316608,
+      "ram_private_commit_bytes": 2307612672,
+      "ram_working_set_after_optimizer_bytes": 1153798144,
+      "ratio_to_full": {
+        "cuda_peak_allocated": 1.0,
+        "cuda_peak_reserved": 1.0,
+        "update_seconds": 1.9537244249729318
+      },
+      "result_sha256": "62e1205e3847942213bfcc16cfd57437448f8bccac1199307d0690dbf1ff017e",
+      "status": "PASS",
+      "update_seconds": [
+        14.441637000010815,
+        14.063213699962944,
+        14.16853710002033
+      ]
+    },
+    {
+      "arm": "segment",
+      "cuda_allocated_after_optimizer_bytes": 17582080,
+      "cuda_peak_allocated_bytes": 47678464,
+      "cuda_peak_reserved_bytes": 71303168,
+      "diagnostic": false,
+      "final_state_hash": "5d0d5eff256a4207c4a33f97377326d3c085dcdb6a508dafc0a9e31c9c38adc7",
+      "host_busy_fraction": 0.1626193441261934,
+      "initial_state_hash": "538cecd61800eae00997a3db2eb83395f854058ecfc04b60cdea97b8b0cb2cdd",
+      "length": 1024,
+      "losses": [
+        0.747026274446398,
+        0.7243323810398579,
+        0.700477309525013
+      ],
+      "mean_update_seconds": 7.231631933342821,
+      "measured_updates": 3,
+      "optimizer_updates": 5,
+      "phase_mean_seconds": {
+        "encoder": 0.0032248666781621673,
+        "global_backward": 0.005810333338255684,
+        "optimizer": 0.005001966666895896,
+        "segment_forward_backward": 7.217578600005557
+      },
+      "ram_lifetime_peak_working_set_bytes": 1073512448,
+      "ram_private_commit_bytes": 2085367808,
+      "ram_working_set_after_optimizer_bytes": 1073418240,
+      "ratio_to_full": {
+        "cuda_peak_allocated": 0.5250303047388154,
+        "cuda_peak_reserved": 0.6296296296296297,
+        "update_seconds": 0.9932618431987759
+      },
+      "result_sha256": "37f364d0d2c23e26053521786b17d4b9e9184e45b08350f6667d5f4fc2c36ae6",
+      "status": "PASS",
+      "update_seconds": [
+        7.415148800064344,
+        7.095972199982498,
+        7.18377479998162
+      ]
+    },
+    {
+      "arm": "segment_encoder_checkpoint",
+      "cuda_allocated_after_optimizer_bytes": 17582080,
+      "cuda_peak_allocated_bytes": 45755392,
+      "cuda_peak_reserved_bytes": 69206016,
+      "diagnostic": false,
+      "final_state_hash": "9d88068bfdd70d6444325354873c193b737804cfc7d03f19c7b60c91bb093fe5",
+      "host_busy_fraction": 0.14687031228692216,
+      "initial_state_hash": "538cecd61800eae00997a3db2eb83395f854058ecfc04b60cdea97b8b0cb2cdd",
+      "length": 1024,
+      "losses": [
+        0.7470262739807367,
+        0.7243323749862611,
+        0.7004773057997227
+      ],
+      "mean_update_seconds": 8.39190519998859,
+      "measured_updates": 3,
+      "optimizer_updates": 5,
+      "phase_mean_seconds": {
+        "encoder": 0.004453333346949269,
+        "global_backward": 0.013353866641409695,
+        "optimizer": 0.005038100003730506,
+        "segment_forward_backward": 8.369043566655213
+      },
+      "ram_lifetime_peak_working_set_bytes": 1074642944,
+      "ram_private_commit_bytes": 2081988608,
+      "ram_working_set_after_optimizer_bytes": 1074638848,
+      "ratio_to_full": {
+        "cuda_peak_allocated": 0.5038536351591352,
+        "cuda_peak_reserved": 0.6111111111111112,
+        "update_seconds": 1.1526249266722621
+      },
+      "result_sha256": "22aeaa510b3deea9d42a32acccb18f0d7ff5fba5f9a3b2946b3f294889c1961c",
+      "status": "PASS",
+      "update_seconds": [
+        8.436035299906507,
+        8.374761899991427,
+        8.364918400067836
+      ]
+    }
+  ],
+  "scope": "Three measured real AdamW updates per fresh process after two warmups; seconds include explicit synchronization at phase marks; CUDA peaks are reset phase peaks, not resident VRAM of the whole process; RAM is Windows working set including the Python/PyTorch runtime; host busy fraction is system-wide over the worker lifetime.",
+  "sources": {
+    "core/model.py": "121f11fcb3c1308b7f67d898f2aa09c37226d3b0db27dd4e5bf1ebeaea281f43",
+    "review_cycle/memory_bench.py": "5830610d207c8dff2cdf238efa9f18c36167fac37174d1dcab2371773f804dde",
+    "review_cycle/test_memory_bench.py": "381a8418c2b58c8016fa51cba26c0daa87fde6697a2654c0fb903bf7bbe75d76"
+  }
+}

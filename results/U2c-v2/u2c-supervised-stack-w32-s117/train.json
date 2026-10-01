@@ -1,0 +1,36 @@
+{
+ "condition": {
+  "arm": "supervised",
+  "heads": 2,
+  "lr": 0.003,
+  "seed": 117,
+  "stage": "u2c",
+  "task": "stack",
+  "width": 32,
+  "window": 4
+ },
+ "guard": {
+  "clipped": 526,
+  "max_grad_norm_before_clip": 8.420589046061146e+28,
+  "skip_reasons": {
+   "nonfinite_gradient": 1
+  },
+  "skipped": 1,
+  "steps": 2048
+ },
+ "ident": "u2c-supervised-stack-w32-s117",
+ "initial_sha256": "437b094a8278499380b997f9f042faf1c32a484898bbd4dc2010181fce158b1f",
+ "protocol_hash": "25d9d3762218db35f98ca47f28eeea89a1d03aa75c5296ff6da1e9a79ec92b8b",
+ "selected_sha256": "bae594503ca45d3c9ba29ecf32ee880bf2c650c63a18c50199966e7766f43cae",
+ "selected_step": 2048,
+ "selected_validation": {
+  "all_accuracy": 0.958404541015625,
+  "final_accuracy": 0.93359375,
+  "final_loss": 0.1147676333785057,
+  "hold_rate": 0.003387451171875
+ },
+ "steps": 2048,
+ "train_seconds": 1555.5352626002132,
+ "updates_sha256": "0013e1c4321b3a08919d09bcbfd5731614f7ce819d50e724bc7e91b5b35d6ad2",
+ "wall_seconds": 1588.5872452999974
+}

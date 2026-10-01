@@ -1,0 +1,8 @@
+Killed by the system at step 399 of 5000 on 2026-09-24 01:30, for low host memory - not a failure of the run. The
+cause was mine: I started two full recursive filesystem scans while this was training, on a machine that had already
+shown memory pressure that night.
+
+This run also used a 0-128 training filler, which an independent review later showed does not match M1's 0-64, so it
+would have sized a different job than the one M1 runs. The relaunch fixes that and a test now locks the two together.
+
+Preserved: 399 steps, the step-250 needle measurement and a 124 MB checkpoint. Nothing deleted.

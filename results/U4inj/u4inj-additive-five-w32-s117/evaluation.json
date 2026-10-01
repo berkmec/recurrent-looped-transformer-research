@@ -1,0 +1,123 @@
+{
+ "anchors": {
+  "counts": [
+   52582,
+   54172,
+   52502,
+   51925,
+   50963
+  ],
+  "mean_spread": 4.832401220685493,
+  "min_center_distance": 27.88195174417099
+ },
+ "clean": {
+  "1024": {
+   "final_accuracy": 1.0,
+   "norm": {
+    "first": 6.839027404785156,
+    "last": 5.269893169403076,
+    "max": 6.839027404785156,
+    "mid": 5.340179443359375
+   },
+   "prefix_accuracy": 1.0,
+   "source_seed": 51489863540104060
+  },
+  "128": {
+   "final_accuracy": 1.0,
+   "norm": {
+    "first": 6.828132152557373,
+    "last": 5.181612014770508,
+    "max": 6.828132152557373,
+    "mid": 5.259647846221924
+   },
+   "prefix_accuracy": 1.0,
+   "source_seed": 8351119588096178727
+  },
+  "4096": {
+   "final_accuracy": 1.0,
+   "norm": {
+    "first": 6.817959308624268,
+    "last": 5.490406036376953,
+    "max": 6.817959308624268,
+    "mid": 5.357294082641602
+   },
+   "prefix_accuracy": 1.0,
+   "source_seed": 5895119358736147793
+  }
+ },
+ "condition": {
+  "arm": "additive",
+  "heads": 2,
+  "lr": 0.003,
+  "seed": 117,
+  "stage": "u4inj",
+  "task": "five",
+  "width": 32,
+  "window": 4
+ },
+ "displacement": {
+  "end": 37.506736755371094,
+  "k1": 8.2894868850708,
+  "k16": 19.67990493774414
+ },
+ "ident": "u4inj-additive-five-w32-s117",
+ "neutral": {
+  "0-base": {
+   "final_accuracy": 1.0,
+   "source_seed": 17010480628976185854
+  },
+  "128-middle": {
+   "correct_to_wrong": 201,
+   "final_accuracy": 0.5979999899864197,
+   "n": 500,
+   "prediction_changes": 201,
+   "wrong_to_correct": 0
+  },
+  "128-prefix": {
+   "correct_to_wrong": 0,
+   "final_accuracy": 1.0,
+   "n": 500,
+   "prediction_changes": 0,
+   "wrong_to_correct": 0
+  },
+  "128-suffix": {
+   "correct_to_wrong": 194,
+   "final_accuracy": 0.6119999885559082,
+   "n": 500,
+   "prediction_changes": 194,
+   "wrong_to_correct": 0
+  },
+  "512-middle": {
+   "correct_to_wrong": 299,
+   "final_accuracy": 0.4020000100135803,
+   "n": 500,
+   "prediction_changes": 299,
+   "wrong_to_correct": 0
+  },
+  "512-prefix": {
+   "correct_to_wrong": 0,
+   "final_accuracy": 1.0,
+   "n": 500,
+   "prediction_changes": 0,
+   "wrong_to_correct": 0
+  },
+  "512-suffix": {
+   "correct_to_wrong": 285,
+   "final_accuracy": 0.4300000071525574,
+   "n": 500,
+   "prediction_changes": 285,
+   "wrong_to_correct": 0
+  }
+ },
+ "norm_growth": 0.9724326083438608,
+ "protocol_hash": "523dba46f448674672137eb02042b65b243741bb98119963af4ed2c44486a0fe",
+ "run_norm": {
+  "after": 5.186390399932861,
+  "before": 5.333418846130371,
+  "growth": 0.9724326083438608,
+  "max": 6.8620147705078125
+ },
+ "seconds": 360.3999838000018,
+ "selected_sha256": "a2f24639282d180f803584fde35bf3e42680d264fc4367624574d0cee5bf859b",
+ "separation_ratio": 5.769792380818876
+}

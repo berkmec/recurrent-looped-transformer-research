@@ -1,0 +1,23 @@
+{
+ "arm": "plain",
+ "arm_note": "pack=True fills each needle row with as many examples as fit; pack=False leaves the single example padded to the training width, which is what the first probe ran and what made the four answer bytes 0.098 % of the gradient. These are the two arms of the packing comparison and they differ in this term alone.",
+ "batch": 32,
+ "bytes_per_step": 16384,
+ "design": "the needle FORMAT is taught at short filler; the evaluation uses fillers never seen, so what has to generalise is the DISTANCE - the U1 shape (trained at 128, tested to 4096) in language. Training and evaluation key alphabets are disjoint, so no evaluation key can be memorised.",
+ "init_from": "results/M1-finetune-distance/D5-mqar4-broad/selected.pt",
+ "init_sha256": "898902c41185e139192955031755df86168312911f90b02c2ecec70af4b9b74d",
+ "length": 512,
+ "lr": 0.0003,
+ "needle_rate": 0.5,
+ "needles_per_batch": 16,
+ "pack": true,
+ "role": "development probe: sizes the training budget, never used as evidence about the gate",
+ "seed": 223,
+ "steps": 1000,
+ "train_filler": [
+  0,
+  128
+ ],
+ "utc": 1790876682.0175736,
+ "width": 1152
+}

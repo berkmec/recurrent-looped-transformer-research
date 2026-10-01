@@ -1,0 +1,27 @@
+{
+  "scope": "post-hoc descriptive initial checkpoint reference authorized after primary distillation results; not preregistered third arm",
+  "utc": "2026-09-16T17:59:49.658484+00:00",
+  "seeds": [
+    17,
+    43,
+    91
+  ],
+  "splits": [
+    "iid",
+    "depth8"
+  ],
+  "selection": "all six cells; no training, tuning or checkpoint selection",
+  "initial": "frozen feedback-step600",
+  "rounds": 6,
+  "datasets": {
+    "iid": "19862ca8cdb2ea7a76dae0f43e65ce62c83bf5294e89bfd155aa88578586509b",
+    "depth8": "eae37d5f931e0d766537de18bc501e80791efef8e2587cea672a30485be7073a"
+  },
+  "checkpoints": {
+    "__RLT_ROOT__\\2026-09-16-e2e\\learning\\checkpoints\\feedback-17-step600.pt": "66adfdbbf11ead0ff50f69f07cf0521442bb591d811a2962b476494f25ea796e",
+    "__RLT_ROOT__\\2026-09-16-e2e\\learning\\checkpoints\\feedback-43-step600.pt": "ece122835774d478c80559c61c4583b0615129da30e069c4fcf7d65a57465c90",
+    "__RLT_ROOT__\\2026-09-16-e2e\\learning\\checkpoints\\feedback-91-step600.pt": "527dfc9c7ce8f0a67a8cd42c274a22a23f8986340fa2aa2d12b52dcfc112c16d"
+  },
+  "model_api_sha256": "5ffe0802e6e7918ea00d2fc48fb41e96e5cc5edf5c602348cf04973815ddc97c",
+  "audit_source_sha256": "1178c8ed82754d2a1eec75d1eebd480c17550f52c68eec830b4e39087417a630"
+}
