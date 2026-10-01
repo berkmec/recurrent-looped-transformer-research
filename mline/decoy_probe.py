@@ -32,6 +32,9 @@ from mline import train as mt
 
 ROLE = 'development diagnostic: is the retrieval content-addressed or position-locked?'
 ASK = ('first', 'decoy')
+# TRAIN_KEYS / EVAL_KEYS as in mline.needle; HELD_KEYS (T-Z) is unseen even by a model trained on the wide alphabet
+# (mline.decoy_train.ALPHABETS['wide']), so it is the test of a general "are these letters equal" comparison.
+ALPHABETS = dict(TRAIN_KEYS=nd.TRAIN_KEYS, EVAL_KEYS=nd.EVAL_KEYS, HELD_KEYS=b'TUVWXYZ')
 VALUE_LENGTH = 4
 FACT_BYTES = 27
 DEFAULT_CONFIGS = '0:0,0:10,10:0,0:30,30:0,15:15'
@@ -103,7 +106,7 @@ def run(checkpoint, out, configs, asks=ASK, alphabets=('TRAIN_KEYS',), items=64,
                      gate_k=p['gate_k']).to(device)
     em.load_init(model, checkpoint)
     model.eval()
-    keys = dict(TRAIN_KEYS=nd.TRAIN_KEYS, EVAL_KEYS=nd.EVAL_KEYS)
+    keys = ALPHABETS
     rows = []
     for name in alphabets:
         for a, b in configs:

@@ -78,6 +78,40 @@ class RowTests(unittest.TestCase):
         self.assertTrue(torch.equal(a['x'], b['x']))
 
 
+class AlphabetTests(unittest.TestCase):
+    """Key matching generalises only if the key LETTERS in training are varied enough that equality, not a particular letter's
+    routing, is what gets learned. The wide training alphabet must stay disjoint from the letters the probe holds out."""
+
+    def test_every_key_letter_comes_from_the_given_alphabet(self):
+        rng = np.random.default_rng(6)
+        for _ in range(40):
+            ex = dt.example(rng, 3, 0, 10, 'repeat', None, key_length=(1, 3), alphabet=b'XYZ')
+            self.assertTrue(all(set(k) <= set('XYZ') for k in ex['keys']))
+
+    def test_the_default_alphabet_is_the_original_training_alphabet(self):
+        self.assertEqual(dt.ALPHABETS['default'], nd.TRAIN_KEYS)
+
+    def test_the_wide_alphabet_extends_the_training_alphabet_and_leaves_the_held_out_letters_unseen(self):
+        from mline import decoy_probe as dp
+        wide = set(dt.ALPHABETS['wide'])
+        self.assertTrue(set(nd.TRAIN_KEYS) <= wide)
+        self.assertTrue(wide.isdisjoint(set(dp.ALPHABETS['HELD_KEYS'])))
+        self.assertGreater(len(wide), len(nd.TRAIN_KEYS))
+
+    def test_too_few_letters_for_distinct_keys_is_refused(self):
+        rng = np.random.default_rng(1)
+        with self.assertRaises(ValueError):
+            dt.example(rng, 4, 0, 5, 'repeat', None, key_length=(1, 1), alphabet=b'AB')
+
+    def test_the_patch_applies_the_alphabet(self):
+        import re
+        with dt.patched(2, alphabet=b'QR'):
+            items = nd.training_items(4, filler_range=(0, 10), seed=1, pad_to=512)
+        keys = [k for t in items['texts'] for k in re.findall(r'The code for ([A-Z]+) is', t)]
+        self.assertGreater(len(keys), 8)
+        self.assertTrue(all(set(k) <= set('QR') for k in keys))
+
+
 class KeyLengthTests(unittest.TestCase):
     """Matching a 4-letter key is a harder circuit to find than matching a 1-letter one, so the key length can be mixed:
     one length per example, drawn from a range, the same for every fact and question of that example."""
