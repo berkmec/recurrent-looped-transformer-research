@@ -139,36 +139,50 @@ def format_table(report):
     return '\n'.join(lines)
 
 
+def probe_model(model, configs, asks=ASK, alphabets=('TRAIN_KEYS',), items=64, batch=16, device='cpu', data_seed=777,
+                key_lengths=(4,), verbose=True):
+    """The probe itself, on a model that is already built: one row per (alphabet, key length, layout, ask).
+
+    Takes any model that `mline.lm.forward_logits` can run - the 30M Core, a small one, either arm - and leaves it in the
+    mode it was in, so a trainer can call it between steps."""
+    was_training = model.training
+    model.eval()
+    rows = []
+    try:
+        for name, key_length in itertools.product(alphabets, key_lengths):
+            for a, b in configs:
+                for ask in asks:
+                    sets = make(items, a, b, ask, data_seed, ALPHABETS[name], key_length)
+                    got, exact = [], []
+                    for start in range(0, items, batch):
+                        xb = sets['x'][start:start + batch].to(device)
+                        with torch.no_grad():
+                            pred = ml.forward_logits(model, xb).argmax(-1).cpu()
+                        got.append(pred[:, sets['first']])
+                        yb, mb = sets['y'][start:start + batch], sets['mask'][start:start + batch]
+                        exact.append(((pred == yb) & mb).sum(1) == mb.sum(1))
+                    got, exact = torch.cat(got), torch.cat(exact)
+                    row = dict(alphabet=name, key_length=key_length, a=a, b=b, ask=ask,
+                               gap_to_question=a + fact_bytes(key_length) + b, decoy_to_question=b,
+                               exact_match=float(exact.float().mean()))
+                    row.update(attribute(got, sets['asked_first'], sets['other_first']))
+                    rows.append(row)
+                    if verbose:
+                        print('%-10s key %d a %3d b %3d  ask %-6s  gap %3d  exact %.2f | asked %s  other-fact %s  neither %s'
+                              % (name, key_length, a, b, ask, row['gap_to_question'], row['exact_match'], fmt(row['asked']),
+                                 fmt(row['decoy']), fmt(row['neither'])), flush=True)
+    finally:
+        model.train(was_training)
+    return rows
+
+
 def run(checkpoint, out, configs, asks=ASK, alphabets=('TRAIN_KEYS',), items=64, batch=16, device='cpu', arm='plain',
         seed=117, data_seed=777, key_lengths=(4,)):
     p = mt.protocol()
     model = ml.build(arm, width=p['width'], heads=p['heads'], window=p['window'], alpha=p['alpha'], seed=seed,
                      gate_k=p['gate_k']).to(device)
     em.load_init(model, checkpoint)
-    model.eval()
-    keys = ALPHABETS
-    rows = []
-    for name, key_length in itertools.product(alphabets, key_lengths):
-        for a, b in configs:
-            for ask in asks:
-                sets = make(items, a, b, ask, data_seed, keys[name], key_length)
-                got, exact = [], []
-                for start in range(0, items, batch):
-                    xb = sets['x'][start:start + batch].to(device)
-                    with torch.no_grad():
-                        pred = ml.forward_logits(model, xb).argmax(-1).cpu()
-                    got.append(pred[:, sets['first']])
-                    yb, mb = sets['y'][start:start + batch], sets['mask'][start:start + batch]
-                    exact.append(((pred == yb) & mb).sum(1) == mb.sum(1))
-                got, exact = torch.cat(got), torch.cat(exact)
-                row = dict(alphabet=name, key_length=key_length, a=a, b=b, ask=ask,
-                           gap_to_question=a + fact_bytes(key_length) + b, decoy_to_question=b,
-                           exact_match=float(exact.float().mean()))
-                row.update(attribute(got, sets['asked_first'], sets['other_first']))
-                rows.append(row)
-                print('%-10s key %d a %3d b %3d  ask %-6s  gap %3d  exact %.2f | asked %s  other-fact %s  neither %s'
-                      % (name, key_length, a, b, ask, row['gap_to_question'], row['exact_match'], fmt(row['asked']),
-                         fmt(row['decoy']), fmt(row['neither'])), flush=True)
+    rows = probe_model(model, configs, asks, alphabets, items, batch, device, data_seed, key_lengths)
     report = dict(kind='M1_DECOY_PROBE', role=ROLE, utc=time.time(), checkpoint=str(checkpoint),
                   checkpoint_sha256=sw.sha(checkpoint), items=items, key_lengths=list(key_lengths), rows=rows,
                   reading='asked high for BOTH asks: content-addressed. "other-fact" high when asking for the first fact: the '

@@ -123,6 +123,45 @@ class TableTests(unittest.TestCase):
         self.assertIn('key length 4', dp.format_table(dict(rows=old, items=128)))
 
 
+class ProbeModelTests(unittest.TestCase):
+    """The probe loop, on a model that is already built - so it can score a model of any size, in the middle of training."""
+
+    @staticmethod
+    def shifted_model():
+        """A model that always predicts the next byte of its own input: it 'knows' the asked value, so it must score 1."""
+        class Shifted(torch.nn.Module):
+            def forward(self, x):
+                out = torch.zeros(x.shape[0], x.shape[1], 256)
+                out.scatter_(2, torch.cat([x[:, 1:], x[:, -1:]], 1)[..., None], 1.0)
+                return out
+        return Shifted()
+
+    def test_one_row_per_alphabet_key_length_layout_and_ask(self):
+        rows = dp.probe_model(self.shifted_model(), [(0, 0), (5, 3)], alphabets=('TRAIN_KEYS', 'HELD_KEYS'),
+                              key_lengths=(1, 4), items=6, batch=3, verbose=False)
+        self.assertEqual(len(rows), 2 * 2 * 2 * 2)
+        for r in rows:
+            for field in ('alphabet', 'key_length', 'a', 'b', 'ask', 'gap_to_question', 'exact_match', 'asked', 'decoy', 'neither'):
+                self.assertIn(field, r)
+            self.assertEqual(r['gap_to_question'], r['a'] + dp.fact_bytes(r['key_length']) + r['b'])
+
+    def test_a_model_that_knows_the_asked_value_scores_one_on_both_asks(self):
+        rows = dp.probe_model(self.shifted_model(), [(0, 0), (10, 10)], items=8, batch=4, verbose=False)
+        for r in rows:
+            self.assertEqual(r['exact_match'], 1.0)
+            self.assertEqual(r['asked'], 1.0)
+            self.assertEqual(r['decoy'], 0.0)
+
+    def test_the_model_is_left_in_the_mode_it_was_in(self):
+        model = self.shifted_model()
+        model.train()
+        dp.probe_model(model, [(0, 0)], items=4, batch=4, verbose=False)
+        self.assertTrue(model.training)
+        model.eval()
+        dp.probe_model(model, [(0, 0)], items=4, batch=4, verbose=False)
+        self.assertFalse(model.training)
+
+
 class AttributionTests(unittest.TestCase):
     def test_a_prediction_is_attributed_to_the_asked_fact_the_decoy_or_neither(self):
         got = torch.tensor([1, 9, 5, 0])
