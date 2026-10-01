@@ -36,6 +36,9 @@ attn_files_missing() {
   done; done
   return 1
 }
+# A probe that fails leaves no file; say so instead of logging a BITTI that never happened (a 3-second 'BITTI' for a 30M model on
+# CPU was the tell the first time this went wrong: the score call had a mangled line continuation and exited at once).
+need() { [ -f "$1" ] || log "HATA midcheck $RUN adim $step: $2 dosyasi uretilmedi - bakin: $OUT/midcheck.log"; }
 
 for step in ${STEPS//,/ }; do
   if [ -f "$OUT/decoy-step$step.json" ] && [ -f "$OUT/mqar-step$step.json" ] && ! attn_files_missing "$step"; then continue; fi
@@ -60,16 +63,19 @@ for step in ${STEPS//,/ }; do
     $PY -B -m mline.decoy_probe --checkpoint "$OUT/step$step.pt" --out "$OUT/decoy-step$step.json" --device cpu \
         --alphabets "$ALPHA" --key-lengths "$KEYLENS" --items 64 --batch 16 \
         --configs 0:0,10:0,30:0,0:30,15:15,50:0 >> "$OUT/midcheck.log" 2>&1
+    need "$OUT/decoy-step$step.json" "decoy probu"
   fi
   for a in ${ALPHA//,/ }; do for k in ${KEYLENS//,/ }; do
     if [ ! -f "$OUT/attn-step$step-$a-k$k.json" ]; then
       $PY -B -m mline.attn_probe --checkpoint "$OUT/step$step.pt" --out "$OUT/attn-step$step-$a-k$k.json" --device cpu \
           --alphabet "$a" --key-length "$k" --items 32 --configs 0:0,15:15,0:30,30:0 >> "$OUT/midcheck.log" 2>&1
+      need "$OUT/attn-step$step-$a-k$k.json" "dikkat probu ($a, anahtar $k)"
     fi
   done; done
   if [ ! -f "$OUT/mqar-step$step.json" ]; then
     $PY -B -m mline.mqar_eval --checkpoint "$OUT/step$step.pt" --out "$OUT/mqar-step$step.json" --alphabet "$TRAINALPHA" \
         --key-lengths "$SCORELENS" --items 32 --batch 8 >> "$OUT/midcheck.log" 2>&1
+    need "$OUT/mqar-step$step.json" "egitim-dagilimi MQAR skoru"
   fi
   log "BITTI midcheck $RUN adim $step"
 done
