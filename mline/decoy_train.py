@@ -1,0 +1,153 @@
+"""Decoy-aware needle training: several facts per example, the ASKED one chosen at random.
+
+mline/decoy_probe.py showed that both M1-style checkpoints answer with the NEAREST (or, after the wide fine-tune, the first)
+fact whatever key is asked: in the original mix one fact precedes its question and the question always asks it, so copying a
+fact by position solves the task and matching on the key is never needed. Here an example is
+
+    fact_1  filler  fact_2  filler  ...  fact_n  filler   question(fact_j)   answer
+
+with distinct keys and j drawn uniformly, so the nearest fact is the right one only 1/n of the time and the key must be used.
+The total filler of an example is drawn from the same range as before and split at random points between the facts.
+
+With one fact this is the original generator byte for byte (tests/test_decoy_train.py pins it, so a run with --facts 1 is
+the earlier recipe exactly); the packing and the next-byte targets are copied from mline.needle.training_items.
+
+It is wired in by replacing `needle.training_items` for the length of one run, so mline/emergence.py - which the running
+experiments import - is not edited.
+
+Usage: python -B -m mline.decoy_train --out results/M1-finetune-distance/D1-decoy3 --init-from <selected.pt> --facts 3
+"""
+import argparse
+import contextlib
+import json
+import sys
+from pathlib import Path
+
+import numpy as np
+import torch
+
+from mline import data as md
+from mline import emergence as em
+from mline import needle as nd
+from mline import train as mt
+
+
+def example(rng, n_facts, lo, hi, kind='repeat', corpus=None):
+    """One example. With n_facts == 1 the random draws are exactly the original generator's (key, value, filler length)."""
+    keys = []
+    while len(keys) < n_facts:
+        key = nd._key(rng, alphabet=nd.TRAIN_KEYS)
+        if key not in keys:
+            keys.append(key)
+    values = [nd._value(rng) for _ in keys]
+    total = int(rng.integers(lo, hi + 1))
+    if n_facts == 1:
+        segments = [total]
+    else:
+        cuts = sorted(int(c) for c in rng.integers(0, total + 1, size=n_facts - 1))
+        segments = [b - a for a, b in zip([0] + cuts, cuts + [total])]
+    if kind == 'mix':
+        kind = 'repeat' if int(rng.integers(0, 2)) == 0 else 'text'       # one coin per example; no draw for the pure kinds
+    body = b''
+    for key, value, length in zip(keys, values, segments):
+        body += b'The code for ' + key + b' is ' + value + b'.\n' + nd.filler_bytes(kind, length, rng, corpus)
+    asked = int(rng.integers(0, n_facts)) if n_facts > 1 else 0
+    text = body + b'\nThe code for ' + keys[asked] + b' is ' + values[asked]
+    return dict(text=text, total=total, asked=asked, keys=[k.decode('ascii') for k in keys],
+                values=[v.decode('ascii') for v in values])
+
+
+def decoy_items(n_items, filler_range=(0, 128), seed=0, kind='repeat', corpus=None, pad_to=None, pack=True, n_facts=1):
+    """Same contract as mline.needle.training_items, with n_facts facts per example."""
+    rng = np.random.default_rng(seed + 31_337)
+    lo, hi = filler_range
+    rows, fillers, texts = [], [], []
+    for _ in range(n_items):
+        blob, used = b'', []
+        while True:
+            ex = example(rng, n_facts, lo, hi, kind, corpus)
+            piece, n = ex['text'], ex['total']
+            if blob and pack and pad_to is not None and len(blob) + 1 + len(piece) > pad_to:
+                break
+            blob = blob + (b'\n' if blob else b'') + piece
+            used.append(n)
+            if not (pack and pad_to is not None):
+                break
+        rows.append(blob)
+        fillers.append(used)
+        texts.append(blob.decode('ascii', errors='ignore'))
+    per_row, fillers = fillers, [n for row in fillers for n in row]
+    width = max(len(r) for r in rows)
+    if pad_to is not None:
+        if width > pad_to:
+            raise ValueError(f'needle example of {width} bytes does not fit the training width {pad_to}; '
+                             'lower filler_range or the number of facts so the answer is never truncated away')
+        width = pad_to
+    x = np.zeros((n_items, width), dtype=np.int64)
+    y = np.zeros((n_items, width), dtype=np.int64)
+    for i, row in enumerate(rows):
+        arr = np.frombuffer((b' ' * (width - len(row))) + row, dtype=np.uint8).astype(np.int64)
+        x[i] = arr
+        y[i, :-1] = arr[1:]
+        y[i, -1] = arr[-1]
+    return dict(x=torch.from_numpy(x), y=torch.from_numpy(y), texts=texts, fillers=fillers, filler_range=filler_range,
+                kind=kind, packed=bool(pack and pad_to is not None), fillers_per_row=per_row,
+                examples_per_row=[len(f) for f in per_row], n_facts=n_facts)
+
+
+@contextlib.contextmanager
+def patched(n_facts, kind='repeat', corpus=None):
+    """Replace needle.training_items with the decoy generator for the length of the block; always restore it.
+
+    `kind` is 'repeat', 'text' (a slice of `corpus` per filler) or 'mix' (a coin per example); the trainer calls the
+    generator without either, so they are fixed here.
+    """
+    if kind in ('text', 'mix') and corpus is None:
+        raise ValueError("filler kind %r needs a corpus" % kind)
+    original = nd.training_items
+
+    def replacement(n_items, filler_range=(0, 128), seed=0, kind_=None, corpus_=None, pad_to=None, pack=True, **_ignored):
+        return decoy_items(n_items, filler_range, seed, kind, corpus, pad_to, pack, n_facts=n_facts)
+
+    nd.training_items = replacement
+    try:
+        yield
+    finally:
+        nd.training_items = original
+
+
+def main():
+    sys.stdout.reconfigure(encoding='utf-8', errors='replace')
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--out', required=True)
+    parser.add_argument('--arm', default='plain')
+    parser.add_argument('--init-from', default=None)
+    parser.add_argument('--steps', type=int, default=500)
+    parser.add_argument('--batch', type=int, default=32)
+    parser.add_argument('--every', type=int, default=250)
+    parser.add_argument('--seed', type=int, default=217)
+    parser.add_argument('--needle-rate', type=float, default=.25)
+    parser.add_argument('--train-filler', default='0,128', help='LOW,HIGH: total filler per example, split between the facts')
+    parser.add_argument('--lr', type=float, default=3e-4)
+    parser.add_argument('--facts', type=int, default=3)
+    parser.add_argument('--filler', default='repeat', choices=('repeat', 'text', 'mix'),
+                        help='filler content: the repeated phrase, slices of the TRAINING corpus, or a coin per example')
+    parser.add_argument('--device', default='cuda')
+    args = parser.parse_args()
+    corpus = None
+    if args.filler in ('text', 'mix'):
+        corpus = md.load(mt.protocol()['data'], 'train')
+    Path(args.out).mkdir(parents=True, exist_ok=True)
+    Path(args.out, 'decoy_train.json').write_text(json.dumps(dict(facts=args.facts, train_filler=args.train_filler,
+                                                                  filler=args.filler,
+                                                                  note='needle.training_items replaced for this run by '
+                                                                       'mline.decoy_train.decoy_items'), indent=1),
+                                                  encoding='utf8')
+    with patched(args.facts, args.filler, corpus):
+        em.run(args.out, arm=args.arm, steps=args.steps, batch=args.batch, every=args.every, device=args.device,
+               seed=args.seed, needle_rate=args.needle_rate, train_filler=em.parse_range(args.train_filler),
+               pack=True, lr=args.lr, init_from=args.init_from)
+
+
+if __name__ == '__main__':
+    main()
