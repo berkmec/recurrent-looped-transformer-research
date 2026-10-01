@@ -1,0 +1,31 @@
+{
+ "batch": 32,
+ "eval_every": 250,
+ "eval_items": 64,
+ "facts": 4,
+ "feedback": false,
+ "filler": [
+  0,
+  64
+ ],
+ "heads": 4,
+ "init_from": "results/M1-finetune-distance/T1r-b-single-then-replace/latest.pt",
+ "init_sha256": "f0a5390853377eb978188664f6e234e2e295cc0f43ca47a60adc4ab6aae73ab6",
+ "key_alphabet": "ABCDEFGHJKLMNPQRSabcdefghijklmnopqrstuvwxyz0123456789",
+ "key_length": [
+  4,
+  4
+ ],
+ "lr": 0.001,
+ "pad_to": 320,
+ "parameters": 444672,
+ "queries": 4,
+ "role": "development diagnostic: can the Core learn key-addressed retrieval from scratch, and does a single-fact start get in the way?",
+ "seed": 331,
+ "source": "mqar",
+ "steps": 2000,
+ "utc": 1790857160.1852102,
+ "warmup": 100,
+ "width": 128,
+ "with_replacement": true
+}

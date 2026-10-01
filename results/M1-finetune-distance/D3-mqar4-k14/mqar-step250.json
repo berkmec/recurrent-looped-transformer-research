@@ -1,0 +1,89 @@
+{
+ "checkpoint": "results/M1-finetune-distance/D3-mqar4-k14/step250.pt",
+ "args": {
+  "checkpoint": "results/M1-finetune-distance/D3-mqar4-k14/step250.pt",
+  "out": "results/M1-finetune-distance/D3-mqar4-k14/mqar-step250.json",
+  "width": null,
+  "heads": 4,
+  "feedback": "on",
+  "alphabet": "default",
+  "key_lengths": "1,4",
+  "facts": 4,
+  "queries": 4,
+  "filler": "0,64",
+  "pad_to": 320,
+  "items": 32,
+  "batch": 8,
+  "device": "cpu"
+ },
+ "report": {
+  "train_k1": {
+   "first": [
+    0.34375,
+    0.34375,
+    0.28125,
+    0.34375
+   ],
+   "exact": [
+    0.0625,
+    0.03125,
+    0.0,
+    0.09375
+   ],
+   "first_all": 0.328125,
+   "exact_all": 0.046875,
+   "answers": 128
+  },
+  "train_k4": {
+   "first": [
+    0.5,
+    0.4375,
+    0.1875,
+    0.1875
+   ],
+   "exact": [
+    0.03125,
+    0.03125,
+    0.03125,
+    0.0
+   ],
+   "first_all": 0.328125,
+   "exact_all": 0.0234375,
+   "answers": 128
+  },
+  "held_k1": {
+   "first": [
+    0.34375,
+    0.375,
+    0.46875,
+    0.25
+   ],
+   "exact": [
+    0.0,
+    0.03125,
+    0.0625,
+    0.0
+   ],
+   "first_all": 0.359375,
+   "exact_all": 0.0234375,
+   "answers": 128
+  },
+  "held_k4": {
+   "first": [
+    0.375,
+    0.375,
+    0.15625,
+    0.15625
+   ],
+   "exact": [
+    0.0,
+    0.0,
+    0.0,
+    0.03125
+   ],
+   "first_all": 0.265625,
+   "exact_all": 0.0078125,
+   "answers": 128
+  }
+ }
+}

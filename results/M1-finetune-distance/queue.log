@@ -1,0 +1,95 @@
+[05:57:51] KUYRUK BASLADI
+[05:57:51] BASLA egitim B2-control-s217 (0,64, tohum 217)
+[06:22:07] TAKEOVER BASLADI
+[07:19:59] BASLA egitim D1-decoy3-f128 (yemli: 3 olgu, dolgu 0,128, 500 adim)
+[08:21:16] BITTI D1-decoy3-f128: yem olgu probu
+[08:22:32] TAKEOVER BASLADI (v2)
+[08:23:03] BITTI D1-decoy3-f128
+[08:23:04] BASLA egitim D1b-decoy3-cont (yemli: 3 olgu, dolgu 0,128, 1000 adim, iğne orani 0.5)
+[08:24:30] TAKEOVER BASLADI (v3)
+[10:13:26] BITTI D1-decoy3-f128
+[10:14:21] BITTI D1b-decoy3-cont: yem olgu probu
+[10:16:07] BITTI D1b-decoy3-cont
+[10:16:07] BASLA egitim D2-mqar4-f64 (yemli: 4 olgu, dolgu 0,64, 1000 adim, iğne orani 0.5)
+[10:16:34] TAKEOVER BASLADI (v4)
+[12:04:34] BITTI D1-decoy3-f128
+[12:04:34] BITTI D1b-decoy3-cont
+[12:05:41] BITTI D2-mqar4-f64: yem olgu probu
+[12:07:26] BITTI D2-mqar4-f64
+[12:07:30] TAKEOVER BASLADI (v5)
+[12:07:31] BITTI D1-decoy3-f128
+[12:07:31] BITTI D1b-decoy3-cont
+[12:07:31] BITTI D2-mqar4-f64
+[12:07:32] BASLA egitim D3-mqar4-k14 (yemli: 4 olgu, dolgu 0,64, 1000 adim, iğne orani 0.5)
+[12:12:17] TAKEOVER BASLADI (v6)
+[12:33:04] BASLA T1s-scratch-single (CPU, 1 parcacik, 1500 adim)
+[12:33:04] BASLA T1a-scratch-mqar (CPU, 1 parcacik, 3000 adim)
+[12:39:25] BASLA midcheck D3-mqar4-k14 adim 250 (CPU, 1 parcacik; alfabe TRAIN_KEYS, anahtar uzunluklari 1,2,4)
+[12:46:46] BITTI midcheck D3-mqar4-k14 adim 250
+[12:56:26] BASLA midcheck D3-mqar4-k14 adim 250 (CPU, 1 parcacik; alfabe TRAIN_KEYS, anahtar uzunluklari 1,2,4)
+[12:59:17] BITTI midcheck D3-mqar4-k14 adim 250
+[13:03:57] BASLA T1d-scratch-induction (CPU, 1 parcacik, 2000 adim)
+[13:05:59] BITTI T1s-scratch-single
+[13:05:59] BASLA T1b-single-then-mqar (CPU, 1 parcacik, 3000 adim)
+[13:14:55] BASLA midcheck D3-mqar4-k14 adim 500 (CPU, 1 parcacik; alfabe TRAIN_KEYS, anahtar uzunluklari 1,2,4)
+[13:27:20] BITTI midcheck D3-mqar4-k14 adim 500
+[13:45:48] BITTI T1a-scratch-mqar
+[13:48:11] BASLA midcheck D3-mqar4-k14 adim 250 (CPU, 1 parcacik; alfabe TRAIN_KEYS, anahtar uzunluklari 1,2,4)
+[13:48:14] BITTI midcheck D3-mqar4-k14 adim 250
+[13:48:18] BASLA midcheck D3-mqar4-k14 adim 500 (CPU, 1 parcacik; alfabe TRAIN_KEYS, anahtar uzunluklari 1,2,4)
+[13:48:21] BITTI midcheck D3-mqar4-k14 adim 500
+[13:49:21] TAKEOVER BASLADI (v7)
+[13:49:25] BASLA midcheck D3-mqar4-k14 adim 250 (CPU, 1 parcacik; alfabe TRAIN_KEYS, anahtar uzunluklari 1,2,4)
+[13:52:08] BASLA midcheck D3-mqar4-k14 adim 500 (CPU, 1 parcacik; alfabe TRAIN_KEYS, anahtar uzunluklari 1,2,4)
+[13:54:18] BITTI midcheck D3-mqar4-k14 adim 500
+[13:54:22] BASLA midcheck D3-mqar4-k14 adim 750 (CPU, 1 parcacik; alfabe TRAIN_KEYS, anahtar uzunluklari 1,2,4)
+[14:00:59] TAKEOVER BASLADI (v8)
+[14:01:35] BASLA T1r-a-scratch-replace (CPU, 1 parcacik, 3000 adim)
+[14:01:35] BASLA T1r-b-single-then-replace (CPU, 1 parcacik, 3000 adim)
+[14:06:23] BITTI midcheck D3-mqar4-k14 adim 750
+[14:21:34] BITTI T1b-single-then-mqar
+[14:21:34] T1 BITTI
+[14:22:17] BASLA T1g-single-then-broad-replace (CPU, 1 parcacik, 4000 adim)
+[14:28:01] BITTI D1-decoy3-f128: egitim-dagilimi MQAR skoru
+[14:28:01] BITTI D1-decoy3-f128
+[14:28:31] BITTI D1b-decoy3-cont: egitim-dagilimi MQAR skoru
+[14:28:31] BITTI D1b-decoy3-cont
+[14:28:31] BITTI D2-mqar4-f64
+[14:34:04] BITTI D3-mqar4-k14: yem olgu probu
+[14:34:40] BITTI D3-mqar4-k14: egitim-dagilimi MQAR skoru
+[14:37:34] BITTI D3-mqar4-k14
+[14:37:35] BASLA egitim D5-mqar4-broad (yemli: 4 olgu, dolgu 0,64, 1500 adim, iğne orani 0.5)
+[15:18:24] BITTI T1r-a-scratch-replace
+[15:18:25] BITTI T1r-b-single-then-replace
+[15:18:25] T1r BITTI
+[15:19:16] BASLA T1h-t1rb-then-broad (CPU, 1 parcacik, 2000 adim)
+[15:27:07] BASLA T1s2-scratch-single-pangram (CPU, 1 parcacik, 1500 adim)
+[15:49:59] BASLA midcheck D5-mqar4-broad adim 500 (CPU, 1 parcacik; alfabe TRAIN_KEYS,HELD_KEYS, anahtar uzunluklari 4)
+[15:59:02] BITTI midcheck D5-mqar4-broad adim 500
+[16:02:34] BITTI T1g-single-then-broad-replace
+[16:04:07] BITTI T1s2-scratch-single-pangram
+[16:04:07] BASLA T1p-single-then-broad-pangram (CPU, 1 parcacik, 4000 adim)
+[16:08:02] BITTI T1h-t1rb-then-broad
+[16:21:51] TAKEOVER BASLADI (v9)
+[16:30:35] BASLA T1w64-s (CPU, 1 parcacik, 1500 adim)
+[16:44:50] TAKEOVER BASLADI (v10)
+[16:45:51] BITTI T1w64-s
+[16:45:51] BASLA T1w64-r (CPU, 1 parcacik, 4000 adim)
+[16:48:00] BASLA midcheck D5-mqar4-broad adim 1000 (CPU, 1 parcacik; alfabe TRAIN_KEYS,HELD_KEYS, anahtar uzunluklari 4)
+[19:35:33] KESINTI: elektrik 16:53:47'de kesildi, makine 18:41:59'da acildi; D5 kontrol noktasi adim 1000, T1p 2250, T1w64-r 500; yeniden baslatiliyor
+[19:35:33] TAKEOVER BASLADI (v10)
+[19:35:34] BITTI D1-decoy3-f128
+[19:35:34] BITTI D1b-decoy3-cont
+[19:35:34] BITTI D2-mqar4-f64
+[19:35:34] BITTI D3-mqar4-k14
+[19:35:35] BASLA egitim D5-mqar4-broad (yemli: 4 olgu, dolgu 0,64, 1500 adim, iğne orani 0.5)
+[19:36:23] BITTI T1s2-scratch-single-pangram
+[19:36:24] BASLA T1p-single-then-broad-pangram (CPU, 1 parcacik, 4000 adim)
+[19:36:56] BITTI T1w64-s
+[19:36:56] BASLA T1w64-r (CPU, 1 parcacik, 4000 adim)
+[19:37:20] BASLA midcheck D5-mqar4-broad adim 1000 (CPU, 1 parcacik; alfabe TRAIN_KEYS,HELD_KEYS, anahtar uzunluklari 4)
+[19:41:52] BITTI midcheck D5-mqar4-broad adim 1000
+[20:11:28] BITTI T1w64-r
+[20:11:28] T1w64 BITTI
+[20:12:52] BITTI T1p-single-then-broad-pangram
+[20:12:52] T1p BITTI
