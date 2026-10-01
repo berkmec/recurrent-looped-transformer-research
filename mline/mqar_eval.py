@@ -76,9 +76,10 @@ def natural_keys(corpus, n=300, seed=0, sample_bytes=2_000_000):
 
 
 def extra_eval(alphabet, facts, queries, filler, pad_to, n_items=64, key_lengths=(1, 4), seed=777, with_replacement=False,
-               filler_kind='repeat'):
+               filler_kind='repeat', device='cpu'):
     """model -> {'train_k1_first': ..., 'held_k4_exact': ...}: the training-shaped score on the training letters and on letters
-    (T-Z) that no run ever trains on, at each key length. Averaged over the questions."""
+    (T-Z) that no run ever trains on, at each key length. Averaged over the questions. `device` is where the model is: the rows
+    are moved there (the long run measures a model on cuda; without it the rows stayed on the cpu and the call failed)."""
     held = dp.ALPHABETS['HELD_KEYS']
 
     def fn(model):
@@ -86,7 +87,7 @@ def extra_eval(alphabet, facts, queries, filler, pad_to, n_items=64, key_lengths
         for tag, letters in (('train', alphabet), ('held', held)):
             for k in key_lengths:
                 r = mqar_accuracy(model, letters, (k, k), facts, queries, filler, pad_to, n_items, seed=seed,
-                                  with_replacement=with_replacement, filler_kind=filler_kind)
+                                  with_replacement=with_replacement, filler_kind=filler_kind, device=device)
                 out['%s_k%d_first' % (tag, k)] = float(r['first_all'])
                 out['%s_k%d_exact' % (tag, k)] = float(r['exact_all'])
         return out

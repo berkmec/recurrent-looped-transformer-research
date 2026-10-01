@@ -7,10 +7,13 @@ synthetic rows apart from the loss on the language rows - (3) keep a snapshot ev
 afterwards, (4) resume as the same run after an interruption, and (5) follow a learning-rate schedule that does not itself produce
 or hide a change in the middle of the run.
 """
+import contextlib
+import io
 import json
 import tempfile
 import unittest
 from pathlib import Path
+from unittest import mock
 
 import numpy as np
 import torch
@@ -184,6 +187,22 @@ class TrainTests(unittest.TestCase):
             self.assertEqual(rows[2]['eval'], dict(marker=3))
             self.assertNotIn('eval', rows[0])
 
+    def test_a_battery_that_fails_is_recorded_and_the_run_goes_on(self):
+        # the first battery of the long run crashed (rows on the cpu, model on cuda) at update 1000, BEFORE the snapshot and the checkpoint of
+        # that update: the run resumed 250 updates back and would have failed at the same place again
+        def eval_fn(model, step):
+            raise RuntimeError('device mismatch')
+
+        with tempfile.TemporaryDirectory() as d:
+            with contextlib.redirect_stdout(io.StringIO()) as printed:
+                tiny(d, steps=7, eval_fn=eval_fn)
+            self.assertIn('BATTERY FAILED at step 3', printed.getvalue())
+            rows = [json.loads(l) for l in Path(d, 'probe.jsonl').read_text(encoding='utf8').splitlines()]
+            self.assertEqual(len(rows), 7)
+            self.assertIn('RuntimeError: device mismatch', rows[2]['eval']['error'])
+            self.assertTrue(Path(d, 'complete.json').exists())
+            self.assertEqual(sorted(p.name for p in Path(d, 'snapshots').iterdir()), ['step000002.pt', 'step000004.pt', 'step000006.pt'])
+
     def test_a_resumed_run_is_the_same_run_and_leaves_no_duplicate_rows(self):
         with tempfile.TemporaryDirectory() as straight, tempfile.TemporaryDirectory() as split:
             tiny(straight, steps=6)
@@ -252,6 +271,30 @@ class BatteryTests(unittest.TestCase):
             self.assertIn(key, out)
         json.dumps(out, allow_nan=False)                              # no nan / inf: the log refuses them
         self.assertTrue(model.training is False)
+
+    def test_every_measurement_is_given_the_device_of_the_model(self):
+        # the long run's first battery crashed because the training-letter scores were computed without the device: the model was on cuda,
+        # its rows stayed on the cpu. A cpu-only test cannot see that, so this one records the device each measurement was called with.
+        from mline import attn_probe as ap
+        from mline import lm as ml
+        from mline import mqar_eval as me
+        seen = []
+
+        def scored(model, *args, **kwargs):
+            seen.append(kwargs.get('device'))
+            return dict(first_all=0.5, exact_all=0.25)
+
+        def probed(*args, **kwargs):
+            seen.append(kwargs.get('device'))
+
+        model = ml.build('plain', width=16, heads=2, window=4, alpha=.1, seed=0).eval()
+        fn = lr.make_eval_fn(protocol={}, alphabet=b'ABCDEFGHJKLMNPQRS', natural_val_keys=[b'delta'], device='cuda-sentinel', items=2,
+                             length=300, filler_hi=8, distances=(0, 8), validate_fn=lambda m: dict(bits_per_byte=1.5))
+        with mock.patch.object(me, 'mqar_accuracy', scored), mock.patch.object(ap, 'probe', probed), \
+                mock.patch.object(ap, 'conditionality', return_value=[]):
+            fn(model, 1)
+        # training letters + held-out letters (extra_eval), real words, two distances, the attention probe
+        self.assertEqual(seen, ['cuda-sentinel'] * 6)
 
 
 class GuardTests(unittest.TestCase):

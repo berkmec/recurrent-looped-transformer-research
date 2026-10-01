@@ -20,6 +20,7 @@ import math
 import os
 import sys
 import time
+import traceback
 from pathlib import Path
 
 import numpy as np
@@ -221,8 +222,12 @@ def train(out, *, width, heads, steps, batch, length, lr, seed, needle_rate, pha
         else:
             skipped_in_a_row = 0
         if eval_fn is not None and (step % eval_every == 0 or step == steps):
-            with torch.no_grad():
-                row['eval'] = eval_fn(model, step)
+            try:
+                with torch.no_grad():
+                    row['eval'] = eval_fn(model, step)
+            except Exception as error:      # the battery measures the run, it must not end it: a crash here resumed from the last checkpoint and failed at the same step again
+                row['eval'] = dict(error='%s: %s' % (type(error).__name__, str(error)[:300]))
+                print('BATTERY FAILED at step %d (the run goes on): %s' % (step, traceback.format_exc()), flush=True)
             model.train()
             if verbose:
                 print('step %6d  %s' % (step, json.dumps(row['eval'], default=float)[:400]), flush=True)
@@ -252,7 +257,8 @@ def make_eval_fn(protocol, alphabet, natural_val_keys, device='cuda', items=32, 
 
     def fn(model, step):
         out = dict(bits_per_byte=_finite(validate(model)['bits_per_byte']))
-        out.update(me.extra_eval(alphabet, 4, 4, (0, filler_hi), length, n_items=items, key_lengths=(4,), with_replacement=True)(model))
+        out.update(me.extra_eval(alphabet, 4, 4, (0, filler_hi), length, n_items=items, key_lengths=(4,), with_replacement=True,
+                                 device=device)(model))
         if natural_val_keys:
             r = me.mqar_accuracy(model, None, (4, 4), 4, 4, (0, filler_hi), length, items, device=device, with_replacement=True,
                                  key_source=natural_val_keys)
