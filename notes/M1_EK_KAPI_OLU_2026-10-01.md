@@ -63,6 +63,19 @@ Aralık içinde düz, eğitilen azami mesafenin hemen ötesinde keskin çöküş
 
 **T1 (küçük Core, sıfırdan, CPU; mline/mqar_scratch.py, 0,44 M parametre):** T1s (yalnız tek-olgu iğne görevi) 750. adımda görevi buldu ve **konuma kilitli çıktı**: adım 1000'de ilk olgu sorulunca sorulan değer %0, yem sorulunca %96 (görülmeyen harflerde de aynı) — 30M plain'in orijinal davranışının küçük ölçekteki sadık bir benzeri. T1a (sıfırdan MQAR) adım 1000'de hâlâ şans düzeyinde (0,05–0,13; kayıp 0,44 = geri-getirmesiz taban).
 
+**EĞİTİM-DAĞILIMI SKORU (mline/mqar_eval.py) — önceki yem-probu okumalarını düzeltir.** Yem probu (iki olgu, tek soru) eğitimde görülmeyen bir yerleşim; öğrenmeyi olduğundan kötü gösteriyor. Eğitimle aynı üreteçten (4 olgu, 4 soru, dolgu 0–64 olgular arasında bölünmüş; tutulan tohum) satırlarda, her cevabın ilk rakamı ve tam 4 rakamı, soru numarasına göre, öğretmen-zorlamalı:
+
+| model | eğitim harfleri (soru 1/2/3/4, ilk rakam) | tam eşleşme | görülmemiş T–Z (soru 1/2/3/4) |
+|---|---|---|---|
+| orijinal M1 plain (30M) | 0,34 / 0,12 / 0,06 / 0,09 | 0,05 | 0,34 / 0,06 / 0,19 / 0,09 |
+| **D2** (30M, MQAR 1000 güncelleme) | **0,91 / 0,88 / 0,94 / 0,94** | **0,88** | 0,25 / 0,34 / 0,44 / 0,41 (toplam 0,36) |
+| T1a (küçük Core, sıfırdan MQAR, 3000 adım) | 0,39 / 0,33 / 0,47 / **0,80** | 0,18 | 0,38 / 0,38 / 0,52 / 0,81 |
+| T1b (küçük Core, tek-olgu başlangıcı + MQAR, 2000 adım) | 0,42 / 0,36 / 0,48 / **1,00** | 0,47 | 0,39 / 0,41 / 0,45 / 1,00 |
+
+(1) **D2 gerçek anahtar eşleştirmesi öğrenmiş** (soru 1'de eleme imkânsız ve 0,91), ama **yalnız eğitim harflerinde**: görülmemiş harflerde 1. soru 0,25 = şans. Yani öğrendiği şey harfe özgü yönlendirme, genel "iki anahtar eşit mi" karşılaştırması değil. (2) **MQAR üretecinde eleme kısayolu varmış**: her olgu en fazla bir kez soruluyor, bu yüzden son soru "henüz sorulmamış olgu" diye bulunabiliyor, üçüncü soru iki seçenek arasında. Küçük modeller tam bunu öğrendi (T1b son soruda 1,00, görülmemiş harflerde de aynı); kayıpları anahtar kullanmadan 0,28'e indi. İlk soruya bakmak şart. (3) Düzeltme: `--with-replacement` (her soruda olgu bağımsız çekilir); T1r-a/T1r-b bununla tekrarlanıyor, D5 de onunla koşacak. (4) İndüksiyon ön eğitimi (rastgele dizgi + tekrarı) küçük modelde 2000 adımda oluşmadı (kopyalama doğruluğu 0,013, şans 0,016); T1e (indüksiyon → MQAR) başlatılmadı.
+
+**Planlanan (kuyrukta): D5** = D2 tarifi + 53 sembollü anahtar alfabesi (T–Z hiç görülmez) + yerine koyarak sorma, 1500 güncelleme; D4 (17 harf) onun yerine çıkarıldı. D3 (anahtar uzunluğu 1–4 karışımı) 250. ve 500. adımda eğitim-dağılımı skoru 0,28–0,38 (rastgele-olgu düzeyi), dikkatte tüm kafalar kör; 750/1000. adım bekleniyor.
+
 ## Açık
 
 - **İnce-ayar sonucu** (`results/M1-finetune-distance/ft384-plain-s217`; M1 düz kontrol noktasından 500 adım, dolgu [0,384], lr 3e-4, tek tohum, repeat dolgu): uçurum eğitim aralığına bağlı. Görülen anahtarlarda 0–384 arası 0,98–1,00, **448'de 0,008**, 512'de 0,18 (açıklanamayan çıkıntı), 768'de 0,04, 1024 ve 2048'de 0,00. Görülmeyen anahtarlarda 0–384 arası ≈0,40–0,55 (ince-ayar anahtar genellemesini artırmadı), 448'de 0,00. Uçurum 64 → 384 ile birlikte ~72 → ~400–450'ye (~6×) taşındı. Sınırlar: tek tohum, 128 örnek, yalnız tekrar dolgusu, **karşılaştırma koşusu yok** (iğne payı, lr, optimizer sıfırlama aynı anda değişti). Doğal metin dolgusu eğitilmedi (@512: 0,00). Ayrıntılı rapor: `Desktop\reports\Yinelemeli modellerde uzak bilgi taşıma.md`.
