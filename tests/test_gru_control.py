@@ -140,6 +140,39 @@ class Verdict(unittest.TestCase):
         self.assertEqual(gc.verdict(rows)['verdict'], 'R1')
 
 
+class Comparison(unittest.TestCase):
+    def test_u1_layout_slots_come_from_consumed_tokens_minus_the_base(self):
+        row = dict(neutral=[
+            dict(placement='base', consumed_tokens=128, final_accuracy=1.0),
+            dict(placement='prefix', consumed_tokens=256, final_accuracy=0.99),
+            dict(placement='middle', consumed_tokens=256, final_accuracy=0.6),
+            dict(placement='suffix', consumed_tokens=256, final_accuracy=0.5),
+            dict(placement='prefix', consumed_tokens=640, final_accuracy=1.0),
+            dict(placement='middle', consumed_tokens=640, final_accuracy=0.4),
+            dict(placement='suffix', consumed_tokens=640, final_accuracy=0.3)])
+        got = gc.losses_from_u1(row)
+        self.assertEqual(sorted(got), sorted(gc.CELLS_ALL))
+        self.assertAlmostEqual(got['128-middle'], 40.0)
+        self.assertAlmostEqual(got['512-suffix'], 70.0)
+        self.assertAlmostEqual(got['128-prefix'], 1.0)
+
+    def test_u2c_layout_loss_is_base_minus_inserted_accuracy_in_points(self):
+        neutral = {'0-base': dict(final_accuracy=0.99)}
+        for cell in gc.CELLS_ALL:
+            neutral[cell] = dict(final_accuracy=0.89)
+        got = gc.losses_from_u2c(dict(neutral=neutral))
+        self.assertTrue(all(abs(v - 10.0) < 1e-9 for v in got.values()))
+
+    def test_gru_layout_reads_the_stored_loss(self):
+        row = _row('five', 32, 117, {c: 12.5 for c in gc.CELLS_ALL})
+        self.assertEqual(gc.losses_from_gru(row), {c: 12.5 for c in gc.CELLS_ALL})
+
+    def test_mean_over_seeds_keeps_the_per_seed_values(self):
+        table = gc.mean_over_seeds([{c: 10.0 for c in gc.CELLS_ALL}, {c: 20.0 for c in gc.CELLS_ALL}, {c: 30.0 for c in gc.CELLS_ALL}])
+        self.assertEqual(table['128-middle']['mean'], 20.0)
+        self.assertEqual(table['128-middle']['per_seed'], [10.0, 20.0, 30.0])
+
+
 class Runner(unittest.TestCase):
     def test_run_one_writes_json_and_weights_and_is_idempotent(self):
         torch.set_num_threads(1)
