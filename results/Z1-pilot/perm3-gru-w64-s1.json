@@ -1,0 +1,100 @@
+{
+ "task": "perm3",
+ "arm": "gru",
+ "width": 64,
+ "seed": 1,
+ "train": {
+  "steps": 4000,
+  "batch": 64,
+  "lr": 0.003,
+  "clip": 1.0,
+  "guard": {
+   "steps": 4000,
+   "skipped": 0,
+   "clipped": 3,
+   "max_grad_norm_before_clip": 1.1203164014979494,
+   "skip_reasons": {}
+  },
+  "history": [
+   {
+    "step": 1000,
+    "loss": 0.0006246529519557953,
+    "grad_norm": 0.0009984239331350434
+   },
+   {
+    "step": 2000,
+    "loss": 0.00018815536168403924,
+    "grad_norm": 0.00032177449268294044
+   },
+   {
+    "step": 3000,
+    "loss": 8.895340579329059e-05,
+    "grad_norm": 0.00015675860024920562
+   },
+   {
+    "step": 4000,
+    "loss": 4.772021929966286e-05,
+    "grad_norm": 8.465238635606897e-05
+   }
+  ],
+  "train_seconds": 75.87057499999719,
+  "parameters": 25734
+ },
+ "eval_points": [
+  16,
+  32,
+  64,
+  128,
+  256,
+  512,
+  1024
+ ],
+ "curve": {
+  "16": {
+   "length": 16,
+   "final": 1.0,
+   "prefix": 1.0,
+   "beyond_horizon": null
+  },
+  "32": {
+   "length": 32,
+   "final": 1.0,
+   "prefix": 1.0,
+   "beyond_horizon": 1.0
+  },
+  "64": {
+   "length": 64,
+   "final": 1.0,
+   "prefix": 1.0,
+   "beyond_horizon": 1.0
+  },
+  "128": {
+   "length": 128,
+   "final": 1.0,
+   "prefix": 1.0,
+   "beyond_horizon": 1.0
+  },
+  "256": {
+   "length": 256,
+   "final": 1.0,
+   "prefix": 1.0,
+   "beyond_horizon": 1.0
+  },
+  "512": {
+   "length": 512,
+   "final": 1.0,
+   "prefix": 1.0,
+   "beyond_horizon": 1.0
+  },
+  "1024": {
+   "length": 1024,
+   "final": 1.0,
+   "prefix": 1.0,
+   "beyond_horizon": 1.0
+  }
+ },
+ "effective_horizon": 1024,
+ "horizon_metric": "final",
+ "trained_range": 16,
+ "wall_seconds": 80.378514
+}

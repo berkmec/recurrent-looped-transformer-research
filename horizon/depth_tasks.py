@@ -5,8 +5,10 @@ Each task has a depth knob, so the amount of sequential computation can be pushe
   perm3 / perm4 / perm5   composition in the symmetric group S_N. Every token names one permutation, the label at each position is the
                           index of the running product. S_5 has no constant-depth solution; a finite state (120) has to be carried
                           exactly through the whole sequence. Depth = sequence length.
-  count                   a clipped counter: token 0 pushes (+1), token 1 pops (-1, floored at 0); the label is min(depth, CAP).
-                          The depth that must be held is a free parameter (the peak D), unbounded in principle.
+  count                   a stack-depth counter: token 0 pushes (+1), token 1 pops (-1, floored at 0); the label is min(depth, LABEL_CAP)
+                          with LABEL_CAP = TRAIN_DEPTH, so every output class occurs in training. The depth that must be held is a free
+                          parameter (the peak D), unbounded in principle: the test climbs to D, comes back down, and asks for the depth
+                          once it is back inside the trained range ("re-entry"), which can only be answered from an exact count.
 
 Training uses short sequences (perm: length <= TRAIN_LENGTH, count: peak <= TRAIN_DEPTH); the claim under test is how far beyond
 that the learned recurrence still works.
@@ -17,9 +19,10 @@ import itertools
 import numpy as np
 import torch
 
-CAP = 255
 TRAIN_DEPTH = 8
-TRAIN_LENGTH = 16
+LABEL_CAP = TRAIN_DEPTH     # a classifier cannot emit a class it never saw: the label saturates at the trained peak
+TRAIN_LENGTH = 16           # permutation tasks: depth = length
+COUNT_TRAIN_LENGTH = 64     # counter: long enough that the walk wanders for a long time inside depth <= TRAIN_DEPTH, so depth is the only thing extrapolated
 TASKS = {'perm3': dict(kind='perm', n=3), 'perm4': dict(kind='perm', n=4), 'perm5': dict(kind='perm', n=5), 'count': dict(kind='count')}
 _GROUPS = {}
 
@@ -53,42 +56,77 @@ def vocab(task):
 
 def classes(task):
     s = _spec(task)
-    return len(group(s['n'])[0]) if s['kind'] == 'perm' else CAP + 1
+    return len(group(s['n'])[0]) if s['kind'] == 'perm' else LABEL_CAP + 1
+
+
+def _token_matrix(x):
+    if x.ndim != 2 or x.shape[1] < 1:
+        raise ValueError('invalid token matrix')
+    return x.numpy()
+
+
+def depth_trajectory(x):
+    """True (uncapped) stack depth after each token of the push/pop matrix x (n, length): 0 pushes, 1 pops, floored at zero."""
+    arr = _token_matrix(x)
+    out = np.zeros_like(arr)
+    depth = np.zeros(arr.shape[0], dtype=np.int64)
+    for t in range(arr.shape[1]):
+        depth = np.maximum(depth + np.where(arr[:, t] == 0, 1, -1), 0)
+        out[:, t] = depth
+    return torch.from_numpy(out)
+
+
+def reentry_mask(trajectory):
+    """Positions whose true depth is back inside the trained range after the sequence has been deeper than it."""
+    return (trajectory <= TRAIN_DEPTH) & (trajectory.cummax(dim=1).values > TRAIN_DEPTH)
 
 
 def oracle(task, x):
     """Per-position labels for the token matrix x (n, length)."""
     s = _spec(task)
-    if x.ndim != 2 or x.shape[1] < 1:
-        raise ValueError('invalid token matrix')
-    arr = x.numpy()
+    if s['kind'] == 'count':
+        return torch.clamp(depth_trajectory(x), max=LABEL_CAP)
+    arr = _token_matrix(x)
     y = np.zeros_like(arr)
-    if s['kind'] == 'perm':
-        table = group(s['n'])[2]
-        state = np.zeros(arr.shape[0], dtype=np.int64)
-        for t in range(arr.shape[1]):
-            state = table[state, arr[:, t]]
-            y[:, t] = state
-    else:
-        depth = np.zeros(arr.shape[0], dtype=np.int64)
-        for t in range(arr.shape[1]):
-            depth = np.maximum(depth + np.where(arr[:, t] == 0, 1, -1), 0)
-            y[:, t] = np.minimum(depth, CAP)
+    table = group(s['n'])[2]
+    state = np.zeros(arr.shape[0], dtype=np.int64)
+    for t in range(arr.shape[1]):
+        state = table[state, arr[:, t]]
+        y[:, t] = state
     return torch.from_numpy(y)
 
 
+def count_eval_length(depth):
+    """Sequence length for a test sequence with peak `depth`: room to climb (~2D steps), descend (~2D) and wander back inside the range."""
+    return max(6 * int(depth), COUNT_TRAIN_LENGTH)
+
+
 def _count_tokens(rng, n, length, depth):
-    """Push/pop tokens whose true depth never exceeds the peak. With depth=None (training) the climb length is random up to
-    TRAIN_DEPTH; with a given depth every sequence first climbs to that peak, then wanders below it (reflecting at the peak)."""
-    peak = TRAIN_DEPTH if depth is None else int(depth)
-    ramp = rng.integers(0, peak + 1, size=n) if depth is None else np.full(n, peak)
+    """Push (0) / pop (1) tokens.
+    Training (depth=None): the true depth never exceeds TRAIN_DEPTH. Each sequence opens with a random run of pushes (0..TRAIN_DEPTH), then
+    walks with its own push probability drawn from [0.25, 0.75]; at the peak a push becomes a pop (reflecting), so 'push at depth
+    TRAIN_DEPTH' never occurs in training.
+    Test (depth=D): every sequence first climbs to exactly D (push probability 0.75, forced after half the budget), then comes back down
+    (push probability 0.25, reflecting at D) and wanders near the bottom. Both bias values lie inside the training range of statistics, so
+    what changes at test is how deep the count has been, not which tokens occur."""
+    training = depth is None
+    peak = TRAIN_DEPTH if training else int(depth)
+    ramp = rng.integers(0, peak + 1, size=n) if training else None
+    p_push = rng.uniform(0.25, 0.75, size=n) if training else None
     current = np.zeros(n, dtype=np.int64)
+    climbing = np.ones(n, dtype=bool)
     x = np.zeros((n, length), dtype=np.int64)
     for t in range(length):
-        coin = rng.random(n) < 0.5
-        token = np.where(t < ramp, 0, np.where(current >= peak, 1, np.where(coin, 0, 1)))
-        x[:, t] = token
-        current = np.maximum(current + np.where(token == 0, 1, -1), 0)
+        u = rng.random(n)
+        if training:
+            push = np.where(t < ramp, True, (u < p_push) & (current < peak))
+        else:
+            p = np.where(climbing, 0.75, 0.25)
+            push = ((u < p) | (climbing & (t >= length // 2))) & (current < peak)
+        x[:, t] = np.where(push, 0, 1)
+        current = np.maximum(current + np.where(push, 1, -1), 0)
+        if not training:
+            climbing &= current < peak
     return x
 
 
@@ -110,8 +148,12 @@ def source_seed(namespace, task, seed, split, step=0, length=0, depth=0):
     return int.from_bytes(hashlib.sha256(value.encode()).digest()[:8], 'little')
 
 
+def train_length(task):
+    return COUNT_TRAIN_LENGTH if _spec(task)['kind'] == 'count' else TRAIN_LENGTH
+
+
 def train_batch(namespace, task, seed, step, batch, length=None, depth=None):
-    length = TRAIN_LENGTH if length is None else length
+    length = train_length(task) if length is None else length
     s = source_seed(namespace, task, seed, 'train', step=step, length=length)
     x, y = generate(task, batch, length, s, depth=depth)
     return dict(x=x, y=y, source_seed=s)

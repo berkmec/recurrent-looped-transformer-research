@@ -1,0 +1,113 @@
+{
+ "task": "perm4",
+ "arm": "core",
+ "width": 64,
+ "seed": 1,
+ "train": {
+  "steps": 4000,
+  "batch": 64,
+  "lr": 0.003,
+  "clip": 1.0,
+  "guard": {
+   "steps": 4000,
+   "skipped": 0,
+   "clipped": 720,
+   "max_grad_norm_before_clip": 160.95358908127918,
+   "skip_reasons": {}
+  },
+  "history": [
+   {
+    "step": 1000,
+    "loss": 2.544447422027588,
+    "grad_norm": 5.293418562675968,
+    "length": 16,
+    "recent_accuracy": 0.216904296875
+   },
+   {
+    "step": 2000,
+    "loss": 1.1913450956344604,
+    "grad_norm": 0.38762022333508844,
+    "length": 16,
+    "recent_accuracy": 0.372314453125
+   },
+   {
+    "step": 3000,
+    "loss": 0.6679970622062683,
+    "grad_norm": 0.577052409035342,
+    "length": 16,
+    "recent_accuracy": 0.5873046875
+   },
+   {
+    "step": 4000,
+    "loss": 1.1658939123153687,
+    "grad_norm": 6.039268391473303,
+    "length": 16,
+    "recent_accuracy": 0.60775390625
+   }
+  ],
+  "curriculum": [
+   16
+  ],
+  "advances": [],
+  "final_stage_length": 16,
+  "train_seconds": 887.1813524000027,
+  "parameters": 98328
+ },
+ "eval_points": [
+  16,
+  32,
+  64,
+  128,
+  256,
+  512,
+  1024
+ ],
+ "curve": {
+  "16": {
+   "length": 16,
+   "final": 0.38999998569488525,
+   "prefix": 0.5899999737739563,
+   "beyond_horizon": null
+  },
+  "32": {
+   "length": 32,
+   "final": 0.4300000071525574,
+   "prefix": 0.5415624976158142,
+   "beyond_horizon": 0.48374998569488525
+  },
+  "64": {
+   "length": 64,
+   "final": 0.36000001430511475,
+   "prefix": 0.5204687714576721,
+   "beyond_horizon": 0.4818750023841858
+  },
+  "128": {
+   "length": 128,
+   "final": 0.33000001311302185,
+   "prefix": 0.43656250834465027,
+   "beyond_horizon": 0.4124999940395355
+  },
+  "256": {
+   "length": 256,
+   "final": 0.33000001311302185,
+   "prefix": 0.4301171898841858,
+   "beyond_horizon": 0.4181666672229767
+  },
+  "512": {
+   "length": 512,
+   "final": 0.18000000715255737,
+   "prefix": 0.31449219584465027,
+   "beyond_horizon": 0.3049596846103668
+  },
+  "1024": {
+   "length": 1024,
+   "final": 0.10999999940395355,
+   "prefix": 0.26863279938697815,
+   "beyond_horizon": 0.26328372955322266
+  }
+ },
+ "effective_horizon": 0,
+ "horizon_metric": "final",
+ "trained_range": 16,
+ "wall_seconds": 919.2155296000019
+}

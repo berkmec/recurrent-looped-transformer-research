@@ -1,0 +1,99 @@
+{
+ "task": "count",
+ "arm": "core",
+ "width": 64,
+ "seed": 1,
+ "train": {
+  "steps": 4000,
+  "batch": 64,
+  "lr": 0.003,
+  "clip": 1.0,
+  "guard": {
+   "steps": 4000,
+   "skipped": 0,
+   "clipped": 624,
+   "max_grad_norm_before_clip": 43.507604983065704,
+   "skip_reasons": {}
+  },
+  "history": [
+   {
+    "step": 1000,
+    "loss": 0.00012942744069732726,
+    "grad_norm": 0.0005366805971248352
+   },
+   {
+    "step": 2000,
+    "loss": 0.002514823339879513,
+    "grad_norm": 0.07871383163312595
+   },
+   {
+    "step": 3000,
+    "loss": 4.985083069186658e-05,
+    "grad_norm": 0.00019650285375192916
+   },
+   {
+    "step": 4000,
+    "loss": 2.593372846604325e-05,
+    "grad_norm": 9.941219579167496e-05
+   }
+  ],
+  "train_seconds": 695.8222889999997,
+  "parameters": 112000
+ },
+ "eval_points": [
+  8,
+  16,
+  32,
+  64,
+  128,
+  256
+ ],
+ "curve": {
+  "8": {
+   "length": 64,
+   "final": 0.5699999928474426,
+   "prefix": 0.9053124785423279,
+   "unseen_depth": null,
+   "at_peak": 0.8782234787940979
+  },
+  "16": {
+   "length": 64,
+   "final": 0.029999999329447746,
+   "prefix": 0.1301562488079071,
+   "unseen_depth": 0.0,
+   "at_peak": 0.0
+  },
+  "32": {
+   "length": 128,
+   "final": 0.0,
+   "prefix": 0.0625,
+   "unseen_depth": 0.0,
+   "at_peak": 0.0
+  },
+  "64": {
+   "length": 256,
+   "final": 0.0,
+   "prefix": 0.03125,
+   "unseen_depth": 0.0,
+   "at_peak": 0.0
+  },
+  "128": {
+   "length": 512,
+   "final": 0.0,
+   "prefix": 0.015625,
+   "unseen_depth": 0.0,
+   "at_peak": 0.0
+  },
+  "256": {
+   "length": 1024,
+   "final": 0.0,
+   "prefix": 0.0078125,
+   "unseen_depth": 0.0,
+   "at_peak": null
+  }
+ },
+ "effective_horizon": 0,
+ "horizon_metric": "unseen_depth",
+ "trained_range": 8,
+ "wall_seconds": 717.3921240000018
+}

@@ -21,10 +21,11 @@ def explicit_product(n, tokens):
 
 
 def explicit_depth(tokens):
+    """True (uncapped) depth after each token."""
     depth, out = 0, []
     for t in tokens:
         depth = depth + 1 if int(t) == 0 else max(depth - 1, 0)
-        out.append(min(depth, dt.CAP))
+        out.append(depth)
     return out
 
 
@@ -59,33 +60,51 @@ class PermutationTasks(unittest.TestCase):
 
 
 class CounterTask(unittest.TestCase):
-    def test_sizes(self):
-        self.assertEqual((dt.vocab('count'), dt.classes('count')), (2, dt.CAP + 1))
+    def test_every_output_class_occurs_in_training(self):
+        # a classifier cannot emit a class it never saw: the label is the depth capped at the TRAINED peak, so the test of counting
+        # past the trained depth is about holding the count, not about unseen output classes
+        self.assertEqual((dt.vocab('count'), dt.classes('count')), (2, dt.TRAIN_DEPTH + 1))
+        self.assertEqual(dt.LABEL_CAP, dt.TRAIN_DEPTH)
+        x, y = dt.generate('count', 400, 64, seed=2)
+        self.assertEqual(set(y.flatten().tolist()), set(range(dt.TRAIN_DEPTH + 1)))
 
-    def test_oracle_matches_explicit_depth_and_floors_at_zero(self):
+    def test_oracle_label_is_the_capped_true_depth_and_floors_at_zero(self):
         x = torch.tensor([[1, 1, 0, 0, 0, 1, 1, 1, 1]])
         self.assertEqual(dt.oracle('count', x)[0].tolist(), [0, 0, 1, 2, 3, 2, 1, 0, 0])
         rng = np.random.default_rng(5)
         x = torch.from_numpy(rng.integers(0, 2, (4, 60)))
         for row in range(4):
-            self.assertEqual(dt.oracle('count', x)[row].tolist(), explicit_depth(x[row].tolist()))
+            depth = explicit_depth(x[row].tolist())
+            self.assertEqual(dt.depth_trajectory(x)[row].tolist(), depth)
+            self.assertEqual(dt.oracle('count', x)[row].tolist(), [min(d, dt.LABEL_CAP) for d in depth])
 
-    def test_oracle_caps_the_label(self):
-        x = torch.zeros(1, dt.CAP + 40, dtype=torch.long)
-        y = dt.oracle('count', x)[0]
-        self.assertEqual(int(y.max()), dt.CAP)
-        self.assertEqual(int(y[dt.CAP + 10]), dt.CAP)
+    def test_label_is_capped_but_the_depth_trajectory_is_not(self):
+        x = torch.zeros(1, 30, dtype=torch.long)
+        self.assertEqual(int(dt.oracle('count', x).max()), dt.LABEL_CAP)
+        self.assertEqual(int(dt.depth_trajectory(x).max()), 30)
 
     def test_training_depth_never_exceeds_the_training_peak(self):
-        x, y = dt.generate('count', 200, 80, seed=2)           # default: the training distribution, peak 8
-        self.assertLessEqual(int(y.max()), dt.TRAIN_DEPTH)
+        x, _ = dt.generate('count', 300, 80, seed=2)           # default: the training distribution, peak 8
+        self.assertLessEqual(int(dt.depth_trajectory(x).max()), dt.TRAIN_DEPTH)
         self.assertEqual(dt.TRAIN_DEPTH, 8)
 
     def test_controlled_peak_is_reached_and_not_exceeded(self):
         for peak in (16, 64, 128):
-            x, y = dt.generate('count', 20, 4 * peak, seed=4, depth=peak)
-            self.assertEqual(int(y.max()), peak)
-            self.assertTrue((y.max(1).values == peak).all())    # every sequence climbs to the target first
+            x, _ = dt.generate('count', 20, 5 * peak, seed=4, depth=peak)
+            traj = dt.depth_trajectory(x)
+            self.assertEqual(int(traj.max()), peak)
+            self.assertTrue((traj.max(1).values == peak).all())    # every sequence climbs to the target first
+
+    def test_test_sequences_come_back_down_so_every_row_has_reentry_positions(self):
+        x, _ = dt.generate('count', 20, 5 * 64, seed=4, depth=64)
+        mask = dt.reentry_mask(dt.depth_trajectory(x))
+        self.assertTrue(mask.any(1).all())
+
+    def test_reentry_mask(self):
+        traj = torch.tensor([[0, 5, 9, 12, 9, 8, 7, 3, 9, 8]])
+        expected = [False, False, False, False, False, True, True, True, False, True]
+        self.assertEqual(dt.reentry_mask(traj)[0].tolist(), expected)
+        self.assertFalse(bool(dt.reentry_mask(torch.tensor([[0, 3, 8, 2, 8]])).any()))     # never deeper than the trained peak: no re-entry
 
 
 class Seeds(unittest.TestCase):

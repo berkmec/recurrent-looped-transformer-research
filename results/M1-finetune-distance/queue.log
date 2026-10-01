@@ -115,3 +115,30 @@
 [22:57:26] TAKEOVER: yemli kosular bitti; kontrol kuyrugu (B2/B6/B5) BEKLETILIYOR - uzun kosu (L1) GPU'yu once alacak
 [22:57:26] TAKEOVER BITTI
 [23:01:54] BITTI midcheck D6-d5-then-natural adim 1000
+[23:39:56] BASLA L1 results/L1-scratch-w928-s401 (tarif m2-draft, deneme 1)
+[00:00:58] BASLA Z1-pilot perm3-core-w64-s1 (CPU, 1 parcacik, 4000 adim)
+[00:00:58] BASLA Z1-pilot perm3-core_nofb-w64-s1 (CPU, 1 parcacik, 4000 adim)
+[00:00:58] BASLA Z1-pilot count-core-w64-s1 (CPU, 1 parcacik, 4000 adim)
+[00:04:58] BITTI Z1-pilot perm3-core_nofb-w64-s1
+[00:12:40] BITTI Z1-pilot perm3-core-w64-s1
+[00:13:00] BITTI Z1-pilot count-core-w64-s1
+[00:13:00] BASLA Z1-pilot perm5-gru-w128-s1 (CPU, 1 parcacik, 4000 adim)
+[00:13:00] BASLA Z1-pilot count-gru-w64-s1 (CPU, 1 parcacik, 4000 adim)
+[00:13:00] BASLA Z1-pilot perm3-gru-w64-s1 (CPU, 1 parcacik, 4000 adim)
+[00:14:04] HATA Z1-pilot count-gru-w64-s1: sonuc dosyasi yok (bkz results/Z1-pilot/count-gru-w64-s1.log)
+[00:14:15] BASLA Z1-pilot count-core-w64-s1 (CPU, 1 parcacik, 4000 adim)
+[00:14:15] BASLA Z1-pilot count-gru-w64-s1 (CPU, 1 parcacik, 4000 adim)
+[00:14:26] BITTI Z1-pilot perm3-gru-w64-s1
+[00:15:39] BITTI Z1-pilot perm5-gru-w128-s1
+[00:15:39] Z1-pilot dalga 1 BITTI
+[00:17:02] BASLA Z1-pilot perm5-gru-w256-s1-cur (CPU, 1 parcacik, 30000 adim, mufredat 1,2,3,4,6,8,12,16, lr 0.001)
+[00:17:02] BASLA Z1-pilot perm5-core-w128-s1-cur (CPU, 1 parcacik, 30000 adim, mufredat 1,2,3,4,6,8,12,16, lr 0.003)
+[00:21:11] BITTI Z1-pilot count-gru-w64-s1
+[00:21:11] BASLA Z1-pilot perm4-core-w64-s1 (CPU, 1 parcacik, 4000 adim)
+[00:25:00] HATA Z1-pilot count-core-w64-s1: sonuc dosyasi yok (bkz results/Z1-pilot/count-core-w64-s1.log)
+[00:25:00] BASLA Z1-pilot perm5-core-w128-s1 (CPU, 1 parcacik, 6000 adim)
+[00:25:14] HATA Z1-pilot perm5-core-w128-s1: sonuc dosyasi yok (bkz results/Z1-pilot/perm5-core-w128-s1.log)
+[00:35:44] BASLA Z1-pilot count-core-w64-s1 (CPU, 1 parcacik, 4000 adim)
+[00:35:44] BASLA Z1-pilot count-gru-w64-s1 (CPU, 1 parcacik, 4000 adim)
+[00:36:36] BITTI Z1-pilot perm4-core-w64-s1
+[00:36:36] BASLA Z1-pilot perm4-gru-w64-s1 (CPU, 1 parcacik, 4000 adim)

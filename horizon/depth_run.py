@@ -23,21 +23,35 @@ NAMESPACE = dict(train='z1-train', dev='z1-dev', test='z1-test')
 THRESHOLD = 0.95
 
 
-def train(task, arm, width, seed, steps, batch=64, lr=3e-3, clip=1.0, weight_decay=0.01, namespace=None, log_every=0, log=print):
+def train(task, arm, width, seed, steps, batch=64, lr=3e-3, clip=1.0, weight_decay=0.01, namespace=None, log_every=0, log=print,
+          curriculum=None, advance_at=0.97, min_stage_steps=200, window=100):
+    """curriculum: increasing training lengths, e.g. [2, 4, 8, 16]. The stage advances when the mean per-position accuracy over the last
+    `window` updates reaches `advance_at` (and the stage has run at least `min_stage_steps` updates). The last length is the trained range;
+    nothing beyond it is ever trained on. Without a curriculum every update uses the task's trained length."""
     namespace = namespace or NAMESPACE
+    lengths = list(curriculum) if curriculum else [dt.train_length(task)]
     model = make_arm(arm, task, width, seed)
     opt = torch.optim.AdamW(model.parameters(), lr=lr, weight_decay=weight_decay)
     guard, history, start = GuardCounter(), [], time.perf_counter()
+    stage, in_stage, recent, advances = 0, 0, [], []
     for step in range(1, steps + 1):
-        b = dt.train_batch(namespace, task, seed, step, batch)
+        b = dt.train_batch(namespace, task, seed, step, batch, length=lengths[stage])
         model.train()
-        loss = F.cross_entropy(model(b['x']).flatten(0, 1), b['y'].flatten())
+        logits = model(b['x'])
+        loss = F.cross_entropy(logits.flatten(0, 1), b['y'].flatten())
         report = guard.record(guarded_step(opt, model.parameters(), loss, clip_norm=clip))
+        recent.append(float((logits.detach().argmax(-1) == b['y']).float().mean()))
+        recent = recent[-window:]
+        in_stage += 1
+        if stage < len(lengths) - 1 and in_stage >= min_stage_steps and len(recent) == window and sum(recent) / window >= advance_at:
+            advances.append(dict(step=step, from_length=lengths[stage], to_length=lengths[stage + 1]))
+            stage, in_stage, recent = stage + 1, 0, []
         if log_every and step % log_every == 0:
-            history.append(dict(step=step, loss=report['loss'], grad_norm=report['grad_norm_before_clip']))
-            log(f'{task} {arm} w{width} s{seed} step {step} loss {report["loss"]} ({time.perf_counter() - start:.0f}s)')
-    return model, dict(steps=steps, batch=batch, lr=lr, clip=clip, guard=guard.summary(), history=history,
-                       train_seconds=time.perf_counter() - start, parameters=parameter_count(model))
+            history.append(dict(step=step, loss=report['loss'], grad_norm=report['grad_norm_before_clip'], length=lengths[stage],
+                                recent_accuracy=(sum(recent) / len(recent)) if recent else None))
+            log(f'{task} {arm} w{width} s{seed} step {step} len {lengths[stage]} loss {report["loss"]} ({time.perf_counter() - start:.0f}s)')
+    return model, dict(steps=steps, batch=batch, lr=lr, clip=clip, guard=guard.summary(), history=history, curriculum=lengths, advances=advances,
+                       final_stage_length=lengths[stage], train_seconds=time.perf_counter() - start, parameters=parameter_count(model))
 
 
 @torch.no_grad()
@@ -58,7 +72,7 @@ def evaluate(model, task, points, n, seed, split='dev', namespace=None, batch=50
     out = {}
     for point in points:
         if task == 'count':
-            length = max(4 * point, 64)
+            length = dt.count_eval_length(point)
             x, y, _ = dt.heldout(namespace, task, seed, split, n, length, depth=point)
         else:
             length = point
@@ -67,10 +81,11 @@ def evaluate(model, task, points, n, seed, split='dev', namespace=None, batch=50
         ok = pred == target
         row = dict(length=length, final=float(ok[:, -1].float().mean()), prefix=float(ok.float().mean()))
         if task == 'count':
-            unseen = target > dt.TRAIN_DEPTH
-            row['unseen_depth'] = float(ok[unseen].float().mean()) if bool(unseen.any()) else None
-            peak = target == point
-            row['at_peak'] = float(ok[peak].float().mean()) if bool(peak.any()) else None
+            trajectory = dt.depth_trajectory(x)
+            deep, reentry = trajectory > dt.TRAIN_DEPTH, dt.reentry_mask(trajectory)
+            row['deep'] = float(ok[deep].float().mean()) if bool(deep.any()) else None           # label saturates at the trained peak
+            row['reentry'] = float(ok[reentry].float().mean()) if bool(reentry.any()) else None   # back in range: needs the exact count
+            row['reentry_positions'] = int(reentry.sum())
         else:
             beyond = torch.arange(x.shape[1]) >= dt.TRAIN_LENGTH
             row['beyond_horizon'] = float(ok[:, beyond].float().mean()) if bool(beyond.any()) else None
@@ -78,12 +93,28 @@ def evaluate(model, task, points, n, seed, split='dev', namespace=None, batch=50
     return out
 
 
+def evaluate_length_control(model, lengths, n, seed, split='dev', namespace=None, batch=50):
+    """Counter only: the TRAINING distribution (depth never above the trained peak) on sequences far longer than the trained length.
+    Separates 'cannot go deeper' from 'cannot go longer'."""
+    namespace = namespace or NAMESPACE
+    out = {}
+    for length in lengths:
+        x, y, _ = dt.heldout(namespace, 'count', seed, split, n, length)
+        pred, target = _accuracy(model, x, y, batch)
+        ok = pred == target
+        out[length] = dict(final=float(ok[:, -1].float().mean()), prefix=float(ok.float().mean()))
+    return out
+
+
 def effective_horizon(curve, key, threshold=THRESHOLD):
-    """Largest point such that metric `key` is >= threshold at it and at every smaller evaluated point; 0 if none."""
+    """Largest point such that metric `key` is >= threshold at it and at every larger-than-skipped evaluated point up to it; points where the
+    metric does not apply (None) are skipped; 0 if no point passes."""
     best = 0
     for point in sorted(curve):
         value = curve[point].get(key)
-        if value is None or value < threshold:
+        if value is None:
+            continue
+        if value < threshold:
             break
         best = point
     return best
@@ -98,10 +129,18 @@ def run(task, arm, width, seed, steps, points=None, n_eval=100, out=None, **kw):
     model, trained = train(task, arm, width, seed, steps, **kw)
     points = points or default_points(task)
     curve = evaluate(model, task, points, n_eval, seed)
-    key = 'unseen_depth' if task == 'count' else 'final'
+    key = 'reentry' if task == 'count' else 'final'
+    # a horizon only means something if the task was learned inside the trained range
+    in_range_point = dt.TRAIN_DEPTH if task == 'count' else dt.TRAIN_LENGTH
+    in_range_key = 'prefix' if task == 'count' else 'final'
+    in_range = curve[in_range_point][in_range_key] if in_range_point in curve else None
+    learned = in_range is None or in_range >= THRESHOLD
     result = dict(task=task, arm=arm, width=width, seed=seed, train=trained, eval_points=points, curve=curve,
-                  effective_horizon=effective_horizon(curve, key), horizon_metric=key,
+                  learned_in_range=learned, in_range_accuracy=in_range,
+                  effective_horizon=effective_horizon(curve, key) if learned else 0, horizon_metric=key,
                   trained_range=dt.TRAIN_DEPTH if task == 'count' else dt.TRAIN_LENGTH, wall_seconds=time.perf_counter() - started)
+    if task == 'count':
+        result['length_control'] = evaluate_length_control(model, [64, 256, 1024], n_eval, seed)
     if out:
         path = Path(out)
         path.parent.mkdir(parents=True, exist_ok=True)
@@ -122,13 +161,20 @@ def main():
     p.add_argument('--points', default=None, help='comma list: lengths (perm) or peak depths (count)')
     p.add_argument('--n-eval', type=int, default=100)
     p.add_argument('--log-every', type=int, default=500)
+    p.add_argument('--curriculum', default=None, help='comma list of increasing training lengths, e.g. 1,2,3,4,6,8,12,16')
+    p.add_argument('--advance-at', type=float, default=0.97)
+    p.add_argument('--min-stage-steps', type=int, default=200)
     p.add_argument('--out', required=True)
     a = p.parse_args()
     points = [int(v) for v in a.points.split(',')] if a.points else None
-    r = run(a.task, a.arm, a.width, a.seed, a.steps, points=points, n_eval=a.n_eval, out=a.out, batch=a.batch, lr=a.lr, log_every=a.log_every)
-    print(json.dumps({k: r[k] for k in ('task', 'arm', 'width', 'seed', 'effective_horizon', 'horizon_metric', 'wall_seconds')}))
+    curriculum = [int(v) for v in a.curriculum.split(',')] if a.curriculum else None
+    r = run(a.task, a.arm, a.width, a.seed, a.steps, points=points, n_eval=a.n_eval, out=a.out, batch=a.batch, lr=a.lr, log_every=a.log_every,
+            curriculum=curriculum, advance_at=a.advance_at, min_stage_steps=a.min_stage_steps)
+    print(json.dumps({k: r[k] for k in ('task', 'arm', 'width', 'seed', 'learned_in_range', 'effective_horizon', 'horizon_metric', 'wall_seconds')}))
     for point, row in r['curve'].items():
         print(point, {k: (round(v, 3) if isinstance(v, float) else v) for k, v in row.items()})
+    for length, row in r.get('length_control', {}).items():
+        print('length control', length, {k: round(v, 3) for k, v in row.items()})
 
 
 if __name__ == '__main__':

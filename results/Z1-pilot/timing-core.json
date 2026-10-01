@@ -1,0 +1,50 @@
+{
+ "task": "perm3",
+ "arm": "core",
+ "width": 64,
+ "seed": 1,
+ "train": {
+  "steps": 200,
+  "batch": 64,
+  "lr": 0.003,
+  "clip": 1.0,
+  "guard": {
+   "steps": 200,
+   "skipped": 0,
+   "clipped": 16,
+   "max_grad_norm_before_clip": 52.50527315189863,
+   "skip_reasons": {}
+  },
+  "history": [
+   {
+    "step": 200,
+    "loss": 1.1141358613967896,
+    "grad_norm": 2.6268209687818844
+   }
+  ],
+  "train_seconds": 29.556726999999228,
+  "parameters": 96006
+ },
+ "eval_points": [
+  16,
+  64
+ ],
+ "curve": {
+  "16": {
+   "length": 16,
+   "final": 0.550000011920929,
+   "prefix": 0.43437498807907104,
+   "beyond_horizon": null
+  },
+  "64": {
+   "length": 64,
+   "final": 0.30000001192092896,
+   "prefix": 0.35624998807907104,
+   "beyond_horizon": 0.3291666805744171
+  }
+ },
+ "effective_horizon": 0,
+ "horizon_metric": "final",
+ "trained_range": 16,
+ "wall_seconds": 33.020033000000694
+}

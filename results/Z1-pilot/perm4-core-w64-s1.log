@@ -1,0 +1,12 @@
+perm4 core w64 s1 step 1000 len 16 loss 2.544447422027588 (260s)
+perm4 core w64 s1 step 2000 len 16 loss 1.1913450956344604 (532s)
+perm4 core w64 s1 step 3000 len 16 loss 0.6679970622062683 (705s)
+perm4 core w64 s1 step 4000 len 16 loss 1.1658939123153687 (887s)
+{"task": "perm4", "arm": "core", "width": 64, "seed": 1, "effective_horizon": 0, "horizon_metric": "final", "wall_seconds": 919.2155296000019}
+16 {'length': 16, 'final': 0.39, 'prefix': 0.59, 'beyond_horizon': None}
+32 {'length': 32, 'final': 0.43, 'prefix': 0.542, 'beyond_horizon': 0.484}
+64 {'length': 64, 'final': 0.36, 'prefix': 0.52, 'beyond_horizon': 0.482}
+128 {'length': 128, 'final': 0.33, 'prefix': 0.437, 'beyond_horizon': 0.412}
+256 {'length': 256, 'final': 0.33, 'prefix': 0.43, 'beyond_horizon': 0.418}
+512 {'length': 512, 'final': 0.18, 'prefix': 0.314, 'beyond_horizon': 0.305}
+1024 {'length': 1024, 'final': 0.11, 'prefix': 0.269, 'beyond_horizon': 0.263}

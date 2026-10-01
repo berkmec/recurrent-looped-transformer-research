@@ -1,0 +1,12 @@
+perm3 core_nofb w64 s1 step 1000 loss 1.504691243171692 (64s)
+perm3 core_nofb w64 s1 step 2000 loss 1.4005411863327026 (118s)
+perm3 core_nofb w64 s1 step 3000 loss 1.056756615638733 (172s)
+perm3 core_nofb w64 s1 step 4000 loss 0.9421471953392029 (227s)
+{"task": "perm3", "arm": "core_nofb", "width": 64, "seed": 1, "effective_horizon": 0, "horizon_metric": "final", "wall_seconds": 235.16934540000148}
+16 {'length': 16, 'final': 0.19, 'prefix': 0.489, 'beyond_horizon': None}
+32 {'length': 32, 'final': 0.15, 'prefix': 0.339, 'beyond_horizon': 0.179}
+64 {'length': 64, 'final': 0.09, 'prefix': 0.238, 'beyond_horizon': 0.157}
+128 {'length': 128, 'final': 0.21, 'prefix': 0.202, 'beyond_horizon': 0.162}
+256 {'length': 256, 'final': 0.18, 'prefix': 0.189, 'beyond_horizon': 0.167}
+512 {'length': 512, 'final': 0.16, 'prefix': 0.175, 'beyond_horizon': 0.166}
+1024 {'length': 1024, 'final': 0.14, 'prefix': 0.171, 'beyond_horizon': 0.166}

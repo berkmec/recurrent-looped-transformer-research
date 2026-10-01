@@ -1,0 +1,11 @@
+count core w64 s1 step 1000 loss 0.00012942744069732726 (188s)
+count core w64 s1 step 2000 loss 0.002514823339879513 (363s)
+count core w64 s1 step 3000 loss 4.985083069186658e-05 (526s)
+count core w64 s1 step 4000 loss 2.593372846604325e-05 (696s)
+{"task": "count", "arm": "core", "width": 64, "seed": 1, "effective_horizon": 0, "horizon_metric": "unseen_depth", "wall_seconds": 717.3921240000018}
+8 {'length': 64, 'final': 0.57, 'prefix': 0.905, 'unseen_depth': None, 'at_peak': 0.878}
+16 {'length': 64, 'final': 0.03, 'prefix': 0.13, 'unseen_depth': 0.0, 'at_peak': 0.0}
+32 {'length': 128, 'final': 0.0, 'prefix': 0.062, 'unseen_depth': 0.0, 'at_peak': 0.0}
+64 {'length': 256, 'final': 0.0, 'prefix': 0.031, 'unseen_depth': 0.0, 'at_peak': 0.0}
+128 {'length': 512, 'final': 0.0, 'prefix': 0.016, 'unseen_depth': 0.0, 'at_peak': 0.0}
+256 {'length': 1024, 'final': 0.0, 'prefix': 0.008, 'unseen_depth': 0.0, 'at_peak': None}

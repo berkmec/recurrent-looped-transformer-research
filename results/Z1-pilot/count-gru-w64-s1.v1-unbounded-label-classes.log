@@ -1,0 +1,11 @@
+count gru w64 s1 step 1000 loss 0.0256601981818676 (91s)
+count gru w64 s1 step 2000 loss 0.0011140684364363551 (174s)
+count gru w64 s1 step 3000 loss 0.0003850084322039038 (291s)
+count gru w64 s1 step 4000 loss 0.00020652261446230114 (406s)
+{"task": "count", "arm": "gru", "width": 64, "seed": 1, "effective_horizon": 0, "horizon_metric": "unseen_depth", "wall_seconds": 410.2591441000004}
+8 {'length': 64, 'final': 1.0, 'prefix': 1.0, 'unseen_depth': None, 'at_peak': 1.0}
+16 {'length': 64, 'final': 0.03, 'prefix': 0.13, 'unseen_depth': 0.0, 'at_peak': 0.0}
+32 {'length': 128, 'final': 0.0, 'prefix': 0.062, 'unseen_depth': 0.0, 'at_peak': 0.0}
+64 {'length': 256, 'final': 0.0, 'prefix': 0.031, 'unseen_depth': 0.0, 'at_peak': 0.0}
+128 {'length': 512, 'final': 0.0, 'prefix': 0.016, 'unseen_depth': 0.0, 'at_peak': 0.0}
+256 {'length': 1024, 'final': 0.0, 'prefix': 0.008, 'unseen_depth': 0.0, 'at_peak': None}

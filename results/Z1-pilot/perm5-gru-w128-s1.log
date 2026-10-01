@@ -1,0 +1,12 @@
+perm5 gru w128 s1 step 1000 loss 4.49290132522583 (33s)
+perm5 gru w128 s1 step 2000 loss 3.8072903156280518 (71s)
+perm5 gru w128 s1 step 3000 loss 3.7433366775512695 (114s)
+perm5 gru w128 s1 step 4000 loss 3.635446071624756 (149s)
+{"task": "perm5", "arm": "gru", "width": 128, "seed": 1, "effective_horizon": 0, "horizon_metric": "final", "wall_seconds": 153.8122887999998}
+16 {'length': 16, 'final': 0.01, 'prefix': 0.136, 'beyond_horizon': None}
+32 {'length': 32, 'final': 0.03, 'prefix': 0.076, 'beyond_horizon': 0.019}
+64 {'length': 64, 'final': 0.02, 'prefix': 0.045, 'beyond_horizon': 0.016}
+128 {'length': 128, 'final': 0.04, 'prefix': 0.03, 'beyond_horizon': 0.015}
+256 {'length': 256, 'final': 0.03, 'prefix': 0.024, 'beyond_horizon': 0.016}
+512 {'length': 512, 'final': 0.01, 'prefix': 0.022, 'beyond_horizon': 0.018}
+1024 {'length': 1024, 'final': 0.01, 'prefix': 0.019, 'beyond_horizon': 0.017}
