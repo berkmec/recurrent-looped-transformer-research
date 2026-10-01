@@ -31,9 +31,9 @@ log() { echo "[$(date +%H:%M:%S)] $*" >> "$LOG"; }
 lines() { if [ -f "$1" ]; then wc -l < "$1"; else echo 0; fi; }
 wait_idle() { while powershell.exe -NoProfile -ExecutionPolicy Bypass -File scripts/_gpu_busy.ps1 > /dev/null 2>&1; do sleep 30; done; }
 
-decoy() {   # name init facts train_filler steps seed rate purpose [queries] [key_length] [key_alphabet] [probe_alphabets]
+decoy() {   # name init facts train_filler steps seed rate purpose [queries] [key_length] [key_alphabet] [probe_alphabets] [probe_key_lengths]
   local name=$1 init=$2 facts=$3 fill=$4 steps=$5 seed=$6 rate=$7 purpose=$8 queries=${9:-1} keylen=${10:-4}
-  local keyalpha=${11:-default} probealpha=${12:-TRAIN_KEYS,EVAL_KEYS}
+  local keyalpha=${11:-default} probealpha=${12:-TRAIN_KEYS,EVAL_KEYS} probekeylens=${13:-4}
   local out=$ROOT/$name
   mkdir -p "$out"
   if [ ! -f "$out/README.txt" ]; then
@@ -63,7 +63,7 @@ EOF
   if [ ! -f "$out/decoy.json" ]; then
     wait_idle
     $PY -B -m mline.decoy_probe --checkpoint "$out/selected.pt" --out "$out/decoy.json" --configs $DECOY_CONFIGS \
-        --alphabets "$probealpha" --items 128 --batch 32 --device cuda >> "$out/sweep.log" 2>&1
+        --alphabets "$probealpha" --key-lengths "$probekeylens" --items 128 --batch 32 --device cuda >> "$out/sweep.log" 2>&1
     log "BITTI $name: yem olgu probu"
   fi
   local keys tag
@@ -78,7 +78,7 @@ EOF
   log "BITTI $name"
 }
 
-log "TAKEOVER BASLADI (v5)"
+log "TAKEOVER BASLADI (v6)"
 wait_idle
 decoy D1-decoy3-f128 "$M1P" 3 0,128 500 217 0.25 "D1: does decoy-aware training (3 facts, random asked one) teach matching on the KEY? The nearest fact is right only 1 time in 3."
 decoy D1b-decoy3-cont "$ROOT/D1-decoy3-f128/latest.pt" 3 0,128 1000 218 0.5 "D1b: D1 continued for 1000 updates on fresh data with 50 % needle rows. D1 collapsed onto 'answer the first fact'; this asks whether more updates and twice the signal teach the key."
@@ -88,7 +88,7 @@ decoy D1b-decoy3-cont "$ROOT/D1-decoy3-f128/latest.pt" 3 0,128 1000 218 0.5 "D1b
 decoy D2-mqar4-f64 "$M1P" 4 0,64 1000 219 0.5 "D2: MQAR-style, 4 facts / 4 questions (each fact asked once, random order), from the original checkpoint. Denser key->value signal; does the key get used?" 4
 #   D3   D2 with the key length mixed 1-4 per example (one length per example): a 1-letter key is far easier to match on than a
 #        4-letter one, so the circuit may be found there and carry over. The only difference from D2 is the key length.
-decoy D3-mqar4-k14 "$M1P" 4 0,64 1000 220 0.5 "D3: D2 with key length drawn 1-4 per example. Short keys are easier to match on; does the key get used, and does it carry to 4-letter keys?" 4 1-4
+decoy D3-mqar4-k14 "$M1P" 4 0,64 1000 220 0.5 "D3: D2 with key length drawn 1-4 per example. Short keys are easier to match on; does the key get used, and does it carry to 4-letter keys?" 4 1-4 default TRAIN_KEYS,EVAL_KEYS 1,2,3,4
 #   D4   D2 with a WIDE training key alphabet (A-M plus N P Q R S) and the probe's held-out letters T-Z: does a model that saw 17
 #        letters learn "are these letters equal" rather than routing for particular letters? The only difference from D2 is the
 #        alphabet. D2 matched keys on seen letters only (decoy asked: 41-67 % right) and not at all on unseen ones.
