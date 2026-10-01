@@ -34,7 +34,40 @@ class Arms(unittest.TestCase):
 
     def test_unknown_arm_is_rejected(self):
         with self.assertRaises(ValueError):
-            make_arm('lstm', 'perm3', 32, seed=1)
+            make_arm('mamba', 'perm3', 32, seed=1)
+
+    def test_every_arm_is_causal(self):
+        # a model that peeks at later tokens would "solve" every prefix task for the wrong reason
+        torch.manual_seed(0)
+        x, _ = dt.generate('perm3', 2, 12, seed=3)
+        x2 = x.clone()
+        x2[:, 7:] = (x2[:, 7:] + 1) % dt.vocab('perm3')            # change everything from position 7 on
+        for arm in ARMS:
+            m = make_arm(arm, 'perm3', 32, seed=2)
+            m.eval()
+            with torch.no_grad():
+                a, b = m(x), m(x2)
+            self.assertTrue(torch.allclose(a[:, :7], b[:, :7], atol=1e-5), arm)
+            self.assertFalse(torch.allclose(a[:, 7:], b[:, 7:], atol=1e-5), arm)       # and the later positions do react
+
+    def test_lstm_and_transformer_baselines_exist_with_sensible_sizes(self):
+        self.assertIn('lstm', ARMS)
+        self.assertIn('tfm', ARMS)
+        lstm = make_arm('lstm', 'perm3', 32, seed=1)
+        tfm = make_arm('tfm', 'perm3', 64, seed=1)
+        self.assertTrue(20_000 < parameter_count(make_arm('lstm', 'perm3', 64, seed=1)) < 60_000)
+        self.assertTrue(50_000 < parameter_count(tfm) < 300_000, parameter_count(tfm))
+        self.assertEqual(parameter_count(lstm) > parameter_count(make_arm('gru', 'perm3', 32, seed=1)), True)    # four gates against three
+
+    def test_the_transformer_baseline_has_no_position_signal_of_its_own(self):
+        # NoPE: permuting the prefix tokens leaves the representation of an identical-token prefix position-independent, so a sequence of one
+        # repeated token gives the same output at every position (only causal attention can tell positions apart, and it cannot here)
+        tfm = make_arm('tfm', 'perm3', 32, seed=1)
+        tfm.eval()
+        x = torch.zeros(1, 9, dtype=torch.long)
+        with torch.no_grad():
+            out = tfm(x)
+        self.assertTrue(torch.allclose(out[:, 0], out[:, 8], atol=1e-5))
 
 
 class Runner(unittest.TestCase):

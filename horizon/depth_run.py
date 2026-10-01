@@ -177,7 +177,8 @@ def run(task, arm, width, seed, steps, points=None, n_eval=100, out=None, **kw):
     if out:   # before the slow evaluation: a crash there must not lose the trained model
         save_model(model, Path(out).with_suffix('.pt'), task, arm, width, seed, trained)
     points = points or default_points(task)
-    curve = evaluate(model, task, points, n_eval, seed)
+    eval_batch = 8 if arm == 'tfm' else 50          # attention is quadratic in the length: the transformer arm needs small batches at 1,000+ positions
+    curve = evaluate(model, task, points, n_eval, seed, batch=eval_batch)
     key = 'reentry' if task == 'count' else 'final'
     # a horizon only means something if the task was learned inside the trained range
     in_range_point = dt.TRAIN_DEPTH if task == 'count' else dt.TRAIN_LENGTH
@@ -189,7 +190,7 @@ def run(task, arm, width, seed, steps, points=None, n_eval=100, out=None, **kw):
                   effective_horizon=effective_horizon(curve, key) if learned else 0, horizon_metric=key,
                   trained_range=dt.TRAIN_DEPTH if task == 'count' else dt.TRAIN_LENGTH, wall_seconds=time.perf_counter() - started)
     if task == 'count':
-        result['length_control'] = evaluate_length_control(model, [64, 256, 1024], n_eval, seed)
+        result['length_control'] = evaluate_length_control(model, [64, 256, 1024], n_eval, seed, batch=eval_batch)
     if out:
         path = Path(out)
         path.parent.mkdir(parents=True, exist_ok=True)

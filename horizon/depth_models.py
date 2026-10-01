@@ -3,6 +3,8 @@
   core       the sealed Core, state feedback on (alpha 0.1)
   core_nofb  the same weights layout with the feedback path off: causal attention plus a short local window, no recurrence
   gru        a plain GRU, the textbook recurrent baseline for state tracking and counting
+  lstm       a plain LSTM: unlike the GRU it has an unbounded cell state, so it is the recurrent baseline that CAN count
+  tfm        a causal pre-norm transformer with no positional encoding (NoPE), four layers: the constant-depth, non-recurrent baseline
 """
 import torch
 from torch import nn
@@ -11,7 +13,7 @@ from core.model import Core
 
 from . import depth_tasks as dt
 
-ARMS = ('core', 'core_nofb', 'gru')
+ARMS = ('core', 'core_nofb', 'gru', 'lstm', 'tfm')
 
 
 class GRUArm(nn.Module):
@@ -26,6 +28,35 @@ class GRUArm(nn.Module):
         return self.read(h)
 
 
+class LSTMArm(nn.Module):
+    def __init__(self, vocab, classes, width):
+        super().__init__()
+        self.embedding = nn.Embedding(vocab, width)
+        self.rnn = nn.LSTM(width, width, batch_first=True)
+        self.read = nn.Linear(width, classes)
+
+    def forward(self, x):
+        h, _ = self.rnn(self.embedding(x))
+        return self.read(h)
+
+
+class TfmArm(nn.Module):
+    """Causal pre-norm transformer, no positional encoding: order is only visible through causal attention itself."""
+
+    def __init__(self, vocab, classes, width, layers=4):
+        super().__init__()
+        self.embedding = nn.Embedding(vocab, width)
+        layer = nn.TransformerEncoderLayer(width, max(1, width // 32), 4 * width, dropout=0.0, batch_first=True, norm_first=True)
+        self.encoder = nn.TransformerEncoder(layer, layers, enable_nested_tensor=False)
+        self.norm = nn.LayerNorm(width)
+        self.read = nn.Linear(width, classes)
+
+    def forward(self, x):
+        n = x.shape[1]
+        mask = torch.triu(torch.ones(n, n, dtype=torch.bool, device=x.device), diagonal=1)
+        return self.read(self.norm(self.encoder(self.embedding(x), mask=mask, is_causal=True)))
+
+
 def make_arm(arm, task, width, seed, window=4, alpha=0.1):
     if arm not in ARMS:
         raise ValueError('unknown arm: ' + str(arm))
@@ -33,6 +64,10 @@ def make_arm(arm, task, width, seed, window=4, alpha=0.1):
         torch.manual_seed(seed)
         if arm == 'gru':
             return GRUArm(dt.vocab(task), dt.classes(task), width)
+        if arm == 'lstm':
+            return LSTMArm(dt.vocab(task), dt.classes(task), width)
+        if arm == 'tfm':
+            return TfmArm(dt.vocab(task), dt.classes(task), width)
         model = Core(width=width, heads=width // 32, window=window, classes=dt.classes(task), feedback=(arm == 'core'), alpha=alpha)
         if dt.vocab(task) != model.embedding.num_embeddings:
             model.embedding = nn.Embedding(dt.vocab(task), width)
