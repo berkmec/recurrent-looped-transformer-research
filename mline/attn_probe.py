@@ -146,6 +146,27 @@ def probe(model, configs, asks=dp.ASK, alphabet='TRAIN_KEYS', key_length=4, item
                         '1.0 = key-addressed; compare the same head across asks and layouts')
 
 
+def conditionality(report):
+    """Per layout: how much each head's choice depends on the asked key.
+
+    selectivity(first asked) + selectivity(decoy asked) - 1 is 0 for a head that looks at the same place whichever key is asked
+    (the two selectivities then mirror each other), and 1 for a head that always follows the asked key; a head that always
+    attends to the wrong fact scores -1. `mean` and `best` are over the heads where it is defined."""
+    pairs = {}
+    for r in report['rows']:
+        pairs.setdefault((r['alphabet'], r.get('key_length', 4), r['a'], r['b']), {})[r['ask']] = r
+    out = []
+    for (alphabet, key_length, a, b), asks in pairs.items():
+        if 'first' not in asks or 'decoy' not in asks:
+            continue
+        per_head = [None if f is None or d is None else f + d - 1
+                    for f, d in zip(asks['first']['selectivity'], asks['decoy']['selectivity'])]
+        known = [v for v in per_head if v is not None]
+        out.append(dict(alphabet=alphabet, key_length=key_length, a=a, b=b, per_head=per_head,
+                        mean=sum(known) / len(known) if known else None, best=max(known) if known else None))
+    return out
+
+
 def format_report(report):
     lines = []
     for r in report['rows']:
@@ -154,6 +175,10 @@ def format_report(report):
                      % (r['alphabet'], r['key_length'], r['a'], r['b'], r['ask'], dp.fmt(r['selectivity_mean']),
                         ' '.join(dp.fmt(v) for v in r['selectivity']),
                         ', '.join('%s %.2f' % (n, m) for m, n in top)))
+    for c in conditionality(report):
+        lines.append('%-10s key %d  %2d:%-2d key-conditional (first + decoy selectivity - 1): mean %s best %s | per head %s'
+                     % (c['alphabet'], c['key_length'], c['a'], c['b'], dp.fmt(c['mean']), dp.fmt(c['best']),
+                        ' '.join(dp.fmt(v) for v in c['per_head'])))
     return '\n'.join(lines)
 
 

@@ -122,6 +122,42 @@ class SelectivityTests(unittest.TestCase):
         self.assertTrue(torch.isnan(ap.selectivity(masses, 'first')).all())
 
 
+class ConditionalityTests(unittest.TestCase):
+    @staticmethod
+    def report(first, decoy, a=0, b=0):
+        base = dict(alphabet='TRAIN_KEYS', key_length=4, a=a, b=b, items=8, heads=len(first), masses={}, selectivity_mean=None)
+        return dict(rows=[dict(base, ask='first', selectivity=first), dict(base, ask='decoy', selectivity=decoy)])
+
+    def test_a_head_that_looks_at_the_same_place_whichever_key_is_asked_scores_zero(self):
+        out = ap.conditionality(self.report([.2, .9], [.8, .1]))
+        self.assertEqual(len(out), 1)
+        self.assertAlmostEqual(out[0]['per_head'][0], 0.0)
+        self.assertAlmostEqual(out[0]['per_head'][1], 0.0)
+
+    def test_a_head_that_always_follows_the_asked_key_scores_one_and_a_contrarian_minus_one(self):
+        out = ap.conditionality(self.report([1.0, 0.0], [1.0, 0.0]))
+        self.assertAlmostEqual(out[0]['per_head'][0], 1.0)
+        self.assertAlmostEqual(out[0]['per_head'][1], -1.0)
+        self.assertAlmostEqual(out[0]['best'], 1.0)
+        self.assertAlmostEqual(out[0]['mean'], 0.0)
+
+    def test_an_undefined_head_stays_undefined_and_is_left_out_of_the_mean(self):
+        out = ap.conditionality(self.report([.5, None], [.5, .5]))
+        self.assertIsNone(out[0]['per_head'][1])
+        self.assertAlmostEqual(out[0]['mean'], 0.0)
+
+    def test_layouts_are_paired_separately(self):
+        both = dict(rows=self.report([.9], [.9], a=0, b=0)['rows'] + self.report([.5], [.5], a=15, b=15)['rows'])
+        out = ap.conditionality(both)
+        self.assertEqual([(o['a'], o['b']) for o in out], [(0, 0), (15, 15)])
+        self.assertAlmostEqual(out[0]['per_head'][0], .8)
+        self.assertAlmostEqual(out[1]['per_head'][0], 0.0)
+
+    def test_the_printed_report_includes_the_conditionality(self):
+        text = ap.format_report(self.report([.9, .5], [.9, .5]))
+        self.assertIn('key-conditional', text)
+
+
 class RunTests(unittest.TestCase):
     def test_a_run_reports_masses_and_selectivity_per_head_for_both_asks(self):
         report = ap.probe(small_core(True), [(0, 0), (5, 3)], asks=('first', 'decoy'), alphabet='TRAIN_KEYS', key_length=2,
