@@ -78,6 +78,38 @@ class RowTests(unittest.TestCase):
         self.assertTrue(torch.equal(a['x'], b['x']))
 
 
+class AnswerStartTests(unittest.TestCase):
+    """Where each question's answer begins, so an MQAR model can be scored on the distribution it was trained on."""
+
+    def test_an_example_reports_where_each_answer_starts_in_its_text(self):
+        rng = np.random.default_rng(3)
+        for facts, queries in ((1, 1), (3, 2), (4, 4)):
+            ex = dt.example(rng, facts, 0, 20, 'repeat', None, n_queries=queries, key_length=(1, 3))
+            self.assertEqual(len(ex['value_starts']), queries)
+            for j, start in zip(ex['asked_all'], ex['value_starts']):
+                self.assertEqual(ex['text'][start:start + 4].decode('ascii'), ex['values'][j])
+
+    def test_the_rows_report_the_index_of_every_answers_first_digit_and_the_query_it_belongs_to(self):
+        items = dt.decoy_items(6, filler_range=(0, 15), seed=4, pad_to=400, pack=True, n_facts=3, n_queries=3,
+                               key_length=(1, 2), alphabet=b'ABCDEFG')
+        self.assertEqual(len(items['answer_starts']), 6)
+        for i, starts in enumerate(items['answer_starts']):
+            row = bytes(items['x'][i].tolist())
+            self.assertGreater(len(starts), 0)
+            for position, query_index in starts:
+                self.assertTrue(0 <= query_index < 3)
+                self.assertTrue(row[position:position + 4].isdigit())
+                self.assertEqual(row[position - 4:position], b' is ')            # the answer follows the question's ' is '
+            # three queries per example, in order, for every packed example
+            self.assertEqual([q for _, q in starts], [k % 3 for k in range(len(starts))])
+
+    def test_adding_the_positions_changes_nothing_else_about_the_batch(self):
+        a = dt.decoy_items(5, filler_range=(0, 15), seed=9, pad_to=400, pack=True, n_facts=3, n_queries=2)
+        self.assertEqual(a['x'].shape, (5, 400))
+        again = dt.decoy_items(5, filler_range=(0, 15), seed=9, pad_to=400, pack=True, n_facts=3, n_queries=2)
+        self.assertTrue(torch.equal(a['x'], again['x']))
+
+
 class InductionMixTests(unittest.TestCase):
     """A share of the needle rows can be induction rows (a random string repeated later) instead of MQAR facts: the rows that
     demand the match-then-copy circuit without a key/value template to shortcut on."""

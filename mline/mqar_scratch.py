@@ -37,6 +37,7 @@ from mline import decoy_train as dt
 from mline import emergence as em
 from mline import induction as ind
 from mline import lm as ml
+from mline import mqar_eval as me
 
 ROLE = 'development diagnostic: can the Core learn key-addressed retrieval from scratch, and does a single-fact start get in the way?'
 
@@ -181,6 +182,9 @@ def main():
 
         def extra_eval(model):
             return dict(copy_accuracy=ind.copy_accuracy(model, n_items=args.eval_items, batch=16, pad_to=args.pad_to, **shape))
+    else:       # the score on the distribution the run trains on, on the training letters and on T-Z, at key lengths 1 and 4
+        extra_eval = me.extra_eval(dt.ALPHABETS[args.key_alphabet], args.facts, args.queries, em.parse_range(args.train_filler),
+                                   args.pad_to, n_items=args.eval_items, key_lengths=(1, 4))
     train(args.out, args.width, args.heads, args.feedback == 'on', args.steps, args.batch, args.lr, args.warmup, args.seed,
           args.facts, args.queries, dt.parse_key_length(args.key_length), dt.ALPHABETS[args.key_alphabet],
           em.parse_range(args.train_filler), args.pad_to, args.eval_every, args.eval_items, parse_configs(args.eval_configs),

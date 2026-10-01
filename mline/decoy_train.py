@@ -87,10 +87,13 @@ def example(rng, n_facts, lo, hi, kind='repeat', corpus=None, n_queries=1, key_l
     else:
         asked_all = [int(i) for i in rng.permutation(n_facts)[:n_queries]]
     text = body
+    value_starts = []
     for j in asked_all:
-        text += b'\nThe code for ' + keys[j] + b' is ' + values[j]
+        text += b'\nThe code for ' + keys[j] + b' is '
+        value_starts.append(len(text))
+        text += values[j]
     return dict(text=text, total=total, asked=asked_all[0], asked_all=asked_all, keys=[k.decode('ascii') for k in keys],
-                values=[v.decode('ascii') for v in values], key_length=key_len)
+                values=[v.decode('ascii') for v in values], key_length=key_len, value_starts=value_starts)
 
 
 def decoy_items(n_items, filler_range=(0, 128), seed=0, kind='repeat', corpus=None, pad_to=None, pack=True, n_facts=1,
@@ -98,21 +101,24 @@ def decoy_items(n_items, filler_range=(0, 128), seed=0, kind='repeat', corpus=No
     """Same contract as mline.needle.training_items, with n_facts facts and n_queries questions per example."""
     rng = np.random.default_rng(seed + 31_337)
     lo, hi = filler_range
-    rows, fillers, texts = [], [], []
+    rows, fillers, texts, starts = [], [], [], []
     for _ in range(n_items):
-        blob, used = b'', []
+        blob, used, row_starts = b'', [], []
         while True:
             ex = example(rng, n_facts, lo, hi, kind, corpus, n_queries, key_length, alphabet)
             piece, n = ex['text'], ex['total']
             if blob and pack and pad_to is not None and len(blob) + 1 + len(piece) > pad_to:
                 break
+            offset = len(blob) + (1 if blob else 0)
             blob = blob + (b'\n' if blob else b'') + piece
             used.append(n)
+            row_starts.extend((offset + start, q) for q, start in enumerate(ex['value_starts']))
             if not (pack and pad_to is not None):
                 break
         rows.append(blob)
         fillers.append(used)
         texts.append(blob.decode('ascii', errors='ignore'))
+        starts.append(row_starts)
     per_row, fillers = fillers, [n for row in fillers for n in row]
     width = max(len(r) for r in rows)
     if pad_to is not None:
@@ -122,12 +128,16 @@ def decoy_items(n_items, filler_range=(0, 128), seed=0, kind='repeat', corpus=No
         width = pad_to
     x = np.zeros((n_items, width), dtype=np.int64)
     y = np.zeros((n_items, width), dtype=np.int64)
+    answer_starts = []
     for i, row in enumerate(rows):
-        arr = np.frombuffer((b' ' * (width - len(row))) + row, dtype=np.uint8).astype(np.int64)
+        pad = width - len(row)
+        arr = np.frombuffer((b' ' * pad) + row, dtype=np.uint8).astype(np.int64)
         x[i] = arr
         y[i, :-1] = arr[1:]
         y[i, -1] = arr[-1]
-    return dict(x=torch.from_numpy(x), y=torch.from_numpy(y), texts=texts, fillers=fillers, filler_range=filler_range,
+        answer_starts.append([(pad + start, q) for start, q in starts[i]])      # (index of the first answer digit, query number)
+    return dict(x=torch.from_numpy(x), y=torch.from_numpy(y), texts=texts, answer_starts=answer_starts, fillers=fillers,
+                filler_range=filler_range,
                 kind=kind, packed=bool(pack and pad_to is not None), fillers_per_row=per_row,
                 examples_per_row=[len(f) for f in per_row], n_facts=n_facts, n_queries=n_queries, key_length=key_length)
 
