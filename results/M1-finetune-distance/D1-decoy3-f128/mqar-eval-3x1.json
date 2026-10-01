@@ -1,0 +1,44 @@
+{
+ "checkpoint": "results/M1-finetune-distance/D1-decoy3-f128/selected.pt",
+ "args": {
+  "checkpoint": "results/M1-finetune-distance/D1-decoy3-f128/selected.pt",
+  "out": "results/M1-finetune-distance/D1-decoy3-f128/mqar-eval-3x1.json",
+  "width": null,
+  "heads": 4,
+  "feedback": "on",
+  "alphabet": "default",
+  "key_lengths": "4",
+  "facts": 3,
+  "queries": 1,
+  "with_replacement": false,
+  "filler": "0,128",
+  "pad_to": 320,
+  "items": 128,
+  "batch": 8,
+  "device": "cpu"
+ },
+ "report": {
+  "train_k4": {
+   "first": [
+    0.3898305084745763
+   ],
+   "exact": [
+    0.0903954802259887
+   ],
+   "first_all": 0.3898305084745763,
+   "exact_all": 0.0903954802259887,
+   "answers": 177
+  },
+  "held_k4": {
+   "first": [
+    0.384180790960452
+   ],
+   "exact": [
+    0.096045197740113
+   ],
+   "first_all": 0.384180790960452,
+   "exact_all": 0.096045197740113,
+   "answers": 177
+  }
+ }
+}
