@@ -91,6 +91,55 @@ class Evaluation(unittest.TestCase):
         self.assertEqual(row['neutral']['8-middle']['loss_pp'], 0.0)
 
 
+def _row(task, width, seed, losses, base=1.0):
+    """A minimal result row: `losses` maps 'slots-placement' -> loss in points."""
+    neutral = {'0-base': dict(final_accuracy=base)}
+    for key, loss in losses.items():
+        neutral[key] = dict(final_accuracy=base - loss / 100, loss_pp=loss)
+    return dict(condition=dict(task=task, width=width, seed=seed), neutral=neutral)
+
+
+CELLS = ('128-middle', '128-suffix', '512-middle', '512-suffix')
+
+
+class Verdict(unittest.TestCase):
+    def test_r1_when_every_cell_holds_within_two_points_in_two_of_three_seeds_at_both_widths(self):
+        rows = [_row('five', w, s, {c: (1.0 if s != 191 else 30.0) for c in CELLS}) for w in (32, 64) for s in (117, 143, 191)]
+        self.assertEqual(gc.verdict(rows)['verdict'], 'R1')
+
+    def test_r2_when_two_of_four_cells_lose_ten_points_in_two_of_three_seeds_at_width_64(self):
+        rows = [_row('five', 64, s, {'128-middle': 40.0, '128-suffix': 40.0, '512-middle': 5.0, '512-suffix': 5.0}) for s in (117, 143, 191)]
+        rows += [_row('five', 32, s, {c: 0.0 for c in CELLS}) for s in (117, 143, 191)]       # width 32 is irrelevant for R2
+        self.assertEqual(gc.verdict(rows)['verdict'], 'R2')
+
+    def test_r3_when_neither_rule_is_met(self):
+        rows = [_row('five', 64, s, {c: 5.0 for c in CELLS}) for s in (117, 143, 191)]          # loses 5 points: neither <= 2 nor >= 10
+        rows += [_row('five', 32, s, {c: 5.0 for c in CELLS}) for s in (117, 143, 191)]
+        self.assertEqual(gc.verdict(rows)['verdict'], 'R3')
+
+    def test_a_single_seed_meeting_the_rule_is_not_enough(self):
+        rows = [_row('five', 64, 117, {c: 50.0 for c in CELLS}), _row('five', 64, 143, {c: 5.0 for c in CELLS}), _row('five', 64, 191, {c: 5.0 for c in CELLS})]
+        rows += [_row('five', 32, s, {c: 5.0 for c in CELLS}) for s in (117, 143, 191)]
+        out = gc.verdict(rows)
+        self.assertEqual(out['five_rows'], 6)
+        self.assertEqual(out['verdict'], 'R3')                       # one drifting seed is not two; nothing holds within 2 points
+
+    def test_the_stack_task_never_enters_the_verdict(self):
+        rows = [_row('stack', 64, s, {c: 90.0 for c in CELLS}) for s in (117, 143, 191)]
+        out = gc.verdict(rows)
+        self.assertEqual(out['verdict'], 'INCOMPLETE')                 # no 'five' rows at all
+        self.assertEqual(out['five_rows'], 0)
+
+    def test_incomplete_until_all_six_five_rows_exist(self):
+        rows = [_row('five', 64, s, {c: 50.0 for c in CELLS}) for s in (117, 143)]
+        self.assertEqual(gc.verdict(rows)['verdict'], 'INCOMPLETE')
+
+    def test_prefix_cells_are_reported_but_do_not_count(self):
+        rows = [_row('five', 64, s, {**{c: 1.0 for c in CELLS}, '128-prefix': 90.0, '512-prefix': 99.0}) for s in (117, 143, 191)]
+        rows += [_row('five', 32, s, {**{c: 1.0 for c in CELLS}, '128-prefix': 90.0}) for s in (117, 143, 191)]
+        self.assertEqual(gc.verdict(rows)['verdict'], 'R1')
+
+
 class Runner(unittest.TestCase):
     def test_run_one_writes_json_and_weights_and_is_idempotent(self):
         torch.set_num_threads(1)

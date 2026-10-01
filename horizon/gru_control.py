@@ -126,6 +126,36 @@ def run_one(out, c, steps=None, validation_every=None, validation_n=None, n=None
     return result
 
 
+CELLS = ('128-middle', '128-suffix', '512-middle', '512-suffix')    # the pre-registered cells (results/Z1-G/README.txt); prefix cells are reported only
+HOLD_POINTS, DRIFT_POINTS = 2.0, 10.0
+
+
+def load_results(out):
+    return [json.loads(path.read_text(encoding='utf8')) for path in sorted(Path(out).glob('z1g-*.json'))]
+
+
+def verdict(rows):
+    """The pre-registered reading, task 'five' only, from results rows:
+    R1 (GRU HOLDS): loss <= 2 points in all four cells, in >= 2 of 3 seeds, at BOTH widths.
+    R2 (GRU DRIFTS): loss >= 10 points in >= 2 of the four cells, in >= 2 of 3 seeds, at width 64.
+    R3: anything else. INCOMPLETE until all six 'five' rows (2 widths x 3 seeds) exist."""
+    five = [r for r in rows if r['condition']['task'] == 'five']
+    detail = []
+    for r in five:
+        losses = {cell: r['neutral'][cell]['loss_pp'] for cell in CELLS}
+        detail.append(dict(width=r['condition']['width'], seed=r['condition']['seed'], losses=losses,
+                           holds=all(v <= HOLD_POINTS for v in losses.values()), drifts=sum(v >= DRIFT_POINTS for v in losses.values()) >= 2))
+    out = dict(five_rows=len(five), detail=detail)
+    if len(five) < len(WIDTHS) * len(protocol()['primary_seeds']):
+        out['verdict'] = 'INCOMPLETE'
+        return out
+    by_width = {w: [d for d in detail if d['width'] == w] for w in WIDTHS}
+    r1 = all(sum(d['holds'] for d in by_width[w]) >= 2 for w in WIDTHS)
+    r2 = sum(d['drifts'] for d in by_width[64]) >= 2
+    out['verdict'] = 'R1' if r1 else 'R2' if r2 else 'R3'
+    return out
+
+
 def main():
     torch.set_num_threads(1)
     parser = argparse.ArgumentParser(description=__doc__)
@@ -133,11 +163,19 @@ def main():
     parser.add_argument('--lane', type=int, default=0)
     parser.add_argument('--lanes', type=int, default=1)
     parser.add_argument('--list', action='store_true')
+    parser.add_argument('--verdict', action='store_true', help='print the pre-registered reading from the finished results and exit')
     args = parser.parse_args()
     cs = conditions()
     if args.list:
         for c in cs:
             print(ident(c))
+        return
+    if args.verdict:
+        rows = load_results(args.out)
+        v = verdict(rows)
+        for d in v['detail']:
+            print('five', 'w%d' % d['width'], 's%d' % d['seed'], {k: round(x, 1) for k, x in d['losses'].items()}, 'holds' if d['holds'] else '', 'drifts' if d['drifts'] else '')
+        print('verdict:', v['verdict'], '(five rows: %d of %d)' % (v['five_rows'], len(WIDTHS) * len(protocol()['primary_seeds'])))
         return
     for c in cs[args.lane::args.lanes]:
         r = run_one(args.out, c)
