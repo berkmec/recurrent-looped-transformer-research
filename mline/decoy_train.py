@@ -55,13 +55,18 @@ def parse_key_length(text):
     return parts[0], parts[1]
 
 
-def example(rng, n_facts, lo, hi, kind='repeat', corpus=None, n_queries=1, key_length=(4, 4), alphabet=None):
+def example(rng, n_facts, lo, hi, kind='repeat', corpus=None, n_queries=1, key_length=(4, 4), alphabet=None,
+            with_replacement=False):
     """One example. With n_facts == 1 the random draws are exactly the original generator's (key, value, filler length).
 
     With n_queries > 1 the example is MQAR-style: after the facts and the filler come n_queries questions, each about a
     DIFFERENT fact, in random order. That is far more key -> value signal for the same bytes, and "answer the first fact" is
-    wrong for most of the questions."""
-    if n_queries > n_facts:
+    wrong for most of the questions.
+
+    That design has a shortcut: with 4 facts and 4 questions the last question is answered by ELIMINATION (the one fact not asked
+    yet) and the third by choosing between two - a small model scored 1.00 on the last question with no key use at all.
+    `with_replacement` draws every asked fact independently, so each question needs the key (and a fact may be asked twice)."""
+    if n_queries > n_facts and not with_replacement:
         raise ValueError('cannot ask %d distinct facts out of %d' % (n_queries, n_facts))
     klo, khi = key_length
     key_len = klo if klo == khi else int(rng.integers(klo, khi + 1))         # no draw for a fixed length: the original stream
@@ -87,6 +92,8 @@ def example(rng, n_facts, lo, hi, kind='repeat', corpus=None, n_queries=1, key_l
         body += b'The code for ' + key + b' is ' + value + b'.\n' + nd.filler_bytes(kind, length, rng, corpus)
     if n_queries == 1:
         asked_all = [int(rng.integers(0, n_facts)) if n_facts > 1 else 0]       # the draw the single-question mix always made
+    elif with_replacement:
+        asked_all = [int(i) for i in rng.integers(0, n_facts, size=n_queries)]
     else:
         asked_all = [int(i) for i in rng.permutation(n_facts)[:n_queries]]
     text = body
@@ -100,7 +107,7 @@ def example(rng, n_facts, lo, hi, kind='repeat', corpus=None, n_queries=1, key_l
 
 
 def decoy_items(n_items, filler_range=(0, 128), seed=0, kind='repeat', corpus=None, pad_to=None, pack=True, n_facts=1,
-                n_queries=1, key_length=(4, 4), alphabet=None):
+                n_queries=1, key_length=(4, 4), alphabet=None, with_replacement=False):
     """Same contract as mline.needle.training_items, with n_facts facts and n_queries questions per example."""
     rng = np.random.default_rng(seed + 31_337)
     lo, hi = filler_range
@@ -108,7 +115,7 @@ def decoy_items(n_items, filler_range=(0, 128), seed=0, kind='repeat', corpus=No
     for _ in range(n_items):
         blob, used, row_starts = b'', [], []
         while True:
-            ex = example(rng, n_facts, lo, hi, kind, corpus, n_queries, key_length, alphabet)
+            ex = example(rng, n_facts, lo, hi, kind, corpus, n_queries, key_length, alphabet, with_replacement)
             piece, n = ex['text'], ex['total']
             if blob and pack and pad_to is not None and len(blob) + 1 + len(piece) > pad_to:
                 break
@@ -147,7 +154,7 @@ def decoy_items(n_items, filler_range=(0, 128), seed=0, kind='repeat', corpus=No
 
 @contextlib.contextmanager
 def patched(n_facts, kind='repeat', corpus=None, n_queries=1, key_length=(4, 4), alphabet=None, induction_share=0.0,
-            induction_shape=None):
+            induction_shape=None, with_replacement=False):
     """Replace needle.training_items with the decoy generator for the length of the block; always restore it.
 
     `kind` is 'repeat', 'text' (a slice of `corpus` per filler) or 'mix' (a coin per example); the trainer calls the
@@ -166,7 +173,8 @@ def patched(n_facts, kind='repeat', corpus=None, n_queries=1, key_length=(4, 4),
         if n_induction and pad_to is None:
             raise ValueError('induction rows need a row width (pad_to)')
         mqar = decoy_items(n_items - n_induction, filler_range, seed, kind, corpus, pad_to, pack, n_facts=n_facts,
-                           n_queries=n_queries, key_length=key_length, alphabet=alphabet) if n_items - n_induction else None
+                           n_queries=n_queries, key_length=key_length, alphabet=alphabet,
+                           with_replacement=with_replacement) if n_items - n_induction else None
         if not n_induction:
             return mqar
         x, y, _ = ind.items(n_induction, seed + 7919, pad_to, **induction_shape)
@@ -203,6 +211,9 @@ def main():
                         help='N, or LOW-HIGH to draw one key length per example (short keys are easier to match on)')
     parser.add_argument('--key-alphabet', default='default', choices=tuple(ALPHABETS),
                         help="training key letters: 'default' A-M, 'wide' adds N P Q R S (T-Z stay unseen for the probe)")
+    parser.add_argument('--with-replacement', action='store_true',
+                        help='draw every asked fact independently: removes the elimination shortcut (the last question is otherwise '
+                             'answered by the one fact not asked yet)')
     parser.add_argument('--induction-share', type=float, default=0.0,
                         help='fraction of the needle rows that are induction rows (a random string repeated later) instead of MQAR facts')
     parser.add_argument('--seg-length', default='8-32', help='induction rows: length range of the repeated string')
@@ -221,6 +232,7 @@ def main():
                                                                   key_length=args.key_length,
                                                                   key_alphabet=args.key_alphabet,
                                                                   induction_share=args.induction_share,
+                                                                  with_replacement=args.with_replacement,
                                                                   train_filler=args.train_filler, filler=args.filler,
                                                                   note='needle.training_items replaced for this run by '
                                                                        'mline.decoy_train.decoy_items'), indent=1),
@@ -228,7 +240,7 @@ def main():
     shape = dict(seg=ind.parse_span(args.seg_length), gap=em.parse_range(args.gap), lead=em.parse_range(args.lead),
                  skip=args.skip) if args.induction_share > 0 else None
     with patched(args.facts, args.filler, corpus, args.queries, parse_key_length(args.key_length),
-                 ALPHABETS[args.key_alphabet], args.induction_share, shape):
+                 ALPHABETS[args.key_alphabet], args.induction_share, shape, args.with_replacement):
         em.run(args.out, arm=args.arm, steps=args.steps, batch=args.batch, every=args.every, device=args.device,
                seed=args.seed, needle_rate=args.needle_rate, train_filler=em.parse_range(args.train_filler),
                pack=True, lr=args.lr, init_from=args.init_from)

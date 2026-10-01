@@ -159,6 +159,17 @@ class TrainTests(unittest.TestCase):
             self.assertNotIn('extra', row['eval'])
             self.assertEqual(json.loads(Path(d, 'probe.json').read_text(encoding='utf8'))['source'], 'mqar')
 
+    def test_with_replacement_changes_the_batch_and_is_recorded_and_the_default_is_unchanged(self):
+        kw = dict(facts=3, queries=3, key_length=(1, 2), alphabet=b'ABCDEFG', filler=(0, 8), pad_to=200)
+        a, _ = ms.draw(4, 1, 1, **kw)
+        b, _ = ms.draw(4, 1, 1, with_replacement=False, **kw)
+        c, _ = ms.draw(4, 1, 1, with_replacement=True, **kw)
+        self.assertTrue(torch.equal(a, b))
+        self.assertFalse(torch.equal(a, c))
+        with tempfile.TemporaryDirectory() as d:
+            tiny(d, steps=2, with_replacement=True)
+            self.assertTrue(json.loads(Path(d, 'probe.json').read_text(encoding='utf8'))['with_replacement'])
+
     def test_a_span_parses_and_bad_spans_are_refused(self):
         self.assertEqual(ms.parse_span('8-32'), (8, 32))
         self.assertEqual(ms.parse_span('5'), (5, 5))

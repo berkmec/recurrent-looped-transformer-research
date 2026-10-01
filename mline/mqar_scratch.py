@@ -51,10 +51,11 @@ def build_small(width, heads, feedback, seed, window=4, alpha=.1):
     return core
 
 
-def draw(n, seed, step, facts, queries, key_length, alphabet, filler, pad_to):
+def draw(n, seed, step, facts, queries, key_length, alphabet, filler, pad_to, with_replacement=False):
     """The training batch for (seed, step): a pure function of both, so a resumed run is the same run."""
     items = dt.decoy_items(n, filler_range=filler, seed=seed * 100_003 + step, kind='repeat', pad_to=pad_to, pack=True,
-                           n_facts=facts, n_queries=queries, key_length=key_length, alphabet=alphabet)
+                           n_facts=facts, n_queries=queries, key_length=key_length, alphabet=alphabet,
+                           with_replacement=with_replacement)
     return items['x'], items['y']
 
 
@@ -76,7 +77,7 @@ def summarize(rows):
 
 def train(out, width, heads, feedback, steps, batch, lr, warmup, seed, facts, queries, key_length, alphabet, filler, pad_to,
           eval_every, eval_items, eval_configs, eval_alphabets, eval_key_lengths, init_from=None, clip=1.,
-          weight_decay=.01, verbose=True, batch_fn=None, extra_eval=None, source='mqar'):
+          weight_decay=.01, verbose=True, batch_fn=None, extra_eval=None, source='mqar', with_replacement=False):
     """`batch_fn(step) -> (x, y)` replaces the MQAR batch (induction rows use it); `extra_eval(model) -> dict` adds a number
     to every eval row. Both default to nothing, which is the MQAR run T1a/T1b were made with."""
     out = Path(out)
@@ -84,7 +85,8 @@ def train(out, width, heads, feedback, steps, batch, lr, warmup, seed, facts, qu
     model = build_small(width, heads, feedback, seed)
     opt = torch.optim.AdamW(model.parameters(), lr=lr, weight_decay=weight_decay)
     header = dict(role=ROLE, width=width, heads=heads, feedback=feedback, steps=steps, batch=batch, lr=lr, warmup=warmup,
-                  seed=seed, source=source, facts=facts, queries=queries, key_length=list(key_length),
+                  seed=seed, source=source, with_replacement=with_replacement, facts=facts, queries=queries,
+                  key_length=list(key_length),
                   key_alphabet=alphabet.decode('ascii'),
                   filler=list(filler), pad_to=pad_to, eval_every=eval_every, eval_items=eval_items,
                   parameters=sum(p.numel() for p in model.parameters()), utc=time.time(),
@@ -111,7 +113,7 @@ def train(out, width, heads, feedback, steps, batch, lr, warmup, seed, facts, qu
     t0 = time.perf_counter()
     for step in range(start, steps + 1):
         x, y = batch_fn(step) if batch_fn is not None else draw(batch, seed, step, facts, queries, key_length, alphabet, filler,
-                                                                pad_to)
+                                                                pad_to, with_replacement)
         for group in opt.param_groups:
             group['lr'] = lr_at(step, lr, warmup)
         model.train()
@@ -167,6 +169,8 @@ def main():
     parser.add_argument('--eval-key-lengths', default='1,4')
     parser.add_argument('--init-from', default=None)
     parser.add_argument('--threads', type=int, default=1)
+    parser.add_argument('--with-replacement', action='store_true',
+                        help='ask every fact independently (no elimination shortcut); also what the MQAR score draws')
     parser.add_argument('--source', choices=('mqar', 'induction'), default='mqar',
                         help="'induction': rows of a random string repeated later (mline.induction) instead of MQAR facts")
     parser.add_argument('--seg-length', default='8-32', help='induction: length range of the repeated string')
@@ -184,12 +188,14 @@ def main():
             return dict(copy_accuracy=ind.copy_accuracy(model, n_items=args.eval_items, batch=16, pad_to=args.pad_to, **shape))
     else:       # the score on the distribution the run trains on, on the training letters and on T-Z, at key lengths 1 and 4
         extra_eval = me.extra_eval(dt.ALPHABETS[args.key_alphabet], args.facts, args.queries, em.parse_range(args.train_filler),
-                                   args.pad_to, n_items=args.eval_items, key_lengths=(1, 4))
+                                   args.pad_to, n_items=args.eval_items, key_lengths=(1, 4),
+                                   with_replacement=args.with_replacement)
     train(args.out, args.width, args.heads, args.feedback == 'on', args.steps, args.batch, args.lr, args.warmup, args.seed,
           args.facts, args.queries, dt.parse_key_length(args.key_length), dt.ALPHABETS[args.key_alphabet],
           em.parse_range(args.train_filler), args.pad_to, args.eval_every, args.eval_items, parse_configs(args.eval_configs),
           tuple(args.eval_alphabets.split(',')), tuple(int(v) for v in args.eval_key_lengths.split(',')),
-          init_from=args.init_from, batch_fn=batch_fn, extra_eval=extra_eval, source=args.source)
+          init_from=args.init_from, batch_fn=batch_fn, extra_eval=extra_eval, source=args.source,
+          with_replacement=args.with_replacement)
 
 
 if __name__ == '__main__':

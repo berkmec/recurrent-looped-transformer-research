@@ -69,6 +69,18 @@ class AccuracyTests(unittest.TestCase):
         self.assertEqual(a, me.mqar_accuracy(model, **KW))
 
 
+class WithReplacementTests(unittest.TestCase):
+    def test_more_questions_than_facts_can_be_scored_with_replacement_and_an_oracle_gets_them_all(self):
+        kw = dict(KW, facts=2, queries=4, with_replacement=True)
+        r = me.mqar_accuracy(Shifted(), **kw)
+        self.assertEqual(len(r['first']), 4)
+        self.assertEqual(r['first_all'], 1.0)
+
+    def test_the_default_still_refuses_more_questions_than_facts(self):
+        with self.assertRaises(ValueError):
+            me.mqar_accuracy(Shifted(), **dict(KW, facts=2, queries=4))
+
+
 class ExtraEvalTests(unittest.TestCase):
     def test_the_hook_scores_the_training_letters_and_the_held_out_letters_at_each_key_length(self):
         fn = me.extra_eval(alphabet=b'ABCDEFGHJKLM', facts=3, queries=3, filler=(0, 12), pad_to=300, n_items=8,

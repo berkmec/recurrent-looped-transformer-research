@@ -78,6 +78,61 @@ class RowTests(unittest.TestCase):
         self.assertTrue(torch.equal(a['x'], b['x']))
 
 
+class WithReplacementTests(unittest.TestCase):
+    """Without replacement every question asks a different fact, so the last question is answered by elimination (the one fact
+    not asked yet) - T1b scored 1.00 on it with no key use at all. Asking with replacement removes that shortcut."""
+
+    def test_the_default_still_asks_each_fact_at_most_once(self):
+        rng = np.random.default_rng(1)
+        for _ in range(60):
+            ex = dt.example(rng, 4, 0, 10, 'repeat', None, n_queries=4)
+            self.assertEqual(sorted(ex['asked_all']), [0, 1, 2, 3])
+
+    def test_with_replacement_a_fact_can_be_asked_twice_and_every_fact_can_be_asked(self):
+        rng = np.random.default_rng(2)
+        repeats, seen = 0, set()
+        for _ in range(200):
+            ex = dt.example(rng, 4, 0, 10, 'repeat', None, n_queries=4, with_replacement=True)
+            self.assertEqual(len(ex['asked_all']), 4)
+            repeats += len(set(ex['asked_all'])) < 4
+            seen |= set(ex['asked_all'])
+        self.assertGreater(repeats, 100)                    # 1 - 4!/4^4 = 90 % of examples repeat a fact
+        self.assertEqual(seen, {0, 1, 2, 3})
+
+    def test_with_replacement_the_asked_facts_are_uniform_and_independent_of_the_position_in_the_row(self):
+        rng = np.random.default_rng(3)
+        counts = np.zeros((4, 4))
+        for _ in range(2000):
+            ex = dt.example(rng, 4, 0, 10, 'repeat', None, n_queries=4, with_replacement=True)
+            for q, fact in enumerate(ex['asked_all']):
+                counts[q, fact] += 1
+        self.assertTrue(np.all(np.abs(counts / 2000 - .25) < .04))
+
+    def test_with_replacement_the_text_still_ends_each_question_with_its_facts_key_and_value(self):
+        rng = np.random.default_rng(4)
+        for _ in range(30):
+            ex = dt.example(rng, 3, 0, 10, 'repeat', None, n_queries=4, with_replacement=True, key_length=(2, 2))
+            for j, start in zip(ex['asked_all'], ex['value_starts']):
+                self.assertEqual(ex['text'][start:start + 4].decode('ascii'), ex['values'][j])
+                self.assertEqual(ex['text'][start - 4 - 2:start - 4].decode('ascii'), ex['keys'][j])
+
+    def test_more_questions_than_facts_is_allowed_only_with_replacement(self):
+        rng = np.random.default_rng(5)
+        with self.assertRaises(ValueError):
+            dt.example(rng, 2, 0, 10, 'repeat', None, n_queries=4)
+        self.assertEqual(len(dt.example(rng, 2, 0, 10, 'repeat', None, n_queries=4, with_replacement=True)['asked_all']), 4)
+
+    def test_the_patch_passes_it_through_and_the_default_batch_is_unchanged(self):
+        with dt.patched(4, n_queries=4):
+            plain = nd.training_items(4, filler_range=(0, 10), seed=5, pad_to=400)
+        with dt.patched(4, n_queries=4, with_replacement=False):
+            same = nd.training_items(4, filler_range=(0, 10), seed=5, pad_to=400)
+        with dt.patched(4, n_queries=4, with_replacement=True):
+            other = nd.training_items(4, filler_range=(0, 10), seed=5, pad_to=400)
+        self.assertTrue(torch.equal(plain['x'], same['x']))
+        self.assertFalse(torch.equal(plain['x'], other['x']))
+
+
 class AnswerStartTests(unittest.TestCase):
     """Where each question's answer begins, so an MQAR model can be scored on the distribution it was trained on."""
 
