@@ -6,6 +6,7 @@
   python -B -m horizon.readings ep4           # E-P4: S4 GRU / LSTM w64, seeds 1-5, constant vs annealed: is the floor typical (ARTEFACT CONFIRMED) or a seed lottery?
   python -B -m horizon.readings ep5           # E-P2: the same for the S5 Core w128, GRU w256 and LSTM w208 (seed 1)
   python -B -m horizon.readings ed5           # E-D5: S5 Core w128, state-noise training (sigma 0.1 / 0.2) on top of the lr annealing, against the constant-lr baseline
+  python -B -m horizon.readings ek5           # E-K5: the lr-annealed S5 Core at widths 256 / 192 against the constant-lr w128 baseline (does width remove the margin erosion?)
   python -B -m horizon.readings epseeds       # E-P2 replicates: S4 GRU / LSTM w64, seeds 2 and 3 against their own seed's constant-lr baseline
   python -B -m horizon.readings ec            # scale-diverse excursion counter (count8_32 and count8_64, LSTM and GRU)
 
@@ -99,6 +100,30 @@ def ep3_arm(arm, floors=FLOORS, directory=RESULTS, width=64, baseline_seeds=(1, 
     out['sufficient_floor'] = max(ok) if ok else None
     out['curve'] = {f: (runs[f]['hazard'], runs[f]['events']) for f in sorted(runs, reverse=True)}
     return out
+
+
+def ek5(widths=(256, 192), directory=RESULTS, task='perm5', arm='core', baseline_width=128, seed=1):
+    """E-K5 (note 5.22): does WIDTH (state dimension per class) remove the S5 Core's long-position margin erosion? The baseline is the constant-lr run at `baseline_width` (the
+    E-P2 baseline, 1.41e-3); the runs are the lr-annealed runs (`-lrdecay0.3`, same recipe as E-P2) at the other widths. SUPPORTED when some width gives in-range final accuracy >= 0.99
+    AND a pooled hazard <= baseline / 5; REFUTED when every width has hazard >= baseline / 2 or in-range < 0.95; MIXED otherwise; INCOMPLETE until every width has run."""
+    path = Path(directory) / f'{task}-{arm}-w{baseline_width}-s{seed}-cur.json'
+    if not path.exists():
+        return dict(verdict='NO BASELINE')
+    base, base_events, base_exposure = pooled_rate(_load(path))
+    runs = {}
+    for width in widths:
+        run_path = Path(directory) / f'{task}-{arm}-w{width}-s{seed}-cur-lrdecay0.3.json'
+        if run_path.exists():
+            result = _load(run_path)
+            rate, events, exposure = pooled_rate(result)
+            runs[width] = dict(in_range=result['curve']['16']['final'], hazard=rate, ratio=(rate / base if base else None), events=events, exposure=exposure,
+                               p_lower=rate_ratio_p(base_events, base_exposure, events, exposure))
+    if not runs:
+        return dict(verdict='NO RUNS', baseline=base)
+    supported = any(ge(r['in_range'], 0.99) and r['hazard'] <= base / 5 for r in runs.values())
+    refuted = len(runs) == len(widths) and all(r['hazard'] >= base / 2 or not ge(r['in_range'], 0.95) for r in runs.values())
+    return dict(baseline_width=baseline_width, baseline_hazard=base, runs=runs, complete=len(runs) == len(widths),
+                verdict='SUPPORTED' if supported else 'REFUTED' if refuted else 'MIXED' if len(runs) == len(widths) else 'INCOMPLETE')
 
 
 FLOOR_HAZARD = 2e-4
@@ -212,6 +237,8 @@ def main():
                           ed_arm('lstm', sigmas=(0.3,), tag='lrdecay', task='perm5', width=208, baseline_seeds=(1,))], indent=1, default=str))
     elif which == 'ed5':      # E-D5: the S5 Core w128 trained with carried-state noise on top of the lr annealing (note 5.21), against the constant-lr S5 Core baseline
         print(json.dumps(ed_arm('core', sigmas=(0.1, 0.2), tag='lrdecay0.3-noise', task='perm5', width=128, baseline_seeds=(1,)), indent=1, default=str))
+    elif which == 'ek5':      # E-K5: the lr-annealed S5 Core at widths 256 / 192 against the constant-lr w128 baseline (note 5.22)
+        print(json.dumps(ek5(), indent=1, default=str))
     elif which == 'epseeds':  # E-P2 replicates: S4 seeds 2 and 3, each against its OWN seed's constant-lr baseline
         print(json.dumps({f'{arm}-s{seed}': ed_arm(arm, sigmas=(0.3,), tag='lrdecay', baseline_seeds=(seed,), run_seed=seed) for arm in ('gru', 'lstm') for seed in (2, 3)},
                          indent=1, default=str))
@@ -220,7 +247,7 @@ def main():
     elif which == 'ec0':
         print(json.dumps(ec0(), indent=1, default=str))
     else:
-        raise SystemExit('usage: python -B -m horizon.readings ed|ep|ep3|ep4|ep5|ed5|epseeds|ec|ec0')
+        raise SystemExit('usage: python -B -m horizon.readings ed|ep|ep3|ep4|ep5|ed5|ek5|epseeds|ec|ec0')
 
 
 if __name__ == '__main__':

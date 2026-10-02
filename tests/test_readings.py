@@ -120,6 +120,28 @@ class LearningRateDecayReading(unittest.TestCase):
         self.assertEqual(r['verdict'], 'SUPPORTED')                                          # 150 <= 800 / 5 = 160 with the range learned
         self.assertEqual((r['runs'][0.1]['events'], r['runs'][0.2]['events']), (700, 150))
 
+    def test_the_width_reading_compares_annealed_wider_cores_with_the_constant_lr_w128_baseline(self):
+        # E-K5: `perm5-core-w{256,192}-s1-cur-lrdecay0.3.json` against `perm5-core-w128-s1-cur.json` (800 events / 1,024,000)
+        self.assertEqual(rd.ek5(directory=self.dir)['verdict'], 'NO BASELINE')
+        write(self.dir, 'perm5-core-w128-s1-cur.json', perm_result(1.0, 800, 1_024_000))
+        self.assertEqual(rd.ek5(directory=self.dir)['verdict'], 'NO RUNS')
+        write(self.dir, 'perm5-core-w256-s1-cur-lrdecay0.3.json', perm_result(1.0, 120, 1_024_000))
+        r = rd.ek5(directory=self.dir)
+        self.assertEqual(r['verdict'], 'SUPPORTED')                                       # 120 <= 800 / 5 = 160 with the range learned: enough, even before w192 has run
+        self.assertFalse(r['complete'])
+        write(self.dir, 'perm5-core-w192-s1-cur-lrdecay0.3.json', perm_result(1.0, 700, 1_024_000))
+        r = rd.ek5(directory=self.dir)
+        self.assertEqual((r['verdict'], r['complete']), ('SUPPORTED', True))
+        self.assertEqual((r['runs'][256]['events'], r['runs'][192]['events']), (120, 700))
+        # nothing halves the hazard, or the wide run did not learn the range: REFUTED once both ran; one run short: INCOMPLETE
+        write(self.dir, 'perm5-core-w256-s1-cur-lrdecay0.3.json', perm_result(0.9, 10, 1_024_000))                 # a tiny hazard but the range is not learned
+        write(self.dir, 'perm5-core-w192-s1-cur-lrdecay0.3.json', perm_result(1.0, 700, 1_024_000))
+        self.assertEqual(rd.ek5(directory=self.dir)['verdict'], 'REFUTED')
+        write(self.dir, 'perm5-core-w192-s1-cur-lrdecay0.3.json', perm_result(1.0, 300, 1_024_000))                 # 300 < 800 / 2 but > 800 / 5: neither
+        self.assertEqual(rd.ek5(directory=self.dir)['verdict'], 'MIXED')
+        (Path(self.dir) / 'perm5-core-w192-s1-cur-lrdecay0.3.json').unlink()
+        self.assertEqual(rd.ek5(directory=self.dir)['verdict'], 'INCOMPLETE')
+
     def test_the_dose_response_names_the_shallowest_annealing_that_meets_the_ep_rule(self):
         # baseline 600 events: the E-P rule needs <= 120; hazards by floor 0.3 / 0.1 / 0.03 / 0.01 = 400 / 130 / 100 / 5
         for floor, events in ((0.3, 400), (0.1, 130), (0.03, 100), (0.01, 5)):
