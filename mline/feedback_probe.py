@@ -6,7 +6,10 @@ battery uses (seed 991, 8 batches of 32 x 512 bytes) with the channel changed sh
   normal       alpha 0.1, as trained (must reproduce the bits per byte the run recorded at that update, to 0.003)
   a0           alpha 0: the channel is cut at inference
   a005 / a02   alpha 0.05 / 0.2
-  zero_state   the fed-back state is replaced by zeros (the merge then sees an all-zero r)
+  zero_state   the fed-back state is replaced by zeros (the merge then sees an all-zero r). NOTE (review finding F5): RMSNorm(0) = 0 and the merge has no bias, so this
+               is the same function as `a0` wherever the state is replaced; the two differ only at the first step (where the learned `initial` vector still feeds the
+               channel) and, through the decoder's 3-step window cache, at positions 1-3: it is a consistency check, NOT independent evidence that the channel
+               carries content
   other_doc    the fed-back state is the one of another sequence of the batch (rolled by one): a state that carries nothing about THIS text
 
 Reported: bits per byte overall and in position slices [0, 64) [64, 256) [256, 512), and the difference to `normal`. A model that never learned to use the channel
@@ -112,6 +115,8 @@ def reading(results, recorded=None, tolerance=0.003):
     a0, other = diff.get('a0'), diff.get('other_doc')
     if valid is False:
         verdict = 'INVALID: the normal row does not reproduce the recorded validation'
+    elif valid is None:      # nothing to reproduce (the step is missing from the log, or the battery wrote an error): the rule says the snapshot is not read (review finding F9)
+        verdict = 'NOT READ: no recorded validation to reproduce'
     elif a0 is not None and a0 >= 0.01:
         verdict = 'CHANNEL USED FOR LANGUAGE'
     elif a0 is not None and other is not None and a0 < 0.002 and other < 0.002:

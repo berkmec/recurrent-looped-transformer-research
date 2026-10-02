@@ -24,6 +24,16 @@ from .depth_run import meets
 from .hazard_summary import pooled_windows
 
 RESULTS = Path('results/Z1-pilot')
+TOL = 1e-6      # accuracies are float32 means over n = 100 sequences: 90/100 is stored as 0.89999998, 95/100 as 0.94999999 and 10/100 as 0.10000000149; a comparison at an exact
+                # threshold must not depend on that rounding (blinded review finding F6)
+
+
+def ge(value, threshold):
+    return value >= threshold - TOL
+
+
+def le(value, threshold):
+    return value <= threshold + TOL
 
 
 def pooled_rate(result):
@@ -69,8 +79,8 @@ def ed_arm(arm, sigmas=(0.1, 0.05, 0.2), directory=RESULTS, width=64, baseline_s
                                p_lower=rate_ratio_p(base_events, base_exposure, events, exposure))
     if not runs:
         return dict(arm=arm, verdict='NO RUNS', baseline=base)
-    supported = any(r['in_range'] >= 0.99 and r['hazard'] <= best / 5 for r in runs.values())
-    refuted = len(runs) == len(sigmas) and all(r['hazard'] >= best / 2 or r['in_range'] < 0.95 for r in runs.values())
+    supported = any(ge(r['in_range'], 0.99) and r['hazard'] <= best / 5 for r in runs.values())
+    refuted = len(runs) == len(sigmas) and all(r['hazard'] >= best / 2 or not ge(r['in_range'], 0.95) for r in runs.values())
     return dict(arm=arm, baseline_hazards=base, best_baseline=best, provisional=set(base) == {1}, runs=runs, complete=len(runs) == len(sigmas),
                 verdict='SUPPORTED' if supported else 'REFUTED' if refuted else 'MIXED' if len(runs) == len(sigmas) else 'INCOMPLETE')
 
@@ -84,7 +94,7 @@ def ep3_arm(arm, floors=FLOORS, directory=RESULTS, width=64, baseline_seeds=(1, 
     that removes the floor. The curve (hazard per floor) is reported whole; None when no floor meets it."""
     out = ed_arm(arm, sigmas=floors, directory=directory, width=width, baseline_seeds=baseline_seeds, tag='lrfloor')
     runs = out.get('runs', {})
-    ok = [f for f, r in runs.items() if r['in_range'] >= 0.99 and r['hazard'] <= out['best_baseline'] / 5]
+    ok = [f for f, r in runs.items() if ge(r['in_range'], 0.99) and r['hazard'] <= out['best_baseline'] / 5]
     out['sufficient_floor'] = max(ok) if ok else None
     out['curve'] = {f: (runs[f]['hazard'], runs[f]['events']) for f in sorted(runs, reverse=True)}
     return out
@@ -108,7 +118,7 @@ def ep4(directory=RESULTS, arms=('gru', 'lstm'), seeds=(1, 2, 3, 4, 5), width=64
                     result = _load(path)
                     rate, events, exposure = pooled_rate(result)
                     rows[cond][seed] = dict(hazard=rate, events=events, exposure=exposure, in_range=result['curve']['16']['final'],
-                                            valid=result['curve']['16']['final'] >= 0.95, floor=(rate is not None and rate >= FLOOR_HAZARD))
+                                            valid=ge(result['curve']['16']['final'], 0.95), floor=(rate is not None and rate >= FLOOR_HAZARD))
         c = sum(r['floor'] for r in rows['constant'].values() if r['valid'])
         d = sum(r['floor'] for r in rows['decayed'].values() if r['valid'])
         complete = all(len(rows[k]) == len(seeds) for k in rows)
@@ -137,11 +147,11 @@ def ec_run(path, r_max, lstm):
     valid = 8 in curve and meets(curve[8]['prefix'], 0.95)
     inside = [d for d in reentry if 8 < d <= r_max]
     out = dict(valid=valid, in_range=curve.get(8, {}).get('prefix'), rho=rho_of(result, r_max), first_descent=reentry,
-               O1=(all(reentry[d] is not None and reentry[d] >= 0.9 for d in inside) if inside else None))
+               O1=(all(reentry[d] is not None and ge(reentry[d], 0.9) for d in inside) if inside else None))
     if lstm:
         two, four = reentry.get(2 * r_max), reentry.get(4 * r_max)
-        out['O2'] = (two is not None and four is not None and two >= 0.5 and four < 0.5)
-        out['O2_refuted'] = four is not None and four >= 0.95
+        out['O2'] = (two is not None and four is not None and ge(two, 0.5) and not ge(four, 0.5))
+        out['O2_refuted'] = four is not None and ge(four, 0.95)
     return out
 
 
@@ -170,8 +180,8 @@ def ec0(directory=RESULTS, seeds=range(1, 9), arms=('gru', 'lstm'), width=64):
             curve = _load(path)['curve']
             runs[f'{arm}-s{seed}'] = dict(valid=meets(curve['8']['prefix'], 0.95), in_range=curve['8']['prefix'], first_descent_16=curve['16'].get('reentry'))
     valid = {k: r for k, r in runs.items() if r['valid'] and r['first_descent_16'] is not None}
-    saturated = [k for k, r in valid.items() if r['first_descent_16'] <= 0.10]
-    counting = [k for k, r in valid.items() if r['first_descent_16'] >= 0.5]
+    saturated = [k for k, r in valid.items() if le(r['first_descent_16'], 0.10)]
+    counting = [k for k, r in valid.items() if ge(r['first_descent_16'], 0.5)]
     complete = len(runs) == len(arms) * len(list(seeds))
     if not valid:
         verdict = 'NO VALID RUNS'

@@ -1,0 +1,74 @@
+[
+ {
+  "arm": "gru",
+  "baseline_hazards": {
+   "1": 0.000757050392972723
+  },
+  "best_baseline": 0.000757050392972723,
+  "provisional": true,
+  "runs": {
+   "0.1": {
+    "in_range": 1.0,
+    "hazard": 0.0009101941747572816,
+    "ratio": 1.202290076335878,
+    "events": 153,
+    "exposure": 168096,
+    "p_lower": 0.9462462516303265
+   },
+   "0.05": {
+    "in_range": 1.0,
+    "hazard": 4.921259842519685e-06,
+    "ratio": 0.006500571016409208,
+    "events": 1,
+    "exposure": 203200,
+    "p_lower": 4.6463002976084615e-43
+   },
+   "0.2": {
+    "in_range": 1.0,
+    "hazard": 2.4699652228896616e-05,
+    "ratio": 0.03262616657777306,
+    "events": 5,
+    "exposure": 202432,
+    "p_lower": 1.4337001622843145e-37
+   }
+  },
+  "complete": true,
+  "verdict": "SUPPORTED"
+ },
+ {
+  "arm": "lstm",
+  "baseline_hazards": {
+   "1": 0.0005254400560469393
+  },
+  "best_baseline": 0.0005254400560469393,
+  "provisional": true,
+  "runs": {
+   "0.1": {
+    "in_range": 1.0,
+    "hazard": 0.0005226212481295661,
+    "ratio": 0.9946353387319192,
+    "events": 95,
+    "exposure": 181776,
+    "p_lower": 0.5140533649080006
+   },
+   "0.05": {
+    "in_range": 1.0,
+    "hazard": 0.0,
+    "ratio": 0.0,
+    "events": 0,
+    "exposure": 203200,
+    "p_lower": 6.695799519697779e-32
+   },
+   "0.2": {
+    "in_range": 1.0,
+    "hazard": 4.471027740243224e-05,
+    "ratio": 0.08509110960972896,
+    "events": 9,
+    "exposure": 201296,
+    "p_lower": 1.054819549149088e-21
+   }
+  },
+  "complete": true,
+  "verdict": "SUPPORTED"
+ }
+]

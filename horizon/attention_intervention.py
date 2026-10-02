@@ -130,6 +130,15 @@ def verdict(result):
     early ([0, 64)) rate <= 1e-4. STATE (H2): every intervention has H >= 0.7 H_taban. Otherwise MIXED. Localisation: an encoder-only or memory-only variant
     at <= 0.3 H_taban names that path."""
     rows = result['results']
+    # the validity gate (added after a blinded review, finding F8): a result whose baseline row does not reproduce the stored numbers is not read, whatever its rows say
+    differs = result.get('baseline_cell_differences')
+    if differs is None:
+        stored_path = Path(result['weights']).with_suffix('.json') if result.get('weights') else None
+        if stored_path is not None and stored_path.exists():
+            differs = baseline_cell_differences(result, stored_path)
+    gate = result.get('baseline_max_abs_difference')
+    if (gate is not None and gate > 1e-6) or (differs is not None and differs > 0):
+        return dict(verdict='INVALID: the baseline row does not reproduce the stored result', baseline_max_abs_difference=gate, baseline_cell_differences=differs)
     late = {name: _pooled(row, lambda a, b: a >= 128) for name, row in rows.items()}
     early = {name: _pooled(row, lambda a, b: b <= 64) for name, row in rows.items()}
     base = late['base']
@@ -140,20 +149,46 @@ def verdict(result):
     h2 = bool(ratio) and all(r >= 0.7 for r in ratio.values())
     local = [n for n in ('w16_enc', 'w16_mem', 'temp_enc', 'temp_mem') if n in ratio and ratio[n] <= 0.3]
     return dict(verdict='ATTENTION (H1)' if h1 else 'STATE (H2)' if h2 else 'MIXED', base_late_hazard=base, late_hazard=late, early_hazard=early,
-                ratio_to_base=ratio, best_of_w16_w32_temp=best, localised_to=local)
+                ratio_to_base=ratio, best_of_w16_w32_temp=best, localised_to=local, baseline_max_abs_difference=gate, baseline_cell_differences=differs)
+
+
+def _per_seed(result, seed):
+    """The `base` row's draws of one dev seed; keys are ints in memory and strings after a JSON round trip."""
+    per = result['results']['base']['per_seed']
+    return per.get(seed) if seed in per else per.get(str(seed))
+
+
+def _point(draws, p):
+    return draws.get(p) if p in draws else draws.get(str(p))
 
 
 def baseline_reproduces(result, stored_path, points):
-    """The `base` row must equal the numbers stored when the model was trained (same draws): otherwise the harness, not the model, differs."""
-    stored = json.loads(Path(stored_path).read_text(encoding='utf8'))['curve']
+    """The `base` row must equal the numbers stored when the model was trained (same draws): otherwise the harness, not the model, differs.
+    Max |difference| of the final accuracies at the model's own dev seed (None when not comparable)."""
+    stored_file = json.loads(Path(stored_path).read_text(encoding='utf8'))
+    stored = stored_file['curve']
     seeds = result['seeds']
-    if result['task'] != stored.get('task', result['task']) or not result['results'].get('base'):
+    if result['task'] != stored_file.get('task', result['task']) or not result['results'].get('base'):      # the first version read `.get('task')` off the curve dict: always True
         return None
-    model_seed = json.loads(Path(stored_path).read_text(encoding='utf8'))['seed']
+    model_seed = stored_file['seed']
     if model_seed not in seeds:
         return None
-    diffs = [abs(result['results']['base']['per_seed'][model_seed][p]['final'] - stored[str(p)]['final']) for p in points if str(p) in stored]
+    draws = _per_seed(result, model_seed)
+    diffs = [abs(_point(draws, p)['final'] - stored[str(p)]['final']) for p in points if str(p) in stored]
     return max(diffs) if diffs else None
+
+
+def baseline_cell_differences(result, stored_path, points=None):
+    """Number of evaluation points whose hazard rows (start, stop, at_risk, first_errors) in the model-seed `base` draw differ from the rows stored at training time:
+    the stronger reproduction check (the final accuracies alone do not see a flipped argmax elsewhere in a sequence; review finding F8). None when not comparable."""
+    stored_file = json.loads(Path(stored_path).read_text(encoding='utf8'))
+    stored = stored_file['curve']
+    if not result['results'].get('base') or stored_file['seed'] not in result['seeds'] and str(stored_file['seed']) not in {str(s) for s in result['seeds']}:
+        return None
+    draws = _per_seed(result, stored_file['seed'])
+    rows = lambda hazard: [(w['start'], w['stop'], w['at_risk'], w['first_errors']) for w in (hazard or [])]
+    pts = [p for p in (points or result['points']) if str(p) in stored]
+    return sum(rows(_point(draws, p).get('hazard')) != rows(stored[str(p)].get('hazard')) for p in pts) if pts else None
 
 
 def main():
@@ -182,6 +217,7 @@ def main():
     if stored.exists() and 'base' in names:
         diff = baseline_reproduces(result, stored, points)
         result['baseline_max_abs_difference'] = diff
+        result['baseline_cell_differences'] = baseline_cell_differences(result, stored, points)
         print('baseline vs the numbers stored at training time: max |difference| in final accuracy', diff,
               '(OK)' if diff is not None and diff <= 1e-6 else '<-- DOES NOT REPRODUCE: do not read the other rows', flush=True)
     if a.out:

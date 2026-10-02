@@ -224,8 +224,56 @@ def radius_spread(rows):
     return math.sqrt(sum((x - mean) ** 2 for x in radii) / len(radii)) / mean
 
 
+def hazard_mle(cells, bracket=(1e-12, 1.0 - 1e-9)):
+    """Maximum-likelihood CONSTANT per-step hazard from window cells [(first_errors, at_risk, width), ...] (blinded review finding F1).
+    `first_error_hazard` divides the first errors of a window by at_risk x width, which counts every step of a sequence that has already failed inside the window as
+    still at risk: the rate saturates at 1 / width (1/16 in [0, 16)) however large the true hazard is. Each at-risk sequence instead fails inside a window of width w
+    with probability q = 1 - (1 - h)^w; the MLE of h solves the Bernoulli score equation (bisection). None without any sequence at risk, 0 without any first error."""
+    cells = [(e, a, w) for e, a, w in cells if a > 0 and w > 0]
+    if not cells:
+        return None
+    if sum(e for e, _, _ in cells) == 0:
+        return 0.0
+
+    def score(h):
+        total = 0.0
+        for e, a, w in cells:
+            q = min(max(1.0 - (1.0 - h) ** w, 1e-15), 1.0 - 1e-15)
+            total += (e / q - (a - e) / (1.0 - q)) * w * (1.0 - h) ** (w - 1)
+        return total
+    lo, hi = bracket
+    for _ in range(200):
+        mid = 0.5 * (lo + hi)
+        lo, hi = (mid, hi) if score(mid) > 0 else (lo, mid)
+    return 0.5 * (lo + hi)
+
+
+def early_hazard_mle(row):
+    """The MLE hazard over the windows ending at or before position 64 of one margin-curve row (cells stored as {'a-b': [first errors, exposure]})."""
+    cells = []
+    for key, (events, exposure) in row['windows'].items():
+        a, b = (int(v) for v in key.split('-'))
+        if b <= 64 and b > a:
+            cells.append((events, int(round(exposure / (b - a))), b - a))
+    return hazard_mle(cells)
+
+
+def radius_spread_mle(rows):
+    """radius_spread with the MLE hazard instead of events / (at_risk x width): the same selection (sigma > 0, hazard in (1e-4, 0.3), at least 3 sigmas)."""
+    radii = []
+    for sigma, row in rows.items():
+        h = early_hazard_mle(row) if sigma > 0 and row.get('windows') else None
+        if h is not None and 1e-4 < h < 0.3:
+            radii.append(sigma * margin_of(h))
+    if len(radii) < 3:
+        return None
+    mean = sum(radii) / len(radii)
+    return math.sqrt(sum((x - mean) ** 2 for x in radii) / len(radii)) / mean
+
+
 def verdict(results):
     """The reading rule written BEFORE the run (program note, section 5.1, E-B) applied to the list of per-model results (as saved in the JSON).
+    The primary O3 keeps the pre-registered estimator; `radius_cv_mle` / `O3_mle` repeat it with the MLE hazard (review finding F1) so both are on record.
     A model whose sigma = 0 row does not reproduce its stored result is not read. O1: S4 Core early hazard at sigma 0.1 < 1e-3. O2: sigma_tol(S5 Core) <
     sigma_tol(S4 Core). O3: per model, the implied radius has a coefficient of variation <= 0.35 (else the Gaussian-basin model is rejected for it).
     O4: over the four S4 GRU/LSTM models, Spearman(sigma_tol, noise-free hazard) <= -0.6."""
@@ -234,12 +282,15 @@ def verdict(results):
         rows = {float(s): row for s, row in r['results'].items()}
         check = (r.get('sigma0_vs_stored') or {}).get('reproduces')
         name = f"{r['task']}-{r['arm']}-w{r['width']}"
-        models[name] = dict(rows=rows, valid=check is True, tol=sigma_tol(rows), spread=radius_spread(rows), floor=rows.get(0.0, {}).get('hazard_all'))
-    out = dict(models={n: dict(valid=m['valid'], sigma_tol=m['tol'], radius_cv=m['spread'], noise_free_hazard=m['floor']) for n, m in models.items()})
+        models[name] = dict(rows=rows, valid=check is True, tol=sigma_tol(rows), spread=radius_spread(rows), spread_mle=radius_spread_mle(rows),
+                            floor=rows.get(0.0, {}).get('hazard_all'))
+    out = dict(models={n: dict(valid=m['valid'], sigma_tol=m['tol'], radius_cv=m['spread'], radius_cv_mle=m['spread_mle'], noise_free_hazard=m['floor'])
+                       for n, m in models.items()})
     s4, s5 = models.get('perm4-core-w64'), models.get('perm5-core-w128')
     out['O1'] = (s4['rows'][0.1]['hazard_early'] < 1e-3) if s4 and s4['valid'] and 0.1 in s4['rows'] and s4['rows'][0.1]['hazard_early'] is not None else None
     out['O2'] = (s5['tol'] < s4['tol']) if s4 and s5 and s4['valid'] and s5['valid'] else None
     out['O3'] = {n: (m['spread'] <= 0.35 if m['spread'] is not None else None) for n, m in models.items() if m['valid']}
+    out['O3_mle'] = {n: (m['spread_mle'] <= 0.35 if m['spread_mle'] is not None else None) for n, m in models.items() if m['valid']}
     four = [models.get(n) for n in ('perm4-gru-w64', 'perm4-lstm-w64', 'perm4-gru-w128', 'perm4-lstm-w112')]
     if all(m and m['valid'] and m['floor'] is not None for m in four):
         out['O4_spearman'] = spearman([m['tol'] if math.isfinite(m['tol']) else 1.0 for m in four], [m['floor'] for m in four])

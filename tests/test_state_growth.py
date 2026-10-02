@@ -133,6 +133,23 @@ class VerdictRule(unittest.TestCase):
         flat = record('core', 'perm5', 128, [window(-0.01), window(-0.001), window(-0.001)])
         self.assertEqual(sg.verdict([core4, flat])['G2']['verdict'], 'REFUTED')
 
+    def test_g2_second_reading_floors_the_s4_flip_rate_at_its_detection_limit(self):
+        # review finding F3: with the S4 last-window flip rate 0 the literal clause "5x the S4 Core's" is satisfied by ANY S5 rate, so it is disabled in the coded verdict
+        # (flip_clause_defined False); the floored reading uses 3 / (n x steps) = 3 / (50 x 127) = 4.7e-4 as the S4 rate, i.e. a threshold of 2.4e-3
+        def real(arm, task, width, windows, converged):
+            row = dict(windows=dict(zip(('9-33', '33-129', '129-256'), windows)), converged=converged)
+            return dict(arm=arm, task=task, width=width, n=50, results={'0.001': row, '0.01': row})
+        core4 = real('core', 'perm4', 64, [window(-0.6), window(-0.03), window(9e-18, 0.0, FLOOR_START)], 1.0)
+        quiet = real('core', 'perm5', 128, [window(-0.001), window(0.0016), window(0.0002, 1.6e-4)], 0.0)             # the measured S5 Core: flips 1.6e-4 / 9.4e-4
+        g2 = sg.verdict([core4, quiet])['G2']
+        self.assertTrue(g2['verdict'].startswith('NEITHER'))
+        self.assertTrue(g2['verdict_with_floored_flip_clause'].startswith('NEITHER'))
+        self.assertAlmostEqual(g2['per_eps']['0.001']['s4_flip_detection_limit'], 3 / (50 * 127))
+        noisy = real('core', 'perm5', 128, [window(-0.001), window(0.0), window(0.0, 0.05)], 0.0)                     # 5 % flips in the last window, no growth
+        g2 = sg.verdict([core4, noisy])['G2']
+        self.assertTrue(g2['verdict'].startswith('NEITHER'))                       # the coded clause stays disabled (S4 rate 0)
+        self.assertEqual(g2['verdict_with_floored_flip_clause'], 'SUPPORTED')      # 0.05 >= 5 x 4.7e-4
+
     def test_g2_flip_clause_needs_a_nonzero_s4_baseline(self):
         base = self.core4(last=window(9e-18, 0.0004, FLOOR_START))                 # the S4 Core's last-window flip rate is 4e-4
         many = record('core', 'perm5', 128, [window(-0.001), window(0.0), window(0.0, 0.003)])

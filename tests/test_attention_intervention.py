@@ -115,6 +115,56 @@ class ReadingRule(unittest.TestCase):
     def test_in_between_is_mixed(self):
         self.assertEqual(ai.verdict(self.result(w16=1.0e-3))['verdict'], 'MIXED')
 
+    def test_a_result_whose_baseline_does_not_reproduce_is_not_read(self):
+        # blinded review finding F8: the first verdict() ignored the recorded reproduction check and labelled a non-reproducing run
+        bad = self.result()
+        bad['baseline_max_abs_difference'] = 0.01
+        self.assertTrue(ai.verdict(bad)['verdict'].startswith('INVALID'))
+        cells = self.result()
+        cells['baseline_max_abs_difference'] = 0.0
+        cells['baseline_cell_differences'] = 2
+        self.assertTrue(ai.verdict(cells)['verdict'].startswith('INVALID'))
+        fine = self.result()
+        fine['baseline_max_abs_difference'] = 0.0
+        fine['baseline_cell_differences'] = 0
+        self.assertEqual(ai.verdict(fine)['verdict'], 'STATE (H2)')
+
+
+class BaselineReproduction(unittest.TestCase):
+    def files(self, directory, flipped=False):
+        import json
+        from pathlib import Path
+        row = lambda first_errors: [dict(start=0, stop=16, at_risk=100, first_errors=first_errors, rate=0.0)]
+        stored = dict(task='perm5', seed=1, curve={'16': dict(final=1.0, hazard=row(0)), '32': dict(final=0.98, hazard=row(2))})
+        path = Path(directory) / 'm.json'
+        path.write_text(json.dumps(stored), encoding='utf8')
+        draws = {'16': dict(final=1.0, hazard=row(0)), '32': dict(final=0.98, hazard=row(3 if flipped else 2))}      # the same final accuracy, one more first error in a window
+        result = dict(task='perm5', seeds=[1, 2], points=[16, 32], results={'base': dict(per_seed={'1': draws, '2': draws})})
+        return result, path
+
+    def test_final_accuracies_can_agree_while_a_hazard_cell_differs_and_the_cell_check_sees_it(self):
+        import tempfile
+        with tempfile.TemporaryDirectory() as d:
+            result, path = self.files(d, flipped=False)
+            self.assertEqual(ai.baseline_reproduces(result, path, [16, 32]), 0.0)
+            self.assertEqual(ai.baseline_cell_differences(result, path), 0)
+            result, path = self.files(d, flipped=True)
+            self.assertEqual(ai.baseline_reproduces(result, path, [16, 32]), 0.0)          # the final-accuracy gate alone would pass
+            self.assertEqual(ai.baseline_cell_differences(result, path), 1)                # the cell gate does not
+            result['results']['base']['per_seed'] = {1: result['results']['base']['per_seed']['1']}      # int keys, as in memory before the JSON round trip
+            self.assertEqual(ai.baseline_cell_differences(result, path), 1)
+
+    def test_a_task_mismatch_and_a_missing_model_seed_are_not_comparable(self):
+        import tempfile
+        with tempfile.TemporaryDirectory() as d:
+            result, path = self.files(d)
+            result['task'] = 'perm4'
+            self.assertIsNone(ai.baseline_reproduces(result, path, [16, 32]))               # the first version's task check compared the curve dict with itself
+            result['task'] = 'perm5'
+            result['seeds'] = [2, 3]
+            self.assertIsNone(ai.baseline_reproduces(result, path, [16, 32]))
+            self.assertIsNone(ai.baseline_cell_differences(result, path))
+
 
 class WindowsAndTemperatures(unittest.TestCase):
     def setUp(self):

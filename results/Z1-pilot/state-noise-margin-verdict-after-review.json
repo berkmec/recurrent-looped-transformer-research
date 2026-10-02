@@ -1,0 +1,84 @@
+{
+ "models": {
+  "perm4-core-w64": {
+   "valid": true,
+   "sigma_tol": Infinity,
+   "radius_cv": null,
+   "radius_cv_mle": null,
+   "noise_free_hazard": 0.0
+  },
+  "perm5-core-w128": {
+   "valid": true,
+   "sigma_tol": 0.2,
+   "radius_cv": null,
+   "radius_cv_mle": null,
+   "noise_free_hazard": 0.0014161985018726591
+  },
+  "perm4-gru-w64": {
+   "valid": true,
+   "sigma_tol": 0.1,
+   "radius_cv": 0.7937572801596611,
+   "radius_cv_mle": 0.7852011517344004,
+   "noise_free_hazard": 0.0007453151618398638
+  },
+  "perm4-gru-w128": {
+   "valid": true,
+   "sigma_tol": 0.2,
+   "radius_cv": 0.8168298230426804,
+   "radius_cv_mle": 0.8144686179678493,
+   "noise_free_hazard": 0.00013547687861271675
+  },
+  "perm4-lstm-w64": {
+   "valid": true,
+   "sigma_tol": 0.1,
+   "radius_cv": 0.8554478175742959,
+   "radius_cv_mle": 0.8541052147519822,
+   "noise_free_hazard": 0.00046101159114857746
+  },
+  "perm4-lstm-w112": {
+   "valid": true,
+   "sigma_tol": 0.2,
+   "radius_cv": 0.8777202902501234,
+   "radius_cv_mle": 0.8773319178883965,
+   "noise_free_hazard": 0.0005066882853668423
+  },
+  "perm5-gru-w256": {
+   "valid": true,
+   "sigma_tol": 0.01,
+   "radius_cv": 0.8089765472715206,
+   "radius_cv_mle": 0.7910098888388053,
+   "noise_free_hazard": 0.002637505926979611
+  },
+  "perm5-lstm-w208": {
+   "valid": true,
+   "sigma_tol": 0.05,
+   "radius_cv": 0.8386797976304843,
+   "radius_cv_mle": 0.8354241431725522,
+   "noise_free_hazard": 0.0010651058901389808
+  }
+ },
+ "O1": true,
+ "O2": true,
+ "O3": {
+  "perm4-core-w64": null,
+  "perm5-core-w128": null,
+  "perm4-gru-w64": false,
+  "perm4-gru-w128": false,
+  "perm4-lstm-w64": false,
+  "perm4-lstm-w112": false,
+  "perm5-gru-w256": false,
+  "perm5-lstm-w208": false
+ },
+ "O3_mle": {
+  "perm4-core-w64": null,
+  "perm5-core-w128": null,
+  "perm4-gru-w64": false,
+  "perm4-gru-w128": false,
+  "perm4-lstm-w64": false,
+  "perm4-lstm-w112": false,
+  "perm5-gru-w256": false,
+  "perm5-lstm-w208": false
+ },
+ "O4_spearman": -0.4472135954999579,
+ "O4": false
+}

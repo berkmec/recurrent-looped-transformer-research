@@ -80,6 +80,8 @@ def classify(result, low=0.6, high=1 / 0.6):
     base = rows.get(0.0)
     if not base or not base['rate_per_step']:
         return dict(verdict='NO BASELINE ERRORS', per_p={})
+    if base['late_events'] < 10:
+        return dict(verdict='TOO FEW BASELINE EVENTS', per_p={}, base_events=base['late_events'])      # fewer than 10 first errors: reported, no interpretation (the rule)
     per_p, votes = {}, []
     for p in RULE_P:
         r = rows.get(p)
@@ -95,7 +97,16 @@ def classify(result, low=0.6, high=1 / 0.6):
             verdict = 'WORK' if work_near and nearer_work else 'TIME' if time_near and not nearer_work else 'OTHER'
         per_p[p] = dict(verdict=verdict, step_ratio=step_ratio, update_ratio=update_ratio, events=r['late_events'])
         votes.append(verdict)
-    overall = votes[0] if votes and all(v == votes[0] for v in votes) else ('NEUTRAL FAILURE' if 'NEUTRAL FAILURE' in votes else 'MIXED' if votes else 'TOO FEW EVENTS')
+    # NEUTRAL FAILURE needs only one evaluable p_id (a rate per step more than 3 times the base is a strong effect). WORK / TIME / OTHER must hold for BOTH p_id in
+    # (0.5, 0.9) (the rule): when one of them has fewer than 10 events the overall verdict is 'TOO FEW EVENTS (one p_id)' and the per-p verdicts stay as information.
+    # (Added after a blinded review: the first version issued WORK from p_id = 0.5 alone when p_id = 0.9 had 4 events.)
+    evaluable = [p for p in RULE_P if per_p.get(p, {}).get('verdict') != 'TOO FEW EVENTS']
+    if 'NEUTRAL FAILURE' in votes:
+        overall = 'NEUTRAL FAILURE'
+    elif len(evaluable) < len(RULE_P):
+        overall = 'TOO FEW EVENTS (one p_id)' if votes else 'TOO FEW EVENTS'
+    else:
+        overall = votes[0] if all(v == votes[0] for v in votes) else 'MIXED'
     return dict(verdict=overall, per_p=per_p)
 
 

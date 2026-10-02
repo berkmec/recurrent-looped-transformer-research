@@ -65,6 +65,22 @@ class ReadingRule(unittest.TestCase):
         few = fake({0.0: (240, 100_000, 100_000), 0.5: (3, 100_000, 50_000), 0.9: (1, 100_000, 10_000)})
         self.assertEqual(nr.classify(few)['verdict'], 'TOO FEW EVENTS')
 
+    def test_work_or_time_needs_both_p_ids_evaluable_but_a_failure_needs_only_one(self):
+        # review finding F4: p_id 0.5 reads WORK (20 events) while p_id 0.9 has 4 events: the first version issued WORK; the rule needs both
+        one_sided = fake({0.0: (40, 38_400, 38_400), 0.5: (20, 38_400, 38_400), 0.9: (4, 38_400, 38_400)})
+        one_sided['results'][0.5].update(rate_per_step=20 / 38_400 / 2, rate_per_update=20 / 19_200 * 0.99 * 0.5)      # planted so that the per-update ratio is near 1
+        r = nr.classify(one_sided)
+        self.assertEqual(r['verdict'], 'TOO FEW EVENTS (one p_id)')
+        self.assertEqual(r['per_p'][0.9]['verdict'], 'TOO FEW EVENTS')
+        # a blow-up at one evaluable p_id is enough for NEUTRAL FAILURE even when the other has too few events
+        blow = fake({0.0: (240, 100_000, 100_000), 0.5: (900, 100_000, 50_000), 0.9: (3, 100_000, 10_000)})
+        self.assertEqual(nr.classify(blow)['verdict'], 'NEUTRAL FAILURE')
+
+    def test_a_baseline_with_fewer_than_10_late_events_is_not_interpreted(self):
+        thin = fake({0.0: (6, 100_000, 100_000), 0.5: (120, 100_000, 50_000), 0.9: (24, 100_000, 10_000)})
+        r = nr.classify(thin)
+        self.assertEqual((r['verdict'], r['base_events']), ('TOO FEW BASELINE EVENTS', 6))
+
 
 class EndToEnd(unittest.TestCase):
     def test_measure_runs_on_a_saved_arm_and_the_json_keys_survive_a_round_trip(self):

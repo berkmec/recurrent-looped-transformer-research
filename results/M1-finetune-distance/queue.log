@@ -255,3 +255,34 @@
 [07:26:05] BITTI Z1 count-lstm-w64-s3
 [07:26:05] BASLA Z1 count-gru-w64-s3 (CPU, 1 parcacik, 4000 adim, lr 0.003)
 [07:27:47] ZINCIR-DEGISIKLIGI 10: yuva 1: E-C0 bitince E-L1P (adim 3000 anlik goruntusu: geri besleme kanali kullanimi gecisten sonra) -> kuyruk 5 (eski bekleyici oldurulup yeniden kuruldu; calisan E-C0 cocugu (run_ec0.sh) yasiyor, yeni bekleyici onun bitis satirini bekliyor)
+[07:28:57] BITTI Z1 count-gru-w64-s3
+[07:28:58] BASLA Z1 count-lstm-w64-s4 (CPU, 1 parcacik, 4000 adim, lr 0.003)
+[07:30:28] ZINCIR-DEGISIKLIGI 11: yuva 1: E-C0 bitince E-X (uzun uzunluk degerlendirmesi; bolum 5.13) -> E-L1P (adim 3000) -> kuyruk 5 (yalniz bekleyen bekleyici degistirildi; calisan is yok edilmedi)
+[07:30:50] BITTI Z1 count-lstm-w64-s4
+[07:30:50] BASLA Z1 count-gru-w64-s4 (CPU, 1 parcacik, 4000 adim, lr 0.003)
+[07:30:54] BITTI Z1 perm4-gru-w64-s1-cur-noise0.05
+[07:30:54] BASLA Z1 perm4-lstm-w64-s1-cur-noise0.05 (CPU, 1 parcacik, 15000 adim, lr 0.003, mufredat 1,2,3,4,6,8,12,16, egitim-durum-gurultusu 0.05)
+[07:33:41] BITTI Z1 count-gru-w64-s4
+[07:33:41] BASLA Z1 count-lstm-w64-s5 (CPU, 1 parcacik, 4000 adim, lr 0.003)
+[07:35:30] ZINCIR-DEGISIKLIGI 12: yuva 2: E-D bitince E-P2 (bolum 5.11) -> E-P3 (5.12) -> E-P4 (tohum 4-5, sabit ve azaltmali; 5.14) -> E-C (yalniz bekleyen bekleyici degistirildi; calisan is yok edilmedi: E-D LSTM 0.05 ve E-C0 LSTM s5 yasiyor)
+[07:35:39] BITTI Z1 count-lstm-w64-s5
+[07:35:40] BASLA Z1 count-gru-w64-s5 (CPU, 1 parcacik, 4000 adim, lr 0.003)
+[07:36:59] BITTI Z1 perm4-lstm-w64-s1-cur-noise0.05
+[07:36:59] BASLA Z1 perm4-gru-w64-s1-cur-noise0.2 (CPU, 1 parcacik, 15000 adim, lr 0.003, mufredat 1,2,3,4,6,8,12,16, egitim-durum-gurultusu 0.2)
+[07:38:27] BITTI Z1 count-gru-w64-s5
+[07:38:27] BASLA Z1 count-lstm-w64-s6 (CPU, 1 parcacik, 4000 adim, lr 0.003)
+[07:40:15] BITTI Z1 count-lstm-w64-s6
+[07:40:15] BASLA Z1 count-gru-w64-s6 (CPU, 1 parcacik, 4000 adim, lr 0.003)
+[07:41:44] BITTI Z1 perm4-gru-w64-s1-cur-noise0.2
+[07:41:44] BASLA Z1 perm4-lstm-w64-s1-cur-noise0.2 (CPU, 1 parcacik, 15000 adim, lr 0.003, mufredat 1,2,3,4,6,8,12,16, egitim-durum-gurultusu 0.2)
+[07:43:09] BITTI Z1 count-gru-w64-s6
+[07:43:09] BASLA Z1 count-lstm-w64-s7 (CPU, 1 parcacik, 4000 adim, lr 0.003)
+[07:45:01] BITTI Z1 count-lstm-w64-s7
+[07:45:01] BASLA Z1 count-gru-w64-s7 (CPU, 1 parcacik, 4000 adim, lr 0.003)
+[07:47:44] BITTI Z1 perm4-lstm-w64-s1-cur-noise0.2
+[07:47:44] Z1 kuyruk ED BITTI
+[07:47:55] BITTI Z1 count-gru-w64-s7
+[07:47:55] BASLA Z1 count-lstm-w64-s8 (CPU, 1 parcacik, 4000 adim, lr 0.003)
+[07:48:02] BASLA Z1 perm5-core-w128-s1-cur-lrdecay0.3 (CPU, 1 parcacik, 30000 adim, lr 0.003 son %30'da dogrusal sonume iner, mufredat 1,2,3,4,6,8,12,16)
+[07:49:44] BITTI Z1 count-lstm-w64-s8
+[07:49:44] BASLA Z1 count-gru-w64-s8 (CPU, 1 parcacik, 4000 adim, lr 0.003)

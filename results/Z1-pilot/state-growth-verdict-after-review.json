@@ -1,0 +1,151 @@
+{
+ "tolerance": 1e-09,
+ "G1": {
+  "per_eps": {
+   "0.001": {
+    "growth": [
+     -0.6188558525098876,
+     -0.03528631962603172,
+     9.352861716545288e-18
+    ],
+    "flips": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "holds": true
+   },
+   "0.01": {
+    "growth": [
+     -0.6190507141701264,
+     -0.05450535947989325,
+     9.352861716545288e-18
+    ],
+    "flips": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "holds": true
+   }
+  },
+  "holds": true
+ },
+ "G2": {
+  "per_eps": {
+   "0.001": {
+    "growth": [
+     -0.0008791422900708701,
+     0.0016111427591978314,
+     0.00022009831345023715
+    ],
+    "last_flip": 0.00015748031496062991,
+    "s4_last_flip": 0.0,
+    "flip_clause_defined": false,
+    "supported": false,
+    "refuted": false,
+    "s4_flip_detection_limit": 0.00047244094488188977,
+    "supported_floored": false
+   },
+   "0.01": {
+    "growth": [
+     -0.0008859268006252585,
+     0.0016121947882312222,
+     0.00021005372528716903
+    ],
+    "last_flip": 0.0009448818897637795,
+    "s4_last_flip": 0.0,
+    "flip_clause_defined": false,
+    "supported": false,
+    "refuted": false,
+    "s4_flip_detection_limit": 0.00047244094488188977,
+    "supported_floored": false
+   }
+  },
+  "verdict": "NEITHER (neutral: no contraction, no expansion above the threshold)",
+  "verdict_with_floored_flip_clause": "NEITHER (neutral: no contraction, no expansion above the threshold)"
+ },
+ "G3": {
+  "per_model": {
+   "perm4-gru-w64": true,
+   "perm4-lstm-w64": true,
+   "perm5-gru-w256": false,
+   "perm5-lstm-w208": true
+  },
+  "detail": {
+   "perm4-gru-w64": {
+    "0.001": {
+     "growth": [
+      -0.02841083631407194,
+      -0.004721022794676716,
+      -0.002437367810287044
+     ],
+     "contracting": true
+    },
+    "0.01": {
+     "growth": [
+      -0.02839081237178464,
+      -0.004719090077137794,
+      -0.0024313278499733526
+     ],
+     "contracting": true
+    }
+   },
+   "perm4-lstm-w64": {
+    "0.001": {
+     "growth": [
+      -0.5893261427377402,
+      -0.05176781111156612,
+      8.686538109395703e-08
+     ],
+     "contracting": true
+    },
+    "0.01": {
+     "growth": [
+      -0.5889029453466826,
+      -0.07407002980792649,
+      4.382365641896901e-05
+     ],
+     "contracting": true
+    }
+   },
+   "perm5-gru-w256": {
+    "0.001": {
+     "growth": [
+      -0.009228621087354437,
+      -0.0014077719961402824,
+      0.001157688196208339
+     ],
+     "contracting": false
+    },
+    "0.01": {
+     "growth": [
+      -0.009047980836078108,
+      -0.0012653108894573387,
+      0.0007527893501612291
+     ],
+     "contracting": false
+    }
+   },
+   "perm5-lstm-w208": {
+    "0.001": {
+     "growth": [
+      -0.37323411904572973,
+      -0.1456989408259006,
+      -1.4903311638627152e-05
+     ],
+     "contracting": true
+    },
+    "0.01": {
+     "growth": [
+      -0.37308449130080223,
+      -0.1790157325073215,
+      -3.7599206453017547e-06
+     ],
+     "contracting": true
+    }
+   }
+  },
+  "holds": false
+ }
+}

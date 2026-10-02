@@ -160,7 +160,14 @@ class ReadingRule(unittest.TestCase):
         self.assertEqual(sn.sigma_tol({s: dict(hazard_early=0.0) for s in self.GRID}), math.inf)
         self.assertAlmostEqual(sn.spearman([1, 2, 3, 4], [4, 3, 2, 1]), -1.0)
         self.assertTrue(math.isnan(sn.spearman([1, 1, 1], [1, 2, 3])))
-        self.assertAlmostEqual(sn.radius_spread(rows) or 0.0, 0.0, places=6)           # a Gaussian-basin model has one radius
+        # the standard grid puts at most two sigmas of a Gaussian world inside (1e-4, 0.3), so the spread is None there (the first version asserted `None or 0.0 == 0.0`:
+        # vacuous, review finding F7); on a finer grid with three or more sigmas in range a Gaussian-basin model has one radius
+        self.assertIsNone(sn.radius_spread(rows))
+        fine = {s: dict(hazard_early=math.erfc(0.12 / (s * math.sqrt(2)))) for s in (0.04, 0.05, 0.06, 0.08)}
+        for s, row in fine.items():
+            row['implied_radius_early'] = sn.implied_radius(s, row['hazard_early'])
+        self.assertIsNotNone(sn.radius_spread(fine))
+        self.assertAlmostEqual(sn.radius_spread(fine), 0.0, places=6)
 
     def results(self, s4_radius, s5_radius, floors):
         out = [fake_model('perm4', 'core', 64, self.gaussian(s4_radius), floor=0.0),
@@ -177,7 +184,8 @@ class ReadingRule(unittest.TestCase):
         self.assertTrue(v['O2'])
         self.assertTrue(v['O4'])
         self.assertLess(v['O4_spearman'], -0.6)
-        self.assertTrue(all(x is not False for x in v['O3'].values()))
+        # on the standard grid no Gaussian world has three sigmas inside (1e-4, 0.3): O3 is None for all (review finding F7: `is not False` passed vacuously)
+        self.assertTrue(all(x is None for x in v['O3'].values()))
 
     def test_a_model_that_does_not_reproduce_is_not_read_and_a_bad_world_fails(self):
         floors = [(0.12, 7.6e-4), (0.09, 5.3e-4), (0.08, 4.5e-4), (0.06, 1.15e-4)]            # the wrong way round
@@ -204,6 +212,71 @@ class MarginMaths(unittest.TestCase):
             self.assertIsNone(sn.implied_radius(0.1, bad))
         self.assertIsNone(sn.implied_radius(0.0, 0.01))
 
+
+class HazardEstimator(unittest.TestCase):
+    """Blinded review finding F1: events / (at_risk x width) saturates at 1 / width; the MLE of a constant per-step hazard does not."""
+
+    @staticmethod
+    def planted(h, points=(16, 64, 256, 1024), n=100, seed=0):
+        """Windows from planted first-error times with a constant per-step hazard h, built through the production path (first_error_hazard -> pooled_hazards)."""
+        import numpy as np
+        from horizon import depth_run as dr
+        rng = np.random.default_rng(seed)
+        curve = {}
+        for p in points:
+            first = (rng.geometric(h, size=n) - 1) if h > 0 else np.full(n, 10 ** 9)
+            target = torch.zeros(n, p, dtype=torch.long)
+            pred = target.clone()
+            for i, f in enumerate(first):
+                if f < p:
+                    pred[i, int(f)] = 1
+            curve[p] = dict(hazard=dr.first_error_hazard(pred, target, dr.HAZARD_EDGES))
+        (early, _, _), _, cells = sn.pooled_hazards(curve)
+        return early, dict(windows={f'{a}-{b}': list(c) for (a, b), c in cells.items()})
+
+    def test_the_old_estimator_is_capped_at_one_over_the_first_window_width_and_the_mle_is_not(self):
+        old, row = self.planted(1.0)                                    # every sequence fails at position 0
+        self.assertAlmostEqual(old, 1 / 16, places=3)                   # the cap
+        self.assertGreater(sn.early_hazard_mle(row), 0.9)               # the true hazard is 1
+        old, row = self.planted(0.3)
+        self.assertLess(old, 0.07)
+        self.assertAlmostEqual(sn.early_hazard_mle(row), 0.3, delta=0.04)
+
+    def test_the_mle_recovers_small_hazards_too_and_returns_none_or_zero_at_the_edges(self):
+        for h in (0.0005, 0.004):
+            old, row = self.planted(h, n=2000, seed=1)
+            self.assertAlmostEqual(sn.early_hazard_mle(row), h, delta=0.25 * h)
+        self.assertEqual(sn.early_hazard_mle(self.planted(0.0)[1]), 0.0)
+        self.assertIsNone(sn.hazard_mle([]))
+        self.assertIsNone(sn.hazard_mle([(0, 0, 16)]))
+
+    def world(self, r, sigmas, n, seed):
+        rows = {}
+        for i, s in enumerate(sigmas):
+            h = 0.0 if s == 0 else math.erfc(r / (s * math.sqrt(2)))
+            early, row = self.planted(h, n=n, seed=seed + i)
+            rows[s] = dict(hazard_early=early, implied_radius_early=sn.implied_radius(s, early), windows=row['windows'])
+        return rows
+
+    def test_the_capped_estimator_manufactures_a_rejection_where_the_mle_says_not_evaluable(self):
+        # review reproduction: a perfect Gaussian-basin world (r = 0.1) on the E-B grid has only ONE sigma inside (1e-4, 0.3) (sigma 0.05: 0.045; sigma 0.1 and 0.2 have
+        # true hazards 0.32 and 0.62, outside). The capped estimator flattens those two at ~1/16 = 0.0625, which brings them INTO the selection with radii that grow
+        # with sigma: CV 0.5, a spurious O3 rejection. The MLE keeps them outside: the model is simply not evaluable on this grid.
+        rows = self.world(0.1, sn.SIGMAS, 100, 10)
+        self.assertGreater(sn.radius_spread(rows), 0.35)
+        self.assertIsNone(sn.radius_spread_mle(rows))
+
+    def test_on_a_finer_grid_a_gaussian_basin_has_one_radius_with_the_mle(self):
+        rows = self.world(0.1, (0.0, 0.03, 0.04, 0.05, 0.06, 0.07), 2000, 30)       # true hazards 8e-4 ... 0.15: all inside the selection
+        self.assertLess(sn.radius_spread_mle(rows), 0.25)
+
+    def test_verdict_records_both_spreads_and_the_primary_o3_keeps_the_pre_registered_estimator(self):
+        rows = {s: dict(hazard_early=h, hazard_all=h, implied_radius_early=sn.implied_radius(s, h), windows={'0-16': [0, 1600]})
+                for s, h in {0.0: 0.0, 0.05: 0.0, 0.1: 0.0}.items()}
+        v = sn.verdict([dict(task='perm4', arm='gru', width=64, results=rows, sigma0_vs_stored=dict(reproduces=True))])
+        self.assertIn('radius_cv_mle', v['models']['perm4-gru-w64'])
+        self.assertIn('O3_mle', v)
+        self.assertIsNone(v['O3']['perm4-gru-w64'])
 
 if __name__ == '__main__':
     unittest.main()

@@ -94,6 +94,22 @@ class ReadingRule(unittest.TestCase):
         self.assertEqual(fp.reading(self.results(1.8, a0=0.005, other_doc=0.0005), recorded=1.8)['verdict'], 'IN BETWEEN')
         self.assertTrue(fp.reading(self.results(1.8, a0=0.05, other_doc=0.02), recorded=1.9)['verdict'].startswith('INVALID'))
         self.assertIsNone(fp.reading(self.results(1.8, a0=0.05, other_doc=0.02), recorded=None)['normal_reproduces_recorded'])
+        # review finding F9: without a recorded validation to reproduce the snapshot is NOT read (the first version failed open and issued CHANNEL USED)
+        self.assertTrue(fp.reading(self.results(1.8, a0=0.05, other_doc=0.02), recorded=None)['verdict'].startswith('NOT READ'))
+
+
+class ZeroStateEqualsA0(unittest.TestCase):
+    def test_zero_state_is_the_same_function_as_a0_once_the_first_steps_have_left_the_decoder_window(self):
+        # review finding F5: RMSNorm(0) = 0 and the merge has no bias, so zeroing the fed-back state equals alpha = 0 wherever the state is replaced. The two
+        # conditions differ only at the first step (zero_state still feeds the learned `initial` vector there), and that difference reaches the next positions
+        # through the decoder's window cache (window 4: three steps), so from position 4 on the logits are the same.
+        model, x = small_model(), torch.from_numpy(batches(1, 3, 16)[0][0])
+        with torch.no_grad():
+            model.initial.add_(0.5)                         # a trained model has a learned, non-zero `initial` vector
+            a0 = fp.configure(copy.deepcopy(model), 'a0')(x)
+            zero = fp.configure(copy.deepcopy(model), 'zero_state')(x)
+        self.assertTrue(torch.allclose(a0[:, 4:], zero[:, 4:], atol=1e-6))
+        self.assertFalse(torch.allclose(a0[:, 0], zero[:, 0], atol=1e-6))
 
 
 class EndToEnd(unittest.TestCase):

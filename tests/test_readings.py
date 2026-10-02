@@ -4,6 +4,8 @@ import tempfile
 import unittest
 from pathlib import Path
 
+import torch
+
 from horizon import readings as rd
 
 
@@ -198,7 +200,38 @@ class ExcursionCounterReading(unittest.TestCase):
             r = rd.ec_task('count8_32', directory=d)
             self.assertTrue(r['runs']['lstm']['valid'] and r['runs']['gru']['valid'])
             self.assertTrue(r['runs']['gru']['rho'] <= r['runs']['lstm']['rho'])
-            self.assertTrue(r['O3'] if 'O3' in r else r['runs'].get('O3', True))
+            self.assertIn('O3', r['runs'])                        # the first version fell back to True when the key was missing (review finding F7)
+            self.assertTrue(r['runs']['O3'])
+            write(d, 'count8_32-gru-w64-s1.json', count_result(1.0, {16: 1.0, 32: 1.0, 64: 1.0, 128: 1.0}))        # the GRU now extrapolates further than the LSTM
+            self.assertFalse(rd.ec_task('count8_32', directory=d)['runs']['O3'])
+
+    def test_float32_means_at_an_exact_threshold_count_as_meeting_it(self):
+        # review finding F6: n = 100 means are stored as float32, 90/100 as 0.89999998 and 10/100 as 0.10000000149
+        f90 = float(torch.tensor([1.0] * 90 + [0.0] * 10).mean())
+        f95 = float(torch.tensor([1.0] * 95 + [0.0] * 5).mean())
+        f10 = float(torch.tensor([1.0] * 10 + [0.0] * 90).mean())
+        self.assertLess(f90, 0.9)
+        self.assertLess(f95, 0.95)
+        self.assertGreater(f10, 0.10)
+        self.assertTrue(rd.ge(f90, 0.9) and rd.ge(f95, 0.95) and rd.le(f10, 0.10))
+        self.assertFalse(rd.ge(0.8999, 0.9) or rd.le(0.1001, 0.10))                 # the tolerance covers float32 rounding only
+        with tempfile.TemporaryDirectory() as d:
+            write(d, 'x.json', count_result(1.0, {16: f90, 32: f90, 64: f95, 128: 0.4}))
+            r = rd.ec_run(Path(d) / 'x.json', 32, lstm=True)
+            self.assertTrue(r['O1'])                                                 # exactly 0.90 at every depth up to R_max
+            self.assertTrue(r['O2'])                                                 # 0.95 >= 0.5 at 2 R_max, 0.4 < 0.5 at 4 R_max
+            write(d, 'y.json', count_result(1.0, {16: 1.0, 32: 1.0, 64: 1.0, 128: f95}))
+            self.assertTrue(rd.ec_run(Path(d) / 'y.json', 32, lstm=True)['O2_refuted'])      # exactly 0.95 at 4 R_max refutes the tanh limit
+
+    def test_range_not_learned_uses_the_tolerance_too(self):
+        f95 = float(torch.tensor([1.0] * 95 + [0.0] * 5).mean())
+        with tempfile.TemporaryDirectory() as d:
+            write(d, 'perm4-gru-w64-s1-cur.json', perm_result(0.99, 800, 1_024_000))
+            write(d, 'perm4-gru-w64-s1-cur-noise0.1.json', perm_result(f95, 700, 1_024_000))      # exactly 95/100 in range, no hazard drop
+            r = rd.ed_arm('gru', sigmas=(0.1,), directory=d)
+            self.assertEqual(r['verdict'], 'REFUTED')                                    # hazard 700 >= 800 / 2 and in range 0.95 counts as learned: refuted by the hazard alone
+            write(d, 'perm4-gru-w64-s1-cur-noise0.1.json', perm_result(f95, 100, 1_024_000))     # a 8x drop with exactly 95/100: below the 0.99 support bar
+            self.assertNotEqual(rd.ed_arm('gru', sigmas=(0.1,), directory=d)['verdict'], 'SUPPORTED')
 
 
 class SeedDistributionReading(unittest.TestCase):

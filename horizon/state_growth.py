@@ -90,7 +90,9 @@ def state_rms_by_window(model, x, edges=(0, 16, 64, 128, 192, 256)):
 def class_margin_by_window(model, x, labels, edges=(0, 16, 64, 128, 192, 256), min_count=3):
     """Cluster geometry of the carried state by true class (R2's q(t) = R / M): inside each position window the states are grouped by the label (the running
     product), R is the mean root-mean-square distance of a state to its class centroid, M the mean distance from a class centroid to the nearest other centroid; a
-    growing R / M with position is a loss of margin. Classes with fewer than `min_count` states in the window are skipped. Descriptive only (no threshold)."""
+    growing R / M with position is a loss of margin. Classes with fewer than `min_count` states in the window are skipped. Descriptive only (no threshold).
+    Caveat (review finding F10): the within-class spread is estimated from fewer states in a short window, so the SAME geometry reads ~7-8 % lower in [0, 16) than in
+    the later 48-64-position windows (120 classes, 50 sequences); compare windows of similar width (from [16, 64) on), not the first against the rest."""
     model = copy.deepcopy(model).double().eval()
     run = core_trajectory if isinstance(model, Core) else recurrent_trajectory
     with torch.no_grad():
@@ -228,7 +230,7 @@ def measure(weights, steps, t0, eps_list, n, seed, windows=((0, 25), (25, 121), 
     rel = [(a + t0, b + t0 if b < 10 ** 9 else b) for a, b in windows]      # windows are counted from the kick
     result = {}
     for eps in eps_list:
-        series = growth_series(model, x, t0, eps, seed=11)
+        series = growth_series(model, x, t0, eps, seed=seed)       # the kick directions; the dev draw itself uses the model's own seed (review finding F12: this was hard-coded 11)
         result[eps] = summarise(series, t0, steps, rel)
     # extra recorded detail, not part of the reading rule: the one-step Jacobian's largest singular value at a few positions (8 sequences)
     positions = [t for t in jacobian_positions if 1 <= t < steps]
@@ -246,6 +248,11 @@ FLIP_FACTOR = 5.0           # note 5.4, G2: or a last-window flip rate this many
 
 def _name(r):
     return f"{r['task']}-{r['arm']}-w{r['width']}"
+
+
+def _width(window_key):
+    a, b = (int(v) for v in str(window_key).split('-'))
+    return b - a
 
 
 def _vanished(window):
@@ -281,6 +288,7 @@ def verdict(records):
         out['G1'] = dict(per_eps=g1, holds=all(v['holds'] for v in g1.values()))
     if core4 and core5:
         base = {eps: list(row['windows'].values())[-1]['flip_rate'] for eps, row in core4['results'].items()}
+        last_width = {eps: _width(list(row['windows'])[-1]) for eps, row in core4['results'].items()}
         g2 = {}
         for eps, row in core5['results'].items():
             wins = list(row['windows'].values())
@@ -288,10 +296,16 @@ def verdict(records):
             flip_defined = base[eps] > 0
             supported = last['growth_per_step'] > GROWTH_G2 or (flip_defined and last['flip_rate'] >= FLIP_FACTOR * base[eps])
             refuted = all(_non_expanding(w) for w in wins) and abs(last['flip_rate'] - base[eps]) <= 1e-3
+            # second reading (review finding F3): the "5x the S4 Core's flip rate" clause is degenerate when that rate is 0 (any S5 rate then qualifies), so it is also
+            # evaluated with the S4 rate floored at its detection limit 3 / (sequences x steps in the last window); both readings are recorded, the coded verdict is unchanged
+            floor = 3.0 / (core4['n'] * last_width[eps]) if core4.get('n') and last_width[eps] else 0.0
+            supported_floored = last['growth_per_step'] > GROWTH_G2 or last['flip_rate'] >= FLIP_FACTOR * max(base[eps], floor)
             g2[eps] = dict(growth=[w['growth_per_step'] for w in wins], last_flip=last['flip_rate'], s4_last_flip=base[eps], flip_clause_defined=flip_defined,
-                           supported=supported, refuted=refuted)
+                           supported=supported, refuted=refuted, s4_flip_detection_limit=floor, supported_floored=supported_floored)
         out['G2'] = dict(per_eps=g2, verdict='SUPPORTED' if all(v['supported'] for v in g2.values()) else 'REFUTED' if all(v['refuted'] for v in g2.values())
-                         else 'NEITHER (neutral: no contraction, no expansion above the threshold)')
+                         else 'NEITHER (neutral: no contraction, no expansion above the threshold)',
+                         verdict_with_floored_flip_clause=('SUPPORTED' if all(v['supported_floored'] for v in g2.values()) else
+                                                           'REFUTED' if all(v['refuted'] for v in g2.values()) else 'NEITHER (neutral: no contraction, no expansion above the threshold)'))
     g3 = {}
     for name, r in by.items():
         if r['arm'] in ('gru', 'lstm'):
@@ -328,7 +342,7 @@ def main():
     p.add_argument('--t0', type=int, default=8)
     p.add_argument('--eps', default='0.001,0.01')
     p.add_argument('--n', type=int, default=50)
-    p.add_argument('--seed', type=int, default=1)
+    p.add_argument('--seed', type=int, default=11, help='seed of the random kick directions (default 11, the value the stored results used)')
     p.add_argument('--out', default=None)
     a = p.parse_args()
     if a.verdict:

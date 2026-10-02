@@ -151,8 +151,9 @@ def evaluate(model, task, points, n, seed, split='dev', namespace=None, batch=50
 
 
 def evaluate_length_control(model, lengths, n, seed, split='dev', namespace=None, batch=50, task='count'):
-    """Counter only: the TRAINING distribution (depth never above the trained peak) on sequences far longer than the trained length.
-    Separates 'cannot go deeper' from 'cannot go longer'."""
+    """Counter only: the TRAINING distribution on sequences far longer than the trained length. For the default counter tasks the depth never exceeds the trained
+    peak; for count8_32 / count8_64 the training distribution itself includes excursions up to R_max (review finding F12: the first docstring said 'never above the
+    trained peak' for all). Separates 'cannot go deeper' from 'cannot go longer'."""
     namespace = namespace or NAMESPACE
     out = {}
     for length in lengths:
