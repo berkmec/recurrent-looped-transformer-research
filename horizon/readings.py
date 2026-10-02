@@ -94,14 +94,44 @@ def ec_task(task, directory=RESULTS):
     return dict(task=task, r_max=r_max, runs=out)
 
 
+def ec0(directory=RESULTS, seeds=range(1, 9), arms=('gru', 'lstm'), width=64):
+    """E-C0 (program note 5.6): is the saturating counter of the default design universal over training seeds? A run is valid when the in-range counter
+    accuracy (D = 8, `prefix`) is >= 0.95. UNIVERSAL SATURATION: >= 90 % of the valid runs have first descent (D = 16) <= 0.10. LOTTERY: >= 2 valid runs
+    have first descent (D = 16) >= 0.5. MIXED otherwise."""
+    runs = {}
+    for arm in arms:
+        for seed in seeds:
+            path = Path(directory) / f'count-{arm}-w{width}-s{seed}.json'
+            if not path.exists():
+                continue
+            curve = _load(path)['curve']
+            runs[f'{arm}-s{seed}'] = dict(valid=meets(curve['8']['prefix'], 0.95), in_range=curve['8']['prefix'], first_descent_16=curve['16'].get('reentry'))
+    valid = {k: r for k, r in runs.items() if r['valid'] and r['first_descent_16'] is not None}
+    saturated = [k for k, r in valid.items() if r['first_descent_16'] <= 0.10]
+    counting = [k for k, r in valid.items() if r['first_descent_16'] >= 0.5]
+    complete = len(runs) == len(arms) * len(list(seeds))
+    if not valid:
+        verdict = 'NO VALID RUNS'
+    elif len(counting) >= 2:
+        verdict = 'LOTTERY'
+    elif len(saturated) >= 0.9 * len(valid):
+        verdict = 'UNIVERSAL SATURATION'
+    else:
+        verdict = 'MIXED'
+    return dict(verdict=verdict if complete else verdict + ' (INCOMPLETE: ' + str(len(runs)) + ' runs)', runs=runs, valid=len(valid), saturated=len(saturated),
+                counting=counting)
+
+
 def main():
     which = sys.argv[1] if len(sys.argv) > 1 else ''
     if which == 'ed':
         print(json.dumps([ed_arm('gru'), ed_arm('lstm')], indent=1, default=str))
     elif which == 'ec':
         print(json.dumps([ec_task('count8_32'), ec_task('count8_64')], indent=1, default=str))
+    elif which == 'ec0':
+        print(json.dumps(ec0(), indent=1, default=str))
     else:
-        raise SystemExit('usage: python -B -m horizon.readings ed|ec')
+        raise SystemExit('usage: python -B -m horizon.readings ed|ec|ec0')
 
 
 if __name__ == '__main__':

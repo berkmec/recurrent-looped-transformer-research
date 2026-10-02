@@ -76,6 +76,17 @@ def recurrent_trajectory(arm, x, t0=None, delta=None):
     return torch.stack(states, 1), arm.read(torch.stack(outs, 1))
 
 
+def state_rms_by_window(model, x, edges=(0, 16, 64, 128, 192, 256)):
+    """Mean over sequences of the root-mean-square of the carried state (the Core's final decoder output, a GRU's h, an LSTM's h and c) inside position windows:
+    a drift of the state's scale between the trained range and long positions (R2's `state distribution shift` reading of the S5 break) shows up here."""
+    model = copy.deepcopy(model).double().eval()
+    run = core_trajectory if isinstance(model, Core) else recurrent_trajectory
+    with torch.no_grad():
+        states, _ = run(model, x)
+    rms = states.square().mean(-1).sqrt().mean(0)           # (steps,)
+    return {f'{a}-{min(b, x.shape[1])}': float(rms[a:b].mean()) for a, b in zip(edges[:-1], edges[1:]) if a < x.shape[1]}
+
+
 def jacobian_norms(model, x, positions):
     """Largest singular value of the ONE-STEP Jacobian of the carried state, d state_t / d state_{t-1} (float64, one sequence at a time), at the given
     positions of x. The Core's three cached decoder keys/values are held at their clean values (only the feedback path is differentiated); the LSTM's
@@ -195,7 +206,7 @@ def measure(weights, steps, t0, eps_list, n, seed, windows=((0, 25), (25, 121), 
     norms = jacobian_norms(model, x[:jacobian_n], positions)
     jac = {t: dict(median=float(np.median(v)), max=float(np.max(v)), above_one=float(np.mean(np.array(v) > 1.0))) for t, v in norms.items()}
     return dict(weights=str(weights), arm=meta['arm'], task=meta['task'], width=meta['width'], parameters=meta['parameters'], steps=steps, t0=t0, n=n,
-                results=result, jacobian=jac)
+                results=result, jacobian=jac, state_rms=state_rms_by_window(model, x))
 
 
 def describe(r):
@@ -203,6 +214,8 @@ def describe(r):
     for eps, row in r['results'].items():
         cells = '  '.join(f"[{k.replace('-', ',')}) growth {v['growth_per_step']:+.4f}/step flips {v['flip_rate']:.4f}" for k, v in row['windows'].items())
         lines.append(f"  eps {eps:g}: {cells}  | re-converged (d < 1e-10 at the end): {row['converged']:.2f}")
+    if r.get('state_rms'):
+        lines.append('  state rms by position window: ' + '  '.join(f'[{k.replace("-", ",")}) {v:.3f}' for k, v in r['state_rms'].items()))
     if r.get('jacobian'):
         lines.append('  one-step Jacobian, largest singular value (median / max over sequences): ' +
                      '  '.join(f"t={t}: {v['median']:.3f}/{v['max']:.3f}" for t, v in r['jacobian'].items()))

@@ -100,6 +100,22 @@ class JacobianNorms(unittest.TestCase):
         self.assertLessEqual(ratio, norms[t][0] * (1 + 1e-4))          # |J delta| <= ||J||_2 |delta|
 
 
+class StateScale(unittest.TestCase):
+    def test_rms_by_window_matches_a_hand_computation(self):
+        model = make_arm('gru', 'perm4', 16, 1)
+        x = tokens(40, batch=4)
+        rms = sg.state_rms_by_window(model, x, edges=(0, 10, 40))
+        with torch.no_grad():
+            states, _ = sg.recurrent_trajectory(copy_double(model), x)
+        expected = states.square().mean(-1).sqrt().mean(0)
+        self.assertAlmostEqual(rms['0-10'], float(expected[0:10].mean()), places=9)
+        self.assertAlmostEqual(rms['10-40'], float(expected[10:40].mean()), places=9)
+
+
+def copy_double(model):
+    return copy.deepcopy(model).double().eval()
+
+
 class SlopeAndSummary(unittest.TestCase):
     def test_slope_recovers_a_known_rate(self):
         t = np.arange(40, dtype=np.float64)

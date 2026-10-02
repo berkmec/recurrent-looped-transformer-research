@@ -98,5 +98,40 @@ class ExcursionCounterReading(unittest.TestCase):
             self.assertTrue(r['O3'] if 'O3' in r else r['runs'].get('O3', True))
 
 
+class SeedDistributionReading(unittest.TestCase):
+    def write_runs(self, directory, descent_by_run, in_range=1.0):
+        for (arm, seed), value in descent_by_run.items():
+            curve = {'8': dict(prefix=in_range, reentry=None), '16': dict(prefix=0.5, reentry=value)}
+            write(directory, f'count-{arm}-w64-s{seed}.json', dict(curve=curve))
+
+    def test_universal_saturation_when_nearly_every_valid_run_is_stuck_near_the_floor(self):
+        with tempfile.TemporaryDirectory() as d:
+            runs = {(arm, s): 0.06 for arm in ('gru', 'lstm') for s in range(1, 9)}
+            runs[('lstm', 5)] = 0.30                                   # one outlier of 16 is within the 10 % allowance
+            self.write_runs(d, runs)
+            r = rd.ec0(directory=d)
+            self.assertEqual(r['verdict'], 'UNIVERSAL SATURATION')
+            self.assertEqual((r['valid'], r['saturated']), (16, 15))
+
+    def test_lottery_needs_two_runs_that_really_count_at_twice_the_peak(self):
+        with tempfile.TemporaryDirectory() as d:
+            runs = {(arm, s): 0.06 for arm in ('gru', 'lstm') for s in range(1, 9)}
+            runs[('lstm', 3)] = 0.9
+            self.write_runs(d, runs)
+            self.assertNotEqual(rd.ec0(directory=d)['verdict'], 'LOTTERY')           # one such run is not enough
+            runs[('lstm', 6)] = 0.55
+            self.write_runs(d, runs)
+            r = rd.ec0(directory=d)
+            self.assertEqual(r['verdict'], 'LOTTERY')
+            self.assertEqual(sorted(r['counting']), ['lstm-s3', 'lstm-s6'])
+
+    def test_unlearned_runs_are_not_read_and_missing_runs_flag_the_verdict_incomplete(self):
+        with tempfile.TemporaryDirectory() as d:
+            self.write_runs(d, {('gru', 1): 0.9, ('gru', 2): 0.05}, in_range=0.6)       # in-range accuracy below 0.95: invalid
+            r = rd.ec0(directory=d)
+            self.assertEqual(r['verdict'].split(' (')[0], 'NO VALID RUNS')
+            self.assertIn('INCOMPLETE', r['verdict'])
+
+
 if __name__ == '__main__':
     unittest.main()
