@@ -60,6 +60,36 @@ class NoiseTrainingReading(unittest.TestCase):
         self.assertAlmostEqual(r['best_baseline'], 400 / 1_024_000)
 
 
+class LearningRateDecayReading(unittest.TestCase):
+    """E-P reuses the E-D thresholds (SUPPORTED = 5x lower hazard with the range learned; REFUTED = no halving) on the `-lrdecay0.3` result files."""
+
+    def setUp(self):
+        self.tmp = tempfile.TemporaryDirectory()
+        self.dir = self.tmp.name
+        write(self.dir, 'perm4-lstm-w64-s1-cur.json', perm_result(0.99, 600, 1_024_000))
+
+    def tearDown(self):
+        self.tmp.cleanup()
+
+    def test_the_tag_selects_the_decay_files_and_the_noise_files_are_ignored(self):
+        write(self.dir, 'perm4-lstm-w64-s1-cur-noise0.3.json', perm_result(0.99, 0, 1_024_000))       # would be SUPPORTED if it were read
+        self.assertEqual(rd.ed_arm('lstm', sigmas=(0.3,), directory=self.dir, tag='lrdecay')['verdict'], 'NO RUNS')
+        write(self.dir, 'perm4-lstm-w64-s1-cur-lrdecay0.3.json', perm_result(0.995, 100, 1_024_000))
+        r = rd.ed_arm('lstm', sigmas=(0.3,), directory=self.dir, tag='lrdecay')
+        self.assertEqual(r['verdict'], 'SUPPORTED')
+        self.assertEqual((r['runs'][0.3]['events'], r['runs'][0.3]['exposure']), (100, 1_024_000))
+
+    def test_no_effect_and_the_exact_rate_ratio_p_value(self):
+        write(self.dir, 'perm4-lstm-w64-s1-cur-lrdecay0.3.json', perm_result(0.995, 580, 1_024_000))       # 580 against 600 events: no halving, and not distinguishable
+        r = rd.ed_arm('lstm', sigmas=(0.3,), directory=self.dir, tag='lrdecay')
+        self.assertEqual(r['verdict'], 'REFUTED')
+        self.assertGreater(r['runs'][0.3]['p_lower'], 0.05)
+        # 12 baseline events against 2 run events over equal exposure: P(X <= 2 | n = 14, p = 1/2) = (1 + 14 + 91) / 2^14
+        self.assertAlmostEqual(rd.rate_ratio_p(12, 20608, 2, 20608), 106 / 16384)
+        self.assertEqual(rd.rate_ratio_p(0, 100, 0, 100), 1.0)
+        self.assertLess(rd.rate_ratio_p(50, 1000, 0, 1000), 1e-12)
+
+
 def count_result(prefix8, first_descent):
     curve = {'8': dict(prefix=prefix8, reentry=None)}
     for depth, value in first_descent.items():

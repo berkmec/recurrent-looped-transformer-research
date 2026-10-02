@@ -1,6 +1,7 @@
 """The reading rules of E-D and E-C (program note sections 5.2 and 5.3), written BEFORE the runs and applied here mechanically to the result files.
 
   python -B -m horizon.readings ed            # noise-trained S4 GRU / LSTM against the best baseline seed
+  python -B -m horizon.readings ep            # E-P: S4 GRU / LSTM trained with the learning rate decayed over the last 30 % (same rule as E-D; SUPPORTED = DECAY FIXES)
   python -B -m horizon.readings ec            # scale-diverse excursion counter (count8_32 and count8_64, LSTM and GRU)
 
 E-D (per arm): the baseline is the LOWEST pooled first-error hazard over the seeds that exist (provisional while only seed 1 does). SUPPORTED when some
@@ -11,6 +12,7 @@ descent >= 0.5 at 2 R_max and < 0.5 at 4 R_max (refuted if >= 0.95 at 4 R_max). 
 from 16 on with first descent >= 0.95, divided by R_max. O3: the GRU's rho is <= the LSTM's.
 """
 import json
+import math
 import sys
 from pathlib import Path
 
@@ -30,7 +32,19 @@ def _load(path):
     return json.loads(Path(path).read_text(encoding='utf8'))
 
 
-def ed_arm(arm, sigmas=(0.1, 0.05, 0.2), directory=RESULTS, width=64, baseline_seeds=(1, 2, 3)):
+def rate_ratio_p(events_base, exposure_base, events_run, exposure_run):
+    """One-sided exact p-value that the run's hazard is not lower than the baseline's: conditional on the total number of events, the run's share is binomial with
+    probability exposure_run / (exposure_base + exposure_run) under equal hazards; p = P(X <= events_run). Descriptive (not part of any verdict)."""
+    total = events_base + events_run
+    if total == 0:
+        return 1.0
+    q = exposure_run / (exposure_base + exposure_run)
+    log_terms = [math.lgamma(total + 1) - math.lgamma(k + 1) - math.lgamma(total - k + 1) + k * math.log(q) + (total - k) * math.log1p(-q) for k in range(events_run + 1)]
+    top = max(log_terms)
+    return float(min(1.0, math.exp(top) * sum(math.exp(t - top) for t in log_terms)))
+
+
+def ed_arm(arm, sigmas=(0.1, 0.05, 0.2), directory=RESULTS, width=64, baseline_seeds=(1, 2, 3), tag='noise'):
     base = {}
     for seed in baseline_seeds:
         path = Path(directory) / f'perm4-{arm}-w{width}-s{seed}-cur.json'
@@ -39,13 +53,16 @@ def ed_arm(arm, sigmas=(0.1, 0.05, 0.2), directory=RESULTS, width=64, baseline_s
     if not base:
         return dict(arm=arm, verdict='NO BASELINE')
     best = min(v for v in base.values() if v is not None)
+    best_seed = min((s for s, v in base.items() if v == best))
+    base_events, base_exposure = pooled_rate(_load(Path(directory) / f'perm4-{arm}-w{width}-s{best_seed}-cur.json'))[1:]
     runs = {}
     for sigma in sigmas:
-        path = Path(directory) / f'perm4-{arm}-w{width}-s1-cur-noise{sigma}.json'
+        path = Path(directory) / f'perm4-{arm}-w{width}-s1-cur-{tag}{sigma}.json'
         if path.exists():
             result = _load(path)
-            rate = pooled_rate(result)[0]
-            runs[sigma] = dict(in_range=result['curve']['16']['final'], hazard=rate, ratio=(rate / best if best else None))
+            rate, events, exposure = pooled_rate(result)
+            runs[sigma] = dict(in_range=result['curve']['16']['final'], hazard=rate, ratio=(rate / best if best else None), events=events, exposure=exposure,
+                               p_lower=rate_ratio_p(base_events, base_exposure, events, exposure))
     if not runs:
         return dict(arm=arm, verdict='NO RUNS', baseline=base)
     supported = any(r['in_range'] >= 0.99 and r['hazard'] <= best / 5 for r in runs.values())
@@ -126,12 +143,14 @@ def main():
     which = sys.argv[1] if len(sys.argv) > 1 else ''
     if which == 'ed':
         print(json.dumps([ed_arm('gru'), ed_arm('lstm')], indent=1, default=str))
+    elif which == 'ep':
+        print(json.dumps([ed_arm('gru', sigmas=(0.3,), tag='lrdecay'), ed_arm('lstm', sigmas=(0.3,), tag='lrdecay')], indent=1, default=str))
     elif which == 'ec':
         print(json.dumps([ec_task('count8_32'), ec_task('count8_64')], indent=1, default=str))
     elif which == 'ec0':
         print(json.dumps(ec0(), indent=1, default=str))
     else:
-        raise SystemExit('usage: python -B -m horizon.readings ed|ec|ec0')
+        raise SystemExit('usage: python -B -m horizon.readings ed|ep|ec|ec0')
 
 
 if __name__ == '__main__':

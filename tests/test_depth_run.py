@@ -224,5 +224,24 @@ class Runner(unittest.TestCase):
         self.assertFalse(dr.meets(0.9499))                               # the tolerance covers float32 rounding only
 
 
+class LearningRateDecay(unittest.TestCase):
+    def test_zero_is_the_previous_constant_rate_bit_for_bit_and_a_fraction_decays_the_last_updates(self):
+        constant, a = dr.train('perm3', 'gru', 16, seed=1, steps=10, batch=8, curriculum=[4], lr=0.01)
+        also, b = dr.train('perm3', 'gru', 16, seed=1, steps=10, batch=8, curriculum=[4], lr=0.01, lr_decay_fraction=0.0)
+        decayed, c = dr.train('perm3', 'gru', 16, seed=1, steps=10, batch=8, curriculum=[4], lr=0.01, lr_decay_fraction=0.5)
+        self.assertTrue(all(torch.equal(p, q) for p, q in zip(constant.parameters(), also.parameters())))
+        self.assertEqual((a['lr_last'], b['lr_last']), (0.01, 0.01))
+        self.assertAlmostEqual(c['lr_last'], 0.01 * 1 / 5)                   # step 10 of 10, decay over the last 5: (10 - 10 + 1) / 5
+        self.assertEqual(c['lr_decay_fraction'], 0.5)
+        self.assertFalse(all(torch.equal(p, q) for p, q in zip(constant.parameters(), decayed.parameters())))
+
+    def test_the_rate_is_untouched_before_the_decay_window_and_reaches_a_small_value_at_the_end(self):
+        steps, fraction = 100, 0.3
+        scale = lambda step: min(1.0, (steps - step + 1) / (fraction * steps))
+        self.assertEqual(scale(71), 1.0)                                    # the window is the last 30 updates: 71 .. 100; the first of them still has the full rate
+        self.assertLess(scale(72), 1.0)
+        self.assertAlmostEqual(scale(100), 1 / 30)
+
+
 if __name__ == '__main__':
     unittest.main()

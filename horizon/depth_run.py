@@ -34,12 +34,14 @@ def _log(message):
 
 
 def train(task, arm, width, seed, steps, batch=64, lr=3e-3, clip=1.0, weight_decay=0.01, namespace=None, log_every=0, log=_log,
-          curriculum=None, advance_at=0.97, min_stage_steps=200, window=100, state_noise=0.0):
+          curriculum=None, advance_at=0.97, min_stage_steps=200, window=100, state_noise=0.0, lr_decay_fraction=0.0):
     """curriculum: increasing training lengths, e.g. [2, 4, 8, 16]. The stage advances when the mean per-position accuracy over the last
     `window` updates reaches `advance_at` (and the stage has run at least `min_stage_steps` updates). The last length is the trained range;
     nothing beyond it is ever trained on. Without a curriculum every update uses the task's trained length.
     state_noise: relative Gaussian noise (sigma times the rms) added to the carried state at every step but the first during TRAINING only
-    (E-D, `horizon/state_noise.py`); the returned model is the plain arm and evaluation is clean. 0 = no noise (the previous behaviour, bit for bit)."""
+    (E-D, `horizon/state_noise.py`); the returned model is the plain arm and evaluation is clean. 0 = no noise (the previous behaviour, bit for bit).
+    lr_decay_fraction: E-P. The learning rate is constant (the previous behaviour, bit for bit) unless this is > 0: then it decays linearly to ~0 over the LAST
+    fraction of the updates (0.3 = the last 30 %)."""
     namespace = namespace or NAMESPACE
     lengths = list(curriculum) if curriculum else [dt.train_length(task)]
     model = make_arm(arm, task, width, seed)
@@ -50,7 +52,12 @@ def train(task, arm, width, seed, steps, batch=64, lr=3e-3, clip=1.0, weight_dec
     opt = torch.optim.AdamW(model.parameters(), lr=lr, weight_decay=weight_decay)
     guard, history, start = GuardCounter(), [], time.perf_counter()
     stage, in_stage, recent, advances = 0, 0, [], []
+    lr_last = lr
     for step in range(1, steps + 1):
+        if lr_decay_fraction > 0:
+            lr_last = lr * min(1.0, (steps - step + 1) / (lr_decay_fraction * steps))
+            for group in opt.param_groups:
+                group['lr'] = lr_last
         b = dt.train_batch(namespace, task, seed, step, batch, length=lengths[stage])
         model.train()
         logits = forward(b['x'])
@@ -72,7 +79,7 @@ def train(task, arm, width, seed, steps, batch=64, lr=3e-3, clip=1.0, weight_dec
         clean(model)
     return model, dict(steps=steps, batch=batch, lr=lr, clip=clip, guard=guard.summary(), history=history, curriculum=lengths, advances=advances,
                        final_stage_length=lengths[stage], train_seconds=time.perf_counter() - start, parameters=parameter_count(model),
-                       state_noise=state_noise)
+                       state_noise=state_noise, lr_decay_fraction=lr_decay_fraction, lr_last=lr_last)
 
 
 @torch.no_grad()
@@ -239,12 +246,14 @@ def main():
     p.add_argument('--advance-at', type=float, default=0.97)
     p.add_argument('--min-stage-steps', type=int, default=200)
     p.add_argument('--state-noise', type=float, default=0.0, help='relative Gaussian noise on the carried state during training only (E-D)')
+    p.add_argument('--lr-decay-fraction', type=float, default=0.0, help='linear decay of the learning rate to ~0 over the last fraction of the updates (E-P); 0 = constant')
     p.add_argument('--out', required=True)
     a = p.parse_args()
     points = [int(v) for v in a.points.split(',')] if a.points else None
     curriculum = [int(v) for v in a.curriculum.split(',')] if a.curriculum else None
     r = run(a.task, a.arm, a.width, a.seed, a.steps, points=points, n_eval=a.n_eval, out=a.out, batch=a.batch, lr=a.lr, log_every=a.log_every,
-            curriculum=curriculum, advance_at=a.advance_at, min_stage_steps=a.min_stage_steps, state_noise=a.state_noise)
+            curriculum=curriculum, advance_at=a.advance_at, min_stage_steps=a.min_stage_steps, state_noise=a.state_noise,
+            lr_decay_fraction=a.lr_decay_fraction)
     print(json.dumps({k: r[k] for k in ('task', 'arm', 'width', 'seed', 'learned_in_range', 'effective_horizon', 'horizon_metric', 'wall_seconds')}))
     for point, row in r['curve'].items():
         print(point, {k: (round(v, 3) if isinstance(v, float) else v) for k, v in row.items()})
