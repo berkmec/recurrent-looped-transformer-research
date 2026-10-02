@@ -214,6 +214,15 @@ class Runner(unittest.TestCase):
         self.assertEqual(dr.effective_horizon({16: dict(final=0.5)}, 'final'), 0)
         self.assertEqual(dr.effective_horizon({8: dict(unseen_depth=None)}, 'unseen_depth'), 0)
 
+    def test_exactly_the_threshold_meets_it_although_float32_stores_it_just_below(self):
+        # 95 of 100 sequences right: the float32 mean is 0.949999988..., which a plain `>= 0.95` rejects (the S4 LSTM w112 pilot: its horizon
+        # stopped at 64 although 128 and 256 both had exactly 95/100)
+        value = float(torch.tensor([1.0] * 95 + [0.0] * 5).mean())
+        self.assertLess(value, dr.THRESHOLD)
+        self.assertTrue(dr.meets(value))
+        self.assertEqual(dr.effective_horizon({16: dict(final=1.0), 32: dict(final=value), 64: dict(final=value), 128: dict(final=0.94)}, 'final'), 64)
+        self.assertFalse(dr.meets(0.9499))                               # the tolerance covers float32 rounding only
+
 
 if __name__ == '__main__':
     unittest.main()

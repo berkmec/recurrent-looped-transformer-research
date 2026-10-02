@@ -22,6 +22,11 @@ from .guards import GuardCounter, guarded_step
 
 NAMESPACE = dict(train='z1-train', dev='z1-dev', test='z1-test')
 THRESHOLD = 0.95
+TOLERANCE = 1e-6      # accuracies are float32 means over n = 100 sequences: 95/100 is stored as 0.94999999 and must still meet a 0.95 threshold
+
+
+def meets(value, threshold=THRESHOLD):
+    return value >= threshold - TOLERANCE
 
 
 def _log(message):
@@ -147,7 +152,7 @@ def effective_horizon(curve, key, threshold=THRESHOLD):
         value = curve[point].get(key)
         if value is None:
             continue
-        if value < threshold:
+        if not meets(value, threshold):
             break
         best = point
     return best
@@ -187,7 +192,7 @@ def run(task, arm, width, seed, steps, points=None, n_eval=100, out=None, **kw):
     curve = evaluate(model, task, points, n_eval, seed, batch=eval_batch)
     key = 'reentry' if task == 'count' else 'final'
     in_range = curve[in_range_point][in_range_key]
-    learned = in_range >= THRESHOLD
+    learned = meets(in_range)
     result = dict(task=task, arm=arm, width=width, seed=seed, train=trained, eval_points=points, curve=curve,
                   learned_in_range=learned, in_range_accuracy=in_range,
                   effective_horizon=effective_horizon(curve, key) if learned else 0, horizon_metric=key,
