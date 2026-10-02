@@ -184,6 +184,28 @@ class LearningRateDecayReading(unittest.TestCase):
         self.assertAlmostEqual(r['runs'][0.3]['vs_twin']['ratio'], 100 / 700)
         self.assertEqual(rd.ed_arm('core_clean', **kw)['verdict'], 'NO BASELINE')                  # without baseline_arm the core_clean baseline file is looked up (and does not exist)
 
+    def test_the_s5_seed_replicates_are_the_same_phenomenon_seed_dependent_or_not_learned(self):
+        # E-R5: hazard events / 1,024,000 steps; the break sits at ~1.4e-3 (1,440 events)
+        write(self.dir, 'perm5-core-w128-s1-cur.json', perm_result(1.0, 1440, 1_024_000))
+        self.assertEqual(rd.es5seeds(directory=self.dir)['verdict'], 'NO RUNS')
+        write(self.dir, 'perm5-core-w128-s2-cur.json', perm_result(1.0, 2000, 1_024_000))                                  # 1.95e-3: the same kind of floor
+        r = rd.es5seeds(directory=self.dir)
+        self.assertEqual(r['verdict'], 'SAME PHENOMENON (INCOMPLETE: 1 of 2 seeds)')
+        self.assertAlmostEqual(r['baseline_hazard'], 1440 / 1_024_000)
+        write(self.dir, 'perm5-core-w128-s3-cur.json', perm_result(1.0, 3000, 1_024_000))                                  # 2.9e-3
+        self.assertEqual(rd.es5seeds(directory=self.dir)['verdict'], 'SAME PHENOMENON')
+        write(self.dir, 'perm5-core-w128-s3-cur.json', perm_result(1.0, 50, 1_024_000))                                    # 4.9e-5: a clean seed
+        self.assertEqual(rd.es5seeds(directory=self.dir)['verdict'], 'SEED-DEPENDENT')
+        write(self.dir, 'perm5-core-w128-s3-cur.json', perm_result(1.0, 700, 1_024_000))                                   # 6.8e-4: inside the band
+        self.assertEqual(rd.es5seeds(directory=self.dir)['verdict'], 'SAME PHENOMENON')
+        write(self.dir, 'perm5-core-w128-s3-cur.json', perm_result(1.0, 300, 1_024_000))                                   # 2.9e-4: between the clean and the band
+        self.assertEqual(rd.es5seeds(directory=self.dir)['verdict'], 'MIXED')
+        write(self.dir, 'perm5-core-w128-s3-cur.json', perm_result(0.5, 3000, 1_024_000))                                  # the range was not learned: listed, not read
+        r = rd.es5seeds(directory=self.dir)
+        self.assertEqual((r['verdict'], r['unlearned_seeds']), ('SAME PHENOMENON', [3]))
+        write(self.dir, 'perm5-core-w128-s2-cur.json', perm_result(0.5, 100, 1_024_000))
+        self.assertEqual(rd.es5seeds(directory=self.dir)['verdict'], 'NOT LEARNED')
+
     def test_the_floor_dose_response_flags_a_non_monotone_curve_and_gives_the_strict_floor(self):
         # blind review R2-9: baseline 600 events (rule <= 120); floors 0.3 / 0.1 / 0.03 / 0.01 -> 110 / 300 / 20 / 5
         for floor, events in ((0.3, 110), (0.1, 300), (0.03, 20), (0.01, 5)):

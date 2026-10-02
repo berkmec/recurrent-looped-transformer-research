@@ -179,6 +179,37 @@ def ek5(widths=(256, 192), directory=RESULTS, task='perm5', arm='core', baseline
 EK4_HAZARD = 5e-4
 
 
+def es5seeds(seeds=(2, 3), directory=RESULTS, task='perm5', arm='core', width=128, baseline_seed=1):
+    """E-R5 (note 5.31): is the S5 Core's long-position break a property of the architecture and recipe or of seed 1? The constant-lr runs of `seeds` (the recipe of the stored seed-1 baseline) are
+    read for their in-range accuracy and pooled first-error hazard. SAME PHENOMENON when every seed that learned the range (in-range >= 0.99) has a hazard in [5e-4, 5e-3] (within ~3x of the
+    seed-1 baseline's 1.41e-3: a floor of the same kind); SEED-DEPENDENT when a learned seed has a hazard <= 1e-4 (clean) or >= 1e-2; NOT LEARNED when no seed learned the range; MIXED otherwise;
+    INCOMPLETE until every seed has run. Seeds with in-range < 0.95 are listed and do not enter the verdict."""
+    runs = {}
+    for seed in seeds:
+        path = Path(directory) / f'{task}-{arm}-w{width}-s{seed}-cur.json'
+        if path.exists():
+            result = _load(path)
+            rate, events, exposure = pooled_rate(result)
+            runs[seed] = dict(in_range=result['curve']['16']['final'], hazard=rate, events=events, exposure=exposure, windows={f'{a}-{b}': cell for (a, b), cell in pooled_windows(result).items()})
+    base_path = Path(directory) / f'{task}-{arm}-w{width}-s{baseline_seed}-cur.json'
+    baseline = pooled_rate(_load(base_path))[0] if base_path.exists() else None
+    learned = {seed: r for seed, r in runs.items() if ge(r['in_range'], 0.99)}
+    unlearned = sorted(seed for seed, r in runs.items() if not ge(r['in_range'], 0.95))
+    if not runs:
+        verdict = 'NO RUNS'
+    elif not learned:
+        verdict = 'NOT LEARNED'
+    elif any(r['hazard'] <= 1e-4 or r['hazard'] >= 1e-2 for r in learned.values()):
+        verdict = 'SEED-DEPENDENT'
+    elif all(5e-4 <= r['hazard'] <= 5e-3 for r in learned.values()):
+        verdict = 'SAME PHENOMENON'
+    else:
+        verdict = 'MIXED'
+    if runs and len(runs) < len(list(seeds)):
+        verdict += ' (INCOMPLETE: ' + str(len(runs)) + ' of ' + str(len(list(seeds))) + ' seeds)'
+    return dict(verdict=verdict, baseline_hazard=baseline, runs=runs, unlearned_seeds=unlearned)
+
+
 def ek4(widths=(32, 48), directory=RESULTS, profile_file='margin-profile-s4core-width.json'):
     """E-K4 (note 5.23): does the S4 Core's margin erode when its width (state dimension per class) shrinks? Runs `perm4-core-w{32,48}-s1-cur` (the baseline w64 recipe, constant lr) and their
     margin profiles (`horizon.margin_profile`, `erosion`). A width ERODES when its margin verdict is EROSION or PARTIAL, or its pooled first-error hazard is >= 5e-4. RATIO SUPPORTED:
@@ -339,6 +370,8 @@ def main():
             no_noise=ed_arm('core_clean', sigmas=(0.3,), tag='lrdecay0.3-open', task='perm5', width=128, baseline_seeds=(1,), twin_tag='lrdecay0.3', baseline_arm='core'),
             noise0_2=ed_arm('core_clean', sigmas=(0.3,), tag='lrdecay0.3-noise0.2-open', task='perm5', width=128, baseline_seeds=(1,), twin_tag='lrdecay0.3-noise0.2', baseline_arm='core')),
             indent=1, default=str))
+    elif which == 'es5seeds':  # E-R5: the constant-lr S5 Core w128 at seeds 2 and 3 against the seed-1 break (note 5.31)
+        print(json.dumps(es5seeds(), indent=1, default=str))
     elif which == 'ek4':      # E-K4: the S4 Core at widths 32 / 48 (state dimension per class 1.33 / 2.0): does the margin erode? (note 5.23)
         print(json.dumps(ek4(), indent=1, default=str))
     elif which == 'epseeds':  # E-P2 replicates: S4 seeds 2 and 3, each against its OWN seed's constant-lr baseline
@@ -349,7 +382,7 @@ def main():
     elif which == 'ec0':
         print(json.dumps(ec0(), indent=1, default=str))
     else:
-        raise SystemExit('usage: python -B -m horizon.readings ed|ep|ep3|ep4|ep5|ed5|ef5|ea10|ek4|ek5|epseeds|ec|ec0')
+        raise SystemExit('usage: python -B -m horizon.readings ed|ep|ep3|ep4|ep5|ed5|ef5|ea10|ek4|ek5|es5seeds|epseeds|ec|ec0')
 
 
 if __name__ == '__main__':
