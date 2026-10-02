@@ -290,3 +290,8 @@
 [07:52:33] Z1 kuyruk EC0 BITTI
 [07:53:01] BASLA E-X (CPU, 1 parcacik): uzun uzunluk degerlendirmesi, GRU/LSTM S4 (sabit lr, lr azaltmali, w128/w112), 2048-32768 konum
 [07:53:50] ZINCIR-DEGISIKLIGI 13: yuva 1: E-X (calisiyor, dokunulmadi) bitince E-L1P (adim 3000) -> kuyruk 5 -> E-C (kilit dizinleriyle: iki zincir ayni isi tekrarlamaz); yalniz bekleyici degistirildi, E-X ve E-P2 isleri yasiyor
+[07:54:43] BITTI E-X recurrent (bkz results/Z1-pilot/long-eval-recurrent.txt)
+[07:54:43] BASLA E-X (CPU, 1 parcacik): uzun uzunluk degerlendirmesi, S4 Core w64, 2048-32768 konum, n = 30
+[08:03:00] ZINCIR-DEGISIKLIGI 14: yuva 2: E-P2 (calisiyor, dokunulmadi) bitince E-P3 -> E-P4 -> E-S asama A (sk3, 10 kosu; bolum 5.16) -> E-C (kilitli); yalniz bekleyici degistirildi
+[08:15:40] BITTI E-X core (bkz results/Z1-pilot/long-eval-core.txt)
+[08:15:53] BASLA E-L1P (step003000; CPU, 1 parcacik): L1 geri besleme kanali kullanimi, egitimsiz

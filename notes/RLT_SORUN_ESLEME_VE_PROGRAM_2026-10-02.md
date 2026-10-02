@@ -288,6 +288,28 @@ Hatalar 576 (S₄) / 14.400 (S₅) geçiş çiftine neredeyse **düzgün-rastgel
 **Sonucun kullanımı:** ÜSTÜNLÜK → gerçek model görev karışımına (L2) durum-anahtarlı getirme ailesi girer, RLT'nin yapısal değeri (tek aşama/tohum sınırıyla) kanıtlı sayılır; ÜSTÜNLÜK YOK → RLT'nin yapısal avantajı bu ölçekte ve görevde gösterilemedi: gerçek model iddiası dil/hız/maliyet karşılaştırmasına (A0 ikizi, eşleşmiş transformer) dayanmalı, "geri besleme ne zaman yararlı" açık kalır.
 - *Sınır:* tek görev ailesi; küçük ölçek (≈ 100k parametre); sk3'te yalnız 6 olgu; eğitim aralığı 16 yürüyüş; durum başı yoğun denetim (RLT'nin kendi tarifi bunu istemez ama her kola aynı); NoPE-transformer dışında konumlu transformer yok; hız ölçüleri koşular arası CPU çekişmesine açık.
 
+### 5.13.1 E-X SONUCU (07:54-08:15; `results/Z1-pilot/long-eval-{recurrent,core}.{json,txt}`; kural `long_eval.reading`)
+Taze dev dizileri, uzunluk 2.048 / 8.192 / 32.768 (eğitim uzunluğunun 128 / 512 / 2.048 katı). 1.024 ötesi ilk hata / pozlanma, hazard ve hatasız dizi sayısı (2.048 / 8.192 / 32.768'de):
+| model | hüküm | olay / pozlanma | hazard (adım⁻¹) | hatasız dizi |
+|---|---|---|---|---|
+| GRU w64, sabit lr | TABAN | 104 / 177.152 | 5,9×10⁻⁴ | 9 / 0 / 0 (n = 100) |
+| LSTM w64, sabit lr | TABAN | 117 / 316.416 | 3,7×10⁻⁴ | 27 / 1 / 0 |
+| GRU w128, sabit lr | TABAN | 151 / 1.710.080 | 8,8×10⁻⁵ | 76 / 41 / 0 |
+| LSTM w112, sabit lr | TABAN | 150 / 460.800 | 3,3×10⁻⁴ | 39 / 3 / 0 |
+| **GRU w64, lr azaltmalı** | TABAN | 28 / 3.665.920 | **7,6×10⁻⁶** | 98 / 91 / 81 |
+| **LSTM w64, lr azaltmalı** | TABAN | 22 / 3.682.304 | **6,0×10⁻⁶** | 98 / 96 / 82 |
+| **Core w64, sabit lr (n = 30)** | **TEMİZ** | **0 / 1.198.080** | **< 3×10⁻⁶ (%95)** | **30 / 30 / 30** |
+**Okuma:** (i) sabit lr'li tüm GRU/LSTM'ler TABAN (öngörüm tuttu); (ii) lr azaltma tabanı ≈ 60-80× düşürüyor ama **TEMİZ yapmıyor** (öngörüm TEMİZ ≈ %50 / %45 ve §4.7-P3 ≈ %60 **yanlıştı**): kalan taban ≈ 6-8×10⁻⁶ ve konumla hafifçe düşüyor (1,6×10⁻⁵ → 4,2×10⁻⁶); 2.048× uzunlukta ≈ %81-82 dizi hatasız (sabit-hazard modeli exp(−7×10⁻⁶ × 32.768) ≈ %79 ile uyumlu); (iii) **Core w64, sabit lr'de, 30 dizide 32.768 konumun hepsinde hatasız (TEMİZ): 1,2×10⁶ dizi-adımda 0 hata, hazard < 3×10⁻⁶; annealed GRU w64'ün 7,6×10⁻⁶'sında bu sonucun olasılığı exp(−9,1) ≈ 10⁻⁴.** Yani lr azaltma GRU/LSTM tabanını ≈ 80× indiriyor ama Core'un seviyesine (≥ 3× aşağıda) ulaşmıyor. **Düzeltme (08:20):** §5.10.1'deki ve ana belge §1 madde 10(b)'deki "Core ile fark ortadan kalkıyor / RLT'ye özgü üstünlük yok" ifadesi **abartıydı**: fark ≈ 80× (sabit lr) → ≥ 3× (lr azaltmalı), tek tohum; ayrıca karşılaştırma **parametre-eşit değil** (GRU w64 28k, LSTM w64 36k, Core 98k; parametre-eşit kollar yalnız sabit lr'de koşulmuştu): E-P5 bunu sınıyor.
+**Sınır:** tek eğitim tohumu; Core n = 30 (hazard sınırı 3×10⁻⁶); S₄; dev.
+
+### 5.17 E-P5 okuma kuralı: Core'un E-X'teki TEMİZ sonucu parametre-eşit lr azaltmalı GRU/LSTM ile eşleşiyor mu? (eğitimli + uzun değerlendirme; betik `scripts/run_ep5.sh` [E-P4'ün ardından]; kod `long_eval.reading`; koşudan ÖNCE yazıldı 08:22)
+**Neden:** E-X Core'u TEMİZ buldu; lr azaltmalı GRU/LSTM (w64: 28k / 36k parametre) ≈ 6-8×10⁻⁶ ile TABAN kaldı, ama Core 98k parametre. Parametre-eşit kollar (GRU w128 105k, LSTM w112 107k) yalnız sabit lr'de koşuldu (8,8×10⁻⁵ / 3,3×10⁻⁴).
+**Tasarım:** GRU w128 ve LSTM w112, tohum 1, 15.000 güncelleme, müfredat 1…16, lr 3×10⁻³ son %30'da ≈ 0'a azaltılır (Core koşusuyla aynı veri akışı, bütçe, tohum); ardından E-X uzunlukları (2.048 / 8.192 / 32.768; n = 100).
+**Okuma (E-X kuralı, `long_eval.reading`):** kol TEMİZ ⇒ Core ile EŞİT; TABAN ya da SEYREK ⇒ Core'dan GERİDE. **Karar:** ikisi de TEMİZ → "S₄'te Core'un uzunluk üstünlüğü yok (parametre ve lr eşleşince)"; ikisi de TABAN/SEYREK → "Core'un S₄ üstünlüğü parametre ve lr eşleşince de duruyor (tek tohum)"; karışık → KARMA.
+**Öngörü [H]:** GRU w128 TEMİZ ≈ %45, LSTM w112 TEMİZ ≈ %40; ikisi de TEMİZ ≈ %25, ikisi de TABAN/SEYREK ≈ %40, karışık ≈ %35.
+**Sonucun kullanımı:** "Core üstün" çıkarsa tohum 2-3 (kuyruk 5'ten sabit-lr Core) ve lr azaltmalı Core ile tekrarlanır; "eşit" çıkarsa RLT'nin S₄ uzunluk üstünlüğü sorusu kapanır.
+- *Sınır:* tek tohum; n = 100 (hazard sınırı ≈ 8×10⁻⁷ TEMİZ için; Core n = 30 ile 3×10⁻⁶: iki kol aynı pozlanmada değil, bu not edilir).
+
 ### 5.2 E-D okuma kuralı (koşudan ÖNCE yazıldı; kod: `depth_run.train(state_noise=σ)` + `state_noise.NoisyRecurrent/NoisyCore`, 4 test; betik `scripts/run_ed.sh`)
 Koşular: S₄ GRU w64 ve LSTM w64, tohum 1, 15.000 güncelleme, müfredat 1,2,3,4,6,8,12,16, lr 3×10⁻³ (taban koşularla aynı), **eğitim-zamanı** durum gürültüsü σ_train ∈ {0,05; 0,1; 0,2} (6 koşu; sıra: 0,1 önce). Değerlendirme TEMİZ (σ = 0), Z1'in standart noktaları (16 … 1.024). Ölçüler: uzunluk 16'da son-konum doğruluğu (aralık-içi) ve tüm pencerelerde havuzlanmış ilk-hata oranı (`horizon/hazard_summary.py` ile). Tabanlar: `perm4-gru-w64-s1-cur` (7,6×10⁻⁴) ve `perm4-lstm-w64-s1-cur` (5,3×10⁻⁴); tohum 2-3 tabanları kuyruk 5'ten gelince **en iyi taban** (üç tohumun en düşüğü) karşılaştırma değeri olur (talih payını elemek için); gelene kadar yalnız tohum 1 tabanıyla "geçici" okunur.
 - **DESTEKLENİR** (kol başına): en az bir σ_train için aralık-içi doğruluk ≥ 0,99 VE havuzlanmış hazard ≤ (en iyi taban)/5.

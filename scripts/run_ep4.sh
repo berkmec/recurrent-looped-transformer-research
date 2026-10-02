@@ -33,3 +33,4 @@ job() {   # arm seed decay-fraction (0 = constant lr)
 for seed in 4 5; do for arm in gru lstm; do job "$arm" "$seed" 0; done; done
 for seed in 4 5; do for arm in gru lstm; do job "$arm" "$seed" 0.3; done; done
 log "Z1 kuyruk EP4 BITTI"
+bash scripts/run_ep5.sh      # the parameter-matched annealed GRU w128 / LSTM w112 and their long evaluation (note 5.17); added at 08:20, before this script started

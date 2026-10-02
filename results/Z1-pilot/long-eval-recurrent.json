@@ -1,0 +1,1172 @@
+[
+ {
+  "weights": "results/Z1-pilot/perm4-gru-w64-s1-cur.pt",
+  "arm": "gru",
+  "task": "perm4",
+  "width": 64,
+  "seed": 1,
+  "n": 100,
+  "lengths": [
+   2048,
+   8192,
+   32768
+  ],
+  "curve": {
+   "2048": {
+    "length": 2048,
+    "n": 100,
+    "final": 0.2800000011920929,
+    "prefix": 0.6010107398033142,
+    "error_free": 9,
+    "hazard": [
+     {
+      "start": 0,
+      "stop": 16,
+      "at_risk": 100,
+      "first_errors": 0,
+      "rate": 0.0
+     },
+     {
+      "start": 16,
+      "stop": 64,
+      "at_risk": 100,
+      "first_errors": 2,
+      "rate": 0.0004166666666666667
+     },
+     {
+      "start": 64,
+      "stop": 256,
+      "at_risk": 98,
+      "first_errors": 18,
+      "rate": 0.0009566326530612245
+     },
+     {
+      "start": 256,
+      "stop": 1024,
+      "at_risk": 80,
+      "first_errors": 45,
+      "rate": 0.000732421875
+     },
+     {
+      "start": 1024,
+      "stop": 2048,
+      "at_risk": 35,
+      "first_errors": 26,
+      "rate": 0.0007254464285714286
+     }
+    ],
+    "seconds": 0.8506949000002351
+   },
+   "8192": {
+    "length": 8192,
+    "n": 100,
+    "final": 0.15000000596046448,
+    "prefix": 0.3330749571323395,
+    "error_free": 0,
+    "hazard": [
+     {
+      "start": 0,
+      "stop": 16,
+      "at_risk": 100,
+      "first_errors": 0,
+      "rate": 0.0
+     },
+     {
+      "start": 16,
+      "stop": 64,
+      "at_risk": 100,
+      "first_errors": 2,
+      "rate": 0.0004166666666666667
+     },
+     {
+      "start": 64,
+      "stop": 256,
+      "at_risk": 98,
+      "first_errors": 11,
+      "rate": 0.000584608843537415
+     },
+     {
+      "start": 256,
+      "stop": 1024,
+      "at_risk": 87,
+      "first_errors": 45,
+      "rate": 0.0006734913793103449
+     },
+     {
+      "start": 1024,
+      "stop": 2048,
+      "at_risk": 42,
+      "first_errors": 30,
+      "rate": 0.0006975446428571429
+     },
+     {
+      "start": 2048,
+      "stop": 4096,
+      "at_risk": 12,
+      "first_errors": 11,
+      "rate": 0.0004475911458333333
+     },
+     {
+      "start": 4096,
+      "stop": 8192,
+      "at_risk": 1,
+      "first_errors": 1,
+      "rate": 0.000244140625
+     }
+    ],
+    "seconds": 3.705800600000657
+   },
+   "32768": {
+    "length": 32768,
+    "n": 100,
+    "final": 0.03999999910593033,
+    "prefix": 0.15769469738006592,
+    "error_free": 0,
+    "hazard": [
+     {
+      "start": 0,
+      "stop": 16,
+      "at_risk": 100,
+      "first_errors": 0,
+      "rate": 0.0
+     },
+     {
+      "start": 16,
+      "stop": 64,
+      "at_risk": 100,
+      "first_errors": 5,
+      "rate": 0.0010416666666666667
+     },
+     {
+      "start": 64,
+      "stop": 256,
+      "at_risk": 95,
+      "first_errors": 11,
+      "rate": 0.0006030701754385965
+     },
+     {
+      "start": 256,
+      "stop": 1024,
+      "at_risk": 84,
+      "first_errors": 48,
+      "rate": 0.000744047619047619
+     },
+     {
+      "start": 1024,
+      "stop": 2048,
+      "at_risk": 36,
+      "first_errors": 22,
+      "rate": 0.0005967881944444445
+     },
+     {
+      "start": 2048,
+      "stop": 4096,
+      "at_risk": 14,
+      "first_errors": 13,
+      "rate": 0.00045340401785714287
+     },
+     {
+      "start": 4096,
+      "stop": 8192,
+      "at_risk": 1,
+      "first_errors": 1,
+      "rate": 0.000244140625
+     },
+     {
+      "start": 8192,
+      "stop": 16384,
+      "at_risk": 0,
+      "first_errors": 0,
+      "rate": null
+     },
+     {
+      "start": 16384,
+      "stop": 32768,
+      "at_risk": 0,
+      "first_errors": 0,
+      "rate": null
+     }
+    ],
+    "seconds": 13.89209739999933
+   }
+  },
+  "train": {
+   "parameters": 28056
+  }
+ },
+ {
+  "weights": "results/Z1-pilot/perm4-lstm-w64-s1-cur.pt",
+  "arm": "lstm",
+  "task": "perm4",
+  "width": 64,
+  "seed": 1,
+  "n": 100,
+  "lengths": [
+   2048,
+   8192,
+   32768
+  ],
+  "curve": {
+   "2048": {
+    "length": 2048,
+    "n": 100,
+    "final": 0.47999998927116394,
+    "prefix": 0.6912939548492432,
+    "error_free": 27,
+    "hazard": [
+     {
+      "start": 0,
+      "stop": 16,
+      "at_risk": 100,
+      "first_errors": 0,
+      "rate": 0.0
+     },
+     {
+      "start": 16,
+      "stop": 64,
+      "at_risk": 100,
+      "first_errors": 2,
+      "rate": 0.0004166666666666667
+     },
+     {
+      "start": 64,
+      "stop": 256,
+      "at_risk": 98,
+      "first_errors": 9,
+      "rate": 0.00047831632653061223
+     },
+     {
+      "start": 256,
+      "stop": 1024,
+      "at_risk": 89,
+      "first_errors": 40,
+      "rate": 0.0005852059925093633
+     },
+     {
+      "start": 1024,
+      "stop": 2048,
+      "at_risk": 49,
+      "first_errors": 22,
+      "rate": 0.0004384566326530612
+     }
+    ],
+    "seconds": 0.3914978000029805
+   },
+   "8192": {
+    "length": 8192,
+    "n": 100,
+    "final": 0.15000000596046448,
+    "prefix": 0.3501293957233429,
+    "error_free": 1,
+    "hazard": [
+     {
+      "start": 0,
+      "stop": 16,
+      "at_risk": 100,
+      "first_errors": 0,
+      "rate": 0.0
+     },
+     {
+      "start": 16,
+      "stop": 64,
+      "at_risk": 100,
+      "first_errors": 6,
+      "rate": 0.00125
+     },
+     {
+      "start": 64,
+      "stop": 256,
+      "at_risk": 94,
+      "first_errors": 14,
+      "rate": 0.0007757092198581561
+     },
+     {
+      "start": 256,
+      "stop": 1024,
+      "at_risk": 80,
+      "first_errors": 38,
+      "rate": 0.0006184895833333333
+     },
+     {
+      "start": 1024,
+      "stop": 2048,
+      "at_risk": 42,
+      "first_errors": 20,
+      "rate": 0.0004650297619047619
+     },
+     {
+      "start": 2048,
+      "stop": 4096,
+      "at_risk": 22,
+      "first_errors": 17,
+      "rate": 0.0003773082386363636
+     },
+     {
+      "start": 4096,
+      "stop": 8192,
+      "at_risk": 5,
+      "first_errors": 4,
+      "rate": 0.0001953125
+     }
+    ],
+    "seconds": 1.4172353999965708
+   },
+   "32768": {
+    "length": 32768,
+    "n": 100,
+    "final": 0.17000000178813934,
+    "prefix": 0.2144647240638733,
+    "error_free": 0,
+    "hazard": [
+     {
+      "start": 0,
+      "stop": 16,
+      "at_risk": 100,
+      "first_errors": 1,
+      "rate": 0.000625
+     },
+     {
+      "start": 16,
+      "stop": 64,
+      "at_risk": 99,
+      "first_errors": 4,
+      "rate": 0.0008417508417508417
+     },
+     {
+      "start": 64,
+      "stop": 256,
+      "at_risk": 95,
+      "first_errors": 10,
+      "rate": 0.0005482456140350877
+     },
+     {
+      "start": 256,
+      "stop": 1024,
+      "at_risk": 85,
+      "first_errors": 31,
+      "rate": 0.00047487745098039215
+     },
+     {
+      "start": 1024,
+      "stop": 2048,
+      "at_risk": 54,
+      "first_errors": 20,
+      "rate": 0.0003616898148148148
+     },
+     {
+      "start": 2048,
+      "stop": 4096,
+      "at_risk": 34,
+      "first_errors": 26,
+      "rate": 0.00037339154411764703
+     },
+     {
+      "start": 4096,
+      "stop": 8192,
+      "at_risk": 8,
+      "first_errors": 8,
+      "rate": 0.000244140625
+     },
+     {
+      "start": 8192,
+      "stop": 16384,
+      "at_risk": 0,
+      "first_errors": 0,
+      "rate": null
+     },
+     {
+      "start": 16384,
+      "stop": 32768,
+      "at_risk": 0,
+      "first_errors": 0,
+      "rate": null
+     }
+    ],
+    "seconds": 5.872927399999753
+   }
+  },
+  "train": {
+   "parameters": 36376
+  }
+ },
+ {
+  "weights": "results/Z1-pilot/perm4-gru-w64-s1-cur-lrdecay0.3.pt",
+  "arm": "gru",
+  "task": "perm4",
+  "width": 64,
+  "seed": 1,
+  "n": 100,
+  "lengths": [
+   2048,
+   8192,
+   32768
+  ],
+  "curve": {
+   "2048": {
+    "length": 2048,
+    "n": 100,
+    "final": 0.9900000095367432,
+    "prefix": 0.9917773604393005,
+    "error_free": 98,
+    "hazard": [
+     {
+      "start": 0,
+      "stop": 16,
+      "at_risk": 100,
+      "first_errors": 0,
+      "rate": 0.0
+     },
+     {
+      "start": 16,
+      "stop": 64,
+      "at_risk": 100,
+      "first_errors": 0,
+      "rate": 0.0
+     },
+     {
+      "start": 64,
+      "stop": 256,
+      "at_risk": 100,
+      "first_errors": 0,
+      "rate": 0.0
+     },
+     {
+      "start": 256,
+      "stop": 1024,
+      "at_risk": 100,
+      "first_errors": 1,
+      "rate": 1.3020833333333334e-05
+     },
+     {
+      "start": 1024,
+      "stop": 2048,
+      "at_risk": 99,
+      "first_errors": 1,
+      "rate": 9.864267676767678e-06
+     }
+    ],
+    "seconds": 0.8556138999992982
+   },
+   "8192": {
+    "length": 8192,
+    "n": 100,
+    "final": 0.949999988079071,
+    "prefix": 0.977221667766571,
+    "error_free": 91,
+    "hazard": [
+     {
+      "start": 0,
+      "stop": 16,
+      "at_risk": 100,
+      "first_errors": 0,
+      "rate": 0.0
+     },
+     {
+      "start": 16,
+      "stop": 64,
+      "at_risk": 100,
+      "first_errors": 0,
+      "rate": 0.0
+     },
+     {
+      "start": 64,
+      "stop": 256,
+      "at_risk": 100,
+      "first_errors": 0,
+      "rate": 0.0
+     },
+     {
+      "start": 256,
+      "stop": 1024,
+      "at_risk": 100,
+      "first_errors": 0,
+      "rate": 0.0
+     },
+     {
+      "start": 1024,
+      "stop": 2048,
+      "at_risk": 100,
+      "first_errors": 3,
+      "rate": 2.9296875e-05
+     },
+     {
+      "start": 2048,
+      "stop": 4096,
+      "at_risk": 97,
+      "first_errors": 1,
+      "rate": 5.033827319587629e-06
+     },
+     {
+      "start": 4096,
+      "stop": 8192,
+      "at_risk": 96,
+      "first_errors": 5,
+      "rate": 1.2715657552083334e-05
+     }
+    ],
+    "seconds": 3.4950236000004224
+   },
+   "32768": {
+    "length": 32768,
+    "n": 100,
+    "final": 0.8899999856948853,
+    "prefix": 0.9114617705345154,
+    "error_free": 81,
+    "hazard": [
+     {
+      "start": 0,
+      "stop": 16,
+      "at_risk": 100,
+      "first_errors": 0,
+      "rate": 0.0
+     },
+     {
+      "start": 16,
+      "stop": 64,
+      "at_risk": 100,
+      "first_errors": 1,
+      "rate": 0.00020833333333333335
+     },
+     {
+      "start": 64,
+      "stop": 256,
+      "at_risk": 99,
+      "first_errors": 0,
+      "rate": 0.0
+     },
+     {
+      "start": 256,
+      "stop": 1024,
+      "at_risk": 99,
+      "first_errors": 0,
+      "rate": 0.0
+     },
+     {
+      "start": 1024,
+      "stop": 2048,
+      "at_risk": 99,
+      "first_errors": 1,
+      "rate": 9.864267676767678e-06
+     },
+     {
+      "start": 2048,
+      "stop": 4096,
+      "at_risk": 98,
+      "first_errors": 3,
+      "rate": 1.4947385204081632e-05
+     },
+     {
+      "start": 4096,
+      "stop": 8192,
+      "at_risk": 95,
+      "first_errors": 3,
+      "rate": 7.709703947368421e-06
+     },
+     {
+      "start": 8192,
+      "stop": 16384,
+      "at_risk": 92,
+      "first_errors": 5,
+      "rate": 6.634256114130435e-06
+     },
+     {
+      "start": 16384,
+      "stop": 32768,
+      "at_risk": 87,
+      "first_errors": 6,
+      "rate": 4.209321120689655e-06
+     }
+    ],
+    "seconds": 13.735978499993507
+   }
+  },
+  "train": {
+   "parameters": 28056
+  }
+ },
+ {
+  "weights": "results/Z1-pilot/perm4-lstm-w64-s1-cur-lrdecay0.3.pt",
+  "arm": "lstm",
+  "task": "perm4",
+  "width": 64,
+  "seed": 1,
+  "n": 100,
+  "lengths": [
+   2048,
+   8192,
+   32768
+  ],
+  "curve": {
+   "2048": {
+    "length": 2048,
+    "n": 100,
+    "final": 0.9800000190734863,
+    "prefix": 0.9911181926727295,
+    "error_free": 98,
+    "hazard": [
+     {
+      "start": 0,
+      "stop": 16,
+      "at_risk": 100,
+      "first_errors": 0,
+      "rate": 0.0
+     },
+     {
+      "start": 16,
+      "stop": 64,
+      "at_risk": 100,
+      "first_errors": 0,
+      "rate": 0.0
+     },
+     {
+      "start": 64,
+      "stop": 256,
+      "at_risk": 100,
+      "first_errors": 0,
+      "rate": 0.0
+     },
+     {
+      "start": 256,
+      "stop": 1024,
+      "at_risk": 100,
+      "first_errors": 1,
+      "rate": 1.3020833333333334e-05
+     },
+     {
+      "start": 1024,
+      "stop": 2048,
+      "at_risk": 99,
+      "first_errors": 1,
+      "rate": 9.864267676767678e-06
+     }
+    ],
+    "seconds": 0.39239500000257976
+   },
+   "8192": {
+    "length": 8192,
+    "n": 100,
+    "final": 0.9800000190734863,
+    "prefix": 0.9913598895072937,
+    "error_free": 96,
+    "hazard": [
+     {
+      "start": 0,
+      "stop": 16,
+      "at_risk": 100,
+      "first_errors": 0,
+      "rate": 0.0
+     },
+     {
+      "start": 16,
+      "stop": 64,
+      "at_risk": 100,
+      "first_errors": 0,
+      "rate": 0.0
+     },
+     {
+      "start": 64,
+      "stop": 256,
+      "at_risk": 100,
+      "first_errors": 0,
+      "rate": 0.0
+     },
+     {
+      "start": 256,
+      "stop": 1024,
+      "at_risk": 100,
+      "first_errors": 0,
+      "rate": 0.0
+     },
+     {
+      "start": 1024,
+      "stop": 2048,
+      "at_risk": 100,
+      "first_errors": 2,
+      "rate": 1.953125e-05
+     },
+     {
+      "start": 2048,
+      "stop": 4096,
+      "at_risk": 98,
+      "first_errors": 1,
+      "rate": 4.982461734693877e-06
+     },
+     {
+      "start": 4096,
+      "stop": 8192,
+      "at_risk": 97,
+      "first_errors": 1,
+      "rate": 2.5169136597938144e-06
+     }
+    ],
+    "seconds": 1.470351900003152
+   },
+   "32768": {
+    "length": 32768,
+    "n": 100,
+    "final": 0.9300000071525574,
+    "prefix": 0.9476913213729858,
+    "error_free": 82,
+    "hazard": [
+     {
+      "start": 0,
+      "stop": 16,
+      "at_risk": 100,
+      "first_errors": 0,
+      "rate": 0.0
+     },
+     {
+      "start": 16,
+      "stop": 64,
+      "at_risk": 100,
+      "first_errors": 0,
+      "rate": 0.0
+     },
+     {
+      "start": 64,
+      "stop": 256,
+      "at_risk": 100,
+      "first_errors": 0,
+      "rate": 0.0
+     },
+     {
+      "start": 256,
+      "stop": 1024,
+      "at_risk": 100,
+      "first_errors": 1,
+      "rate": 1.3020833333333334e-05
+     },
+     {
+      "start": 1024,
+      "stop": 2048,
+      "at_risk": 99,
+      "first_errors": 2,
+      "rate": 1.9728535353535355e-05
+     },
+     {
+      "start": 2048,
+      "stop": 4096,
+      "at_risk": 97,
+      "first_errors": 3,
+      "rate": 1.5101481958762887e-05
+     },
+     {
+      "start": 4096,
+      "stop": 8192,
+      "at_risk": 94,
+      "first_errors": 2,
+      "rate": 5.194481382978723e-06
+     },
+     {
+      "start": 8192,
+      "stop": 16384,
+      "at_risk": 92,
+      "first_errors": 4,
+      "rate": 5.307404891304348e-06
+     },
+     {
+      "start": 16384,
+      "stop": 32768,
+      "at_risk": 88,
+      "first_errors": 6,
+      "rate": 4.161487926136363e-06
+     }
+    ],
+    "seconds": 6.024264799998491
+   }
+  },
+  "train": {
+   "parameters": 36376
+  }
+ },
+ {
+  "weights": "results/Z1-pilot/perm4-gru-w128-s1-cur.pt",
+  "arm": "gru",
+  "task": "perm4",
+  "width": 128,
+  "seed": 1,
+  "n": 100,
+  "lengths": [
+   2048,
+   8192,
+   32768
+  ],
+  "curve": {
+   "2048": {
+    "length": 2048,
+    "n": 100,
+    "final": 0.8199999928474426,
+    "prefix": 0.8759570121765137,
+    "error_free": 76,
+    "hazard": [
+     {
+      "start": 0,
+      "stop": 16,
+      "at_risk": 100,
+      "first_errors": 1,
+      "rate": 0.000625
+     },
+     {
+      "start": 16,
+      "stop": 64,
+      "at_risk": 99,
+      "first_errors": 0,
+      "rate": 0.0
+     },
+     {
+      "start": 64,
+      "stop": 256,
+      "at_risk": 99,
+      "first_errors": 7,
+      "rate": 0.00036826599326599327
+     },
+     {
+      "start": 256,
+      "stop": 1024,
+      "at_risk": 92,
+      "first_errors": 10,
+      "rate": 0.00014153079710144928
+     },
+     {
+      "start": 1024,
+      "stop": 2048,
+      "at_risk": 82,
+      "first_errors": 6,
+      "rate": 7.145579268292682e-05
+     }
+    ],
+    "seconds": 1.4357740999985253
+   },
+   "8192": {
+    "length": 8192,
+    "n": 100,
+    "final": 0.6000000238418579,
+    "prefix": 0.7588207721710205,
+    "error_free": 41,
+    "hazard": [
+     {
+      "start": 0,
+      "stop": 16,
+      "at_risk": 100,
+      "first_errors": 0,
+      "rate": 0.0
+     },
+     {
+      "start": 16,
+      "stop": 64,
+      "at_risk": 100,
+      "first_errors": 1,
+      "rate": 0.00020833333333333335
+     },
+     {
+      "start": 64,
+      "stop": 256,
+      "at_risk": 99,
+      "first_errors": 1,
+      "rate": 5.260942760942761e-05
+     },
+     {
+      "start": 256,
+      "stop": 1024,
+      "at_risk": 98,
+      "first_errors": 6,
+      "rate": 7.971938775510203e-05
+     },
+     {
+      "start": 1024,
+      "stop": 2048,
+      "at_risk": 92,
+      "first_errors": 10,
+      "rate": 0.00010614809782608695
+     },
+     {
+      "start": 2048,
+      "stop": 4096,
+      "at_risk": 82,
+      "first_errors": 18,
+      "rate": 0.00010718368902439024
+     },
+     {
+      "start": 4096,
+      "stop": 8192,
+      "at_risk": 64,
+      "first_errors": 23,
+      "rate": 8.7738037109375e-05
+     }
+    ],
+    "seconds": 5.657736300003307
+   },
+   "32768": {
+    "length": 32768,
+    "n": 100,
+    "final": 0.18000000715255737,
+    "prefix": 0.430166631937027,
+    "error_free": 0,
+    "hazard": [
+     {
+      "start": 0,
+      "stop": 16,
+      "at_risk": 100,
+      "first_errors": 0,
+      "rate": 0.0
+     },
+     {
+      "start": 16,
+      "stop": 64,
+      "at_risk": 100,
+      "first_errors": 0,
+      "rate": 0.0
+     },
+     {
+      "start": 64,
+      "stop": 256,
+      "at_risk": 100,
+      "first_errors": 1,
+      "rate": 5.208333333333334e-05
+     },
+     {
+      "start": 256,
+      "stop": 1024,
+      "at_risk": 99,
+      "first_errors": 5,
+      "rate": 6.576178451178451e-05
+     },
+     {
+      "start": 1024,
+      "stop": 2048,
+      "at_risk": 94,
+      "first_errors": 7,
+      "rate": 7.272273936170212e-05
+     },
+     {
+      "start": 2048,
+      "stop": 4096,
+      "at_risk": 87,
+      "first_errors": 13,
+      "rate": 7.296156609195403e-05
+     },
+     {
+      "start": 4096,
+      "stop": 8192,
+      "at_risk": 74,
+      "first_errors": 28,
+      "rate": 9.237753378378379e-05
+     },
+     {
+      "start": 8192,
+      "stop": 16384,
+      "at_risk": 46,
+      "first_errors": 37,
+      "rate": 9.818699048913044e-05
+     },
+     {
+      "start": 16384,
+      "stop": 32768,
+      "at_risk": 9,
+      "first_errors": 9,
+      "rate": 6.103515625e-05
+     }
+    ],
+    "seconds": 22.3607389999961
+   }
+  },
+  "train": {
+   "parameters": 105240
+  }
+ },
+ {
+  "weights": "results/Z1-pilot/perm4-lstm-w112-s1-cur.pt",
+  "arm": "lstm",
+  "task": "perm4",
+  "width": 112,
+  "seed": 1,
+  "n": 100,
+  "lengths": [
+   2048,
+   8192,
+   32768
+  ],
+  "curve": {
+   "2048": {
+    "length": 2048,
+    "n": 100,
+    "final": 0.6000000238418579,
+    "prefix": 0.7855077981948853,
+    "error_free": 39,
+    "hazard": [
+     {
+      "start": 0,
+      "stop": 16,
+      "at_risk": 100,
+      "first_errors": 0,
+      "rate": 0.0
+     },
+     {
+      "start": 16,
+      "stop": 64,
+      "at_risk": 100,
+      "first_errors": 1,
+      "rate": 0.00020833333333333335
+     },
+     {
+      "start": 64,
+      "stop": 256,
+      "at_risk": 99,
+      "first_errors": 5,
+      "rate": 0.00026304713804713804
+     },
+     {
+      "start": 256,
+      "stop": 1024,
+      "at_risk": 94,
+      "first_errors": 25,
+      "rate": 0.00034629875886524824
+     },
+     {
+      "start": 1024,
+      "stop": 2048,
+      "at_risk": 69,
+      "first_errors": 30,
+      "rate": 0.0004245923913043478
+     }
+    ],
+    "seconds": 0.8928802000009455
+   },
+   "8192": {
+    "length": 8192,
+    "n": 100,
+    "final": 0.20000000298023224,
+    "prefix": 0.49131470918655396,
+    "error_free": 3,
+    "hazard": [
+     {
+      "start": 0,
+      "stop": 16,
+      "at_risk": 100,
+      "first_errors": 0,
+      "rate": 0.0
+     },
+     {
+      "start": 16,
+      "stop": 64,
+      "at_risk": 100,
+      "first_errors": 1,
+      "rate": 0.00020833333333333335
+     },
+     {
+      "start": 64,
+      "stop": 256,
+      "at_risk": 99,
+      "first_errors": 5,
+      "rate": 0.00026304713804713804
+     },
+     {
+      "start": 256,
+      "stop": 1024,
+      "at_risk": 94,
+      "first_errors": 31,
+      "rate": 0.0004294104609929078
+     },
+     {
+      "start": 1024,
+      "stop": 2048,
+      "at_risk": 63,
+      "first_errors": 23,
+      "rate": 0.00035652281746031744
+     },
+     {
+      "start": 2048,
+      "stop": 4096,
+      "at_risk": 40,
+      "first_errors": 25,
+      "rate": 0.00030517578125
+     },
+     {
+      "start": 4096,
+      "stop": 8192,
+      "at_risk": 15,
+      "first_errors": 12,
+      "rate": 0.0001953125
+     }
+    ],
+    "seconds": 3.2186023999965983
+   },
+   "32768": {
+    "length": 32768,
+    "n": 100,
+    "final": 0.07999999821186066,
+    "prefix": 0.2247232049703598,
+    "error_free": 0,
+    "hazard": [
+     {
+      "start": 0,
+      "stop": 16,
+      "at_risk": 100,
+      "first_errors": 0,
+      "rate": 0.0
+     },
+     {
+      "start": 16,
+      "stop": 64,
+      "at_risk": 100,
+      "first_errors": 4,
+      "rate": 0.0008333333333333334
+     },
+     {
+      "start": 64,
+      "stop": 256,
+      "at_risk": 96,
+      "first_errors": 8,
+      "rate": 0.00043402777777777775
+     },
+     {
+      "start": 256,
+      "stop": 1024,
+      "at_risk": 88,
+      "first_errors": 28,
+      "rate": 0.00041429924242424244
+     },
+     {
+      "start": 1024,
+      "stop": 2048,
+      "at_risk": 60,
+      "first_errors": 25,
+      "rate": 0.0004069010416666667
+     },
+     {
+      "start": 2048,
+      "stop": 4096,
+      "at_risk": 35,
+      "first_errors": 25,
+      "rate": 0.00034877232142857144
+     },
+     {
+      "start": 4096,
+      "stop": 8192,
+      "at_risk": 10,
+      "first_errors": 9,
+      "rate": 0.0002197265625
+     },
+     {
+      "start": 8192,
+      "stop": 16384,
+      "at_risk": 1,
+      "first_errors": 1,
+      "rate": 0.0001220703125
+     },
+     {
+      "start": 16384,
+      "stop": 32768,
+      "at_risk": 0,
+      "first_errors": 0,
+      "rate": null
+     }
+    ],
+    "seconds": 12.749487399996724
+   }
+  },
+  "train": {
+   "parameters": 106648
+  }
+ }
+]

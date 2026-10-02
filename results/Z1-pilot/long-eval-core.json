@@ -1,0 +1,197 @@
+[
+ {
+  "weights": "results/Z1-pilot/perm4-core-w64-s1-cur.pt",
+  "arm": "core",
+  "task": "perm4",
+  "width": 64,
+  "seed": 1,
+  "n": 30,
+  "lengths": [
+   2048,
+   8192,
+   32768
+  ],
+  "curve": {
+   "2048": {
+    "length": 2048,
+    "n": 30,
+    "final": 1.0,
+    "prefix": 1.0,
+    "error_free": 30,
+    "hazard": [
+     {
+      "start": 0,
+      "stop": 16,
+      "at_risk": 30,
+      "first_errors": 0,
+      "rate": 0.0
+     },
+     {
+      "start": 16,
+      "stop": 64,
+      "at_risk": 30,
+      "first_errors": 0,
+      "rate": 0.0
+     },
+     {
+      "start": 64,
+      "stop": 256,
+      "at_risk": 30,
+      "first_errors": 0,
+      "rate": 0.0
+     },
+     {
+      "start": 256,
+      "stop": 1024,
+      "at_risk": 30,
+      "first_errors": 0,
+      "rate": 0.0
+     },
+     {
+      "start": 1024,
+      "stop": 2048,
+      "at_risk": 30,
+      "first_errors": 0,
+      "rate": 0.0
+     }
+    ],
+    "seconds": 16.016262999997707
+   },
+   "8192": {
+    "length": 8192,
+    "n": 30,
+    "final": 1.0,
+    "prefix": 1.0,
+    "error_free": 30,
+    "hazard": [
+     {
+      "start": 0,
+      "stop": 16,
+      "at_risk": 30,
+      "first_errors": 0,
+      "rate": 0.0
+     },
+     {
+      "start": 16,
+      "stop": 64,
+      "at_risk": 30,
+      "first_errors": 0,
+      "rate": 0.0
+     },
+     {
+      "start": 64,
+      "stop": 256,
+      "at_risk": 30,
+      "first_errors": 0,
+      "rate": 0.0
+     },
+     {
+      "start": 256,
+      "stop": 1024,
+      "at_risk": 30,
+      "first_errors": 0,
+      "rate": 0.0
+     },
+     {
+      "start": 1024,
+      "stop": 2048,
+      "at_risk": 30,
+      "first_errors": 0,
+      "rate": 0.0
+     },
+     {
+      "start": 2048,
+      "stop": 4096,
+      "at_risk": 30,
+      "first_errors": 0,
+      "rate": 0.0
+     },
+     {
+      "start": 4096,
+      "stop": 8192,
+      "at_risk": 30,
+      "first_errors": 0,
+      "rate": 0.0
+     }
+    ],
+    "seconds": 104.66353809999418
+   },
+   "32768": {
+    "length": 32768,
+    "n": 30,
+    "final": 1.0,
+    "prefix": 1.0,
+    "error_free": 30,
+    "hazard": [
+     {
+      "start": 0,
+      "stop": 16,
+      "at_risk": 30,
+      "first_errors": 0,
+      "rate": 0.0
+     },
+     {
+      "start": 16,
+      "stop": 64,
+      "at_risk": 30,
+      "first_errors": 0,
+      "rate": 0.0
+     },
+     {
+      "start": 64,
+      "stop": 256,
+      "at_risk": 30,
+      "first_errors": 0,
+      "rate": 0.0
+     },
+     {
+      "start": 256,
+      "stop": 1024,
+      "at_risk": 30,
+      "first_errors": 0,
+      "rate": 0.0
+     },
+     {
+      "start": 1024,
+      "stop": 2048,
+      "at_risk": 30,
+      "first_errors": 0,
+      "rate": 0.0
+     },
+     {
+      "start": 2048,
+      "stop": 4096,
+      "at_risk": 30,
+      "first_errors": 0,
+      "rate": 0.0
+     },
+     {
+      "start": 4096,
+      "stop": 8192,
+      "at_risk": 30,
+      "first_errors": 0,
+      "rate": 0.0
+     },
+     {
+      "start": 8192,
+      "stop": 16384,
+      "at_risk": 30,
+      "first_errors": 0,
+      "rate": 0.0
+     },
+     {
+      "start": 16384,
+      "stop": 32768,
+      "at_risk": 30,
+      "first_errors": 0,
+      "rate": 0.0
+     }
+    ],
+    "seconds": 1133.392883200002
+   }
+  },
+  "train": {
+   "parameters": 98328
+  }
+ }
+]
