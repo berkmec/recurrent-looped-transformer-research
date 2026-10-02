@@ -26,3 +26,4 @@ for snap in "${SNAPS[@]}"; do
   $PY -B -m mline.feedback_kick "$snap" --out "$OUT" > "$OUT/$name-kick.txt" 2>&1
   if [ -f "$OUT/$name-kick.json" ]; then log "BITTI E-L1K $name (bkz $OUT/$name-kick.txt)"; else log "HATA E-L1K $name: sonuc dosyasi yok (bkz $OUT/$name-kick.txt)"; fi
 done
+bash scripts/run_ep2x.sh      # E-P2 descriptive extras on the annealed S5 Core (note 5.11); chained here, before this script has started: it runs in the slot this chain already owns
