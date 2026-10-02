@@ -6,6 +6,7 @@
   python -B -m horizon.readings ep4           # E-P4: S4 GRU / LSTM w64, seeds 1-5, constant vs annealed: is the floor typical (ARTEFACT CONFIRMED) or a seed lottery?
   python -B -m horizon.readings ep5           # E-P2: the same for the S5 Core w128, GRU w256 and LSTM w208 (seed 1)
   python -B -m horizon.readings ed5           # E-D5: S5 Core w128, state-noise training (sigma 0.1 / 0.2) on top of the lr annealing, against the constant-lr baseline
+  python -B -m horizon.readings ek4           # E-K4: the S4 Core at widths 32 / 48 (state dimension per class 1.33 / 2.0): does the margin erode when the width shrinks?
   python -B -m horizon.readings ek5           # E-K5: the lr-annealed S5 Core at widths 256 / 192 against the constant-lr w128 baseline (does width remove the margin erosion?)
   python -B -m horizon.readings epseeds       # E-P2 replicates: S4 GRU / LSTM w64, seeds 2 and 3 against their own seed's constant-lr baseline
   python -B -m horizon.readings ec            # scale-diverse excursion counter (count8_32 and count8_64, LSTM and GRU)
@@ -126,6 +127,43 @@ def ek5(widths=(256, 192), directory=RESULTS, task='perm5', arm='core', baseline
                 verdict='SUPPORTED' if supported else 'REFUTED' if refuted else 'MIXED' if len(runs) == len(widths) else 'INCOMPLETE')
 
 
+EK4_HAZARD = 5e-4
+
+
+def ek4(widths=(32, 48), directory=RESULTS, profile_file='margin-profile-s4core-width.json'):
+    """E-K4 (note 5.23): does the S4 Core's margin erode when its width (state dimension per class) shrinks? Runs `perm4-core-w{32,48}-s1-cur` (the baseline w64 recipe, constant lr) and their
+    margin profiles (`horizon.margin_profile`, `erosion`). A width ERODES when its margin verdict is EROSION or PARTIAL, or its pooled first-error hazard is >= 5e-4. RATIO SUPPORTED:
+    the narrowest width erodes and the next one does not (it also learned the range at >= 0.99); RATIO NOT SUPPORTED: neither erodes (width is irrelevant over this span) or both do (the
+    threshold lies above); MIXED: the inverse order. NOT LEARNED when some width misses 0.95 in range; INCOMPLETE until both widths and their profiles exist."""
+    profile_path = Path(directory) / profile_file
+    profiles = {p['width']: p for p in json.loads(profile_path.read_text(encoding='utf8'))} if profile_path.exists() else {}
+    rows = {}
+    for width in widths:
+        path = Path(directory) / f'perm4-core-w{width}-s1-cur.json'
+        if not path.exists() or width not in profiles:
+            continue
+        result = _load(path)
+        rate, events, exposure = pooled_rate(result)
+        e = profiles[width].get('erosion', {'verdict': 'NO DATA'})
+        in_range = result['curve']['16']['final']
+        rows[width] = dict(in_range=in_range, hazard=rate, events=events, exposure=exposure, erosion=e.get('verdict'), ratio=e.get('ratio'), learned=ge(in_range, 0.95),
+                           erodes=(e.get('verdict') in ('EROSION', 'PARTIAL') or (rate is not None and rate >= EK4_HAZARD)))
+    if len(rows) < len(widths):
+        return dict(verdict='INCOMPLETE', widths=rows)
+    if not all(r['learned'] for r in rows.values()):
+        return dict(verdict='NOT LEARNED', widths=rows)
+    narrow, wide = rows[min(widths)], rows[max(widths)]
+    if narrow['erodes'] and not wide['erodes'] and ge(wide['in_range'], 0.99):
+        verdict = 'RATIO SUPPORTED'
+    elif not narrow['erodes'] and not wide['erodes']:
+        verdict = 'RATIO NOT SUPPORTED (neither erodes)'
+    elif narrow['erodes'] and wide['erodes']:
+        verdict = 'RATIO NOT SUPPORTED (both erode)'
+    else:
+        verdict = 'MIXED'
+    return dict(verdict=verdict, widths=rows)
+
+
 FLOOR_HAZARD = 2e-4
 
 
@@ -239,6 +277,8 @@ def main():
         print(json.dumps(ed_arm('core', sigmas=(0.1, 0.2), tag='lrdecay0.3-noise', task='perm5', width=128, baseline_seeds=(1,)), indent=1, default=str))
     elif which == 'ek5':      # E-K5: the lr-annealed S5 Core at widths 256 / 192 against the constant-lr w128 baseline (note 5.22)
         print(json.dumps(ek5(), indent=1, default=str))
+    elif which == 'ek4':      # E-K4: the S4 Core at widths 32 / 48 (state dimension per class 1.33 / 2.0): does the margin erode? (note 5.23)
+        print(json.dumps(ek4(), indent=1, default=str))
     elif which == 'epseeds':  # E-P2 replicates: S4 seeds 2 and 3, each against its OWN seed's constant-lr baseline
         print(json.dumps({f'{arm}-s{seed}': ed_arm(arm, sigmas=(0.3,), tag='lrdecay', baseline_seeds=(seed,), run_seed=seed) for arm in ('gru', 'lstm') for seed in (2, 3)},
                          indent=1, default=str))
@@ -247,7 +287,7 @@ def main():
     elif which == 'ec0':
         print(json.dumps(ec0(), indent=1, default=str))
     else:
-        raise SystemExit('usage: python -B -m horizon.readings ed|ep|ep3|ep4|ep5|ed5|ek5|epseeds|ec|ec0')
+        raise SystemExit('usage: python -B -m horizon.readings ed|ep|ep3|ep4|ep5|ed5|ek4|ek5|epseeds|ec|ec0')
 
 
 if __name__ == '__main__':

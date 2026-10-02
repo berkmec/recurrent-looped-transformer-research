@@ -55,6 +55,27 @@ def window_stats(gap, alive, windows=WINDOWS):
     return out
 
 
+EROSION_BASE = '16-64'
+EROSION_LATE = ('512-1024', '256-512')       # the latest window that still has enough surviving positions
+MIN_LATE_N = 500
+FLAT_BAND = 0.15
+EROSION_RATIO = 0.7
+
+
+def erosion(windows):
+    """Descriptive summary used by E-K4 / E-K5 (program note 5.23): ratio = the mean gap of the latest window with >= MIN_LATE_N surviving positions / the mean gap of [16, 64).
+    EROSION when ratio <= 0.7, FLAT when within +-15 % of 1, GROWTH above 1.15, PARTIAL in between; NO DATA without both windows. Also the near-miss (< 2 nat) fractions."""
+    base = windows.get(EROSION_BASE)
+    late_key = next((k for k in EROSION_LATE if windows.get(k, {}).get('n', 0) >= MIN_LATE_N), None)
+    if not base or not base.get('n') or late_key is None:
+        return dict(verdict='NO DATA')
+    late = windows[late_key]
+    ratio = late['mean'] / base['mean']
+    verdict = 'EROSION' if ratio <= EROSION_RATIO else 'FLAT' if abs(ratio - 1) <= FLAT_BAND else 'GROWTH' if ratio > 1 + FLAT_BAND else 'PARTIAL'
+    return dict(verdict=verdict, ratio=ratio, base_window=EROSION_BASE, late_window=late_key, base_mean=base['mean'], late_mean=late['mean'],
+                near_miss_base=base['below']['2.0'], near_miss_late=late['below']['2.0'])
+
+
 def profile(weights, length=1024, n=100, batch=50):
     """The margin profile of one saved arm on the dev sequences the hazard evaluation draws at `length` (same draw: seed, task, length, n)."""
     meta = torch.load(weights, weights_only=True)['meta']
@@ -66,8 +87,9 @@ def profile(weights, length=1024, n=100, batch=50):
             parts.append(gaps(model(x[at:at + batch]), y[at:at + batch]))
     gap = torch.cat(parts)
     alive = survivors(gap)
-    return dict(weights=str(weights), arm=meta['arm'], task=meta['task'], width=meta['width'], seed=meta['seed'], n=n, length=length, windows=window_stats(gap, alive),
-                sequences_without_error=int((alive.all(1)).sum()))
+    windows = window_stats(gap, alive)
+    return dict(weights=str(weights), arm=meta['arm'], task=meta['task'], width=meta['width'], seed=meta['seed'], n=n, length=length, windows=windows,
+                sequences_without_error=int((alive.all(1)).sum()), erosion=erosion(windows))
 
 
 def describe(r):
@@ -78,6 +100,10 @@ def describe(r):
             continue
         lines.append(f"  [{k}) n {v['n']:>6}  gap mean {v['mean']:7.2f} std {v['std'] if v['std'] is None else round(v['std'], 2)}  p1 {v['p1']:7.2f} p5 {v['p5']:7.2f} p50 {v['p50']:7.2f}  "
                      + '  '.join(f'<{t}: {f:.2e}' for t, f in v['below'].items()))
+    e = r.get('erosion')
+    if e:
+        lines.append('  erosion: ' + (e['verdict'] if 'ratio' not in e else f"{e['verdict']} (mean gap [{e['late_window']}) / [{e['base_window']}) = {e['ratio']:.2f}; near misses (< 2 nats) "
+                                                                            f"{e['near_miss_base']:.1e} -> {e['near_miss_late']:.1e})"))
     return '\n'.join(lines)
 
 

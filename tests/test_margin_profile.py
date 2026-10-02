@@ -38,6 +38,29 @@ class Windows(unittest.TestCase):
         self.assertEqual(mp.window_stats(gap, torch.zeros_like(alive), windows=((0, 5),))['0-5'], dict(n=0))
 
 
+class Erosion(unittest.TestCase):
+    def windows(self, base_mean, late_mean, late_n=1000, late_key='512-1024', base_below=0.0, late_below=0.05):
+        return {'16-64': dict(n=4800, mean=base_mean, below={'2.0': base_below}), late_key: dict(n=late_n, mean=late_mean, below={'2.0': late_below})}
+
+    def test_erosion_flat_partial_growth_and_no_data(self):
+        r = mp.erosion(self.windows(13.6, 5.8))
+        self.assertEqual((r['verdict'], r['late_window']), ('EROSION', '512-1024'))
+        self.assertAlmostEqual(r['ratio'], 5.8 / 13.6)
+        self.assertEqual((r['near_miss_base'], r['near_miss_late']), (0.0, 0.05))
+        self.assertEqual(mp.erosion(self.windows(15.2, 15.1))['verdict'], 'FLAT')
+        self.assertEqual(mp.erosion(self.windows(10.0, 7.0))['verdict'], 'EROSION')            # exactly the 0.7 limit counts
+        self.assertEqual(mp.erosion(self.windows(10.0, 7.8))['verdict'], 'PARTIAL')
+        self.assertEqual(mp.erosion(self.windows(10.0, 11.5))['verdict'], 'FLAT')              # exactly +15 %
+        self.assertEqual(mp.erosion(self.windows(10.0, 12.0))['verdict'], 'GROWTH')
+        # a late window with too few survivors is skipped in favour of the previous one, and no usable window means NO DATA
+        w = self.windows(10.0, 5.0, late_n=100)
+        w['256-512'] = dict(n=900, mean=9.9, below={'2.0': 0.0})
+        r = mp.erosion(w)
+        self.assertEqual((r['verdict'], r['late_window']), ('FLAT', '256-512'))
+        self.assertEqual(mp.erosion(self.windows(10.0, 5.0, late_n=100))['verdict'], 'NO DATA')
+        self.assertEqual(mp.erosion({})['verdict'], 'NO DATA')
+
+
 class EndToEnd(unittest.TestCase):
     def test_profile_of_a_saved_arm_and_its_description(self):
         with tempfile.TemporaryDirectory() as d:

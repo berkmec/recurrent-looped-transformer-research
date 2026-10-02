@@ -142,6 +142,38 @@ class LearningRateDecayReading(unittest.TestCase):
         (Path(self.dir) / 'perm5-core-w192-s1-cur-lrdecay0.3.json').unlink()
         self.assertEqual(rd.ek5(directory=self.dir)['verdict'], 'INCOMPLETE')
 
+    def test_the_s4_core_width_reading_follows_the_margin_verdicts_and_the_hazards(self):
+        # E-K4: perm4-core-w{32,48}-s1-cur.json + margin-profile-s4core-width.json (a list of profiles with `width` and `erosion`)
+        def put(w, events, in_range, erosion_verdict, ratio=1.0):
+            write(self.dir, f'perm4-core-w{w}-s1-cur.json', perm_result(in_range, events, 1_024_000))
+            return dict(width=w, erosion=dict(verdict=erosion_verdict, ratio=ratio))
+
+        def profiles(*items):
+            (Path(self.dir) / 'margin-profile-s4core-width.json').write_text(json.dumps(list(items)), encoding='utf8')
+
+        self.assertEqual(rd.ek4(directory=self.dir)['verdict'], 'INCOMPLETE')
+        a, b = put(32, 900, 1.0, 'EROSION', 0.5), put(48, 0, 1.0, 'FLAT')
+        profiles(a, b)
+        self.assertEqual(rd.ek4(directory=self.dir)['verdict'], 'RATIO SUPPORTED')                     # the narrow width erodes, the wide one does not
+        a, b = put(32, 0, 1.0, 'FLAT'), put(48, 0, 1.0, 'FLAT')
+        profiles(a, b)
+        self.assertEqual(rd.ek4(directory=self.dir)['verdict'], 'RATIO NOT SUPPORTED (neither erodes)')
+        a, b = put(32, 900, 1.0, 'FLAT'), put(48, 0, 1.0, 'FLAT')                                       # hazard alone (>= 5e-4: 900 / 1,024,000 = 8.8e-4) makes a width erode
+        profiles(a, b)
+        self.assertEqual(rd.ek4(directory=self.dir)['verdict'], 'RATIO SUPPORTED')
+        a, b = put(32, 0, 1.0, 'EROSION', 0.4), put(48, 0, 1.0, 'PARTIAL', 0.8)
+        profiles(a, b)
+        self.assertEqual(rd.ek4(directory=self.dir)['verdict'], 'RATIO NOT SUPPORTED (both erode)')
+        a, b = put(32, 0, 1.0, 'FLAT'), put(48, 0, 1.0, 'EROSION', 0.5)
+        profiles(a, b)
+        self.assertEqual(rd.ek4(directory=self.dir)['verdict'], 'MIXED')                               # the inverse order
+        a, b = put(32, 0, 0.9, 'FLAT'), put(48, 0, 1.0, 'FLAT')
+        profiles(a, b)
+        self.assertEqual(rd.ek4(directory=self.dir)['verdict'], 'NOT LEARNED')
+        a, b = put(32, 900, 1.0, 'EROSION', 0.5), put(48, 0, 0.97, 'FLAT')                              # the wide width must itself reach 0.99 in range for SUPPORTED
+        profiles(a, b)
+        self.assertEqual(rd.ek4(directory=self.dir)['verdict'], 'MIXED')
+
     def test_the_dose_response_names_the_shallowest_annealing_that_meets_the_ep_rule(self):
         # baseline 600 events: the E-P rule needs <= 120; hazards by floor 0.3 / 0.1 / 0.03 / 0.01 = 400 / 130 / 100 / 5
         for floor, events in ((0.3, 400), (0.1, 130), (0.03, 100), (0.01, 5)):
