@@ -198,6 +198,14 @@ Görev: etiket P = 8'e doyar (9 sınıf; eski sayaçla aynı çıktı sözlüğ�
 - **Çarpan** ρ = (ilk-iniş ≥ 0,95 olan en büyük D) / R_max (D ≤ R_max noktalarından başlayıp kesintisiz). Literatür emsali LSTM ≈ 2-2,5× (**[R]**, ajan notu).
 - *Sonraki adım koşulu:* ρ ≥ 4 çıkarsa (tarif gerçekten sayaç öğretiyor) Core ve dönel şerit (E-I) aynı görevde sınanır; ρ ≈ 1-2 ise sayaç dışdeğerlemesi tarif değil mimari sorunudur ve E-I öne çıkar.
 
+### 5.4 E-B2 okuma kuralı (kod `horizon/state_growth.py`, 6 test; betik `scripts/run_eb2.sh`)
+**Yazılma anı ve bilgi durumu:** 06:42; E-A'nın 9 satırından yalnız ilk üçü görüldükten sonra (taban, w16, w32: hazard'lar tabanla pratikte aynı), E-A'nın geri kalanı, E-B ve E-B2 koşmadan ÖNCE. Yani E-A'nın ara satırları bu kuralın yazımını etkilemiş olabilir (kopuşun dikkat dışı, durumda olduğu izlenimi).
+Ölçü: kayıtlı ağırlıklar (S₄ Core w64, S₅ Core w128, S₄ GRU w64, S₄ LSTM w64, S₅ GRU w256, S₅ LSTM w208), dev, tohum 1, 50 dizi × 256 konum; t0 = 8'de taşınan duruma göreli ε ∈ {0,001; 0,01} büyüklüğünde **tek bir tekme** (rastgele yön); float64; d_t = |Δdurum| / |durum|; tekmeden sonra [1,25), [25,121), [121,…) pencerelerinin her birinde ortalama log d_t'nin eğimi (adım başına büyüme oranı) ve tahmin-çevrilme oranı (tekmeli ve temiz koşuda argmax farklı).
+- **G1:** S₄ Core: tüm pencerelerde büyüme ≤ 0 (genişlemeyen) ve ilk iki pencerede çevrilme oranı < 0,001.
+- **G2:** S₅ Core: son pencerede büyüme > +0,005/adım YA DA çevrilme oranı S₄ Core'unkinin ≥ 5 katı. Bu, kopuşun "kararsız mod" yorumunu destekler. **Çürütme:** S₅ Core'da tüm pencerelerde büyüme ≤ 0 ve çevrilme oranı ≈ S₄'ünkine yakın → kopuş üstel kararsızlık değildir; açıklama başka bir mekanizmada (veri-yönelimli, nadir tetiklenen) aranır.
+- **G3:** GRU/LSTM (S₄, S₅): tüm pencerelerde büyüme < 0 (büzülen): hata tabanı genişlemeden değil gürültü marjından (E-B) gelir.
+- *Sınır:* tek tekme tüm Lyapunov spektrumunu ölçmez; rastgele yön en hızlı genişleyen yöne yakınsar (üst Lyapunov üssü). "Büzülüyor" sonucu "hiç genişleyen yön yok" değil, "tipik tekme genişlemiyor" demektir.
+
 ## 6. Gerçek model yolu
 
 1. **Ne iddia edilir:** "küçük, bayt-düzeyi bir RLT, durum-izleme/çok-adımlı görevlerde eşit-parametre ve eşit-token bir transformer'a yapısal bir üstünlük gösteriyor mu". LM kaybında üstünlük iddia edilmez (bağımsız değerlendirme bulamadı).
