@@ -170,6 +170,20 @@ class LearningRateDecayReading(unittest.TestCase):
         write(self.dir, 'perm5-core-w256-s1-cur-lrdecay0.3.json', perm_result(1.0, 100, 1_024_000))
         self.assertIn('twin alone', rd.ek5(directory=self.dir)['verdict'])                                                  # E-K5 reports the w128 twin too
 
+    def test_another_arm_is_read_against_the_core_baseline_and_its_noise_only_twin(self):
+        # E-A10: `perm5-core_clean-w128-s1-cur-lrdecay0.3-noise0.1-open0.3.json` against `perm5-core-w128-s1-cur.json`; the twin is the noise-only Core run, not a core_clean file
+        write(self.dir, 'perm5-core-w128-s1-cur.json', perm_result(1.0, 800, 1_024_000))
+        write(self.dir, 'perm5-core-w128-s1-cur-lrdecay0.3-noise0.1.json', perm_result(1.0, 700, 1_024_000))
+        write(self.dir, 'perm5-core_clean-w128-s1-cur-lrdecay0.3-noise0.1-open0.3.json', perm_result(1.0, 100, 1_024_000))
+        kw = dict(sigmas=(0.3,), tag='lrdecay0.3-noise0.1-open', task='perm5', width=128, baseline_seeds=(1,), directory=self.dir, twin_tag='lrdecay0.3-noise0.1')
+        r = rd.ed_arm('core_clean', baseline_arm='core', **kw)
+        self.assertEqual(r['verdict'], 'SUPPORTED')                                             # 100 <= 800 / 5
+        self.assertAlmostEqual(r['best_baseline'], 800 / 1_024_000)
+        self.assertAlmostEqual(r['twin']['hazard'], 700 / 1_024_000)
+        self.assertFalse(r['twin']['meets_rule'])
+        self.assertAlmostEqual(r['runs'][0.3]['vs_twin']['ratio'], 100 / 700)
+        self.assertEqual(rd.ed_arm('core_clean', **kw)['verdict'], 'NO BASELINE')                  # without baseline_arm the core_clean baseline file is looked up (and does not exist)
+
     def test_the_floor_dose_response_flags_a_non_monotone_curve_and_gives_the_strict_floor(self):
         # blind review R2-9: baseline 600 events (rule <= 120); floors 0.3 / 0.1 / 0.03 / 0.01 -> 110 / 300 / 20 / 5
         for floor, events in ((0.3, 110), (0.1, 300), (0.03, 20), (0.01, 5)):

@@ -5,6 +5,7 @@
   gru        a plain GRU, the textbook recurrent baseline for state tracking and counting
   lstm       a plain LSTM: unlike the GRU it has an unbounded cell state, so it is the recurrent baseline that CAN count
   tfm        a causal pre-norm transformer with no positional encoding (NoPE), four layers: the constant-depth, non-recurrent baseline
+  core_clean the Core with a gated Hopfield cleanup in the feedback path (`horizon/cleanup.py`, E-A10): identical to `core` while the gate is closed (its initial value)
 """
 import torch
 from torch import nn
@@ -12,8 +13,9 @@ from torch import nn
 from core.model import Core
 
 from . import depth_tasks as dt
+from .cleanup import add_cleanup
 
-ARMS = ('core', 'core_nofb', 'gru', 'lstm', 'tfm')
+ARMS = ('core', 'core_nofb', 'gru', 'lstm', 'tfm', 'core_clean')
 
 
 class GRUArm(nn.Module):
@@ -57,7 +59,7 @@ class TfmArm(nn.Module):
         return self.read(self.norm(self.encoder(self.embedding(x), mask=mask, is_causal=True)))
 
 
-def make_arm(arm, task, width, seed, window=4, alpha=0.1):
+def make_arm(arm, task, width, seed, window=4, alpha=0.1, open_init=0.0):
     if arm not in ARMS:
         raise ValueError('unknown arm: ' + str(arm))
     with torch.random.fork_rng(devices=[]):
@@ -68,9 +70,11 @@ def make_arm(arm, task, width, seed, window=4, alpha=0.1):
             return LSTMArm(dt.vocab(task), dt.classes(task), width)
         if arm == 'tfm':
             return TfmArm(dt.vocab(task), dt.classes(task), width)
-        model = Core(width=width, heads=width // 32, window=window, classes=dt.classes(task), feedback=(arm == 'core'), alpha=alpha)
+        model = Core(width=width, heads=width // 32, window=window, classes=dt.classes(task), feedback=(arm in ('core', 'core_clean')), alpha=alpha)
         if dt.vocab(task) != model.embedding.num_embeddings:
             model.embedding = nn.Embedding(dt.vocab(task), width)
+        if arm == 'core_clean':
+            add_cleanup(model, open_init=open_init)         # after the base weights are drawn: they equal the plain `core` of the same seed
     return model
 
 

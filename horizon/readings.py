@@ -65,27 +65,29 @@ def rate_ratio_p(events_base, exposure_base, events_run, exposure_run):
 MIN_BASELINE_EVENTS = 5
 
 
-def ed_arm(arm, sigmas=(0.1, 0.05, 0.2), directory=RESULTS, width=64, baseline_seeds=(1, 2, 3), tag='noise', task='perm4', run_seed=1, twin_tag=None):
+def ed_arm(arm, sigmas=(0.1, 0.05, 0.2), directory=RESULTS, width=64, baseline_seeds=(1, 2, 3), tag='noise', task='perm4', run_seed=1, twin_tag=None, baseline_arm=None):
     """The E-D / E-P reading of one arm: each run (`-{tag}{sigma}.json`) against the LOWEST constant-lr baseline hazard among `baseline_seeds`. SUPPORTED when some run learned the range
     (>= 0.99) and has a hazard <= baseline / 5; REFUTED when every run has hazard >= baseline / 2 or did not learn (< 0.95); MIXED otherwise; INCOMPLETE until every run exists.
     Refused with NO FLOOR IN BASELINE when the baseline holds fewer than 5 first errors (a baseline without a floor cannot show that anything removed one; blind review R2-6).
     `twin_tag` (R2-8): the annealed-only twin run (`-{twin_tag}.json`, e.g. 'lrdecay0.3') for runs that are annealing PLUS an intervention: every run is also compared with it (ratio,
-    exact p), and a SUPPORTED verdict says so when the twin alone already meets the rule (the intervention's own share is then not isolated)."""
+    exact p), and a SUPPORTED verdict says so when the twin alone already meets the rule (the intervention's own share is then not isolated).
+    `baseline_arm` (E-A10): the arm whose constant-lr runs (and annealed twin) are the baseline when the runs are another arm (e.g. `core_clean` against `core`); default: the same arm."""
+    baseline_arm = baseline_arm or arm
     base = {}
     for seed in baseline_seeds:
-        path = Path(directory) / f'{task}-{arm}-w{width}-s{seed}-cur.json'
+        path = Path(directory) / f'{task}-{baseline_arm}-w{width}-s{seed}-cur.json'
         if path.exists():
             base[seed] = pooled_rate(_load(path))[0]
     if not base:
         return dict(arm=arm, verdict='NO BASELINE')
     best = min(v for v in base.values() if v is not None)
     best_seed = min((s for s, v in base.items() if v == best))
-    base_events, base_exposure = pooled_rate(_load(Path(directory) / f'{task}-{arm}-w{width}-s{best_seed}-cur.json'))[1:]
+    base_events, base_exposure = pooled_rate(_load(Path(directory) / f'{task}-{baseline_arm}-w{width}-s{best_seed}-cur.json'))[1:]
     if base_events < MIN_BASELINE_EVENTS:
         return dict(arm=arm, verdict='NO FLOOR IN BASELINE', baseline_hazards=base, best_baseline=best, baseline_events=base_events)
     twin = None
     if twin_tag:
-        twin_path = Path(directory) / f'{task}-{arm}-w{width}-s{run_seed}-cur-{twin_tag}.json'
+        twin_path = Path(directory) / f'{task}-{baseline_arm}-w{width}-s{run_seed}-cur-{twin_tag}.json'
         if twin_path.exists():
             twin_result = _load(twin_path)
             t_rate, t_events, t_exposure = pooled_rate(twin_result)
@@ -331,6 +333,12 @@ def main():
     elif which == 'ef5':      # E-F5: the lr-annealed S5 Core w128 with another feedback gain alpha (1.0 / 0.3) or another PEAK lr (1e-3), against the constant-lr baseline (note 5.24)
         print(json.dumps(dict(alpha=ed_arm('core', sigmas=(1.0, 0.3), tag='lrdecay0.3-alpha', task='perm5', width=128, baseline_seeds=(1,), twin_tag='lrdecay0.3'),
                               peak_lr=ed_arm('core', sigmas=(0.001,), tag='lrdecay0.3-lr', task='perm5', width=128, baseline_seeds=(1,), twin_tag='lrdecay0.3')), indent=1, default=str))
+    elif which == 'ea10':     # E-A10: the S5 Core with a gated Hopfield cleanup in the feedback path (`core_clean`, gate initialised at tanh(0.3)), against the constant-lr Core baseline (note 5.28)
+        print(json.dumps(dict(
+            noise0_1=ed_arm('core_clean', sigmas=(0.3,), tag='lrdecay0.3-noise0.1-open', task='perm5', width=128, baseline_seeds=(1,), twin_tag='lrdecay0.3-noise0.1', baseline_arm='core'),
+            no_noise=ed_arm('core_clean', sigmas=(0.3,), tag='lrdecay0.3-open', task='perm5', width=128, baseline_seeds=(1,), twin_tag='lrdecay0.3', baseline_arm='core'),
+            noise0_2=ed_arm('core_clean', sigmas=(0.3,), tag='lrdecay0.3-noise0.2-open', task='perm5', width=128, baseline_seeds=(1,), twin_tag='lrdecay0.3-noise0.2', baseline_arm='core')),
+            indent=1, default=str))
     elif which == 'ek4':      # E-K4: the S4 Core at widths 32 / 48 (state dimension per class 1.33 / 2.0): does the margin erode? (note 5.23)
         print(json.dumps(ek4(), indent=1, default=str))
     elif which == 'epseeds':  # E-P2 replicates: S4 seeds 2 and 3, each against its OWN seed's constant-lr baseline
@@ -341,7 +349,7 @@ def main():
     elif which == 'ec0':
         print(json.dumps(ec0(), indent=1, default=str))
     else:
-        raise SystemExit('usage: python -B -m horizon.readings ed|ep|ep3|ep4|ep5|ed5|ef5|ek4|ek5|epseeds|ec|ec0')
+        raise SystemExit('usage: python -B -m horizon.readings ed|ep|ep3|ep4|ep5|ed5|ef5|ea10|ek4|ek5|epseeds|ec|ec0')
 
 
 if __name__ == '__main__':
