@@ -125,6 +125,53 @@ class Reading(unittest.TestCase):
         self.assertEqual(ld.reading(result)['verdict'], 'INCOMPLETE')
 
 
+class Registered(unittest.TestCase):
+    def test_the_registered_constants_are_the_registered_values(self):
+        # jcode 009 F6: every other test patches the scale down, so the registered values were never asserted
+        self.assertEqual((ld.TRAIN_LENGTH, ld.LENGTH, ld.DOCS, ld.MIN_OFFSET), (512, 4096, 32, 256))
+        self.assertEqual(ld.BINS[:4], ((0, 512), (512, 1024), (1024, 2048), (2048, 4096)))
+        self.assertEqual((ld.HURT_BITS, ld.HURT_SE, ld.FINE_BITS, ld.CONTROL_TOL), (0.15, 3.0, 0.05, 1e-3))
+        self.assertEqual(ld.CONDITIONS, ('full', 'win512', 'reset512', 'chunk512'))
+
+    def test_the_reset_never_fires_at_step_zero(self):
+        with small_world():
+            model = tiny()
+            with torch.no_grad():
+                model.initial.copy_(torch.randn_like(model.initial))
+            ld.configure(model, 'reset512')
+            e = torch.zeros(2, 32)
+            s = dict(s=torch.ones(2, 32), dk=torch.zeros(2, 2, 0, 16), dv=torch.zeros(2, 2, 0, 16))
+            mk = torch.zeros(2, 2, 1, 16)
+            seen = []
+            original = Core.decode
+
+            def record(self_, e_, s_, mk_, mv_, t_):
+                seen.append(s_['s'].clone() if s_ is not None else None)
+                return original(self_, e_, s_, mk_, mv_, t_)
+
+            Core.decode = record
+            try:
+                with torch.no_grad():
+                    model.decode(e, s, mk, mk, 0)                                                         # t = 0 with a given state: not reset
+                    model.decode(e, s, mk, mk, 16)                                                        # t = 16 = the (patched) period: reset
+            finally:
+                Core.decode = original
+        self.assertTrue(torch.equal(seen[0], torch.ones(2, 32)))
+        self.assertTrue(torch.equal(seen[1], model.initial.expand(2, -1)))
+
+    def test_exact_threshold_values_count_despite_floating_point_summation(self):
+        # D exactly 0.15 / exactly 0.05 averaged in floating point (np.mean of 12 x 0.15 is 0.14999999999999997) must still be counted (jcode 009 F2)
+        n = 12
+        bins = ('0-512', '512-1024', '1024-2048', '2048-4096')
+        hurts = dict(snapshot='x', n=n, length=4096, control=0.0, per_doc={c: {b: [0.0] * n for b in bins} for c in ld.CONDITIONS})
+        hurts['per_doc']['full']['1024-2048'] = [0.15] * n
+        self.assertEqual(ld.reading(hurts)['verdict'], 'CONTINUATION HURTS')
+        fine = dict(hurts, per_doc={c: {b: [0.0] * n for b in bins} for c in ld.CONDITIONS})
+        for b in ('512-1024', '1024-2048', '2048-4096'):
+            fine['per_doc']['full'][b] = [0.05] * n
+        self.assertEqual(ld.reading(fine)['verdict'], 'CONTINUATION IS FINE')
+
+
 class EndToEnd(unittest.TestCase):
     def test_a_run_on_a_tiny_model_has_every_part_and_a_clean_control(self):
         with small_world():

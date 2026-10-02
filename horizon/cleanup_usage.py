@@ -5,7 +5,9 @@ g = tanh(open) may have stayed open while the Hopfield read-out is flat (a noise
 the in-range carried states (positions 8..15 of 2,000 dev sequences, the same states E-A9 / E-A10p calibrate on), for a `core_clean` model:
 
   gate, beta                      tanh(open) and exp(log beta) read from the weights
-  top_weight                      mean over states of the largest softmax weight of the Hopfield read-out (1.0: a hard snap to one slot; 1 / 128: a flat average)
+  top_weight                      mean over states of the largest softmax weight of the Hopfield read-out (1.0: a hard snap to one slot; 1 / 128: a flat average); MISLEADING when several slots hold
+                                  the same key (the E-A10p retrofit repeats 24-120 prototypes over 128 slots: a hard snap then reads ~1 / copies), see top_mass_distinct
+  top_mass_distinct               the same with the mass of identical keys summed first (jcode 009 F5); equals top_weight when the keys are distinct, as in a learned module
   active_slots                    slots that are the arg-max read-out of at least 1 % of the states
   slot_purity                     the share of states whose arg-max slot's majority class is their own class (1.0: every slot answers for one class)
   relative_change                 mean ||r' - r|| / ||r|| with r = RMSNorm(state) and r' the cleaned feedback
@@ -54,15 +56,17 @@ def usage(model, task, seed, n=2000, length=16, positions=(8, 16)):
     with torch.no_grad():
         weights = torch.softmax(module.log_beta.exp() * F.normalize(pre, dim=-1) @ F.normalize(module.keys, dim=-1).t(), -1)
     slot = weights.argmax(1)
+    _, group = torch.unique(module.keys.detach(), dim=0, return_inverse=True)
+    grouped = torch.zeros(len(weights), int(group.max()) + 1).index_add_(1, group, weights)
     count = torch.bincount(slot, minlength=len(module.keys))
-    out.update(gate=float(module.gate().detach()), beta=float(module.log_beta.exp().detach()), top_weight=float(weights.max(1).values.mean()),
+    out.update(gate=float(module.gate().detach()), beta=float(module.log_beta.exp().detach()), top_weight=float(weights.max(1).values.mean()), top_mass_distinct=float(grouped.max(1).values.mean()),
                active_slots=int((count >= ACTIVE_SHARE * len(states)).sum()), slot_purity=purity(slot, labels, len(module.keys)),
                relative_change=float(((post - pre).norm(dim=-1) / pre.norm(dim=-1)).mean()), purity_post=purity(kmeans(post, classes)[1], labels, classes))
     return out
 
 
 def describe(weights, r):
-    keys = ('gate', 'beta', 'top_weight', 'active_slots', 'slot_purity', 'relative_change', 'purity_pre', 'purity_post')
+    keys = ('gate', 'beta', 'top_weight', 'top_mass_distinct', 'active_slots', 'slot_purity', 'relative_change', 'purity_pre', 'purity_post')
     return f'{weights}: {r["task"]} ({r["n_states"]} in-range states, {r["classes"]} classes)  ' + '  '.join(f'{k} {r[k]:.3f}' for k in keys if k in r)
 
 

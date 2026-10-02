@@ -420,3 +420,10 @@
 [14:51:14] BASLA ES sk3-tfm-w64-s1 (CPU, 1 parcacik, 15000 adim, lr 0.003 son %30'da ~0'a, mufredat 0..16)
 [14:59:38] BITTI E-A11p (bkz results/Z1-pilot/cleanup-margin.txt)
 [14:59:38] BASLA E-L1X (step006000; CPU, 1 parcacik): 4.096 bayt, 32 makale: kesintisiz kosu / pencereli bellek / durum sifirlama / bagimsiz parcalar, egitimsiz
+[15:12:22] BITTI ES sk3-tfm-w64-s1
+[15:12:22] BASLA ES sk3-lstm-w112-s2 (CPU, 1 parcacik, 15000 adim, lr 0.003 son %30'da ~0'a, mufredat 0..16)
+[15:14:26] ZINCIR-DEGISIKLIGI 34: hafif ucuncu lane: E-L1X bitince (calisan betik yerinde birakildi) E-A9k -> E-A9d (yakalama araligi izgarasi Core vs GRU/LSTM; not 5.38, kural commit bea1280 kosudan once) -> betimleyici run_ext.sh (ZINCIR 33'un yerine)
+[15:22:17] BITTI ES sk3-lstm-w112-s2
+[15:22:17] BASLA ES sk3-gru-w128-s2 (CPU, 1 parcacik, 15000 adim, lr 0.003 son %30'da ~0'a, mufredat 0..16)
+[15:27:31] BITTI E-L1X step006000 (bkz results/L1-long-doc/step006000-long-doc.txt)
+[15:27:31] BASLA E-L1X (step006000; betimleyici 8.192 bayt, 16 makale)

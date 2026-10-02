@@ -1,0 +1,10 @@
+results/L1-scratch-w928-s401/snapshots/step006000.pt
+  full      mean 2.0391 bits/byte on 32 x 4096 bytes  (541 s)
+  win512    mean 1.6928 bits/byte on 32 x 4096 bytes  (360 s)
+  reset512  mean 2.0452 bits/byte on 32 x 4096 bytes  (617 s)
+  chunk512  mean 1.7129 bits/byte on 32 x 4096 bytes  (149 s)
+results/L1-scratch-w928-s401/snapshots/step006000.pt: 32 articles x 4096 bytes, control 9.1e-06
+  D(full    ) [0-512] -0.000±0.000  [512-1024] +0.233±0.014  [1024-2048] +0.351±0.014  [2048-4096] +0.494±0.014
+  D(win512  ) [0-512] -0.000±0.000  [512-1024] +0.002±0.001  [1024-2048] -0.001±0.001  [2048-4096] +0.000±0.001
+  D(reset512) [0-512] -0.000±0.000  [512-1024] +0.233±0.014  [1024-2048] +0.351±0.014  [2048-4096] +0.494±0.014
+  reading: {"verdict": "CONTINUATION HURTS", "worst_bin": "2048-4096", "d_full": 0.4944685734808445, "memory_effect": 0.4942456744611263, "state_effect": 1.862645149230957e-08, "attribution": "MEMORY PATH"}

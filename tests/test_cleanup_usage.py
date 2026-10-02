@@ -37,7 +37,25 @@ class Usage(unittest.TestCase):
         self.assertGreater(r['top_weight'], 0.2)                                                           # a sharp read-out concentrates mass on one prototype
         self.assertGreater(r['relative_change'], 0.0)
         self.assertTrue(0.0 <= r['purity_post'] <= 1.0 and 0.0 <= r['slot_purity'] <= 1.0)                  # (an untrained model's states do not cluster by class, so no ordering of the purities is asserted)
+        self.assertGreaterEqual(r['top_mass_distinct'], r['top_weight'] - 1e-9)
         self.assertLessEqual(r['active_slots'], 20)                                                        # the mass sits on the class prototypes, not on the 122 random slots
+
+
+class Duplicates(unittest.TestCase):
+    def test_top_mass_distinct_sums_identical_keys(self):
+        model = dm.make_arm('core_clean', 'perm3', 32, 1, open_init=0.0).eval()
+        states, labels = cu.states_and_labels(model, 'perm3', 1, n=200)
+        with torch.no_grad():
+            pre = model.pn.norm(states)
+            protos = torch.stack([pre[labels == c].mean(0) for c in range(6)])
+            book = protos[torch.arange(128) % 6]                                                          # six prototypes repeated over 128 slots, as in the E-A10p retrofit
+            model.pn.keys.copy_(book)
+            model.pn.values.copy_(book)
+            model.pn.log_beta.fill_(math.log(200.0))
+            model.pn.open.fill_(math.atanh(0.999))
+        r = cu.usage(model, 'perm3', 1, n=200)
+        self.assertLess(r['top_weight'], 0.1)                                                              # the mass of one prototype is split over ~21 copies
+        self.assertGreater(r['top_mass_distinct'], 0.2)                                                    # but it is concentrated on one prototype
 
 
 if __name__ == '__main__':

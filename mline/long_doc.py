@@ -25,6 +25,9 @@ Reading rule (written before the first run, program note 5.35):
   state reset removes): MEMORY PATH if M >= 2/3 D_full and S <= 1/3 D_full; STATE PATH if S >= 2/3 D_full and M <= 1/3 D_full; BOTH if M >= 1/3 D_full and S >= 1/3 D_full; NEITHER if both are below 1/3 D_full;
   anything else (one at least a third and the other between) is reported as MIXED.
 Descriptive (no verdict): every condition's absolute bits per byte per bin, D for every condition, the 8,192-byte run, later L1 snapshots.
+Clarifications made after the rule was committed (program note 5.39; the rule is unchanged): the reset fires at steps t > 0 only; the thresholds are inclusive with a 1e-9 tolerance; FINE is scanned over every bin
+at or above 512 (three in the 4,096-byte run that carries the verdict, four in the descriptive 8,192-byte run); INCOMPLETE is returned when there is no bin at or above 1,024 positions; the L1 snapshots are
+saved at fixed intervals and never selected on validation bits per byte (the validation articles are used for monitoring, not for choosing the model).
 
   python -B -m mline.long_doc results/L1-scratch-w928-s401/snapshots/step006000.pt --out results/L1-long-doc
 """
@@ -53,6 +56,7 @@ BINS = ((0, 512), (512, 1024), (1024, 2048), (2048, 4096), (4096, 8192))      # 
 CONDITIONS = ('full', 'win512', 'reset512', 'chunk512')
 CONTROL_TOL = 1e-3
 HURT_BITS, HURT_SE, FINE_BITS = 0.15, 3.0, 0.05
+TOL = 1e-9                               # the thresholds are inclusive; a tolerance keeps an exact boundary value from flipping on floating-point summation (blind review, jcode 009 F2)
 
 
 class LongCore(ProbeCore):
@@ -61,7 +65,7 @@ class LongCore(ProbeCore):
     reset_every = None
 
     def decode(self, e, s, mk, mv, t):
-        if self.reset_every and s is not None and t % self.reset_every == 0:
+        if self.reset_every and s is not None and t > 0 and t % self.reset_every == 0:
             s = dict(s)
             s['s'] = self.initial.expand_as(s['s'])
         return super().decode(e, s, mk, mv, t)
@@ -157,23 +161,23 @@ def reading(result):
     high = [b for b in names if int(b.split('-')[0]) >= 1024]
     if not high:
         return dict(verdict='INCOMPLETE', reason='no bin at or above 1,024 positions')
-    hurts = [b for b in high if d['full'][b][0] >= HURT_BITS and d['full'][b][0] >= HURT_SE * d['full'][b][1]]
+    hurts = [b for b in high if d['full'][b][0] >= HURT_BITS - TOL and d['full'][b][0] >= HURT_SE * d['full'][b][1] - TOL]
     if hurts:
         worst = max(high, key=lambda b: d['full'][b][0])
         full = d['full'][worst][0]
         memory, state = full - d['win512'][worst][0], full - d['reset512'][worst][0]
-        if memory >= 2 / 3 * full and state <= 1 / 3 * full:
+        if memory >= 2 / 3 * full - TOL and state <= 1 / 3 * full + TOL:
             attribution = 'MEMORY PATH'
-        elif state >= 2 / 3 * full and memory <= 1 / 3 * full:
+        elif state >= 2 / 3 * full - TOL and memory <= 1 / 3 * full + TOL:
             attribution = 'STATE PATH'
-        elif memory >= full / 3 and state >= full / 3:
+        elif memory >= full / 3 - TOL and state >= full / 3 - TOL:
             attribution = 'BOTH'
-        elif memory < full / 3 and state < full / 3:
+        elif memory < full / 3 - TOL and state < full / 3 - TOL:
             attribution = 'NEITHER'
         else:
             attribution = 'MIXED'
         return dict(verdict='CONTINUATION HURTS', worst_bin=worst, d_full=full, memory_effect=memory, state_effect=state, attribution=attribution)
-    if all(d['full'][b][0] <= FINE_BITS for b in names):
+    if all(d['full'][b][0] <= FINE_BITS + TOL for b in names):
         return dict(verdict='CONTINUATION IS FINE')
     return dict(verdict='MILD')
 
