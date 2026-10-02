@@ -411,3 +411,6 @@
 [14:38:14] BASLA ES sk3-core_nofb-w64-s1 (CPU, 1 parcacik, 15000 adim, lr 0.003 son %30'da ~0'a, mufredat 0..16)
 [14:40:20] BITTI E-A5x (bkz results/Z1-pilot/drift-profile.txt)
 [14:40:32] BASLA E-A9b (CPU, 1 parcacik): etiketsiz yapisma (k-means prototipleri), 5 Core modeli, 1.024 konum n = 200, egitimsiz
+[14:45:47] ZINCIR-DEGISIKLIGI 33: hafif ucuncu lane: E-A9c bitince E-A11p -> E-L1X -> E-A9k (yakalama araligi doz-yaniti; not 5.37, kural commit 5fcc567 koşudan once) -> betimleyici run_ext.sh (ZINCIR 31'in yerine)
+[14:47:59] BITTI E-A9b (bkz results/Z1-pilot/snap-labelfree.txt)
+[14:48:07] BASLA E-A9c (CPU, 1 parcacik): ayni yapisma GRU / LSTM'e de yariyor mu (adalet kontrolu), 4 model, 1.024 konum n = 200, egitimsiz

@@ -1,0 +1,74 @@
+results/Z1-pilot/perm5-core-w128-s1-cur.pt: perm5 width 128, k = 120 clusters, purity 0.898
+  base       first errors 195/ 73631 person-steps = 2.65e-03  final 0.31  (32 s)
+  kmeans-16  first errors 200/ 15685 person-steps = 1.28e-02  final 0.01  (32 s)
+  kmeans-1   first errors  26/   213 person-steps = 1.22e-01  final 0.01  (34 s)
+perm5 w128: k = 120, purity 0.898, stored-window control True
+  [16,1024): base 195/73631  kmeans-16 200/15685  kmeans-1 26/213
+  in-range accuracy: kmeans-16 1.000  kmeans-1 0.542
+  labels: kmeans-16 HARMS  kmeans-1 HARMS
+results/Z1-pilot/perm5-core-w128-s1-cur-lrdecay0.3.pt: perm5 width 128, k = 120 clusters, purity 0.907
+  base       first errors 199/ 60045 person-steps = 3.31e-03  final 0.19  (33 s)
+  kmeans-16  first errors 200/ 20691 person-steps = 9.67e-03  final 0.04  (33 s)
+  kmeans-1   first errors  36/   379 person-steps = 9.50e-02  final 0.00  (34 s)
+perm5 w128: k = 120, purity 0.907, stored-window control True
+  [16,1024): base 199/60045  kmeans-16 200/20691  kmeans-1 36/379
+  in-range accuracy: kmeans-16 1.000  kmeans-1 0.578
+  labels: kmeans-16 HARMS  kmeans-1 HARMS
+results/Z1-pilot/perm5-core-w128-s1-cur-lrdecay0.3-noise0.2.pt: perm5 width 128, k = 120 clusters, purity 0.905
+  base       first errors 200/ 35346 person-steps = 5.66e-03  final 0.03  (34 s)
+  kmeans-16  first errors 200/ 37806 person-steps = 5.29e-03  final 0.00  (33 s)
+  kmeans-1   first errors  69/  1073 person-steps = 6.43e-02  final 0.41  (45 s)
+perm5 w128: k = 120, purity 0.905, stored-window control True
+  [16,1024): base 200/35346  kmeans-16 200/37806  kmeans-1 69/1073
+  in-range accuracy: kmeans-16 1.000  kmeans-1 0.738
+  labels: kmeans-16 NEUTRAL  kmeans-1 HARMS
+results/Z1-pilot/perm4-core-w32-s1-cur.pt: perm4 width 32, k = 24 clusters, purity 0.918
+  base       first errors   0/201600 person-steps = 0.00e+00  final 1.00  (17 s)
+  kmeans-16  first errors 200/ 22333 person-steps = 8.96e-03  final 0.12  (16 s)
+  kmeans-1   first errors  58/   530 person-steps = 1.09e-01  final 0.06  (16 s)
+perm4 w32: k = 24, purity 0.918, stored-window control True
+  [16,1024): base 0/201600  kmeans-16 200/22333  kmeans-1 58/530
+  in-range accuracy: kmeans-16 1.000  kmeans-1 0.646
+  labels: kmeans-16 HARMS  kmeans-1 HARMS
+results/Z1-pilot/perm4-core-w64-s1-cur.pt: perm4 width 64, k = 24 clusters, purity 0.917
+  base       first errors   0/201600 person-steps = 0.00e+00  final 1.00  (22 s)
+  kmeans-16  first errors 199/ 26209 person-steps = 7.59e-03  final 0.34  (21 s)
+  kmeans-1   first errors  49/   487 person-steps = 1.01e-01  final 0.34  (23 s)
+perm4 w64: k = 24, purity 0.917, stored-window control True
+  [16,1024): base 0/201600  kmeans-16 199/26209  kmeans-1 49/487
+  in-range accuracy: kmeans-16 1.000  kmeans-1 0.586
+  labels: kmeans-16 HARMS  kmeans-1 HARMS
+{
+ "verdict": "INCONCLUSIVE (the snap harms the in-range accuracy or the S4 control)",
+ "primary": [
+  "HARMS",
+  "HARMS",
+  "NEUTRAL"
+ ],
+ "control": [
+  "HARMS",
+  "HARMS"
+ ],
+ "models": {
+  "perm5 w128 perm5-core-w128-s1-cur": {
+   "kmeans-16": "HARMS",
+   "kmeans-1": "HARMS"
+  },
+  "perm5 w128 perm5-core-w128-s1-cur-lrdecay0.3": {
+   "kmeans-16": "HARMS",
+   "kmeans-1": "HARMS"
+  },
+  "perm5 w128 perm5-core-w128-s1-cur-lrdecay0.3-noise0.2": {
+   "kmeans-16": "NEUTRAL",
+   "kmeans-1": "HARMS"
+  },
+  "perm4 w32 perm4-core-w32-s1-cur": {
+   "kmeans-16": "HARMS",
+   "kmeans-1": "HARMS"
+  },
+  "perm4 w64 perm4-core-w64-s1-cur": {
+   "kmeans-16": "HARMS",
+   "kmeans-1": "HARMS"
+  }
+ }
+}

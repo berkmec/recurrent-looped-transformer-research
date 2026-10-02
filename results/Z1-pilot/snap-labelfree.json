@@ -1,0 +1,182 @@
+[
+ {
+  "weights": "results/Z1-pilot/perm5-core-w128-s1-cur.pt",
+  "task": "perm5",
+  "width": 128,
+  "seed": 1,
+  "n": 200,
+  "length": 1024,
+  "parameters": 409720,
+  "clusters": 120,
+  "purity": 0.8976875,
+  "conditions": {
+   "base": {
+    "events": 195,
+    "person_steps": 73631,
+    "at_risk": 200,
+    "final": 0.3100000023841858
+   },
+   "kmeans-16": {
+    "events": 200,
+    "person_steps": 15685,
+    "at_risk": 200,
+    "final": 0.014999999664723873
+   },
+   "kmeans-1": {
+    "events": 26,
+    "person_steps": 213,
+    "at_risk": 26,
+    "final": 0.009999999776482582
+   }
+  },
+  "in_range": {
+   "kmeans-16": 1.0,
+   "kmeans-1": 0.542187511920929
+  },
+  "stored_control": true
+ },
+ {
+  "weights": "results/Z1-pilot/perm5-core-w128-s1-cur-lrdecay0.3.pt",
+  "task": "perm5",
+  "width": 128,
+  "seed": 1,
+  "n": 200,
+  "length": 1024,
+  "parameters": 409720,
+  "clusters": 120,
+  "purity": 0.907,
+  "conditions": {
+   "base": {
+    "events": 199,
+    "person_steps": 60045,
+    "at_risk": 200,
+    "final": 0.19499999284744263
+   },
+   "kmeans-16": {
+    "events": 200,
+    "person_steps": 20691,
+    "at_risk": 200,
+    "final": 0.03500000014901161
+   },
+   "kmeans-1": {
+    "events": 36,
+    "person_steps": 379,
+    "at_risk": 36,
+    "final": 0.0
+   }
+  },
+  "in_range": {
+   "kmeans-16": 1.0,
+   "kmeans-1": 0.5784375071525574
+  },
+  "stored_control": true
+ },
+ {
+  "weights": "results/Z1-pilot/perm5-core-w128-s1-cur-lrdecay0.3-noise0.2.pt",
+  "task": "perm5",
+  "width": 128,
+  "seed": 1,
+  "n": 200,
+  "length": 1024,
+  "parameters": 409720,
+  "clusters": 120,
+  "purity": 0.9045625,
+  "conditions": {
+   "base": {
+    "events": 200,
+    "person_steps": 35346,
+    "at_risk": 200,
+    "final": 0.02500000037252903
+   },
+   "kmeans-16": {
+    "events": 200,
+    "person_steps": 37806,
+    "at_risk": 200,
+    "final": 0.0
+   },
+   "kmeans-1": {
+    "events": 69,
+    "person_steps": 1073,
+    "at_risk": 69,
+    "final": 0.4099999964237213
+   }
+  },
+  "in_range": {
+   "kmeans-16": 1.0,
+   "kmeans-1": 0.7378125190734863
+  },
+  "stored_control": true
+ },
+ {
+  "weights": "results/Z1-pilot/perm4-core-w32-s1-cur.pt",
+  "task": "perm4",
+  "width": 32,
+  "seed": 1,
+  "n": 200,
+  "length": 1024,
+  "parameters": 25624,
+  "clusters": 24,
+  "purity": 0.918,
+  "conditions": {
+   "base": {
+    "events": 0,
+    "person_steps": 201600,
+    "at_risk": 200,
+    "final": 1.0
+   },
+   "kmeans-16": {
+    "events": 200,
+    "person_steps": 22333,
+    "at_risk": 200,
+    "final": 0.11500000208616257
+   },
+   "kmeans-1": {
+    "events": 58,
+    "person_steps": 530,
+    "at_risk": 58,
+    "final": 0.05999999865889549
+   }
+  },
+  "in_range": {
+   "kmeans-16": 1.0,
+   "kmeans-1": 0.6459375023841858
+  },
+  "stored_control": true
+ },
+ {
+  "weights": "results/Z1-pilot/perm4-core-w64-s1-cur.pt",
+  "task": "perm4",
+  "width": 64,
+  "seed": 1,
+  "n": 200,
+  "length": 1024,
+  "parameters": 98328,
+  "clusters": 24,
+  "purity": 0.9170625,
+  "conditions": {
+   "base": {
+    "events": 0,
+    "person_steps": 201600,
+    "at_risk": 200,
+    "final": 1.0
+   },
+   "kmeans-16": {
+    "events": 199,
+    "person_steps": 26209,
+    "at_risk": 200,
+    "final": 0.3449999988079071
+   },
+   "kmeans-1": {
+    "events": 49,
+    "person_steps": 487,
+    "at_risk": 49,
+    "final": 0.3400000035762787
+   }
+  },
+  "in_range": {
+   "kmeans-16": 1.0,
+   "kmeans-1": 0.5856249928474426
+  },
+  "stored_control": true
+ }
+]
