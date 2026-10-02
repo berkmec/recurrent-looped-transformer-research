@@ -207,12 +207,23 @@ Görev: etiket P = 8'e doyar (9 sınıf; eski sayaçla aynı çıktı sözlüğ�
 - *Ek kaydedilen ayrıntı (okuma kuralının parçası DEĞİL; 06:43, koşudan önce eklendi):* tek-adım Jacobian'ın en büyük tekil değeri (taşınan durum üzerinden; Core'un üç önbellek anahtar/değeri temiz değerlerinde sabit) t ∈ {4, 16, 32, 64, 128, 192, 255} konumlarında, 8 dizi, float64: §4.1'deki ‖J‖ ≲ α‖W_s‖/ρ tahminini ve R3 ajanının "ρ_t medyanı < 1" öngörüsünü ölçer; yorum yalnız betimleyici.
 - *Sınır:* tek tekme tüm Lyapunov spektrumunu ölçmez; rastgele yön en hızlı genişleyen yöne yakınsar (üst Lyapunov üssü). "Büzülüyor" sonucu "hiç genişleyen yön yok" değil, "tipik tekme genişlemiyor" demektir.
 
+### 5.5 R3 ajanından gelen yeni deney adayları (okuma kuralları uygulanmadan ÖNCE yazılacak; şimdilik yalnız kayıt)
+| ID | Soru (ajan: `R3_…md` §5) | Ajanın öngörüsü `[H-ajan]` | Durum |
+|---|---|---|---|
+| E-J | Doğrusal RNN + Householder çarpımları (DeltaProduct n_h ∈ {1, 2, 4}) Z1 protokolünde (S₄, S₅, sayaç): tarama-paralel tavan ve RLT'siz kontrol | S₄: n_h = 1 ≤ 0,3, n_h = 2 ≥ 0,95 @256; S₅: n_h = 4 ≥ 0,9 @128, n_h = 2 ≤ 0,5; sayaç P = 8: aralıkta ≥ 0,99, ilk-iniş ≤ 0,15 | kod yok; E-D/E-C sonrası |
+| E-K | Sayaç için (max,+) tarama şeridi (x ↦ max(a, x + b), bileşke altında kapalı): "sayaç için geri besleme gerekmez" ve etiket doyması sorusu | ilk-iniş ≥ 0,9 (olasılık ≈ 0,6); ≤ 0,15 ise sorun mimari değil eğitim dağılımı | kod yok |
+| E-L | Hız bütçesi mikro-ölçümü (GPU, L1 şekli): tam sıralı adım, geri beslemesiz tavan, CUDA-graph, stateful TBPTT, parça B, Jacobi K | tavan/sıralı 5-9×; CUDA-graph 3-5×; stateful-TBPTT 3-6× | GPU L1 ile paylaşılır: **kullanıcı onayı gerekir** (üçüncü süreç) |
+Ertelenen: R3-E3 (Jacobi-K ile eğitim): eğitim/çıkarım uyuşmazlığı riski ve RLT'nin "exact replay" ilkesine aykırılık. E-H (RLT-2, R3-E2 ile aynı) ve E-B2 (R3-E1'in çıkarım-yalnız kısmı) zaten kuyrukta.
+
 ## 6. Gerçek model yolu
 
 1. **Ne iddia edilir:** "küçük, bayt-düzeyi bir RLT, durum-izleme/çok-adımlı görevlerde eşit-parametre ve eşit-token bir transformer'a yapısal bir üstünlük gösteriyor mu". LM kaybında üstünlük iddia edilmez (bağımsız değerlendirme bulamadı).
 2. **Gerekenler:** (a) eşleşmiş transformer tabanı (parametre, token, veri sırası, optimizer aynı); (b) RLT-0/`core_nofb` ablasyonu; (c) görev ailesi: S_N bileşimi (metin biçiminde, derinlik düğmeli, iz yazan), aritmetik (toplama, çok basamaklı), uzun nötr koşulu durum izleme; (d) uzunluk/derinlik dışdeğerleme ölçüsü ilk-hata hazard'ı; (e) E-A/E-B/E-D sonuçlarına göre log-n/pencere, durum gürültüsü ve HOLD ilkleme tarifi.
 3. **Veri:** L2 anketi (`notes/L2_VERI_ANKETI_2026-10-02.md`): programatik üreteçler lisans sorunu getirmez; CNN/DailyMail yayın riski (§6.8, §10).
 4. **Başlatma kapısı:** E-A, E-B, E-D bitmeden L2 başlatılmaz; L1 (GPU) bitmeden ya da kullanıcı onayı olmadan GPU paylaşılmaz.
+
+### 6.1 R3 ajanından (06:45) gerçek model yoluna gelen not
+Bağımsız değerlendirmenin özetleyici-aktarımlı sayısı: 140M'de RLT 3,688, geri beslemesiz (A0) 3,666, Transformer 3,642 nat (`[S]`; ajan α'nın 0,1 mi 1 mi olduğunu belirsiz buluyor). Doğruysa **geri besleme bu ölçekte dil kaybını kötüleştiriyor** ve ≈ 7,85× yavaşlatıyor (A0 66,0K vs RLT 8,4K token/s). Bu, gerçek model için kritik bir tasarım sorusu doğurur: geri besleme dil yetkinliği için değil durum izleme için tutulmalı (seyrek sıralı katman ya da yalnız belirli konumlarda geri besleme gibi, hepsi K3 ölçütünü sağlayan kapatılabilir eklentiler) ve eşleşmiş bir A0/transformer tabanı olmadan LM iddiası yapılmamalı. L1'in (düz RLT-1) bu soruya cevabı yok.
 
 ## 7. Kullanıcıya açık sorular
 1. L2 için GPU L1 ile paylaşılsın mı, L1'in ardından mı (L1 ≈ 53 saat, 01.10 23:39'da başladı)?

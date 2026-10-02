@@ -206,3 +206,9 @@
 [06:08:32] BASLA Z1 count32-lstm-w64-s1 (CPU, 1 parcacik, 12000 adim, lr 0.003)
 [06:24:23] ZINCIR-DEGISIKLIGI: kuyruk 5 bekleyicisi yeniden kuruldu: kuyruk 4 (recurrent) bitince ONCE E-A (S5 Core dikkat mudahaleleri, egitimsiz, ~25 dk; on-kayit commit 37cacf6), SONRA kuyruk 5
 [06:29:55] ZINCIR-DEGISIKLIGI 2: kuyruk 4 (recurrent) bitince sirayla E-A, E-B (durum gurultusu marj egrileri, egitimsiz, on-kayit: notes/RLT_SORUN_ESLEME... bolum 5.1), sonra kuyruk 5
+[06:30:19] BITTI Z1 count32-lstm-w64-s1
+[06:30:19] Z1 kuyruk 4 (recurrent) BITTI
+[06:30:36] BASLA E-A (CPU, 1 parcacik): S5 Core dikkat mudahaleleri, egitimsiz, tohum 1-3
+[06:32:32] ZINCIR: E-D (S4 GRU/LSTM egitim-zamani durum gurultusu, 6 kosu; on-kayit notes/RLT_SORUN_ESLEME... bolum 5.2) ikinci yuvada: kuyruk 4 (core) bitince baslar
+[06:35:23] ZINCIR: E-C (sayac, olcek-cesitli asma: count8_32/count8_64 LSTM+GRU; on-kayit notes/RLT_SORUN_ESLEME... bolum 5.3) E-D bitince ikinci yuvada
+[06:41:23] ZINCIR-DEGISIKLIGI 3: ikinci yuva: kuyruk 4 (core) bitince once E-B2 (durum tekmesi buyumesi; on-kayit notes/RLT_SORUN_ESLEME... bolum 5.4), sonra E-D, sonra E-C
