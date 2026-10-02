@@ -43,11 +43,32 @@ class Perturbation(unittest.TestCase):
 
 
 class Reading(unittest.TestCase):
-    def test_eps_tol_is_the_first_grid_value_at_or_above_the_threshold(self):
+    def test_eps_tol_is_the_first_grid_value_that_adds_the_threshold_above_the_unperturbed_hazard(self):
         rows = {0.0: dict(hazard=2e-4), 0.01: dict(hazard=3e-4), 0.02: dict(hazard=2e-3), 0.05: dict(hazard=0.1)}
-        self.assertEqual(wn.eps_tol(rows), 0.02)
+        self.assertEqual(wn.eps_tol(rows), 0.02)                                            # 2e-4 + 1e-3 = 1.2e-3 <= 2e-3
+        self.assertEqual(wn.eps_tol(rows, excess=False), 0.02)
         self.assertEqual(wn.eps_tol({0.0: dict(hazard=0.5), 0.01: dict(hazard=1e-5)}), math.inf)      # eps = 0 is not a tolerance
         self.assertEqual(wn.eps_tol({0.5: dict(hazard=None)}), math.inf)
+
+    def test_tolerance_is_measured_above_the_unperturbed_hazard_and_the_grid_is_ordered_numerically(self):
+        # blind review R2-2: a constant-lr arm that already sits above 1e-3 unperturbed must not get the smallest grid eps just for that
+        rows = {0.0: dict(hazard=1.2e-3), 0.002: dict(hazard=1.2e-3), 0.005: dict(hazard=1.5e-3), 0.05: dict(hazard=2.5e-3)}
+        self.assertEqual(wn.eps_tol(rows, excess=False), 0.002)                                   # the first version
+        self.assertEqual(wn.eps_tol(rows), 0.05)                                                  # needs 1.2e-3 + 1e-3 = 2.2e-3
+        twin = {0.0: dict(hazard=0.0), 0.002: dict(hazard=0.0), 0.05: dict(hazard=1.1e-3)}        # an annealed twin that starts at 0
+        self.assertEqual(wn.eps_tol(twin), 0.05)
+        near = {0.0: dict(hazard=9e-4), 0.002: dict(hazard=1e-3), 0.05: dict(hazard=2e-3)}         # +1e-4 at the smallest eps is not 1e-3 more
+        self.assertEqual((wn.eps_tol(near, excess=False), wn.eps_tol(near)), (0.002, 0.05))
+        # blind review R2-18: after a JSON round trip the keys are strings and sort lexicographically ('5e-05' > '0.0001')
+        string_keys = {'0.0': dict(hazard=0.0), '5e-05': dict(hazard=0.0), '0.0001': dict(hazard=2e-3)}
+        self.assertEqual(wn.eps_tol(string_keys), 1e-4)
+
+    def test_noise_seeds_are_distinct_for_every_draw_and_eps(self):
+        # blind review R2-17: 1000 * (draw + 1) + round(eps * 1e4) gave (draw 0, eps 0.2) and (draw 1, eps 0.1) the same seed 3000
+        seeds = {wn.noise_seed(d, e) for e in (0.002, 0.005, 0.01, 0.02, 0.05, 0.1, 0.2, 0.3) for d in range(4)}
+        self.assertEqual(len(seeds), 32)
+        self.assertNotEqual(wn.noise_seed(0, 0.2), wn.noise_seed(1, 0.1))
+        self.assertEqual(wn.noise_seed(2, 0.05), wn.noise_seed(2, 0.05))                          # and reproducible
 
 
 class EndToEnd(unittest.TestCase):

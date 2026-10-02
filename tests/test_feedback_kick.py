@@ -145,6 +145,37 @@ class ReadingRule(unittest.TestCase):
         self.assertIsNone(fk.decay_per_step({}))
 
 
+class ReviewFixes(unittest.TestCase):
+    def test_the_other_kick_is_refused_for_a_single_sequence_and_a_non_finite_difference_is_invalid(self):
+        model = small_model()
+        one = batches(1, 1, 30)                                                     # batch of ONE sequence: roll(1) would be the identity and nothing would be kicked (R2-10)
+        with self.assertRaises(ValueError):
+            fk.kick_differences(model, one, at=6, mode='other', kmax=5)
+        diff, control = fk.kick_differences(model, one, at=6, mode='zero', kmax=5)    # the zero kick needs no second sequence
+        self.assertEqual(diff.shape, (1, 6))
+        with torch.no_grad():
+            model.read.weight.fill_(float('nan'))                                   # NaN logits: max(0.0, nan) used to hide this as control 0.0
+        _, control = fk.kick_differences(model, batches(1, 3, 30), at=6, mode='other', kmax=5)
+        self.assertEqual(control, float('inf'))
+        self.assertTrue(fk.reading({'0-0': dict(mean=2.0, se=0.1, n=5), '8-15': dict(mean=0.0, se=0.0, n=5), '32-63': dict(mean=0.0, se=0.0, n=5)}, control)['verdict'].startswith('INVALID'))
+
+    def test_the_exact_rule_limits_count_in_floating_point(self):
+        bins = {'0-0': dict(mean=0.7, se=0.01, n=100), '8-15': dict(mean=0.07, se=0.01, n=100), '32-63': dict(mean=0.035, se=0.01, n=100)}      # exactly 10 % and 5 % of D(0)
+        self.assertEqual(fk.reading(bins)['verdict'], 'LOCAL')                                    # 0.1 * 0.7 is 0.06999999999999999: the first version said INTERMEDIATE (R2-11)
+        self.assertEqual(fk.reading({'0-0': dict(mean=0.05, se=0.01, n=100), '8-15': dict(mean=0.0, se=0.0, n=100), '32-63': dict(mean=0.0, se=0.0, n=100)})['verdict'], 'LOCAL')   # D(0) = 0.05 is not below the NO BITE limit
+
+    def test_pooled_bins_have_one_observation_per_sequence_not_per_kick_position(self):
+        # three kick positions on the SAME two sequences: six rows would be counted as independent, two sequences are the observations (R2-3)
+        rows = [np.array([[1.0, 0.0], [3.0, 0.0]]), np.array([[1.0, 0.0], [3.0, 0.0]]), np.array([[1.0, 0.0], [3.0, 0.0]])]
+        seq = fk.sequence_means(rows)
+        self.assertEqual(seq.shape, (2, 2))
+        b = fk.binned(seq)
+        self.assertEqual(b['0-0']['n'], 2)
+        self.assertAlmostEqual(b['0-0']['mean'], 2.0)
+        self.assertAlmostEqual(b['0-0']['se'], np.sqrt(2.0) / np.sqrt(2))                          # per-sequence std sqrt(2), SE sqrt(2) / sqrt(2) = 1 (the six-row version gave 0.63)
+        self.assertEqual(fk.binned(np.concatenate(rows))['0-0']['n'], 6)                              # the old pooling, for contrast
+
+
 class EndToEnd(unittest.TestCase):
     def test_run_on_a_tiny_snapshot_and_a_fake_validation_file(self):
         with tempfile.TemporaryDirectory() as d:
@@ -158,7 +189,9 @@ class EndToEnd(unittest.TestCase):
                 self.assertEqual(set(m['per_at']), {'5', '9'})
                 self.assertLess(m['control'], 1e-3)
                 self.assertIn('32-40', m['pooled'])
-                self.assertIn('verdict', m['reading'])
+                self.assertTrue(m['reading']['verdict'].startswith('INCOMPLETE'))                  # kmax = 40 has no 32-63 bin: the rule refuses to read (R2-22: any verdict used to pass)
+                self.assertEqual(m['pooled']['0-0']['n'], 8)                                         # one observation per SEQUENCE: 2 batches x 4 sequences (not 8 x 2 kick positions = 16)
+                self.assertEqual(len(m['per_at']['5']['mean_by_step']), 41)
                 self.assertEqual(len(m['per_at']['5']['mean_by_step']), 41)
             with self.assertRaises(ValueError):
                 fk.run(snap, directory=d, batches=1, batch=2, length=16, ats=(15,), kmax=5, width=64, heads=2, log=lambda m: None)

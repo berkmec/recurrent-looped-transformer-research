@@ -8,7 +8,9 @@ control (the model is causal: their difference must be 0). What the decay of tha
   the state carries information that attention to the encoder memory does not restore   -> the damage persists for tens of steps (the carried state is a memory)
   the state only helps the decoder at the next few steps (previous byte, local features)  -> the damage is gone after the window-4 cache has moved on (the state is a local feature)
 
-Reading rule (written before the first run; mode `other`, observations pooled over the kick positions; D(a-b) = mean paired difference over steps a..b after the kick, SE across sequences):
+Reading rule (written before the first run; mode `other`, one observation per SEQUENCE: its mean over the kick positions, a correction made after the second blind review (R2-3) because the
+first version counted the three kick-position rows of one sequence as independent; D(a-b) = mean paired difference over steps a..b after the kick, SE across sequences; the exact
+limits count, within 1e-9):
   INVALID       the control (positions before the kick) differs from 0 by more than 1e-3 bits: the kick leaked into the past.
   NO BITE       D(0) < 0.05 bits per byte: the kick did not hurt, nothing to read.
   LOCAL         D(8-15) <= 0.1 D(0) AND D(32-63) <= 0.05 D(0): the model heals within about eight steps.
@@ -41,6 +43,7 @@ NO_BITE = 0.05
 LOCAL_8, LOCAL_32 = 0.1, 0.05
 PERSISTENT_32, PERSISTENT_SE = 0.3, 2.0
 CONTROL_TOL = 1e-3
+TOL = 1e-9
 
 
 class KickedCore(Core):
@@ -78,14 +81,25 @@ def kick_differences(model, pairs, at, mode, kmax=KMAX, reference=None):
     if reference is None:
         configure(model)
         reference = [bits(model, x[:, :need], y[:, :need]) for x, y in pairs]
+    if mode == 'other' and min(len(x) for x, _ in pairs) < 2:
+        raise ValueError("the 'other' kick needs batches of at least two sequences (it rolls in another sequence's state; with one sequence nothing would change)")
     configure(model, mode, at)
     rows, control = [], 0.0
     for (x, y), ref in zip(pairs, reference):
         diff = bits(model, x[:, :need], y[:, :need]) - ref[:, :need]
-        control = max(control, float(diff[:, :at].abs().max()))
+        if not bool(torch.isfinite(diff).all()):
+            control = math.inf                         # a non-finite loss difference can never be read (blind review R2-10: max(0.0, nan) used to return 0.0)
+        else:
+            control = max(control, float(diff[:, :at].abs().max()))
         rows.append(diff[:, at:need])
     configure(model)
     return torch.cat(rows).numpy(), control
+
+
+def sequence_means(rows):
+    """(sequences, kmax + 1): for every sequence the mean of its paired differences over the kick positions. `rows` = one (sequences, kmax + 1) array per kick position, all drawn on the SAME
+    sequences, so the observations of a pooled bin are the sequences, not their (correlated) kick-position copies (blind review R2-3)."""
+    return np.mean(np.stack(rows), axis=0)
 
 
 def binned(differences, bins=BINS):
@@ -116,11 +130,11 @@ def reading(bins, control=0.0):
     if not all(k in bins for k in ('0-0', '8-15', '32-63')):
         return dict(verdict='INCOMPLETE: the bins 0-0, 8-15 and 32-63 are needed')
     d0, d8, d32, se32 = bins['0-0']['mean'], bins['8-15']['mean'], bins['32-63']['mean'], bins['32-63']['se']
-    if d0 < NO_BITE:
+    if d0 < NO_BITE - TOL:
         verdict = 'NO BITE'
-    elif d8 <= LOCAL_8 * d0 and d32 <= LOCAL_32 * d0:
+    elif d8 <= LOCAL_8 * d0 + TOL and d32 <= LOCAL_32 * d0 + TOL:           # the exact limits count (0.1 * 0.7 is 0.06999999999999999 in floats; blind review R2-11)
         verdict = 'LOCAL'
-    elif d32 >= PERSISTENT_32 * d0 and se32 is not None and d32 >= PERSISTENT_SE * se32:
+    elif d32 >= PERSISTENT_32 * d0 - TOL and se32 is not None and d32 >= PERSISTENT_SE * se32 - TOL:
         verdict = 'PERSISTENT'
     else:
         verdict = 'INTERMEDIATE'
@@ -156,7 +170,7 @@ def run(snapshot, directory=None, batches=8, batch=32, length=512, ats=ATS, kmax
             control = max(control, ctl)
             per_at[str(at)] = dict(bins=binned(diff), mean_by_step=[float(v) for v in diff.mean(axis=0)], control=ctl)
             log(f'  {mode:<6} kick at step {at:<4} ' + brief(per_at[str(at)]['bins']) + f' bits  (control {ctl:.1e}; {time.perf_counter() - t0:.0f} s)')
-        pooled = binned(np.concatenate(rows))
+        pooled = binned(sequence_means(rows))
         out[mode] = dict(per_at=per_at, pooled=pooled, control=control, reading=reading(pooled, control))
         log(f'  {mode:<6} pooled: ' + '  '.join(f'[{k}] {v["mean"]:.3f}' for k, v in pooled.items()))
         log(f'  {mode:<6} reading: ' + json.dumps(out[mode]['reading'], default=float))

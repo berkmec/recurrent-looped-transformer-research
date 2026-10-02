@@ -142,6 +142,55 @@ class LearningRateDecayReading(unittest.TestCase):
         (Path(self.dir) / 'perm5-core-w192-s1-cur-lrdecay0.3.json').unlink()
         self.assertEqual(rd.ek5(directory=self.dir)['verdict'], 'INCOMPLETE')
 
+    def test_a_baseline_without_a_floor_is_refused_not_credited(self):
+        # blind review R2-6: with 0 (or 3) first errors in the baseline, "hazard <= baseline / 5" holds for any zero-error run and read SUPPORTED
+        write(self.dir, 'perm5-core-w128-s1-cur.json', perm_result(1.0, 0, 1_024_000))
+        write(self.dir, 'perm5-core-w128-s1-cur-lrdecay0.3-noise0.1.json', perm_result(1.0, 0, 1_024_000))
+        r = rd.ed_arm('core', sigmas=(0.1,), tag='lrdecay0.3-noise', task='perm5', width=128, baseline_seeds=(1,), directory=self.dir)
+        self.assertEqual((r['verdict'], r['baseline_events']), ('NO FLOOR IN BASELINE', 0))
+        write(self.dir, 'perm5-core-w128-s1-cur.json', perm_result(1.0, 3, 1_024_000))
+        self.assertEqual(rd.ed_arm('core', sigmas=(0.1,), tag='lrdecay0.3-noise', task='perm5', width=128, baseline_seeds=(1,), directory=self.dir)['verdict'], 'NO FLOOR IN BASELINE')
+        self.assertEqual(rd.ek5(directory=self.dir)['verdict'], 'NO FLOOR IN BASELINE')
+        write(self.dir, 'perm5-core-w128-s1-cur.json', perm_result(1.0, 5, 1_024_000))                                    # exactly 5 first errors: a floor
+        self.assertEqual(rd.ed_arm('core', sigmas=(0.1,), tag='lrdecay0.3-noise', task='perm5', width=128, baseline_seeds=(1,), directory=self.dir)['verdict'], 'SUPPORTED')
+
+    def test_the_annealing_twin_is_reported_and_flagged_when_it_alone_meets_the_rule(self):
+        # blind review R2-8: annealing + an intervention is read against the constant-lr baseline, but its twin (annealing alone) may already do the work
+        write(self.dir, 'perm5-core-w128-s1-cur.json', perm_result(1.0, 800, 1_024_000))
+        write(self.dir, 'perm5-core-w128-s1-cur-lrdecay0.3.json', perm_result(1.0, 200, 1_024_000))                      # 4x lower than the baseline: not enough for the 5x rule
+        write(self.dir, 'perm5-core-w128-s1-cur-lrdecay0.3-noise0.1.json', perm_result(1.0, 150, 1_024_000))
+        r = rd.ed_arm('core', sigmas=(0.1,), tag='lrdecay0.3-noise', task='perm5', width=128, baseline_seeds=(1,), directory=self.dir, twin_tag='lrdecay0.3')
+        self.assertEqual(r['verdict'], 'SUPPORTED')
+        self.assertFalse(r['twin']['meets_rule'])
+        self.assertAlmostEqual(r['runs'][0.1]['vs_twin']['ratio'], 150 / 200)
+        self.assertLess(r['runs'][0.1]['vs_twin']['p_lower'], 0.05)                                                        # 150 vs 200 over equal exposure: lower, p ~ 0.01-0.02
+        write(self.dir, 'perm5-core-w128-s1-cur-lrdecay0.3.json', perm_result(1.0, 120, 1_024_000))                      # the twin alone reaches 6.7x
+        r = rd.ed_arm('core', sigmas=(0.1,), tag='lrdecay0.3-noise', task='perm5', width=128, baseline_seeds=(1,), directory=self.dir, twin_tag='lrdecay0.3')
+        self.assertTrue(r['verdict'].startswith('SUPPORTED (the annealing twin alone already meets the rule'))
+        write(self.dir, 'perm5-core-w256-s1-cur-lrdecay0.3.json', perm_result(1.0, 100, 1_024_000))
+        self.assertIn('twin alone', rd.ek5(directory=self.dir)['verdict'])                                                  # E-K5 reports the w128 twin too
+
+    def test_the_floor_dose_response_flags_a_non_monotone_curve_and_gives_the_strict_floor(self):
+        # blind review R2-9: baseline 600 events (rule <= 120); floors 0.3 / 0.1 / 0.03 / 0.01 -> 110 / 300 / 20 / 5
+        for floor, events in ((0.3, 110), (0.1, 300), (0.03, 20), (0.01, 5)):
+            write(self.dir, f'perm4-lstm-w64-s1-cur-lrfloor{floor}.json', perm_result(0.995, events, 1_024_000))
+        r = rd.ep3_arm('lstm', directory=self.dir)
+        self.assertEqual(r['sufficient_floor'], 0.3)                                  # the maximum of the passing floors, although 0.1 fails
+        self.assertFalse(r['monotone'])
+        self.assertEqual(r['strict_floor'], 0.03)                                     # the largest floor such that it and every deeper one pass
+        for floor, events in ((0.3, 110), (0.1, 90), (0.03, 20), (0.01, 5)):
+            write(self.dir, f'perm4-lstm-w64-s1-cur-lrfloor{floor}.json', perm_result(0.995, events, 1_024_000))
+        r = rd.ep3_arm('lstm', directory=self.dir)
+        self.assertEqual((r['sufficient_floor'], r['monotone'], r['strict_floor']), (0.3, True, 0.3))
+
+    def test_the_seed_lottery_reading_needs_three_valid_runs_per_condition(self):
+        # blind review R2-7: unlearned runs alone must not make the constant-lr floor look like an exception (c <= 2 read LOTTERY)
+        for seed, (events, in_range) in {1: (300, 0.99), 2: (300, 0.99), 3: (0, 0.5), 4: (0, 0.5), 5: (0, 0.5)}.items():
+            write(self.dir, f'perm4-gru-w64-s{seed}-cur.json', perm_result(in_range, events, 1_024_000))
+            write(self.dir, f'perm4-gru-w64-s{seed}-cur-lrdecay0.3.json', perm_result(0.99, 0, 1_024_000))
+        r = rd.ep4(directory=self.dir, arms=('gru',))['gru']
+        self.assertEqual((r['verdict'], r['valid_runs']), ('INSUFFICIENT VALID RUNS', {'constant': 2, 'decayed': 5}))
+
     def test_the_feedback_gain_and_peak_lr_runs_of_the_s5_core_are_found_by_their_names(self):
         # E-F5: `...-lrdecay0.3-alpha{1.0,0.3}.json` and `...-lrdecay0.3-lr0.001.json` against `perm5-core-w128-s1-cur.json`
         write(self.dir, 'perm5-core-w128-s1-cur.json', perm_result(1.0, 800, 1_024_000))

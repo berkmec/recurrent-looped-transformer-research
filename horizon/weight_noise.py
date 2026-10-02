@@ -14,6 +14,7 @@ import json
 import math
 from pathlib import Path
 
+import numpy as np
 import torch
 
 from . import depth_run as dr
@@ -37,6 +38,12 @@ def perturb(model, eps, seed):
     return out
 
 
+def noise_seed(draw, eps):
+    """A seed that is distinct for every (draw, eps) pair (blind review R2-17: 1000 * (draw + 1) + round(eps * 1e4) gave eps 0.1 draw 1 and eps 0.2 draw 0 the SAME seed, so their noise
+    directions were identical)."""
+    return int(np.random.SeedSequence([int(draw), int(round(float(eps) * 1e9))]).generate_state(1)[0])
+
+
 def measure(weights, eps_grid=EPS_GRID, draws=3, points=POINTS, n=100, batch=50):
     raw = torch.load(weights, weights_only=True)
     meta = raw['meta']
@@ -48,7 +55,7 @@ def measure(weights, eps_grid=EPS_GRID, draws=3, points=POINTS, n=100, batch=50)
         events = exposure = 0
         finals = []
         for d in range(draws if eps > 0 else 1):
-            model = perturb(base, eps, seed=1000 * (d + 1) + int(round(eps * 1e4)))
+            model = perturb(base, eps, seed=noise_seed(d, eps))
             curve = dr.evaluate(model, meta['task'], points, n, meta['seed'], batch=batch)
             cells = pooled_windows(dict(curve=curve))
             events += sum(c[0] for c in cells.values())
@@ -59,18 +66,27 @@ def measure(weights, eps_grid=EPS_GRID, draws=3, points=POINTS, n=100, batch=50)
                 results=rows)
 
 
-def eps_tol(rows, threshold=1e-3):
-    """Smallest eps > 0 whose pooled hazard reaches `threshold`; infinity when none of the grid does."""
-    for eps in sorted(e for e in rows if float(e) > 0):
+def eps_tol(rows, threshold=1e-3, excess=True):
+    """Smallest eps > 0 whose pooled hazard is >= hazard(eps = 0) + `threshold` (the weight noise has ADDED `threshold` per step); infinity when none of the grid does. This is the E-W
+    rule as amended after the second blind review (note 5.25, R2-2), before E-W ran: the first version used the absolute criterion hazard >= threshold (`excess=False`), which
+    gives a model that already sits near the threshold unperturbed (a constant-lr arm) the smallest eps and a twin that starts near 0 the full distance, so the predicted order
+    partly followed from where each arm starts. Grid keys may be strings (a JSON round trip) and are ordered numerically."""
+    base = 0.0
+    if excess:
+        zero = next((rows[e] for e in rows if float(e) == 0.0), None)
+        base = zero['hazard'] if zero and zero['hazard'] is not None else 0.0
+    for eps in sorted((e for e in rows if float(e) > 0), key=float):
         h = rows[eps]['hazard']
-        if h is not None and h >= threshold:
+        if h is not None and h >= base + threshold:
             return float(eps)
     return math.inf
 
 
 def describe(r):
-    cells = '  '.join(f"eps {float(e):g}: {v['hazard']:.2e} ({v['events']}/{v['exposure']})" for e, v in r['results'].items())
-    return f"{r['arm']} {r['task']} w{r['width']} ({r['parameters']} parameters), {r['n']} dev sequences, lengths {r['points']}: eps_tol {eps_tol(r['results'])}  |  {cells}"
+    cells = '  '.join(f"eps {float(e):g}: {v['hazard']:.2e} ({v['events']}/{v['exposure']})" for e, v in sorted(r['results'].items(), key=lambda kv: float(kv[0])))
+    zero = next((v['hazard'] for e, v in r['results'].items() if float(e) == 0.0), None)
+    return (f"{r['arm']} {r['task']} w{r['width']} ({r['parameters']} parameters), {r['n']} dev sequences, lengths {r['points']}: eps_tol {eps_tol(r['results'])} "
+            f"(excess over the unperturbed hazard {zero if zero is None else format(zero, '.2e')}; absolute criterion: {eps_tol(r['results'], excess=False)})  |  {cells}")
 
 
 def main():

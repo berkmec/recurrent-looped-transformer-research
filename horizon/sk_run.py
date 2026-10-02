@@ -142,42 +142,72 @@ def _final_stage(r):
     return dict(stopped_at_walk=t.get('final_stage_walk'), reached_last_stage_at=((advances[-1]['step'] if advances else 0) if reached else None), steps=t.get('steps'))
 
 
+BUDGET_LATE = 0.5           # a rival that reached the last walk stage after this fraction of its updates ...
+BUDGET_PROGRESS_WALK = 4    # ... or never reached it although it had passed this walk, may simply have run out of budget (the lr decay starts at 70 % of the updates)
+
+
+def _budget_limited(r):
+    """True when a run's failure to learn the range can be a lack of budget (blind review R2-5): it reached the last stage late, or it was still climbing (past walk 4) at the end."""
+    f = _final_stage(r)
+    if f['reached_last_stage_at'] is not None:
+        return f['steps'] is not None and f['reached_last_stage_at'] > BUDGET_LATE * f['steps']
+    return f['stopped_at_walk'] is not None and f['stopped_at_walk'] >= BUDGET_PROGRESS_WALK
+
+
 def reading(results, min_seeds=2):
-    """The E-S reading rule (program note 5.16, written before the first run), applied to run results of ONE task: several arms, several seeds each. Per arm the mean in-range
-    and extrapolation value accuracy over its seeds. An arm is LEARNED when its mean in-range accuracy is >= 0.95. Verdicts, for the Core arm 'core':
+    """The E-S reading rule (program note 5.16, written before the first run; refined after the second blind review, note 5.25, before E-S ran), applied to run results of ONE task:
+    several arms, several seeds each. Per arm the mean in-range and extrapolation value accuracy over its seeds. An arm is LEARNED when its mean in-range accuracy is >= 0.95.
+    Verdicts, for the Core arm 'core':
+      NO CORE RUN / NO RIVAL RUNS   no 'core' result / no other arm at all (nothing to compare);
       CORE NOT LEARNED   mean in-range < 0.95: nothing can be said about an advantage (budget / trainability);
+      INCOMPLETE         a rival learned the range but has no extrapolation value (a missing evaluation): the comparison cannot be made;
       ADVANTAGE          the Core is learned, its extrapolation is >= 0.6 AND >= the best OTHER learned arm's extrapolation + 0.15 (when no other arm learned the range the
                          advantage is reported as 'LEARNABILITY' instead: the others fail inside the trained range);
-      NO ADVANTAGE       some other learned arm's extrapolation is >= the Core's - 0.05;
+      NO ADVANTAGE       some other learned arm's extrapolation is >= the Core's - 0.05 (the boundary counts);
       MIXED              otherwise.
-    A verdict is marked provisional when an arm has fewer than `min_seeds` seeds."""
+    A verdict is marked provisional when an arm has fewer than `min_seeds` seeds, and an ADVANTAGE verdict carries '(RIVAL BUDGET-LIMITED ...)' when some rival that did not learn the
+    range may simply have run out of budget (`_budget_limited`): it is then not recorded as an advantage without a doubled-budget run. A seed that appears twice for one arm is an error."""
     arms = {}
     for r in results:
         arms.setdefault(r['arm'], []).append(r)
     table = {}
     for arm, rs in arms.items():
+        seeds = [r.get('seed') for r in rs]
+        if len(set(seeds)) != len(seeds):
+            raise ValueError(f'arm {arm}: the same seed appears twice {seeds}')
         in_range = sum(r['in_range'] for r in rs) / len(rs)
         ext = [r['extrapolation'] for r in rs if r.get('extrapolation') is not None]
-        table[arm] = dict(seeds=len(rs), in_range=in_range, extrapolation=(sum(ext) / len(ext) if ext else None), learned=in_range >= LEARNED - 1e-6,
-                          state_extrapolation=(sum(r['state_extrapolation'] for r in rs if r.get('state_extrapolation') is not None) / len(rs)),
-                          final_stage=[_final_stage(r) for r in rs])
+        state_ext = [r['state_extrapolation'] for r in rs if r.get('state_extrapolation') is not None]
+        learned = in_range >= LEARNED - 1e-6
+        table[arm] = dict(seeds=len(rs), in_range=in_range, extrapolation=(sum(ext) / len(ext) if ext else None), learned=learned,
+                          state_extrapolation=(sum(state_ext) / len(state_ext) if state_ext else None), final_stage=[_final_stage(r) for r in rs],
+                          budget_limited=(not learned) and any(_budget_limited(r) for r in rs))
     core = table.get('core')
     if core is None:
         return dict(verdict='NO CORE RUN', arms=table)
-    others = {a: t for a, t in table.items() if a != 'core' and t['learned'] and t['extrapolation'] is not None}
+    rivals = {a: t for a, t in table.items() if a != 'core'}
+    if not rivals:
+        return dict(verdict='NO RIVAL RUNS', arms=table)
+    unfinished = sorted(a for a, t in rivals.items() if t['learned'] and t['extrapolation'] is None)
+    others = {a: t for a, t in rivals.items() if t['learned'] and t['extrapolation'] is not None}
     best_other = max((t['extrapolation'] for t in others.values()), default=None)
     if not core['learned']:
         verdict = 'CORE NOT LEARNED'
+    elif unfinished:
+        verdict = 'INCOMPLETE (no extrapolation value for the learned rival(s) %s)' % ', '.join(unfinished)
     elif core['extrapolation'] is None:
         verdict = 'MIXED'
     elif best_other is None:
         verdict = 'ADVANTAGE (LEARNABILITY)' if core['extrapolation'] >= MIN_EXTRAPOLATION else 'MIXED'
     elif core['extrapolation'] >= MIN_EXTRAPOLATION and core['extrapolation'] >= best_other + ADVANTAGE_MARGIN - 1e-9:
         verdict = 'ADVANTAGE'
-    elif best_other >= core['extrapolation'] - NO_ADVANTAGE_MARGIN + 1e-9:
+    elif best_other >= core['extrapolation'] - NO_ADVANTAGE_MARGIN - 1e-9:
         verdict = 'NO ADVANTAGE'
     else:
         verdict = 'MIXED'
+    limited = sorted(a for a, t in rivals.items() if t['budget_limited'])
+    if verdict.startswith('ADVANTAGE') and limited:
+        verdict += ' (RIVAL BUDGET-LIMITED: %s reached the last stage late or was still climbing; not recorded as an advantage without a doubled-budget run)' % ', '.join(limited)
     provisional = any(t['seeds'] < min_seeds for t in table.values())
     return dict(verdict=verdict + (' (provisional: fewer than %d seeds for some arm)' % min_seeds if provisional else ''), arms=table, best_other_extrapolation=best_other)
 

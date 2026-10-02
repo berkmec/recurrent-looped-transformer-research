@@ -62,7 +62,15 @@ def rate_ratio_p(events_base, exposure_base, events_run, exposure_run):
     return float(min(1.0, math.exp(top) * sum(math.exp(t - top) for t in log_terms)))
 
 
-def ed_arm(arm, sigmas=(0.1, 0.05, 0.2), directory=RESULTS, width=64, baseline_seeds=(1, 2, 3), tag='noise', task='perm4', run_seed=1):
+MIN_BASELINE_EVENTS = 5
+
+
+def ed_arm(arm, sigmas=(0.1, 0.05, 0.2), directory=RESULTS, width=64, baseline_seeds=(1, 2, 3), tag='noise', task='perm4', run_seed=1, twin_tag=None):
+    """The E-D / E-P reading of one arm: each run (`-{tag}{sigma}.json`) against the LOWEST constant-lr baseline hazard among `baseline_seeds`. SUPPORTED when some run learned the range
+    (>= 0.99) and has a hazard <= baseline / 5; REFUTED when every run has hazard >= baseline / 2 or did not learn (< 0.95); MIXED otherwise; INCOMPLETE until every run exists.
+    Refused with NO FLOOR IN BASELINE when the baseline holds fewer than 5 first errors (a baseline without a floor cannot show that anything removed one; blind review R2-6).
+    `twin_tag` (R2-8): the annealed-only twin run (`-{twin_tag}.json`, e.g. 'lrdecay0.3') for runs that are annealing PLUS an intervention: every run is also compared with it (ratio,
+    exact p), and a SUPPORTED verdict says so when the twin alone already meets the rule (the intervention's own share is then not isolated)."""
     base = {}
     for seed in baseline_seeds:
         path = Path(directory) / f'{task}-{arm}-w{width}-s{seed}-cur.json'
@@ -73,6 +81,16 @@ def ed_arm(arm, sigmas=(0.1, 0.05, 0.2), directory=RESULTS, width=64, baseline_s
     best = min(v for v in base.values() if v is not None)
     best_seed = min((s for s, v in base.items() if v == best))
     base_events, base_exposure = pooled_rate(_load(Path(directory) / f'{task}-{arm}-w{width}-s{best_seed}-cur.json'))[1:]
+    if base_events < MIN_BASELINE_EVENTS:
+        return dict(arm=arm, verdict='NO FLOOR IN BASELINE', baseline_hazards=base, best_baseline=best, baseline_events=base_events)
+    twin = None
+    if twin_tag:
+        twin_path = Path(directory) / f'{task}-{arm}-w{width}-s{run_seed}-cur-{twin_tag}.json'
+        if twin_path.exists():
+            twin_result = _load(twin_path)
+            t_rate, t_events, t_exposure = pooled_rate(twin_result)
+            twin = dict(hazard=t_rate, events=t_events, exposure=t_exposure, in_range=twin_result['curve']['16']['final'],
+                        meets_rule=ge(twin_result['curve']['16']['final'], 0.99) and t_rate <= best / 5)
     runs = {}
     for sigma in sigmas:
         path = Path(directory) / f'{task}-{arm}-w{width}-s{run_seed}-cur-{tag}{sigma}.json'
@@ -81,12 +99,16 @@ def ed_arm(arm, sigmas=(0.1, 0.05, 0.2), directory=RESULTS, width=64, baseline_s
             rate, events, exposure = pooled_rate(result)
             runs[sigma] = dict(in_range=result['curve']['16']['final'], hazard=rate, ratio=(rate / best if best else None), events=events, exposure=exposure,
                                p_lower=rate_ratio_p(base_events, base_exposure, events, exposure))
+            if twin:
+                runs[sigma]['vs_twin'] = dict(ratio=(rate / twin['hazard'] if twin['hazard'] else None), p_lower=rate_ratio_p(twin['events'], twin['exposure'], events, exposure))
     if not runs:
         return dict(arm=arm, verdict='NO RUNS', baseline=base)
     supported = any(ge(r['in_range'], 0.99) and r['hazard'] <= best / 5 for r in runs.values())
     refuted = len(runs) == len(sigmas) and all(r['hazard'] >= best / 2 or not ge(r['in_range'], 0.95) for r in runs.values())
-    return dict(arm=arm, baseline_hazards=base, best_baseline=best, provisional=set(base) == {1}, runs=runs, complete=len(runs) == len(sigmas),
-                verdict='SUPPORTED' if supported else 'REFUTED' if refuted else 'MIXED' if len(runs) == len(sigmas) else 'INCOMPLETE')
+    verdict = 'SUPPORTED' if supported else 'REFUTED' if refuted else 'MIXED' if len(runs) == len(sigmas) else 'INCOMPLETE'
+    if verdict == 'SUPPORTED' and twin and twin['meets_rule']:
+        verdict += ' (the annealing twin alone already meets the rule: the intervention\'s own share is not isolated)'
+    return dict(arm=arm, baseline_hazards=base, best_baseline=best, provisional=set(base) == {1}, runs=runs, complete=len(runs) == len(sigmas), twin=twin, verdict=verdict)
 
 
 FLOORS = (0.3, 0.1, 0.03, 0.01)
@@ -95,11 +117,22 @@ FLOORS = (0.3, 0.1, 0.03, 0.01)
 def ep3_arm(arm, floors=FLOORS, directory=RESULTS, width=64, baseline_seeds=(1, 2, 3)):
     """E-P3 (note 5.12): the dose-response of the S4 error floor to how far the learning rate is annealed. Each run decays linearly over the last 30 % to `floor` x the
     base rate. `sufficient_floor` = the LARGEST floor whose run meets the E-P rule (in-range accuracy >= 0.99 and hazard <= best baseline / 5): the shallowest annealing
-    that removes the floor. The curve (hazard per floor) is reported whole; None when no floor meets it."""
+    that removes the floor. The curve (hazard per floor) is reported whole; None when no floor meets it. Blind review R2-9: that maximum ignores deeper floors that FAIL, so the result also
+    carries `monotone` (every floor at or below `sufficient_floor` passes too) and `strict_floor` (the largest floor f such that f and every DEEPER, i.e. smaller, grid floor pass;
+    None when even the deepest fails): with 0-3 first errors per run a single Poisson fluctuation can make the curve non-monotone, and then the two definitions differ."""
     out = ed_arm(arm, sigmas=floors, directory=directory, width=width, baseline_seeds=baseline_seeds, tag='lrfloor')
     runs = out.get('runs', {})
+    if 'best_baseline' not in out:
+        return out
     ok = [f for f, r in runs.items() if ge(r['in_range'], 0.99) and r['hazard'] <= out['best_baseline'] / 5]
     out['sufficient_floor'] = max(ok) if ok else None
+    out['monotone'] = (not ok) or all(f in ok for f in runs if f <= max(ok))
+    strict = None
+    for f in sorted(runs):                          # from the deepest floor upwards: stop at the first one that fails
+        if f not in ok:
+            break
+        strict = f
+    out['strict_floor'] = strict
     out['curve'] = {f: (runs[f]['hazard'], runs[f]['events']) for f in sorted(runs, reverse=True)}
     return out
 
@@ -112,6 +145,15 @@ def ek5(widths=(256, 192), directory=RESULTS, task='perm5', arm='core', baseline
     if not path.exists():
         return dict(verdict='NO BASELINE')
     base, base_events, base_exposure = pooled_rate(_load(path))
+    if base_events < MIN_BASELINE_EVENTS:
+        return dict(verdict='NO FLOOR IN BASELINE', baseline_hazard=base, baseline_events=base_events)
+    twin = None                                                    # the same recipe at the baseline width (R2-8): the runs are also compared with it
+    twin_path = Path(directory) / f'{task}-{arm}-w{baseline_width}-s{seed}-cur-lrdecay0.3.json'
+    if twin_path.exists():
+        twin_result = _load(twin_path)
+        t_rate, t_events, t_exposure = pooled_rate(twin_result)
+        twin = dict(hazard=t_rate, events=t_events, exposure=t_exposure, in_range=twin_result['curve']['16']['final'],
+                    meets_rule=ge(twin_result['curve']['16']['final'], 0.99) and t_rate <= base / 5)
     runs = {}
     for width in widths:
         run_path = Path(directory) / f'{task}-{arm}-w{width}-s{seed}-cur-lrdecay0.3.json'
@@ -120,12 +162,16 @@ def ek5(widths=(256, 192), directory=RESULTS, task='perm5', arm='core', baseline
             rate, events, exposure = pooled_rate(result)
             runs[width] = dict(in_range=result['curve']['16']['final'], hazard=rate, ratio=(rate / base if base else None), events=events, exposure=exposure,
                                p_lower=rate_ratio_p(base_events, base_exposure, events, exposure))
+            if twin:
+                runs[width]['vs_twin'] = dict(ratio=(rate / twin['hazard'] if twin['hazard'] else None), p_lower=rate_ratio_p(twin['events'], twin['exposure'], events, exposure))
     if not runs:
         return dict(verdict='NO RUNS', baseline=base)
     supported = any(ge(r['in_range'], 0.99) and r['hazard'] <= base / 5 for r in runs.values())
     refuted = len(runs) == len(widths) and all(r['hazard'] >= base / 2 or not ge(r['in_range'], 0.95) for r in runs.values())
-    return dict(baseline_width=baseline_width, baseline_hazard=base, runs=runs, complete=len(runs) == len(widths),
-                verdict='SUPPORTED' if supported else 'REFUTED' if refuted else 'MIXED' if len(runs) == len(widths) else 'INCOMPLETE')
+    verdict = 'SUPPORTED' if supported else 'REFUTED' if refuted else 'MIXED' if len(runs) == len(widths) else 'INCOMPLETE'
+    if verdict == 'SUPPORTED' and twin and twin['meets_rule']:
+        verdict += ' (the annealed w%d twin alone already meets the rule)' % baseline_width
+    return dict(baseline_width=baseline_width, baseline_hazard=base, runs=runs, complete=len(runs) == len(widths), twin=twin, verdict=verdict)
 
 
 EK4_HAZARD = 5e-4
@@ -135,7 +181,8 @@ def ek4(widths=(32, 48), directory=RESULTS, profile_file='margin-profile-s4core-
     """E-K4 (note 5.23): does the S4 Core's margin erode when its width (state dimension per class) shrinks? Runs `perm4-core-w{32,48}-s1-cur` (the baseline w64 recipe, constant lr) and their
     margin profiles (`horizon.margin_profile`, `erosion`). A width ERODES when its margin verdict is EROSION or PARTIAL, or its pooled first-error hazard is >= 5e-4. RATIO SUPPORTED:
     the narrowest width erodes and the next one does not (it also learned the range at >= 0.99); RATIO NOT SUPPORTED: neither erodes (width is irrelevant over this span) or both do (the
-    threshold lies above); MIXED: the inverse order. NOT LEARNED when some width misses 0.95 in range; INCOMPLETE until both widths and their profiles exist."""
+    threshold lies above); MIXED: the inverse order, or the narrow width erodes and the wide one does not but misses 0.99 in range (blind review R2-20: the first docstring named only
+    the inverse order). NOT LEARNED when some width misses 0.95 in range; INCOMPLETE until both widths and their profiles exist."""
     profile_path = Path(directory) / profile_file
     profiles = {p['width']: p for p in json.loads(profile_path.read_text(encoding='utf8'))} if profile_path.exists() else {}
     rows = {}
@@ -171,8 +218,9 @@ FLOOR_HAZARD = 2e-4
 def ep4(directory=RESULTS, arms=('gru', 'lstm'), seeds=(1, 2, 3, 4, 5), width=64):
     """E-P4 (note 5.14): is the S4 constant-lr floor TYPICAL (and annealing removes it) or a seed lottery? Per arm, over the training seeds, each run's pooled first-error
     hazard (all windows, as E-D / E-P) is compared with FLOOR_HAZARD = 2e-4 (>= 41 first errors in 203,200 sequence-steps); a run counts only if its in-range accuracy is
-    >= 0.95. c = constant-lr runs with a floor, d = annealed runs (`-lrdecay0.3`) with a floor. NOT REMOVED: d >= 2; LOTTERY: c <= 2; ARTEFACT CONFIRMED: c >= 3 and d <= 1.
-    A verdict is INCOMPLETE (suffix) until every seed of both conditions exists."""
+    >= 0.95. c = constant-lr runs with a floor, d = annealed runs (`-lrdecay0.3`) with a floor. NOT REMOVED: d >= 2; LOTTERY: c <= 2; ARTEFACT CONFIRMED: c >= 3 and d <= 1
+    (after those two, MIXED cannot occur). INSUFFICIENT VALID RUNS (blind review R2-7): fewer than 3 valid runs in either condition (unlearned runs alone could otherwise make c <= 2
+    and read LOTTERY). A verdict is INCOMPLETE (suffix) until every seed of both conditions exists."""
     out = {}
     for arm in arms:
         rows = {'constant': {}, 'decayed': {}}
@@ -187,8 +235,10 @@ def ep4(directory=RESULTS, arms=('gru', 'lstm'), seeds=(1, 2, 3, 4, 5), width=64
         c = sum(r['floor'] for r in rows['constant'].values() if r['valid'])
         d = sum(r['floor'] for r in rows['decayed'].values() if r['valid'])
         complete = all(len(rows[k]) == len(seeds) for k in rows)
-        verdict = 'NOT REMOVED' if d >= 2 else 'LOTTERY' if c <= 2 else 'ARTEFACT CONFIRMED' if c >= 3 and d <= 1 else 'MIXED'
-        out[arm] = dict(verdict=verdict if complete else verdict + ' (INCOMPLETE)', constant_with_floor=c, decayed_with_floor=d, runs=rows)
+        valid = {k: sum(r['valid'] for r in rows[k].values()) for k in rows}
+        verdict = ('INSUFFICIENT VALID RUNS' if min(valid.values()) < 3 else 'NOT REMOVED' if d >= 2 else 'LOTTERY' if c <= 2 else 'ARTEFACT CONFIRMED' if c >= 3 and d <= 1
+                   else 'MIXED')
+        out[arm] = dict(verdict=verdict if complete else verdict + ' (INCOMPLETE)', constant_with_floor=c, decayed_with_floor=d, valid_runs=valid, runs=rows)
     return out
 
 
@@ -275,12 +325,12 @@ def main():
                           ed_arm('gru', sigmas=(0.3,), tag='lrdecay', task='perm5', width=256, baseline_seeds=(1,)),
                           ed_arm('lstm', sigmas=(0.3,), tag='lrdecay', task='perm5', width=208, baseline_seeds=(1,))], indent=1, default=str))
     elif which == 'ed5':      # E-D5: the S5 Core w128 trained with carried-state noise on top of the lr annealing (note 5.21), against the constant-lr S5 Core baseline
-        print(json.dumps(ed_arm('core', sigmas=(0.1, 0.2), tag='lrdecay0.3-noise', task='perm5', width=128, baseline_seeds=(1,)), indent=1, default=str))
+        print(json.dumps(ed_arm('core', sigmas=(0.1, 0.2), tag='lrdecay0.3-noise', task='perm5', width=128, baseline_seeds=(1,), twin_tag='lrdecay0.3'), indent=1, default=str))
     elif which == 'ek5':      # E-K5: the lr-annealed S5 Core at widths 256 / 192 against the constant-lr w128 baseline (note 5.22)
         print(json.dumps(ek5(), indent=1, default=str))
     elif which == 'ef5':      # E-F5: the lr-annealed S5 Core w128 with another feedback gain alpha (1.0 / 0.3) or another PEAK lr (1e-3), against the constant-lr baseline (note 5.24)
-        print(json.dumps(dict(alpha=ed_arm('core', sigmas=(1.0, 0.3), tag='lrdecay0.3-alpha', task='perm5', width=128, baseline_seeds=(1,)),
-                              peak_lr=ed_arm('core', sigmas=(0.001,), tag='lrdecay0.3-lr', task='perm5', width=128, baseline_seeds=(1,))), indent=1, default=str))
+        print(json.dumps(dict(alpha=ed_arm('core', sigmas=(1.0, 0.3), tag='lrdecay0.3-alpha', task='perm5', width=128, baseline_seeds=(1,), twin_tag='lrdecay0.3'),
+                              peak_lr=ed_arm('core', sigmas=(0.001,), tag='lrdecay0.3-lr', task='perm5', width=128, baseline_seeds=(1,), twin_tag='lrdecay0.3')), indent=1, default=str))
     elif which == 'ek4':      # E-K4: the S4 Core at widths 32 / 48 (state dimension per class 1.33 / 2.0): does the margin erode? (note 5.23)
         print(json.dumps(ek4(), indent=1, default=str))
     elif which == 'epseeds':  # E-P2 replicates: S4 seeds 2 and 3, each against its OWN seed's constant-lr baseline

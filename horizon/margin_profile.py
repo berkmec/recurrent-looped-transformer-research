@@ -8,6 +8,10 @@ quantiles of the gap, and the fractions below 1, 2 and 4 nats (near misses: a sm
 Two readings it separates (program note 5.20, written before the first run): the class cloud GROWS (mean gap falls and/or its spread rises with position, near misses climb smoothly) versus
 a HEAVY TAIL (mean and spread stay put, rare outliers cross zero). No verdict, a description.
 
+Conventions: the window keys are HALF-OPEN position windows, '16-64' = positions 16 .. 63 (the E-L1K step bins and the E-S walk buckets name INCLUSIVE ranges instead: '32-63' = 32 .. 63).
+The first error of a sequence is defined as in `depth_run.first_error_hazard` (argmax != target), not as gap <= 0: they differ only on exact ties and non-finite logits (blind review R2-14).
+Only the permutation tasks are profiled (a counter arm would be evaluated on a different draw than `depth_run.evaluate` uses; R2-15).
+
   python -B -m horizon.margin_profile results/Z1-pilot/perm5-core-w128-s1-cur.pt results/Z1-pilot/perm5-core-w128-s1-cur-lrdecay0.3.pt --out results/Z1-pilot/margin-profile-s5core.json
 """
 import argparse
@@ -31,15 +35,18 @@ def gaps(logits, target):
     return true - other
 
 
-def survivors(gap):
-    """(n, T) bool: the positions strictly before the sequence's first error (a gap <= 0); a sequence without an error keeps every position."""
-    wrong = gap <= 0
+def survivors(gap, wrong=None):
+    """(n, T) bool: the positions strictly before the sequence's first error; a sequence without an error keeps every position. `wrong` = the boolean error mask (argmax != target, the
+    definition of `depth_run`); without it the gap is used (an error = gap <= 0)."""
+    if wrong is None:
+        wrong = gap <= 0
     first = torch.where(wrong.any(1), wrong.int().argmax(1), torch.full((gap.shape[0],), gap.shape[1]))
     return torch.arange(gap.shape[1]).unsqueeze(0) < first.unsqueeze(1)
 
 
 def window_stats(gap, alive, windows=WINDOWS):
-    """{'lo-hi': dict(n, mean, std, p1, p5, p50, below={'1.0': fraction, ...})} over the survivors of each window (windows past the evaluated length are dropped)."""
+    """{'lo-hi': dict(n, sequences, mean, std, p1, p5, p50, below={'1.0': fraction, ...})} over the survivors of each half-open window [lo, hi) (windows past the evaluated length are
+    dropped); `sequences` = how many sequences contribute at least one position."""
     out = {}
     for lo, hi in windows:
         if lo >= gap.shape[1]:
@@ -47,26 +54,28 @@ def window_stats(gap, alive, windows=WINDOWS):
         hi = min(hi, gap.shape[1])
         g = gap[:, lo:hi][alive[:, lo:hi]]
         if g.numel() == 0:
-            out[f'{lo}-{hi}'] = dict(n=0)
+            out[f'{lo}-{hi}'] = dict(n=0, sequences=0)
             continue
         q = torch.quantile(g.float(), torch.tensor(QUANTILES))
-        out[f'{lo}-{hi}'] = dict(n=int(g.numel()), mean=float(g.mean()), std=float(g.std()) if g.numel() > 1 else None, p1=float(q[0]), p5=float(q[1]), p50=float(q[2]),
-                                 below={str(t): float((g < t).float().mean()) for t in NEAR})
+        out[f'{lo}-{hi}'] = dict(n=int(g.numel()), sequences=int(alive[:, lo:hi].any(1).sum()), mean=float(g.mean()), std=float(g.std()) if g.numel() > 1 else None,
+                                 p1=float(q[0]), p5=float(q[1]), p50=float(q[2]), below={str(t): float((g < t).float().mean()) for t in NEAR})
     return out
 
 
 EROSION_BASE = '16-64'
 EROSION_LATE = ('512-1024', '256-512')       # the latest window that still has enough surviving positions
 MIN_LATE_N = 500
+MIN_LATE_SEQUENCES = 20                      # ... contributed by at least this many sequences (blind review R2-16: 500 positions can come from a single survivor)
 FLAT_BAND = 0.15
 EROSION_RATIO = 0.7
 
 
 def erosion(windows):
-    """Descriptive summary used by E-K4 / E-K5 (program note 5.23): ratio = the mean gap of the latest window with >= MIN_LATE_N surviving positions / the mean gap of [16, 64).
-    EROSION when ratio <= 0.7, FLAT when within +-15 % of 1, GROWTH above 1.15, PARTIAL in between; NO DATA without both windows. Also the near-miss (< 2 nat) fractions."""
+    """Descriptive summary used by E-K4 / E-K5 (program note 5.23): ratio = the mean gap of the latest window with >= MIN_LATE_N surviving positions from >= MIN_LATE_SEQUENCES sequences
+    / the mean gap of [16, 64). EROSION when ratio <= 0.7, FLAT when within +-15 % of 1, GROWTH above 1.15, PARTIAL in between; NO DATA without both windows. Also the near-miss
+    (< 2 nat) fractions. Windows stored before `sequences` existed count as having enough sequences."""
     base = windows.get(EROSION_BASE)
-    late_key = next((k for k in EROSION_LATE if windows.get(k, {}).get('n', 0) >= MIN_LATE_N), None)
+    late_key = next((k for k in EROSION_LATE if windows.get(k, {}).get('n', 0) >= MIN_LATE_N and windows[k].get('sequences', MIN_LATE_SEQUENCES) >= MIN_LATE_SEQUENCES), None)
     if not base or not base.get('n') or late_key is None:
         return dict(verdict='NO DATA')
     late = windows[late_key]
@@ -79,14 +88,18 @@ def erosion(windows):
 def profile(weights, length=1024, n=100, batch=50):
     """The margin profile of one saved arm on the dev sequences the hazard evaluation draws at `length` (same draw: seed, task, length, n)."""
     meta = torch.load(weights, weights_only=True)['meta']
+    if dt.is_count(meta['task']):
+        raise ValueError('the margin profile is defined for the permutation tasks')
     model = dr.load_model(weights).eval()
     x, y, _ = dt.heldout(dr.NAMESPACE, meta['task'], meta['seed'], 'dev', n, length)
-    parts = []
+    parts, wrongs = [], []
     with torch.no_grad():
         for at in range(0, n, batch):
-            parts.append(gaps(model(x[at:at + batch]), y[at:at + batch]))
+            logits = model(x[at:at + batch])
+            parts.append(gaps(logits, y[at:at + batch]))
+            wrongs.append(logits.argmax(-1) != y[at:at + batch])           # the error definition of depth_run.first_error_hazard
     gap = torch.cat(parts)
-    alive = survivors(gap)
+    alive = survivors(gap, torch.cat(wrongs))
     windows = window_stats(gap, alive)
     return dict(weights=str(weights), arm=meta['arm'], task=meta['task'], width=meta['width'], seed=meta['seed'], n=n, length=length, windows=windows,
                 sequences_without_error=int((alive.all(1)).sum()), erosion=erosion(windows))

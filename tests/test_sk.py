@@ -177,7 +177,36 @@ class Runner(unittest.TestCase):
         self.assertEqual(r['arms']['gru']['final_stage'], [dict(stopped_at_walk=1, reached_last_stage_at=None, steps=1000),
                                                           dict(stopped_at_walk=2, reached_last_stage_at=800, steps=1000)])
         self.assertEqual(r['arms']['core']['final_stage'], [dict(stopped_at_walk=None, reached_last_stage_at=None, steps=None)] * 2)
-        self.assertEqual(r['verdict'], 'ADVANTAGE (LEARNABILITY)')                       # the verdict is untouched: the rivals did not learn the range
+        self.assertTrue(r['verdict'].startswith('ADVANTAGE (LEARNABILITY)'))              # the label is untouched: the rivals did not learn the range ...
+        self.assertIn('RIVAL BUDGET-LIMITED: gru', r['verdict'])                          # ... but the second seed reached the last stage at 800 of 1,000 updates: qualified (R2-5)
+
+    def test_no_rival_and_unfinished_rivals_are_refused_the_boundary_counts_and_seeds_are_unique(self):
+        self.assertEqual(self.read({'core': [(0.99, 0.8), (0.99, 0.8)]})['verdict'], 'NO RIVAL RUNS')                   # blind review R2-4
+        unfinished = [self.result('core', 1, 0.99, 0.8), self.result('core', 2, 0.99, 0.8),
+                      dict(arm='gru', seed=1, in_range=0.99, extrapolation=None, state_extrapolation=None), dict(arm='gru', seed=2, in_range=0.99, extrapolation=None, state_extrapolation=None)]
+        self.assertTrue(run.reading(unfinished)['verdict'].startswith('INCOMPLETE'))                                       # a learned rival without an extrapolation value
+        # R2-12: a learned rival exactly 0.05 below the Core is NO ADVANTAGE (0.8 - 0.05 is 0.7500000000000001 in floats)
+        self.assertEqual(self.read({'core': [(0.99, 0.80), (0.99, 0.80)], 'gru': [(0.99, 0.75), (0.99, 0.75)]})['verdict'], 'NO ADVANTAGE')
+        # R2-13: the state extrapolation averages the values that exist; the same seed twice is an error
+        t = run.reading([self.result('core', 1, 0.99, 0.8), self.result('core', 2, 0.99, 0.8), dict(arm='gru', seed=1, in_range=0.99, extrapolation=0.3, state_extrapolation=0.9),
+                         dict(arm='gru', seed=2, in_range=0.99, extrapolation=0.3, state_extrapolation=None)])
+        self.assertAlmostEqual(t['arms']['gru']['state_extrapolation'], 0.9)
+        with self.assertRaises(ValueError):
+            run.reading([self.result('core', 1, 0.99, 0.8), self.result('core', 1, 0.99, 0.8)])
+
+    def test_a_rival_that_may_have_run_out_of_budget_qualifies_an_advantage(self):
+        curriculum = [0, 1, 2, 3, 4, 6, 8, 12, 16]
+
+        def rival(seed, walk, reached_at, in_range):
+            train = dict(curriculum=curriculum, final_stage_walk=walk, advances=([dict(step=reached_at, from_walk=12, to_walk=16)] if reached_at else []), steps=15000)
+            return dict(arm='gru', seed=seed, in_range=in_range, extrapolation=0.1, state_extrapolation=0.9, train=train)
+
+        core = [self.result('core', s, 0.99, 0.8) for s in (1, 2)]
+        late = run.reading(core + [rival(1, 16, 14000, 0.93), rival(2, 16, 14000, 0.93)])                                  # reached walk 16 at 93 % of the updates
+        self.assertTrue(late['verdict'].startswith('ADVANTAGE (LEARNABILITY) (RIVAL BUDGET-LIMITED: gru'))
+        self.assertEqual(run.reading(core + [rival(1, 1, None, 0.4), rival(2, 1, None, 0.4)])['verdict'], 'ADVANTAGE (LEARNABILITY)')     # stuck at walk 1: capacity-like
+        self.assertIn('RIVAL BUDGET-LIMITED', run.reading(core + [rival(1, 8, None, 0.6), rival(2, 8, None, 0.6)])['verdict'])           # still climbing at walk 8
+        self.assertEqual(run.reading(core + [rival(1, 16, 3000, 0.93), rival(2, 16, 3000, 0.93)])['verdict'], 'ADVANTAGE (LEARNABILITY)')  # early and still failed: a real failure
 
     def test_every_arm_accepts_the_task(self):
         from horizon.depth_models import ARMS, make_arm
