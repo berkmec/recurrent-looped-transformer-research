@@ -121,6 +121,48 @@ class LearningRateDecayReading(unittest.TestCase):
         self.assertIsNone(rd.ep3_arm('lstm', directory=self.dir)['sufficient_floor'])
 
 
+class SeedLotteryReading(unittest.TestCase):
+    """E-P4: per arm over seeds 1-5, constant lr vs annealed: a run 'has a floor' when its pooled hazard is >= 2e-4 and its range is learned."""
+
+    def setUp(self):
+        self.tmp = tempfile.TemporaryDirectory()
+        self.dir = self.tmp.name
+
+    def tearDown(self):
+        self.tmp.cleanup()
+
+    def plant(self, constant, decayed, final=0.99):
+        for seed, events in enumerate(constant, start=1):
+            write(self.dir, f'perm4-gru-w64-s{seed}-cur.json', perm_result(final, events, 203_200))
+        for seed, events in enumerate(decayed, start=1):
+            write(self.dir, f'perm4-gru-w64-s{seed}-cur-lrdecay0.3.json', perm_result(final, events, 203_200))
+
+    def read(self):
+        return rd.ep4(directory=self.dir, arms=('gru',))['gru']
+
+    def test_artefact_confirmed_when_the_floor_is_typical_at_constant_lr_and_gone_when_annealed(self):
+        self.plant([150, 90, 3, 120, 60], [0, 1, 0, 2, 0])            # floors in 4 of 5 constant runs (>= 41 events), none annealed
+        r = self.read()
+        self.assertEqual((r['verdict'], r['constant_with_floor'], r['decayed_with_floor']), ('ARTEFACT CONFIRMED', 4, 0))
+
+    def test_lottery_when_the_constant_lr_floor_is_the_exception(self):
+        self.plant([150, 2, 3, 0, 60], [0, 0, 0, 0, 0])               # floors in 2 of 5: seed 1 was unlucky
+        self.assertEqual(self.read()['verdict'], 'LOTTERY')
+
+    def test_not_removed_when_two_annealed_runs_keep_the_floor_and_incomplete_is_flagged(self):
+        self.plant([150, 90, 80, 120, 60], [0, 70, 0, 90, 0])
+        self.assertEqual(self.read()['verdict'], 'NOT REMOVED')
+        (Path(self.dir) / 'perm4-gru-w64-s5-cur-lrdecay0.3.json').unlink()
+        self.assertTrue(self.read()['verdict'].endswith('(INCOMPLETE)'))
+
+    def test_a_run_whose_range_was_not_learned_is_not_counted_either_way(self):
+        self.plant([150, 90, 80, 120, 60], [0, 0, 0, 0, 0])
+        write(self.dir, 'perm4-gru-w64-s2-cur.json', perm_result(0.5, 150, 203_200))                  # not learned: no floor counted
+        r = self.read()
+        self.assertEqual(r['constant_with_floor'], 4)
+        self.assertFalse(r['runs']['constant'][2]['valid'])
+
+
 def count_result(prefix8, first_descent):
     curve = {'8': dict(prefix=prefix8, reentry=None)}
     for depth, value in first_descent.items():

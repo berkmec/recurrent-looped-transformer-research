@@ -3,6 +3,7 @@
   python -B -m horizon.readings ed            # noise-trained S4 GRU / LSTM against the best baseline seed
   python -B -m horizon.readings ep            # E-P: S4 GRU / LSTM trained with the learning rate decayed over the last 30 % (same rule as E-D; SUPPORTED = DECAY FIXES)
   python -B -m horizon.readings ep3           # E-P3: lr floor dose-response (0.3 / 0.1 / 0.03 / 0.01 x the base rate) on the S4 GRU / LSTM w64; the shallowest sufficient floor
+  python -B -m horizon.readings ep4           # E-P4: S4 GRU / LSTM w64, seeds 1-5, constant vs annealed: is the floor typical (ARTEFACT CONFIRMED) or a seed lottery?
   python -B -m horizon.readings ep5           # E-P2: the same for the S5 Core w128, GRU w256 and LSTM w208 (seed 1)
   python -B -m horizon.readings epseeds       # E-P2 replicates: S4 GRU / LSTM w64, seeds 2 and 3 against their own seed's constant-lr baseline
   python -B -m horizon.readings ec            # scale-diverse excursion counter (count8_32 and count8_64, LSTM and GRU)
@@ -89,6 +90,33 @@ def ep3_arm(arm, floors=FLOORS, directory=RESULTS, width=64, baseline_seeds=(1, 
     return out
 
 
+FLOOR_HAZARD = 2e-4
+
+
+def ep4(directory=RESULTS, arms=('gru', 'lstm'), seeds=(1, 2, 3, 4, 5), width=64):
+    """E-P4 (note 5.14): is the S4 constant-lr floor TYPICAL (and annealing removes it) or a seed lottery? Per arm, over the training seeds, each run's pooled first-error
+    hazard (all windows, as E-D / E-P) is compared with FLOOR_HAZARD = 2e-4 (>= 41 first errors in 203,200 sequence-steps); a run counts only if its in-range accuracy is
+    >= 0.95. c = constant-lr runs with a floor, d = annealed runs (`-lrdecay0.3`) with a floor. NOT REMOVED: d >= 2; LOTTERY: c <= 2; ARTEFACT CONFIRMED: c >= 3 and d <= 1.
+    A verdict is INCOMPLETE (suffix) until every seed of both conditions exists."""
+    out = {}
+    for arm in arms:
+        rows = {'constant': {}, 'decayed': {}}
+        for cond, suffix in (('constant', ''), ('decayed', '-lrdecay0.3')):
+            for seed in seeds:
+                path = Path(directory) / f'perm4-{arm}-w{width}-s{seed}-cur{suffix}.json'
+                if path.exists():
+                    result = _load(path)
+                    rate, events, exposure = pooled_rate(result)
+                    rows[cond][seed] = dict(hazard=rate, events=events, exposure=exposure, in_range=result['curve']['16']['final'],
+                                            valid=result['curve']['16']['final'] >= 0.95, floor=(rate is not None and rate >= FLOOR_HAZARD))
+        c = sum(r['floor'] for r in rows['constant'].values() if r['valid'])
+        d = sum(r['floor'] for r in rows['decayed'].values() if r['valid'])
+        complete = all(len(rows[k]) == len(seeds) for k in rows)
+        verdict = 'NOT REMOVED' if d >= 2 else 'LOTTERY' if c <= 2 else 'ARTEFACT CONFIRMED' if c >= 3 and d <= 1 else 'MIXED'
+        out[arm] = dict(verdict=verdict if complete else verdict + ' (INCOMPLETE)', constant_with_floor=c, decayed_with_floor=d, runs=rows)
+    return out
+
+
 def rho_of(result, r_max, first=16):
     """The extrapolation factor: the largest depth reached through consecutive evaluated depths (from `first` on) whose first descent is >= 0.95, over r_max."""
     best = 0
@@ -163,6 +191,8 @@ def main():
         print(json.dumps([ed_arm('gru'), ed_arm('lstm')], indent=1, default=str))
     elif which == 'ep':
         print(json.dumps([ed_arm('gru', sigmas=(0.3,), tag='lrdecay'), ed_arm('lstm', sigmas=(0.3,), tag='lrdecay')], indent=1, default=str))
+    elif which == 'ep4':      # E-P4: seeds 1-5, constant vs annealed (note 5.14)
+        print(json.dumps(ep4(), indent=1, default=str))
     elif which == 'ep3':      # E-P3: lr floor dose-response on the S4 GRU / LSTM w64 (note 5.12)
         print(json.dumps([ep3_arm('gru'), ep3_arm('lstm')], indent=1, default=str))
     elif which == 'ep5':      # E-P2: the S5 arms (note 5.11), seed 1 against the stored seed-1 baselines
@@ -177,7 +207,7 @@ def main():
     elif which == 'ec0':
         print(json.dumps(ec0(), indent=1, default=str))
     else:
-        raise SystemExit('usage: python -B -m horizon.readings ed|ep|ep3|ep5|epseeds|ec|ec0')
+        raise SystemExit('usage: python -B -m horizon.readings ed|ep|ep3|ep4|ep5|epseeds|ec|ec0')
 
 
 if __name__ == '__main__':
