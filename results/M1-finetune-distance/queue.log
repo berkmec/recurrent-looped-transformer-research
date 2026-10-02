@@ -398,3 +398,9 @@
 [13:57:19] BITTI Z1 perm5-core_clean-w128-s1-cur-lrdecay0.3-noise0.1-open0.3
 [13:57:19] E-A10 kuyruk BITTI (a)
 [13:57:20] BASLA Z1 perm5-core-w128-s2-cur (E-R5; CPU, 1 parcacik, 30000 adim, lr 0.003 sabit, genislik 128, tohum 2, mufredat 1,2,3,4,6,8,12,16)
+[14:06:21] ZINCIR-DEGISIKLIGI 31: hafif ucuncu lane: E-A9c bitince E-A11p (marj kapili etiketsiz retrofit; not 5.36, kural commit 29f5966 koşudan once) -> E-L1X -> betimleyici run_ext.sh (ZINCIR 30'un yerine); E-A10 (b)/(c)/(a') BASLATILMAYACAK (not 5.28.1)
+[14:21:22] BITTI Z1 perm5-core-w256-s1-cur-lrdecay0.3
+[14:21:22] E-K5 kuyruk BITTI
+[14:21:26] BASLA ES sk3-lstm-w112-s1 (CPU, 1 parcacik, 15000 adim, lr 0.003 son %30'da ~0'a, mufredat 0..16)
+[14:27:40] BITTI E-A9L (bkz results/Z1-pilot/snap-long.txt)
+[14:27:41] BASLA E-A5x (CPU, 1 parcacik): durum sapmasinin yasa gore buyumesi (sistematik / rastgele), 5 Core modeli, egitimsiz, betimleyici

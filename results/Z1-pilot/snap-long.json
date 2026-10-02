@@ -1,0 +1,350 @@
+[
+ {
+  "weights": "results/Z1-pilot/perm5-core-w128-s1-cur.pt",
+  "task": "perm5",
+  "width": 128,
+  "seed": 1,
+  "window": 64,
+  "equivalence": {
+   "length": 4096,
+   "n": 8,
+   "window": 64,
+   "positions": 1.0,
+   "sequences": 1.0,
+   "first_errors_full": 0,
+   "first_errors_windowed": 0
+  },
+  "lengths": {
+   "32768": {
+    "n": 40,
+    "conditions": {
+     "class-16": {
+      "events": 0,
+      "person_steps": 1310080,
+      "label": "CLEAN",
+      "final": 1.0,
+      "error_free": 40,
+      "windows": {
+       "16-256": {
+        "events": 0,
+        "person_steps": 9600,
+        "at_risk": 40
+       },
+       "256-1024": {
+        "events": 0,
+        "person_steps": 30720,
+        "at_risk": 40
+       },
+       "1024-4096": {
+        "events": 0,
+        "person_steps": 122880,
+        "at_risk": 40
+       },
+       "4096-16384": {
+        "events": 0,
+        "person_steps": 491520,
+        "at_risk": 40
+       },
+       "16384-32768": {
+        "events": 0,
+        "person_steps": 655360,
+        "at_risk": 40
+       }
+      }
+     },
+     "class-1": {
+      "events": 0,
+      "person_steps": 1310080,
+      "label": "CLEAN",
+      "final": 1.0,
+      "error_free": 40,
+      "windows": {
+       "16-256": {
+        "events": 0,
+        "person_steps": 9600,
+        "at_risk": 40
+       },
+       "256-1024": {
+        "events": 0,
+        "person_steps": 30720,
+        "at_risk": 40
+       },
+       "1024-4096": {
+        "events": 0,
+        "person_steps": 122880,
+        "at_risk": 40
+       },
+       "4096-16384": {
+        "events": 0,
+        "person_steps": 491520,
+        "at_risk": 40
+       },
+       "16384-32768": {
+        "events": 0,
+        "person_steps": 655360,
+        "at_risk": 40
+       }
+      }
+     },
+     "nearest-16": {
+      "events": 0,
+      "person_steps": 1310080,
+      "label": "CLEAN",
+      "final": 1.0,
+      "error_free": 40,
+      "windows": {
+       "16-256": {
+        "events": 0,
+        "person_steps": 9600,
+        "at_risk": 40
+       },
+       "256-1024": {
+        "events": 0,
+        "person_steps": 30720,
+        "at_risk": 40
+       },
+       "1024-4096": {
+        "events": 0,
+        "person_steps": 122880,
+        "at_risk": 40
+       },
+       "4096-16384": {
+        "events": 0,
+        "person_steps": 491520,
+        "at_risk": 40
+       },
+       "16384-32768": {
+        "events": 0,
+        "person_steps": 655360,
+        "at_risk": 40
+       }
+      }
+     }
+    }
+   },
+   "131072": {
+    "n": 8,
+    "conditions": {
+     "class-16": {
+      "events": 0,
+      "person_steps": 1048448,
+      "label": "CLEAN",
+      "final": 1.0,
+      "error_free": 8,
+      "windows": {
+       "16-256": {
+        "events": 0,
+        "person_steps": 1920,
+        "at_risk": 8
+       },
+       "256-1024": {
+        "events": 0,
+        "person_steps": 6144,
+        "at_risk": 8
+       },
+       "1024-4096": {
+        "events": 0,
+        "person_steps": 24576,
+        "at_risk": 8
+       },
+       "4096-16384": {
+        "events": 0,
+        "person_steps": 98304,
+        "at_risk": 8
+       },
+       "16384-32768": {
+        "events": 0,
+        "person_steps": 131072,
+        "at_risk": 8
+       },
+       "32768-65536": {
+        "events": 0,
+        "person_steps": 262144,
+        "at_risk": 8
+       },
+       "65536-131072": {
+        "events": 0,
+        "person_steps": 524288,
+        "at_risk": 8
+       }
+      }
+     }
+    }
+   }
+  }
+ },
+ {
+  "weights": "results/Z1-pilot/perm5-core-w128-s1-cur-lrdecay0.3.pt",
+  "task": "perm5",
+  "width": 128,
+  "seed": 1,
+  "window": 64,
+  "equivalence": {
+   "length": 4096,
+   "n": 8,
+   "window": 64,
+   "positions": 1.0,
+   "sequences": 1.0,
+   "first_errors_full": 0,
+   "first_errors_windowed": 0
+  },
+  "lengths": {
+   "32768": {
+    "n": 40,
+    "conditions": {
+     "class-16": {
+      "events": 0,
+      "person_steps": 1310080,
+      "label": "CLEAN",
+      "final": 1.0,
+      "error_free": 40,
+      "windows": {
+       "16-256": {
+        "events": 0,
+        "person_steps": 9600,
+        "at_risk": 40
+       },
+       "256-1024": {
+        "events": 0,
+        "person_steps": 30720,
+        "at_risk": 40
+       },
+       "1024-4096": {
+        "events": 0,
+        "person_steps": 122880,
+        "at_risk": 40
+       },
+       "4096-16384": {
+        "events": 0,
+        "person_steps": 491520,
+        "at_risk": 40
+       },
+       "16384-32768": {
+        "events": 0,
+        "person_steps": 655360,
+        "at_risk": 40
+       }
+      }
+     },
+     "class-1": {
+      "events": 0,
+      "person_steps": 1310080,
+      "label": "CLEAN",
+      "final": 1.0,
+      "error_free": 40,
+      "windows": {
+       "16-256": {
+        "events": 0,
+        "person_steps": 9600,
+        "at_risk": 40
+       },
+       "256-1024": {
+        "events": 0,
+        "person_steps": 30720,
+        "at_risk": 40
+       },
+       "1024-4096": {
+        "events": 0,
+        "person_steps": 122880,
+        "at_risk": 40
+       },
+       "4096-16384": {
+        "events": 0,
+        "person_steps": 491520,
+        "at_risk": 40
+       },
+       "16384-32768": {
+        "events": 0,
+        "person_steps": 655360,
+        "at_risk": 40
+       }
+      }
+     },
+     "nearest-16": {
+      "events": 0,
+      "person_steps": 1310080,
+      "label": "CLEAN",
+      "final": 1.0,
+      "error_free": 40,
+      "windows": {
+       "16-256": {
+        "events": 0,
+        "person_steps": 9600,
+        "at_risk": 40
+       },
+       "256-1024": {
+        "events": 0,
+        "person_steps": 30720,
+        "at_risk": 40
+       },
+       "1024-4096": {
+        "events": 0,
+        "person_steps": 122880,
+        "at_risk": 40
+       },
+       "4096-16384": {
+        "events": 0,
+        "person_steps": 491520,
+        "at_risk": 40
+       },
+       "16384-32768": {
+        "events": 0,
+        "person_steps": 655360,
+        "at_risk": 40
+       }
+      }
+     }
+    }
+   },
+   "131072": {
+    "n": 8,
+    "conditions": {
+     "class-16": {
+      "events": 0,
+      "person_steps": 1048448,
+      "label": "CLEAN",
+      "final": 1.0,
+      "error_free": 8,
+      "windows": {
+       "16-256": {
+        "events": 0,
+        "person_steps": 1920,
+        "at_risk": 8
+       },
+       "256-1024": {
+        "events": 0,
+        "person_steps": 6144,
+        "at_risk": 8
+       },
+       "1024-4096": {
+        "events": 0,
+        "person_steps": 24576,
+        "at_risk": 8
+       },
+       "4096-16384": {
+        "events": 0,
+        "person_steps": 98304,
+        "at_risk": 8
+       },
+       "16384-32768": {
+        "events": 0,
+        "person_steps": 131072,
+        "at_risk": 8
+       },
+       "32768-65536": {
+        "events": 0,
+        "person_steps": 262144,
+        "at_risk": 8
+       },
+       "65536-131072": {
+        "events": 0,
+        "person_steps": 524288,
+        "at_risk": 8
+       }
+      }
+     }
+    }
+   }
+  }
+ }
+]

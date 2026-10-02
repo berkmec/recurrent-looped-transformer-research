@@ -1,0 +1,37 @@
+results/Z1-pilot/perm5-core-w128-s1-cur.pt: perm5 width 128
+  equivalence {"length": 4096, "n": 8, "window": 64, "positions": 1.0, "sequences": 1.0, "first_errors_full": 0, "first_errors_windowed": 0}
+  length  32768 n 40 class-16    first errors 0/1310080 person-steps  CLEAN  error-free sequences 40/40  (431 s)
+  length  32768 n 40 class-1     first errors 0/1310080 person-steps  CLEAN  error-free sequences 40/40  (462 s)
+  length  32768 n 40 nearest-16  first errors 0/1310080 person-steps  CLEAN  error-free sequences 40/40  (442 s)
+  length 131072 n  8 class-16    first errors 0/1048448 person-steps  CLEAN  error-free sequences 8/8  (1196 s)
+perm5 w128 (window 64); equivalence {"length": 4096, "n": 8, "window": 64, "positions": 1.0, "sequences": 1.0, "first_errors_full": 0, "first_errors_windowed": 0}
+  32768: class-16 0/1310080 CLEAN  class-1 0/1310080 CLEAN  nearest-16 0/1310080 CLEAN
+  131072: class-16 0/1048448 CLEAN
+results/Z1-pilot/perm5-core-w128-s1-cur-lrdecay0.3.pt: perm5 width 128
+  equivalence {"length": 4096, "n": 8, "window": 64, "positions": 1.0, "sequences": 1.0, "first_errors_full": 0, "first_errors_windowed": 0}
+  length  32768 n 40 class-16    first errors 0/1310080 person-steps  CLEAN  error-free sequences 40/40  (431 s)
+  length  32768 n 40 class-1     first errors 0/1310080 person-steps  CLEAN  error-free sequences 40/40  (472 s)
+  length  32768 n 40 nearest-16  first errors 0/1310080 person-steps  CLEAN  error-free sequences 40/40  (436 s)
+  length 131072 n  8 class-16    first errors 0/1048448 person-steps  CLEAN  error-free sequences 8/8  (1199 s)
+perm5 w128 (window 64); equivalence {"length": 4096, "n": 8, "window": 64, "positions": 1.0, "sequences": 1.0, "first_errors_full": 0, "first_errors_windowed": 0}
+  32768: class-16 0/1310080 CLEAN  class-1 0/1310080 CLEAN  nearest-16 0/1310080 CLEAN
+  131072: class-16 0/1048448 CLEAN
+{
+ "verdict": "EXACT TO 131,072",
+ "per_length": {
+  "32768": {
+   "labels": [
+    "CLEAN",
+    "CLEAN"
+   ],
+   "ok": true
+  },
+  "131072": {
+   "labels": [
+    "CLEAN",
+    "CLEAN"
+   ],
+   "ok": true
+  }
+ }
+}
