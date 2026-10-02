@@ -48,6 +48,10 @@ class IntervenedCore(Core):
 
     iv = None
 
+    def step(self, x, state=None):
+        # the streaming path runs the ENCODER's attention non-causally with a single query, which the shape test below would take for a memory read
+        raise NotImplementedError('IntervenedCore is defined for forward() with the encoder run over the whole prefix; step() is not supported')
+
     def attend(self, q, k, v, causal=False):
         iv = self.iv
         if causal:

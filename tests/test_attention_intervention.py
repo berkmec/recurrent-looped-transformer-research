@@ -52,6 +52,11 @@ class BaseIsThePlainCore(unittest.TestCase):
         self.assertTrue(torch.allclose(plain, windowed, atol=1e-5))
         self.assertTrue(torch.allclose(plain[:, :16], tempered, atol=1e-5))
 
+    def test_the_streaming_step_path_is_refused_rather_than_silently_misclassified(self):
+        model = ai.intervene(make_arm('core', 'perm4', 32, 1), 'w16')
+        with self.assertRaises(NotImplementedError):
+            model.step(torch.zeros(2, dtype=torch.long))
+
     def test_unknown_names_and_other_arms_are_refused(self):
         with self.assertRaises(ValueError):
             ai.intervene(tiny(), 'w7')
