@@ -395,7 +395,7 @@ Taze dev dizileri, uzunluk 2.048 / 8.192 / 32.768 (eğitim uzunluğunun 128 / 51
 **Kayıtlı kullanım:** L1 geri beslemesi dil için yerel özellik taşıyor; "RLT geri beslemesi dilde uzun menzilli bellek sağlıyor" iddiası bu ölçekte (3.000 / 30.518 güncelleme) desteklenmiyor; gerçek model tasarımında geri besleme seyrek ya da kapatılabilir bir eklentiye indirgenebilir (§6.1); fayda sorusu için A0 ikizi hâlâ şart.
 **Sınırlar:** tek anlık görüntü ve tek tohum; eğitimin %10'unda (yapı sonradan değişebilir: ilerleyen anlık görüntülerde aynı kuralla tekrar planlandı, ≈ 6.000. adım); `other` dağılım-içi ama yanlış bir durum, `zero` dağılım-dışı; 3 vuruş konumu aynı dizilerden (SE hafif eksik); yalnız vuruştan sonra hasarı ölçer, durumun doğru kalması gerektiğinde faydasını değil.
 
-### 5.20.1 E-M5 SONUCU: marj profili (09:58 bitti, 10:02'de işlendi; `results/Z1-pilot/margin-profile.{txt,json}`; kural ve öngörüler §5.20, commit f9c03fa; betimleyici, karar yok) + E-P2 ekleri (E-B2 tekmesi, annealed S₅ Core)
+### 5.20.1 E-M5 SONUCU: marj profili (09:58 bitti, 10:00'da işlendi [ilk yazımda "10:02" demiştim, commit saatinden ileriydi]; `results/Z1-pilot/margin-profile.{txt,json}`; kural ve öngörüler §5.20, commit f9c03fa; betimleyici, karar yok) + E-P2 ekleri (E-B2 tekmesi, annealed S₅ Core)
 Marj = doğru sınıf logiti − en büyük diğer logit; yalnız hayatta kalan konumlar; n = 100, 1.024 konum. Pencere [0,16) / [16,64) / [64,128) / [128,256) / [256,512) / [512,1.024) için ortalama ± std (< 2 nat oranı):
 | model | marj profili |
 |---|---|
