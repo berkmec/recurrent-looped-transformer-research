@@ -182,6 +182,13 @@ Modeller (kayıtlı ağırlıklar, hepsi dev bölünmesi, tohum 1, n = 100, uzun
 - **Ö4:** S₄'ün dört GRU/LSTM modelinde gürültüsüz taban sırası (GRU w64 7,6e-4 > LSTM w64 5,3e-4 > LSTM w112 4,5e-4 > GRU w128 1,15e-4) ile σ_tol sırası ters orantılı (Spearman ρ ≤ −0,6).
 - Geçerlilik: σ = 0 satırı, kayıtlı sonuç dosyasındaki aynı noktaların erken-pencere ilk-hata sayılarını ve pozlanmayı üretmeli (Core: birebir; GRU/LSTM σ = 0'da elle açılmış hücrelerle koşar, kütüphane katmanıyla fark ≤ 1e-5: ≤ 2 ilk hata ve pozlanmanın %1'i kadar fark kabul; 06:33'te, koşudan önce eklendi). Üretmeyen modelin satırları okunmaz. Çürütme: Ö1 tutmazsa S₄ Core'un hatasızlığı marj kaynaklı değildir.
 
+### 5.2 E-D okuma kuralı (koşudan ÖNCE yazıldı; kod: `depth_run.train(state_noise=σ)` + `state_noise.NoisyRecurrent/NoisyCore`, 4 test; betik `scripts/run_ed.sh`)
+Koşular: S₄ GRU w64 ve LSTM w64, tohum 1, 15.000 güncelleme, müfredat 1,2,3,4,6,8,12,16, lr 3×10⁻³ (taban koşularla aynı), **eğitim-zamanı** durum gürültüsü σ_train ∈ {0,05; 0,1; 0,2} (6 koşu; sıra: 0,1 önce). Değerlendirme TEMİZ (σ = 0), Z1'in standart noktaları (16 … 1.024). Ölçüler: uzunluk 16'da son-konum doğruluğu (aralık-içi) ve tüm pencerelerde havuzlanmış ilk-hata oranı (`horizon/hazard_summary.py` ile). Tabanlar: `perm4-gru-w64-s1-cur` (7,6×10⁻⁴) ve `perm4-lstm-w64-s1-cur` (5,3×10⁻⁴); tohum 2-3 tabanları kuyruk 5'ten gelince **en iyi taban** (üç tohumun en düşüğü) karşılaştırma değeri olur (talih payını elemek için); gelene kadar yalnız tohum 1 tabanıyla "geçici" okunur.
+- **DESTEKLENİR** (kol başına): en az bir σ_train için aralık-içi doğruluk ≥ 0,99 VE havuzlanmış hazard ≤ (en iyi taban)/5.
+- **ÇÜRÜTÜLÜR** (kol başına): tüm σ_train için hazard ≥ (en iyi taban)/2 ya da aralık-içi doğruluk < 0,95.
+- **KARMA:** arası. Çok büyük σ_train'de öğrenmenin bozulması (aralık-içi doğruluk düşer) çürütme değil, sınır bulgusudur.
+- *Ek (mekanizma):* yeni modellerin E-B marj eğrisi: Gauss-havza modeli ve marj yorumu doğruysa örtük yarıçap σ_train ile artar (r(σ_train = 0,1) ≥ 1,5 × r(taban)); artmıyorsa hazard düşse bile "marj büyüdü" yorumu desteksizdir.
+
 ## 6. Gerçek model yolu
 
 1. **Ne iddia edilir:** "küçük, bayt-düzeyi bir RLT, durum-izleme/çok-adımlı görevlerde eşit-parametre ve eşit-token bir transformer'a yapısal bir üstünlük gösteriyor mu". LM kaybında üstünlük iddia edilmez (bağımsız değerlendirme bulamadı).

@@ -75,6 +75,29 @@ class NoiseProperties(unittest.TestCase):
             sn.noisy(make_arm('tfm', 'perm4', 32, 1), 0.1, 1)
 
 
+class TrainingHook(unittest.TestCase):
+    def test_noisy_training_returns_the_plain_arm_and_a_clean_deterministic_evaluation(self):
+        from horizon import depth_run as dr
+        for arm, width in (('core', 32), ('gru', 16), ('lstm', 16)):
+            model, trained = dr.train('perm3', arm, width, seed=1, steps=3, batch=8, curriculum=[4], state_noise=0.1)
+            self.assertEqual(trained['state_noise'], 0.1)
+            self.assertNotIsInstance(model, sn.NoisyCore)
+            self.assertNotIn('sigma', model.__dict__)
+            x = tokens('perm3', 2, 6)
+            model.eval()
+            with torch.no_grad():
+                self.assertTrue(torch.equal(model(x), model(x)), arm)
+
+    def test_noise_changes_what_is_learned_and_zero_noise_is_the_previous_behaviour(self):
+        from horizon import depth_run as dr
+        plain, _ = dr.train('perm3', 'gru', 16, seed=1, steps=5, batch=8, curriculum=[4])
+        zero, trained = dr.train('perm3', 'gru', 16, seed=1, steps=5, batch=8, curriculum=[4], state_noise=0.0)
+        noisy_, _ = dr.train('perm3', 'gru', 16, seed=1, steps=5, batch=8, curriculum=[4], state_noise=0.2)
+        self.assertEqual(trained['state_noise'], 0.0)
+        self.assertTrue(all(torch.equal(p, q) for p, q in zip(plain.parameters(), zero.parameters())))
+        self.assertFalse(all(torch.equal(p, q) for p, q in zip(plain.parameters(), noisy_.parameters())))
+
+
 class StoredCheck(unittest.TestCase):
     def test_stored_early_sums_the_windows_up_to_64_over_the_given_points(self):
         with tempfile.TemporaryDirectory() as d:

@@ -95,6 +95,15 @@ def noisy(model, sigma, seed):
     raise ValueError('state noise is defined for the Core, GRU and LSTM arms')
 
 
+def clean(model):
+    """Undo `noisy()` on a Core (back to the sealed class, no noise attributes left); other arms are never changed."""
+    if isinstance(model, NoisyCore):
+        model.__class__ = Core
+        for name in ('sigma', 'gen'):
+            model.__dict__.pop(name, None)
+    return model
+
+
 def margin_of(hazard):
     """m with erfc(m / sqrt 2) = hazard (bisection)."""
     lo, hi = 0.0, 12.0
