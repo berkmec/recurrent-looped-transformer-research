@@ -251,5 +251,30 @@ class LearningRateDecay(unittest.TestCase):
         self.assertEqual((d['lr_last'], d['lr_floor']), (0.01, 0.1))         # without a decay the floor changes nothing
 
 
+class FeedbackGain(unittest.TestCase):
+    def test_the_default_is_the_sealed_gain_bit_for_bit_and_a_different_gain_reaches_the_core_and_the_saved_file(self):
+        base = dict(seed=1, steps=6, batch=4, curriculum=[3], lr=0.01)
+        default, a = dr.train('perm3', 'core', 32, **base)
+        explicit, b = dr.train('perm3', 'core', 32, alpha=0.1, **base)
+        other, c = dr.train('perm3', 'core', 32, alpha=0.5, **base)
+        self.assertTrue(all(torch.equal(p, q) for p, q in zip(default.parameters(), explicit.parameters())))        # alpha 0.1 is the previous behaviour
+        self.assertEqual((default.alpha, other.alpha, a['alpha'], c['alpha']), (0.1, 0.5, 0.1, 0.5))
+        self.assertFalse(all(torch.equal(p, q) for p, q in zip(default.parameters(), other.parameters())))
+        with tempfile.TemporaryDirectory() as d:
+            path = Path(d) / 'm.pt'
+            dr.save_model(other, path, 'perm3', 'core', 32, 1, c)
+            self.assertEqual(dr.load_model(path).alpha, 0.5)                                                      # the round trip rebuilds the arm with ITS gain
+            raw = torch.load(path, weights_only=True)
+            del raw['meta']['alpha']                                                                              # a file saved before the option existed
+            torch.save(raw, path)
+            self.assertEqual(dr.load_model(path).alpha, 0.1)
+
+    def test_other_arms_ignore_the_gain(self):
+        base = dict(seed=1, steps=4, batch=4, curriculum=[3], lr=0.01)
+        m1, _ = dr.train('perm3', 'gru', 16, **base)
+        m2, _ = dr.train('perm3', 'gru', 16, alpha=0.9, **base)
+        self.assertTrue(all(torch.equal(p, q) for p, q in zip(m1.parameters(), m2.parameters())))
+
+
 if __name__ == '__main__':
     unittest.main()

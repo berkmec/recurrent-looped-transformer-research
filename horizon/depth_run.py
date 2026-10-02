@@ -34,7 +34,7 @@ def _log(message):
 
 
 def train(task, arm, width, seed, steps, batch=64, lr=3e-3, clip=1.0, weight_decay=0.01, namespace=None, log_every=0, log=_log,
-          curriculum=None, advance_at=0.97, min_stage_steps=200, window=100, state_noise=0.0, lr_decay_fraction=0.0, lr_floor=0.0):
+          curriculum=None, advance_at=0.97, min_stage_steps=200, window=100, state_noise=0.0, lr_decay_fraction=0.0, lr_floor=0.0, alpha=0.1):
     """curriculum: increasing training lengths, e.g. [2, 4, 8, 16]. The stage advances when the mean per-position accuracy over the last
     `window` updates reaches `advance_at` (and the stage has run at least `min_stage_steps` updates). The last length is the trained range;
     nothing beyond it is ever trained on. Without a curriculum every update uses the task's trained length.
@@ -42,10 +42,11 @@ def train(task, arm, width, seed, steps, batch=64, lr=3e-3, clip=1.0, weight_dec
     (E-D, `horizon/state_noise.py`); the returned model is the plain arm and evaluation is clean. 0 = no noise (the previous behaviour, bit for bit).
     lr_decay_fraction: E-P. The learning rate is constant (the previous behaviour, bit for bit) unless this is > 0: then it decays linearly to ~0 over the LAST
     fraction of the updates (0.3 = the last 30 %).
-    lr_floor: E-P3. The decay ends at lr * lr_floor instead of ~0 (0 = the E-P behaviour, bit for bit; 0.1 is the L1 long run's schedule). Ignored without a decay."""
+    lr_floor: E-P3. The decay ends at lr * lr_floor instead of ~0 (0 = the E-P behaviour, bit for bit; 0.1 is the L1 long run's schedule). Ignored without a decay.
+    alpha: the Core's feedback gain (the sealed Core's own parameter; 0.1 = the previous behaviour, bit for bit; ignored by the other arms)."""
     namespace = namespace or NAMESPACE
     lengths = list(curriculum) if curriculum else [dt.train_length(task)]
-    model = make_arm(arm, task, width, seed)
+    model = make_arm(arm, task, width, seed, alpha=alpha)
     forward = model
     if state_noise > 0:
         from .state_noise import noisy         # imported here: state_noise imports this module
@@ -80,7 +81,7 @@ def train(task, arm, width, seed, steps, batch=64, lr=3e-3, clip=1.0, weight_dec
         clean(model)
     return model, dict(steps=steps, batch=batch, lr=lr, clip=clip, guard=guard.summary(), history=history, curriculum=lengths, advances=advances,
                        final_stage_length=lengths[stage], train_seconds=time.perf_counter() - start, parameters=parameter_count(model),
-                       state_noise=state_noise, lr_decay_fraction=lr_decay_fraction, lr_floor=lr_floor, lr_last=lr_last)
+                       state_noise=state_noise, lr_decay_fraction=lr_decay_fraction, lr_floor=lr_floor, lr_last=lr_last, alpha=alpha)
 
 
 @torch.no_grad()
@@ -189,14 +190,14 @@ def save_model(model, path, task, arm, width, seed, trained):
     path = Path(path)
     path.parent.mkdir(parents=True, exist_ok=True)
     meta = dict(task=task, arm=arm, width=int(width), seed=int(seed), steps=int(trained['steps']), parameters=int(trained['parameters']),
-                curriculum=[int(v) for v in trained['curriculum']])
+                curriculum=[int(v) for v in trained['curriculum']], alpha=float(trained.get('alpha', 0.1)))
     torch.save(dict(state_dict=model.state_dict(), meta=meta), path)
 
 
 def load_model(path):
     raw = torch.load(path, weights_only=True)
     meta = raw['meta']
-    model = make_arm(meta['arm'], meta['task'], meta['width'], meta['seed'])
+    model = make_arm(meta['arm'], meta['task'], meta['width'], meta['seed'], alpha=float(meta.get('alpha', 0.1)))        # files saved before the alpha option carry no alpha: 0.1
     model.load_state_dict(raw['state_dict'])
     return model
 
@@ -250,13 +251,14 @@ def main():
     p.add_argument('--state-noise', type=float, default=0.0, help='relative Gaussian noise on the carried state during training only (E-D)')
     p.add_argument('--lr-decay-fraction', type=float, default=0.0, help='linear decay of the learning rate to ~0 over the last fraction of the updates (E-P); 0 = constant')
     p.add_argument('--lr-floor', type=float, default=0.0, help='the decay ends at lr * this instead of ~0 (E-P3); 0 = to ~0; ignored without --lr-decay-fraction')
+    p.add_argument('--alpha', type=float, default=0.1, help="the Core's feedback gain (the sealed default 0.1; ignored by the other arms)")
     p.add_argument('--out', required=True)
     a = p.parse_args()
     points = [int(v) for v in a.points.split(',')] if a.points else None
     curriculum = [int(v) for v in a.curriculum.split(',')] if a.curriculum else None
     r = run(a.task, a.arm, a.width, a.seed, a.steps, points=points, n_eval=a.n_eval, out=a.out, batch=a.batch, lr=a.lr, log_every=a.log_every,
             curriculum=curriculum, advance_at=a.advance_at, min_stage_steps=a.min_stage_steps, state_noise=a.state_noise,
-            lr_decay_fraction=a.lr_decay_fraction, lr_floor=a.lr_floor)
+            lr_decay_fraction=a.lr_decay_fraction, lr_floor=a.lr_floor, alpha=a.alpha)
     print(json.dumps({k: r[k] for k in ('task', 'arm', 'width', 'seed', 'learned_in_range', 'effective_horizon', 'horizon_metric', 'wall_seconds')}))
     for point, row in r['curve'].items():
         print(point, {k: (round(v, 3) if isinstance(v, float) else v) for k, v in row.items()})
