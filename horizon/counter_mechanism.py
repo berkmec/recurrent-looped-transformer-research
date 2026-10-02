@@ -17,48 +17,55 @@ from . import depth_run as dr
 from . import depth_tasks as dt
 
 
-def window_by_depth(pred, target, trajectory):
+def window_by_depth(pred, target, trajectory, peak=dt.TRAIN_DEPTH):
     """({true depth: [correct, positions]}, [correct, positions]) over the first-descent window of every sequence."""
-    mask = dt.reentry_mask(trajectory)
+    mask = dt.reentry_mask(trajectory, peak)
     ok = pred == target
     by_depth = {}
-    for depth in range(dt.TRAIN_DEPTH + 1):
+    for depth in range(peak + 1):
         at = mask & (trajectory == depth)
         if bool(at.any()):
             by_depth[depth] = [int((ok & at).sum()), int(at.sum())]
     return by_depth, [int((ok & mask).sum()), int(mask.sum())]
 
 
-def report(path, depths, n=100, split='dev', batch=8):
+def report(path, depths=None, n=100, split='dev', batch=8):
+    """depths: peak depths to test; default 2 and 8 times the trained peak of the model's task."""
     raw = torch.load(path, weights_only=True)
     meta = raw['meta']
+    task = meta['task']
+    peak = dt.peak(task)
+    depths = depths or [2 * peak, 8 * peak]
     model = dr.load_model(path)
     curve = {}
     for depth in depths:
-        length = dt.count_eval_length(depth)
-        x, y, _ = dt.heldout(dr.NAMESPACE, 'count', meta['seed'], split, n, length, depth=depth)
+        length = dt.count_eval_length(depth, task)
+        x, y, _ = dt.heldout(dr.NAMESPACE, task, meta['seed'], split, n, length, depth=depth)
         pred, target = dr._accuracy(model, x, y, batch)
-        by_depth, total = window_by_depth(pred, target, dt.depth_trajectory(x))
+        by_depth, total = window_by_depth(pred, target, dt.depth_trajectory(x), peak)
         curve[depth] = dict(length=length, window=total, by_true_depth=by_depth)
-    return dict(path=str(path), arm=meta['arm'], task=meta['task'], width=meta['width'], seed=meta['seed'], n=n, split=split, curve=curve)
+    return dict(path=str(path), arm=meta['arm'], task=task, width=meta['width'], seed=meta['seed'], peak=peak, n=n, split=split, curve=curve)
 
 
 def main():
     torch.set_num_threads(1)
     p = argparse.ArgumentParser()
     p.add_argument('weights', nargs='+')
-    p.add_argument('--depths', default='16,64', help='comma list of peak depths')
+    p.add_argument('--depths', default=None, help='comma list of peak depths (default: 2 and 8 times the trained peak)')
     p.add_argument('--n', type=int, default=100)
     p.add_argument('--out', default=None, help='write the JSON here as well')
     a = p.parse_args()
-    depths = [int(v) for v in a.depths.replace(' ', ',').split(',') if v]
+    depths = [int(v) for v in a.depths.replace(' ', ',').split(',') if v] if a.depths else None
     results = [report(path, depths, n=a.n) for path in a.weights]
     for r in results:
-        print(f"{r['arm']} w{r['width']} seed {r['seed']} ({r['path']})")
+        print(f"{r['arm']} {r['task']} w{r['width']} seed {r['seed']} (trained peak {r['peak']}; {r['path']})")
         for depth, row in r['curve'].items():
             correct, positions = row['window']
-            cells = ' '.join(f"d{d}:{c}/{m}" for d, (c, m) in sorted(row['by_true_depth'].items()))
-            print(f"  peak {depth:>3} (length {row['length']}): first descent {correct}/{positions} = {correct / max(positions, 1):.3f} | {cells}")
+            by = row['by_true_depth']
+            floor = by.get(0, [0, 0])
+            inner = [sum(v[0] for d, v in by.items() if d > 0), sum(v[1] for d, v in by.items() if d > 0)]
+            print(f"  peak {depth:>4} (length {row['length']}): first descent {correct}/{positions} = {correct / max(positions, 1):.3f} | "
+                  f"at the floor (depth 0) {floor[0]}/{floor[1]}, at depths 1..{r['peak']} {inner[0]}/{inner[1]}")
     if a.out:
         with open(a.out, 'w', encoding='utf8') as f:
             json.dump(results, f, indent=1)

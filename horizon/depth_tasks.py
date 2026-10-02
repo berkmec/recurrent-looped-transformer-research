@@ -9,6 +9,9 @@ Each task has a depth knob, so the amount of sequential computation can be pushe
                           with LABEL_CAP = TRAIN_DEPTH, so every output class occurs in training. The depth that must be held is a free
                           parameter (the peak D), unbounded in principle: the test climbs to D, comes back down, and asks for the depth
                           once it is back inside the trained range ("re-entry"), which can only be answered from an exact count.
+  count16 / count32 / count64
+                          the same counter trained to a larger peak P (16 / 32 / 64; training length 8 P, as `count` has P = 8 and length 64):
+                          does extrapolation appear once the finite-automaton solution (P + 1 states) gets expensive?
 
 Training uses short sequences (perm: length <= TRAIN_LENGTH, count: peak <= TRAIN_DEPTH); the claim under test is how far beyond
 that the learned recurrence still works.
@@ -23,7 +26,10 @@ TRAIN_DEPTH = 8
 LABEL_CAP = TRAIN_DEPTH     # a classifier cannot emit a class it never saw: the label saturates at the trained peak
 TRAIN_LENGTH = 16           # permutation tasks: depth = length
 COUNT_TRAIN_LENGTH = 64     # counter: long enough that the walk wanders for a long time inside depth <= TRAIN_DEPTH, so depth is the only thing extrapolated
-TASKS = {'perm3': dict(kind='perm', n=3), 'perm4': dict(kind='perm', n=4), 'perm5': dict(kind='perm', n=5), 'count': dict(kind='count')}
+TASKS = {'perm3': dict(kind='perm', n=3), 'perm4': dict(kind='perm', n=4), 'perm5': dict(kind='perm', n=5),
+         'count': dict(kind='count', peak=TRAIN_DEPTH, length=COUNT_TRAIN_LENGTH),       # the default counter: trained peak 8, length 64
+         'count16': dict(kind='count', peak=16, length=128), 'count32': dict(kind='count', peak=32, length=256),
+         'count64': dict(kind='count', peak=64, length=512)}                              # training length 8 x the trained peak
 _GROUPS = {}
 
 
@@ -49,6 +55,18 @@ def _spec(task):
     return TASKS[task]
 
 
+def is_count(task):
+    return _spec(task)['kind'] == 'count'
+
+
+def peak(task):
+    """The trained peak depth of a counter task: also its label cap, so every output class occurs in training."""
+    s = _spec(task)
+    if s['kind'] != 'count':
+        raise ValueError('only the counter has a trained peak: ' + str(task))
+    return s['peak']
+
+
 def vocab(task):
     s = _spec(task)
     return len(group(s['n'])[0]) if s['kind'] == 'perm' else 2
@@ -56,7 +74,7 @@ def vocab(task):
 
 def classes(task):
     s = _spec(task)
-    return len(group(s['n'])[0]) if s['kind'] == 'perm' else LABEL_CAP + 1
+    return len(group(s['n'])[0]) if s['kind'] == 'perm' else s['peak'] + 1
 
 
 def _token_matrix(x):
@@ -76,27 +94,27 @@ def depth_trajectory(x):
     return torch.from_numpy(out)
 
 
-def _after_exceeding(trajectory):
+def _after_exceeding(trajectory, peak=TRAIN_DEPTH):
     """(back_in_range, zeros_before): positions back inside the trained range after the sequence has been deeper than it, and for every
     position how many floor visits (depth 0 after having exceeded the trained depth) happened strictly before it."""
-    exceeded = trajectory.cummax(dim=1).values > TRAIN_DEPTH
+    exceeded = trajectory.cummax(dim=1).values > peak
     floor = (trajectory == 0) & exceeded
-    return exceeded & (trajectory <= TRAIN_DEPTH), floor.cumsum(dim=1) - floor.int()
+    return exceeded & (trajectory <= peak), floor.cumsum(dim=1) - floor.int()
 
 
-def reentry_mask(trajectory):
+def reentry_mask(trajectory, peak=TRAIN_DEPTH):
     """The FIRST descent: positions back inside the trained range after the sequence has been deeper than it, up to and including the
     first return to depth 0. Only an exact count of the excursion answers these (a counter that saturated or lost count is wrong here)."""
-    back, floor_visits = _after_exceeding(trajectory)
+    back, floor_visits = _after_exceeding(trajectory, peak)
     return back & (floor_visits == 0)
 
 
-def resync_mask(trajectory):
+def resync_mask(trajectory, peak=TRAIN_DEPTH):
     """Positions back inside the trained range AFTER that first floor visit. The floor resets the count (pops at 0 stay 0), so these positions
     measure how fast a model re-synchronises, not whether it counted the excursion. Positions deeper than the trained peak after the reset are
     not here: they belong to `deep`. Every position after the first exceedance is in exactly one of deep (depth above the peak), reentry
     (first descent) and resync (back in range after the first floor visit)."""
-    back, floor_visits = _after_exceeding(trajectory)
+    back, floor_visits = _after_exceeding(trajectory, peak)
     return back & (floor_visits >= 1)
 
 
@@ -104,7 +122,7 @@ def oracle(task, x):
     """Per-position labels for the token matrix x (n, length)."""
     s = _spec(task)
     if s['kind'] == 'count':
-        return torch.clamp(depth_trajectory(x), max=LABEL_CAP)
+        return torch.clamp(depth_trajectory(x), max=s['peak'])
     arr = _token_matrix(x)
     y = np.zeros_like(arr)
     table = group(s['n'])[2]
@@ -115,12 +133,12 @@ def oracle(task, x):
     return torch.from_numpy(y)
 
 
-def count_eval_length(depth):
+def count_eval_length(depth, task='count'):
     """Sequence length for a test sequence with peak `depth`: room to climb (~2D steps), descend (~2D) and wander back inside the range."""
-    return max(6 * int(depth), COUNT_TRAIN_LENGTH)
+    return max(6 * int(depth), train_length(task))
 
 
-def _count_tokens(rng, n, length, depth):
+def _count_tokens(rng, n, length, depth, trained_peak=TRAIN_DEPTH):
     """Push (0) / pop (1) tokens.
     Training (depth=None): the true depth never exceeds TRAIN_DEPTH. Each sequence opens with a random run of pushes (0..TRAIN_DEPTH), then
     walks with its own push probability drawn from [0.25, 0.75]; at the peak a push becomes a pop (reflecting), so 'push at depth
@@ -129,7 +147,7 @@ def _count_tokens(rng, n, length, depth):
     (push probability 0.25, reflecting at D) and wanders near the bottom. Both bias values lie inside the training range of statistics, so
     what changes at test is how deep the count has been, not which tokens occur."""
     training = depth is None
-    peak = TRAIN_DEPTH if training else int(depth)
+    peak = trained_peak if training else int(depth)
     ramp = rng.integers(0, peak + 1, size=n) if training else None
     p_push = rng.uniform(0.25, 0.75, size=n) if training else None
     current = np.zeros(n, dtype=np.int64)
@@ -158,7 +176,7 @@ def generate(task, n, length, seed, depth=None):
     if s['kind'] == 'perm':
         x = torch.from_numpy(rng.integers(0, vocab(task), size=(n, length)).astype(np.int64))
     else:
-        x = torch.from_numpy(_count_tokens(rng, n, length, depth))
+        x = torch.from_numpy(_count_tokens(rng, n, length, depth, s['peak']))
     return x, oracle(task, x)
 
 
@@ -168,7 +186,8 @@ def source_seed(namespace, task, seed, split, step=0, length=0, depth=0):
 
 
 def train_length(task):
-    return COUNT_TRAIN_LENGTH if _spec(task)['kind'] == 'count' else TRAIN_LENGTH
+    s = _spec(task)
+    return s['length'] if s['kind'] == 'count' else TRAIN_LENGTH
 
 
 def train_batch(namespace, task, seed, step, batch, length=None, depth=None):

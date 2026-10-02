@@ -104,8 +104,8 @@ def evaluate(model, task, points, n, seed, split='dev', namespace=None, batch=50
     namespace = namespace or NAMESPACE
     out = {}
     for point in points:
-        if task == 'count':
-            length = dt.count_eval_length(point)
+        if dt.is_count(task):
+            length = dt.count_eval_length(point, task)
             x, y, _ = dt.heldout(namespace, task, seed, split, n, length, depth=point)
         else:
             length = point
@@ -113,9 +113,10 @@ def evaluate(model, task, points, n, seed, split='dev', namespace=None, batch=50
         pred, target = _accuracy(model, x, y, batch)
         ok = pred == target
         row = dict(length=length, final=float(ok[:, -1].float().mean()), prefix=float(ok.float().mean()))
-        if task == 'count':
-            trajectory = dt.depth_trajectory(x)
-            deep, reentry, resync = trajectory > dt.TRAIN_DEPTH, dt.reentry_mask(trajectory), dt.resync_mask(trajectory)
+        if dt.is_count(task):
+            trajectory, trained_peak = dt.depth_trajectory(x), dt.peak(task)
+            deep = trajectory > trained_peak
+            reentry, resync = dt.reentry_mask(trajectory, trained_peak), dt.resync_mask(trajectory, trained_peak)
             # `deep` = accuracy where the true depth exceeds the trained peak. The label saturates there, so this measures whether the model keeps
             # emitting the saturated label (a model that always says LABEL_CAP scores 1.0, like a perfect counter); it does NOT measure counting.
             row['deep'] = float(ok[deep].float().mean()) if bool(deep.any()) else None
@@ -131,13 +132,13 @@ def evaluate(model, task, points, n, seed, split='dev', namespace=None, batch=50
     return out
 
 
-def evaluate_length_control(model, lengths, n, seed, split='dev', namespace=None, batch=50):
+def evaluate_length_control(model, lengths, n, seed, split='dev', namespace=None, batch=50, task='count'):
     """Counter only: the TRAINING distribution (depth never above the trained peak) on sequences far longer than the trained length.
     Separates 'cannot go deeper' from 'cannot go longer'."""
     namespace = namespace or NAMESPACE
     out = {}
     for length in lengths:
-        x, y, _ = dt.heldout(namespace, 'count', seed, split, n, length)
+        x, y, _ = dt.heldout(namespace, task, seed, split, n, length)
         pred, target = _accuracy(model, x, y, batch)
         ok = pred == target
         out[length] = dict(final=float(ok[:, -1].float().mean()), prefix=float(ok.float().mean()))
@@ -159,7 +160,9 @@ def effective_horizon(curve, key, threshold=THRESHOLD):
 
 
 def default_points(task):
-    return [8, 16, 32, 64, 128, 256] if task == 'count' else [16, 32, 64, 128, 256, 512, 1024]
+    if dt.is_count(task):       # multiples of the trained peak; the sequences are 6 x the point long, so the largest point is capped at 512
+        return [m * dt.peak(task) for m in (1, 2, 4, 8, 16, 32) if m * dt.peak(task) <= 512]
+    return [16, 32, 64, 128, 256, 512, 1024]
 
 
 def save_model(model, path, task, arm, width, seed, trained):
@@ -185,20 +188,23 @@ def run(task, arm, width, seed, steps, points=None, n_eval=100, out=None, **kw):
     if out:   # before the slow evaluation: a crash there must not lose the trained model
         save_model(model, Path(out).with_suffix('.pt'), task, arm, width, seed, trained)
     # a horizon only means something if the task was learned inside the trained range, so that point is ALWAYS evaluated (never fail open)
-    in_range_point = dt.TRAIN_DEPTH if task == 'count' else dt.TRAIN_LENGTH
-    in_range_key = 'prefix' if task == 'count' else 'final'
+    counting = dt.is_count(task)
+    in_range_point = dt.peak(task) if counting else dt.TRAIN_LENGTH
+    in_range_key = 'prefix' if counting else 'final'
     points = sorted(set(points or default_points(task)) | {in_range_point})
     eval_batch = 8 if arm == 'tfm' else 50          # attention is quadratic in the length: the transformer arm needs small batches at 1,000+ positions
     curve = evaluate(model, task, points, n_eval, seed, batch=eval_batch)
-    key = 'reentry' if task == 'count' else 'final'
+    key = 'reentry' if counting else 'final'
     in_range = curve[in_range_point][in_range_key]
     learned = meets(in_range)
     result = dict(task=task, arm=arm, width=width, seed=seed, train=trained, eval_points=points, curve=curve,
                   learned_in_range=learned, in_range_accuracy=in_range,
                   effective_horizon=effective_horizon(curve, key) if learned else 0, horizon_metric=key,
-                  trained_range=dt.TRAIN_DEPTH if task == 'count' else dt.TRAIN_LENGTH, wall_seconds=time.perf_counter() - started)
-    if task == 'count':
-        result['length_control'] = evaluate_length_control(model, [64, 256, 1024], n_eval, seed, batch=eval_batch)
+                  trained_range=in_range_point, wall_seconds=time.perf_counter() - started)
+    if counting:
+        trained_length = dt.train_length(task)       # 64 / 256 / 1,024 for the default counter (4 x and 16 x the trained length)
+        result['length_control'] = evaluate_length_control(model, [trained_length, 4 * trained_length, 16 * trained_length], n_eval, seed,
+                                                           batch=eval_batch, task=task)
     if out:
         path = Path(out)
         path.parent.mkdir(parents=True, exist_ok=True)
