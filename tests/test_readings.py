@@ -107,6 +107,19 @@ class LearningRateDecayReading(unittest.TestCase):
         # without the matching seed-2 run file nothing is read
         self.assertEqual(rd.ed_arm('lstm', sigmas=(0.3,), directory=self.dir, tag='lrdecay', baseline_seeds=(3,), run_seed=3)['verdict'], 'NO BASELINE')
 
+    def test_annealing_plus_state_noise_files_of_the_s5_core_are_read_against_the_constant_lr_baseline(self):
+        # E-D5: `perm5-core-w128-s1-cur-lrdecay0.3-noise{sigma}.json` against `perm5-core-w128-s1-cur.json`; the annealed-only file is NOT the baseline
+        write(self.dir, 'perm5-core-w128-s1-cur.json', perm_result(1.0, 800, 1_024_000))
+        write(self.dir, 'perm5-core-w128-s1-cur-lrdecay0.3.json', perm_result(1.0, 900, 1_024_000))
+        write(self.dir, 'perm5-core-w128-s1-cur-lrdecay0.3-noise0.1.json', perm_result(1.0, 700, 1_024_000))
+        r = rd.ed_arm('core', sigmas=(0.1, 0.2), tag='lrdecay0.3-noise', task='perm5', width=128, baseline_seeds=(1,), directory=self.dir)
+        self.assertEqual(r['verdict'], 'INCOMPLETE')                                         # sigma 0.2 has not run yet
+        self.assertAlmostEqual(r['best_baseline'], 800 / 1_024_000)
+        write(self.dir, 'perm5-core-w128-s1-cur-lrdecay0.3-noise0.2.json', perm_result(1.0, 150, 1_024_000))
+        r = rd.ed_arm('core', sigmas=(0.1, 0.2), tag='lrdecay0.3-noise', task='perm5', width=128, baseline_seeds=(1,), directory=self.dir)
+        self.assertEqual(r['verdict'], 'SUPPORTED')                                          # 150 <= 800 / 5 = 160 with the range learned
+        self.assertEqual((r['runs'][0.1]['events'], r['runs'][0.2]['events']), (700, 150))
+
     def test_the_dose_response_names_the_shallowest_annealing_that_meets_the_ep_rule(self):
         # baseline 600 events: the E-P rule needs <= 120; hazards by floor 0.3 / 0.1 / 0.03 / 0.01 = 400 / 130 / 100 / 5
         for floor, events in ((0.3, 400), (0.1, 130), (0.03, 100), (0.01, 5)):

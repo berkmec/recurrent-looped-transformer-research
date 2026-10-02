@@ -5,6 +5,7 @@
   python -B -m horizon.readings ep3           # E-P3: lr floor dose-response (0.3 / 0.1 / 0.03 / 0.01 x the base rate) on the S4 GRU / LSTM w64; the shallowest sufficient floor
   python -B -m horizon.readings ep4           # E-P4: S4 GRU / LSTM w64, seeds 1-5, constant vs annealed: is the floor typical (ARTEFACT CONFIRMED) or a seed lottery?
   python -B -m horizon.readings ep5           # E-P2: the same for the S5 Core w128, GRU w256 and LSTM w208 (seed 1)
+  python -B -m horizon.readings ed5           # E-D5: S5 Core w128, state-noise training (sigma 0.1 / 0.2) on top of the lr annealing, against the constant-lr baseline
   python -B -m horizon.readings epseeds       # E-P2 replicates: S4 GRU / LSTM w64, seeds 2 and 3 against their own seed's constant-lr baseline
   python -B -m horizon.readings ec            # scale-diverse excursion counter (count8_32 and count8_64, LSTM and GRU)
 
@@ -209,6 +210,8 @@ def main():
         print(json.dumps([ed_arm('core', sigmas=(0.3,), tag='lrdecay', task='perm5', width=128, baseline_seeds=(1,)),
                           ed_arm('gru', sigmas=(0.3,), tag='lrdecay', task='perm5', width=256, baseline_seeds=(1,)),
                           ed_arm('lstm', sigmas=(0.3,), tag='lrdecay', task='perm5', width=208, baseline_seeds=(1,))], indent=1, default=str))
+    elif which == 'ed5':      # E-D5: the S5 Core w128 trained with carried-state noise on top of the lr annealing (note 5.21), against the constant-lr S5 Core baseline
+        print(json.dumps(ed_arm('core', sigmas=(0.1, 0.2), tag='lrdecay0.3-noise', task='perm5', width=128, baseline_seeds=(1,)), indent=1, default=str))
     elif which == 'epseeds':  # E-P2 replicates: S4 seeds 2 and 3, each against its OWN seed's constant-lr baseline
         print(json.dumps({f'{arm}-s{seed}': ed_arm(arm, sigmas=(0.3,), tag='lrdecay', baseline_seeds=(seed,), run_seed=seed) for arm in ('gru', 'lstm') for seed in (2, 3)},
                          indent=1, default=str))
@@ -217,7 +220,7 @@ def main():
     elif which == 'ec0':
         print(json.dumps(ec0(), indent=1, default=str))
     else:
-        raise SystemExit('usage: python -B -m horizon.readings ed|ep|ep3|ep4|ep5|epseeds|ec|ec0')
+        raise SystemExit('usage: python -B -m horizon.readings ed|ep|ep3|ep4|ep5|ed5|epseeds|ec|ec0')
 
 
 if __name__ == '__main__':
