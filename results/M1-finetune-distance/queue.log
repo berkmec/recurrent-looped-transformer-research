@@ -295,3 +295,83 @@
 [08:03:00] ZINCIR-DEGISIKLIGI 14: yuva 2: E-P2 (calisiyor, dokunulmadi) bitince E-P3 -> E-P4 -> E-S asama A (sk3, 10 kosu; bolum 5.16) -> E-C (kilitli); yalniz bekleyici degistirildi
 [08:15:40] BITTI E-X core (bkz results/Z1-pilot/long-eval-core.txt)
 [08:15:53] BASLA E-L1P (step003000; CPU, 1 parcacik): L1 geri besleme kanali kullanimi, egitimsiz
+[08:28:01] BITTI E-L1P step003000 (bkz results/L1-feedback-probe/step003000.txt)
+[08:28:02] BASLA Z1 perm4-lstm-w64-s2-cur (CPU, 1 parcacik, 15000 adim, lr 0.003, mufredat 1,2,3,4,6,8,12,16)
+[08:30:14] BITTI Z1 perm4-lstm-w64-s2-cur
+[08:30:14] BASLA Z1 perm4-gru-w64-s2-cur (CPU, 1 parcacik, 15000 adim, lr 0.003, mufredat 1,2,3,4,6,8,12,16)
+[08:33:07] BITTI Z1 perm4-gru-w64-s2-cur
+[08:33:07] BASLA Z1 perm4-lstm-w112-s2-cur (CPU, 1 parcacik, 15000 adim, lr 0.003, mufredat 1,2,3,4,6,8,12,16)
+[08:37:07] BITTI Z1 perm4-lstm-w112-s2-cur
+[08:37:07] BASLA Z1 perm4-gru-w128-s2-cur (CPU, 1 parcacik, 15000 adim, lr 0.003, mufredat 1,2,3,4,6,8,12,16)
+[08:42:08] BITTI Z1 perm4-gru-w128-s2-cur
+[08:42:09] BASLA Z1 perm4-lstm-w64-s3-cur (CPU, 1 parcacik, 15000 adim, lr 0.003, mufredat 1,2,3,4,6,8,12,16)
+[08:44:19] BITTI Z1 perm4-lstm-w64-s3-cur
+[08:44:19] BASLA Z1 perm4-gru-w64-s3-cur (CPU, 1 parcacik, 15000 adim, lr 0.003, mufredat 1,2,3,4,6,8,12,16)
+[08:47:18] BITTI Z1 perm4-gru-w64-s3-cur
+[08:47:18] BASLA Z1 perm4-lstm-w112-s3-cur (CPU, 1 parcacik, 15000 adim, lr 0.003, mufredat 1,2,3,4,6,8,12,16)
+[08:48:09] ZINCIR-DEGISIKLIGI 15: yuva 2 bekleyicisi (bosta, cocugu yoktu) yeniden zincirlendi: E-P2 bitince once E-L1K (3.000. adim, ~10 dk), sonra E-P3 -> E-P4 (-> E-P5 -> E-W) -> E-S asama A -> E-C
+[08:51:19] BITTI Z1 perm4-lstm-w112-s3-cur
+[08:51:19] BASLA Z1 perm4-gru-w128-s3-cur (CPU, 1 parcacik, 15000 adim, lr 0.003, mufredat 1,2,3,4,6,8,12,16)
+[08:56:21] BITTI Z1 perm4-gru-w128-s3-cur
+[08:56:21] BASLA Z1 perm4-core-w64-s2-cur (CPU, 1 parcacik, 15000 adim, lr 0.003, mufredat 1,2,3,4,6,8,12,16)
+[09:01:43] BITTI Z1 perm5-core-w128-s1-cur-lrdecay0.3
+[09:01:43] BASLA Z1 perm5-gru-w256-s1-cur-lrdecay0.3 (CPU, 1 parcacik, 30000 adim, lr 0.001 son %30'da dogrusal sonume iner, mufredat 1,2,3,4,6,8,12,16)
+[09:13:06] ZINCIR-DEGISIKLIGI 16: yuva 1 bekleyicisi (cocugu yoktu; kuyruk 5 calismaya devam ediyor) yeniden zincirlendi: kuyruk 5 bitince E-D5 (S5 Core durum gurultusu sigma 0.2 sonra 0.1; ~3 saat) -> E-S asama A (kilitli, yuva 2 ile paylasilir) -> E-C
+[09:21:36] BITTI Z1 perm5-gru-w256-s1-cur-lrdecay0.3
+[09:21:36] BASLA Z1 perm5-lstm-w208-s1-cur-lrdecay0.3 (CPU, 1 parcacik, 30000 adim, lr 0.001 son %30'da dogrusal sonume iner, mufredat 1,2,3,4,6,8,12,16)
+[09:25:52] BITTI Z1 perm4-core-w64-s2-cur
+[09:25:52] BASLA Z1 perm4-core-w64-s3-cur (CPU, 1 parcacik, 15000 adim, lr 0.003, mufredat 1,2,3,4,6,8,12,16)
+[09:39:22] BITTI Z1 perm5-lstm-w208-s1-cur-lrdecay0.3
+[09:39:22] BASLA Z1 perm4-gru-w64-s2-cur-lrdecay0.3 (CPU, 1 parcacik, 15000 adim, lr 0.003 son %30'da dogrusal sonume iner, mufredat 1,2,3,4,6,8,12,16)
+[09:42:16] BITTI Z1 perm4-gru-w64-s2-cur-lrdecay0.3
+[09:42:16] BASLA Z1 perm4-lstm-w64-s2-cur-lrdecay0.3 (CPU, 1 parcacik, 15000 adim, lr 0.003 son %30'da dogrusal sonume iner, mufredat 1,2,3,4,6,8,12,16)
+[09:44:27] BITTI Z1 perm4-lstm-w64-s2-cur-lrdecay0.3
+[09:44:27] BASLA Z1 perm4-gru-w64-s3-cur-lrdecay0.3 (CPU, 1 parcacik, 15000 adim, lr 0.003 son %30'da dogrusal sonume iner, mufredat 1,2,3,4,6,8,12,16)
+[09:47:21] BITTI Z1 perm4-gru-w64-s3-cur-lrdecay0.3
+[09:47:21] BASLA Z1 perm4-lstm-w64-s3-cur-lrdecay0.3 (CPU, 1 parcacik, 15000 adim, lr 0.003 son %30'da dogrusal sonume iner, mufredat 1,2,3,4,6,8,12,16)
+[09:49:31] BITTI Z1 perm4-lstm-w64-s3-cur-lrdecay0.3
+[09:49:31] Z1 kuyruk EP2 BITTI
+[09:49:42] BASLA E-L1K (step003000; CPU, 1 parcacik): tek adimlik yanlis geri besleme durumunun hasari ne kadar suruyor, egitimsiz
+[09:54:29] BITTI Z1 perm4-core-w64-s3-cur
+[09:54:29] Z1 kuyruk 5 BITTI
+[09:54:39] BASLA Z1 perm5-core-w128-s1-cur-lrdecay0.3-noise0.2 (E-D5; CPU, 1 parcacik, 30000 adim, lr 0.003 son %30'da ~0'a, durum gurultusu sigma 0.2, mufredat 1,2,3,4,6,8,12,16)
+[09:56:58] BITTI E-L1K step003000 (bkz results/L1-feedback-probe/step003000-kick.txt)
+[09:56:58] BASLA E-P2x (CPU, 1 parcacik): E-B2 tekme buyumesi ve sinif geometrisi, lr azaltmali S5 Core w128, egitimsiz
+[09:57:27] BITTI E-P2x (bkz results/Z1-pilot/state-growth-s5core-lrdecay0.3.txt)
+[09:57:27] BASLA E-M5 (CPU, 1 parcacik): marj profili, 9 kayitli model, 1.024 konum, n = 100, egitimsiz
+[09:58:09] BITTI E-M5 (bkz results/Z1-pilot/margin-profile.txt)
+[09:58:09] BASLA Z1 perm4-gru-w64-s1-cur-lrfloor0.1 (CPU, 1 parcacik, 15000 adim, lr 0.003 son %30'da dogrusal 0.1 x lr'ye iner, mufredat 1,2,3,4,6,8,12,16)
+[10:01:04] BITTI Z1 perm4-gru-w64-s1-cur-lrfloor0.1
+[10:01:04] BASLA Z1 perm4-lstm-w64-s1-cur-lrfloor0.1 (CPU, 1 parcacik, 15000 adim, lr 0.003 son %30'da dogrusal 0.1 x lr'ye iner, mufredat 1,2,3,4,6,8,12,16)
+[10:01:26] ZINCIR-DEGISIKLIGI 17: yuva 2 bekleyicisi (E-P3 calismaya devam ediyor) yeniden zincirlendi: E-P3 bitince ONCE E-K5 (S5 Core genislik w256 sonra w192, ~4 saat) -> E-P4 (-> E-P5 -> E-W) -> E-S (kilitli) -> E-C
+[10:03:17] BITTI Z1 perm4-lstm-w64-s1-cur-lrfloor0.1
+[10:03:17] BASLA Z1 perm4-gru-w64-s1-cur-lrfloor0.01 (CPU, 1 parcacik, 15000 adim, lr 0.003 son %30'da dogrusal 0.01 x lr'ye iner, mufredat 1,2,3,4,6,8,12,16)
+[10:05:42] ZINCIR-DEGISIKLIGI 18: iki bos bekleyici yeniden zincirlendi (cocuk betikler calismaya devam ediyor). Yuva 2: E-P3 bitince E-K4 (S4 Core w32/w48 + marj profili, ~1 saat) -> E-K5 (kilitli) -> E-P4 (-> E-P5 -> E-W) -> E-S -> E-C. Yuva 1: E-D5 (sigma 0.2, 0.1) bitince E-K5 (kilitli; w192'yi alir) -> E-S (kilitli) -> E-C
+[10:06:15] BITTI Z1 perm4-gru-w64-s1-cur-lrfloor0.01
+[10:06:15] BASLA Z1 perm4-lstm-w64-s1-cur-lrfloor0.01 (CPU, 1 parcacik, 15000 adim, lr 0.003 son %30'da dogrusal 0.01 x lr'ye iner, mufredat 1,2,3,4,6,8,12,16)
+[10:07:06] ZINCIR-DEGISIKLIGI 19: yuva 1 bekleyicisi yeniden zincirlendi (E-D5 calismaya devam ediyor): E-D5 bitince E-F5 (S5 Core alfa 1.0, tepe lr 1e-3, alfa 0.3; not 5.24) -> E-K5 (kilitli) -> E-S (kilitli) -> E-C
+[10:08:30] BITTI Z1 perm4-lstm-w64-s1-cur-lrfloor0.01
+[10:08:30] BASLA Z1 perm4-gru-w64-s1-cur-lrfloor0.3 (CPU, 1 parcacik, 15000 adim, lr 0.003 son %30'da dogrusal 0.3 x lr'ye iner, mufredat 1,2,3,4,6,8,12,16)
+[10:11:25] BITTI Z1 perm4-gru-w64-s1-cur-lrfloor0.3
+[10:11:25] BASLA Z1 perm4-lstm-w64-s1-cur-lrfloor0.3 (CPU, 1 parcacik, 15000 adim, lr 0.003 son %30'da dogrusal 0.3 x lr'ye iner, mufredat 1,2,3,4,6,8,12,16)
+[10:13:40] BITTI Z1 perm4-lstm-w64-s1-cur-lrfloor0.3
+[10:13:40] BASLA Z1 perm4-gru-w64-s1-cur-lrfloor0.03 (CPU, 1 parcacik, 15000 adim, lr 0.003 son %30'da dogrusal 0.03 x lr'ye iner, mufredat 1,2,3,4,6,8,12,16)
+[10:16:36] BITTI Z1 perm4-gru-w64-s1-cur-lrfloor0.03
+[10:16:36] BASLA Z1 perm4-lstm-w64-s1-cur-lrfloor0.03 (CPU, 1 parcacik, 15000 adim, lr 0.003 son %30'da dogrusal 0.03 x lr'ye iner, mufredat 1,2,3,4,6,8,12,16)
+[10:18:49] BITTI Z1 perm4-lstm-w64-s1-cur-lrfloor0.03
+[10:18:49] Z1 kuyruk EP3 BITTI
+[10:19:12] BASLA Z1 perm4-core-w32-s1-cur (E-K4; CPU, 1 parcacik, 15000 adim, lr 0.003 sabit, genislik 32, mufredat 1,2,3,4,6,8,12,16)
+[10:42:18] BITTI Z1 perm4-core-w32-s1-cur
+[10:42:18] BASLA Z1 perm4-core-w48-s1-cur (E-K4; CPU, 1 parcacik, 15000 adim, lr 0.003 sabit, genislik 48, mufredat 1,2,3,4,6,8,12,16)
+[11:01:47] ZINCIR-DEGISIKLIGI 20: yuva 2 bekleyicisi yeniden zincirlendi (E-K4 calismaya devam ediyor): E-K4 bitince E-L1K DUZELTILMIS kodla yeniden (3.000 ve 5.000. adim; eski havuzlu-SE sonuclari -v1 adiyla yan yana kalir) -> E-K5 (kilitli) -> E-P4 (-> E-P5 -> E-W) -> E-S (kilitli) -> E-C
+[11:07:11] BITTI Z1 perm4-core-w48-s1-cur
+[11:07:11] BASLA E-K4 marj profili (CPU, 1 parcacik): S4 Core w32 / w48 / w64, 1.024 konum, n = 100, egitimsiz
+[11:07:35] BITTI E-K4 marj profili (bkz results/Z1-pilot/margin-profile-s4core-width.txt)
+[11:07:35] E-K4 kuyruk BITTI
+[11:07:46] BASLA E-L1K (step003000; CPU, 1 parcacik): tek adimlik yanlis geri besleme durumunun hasari ne kadar suruyor, egitimsiz
+[11:09:34] BITTI Z1 perm5-core-w128-s1-cur-lrdecay0.3-noise0.2
+[11:09:34] BASLA Z1 perm5-core-w128-s1-cur-lrdecay0.3-noise0.1 (E-D5; CPU, 1 parcacik, 30000 adim, lr 0.003 son %30'da ~0'a, durum gurultusu sigma 0.1, mufredat 1,2,3,4,6,8,12,16)
+[11:15:13] BITTI E-L1K step003000 (bkz results/L1-feedback-probe/step003000-kick.txt)
+[11:15:13] BASLA E-L1K (step005000; CPU, 1 parcacik): tek adimlik yanlis geri besleme durumunun hasari ne kadar suruyor, egitimsiz
+[11:22:40] BITTI E-L1K step005000 (bkz results/L1-feedback-probe/step005000-kick.txt)
+[11:22:40] BASLA Z1 perm5-core-w256-s1-cur-lrdecay0.3 (E-K5; CPU, 1 parcacik, 30000 adim, lr 0.003 son %30'da ~0'a, genislik 256, mufredat 1,2,3,4,6,8,12,16)

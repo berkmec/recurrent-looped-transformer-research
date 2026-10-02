@@ -1,0 +1,6 @@
+core perm5 w128 (409720 parameters), 50 dev sequences of length 256, kick at position 8
+  eps 0.001: [9,33) growth -0.0211/step flips 0.0000  [33,129) growth -0.0081/step flips 0.0000  [129,256) growth -0.0068/step flips 0.0002  | re-converged (d < 1e-10 at the end): 0.00
+  eps 0.01: [9,33) growth -0.0210/step flips 0.0000  [33,129) growth -0.0081/step flips 0.0002  [129,256) growth -0.0068/step flips 0.0006  | re-converged (d < 1e-10 at the end): 0.00
+  state rms by position window: [0,16) 11.419  [16,64) 11.583  [64,128) 11.660  [128,192) 11.689  [192,256) 11.705
+  class geometry R / M (within-class spread over nearest-centroid distance; classes present) by window: [0,16) 0.323 (114)  [16,64) 0.407 (120)  [64,128) 0.493 (120)  [128,192) 0.744 (120)  [192,256) 1.321 (120)
+  one-step Jacobian, largest singular value (median / max over sequences): t=4: 1.116/1.291  t=16: 1.103/1.368  t=32: 1.164/1.232  t=64: 1.151/1.211  t=128: 1.145/1.304  t=192: 1.106/1.252  t=255: 1.130/1.307
