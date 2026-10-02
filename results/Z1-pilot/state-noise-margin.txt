@@ -1,0 +1,112 @@
+core perm4 w64 (98328 parameters), dev seed 1, n = 100, lengths [16, 64, 256, 1024]
+  sigma 0 vs the stored result (first errors, exposure in windows <= 64): stored (0, 20800) run (0, 20800) -> REPRODUCES
+  sigma 0.0   hazard early (<=64) 0.00e+00 (0/20800)  all 0.00e+00 (0/136000)  implied radius early n/a all n/a  final 16:1.00 64:1.00 256:1.00 1024:1.00
+        by window (x1e-4/step): [0,16) 0.0  [16,32) 0.0  [32,64) 0.0  [64,128) 0.0  [128,256) 0.0  [256,512) 0.0  [512,1024) 0.0
+  sigma 0.01  hazard early (<=64) 0.00e+00 (0/20800)  all 0.00e+00 (0/136000)  implied radius early n/a all n/a  final 16:1.00 64:1.00 256:1.00 1024:1.00
+        by window (x1e-4/step): [0,16) 0.0  [16,32) 0.0  [32,64) 0.0  [64,128) 0.0  [128,256) 0.0  [256,512) 0.0  [512,1024) 0.0
+  sigma 0.02  hazard early (<=64) 0.00e+00 (0/20800)  all 0.00e+00 (0/136000)  implied radius early n/a all n/a  final 16:1.00 64:1.00 256:1.00 1024:1.00
+        by window (x1e-4/step): [0,16) 0.0  [16,32) 0.0  [32,64) 0.0  [64,128) 0.0  [128,256) 0.0  [256,512) 0.0  [512,1024) 0.0
+  sigma 0.05  hazard early (<=64) 0.00e+00 (0/20800)  all 0.00e+00 (0/136000)  implied radius early n/a all n/a  final 16:1.00 64:1.00 256:1.00 1024:1.00
+        by window (x1e-4/step): [0,16) 0.0  [16,32) 0.0  [32,64) 0.0  [64,128) 0.0  [128,256) 0.0  [256,512) 0.0  [512,1024) 0.0
+  sigma 0.1   hazard early (<=64) 0.00e+00 (0/20800)  all 0.00e+00 (0/136000)  implied radius early n/a all n/a  final 16:1.00 64:1.00 256:1.00 1024:1.00
+        by window (x1e-4/step): [0,16) 0.0  [16,32) 0.0  [32,64) 0.0  [64,128) 0.0  [128,256) 0.0  [256,512) 0.0  [512,1024) 0.0
+  sigma 0.2   hazard early (<=64) 0.00e+00 (0/20800)  all 0.00e+00 (0/136000)  implied radius early n/a all n/a  final 16:1.00 64:1.00 256:1.00 1024:1.00
+        by window (x1e-4/step): [0,16) 0.0  [16,32) 0.0  [32,64) 0.0  [64,128) 0.0  [128,256) 0.0  [256,512) 0.0  [512,1024) 0.0
+core perm5 w128 (409720 parameters), dev seed 1, n = 100, lengths [16, 64, 256, 1024]
+  sigma 0 vs the stored result (first errors, exposure in windows <= 64): stored (0, 20800) run (0, 20800) -> REPRODUCES
+  sigma 0.0   hazard early (<=64) 0.00e+00 (0/20800)  all 1.42e-03 (121/85440)  implied radius early n/a all n/a  final 16:1.00 64:1.00 256:0.88 1024:0.31
+        by window (x1e-4/step): [0,16) 0.0  [16,32) 0.0  [32,64) 0.0  [64,128) 5.5  [128,256) 21.0  [256,512) 26.2  [512,1024) 17.7
+  sigma 0.01  hazard early (<=64) 0.00e+00 (0/20800)  all 1.38e-03 (119/85952)  implied radius early n/a all 0.032  final 16:1.00 64:1.00 256:0.89 1024:0.30
+        by window (x1e-4/step): [0,16) 0.0  [16,32) 0.0  [32,64) 0.0  [64,128) 5.5  [128,256) 20.6  [256,512) 25.6  [512,1024) 16.9
+  sigma 0.02  hazard early (<=64) 0.00e+00 (0/20800)  all 1.42e-03 (122/86208)  implied radius early n/a all 0.064  final 16:1.00 64:1.00 256:0.90 1024:0.30
+        by window (x1e-4/step): [0,16) 0.0  [16,32) 0.0  [32,64) 0.0  [64,128) 5.5  [128,256) 22.3  [256,512) 23.7  [512,1024) 18.7
+  sigma 0.05  hazard early (<=64) 0.00e+00 (0/20800)  all 1.55e-03 (125/80448)  implied radius early n/a all 0.158  final 16:1.00 64:1.00 256:0.87 1024:0.28
+        by window (x1e-4/step): [0,16) 0.0  [16,32) 0.0  [32,64) 0.0  [64,128) 6.2  [128,256) 26.0  [256,512) 26.5  [512,1024) 19.5
+  sigma 0.1   hazard early (<=64) 9.62e-05 (2/20800)  all 2.07e-03 (144/69632)  implied radius early 0.390 all 0.308  final 16:1.00 64:0.99 256:0.75 1024:0.17
+        by window (x1e-4/step): [0,16) 0.0  [16,32) 0.0  [32,64) 2.1  [64,128) 19.6  [128,256) 34.6  [256,512) 32.2  [512,1024) 19.5
+  sigma 0.2   hazard early (<=64) 1.44e-03 (30/20800)  all 4.38e-03 (200/45696)  implied radius early 0.637 all 0.570  final 16:1.00 64:0.94 256:0.37 1024:0.01
+        by window (x1e-4/step): [0,16) 0.0  [16,32) 0.0  [32,64) 31.2  [64,128) 76.8  [128,256) 63.7  [256,512) 39.1  [512,1024) nan
+gru perm4 w64 (28056 parameters), dev seed 1, n = 100, lengths [16, 64, 256, 1024]
+  sigma 0 vs the stored result (first errors, exposure in windows <= 64): stored (12, 20608) run (12, 20608) -> REPRODUCES
+  sigma 0.0   hazard early (<=64) 5.82e-04 (12/20608)  all 7.45e-04 (84/112704)  implied radius early n/a all n/a  final 16:1.00 64:0.98 256:0.85 1024:0.69
+        by window (x1e-4/step): [0,16) 3.1  [16,32) 6.3  [32,64) 7.4  [64,128) 9.7  [128,256) 7.8  [256,512) 7.8  [512,1024) 7.2
+  sigma 0.01  hazard early (<=64) 5.82e-04 (12/20624)  all 7.78e-04 (86/110480)  implied radius early 0.034 all 0.034  final 16:1.00 64:0.99 256:0.85 1024:0.68
+        by window (x1e-4/step): [0,16) 1.6  [16,32) 8.4  [32,64) 7.4  [64,128) 9.8  [128,256) 8.7  [256,512) 8.5  [512,1024) 7.2
+  sigma 0.02  hazard early (<=64) 6.30e-04 (13/20624)  all 8.10e-04 (89/109904)  implied radius early 0.068 all 0.067  final 16:1.00 64:0.99 256:0.82 1024:0.68
+        by window (x1e-4/step): [0,16) 1.6  [16,32) 8.4  [32,64) 8.5  [64,128) 9.0  [128,256) 9.1  [256,512) 8.9  [512,1024) 7.6
+  sigma 0.05  hazard early (<=64) 8.26e-04 (17/20576)  all 1.06e-03 (109/102944)  implied radius early 0.167 all 0.164  final 16:1.00 64:0.98 256:0.81 1024:0.52
+        by window (x1e-4/step): [0,16) 3.1  [16,32) 8.4  [32,64) 11.7  [64,128) 11.6  [128,256) 9.4  [256,512) 13.5  [512,1024) 10.7
+  sigma 0.1   hazard early (<=64) 1.67e-03 (34/20400)  all 2.32e-03 (162/69680)  implied radius early 0.314 all 0.305  final 16:1.00 64:0.94 256:0.65 1024:0.21
+        by window (x1e-4/step): [0,16) 4.7  [16,32) 16.8  [32,64) 24.9  [64,128) 20.4  [128,256) 31.7  [256,512) 28.0  [512,1024) 15.0
+  sigma 0.2   hazard early (<=64) 1.20e-02 (207/17216)  all 1.20e-02 (279/23232)  implied radius early 0.502 all 0.502  final 16:0.93 64:0.54 256:0.12 1024:0.01
+        by window (x1e-4/step): [0,16) 68.8  [16,32) 143.3  [32,64) 155.5  [64,128) 132.4  [128,256) 78.1  [256,512) nan  [512,1024) nan
+gru perm4 w128 (105240 parameters), dev seed 1, n = 100, lengths [16, 64, 256, 1024]
+  sigma 0 vs the stored result (first errors, exposure in windows <= 64): stored (6, 20800) run (6, 20800) -> REPRODUCES
+  sigma 0.0   hazard early (<=64) 2.88e-04 (6/20800)  all 1.35e-04 (18/132864)  implied radius early n/a all n/a  final 16:1.00 64:0.99 256:0.99 1024:0.93
+        by window (x1e-4/step): [0,16) 0.0  [16,32) 0.0  [32,64) 6.2  [64,128) 0.0  [128,256) 0.8  [256,512) 0.8  [512,1024) 1.6
+  sigma 0.01  hazard early (<=64) 3.37e-04 (7/20768)  all 1.51e-04 (20/132832)  implied radius early 0.036 all 0.038  final 16:1.00 64:0.99 256:0.99 1024:0.93
+        by window (x1e-4/step): [0,16) 0.0  [16,32) 2.1  [32,64) 6.3  [64,128) 0.0  [128,256) 0.8  [256,512) 0.8  [512,1024) 1.8
+  sigma 0.02  hazard early (<=64) 3.37e-04 (7/20768)  all 1.59e-04 (21/132320)  implied radius early 0.072 all 0.076  final 16:1.00 64:0.99 256:0.99 1024:0.92
+        by window (x1e-4/step): [0,16) 0.0  [16,32) 2.1  [32,64) 6.3  [64,128) 0.0  [128,256) 0.8  [256,512) 1.2  [512,1024) 1.9
+  sigma 0.05  hazard early (<=64) 2.40e-04 (5/20800)  all 3.29e-04 (42/127616)  implied radius early 0.184 all 0.180  final 16:1.00 64:0.99 256:0.98 1024:0.80
+        by window (x1e-4/step): [0,16) 0.0  [16,32) 0.0  [32,64) 5.2  [64,128) 2.4  [128,256) 2.4  [256,512) 1.7  [512,1024) 5.3
+  sigma 0.1   hazard early (<=64) 3.86e-04 (8/20736)  all 1.32e-03 (117/88768)  implied radius early 0.355 all 0.321  final 16:1.00 64:0.98 256:0.90 1024:0.05
+        by window (x1e-4/step): [0,16) 0.0  [16,32) 4.2  [32,64) 6.3  [64,128) 4.0  [128,256) 11.9  [256,512) 27.2  [512,1024) 18.7
+  sigma 0.2   hazard early (<=64) 3.96e-03 (80/20224)  all 6.59e-03 (228/34624)  implied radius early 0.576 all 0.543  final 16:0.99 64:0.81 256:0.05 1024:0.02
+        by window (x1e-4/step): [0,16) 4.7  [16,32) 31.5  [32,64) 68.5  [64,128) 116.4  [128,256) 76.1  [256,512) nan  [512,1024) nan
+lstm perm4 w64 (36376 parameters), dev seed 1, n = 100, lengths [16, 64, 256, 1024]
+  sigma 0 vs the stored result (first errors, exposure in windows <= 64): stored (11, 20608) run (11, 20608) -> REPRODUCES
+  sigma 0.0   hazard early (<=64) 5.34e-04 (11/20608)  all 4.61e-04 (56/121472)  implied radius early n/a all n/a  final 16:0.99 64:0.99 256:0.91 1024:0.75
+        by window (x1e-4/step): [0,16) 4.7  [16,32) 6.3  [32,64) 5.3  [64,128) 3.3  [128,256) 2.5  [256,512) 6.2  [512,1024) 4.9
+  sigma 0.01  hazard early (<=64) 5.34e-04 (11/20608)  all 4.43e-04 (54/121856)  implied radius early 0.035 all 0.035  final 16:0.99 64:0.99 256:0.93 1024:0.73
+        by window (x1e-4/step): [0,16) 4.7  [16,32) 6.3  [32,64) 5.3  [64,128) 2.4  [128,256) 2.1  [256,512) 6.6  [512,1024) 4.7
+  sigma 0.02  hazard early (<=64) 5.34e-04 (11/20608)  all 4.40e-04 (53/120576)  implied radius early 0.069 all 0.070  final 16:0.99 64:1.00 256:0.92 1024:0.73
+        by window (x1e-4/step): [0,16) 4.7  [16,32) 6.3  [32,64) 5.3  [64,128) 2.4  [128,256) 2.1  [256,512) 7.1  [512,1024) 4.3
+  sigma 0.05  hazard early (<=64) 6.79e-04 (14/20624)  all 4.58e-04 (55/120208)  implied radius early 0.170 all 0.175  final 16:0.99 64:0.99 256:0.89 1024:0.73
+        by window (x1e-4/step): [0,16) 4.7  [16,32) 8.4  [32,64) 7.4  [64,128) 2.5  [128,256) 2.9  [256,512) 5.9  [512,1024) 4.3
+  sigma 0.1   hazard early (<=64) 1.17e-03 (24/20464)  all 8.39e-04 (90/107312)  implied radius early 0.325 all 0.334  final 16:0.98 64:0.99 256:0.86 1024:0.53
+        by window (x1e-4/step): [0,16) 6.2  [16,32) 18.8  [32,64) 11.9  [64,128) 5.9  [128,256) 5.7  [256,512) 11.2  [512,1024) 7.2
+  sigma 0.2   hazard early (<=64) 3.06e-03 (61/19920)  all 3.25e-03 (182/56016)  implied radius early 0.592 all 0.589  final 16:0.95 64:0.91 256:0.59 1024:0.18
+        by window (x1e-4/step): [0,16) 17.2  [16,32) 42.4  [32,64) 34.1  [64,128) 43.8  [128,256) 30.5  [256,512) 31.0  [512,1024) 19.5
+lstm perm4 w112 (106648 parameters), dev seed 1, n = 100, lengths [16, 64, 256, 1024]
+  sigma 0 vs the stored result (first errors, exposure in windows <= 64): stored (8, 20688) run (8, 20688) -> REPRODUCES
+  sigma 0.0   hazard early (<=64) 3.87e-04 (8/20688)  all 5.07e-04 (60/118416)  implied radius early n/a all n/a  final 16:0.99 64:0.98 256:0.95 1024:0.64
+        by window (x1e-4/step): [0,16) 3.1  [16,32) 4.2  [32,64) 4.2  [64,128) 5.6  [128,256) 4.2  [256,512) 4.9  [512,1024) 6.2
+  sigma 0.01  hazard early (<=64) 3.87e-04 (8/20656)  all 5.17e-04 (61/118064)  implied radius early 0.035 all 0.035  final 16:0.99 64:0.97 256:0.95 1024:0.63
+        by window (x1e-4/step): [0,16) 3.1  [16,32) 6.3  [32,64) 3.2  [64,128) 5.6  [128,256) 4.5  [256,512) 5.4  [512,1024) 6.0
+  sigma 0.02  hazard early (<=64) 3.88e-04 (8/20624)  all 4.95e-04 (59/119312)  implied radius early 0.071 all 0.070  final 16:0.99 64:0.97 256:0.97 1024:0.66
+        by window (x1e-4/step): [0,16) 3.1  [16,32) 8.4  [32,64) 2.1  [64,128) 5.6  [128,256) 4.1  [256,512) 4.9  [512,1024) 5.8
+  sigma 0.05  hazard early (<=64) 3.88e-04 (8/20624)  all 4.79e-04 (57/119056)  implied radius early 0.177 all 0.175  final 16:0.99 64:0.97 256:0.95 1024:0.67
+        by window (x1e-4/step): [0,16) 3.1  [16,32) 8.4  [32,64) 2.1  [64,128) 5.6  [128,256) 5.0  [256,512) 4.5  [512,1024) 5.1
+  sigma 0.1   hazard early (<=64) 4.85e-04 (10/20624)  all 5.98e-04 (70/117008)  implied radius early 0.349 all 0.343  final 16:0.99 64:0.97 256:0.91 1024:0.60
+        by window (x1e-4/step): [0,16) 3.1  [16,32) 8.4  [32,64) 4.2  [64,128) 4.8  [128,256) 6.2  [256,512) 5.5  [512,1024) 7.1
+  sigma 0.2   hazard early (<=64) 1.12e-03 (23/20496)  all 1.37e-03 (125/91152)  implied radius early 0.652 all 0.640  final 16:0.99 64:0.98 256:0.75 1024:0.39
+        by window (x1e-4/step): [0,16) 3.1  [16,32) 16.7  [32,64) 14.0  [64,128) 15.3  [128,256) 16.5  [256,512) 14.4  [512,1024) 11.9
+gru perm5 w256 (456312 parameters), dev seed 1, n = 100, lengths [16, 64, 256, 1024]
+  sigma 0 vs the stored result (first errors, exposure in windows <= 64): stored (53, 20000) run (53, 20000) -> REPRODUCES
+  sigma 0.0   hazard early (<=64) 2.65e-03 (53/20000)  all 2.64e-03 (178/67488)  implied radius early n/a all n/a  final 16:0.97 64:0.84 256:0.64 1024:0.20
+        by window (x1e-4/step): [0,16) 23.4  [16,32) 21.6  [32,64) 31.2  [64,128) 24.0  [128,256) 32.5  [256,512) 23.2  [512,1024) 18.2
+  sigma 0.01  hazard early (<=64) 2.55e-03 (51/19984)  all 2.56e-03 (178/69520)  implied radius early 0.030 all 0.030  final 16:0.97 64:0.84 256:0.65 1024:0.18
+        by window (x1e-4/step): [0,16) 23.4  [16,32) 19.5  [32,64) 30.1  [64,128) 26.3  [128,256) 31.7  [256,512) 21.0  [512,1024) 17.4
+  sigma 0.02  hazard early (<=64) 2.60e-03 (52/20000)  all 2.51e-03 (175/69728)  implied radius early 0.060 all 0.060  final 16:0.97 64:0.85 256:0.66 1024:0.16
+        by window (x1e-4/step): [0,16) 21.9  [16,32) 21.6  [32,64) 31.2  [64,128) 28.6  [128,256) 29.5  [256,512) 19.0  [512,1024) 17.6
+  sigma 0.05  hazard early (<=64) 3.11e-03 (62/19920)  all 3.60e-03 (199/55248)  implied radius early 0.148 all 0.146  final 16:0.96 64:0.87 256:0.51 1024:0.03
+        by window (x1e-4/step): [0,16) 25.0  [16,32) 23.8  [32,64) 39.3  [64,128) 44.6  [128,256) 39.7  [256,512) 33.5  [512,1024) 19.5
+  sigma 0.1   hazard early (<=64) 5.29e-03 (103/19488)  all 6.39e-03 (237/37088)  implied radius early 0.279 all 0.273  final 16:0.96 64:0.77 256:0.12 1024:0.00
+        by window (x1e-4/step): [0,16) 29.7  [16,32) 43.7  [32,64) 75.2  [64,128) 79.8  [128,256) 73.5  [256,512) 39.1  [512,1024) nan
+  sigma 0.2   hazard early (<=64) 2.13e-02 (307/14416)  all 2.11e-02 (317/15056)  implied radius early 0.461 all 0.461  final 16:0.86 64:0.09 256:0.01 1024:0.01
+        by window (x1e-4/step): [0,16) 106.3  [16,32) 313.7  [32,64) 282.5  [64,128) 156.2  [128,256) nan  [256,512) nan  [512,1024) nan
+lstm perm5 w208 (397816 parameters), dev seed 1, n = 100, lengths [16, 64, 256, 1024]
+  sigma 0 vs the stored result (first errors, exposure in windows <= 64): stored (19, 20544) run (19, 20544) -> REPRODUCES
+  sigma 0.0   hazard early (<=64) 9.25e-04 (19/20544)  all 1.07e-03 (103/96704)  implied radius early n/a all n/a  final 16:1.00 64:0.96 256:0.79 1024:0.31
+        by window (x1e-4/step): [0,16) 4.7  [16,32) 10.5  [32,64) 11.7  [64,128) 8.4  [128,256) 12.9  [256,512) 12.5  [512,1024) 9.6
+  sigma 0.01  hazard early (<=64) 9.72e-04 (20/20576)  all 1.13e-03 (108/95584)  implied radius early 0.033 all 0.033  final 16:1.00 64:0.96 256:0.78 1024:0.31
+        by window (x1e-4/step): [0,16) 4.7  [16,32) 8.4  [32,64) 13.8  [64,128) 9.2  [128,256) 14.3  [256,512) 12.2  [512,1024) 10.2
+  sigma 0.02  hazard early (<=64) 9.24e-04 (19/20560)  all 1.16e-03 (109/93712)  implied radius early 0.066 all 0.065  final 16:1.00 64:0.97 256:0.79 1024:0.30
+        by window (x1e-4/step): [0,16) 6.2  [16,32) 6.3  [32,64) 12.8  [64,128) 10.9  [128,256) 14.4  [256,512) 13.6  [512,1024) 10.0
+  sigma 0.05  hazard early (<=64) 1.17e-03 (24/20432)  all 1.34e-03 (120/89296)  implied radius early 0.162 all 0.160  final 16:1.00 64:0.93 256:0.74 1024:0.24
+        by window (x1e-4/step): [0,16) 6.2  [16,32) 14.7  [32,64) 14.0  [64,128) 14.3  [128,256) 17.1  [256,512) 13.7  [512,1024) 10.5
+  sigma 0.1   hazard early (<=64) 1.68e-03 (34/20240)  all 1.94e-03 (147/75856)  implied radius early 0.314 all 0.310  final 16:1.00 64:0.92 256:0.59 1024:0.18
+        by window (x1e-4/step): [0,16) 9.4  [16,32) 21.2  [32,64) 19.7  [64,128) 20.3  [128,256) 24.9  [256,512) 19.5  [512,1024) 13.8
+  sigma 0.2   hazard early (<=64) 6.34e-03 (117/18464)  all 6.16e-03 (235/38176)  implied radius early 0.546 all 0.548  final 16:0.99 64:0.67 256:0.15 1024:0.00
+        by window (x1e-4/step): [0,16) 28.1  [16,32) 107.8  [32,64) 66.5  [64,128) 73.2  [128,256) 59.5  [256,512) 29.3  [512,1024) 19.5
