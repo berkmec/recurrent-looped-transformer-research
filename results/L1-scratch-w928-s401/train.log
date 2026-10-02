@@ -1,0 +1,131 @@
+step    100  loss 1.913  answer_loss 2.464956521987915  first-digit 0.019607843831181526  lr 1.20e-04  11.0 min
+step    200  loss 1.642  answer_loss 2.3390698432922363  first-digit 0.06521739065647125  lr 2.40e-04  22.1 min
+step    300  loss 1.509  answer_loss 2.3506245613098145  first-digit 0.16326530277729034  lr 3.60e-04  36.1 min
+step    400  loss 1.420  answer_loss 2.333400249481201  first-digit 0.11764706671237946  lr 4.80e-04  52.7 min
+step    500  loss 1.361  answer_loss 2.3327958583831787  first-digit 0.14000000059604645  lr 6.00e-04  68.9 min
+step    600  loss 1.334  answer_loss 2.282470226287842  first-digit 0.1111111119389534  lr 6.00e-04  95.9 min
+step    700  loss 1.283  answer_loss 2.26546049118042  first-digit 0.29629629850387573  lr 6.00e-04  115.3 min
+step    800  loss 1.265  answer_loss 2.24800181388855  first-digit 0.06122449040412903  lr 6.00e-04  128.1 min
+step    900  loss 1.212  answer_loss 2.21150803565979  first-digit 0.26923078298568726  lr 6.00e-04  141.9 min
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "__RLT_ROOT__\2026-09-18-phase2\mline\longrun.py", line 317, in <module>
+    main()
+  File "__RLT_ROOT__\2026-09-18-phase2\mline\longrun.py", line 310, in main
+    train(args.out, width=args.width, heads=args.heads, steps=steps, batch=args.batch, length=args.length, lr=args.lr, seed=args.seed,
+  File "__RLT_ROOT__\2026-09-18-phase2\mline\longrun.py", line 225, in train
+    row['eval'] = eval_fn(model, step)
+                  ^^^^^^^^^^^^^^^^^^^^
+  File "__RLT_ROOT__\2026-09-18-phase2\mline\longrun.py", line 255, in fn
+    out.update(me.extra_eval(alphabet, 4, 4, (0, filler_hi), length, n_items=items, key_lengths=(4,), with_replacement=True)(model))
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "__RLT_ROOT__\2026-09-18-phase2\mline\mqar_eval.py", line 88, in fn
+    r = mqar_accuracy(model, letters, (k, k), facts, queries, filler, pad_to, n_items, seed=seed,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "__RLT_ROOT__\2026-09-18-phase2\mline\mqar_eval.py", line 32, in mqar_accuracy
+    pred = ml.forward_logits(model, x[lo:lo + batch].to(device)).argmax(-1).cpu()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "__RLT_ROOT__\2026-09-18-phase2\mline\lm.py", line 49, in forward_logits
+    out = model(x)
+          ^^^^^^^^
+  File "__PY_ENV_DIR__\torch\nn\modules\module.py", line 1783, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "__PY_ENV_DIR__\torch\nn\modules\module.py", line 1794, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "__RLT_ROOT__\2026-09-18-phase2\core\model.py", line 60, in forward
+    e,_,_=self.encode(x);n=self.mn(e);mk=self.rope(self.split(self.mk(n)));mv=self.split(self.mv(n))
+          ^^^^^^^^^^^^^^
+  File "__RLT_ROOT__\2026-09-18-phase2\core\model.py", line 39, in encode
+    e=self.embedding(x);n=self.en(e);q=self.rope(self.split(self.eq(n)));k=self.rope(self.split(self.ek(n)));v=self.split(self.ev(n));e=e+self.eo(self.attend(q,k,v,True));e=e+self.eff(self.efn(e));return e,k,v
+      ^^^^^^^^^^^^^^^^^
+  File "__PY_ENV_DIR__\torch\nn\modules\module.py", line 1783, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "__PY_ENV_DIR__\torch\nn\modules\module.py", line 1794, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "__PY_ENV_DIR__\torch\nn\modules\sparse.py", line 189, in forward
+    return F.embedding(
+           ^^^^^^^^^^^^
+  File "__PY_ENV_DIR__\torch\nn\functional.py", line 2621, in embedding
+    return torch.embedding(weight, input, padding_idx, scale_grad_by_freq, sparse)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: Expected all tensors to be on the same device, but got index is on cpu, different from other tensors on cuda:0 (when checking argument in method wrapper_CUDA__index_select)
+resuming from step 750
+step    800  loss 1.265  answer_loss 2.2480015754699707  first-digit 0.06122449040412903  lr 6.00e-04  13.7 min
+step    900  loss 1.212  answer_loss 2.2129104137420654  first-digit 0.23076924681663513  lr 6.00e-04  32.4 min
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "__RLT_ROOT__\2026-09-18-phase2\mline\longrun.py", line 317, in <module>
+    needle_rate=args.needle_rate, phases=phases, lm_batch=lm_batch, natural_keys=natural_train, warmup=args.warmup,
+^^^^
+  File "__RLT_ROOT__\2026-09-18-phase2\mline\longrun.py", line 310, in main
+    def lm_batch(step, n_rows):
+  File "__RLT_ROOT__\2026-09-18-phase2\mline\longrun.py", line 225, in train
+    try:
+         
+  File "__RLT_ROOT__\2026-09-18-phase2\mline\longrun.py", line 255, in fn
+    from mline import train as mt
+                   ^^^^^^^^^^^^^^^
+  File "__RLT_ROOT__\2026-09-18-phase2\mline\mqar_eval.py", line 88, in fn
+    for k in key_lengths:
+            ^^^^^^^^^^^^^
+  File "__RLT_ROOT__\2026-09-18-phase2\mline\mqar_eval.py", line 32, in mqar_accuracy
+    pred = ml.forward_logits(model, x[lo:lo + batch].to(device)).argmax(-1).cpu()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "__RLT_ROOT__\2026-09-18-phase2\mline\lm.py", line 49, in forward_logits
+    out = model(x)
+          ^^^^^^^^
+  File "__PY_ENV_DIR__\torch\nn\modules\module.py", line 1783, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "__PY_ENV_DIR__\torch\nn\modules\module.py", line 1794, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "__RLT_ROOT__\2026-09-18-phase2\core\model.py", line 60, in forward
+    e,_,_=self.encode(x);n=self.mn(e);mk=self.rope(self.split(self.mk(n)));mv=self.split(self.mv(n))
+          ^^^^^^^^^^^^^^
+  File "__RLT_ROOT__\2026-09-18-phase2\core\model.py", line 39, in encode
+    e=self.embedding(x);n=self.en(e);q=self.rope(self.split(self.eq(n)));k=self.rope(self.split(self.ek(n)));v=self.split(self.ev(n));e=e+self.eo(self.attend(q,k,v,True));e=e+self.eff(self.efn(e));return e,k,v
+      ^^^^^^^^^^^^^^^^^
+  File "__PY_ENV_DIR__\torch\nn\modules\module.py", line 1783, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "__PY_ENV_DIR__\torch\nn\modules\module.py", line 1794, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "__PY_ENV_DIR__\torch\nn\modules\sparse.py", line 189, in forward
+    return F.embedding(
+           ^^^^^^^^^^^^
+  File "__PY_ENV_DIR__\torch\nn\functional.py", line 2621, in embedding
+    return torch.embedding(weight, input, padding_idx, scale_grad_by_freq, sparse)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: Expected all tensors to be on the same device, but got index is on cpu, different from other tensors on cuda:0 (when checking argument in method wrapper_CUDA__index_select)
+resuming from step 750
+step    800  loss 1.265  answer_loss 2.248002052307129  first-digit 0.06122449040412903  lr 6.00e-04  5.8 min
+step    900  loss 1.212  answer_loss 2.21321177482605  first-digit 0.23076924681663513  lr 6.00e-04  18.4 min
+step   1000  {"bits_per_byte": 2.0013375145714307, "train_k4_first": 0.24390243902439024, "train_k4_exact": 0.006097560975609756, "held_k4_first": 0.22560975609756098, "held_k4_exact": 0.018292682926829267, "natural_first": 0.19285714285714287, "natural_exact": 0.0, "single_fact_exact@0": 0.006944444444444444, "single_fact_exact@64": 0.0234375, "single_fact_exact@128": 0.0, "single_fact_exact@256": 0.0, "singl
+step   1000  loss 1.239  answer_loss 2.0494019985198975  first-digit 0.18518519401550293  lr 6.00e-04  32.1 min
+step   1100  loss 1.200  answer_loss 1.1183305978775024  first-digit 0.75  lr 6.00e-04  44.1 min
+step   1200  loss 1.174  answer_loss 1.3298004865646362  first-digit 0.5714285373687744  lr 6.00e-04  55.4 min
+step   1300  loss 1.198  answer_loss 1.2370729446411133  first-digit 0.6458333730697632  lr 6.00e-04  67.9 min
+step   1400  loss 1.185  answer_loss 1.4023152589797974  first-digit 0.5660377740859985  lr 6.00e-04  80.3 min
+step   1500  loss 1.154  answer_loss 1.3587578535079956  first-digit 0.5185185074806213  lr 6.00e-04  92.0 min
+step   1600  loss 1.178  answer_loss 1.2020810842514038  first-digit 0.699999988079071  lr 6.00e-04  105.2 min
+step   1700  loss 1.148  answer_loss 1.2526500225067139  first-digit 0.7358490824699402  lr 6.00e-04  116.5 min
+step   1800  loss 1.095  answer_loss 1.1495282649993896  first-digit 0.6122449040412903  lr 6.00e-04  129.2 min
+step   1900  loss 1.097  answer_loss 1.3024338483810425  first-digit 0.5849056839942932  lr 6.00e-04  142.0 min
+step   2000  {"bits_per_byte": 1.8463788028804222, "train_k4_first": 0.34146341463414637, "train_k4_exact": 0.03048780487804878, "held_k4_first": 0.3475609756097561, "held_k4_exact": 0.054878048780487805, "natural_first": 0.24285714285714285, "natural_exact": 0.007142857142857143, "single_fact_exact@0": 0.19791666666666666, "single_fact_exact@64": 0.84375, "single_fact_exact@128": 0.0, "single_fact_exact@256":
+step   2000  loss 1.078  answer_loss 1.1299710273742676  first-digit 0.717391312122345  lr 6.00e-04  156.1 min
+step   2100  loss 1.095  answer_loss 1.7275505065917969  first-digit 0.5555555820465088  lr 6.00e-04  168.2 min
+step   2200  loss 1.085  answer_loss 1.497005581855774  first-digit 0.43589743971824646  lr 6.00e-04  179.3 min
+step   2300  loss 1.050  answer_loss 1.3608999252319336  first-digit 0.5128205418586731  lr 6.00e-04  189.5 min
+step   2400  loss 1.025  answer_loss 1.4904555082321167  first-digit 0.2750000059604645  lr 6.00e-04  200.5 min
+step   2500  loss 1.063  answer_loss 0.7800343632698059  first-digit 0.604651153087616  lr 6.00e-04  211.4 min
+step   2600  loss 1.023  answer_loss 0.5592820048332214  first-digit 0.7631579041481018  lr 6.00e-04  222.2 min
+step   2700  loss 1.044  answer_loss 0.6787908673286438  first-digit 0.5641025900840759  lr 6.00e-04  232.7 min
+step   2800  loss 1.047  answer_loss 0.6202839612960815  first-digit 0.625  lr 6.00e-04  243.3 min

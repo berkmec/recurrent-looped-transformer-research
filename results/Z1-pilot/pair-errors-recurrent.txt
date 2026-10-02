@@ -1,0 +1,12 @@
+gru perm4 w64: 3000 x 64 dev positions per draw, seeds [1, 2]
+  positions [1,64): hazard 0.001 (263 errors over 370565 at-risk visits; per draw [129, 134]) | pairs with errors 167/576, max per pair 6 | concentration C 1.466, split-half correlation 0.334 -> MIXED | top-5 pairs/states/tokens hold 0.10/0.39/0.35 of the errors
+lstm perm4 w64: 3000 x 64 dev positions per draw, seeds [1, 2]
+  positions [1,64): hazard 0.001 (194 errors over 372423 at-risk visits; per draw [92, 102]) | pairs with errors 140/576, max per pair 5 | concentration C 1.367, split-half correlation 0.282 -> MIXED | top-5 pairs/states/tokens hold 0.11/0.37/0.45 of the errors
+gru perm4 w128: 3000 x 64 dev positions per draw, seeds [1, 2]
+  positions [1,64): hazard 0.000 (33 errors over 377070 at-risk visits; per draw [19, 14]) | pairs with errors 32/576, max per pair 2 | concentration C 1.005, split-half correlation 0.034 -> TOO FEW ERRORS | top-5 pairs/states/tokens hold 0.18/0.55/0.36 of the errors
+lstm perm4 w112: 3000 x 64 dev positions per draw, seeds [1, 2]
+  positions [1,64): hazard 0.000 (135 errors over 374533 at-risk visits; per draw [60, 75]) | pairs with errors 113/576, max per pair 3 | concentration C 1.112, split-half correlation 0.058 -> NOISE-LIKE | top-5 pairs/states/tokens hold 0.10/0.34/0.36 of the errors
+gru perm5 w256: 3000 x 64 dev positions per draw, seeds [1, 2]
+  positions [1,64): hazard 0.003 (923 errors over 351585 at-risk visits; per draw [475, 448]) | pairs with errors 882/14400, max per pair 3 | concentration C 1.025, split-half correlation 0.011 -> NOISE-LIKE | top-5 pairs/states/tokens hold 0.01/0.08/0.08 of the errors
+lstm perm5 w208: 3000 x 64 dev positions per draw, seeds [1, 2]
+  positions [1,64): hazard 0.001 (380 errors over 367714 at-risk visits; per draw [189, 191]) | pairs with errors 378/14400, max per pair 2 | concentration C 0.985, split-half correlation -0.008 -> NOISE-LIKE | top-5 pairs/states/tokens hold 0.02/0.09/0.10 of the errors

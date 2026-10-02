@@ -1,0 +1,52 @@
+[
+ {
+  "weights": "results/Z1-pilot/perm5-core-w128-s1-cur.pt",
+  "arm": "core",
+  "task": "perm5",
+  "width": 128,
+  "n": 1500,
+  "length": 256,
+  "seeds": [
+   1,
+   2
+  ],
+  "windows": {
+   "1-64": {
+    "visits": 189000,
+    "errors": 0,
+    "hazard": 0.0,
+    "errors_per_draw": [
+     0,
+     0
+    ],
+    "pairs_with_errors": 0,
+    "pairs": 14400,
+    "max_pair_errors": 0,
+    "concentration": null,
+    "split_half_correlation": null,
+    "reading": "TOO FEW ERRORS",
+    "top_states_share": 0.0,
+    "top_tokens_share": 0.0,
+    "top_pairs_share": 0.0
+   },
+   "128-256": {
+    "visits": 330772,
+    "errors": 814,
+    "hazard": 0.002460909629593799,
+    "errors_per_draw": [
+     386,
+     428
+    ],
+    "pairs_with_errors": 772,
+    "pairs": 14400,
+    "max_pair_errors": 2,
+    "concentration": 1.0442381572336217,
+    "split_half_correlation": 0.022910750494505,
+    "reading": "NOISE-LIKE",
+    "top_states_share": 0.09336609336609336,
+    "top_tokens_share": 0.08108108108108109,
+    "top_pairs_share": 0.012285012285012284
+   }
+  }
+ }
+]

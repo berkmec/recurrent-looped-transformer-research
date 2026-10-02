@@ -1,0 +1,36 @@
+core perm5 w128 (409720 parameters), 100 dev sequences of length 512
+  p_id 0.0: final 0.53 | late (>= 128) first errors 76 | per step 2.60e-03 per update 2.63e-03
+  p_id 0.5: final 0.15 | late (>= 128) first errors 68 | per step 4.92e-03 per update 9.74e-03
+  p_id 0.9: final 0.03 | late (>= 128) first errors 1 | per step 7.81e-03 per update 1.11e-01
+  p_id 0.99: final 0.01 | late (>= 128) first errors 1 | per step 7.81e-03 per update 1.00e+00
+  reading: {"verdict": "OTHER", "per_p": {"0.5": {"verdict": "OTHER", "step_ratio": 1.888888888888889, "update_ratio": 3.7093123209169057, "events": 68}, "0.9": {"verdict": "TOO FEW EVENTS", "events": 1}}}
+core perm4 w64 (98328 parameters), 100 dev sequences of length 512
+  p_id 0.0: final 1.00 | late (>= 128) first errors 0 | per step 0.00e+00 per update 0.00e+00
+  p_id 0.5: final 1.00 | late (>= 128) first errors 0 | per step 0.00e+00 per update 0.00e+00
+  p_id 0.9: final 0.65 | late (>= 128) first errors 33 | per step 1.07e-03 per update 1.14e-02
+  p_id 0.99: final 0.77 | late (>= 128) first errors 19 | per step 5.34e-04 per update 5.72e-02
+  reading: {"verdict": "NO BASELINE ERRORS", "per_p": {}}
+gru perm4 w64 (28056 parameters), 100 dev sequences of length 512
+  p_id 0.0: final 0.77 | late (>= 128) first errors 29 | per step 8.99e-04 per update 9.39e-04
+  p_id 0.5: final 0.63 | late (>= 128) first errors 49 | per step 1.81e-03 per update 3.78e-03
+  p_id 0.9: final 0.06 | late (>= 128) first errors 10 | per step 5.58e-03 per update 5.59e-02
+  p_id 0.99: final 0.07 | late (>= 128) first errors 51 | per step 4.69e-03 per update 4.59e-01
+  reading: {"verdict": "NEUTRAL FAILURE", "per_p": {"0.5": {"verdict": "OTHER", "step_ratio": 2.0179767935937245, "update_ratio": 4.02639844968669, "events": 49}, "0.9": {"verdict": "NEUTRAL FAILURE", "step_ratio": 6.206896551724139, "update_ratio": 59.46638412637256, "events": 10}}}
+lstm perm4 w64 (36376 parameters), 100 dev sequences of length 512
+  p_id 0.0: final 0.85 | late (>= 128) first errors 19 | per step 5.67e-04 per update 5.92e-04
+  p_id 0.5: final 0.24 | late (>= 128) first errors 33 | per step 3.39e-03 per update 7.09e-03
+  p_id 0.9: final 0.06 | late (>= 128) first errors 1 | per step 7.81e-03 per update 7.69e-02
+  p_id 0.99: final 0.10 | late (>= 128) first errors 38 | per step 5.60e-03 per update 6.03e-01
+  reading: {"verdict": "NEUTRAL FAILURE", "per_p": {"0.5": {"verdict": "NEUTRAL FAILURE", "step_ratio": 5.987534626038782, "update_ratio": 11.972044421324046, "events": 33}, "0.9": {"verdict": "TOO FEW EVENTS", "events": 1}}}
+gru perm5 w256 (456312 parameters), 100 dev sequences of length 512
+  p_id 0.0: final 0.36 | late (>= 128) first errors 50 | per step 2.47e-03 per update 2.49e-03
+  p_id 0.5: final 0.27 | late (>= 128) first errors 50 | per step 3.05e-03 per update 6.16e-03
+  p_id 0.9: final 0.23 | late (>= 128) first errors 18 | per step 5.86e-03 per update 6.32e-02
+  p_id 0.99: final 0.30 | late (>= 128) first errors 52 | per step 3.63e-03 per update 3.40e-01
+  reading: {"verdict": "MIXED", "per_p": {"0.5": {"verdict": "TIME", "step_ratio": 1.234375, "update_ratio": 2.4722051029212375, "events": 50}, "0.9": {"verdict": "OTHER", "step_ratio": 2.3699999999999997, "update_ratio": 25.335157894736845, "events": 18}}}
+lstm perm5 w208 (397816 parameters), 100 dev sequences of length 512
+  p_id 0.0: final 0.56 | late (>= 128) first errors 37 | per step 1.25e-03 per update 1.26e-03
+  p_id 0.5: final 0.01 | late (>= 128) first errors 18 | per step 5.41e-03 per update 1.08e-02
+  p_id 0.9: final 0.00 | late (>= 128) first errors 0 | per step n/a per update n/a
+  p_id 0.99: final 0.00 | late (>= 128) first errors 37 | per step 4.59e-03 per update 4.51e-01
+  reading: {"verdict": "NEUTRAL FAILURE", "per_p": {"0.5": {"verdict": "NEUTRAL FAILURE", "step_ratio": 4.3222453222453225, "update_ratio": 8.555683457903013, "events": 18}, "0.9": {"verdict": "TOO FEW EVENTS", "events": 0}}}

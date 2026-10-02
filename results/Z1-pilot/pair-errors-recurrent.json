@@ -1,0 +1,194 @@
+[
+ {
+  "weights": "results/Z1-pilot/perm4-gru-w64-s1-cur.pt",
+  "arm": "gru",
+  "task": "perm4",
+  "width": 64,
+  "n": 3000,
+  "length": 64,
+  "seeds": [
+   1,
+   2
+  ],
+  "windows": {
+   "1-64": {
+    "visits": 370565,
+    "errors": 263,
+    "hazard": 0.0007097270384412991,
+    "errors_per_draw": [
+     129,
+     134
+    ],
+    "pairs_with_errors": 167,
+    "pairs": 576,
+    "max_pair_errors": 6,
+    "concentration": 1.4661742152690183,
+    "split_half_correlation": 0.33445709883419,
+    "reading": "MIXED",
+    "top_states_share": 0.38783269961977185,
+    "top_tokens_share": 0.34980988593155893,
+    "top_pairs_share": 0.09505703422053231
+   }
+  }
+ },
+ {
+  "weights": "results/Z1-pilot/perm4-lstm-w64-s1-cur.pt",
+  "arm": "lstm",
+  "task": "perm4",
+  "width": 64,
+  "n": 3000,
+  "length": 64,
+  "seeds": [
+   1,
+   2
+  ],
+  "windows": {
+   "1-64": {
+    "visits": 372423,
+    "errors": 194,
+    "hazard": 0.0005209130477977998,
+    "errors_per_draw": [
+     92,
+     102
+    ],
+    "pairs_with_errors": 140,
+    "pairs": 576,
+    "max_pair_errors": 5,
+    "concentration": 1.366777043422305,
+    "split_half_correlation": 0.28166982985974887,
+    "reading": "MIXED",
+    "top_states_share": 0.36597938144329895,
+    "top_tokens_share": 0.4484536082474227,
+    "top_pairs_share": 0.10824742268041238
+   }
+  }
+ },
+ {
+  "weights": "results/Z1-pilot/perm4-gru-w128-s1-cur.pt",
+  "arm": "gru",
+  "task": "perm4",
+  "width": 128,
+  "n": 3000,
+  "length": 64,
+  "seeds": [
+   1,
+   2
+  ],
+  "windows": {
+   "1-64": {
+    "visits": 377070,
+    "errors": 33,
+    "hazard": 8.751690667515315e-05,
+    "errors_per_draw": [
+     19,
+     14
+    ],
+    "pairs_with_errors": 32,
+    "pairs": 576,
+    "max_pair_errors": 2,
+    "concentration": 1.0047846889952152,
+    "split_half_correlation": 0.03397231326548538,
+    "reading": "TOO FEW ERRORS",
+    "top_states_share": 0.5454545454545454,
+    "top_tokens_share": 0.36363636363636365,
+    "top_pairs_share": 0.18181818181818182
+   }
+  }
+ },
+ {
+  "weights": "results/Z1-pilot/perm4-lstm-w112-s1-cur.pt",
+  "arm": "lstm",
+  "task": "perm4",
+  "width": 112,
+  "n": 3000,
+  "length": 64,
+  "seeds": [
+   1,
+   2
+  ],
+  "windows": {
+   "1-64": {
+    "visits": 374533,
+    "errors": 135,
+    "hazard": 0.00036044887900398627,
+    "errors_per_draw": [
+     60,
+     75
+    ],
+    "pairs_with_errors": 113,
+    "pairs": 576,
+    "max_pair_errors": 3,
+    "concentration": 1.1117370892018779,
+    "split_half_correlation": 0.05788884065951213,
+    "reading": "NOISE-LIKE",
+    "top_states_share": 0.34074074074074073,
+    "top_tokens_share": 0.362962962962963,
+    "top_pairs_share": 0.0962962962962963
+   }
+  }
+ },
+ {
+  "weights": "results/Z1-pilot/perm5-gru-w256-s1-cur.pt",
+  "arm": "gru",
+  "task": "perm5",
+  "width": 256,
+  "n": 3000,
+  "length": 64,
+  "seeds": [
+   1,
+   2
+  ],
+  "windows": {
+   "1-64": {
+    "visits": 351585,
+    "errors": 923,
+    "hazard": 0.002625254205953041,
+    "errors_per_draw": [
+     475,
+     448
+    ],
+    "pairs_with_errors": 882,
+    "pairs": 14400,
+    "max_pair_errors": 3,
+    "concentration": 1.0253562987273697,
+    "split_half_correlation": 0.011142178718238737,
+    "reading": "NOISE-LIKE",
+    "top_states_share": 0.0790899241603467,
+    "top_tokens_share": 0.07583965330444203,
+    "top_pairs_share": 0.011917659804983749
+   }
+  }
+ },
+ {
+  "weights": "results/Z1-pilot/perm5-lstm-w208-s1-cur.pt",
+  "arm": "lstm",
+  "task": "perm5",
+  "width": 208,
+  "n": 3000,
+  "length": 64,
+  "seeds": [
+   1,
+   2
+  ],
+  "windows": {
+   "1-64": {
+    "visits": 367714,
+    "errors": 380,
+    "hazard": 0.0010334118363728333,
+    "errors_per_draw": [
+     189,
+     191
+    ],
+    "pairs_with_errors": 378,
+    "pairs": 14400,
+    "max_pair_errors": 2,
+    "concentration": 0.9846118781628271,
+    "split_half_correlation": -0.007994329369258188,
+    "reading": "NOISE-LIKE",
+    "top_states_share": 0.09473684210526316,
+    "top_tokens_share": 0.09736842105263158,
+    "top_pairs_share": 0.018421052631578946
+   }
+  }
+ }
+]

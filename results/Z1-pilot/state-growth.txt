@@ -1,0 +1,36 @@
+core perm4 w64 (98328 parameters), 50 dev sequences of length 256, kick at position 8
+  eps 0.001: [9,33) growth -0.6189/step flips 0.0000  [33,129) growth -0.0353/step flips 0.0000  [129,256) growth +0.0000/step flips 0.0000  | re-converged (d < 1e-10 at the end): 1.00
+  eps 0.01: [9,33) growth -0.6191/step flips 0.0000  [33,129) growth -0.0545/step flips 0.0000  [129,256) growth +0.0000/step flips 0.0000  | re-converged (d < 1e-10 at the end): 1.00
+  state rms by position window: [0,16) 1.828  [16,64) 1.820  [64,128) 1.819  [128,192) 1.819  [192,256) 1.822
+  class geometry R / M (within-class spread over nearest-centroid distance; classes present) by window: [0,16) 0.364 (24)  [16,64) 0.367 (24)  [64,128) 0.370 (24)  [128,192) 0.368 (24)  [192,256) 0.368 (24)
+  one-step Jacobian, largest singular value (median / max over sequences): t=4: 1.014/1.427  t=16: 1.040/1.283  t=32: 0.959/1.469  t=64: 0.952/1.198  t=128: 0.933/1.283  t=192: 0.921/1.713  t=255: 0.939/1.218
+core perm5 w128 (409720 parameters), 50 dev sequences of length 256, kick at position 8
+  eps 0.001: [9,33) growth -0.0009/step flips 0.0000  [33,129) growth +0.0016/step flips 0.0000  [129,256) growth +0.0002/step flips 0.0002  | re-converged (d < 1e-10 at the end): 0.00
+  eps 0.01: [9,33) growth -0.0009/step flips 0.0000  [33,129) growth +0.0016/step flips 0.0000  [129,256) growth +0.0002/step flips 0.0009  | re-converged (d < 1e-10 at the end): 0.00
+  state rms by position window: [0,16) 3.299  [16,64) 3.354  [64,128) 3.346  [128,192) 3.349  [192,256) 3.354
+  class geometry R / M (within-class spread over nearest-centroid distance; classes present) by window: [0,16) 0.380 (114)  [16,64) 0.438 (120)  [64,128) 0.506 (120)  [128,192) 0.605 (120)  [192,256) 0.702 (120)
+  one-step Jacobian, largest singular value (median / max over sequences): t=4: 1.207/1.349  t=16: 1.248/1.275  t=32: 1.185/1.379  t=64: 1.199/1.322  t=128: 1.160/1.291  t=192: 1.163/1.234  t=255: 1.180/1.231
+gru perm4 w64 (28056 parameters), 50 dev sequences of length 256, kick at position 8
+  eps 0.001: [9,33) growth -0.0284/step flips 0.0000  [33,129) growth -0.0047/step flips 0.0000  [129,256) growth -0.0024/step flips 0.0000  | re-converged (d < 1e-10 at the end): 0.00
+  eps 0.01: [9,33) growth -0.0284/step flips 0.0000  [33,129) growth -0.0047/step flips 0.0002  [129,256) growth -0.0024/step flips 0.0000  | re-converged (d < 1e-10 at the end): 0.00
+  state rms by position window: [0,16) 0.771  [16,64) 0.790  [64,128) 0.796  [128,192) 0.797  [192,256) 0.798
+  class geometry R / M (within-class spread over nearest-centroid distance; classes present) by window: [0,16) 1.344 (24)  [16,64) 1.463 (24)  [64,128) 1.574 (24)  [128,192) 1.687 (24)  [192,256) 1.789 (24)
+  one-step Jacobian, largest singular value (median / max over sequences): t=4: 2.786/3.796  t=16: 2.406/3.541  t=32: 2.233/3.455  t=64: 2.415/3.549  t=128: 2.753/3.321  t=192: 2.408/3.005  t=255: 2.903/3.785
+lstm perm4 w64 (36376 parameters), 50 dev sequences of length 256, kick at position 8
+  eps 0.001: [9,33) growth -0.5893/step flips 0.0000  [33,129) growth -0.0518/step flips 0.0000  [129,256) growth +0.0000/step flips 0.0000  | re-converged (d < 1e-10 at the end): 1.00
+  eps 0.01: [9,33) growth -0.5889/step flips 0.0000  [33,129) growth -0.0741/step flips 0.0000  [129,256) growth +0.0000/step flips 0.0000  | re-converged (d < 1e-10 at the end): 1.00
+  state rms by position window: [0,16) 0.642  [16,64) 0.646  [64,128) 0.646  [128,192) 0.647  [192,256) 0.646
+  class geometry R / M (within-class spread over nearest-centroid distance; classes present) by window: [0,16) 1.624 (24)  [16,64) 1.741 (24)  [64,128) 1.918 (24)  [128,192) 2.020 (24)  [192,256) 2.113 (24)
+  one-step Jacobian, largest singular value (median / max over sequences): t=4: 3.492/4.454  t=16: 3.357/4.303  t=32: 3.931/5.488  t=64: 3.217/4.453  t=128: 3.639/5.021  t=192: 3.582/6.786  t=255: 3.035/3.826
+gru perm5 w256 (456312 parameters), 50 dev sequences of length 256, kick at position 8
+  eps 0.001: [9,33) growth -0.0092/step flips 0.0000  [33,129) growth -0.0014/step flips 0.0002  [129,256) growth +0.0012/step flips 0.0027  | re-converged (d < 1e-10 at the end): 0.00
+  eps 0.01: [9,33) growth -0.0090/step flips 0.0000  [33,129) growth -0.0013/step flips 0.0013  [129,256) growth +0.0008/step flips 0.0039  | re-converged (d < 1e-10 at the end): 0.00
+  state rms by position window: [0,16) 0.747  [16,64) 0.767  [64,128) 0.773  [128,192) 0.776  [192,256) 0.778
+  class geometry R / M (within-class spread over nearest-centroid distance; classes present) by window: [0,16) 1.475 (114)  [16,64) 2.164 (120)  [64,128) 2.468 (120)  [128,192) 2.614 (120)  [192,256) 2.667 (120)
+  one-step Jacobian, largest singular value (median / max over sequences): t=4: 3.647/6.906  t=16: 3.515/5.482  t=32: 3.816/6.161  t=64: 3.249/4.700  t=128: 3.597/6.650  t=192: 3.604/5.927  t=255: 3.110/4.179
+lstm perm5 w208 (397816 parameters), 50 dev sequences of length 256, kick at position 8
+  eps 0.001: [9,33) growth -0.3732/step flips 0.0000  [33,129) growth -0.1457/step flips 0.0000  [129,256) growth -0.0000/step flips 0.0000  | re-converged (d < 1e-10 at the end): 1.00
+  eps 0.01: [9,33) growth -0.3731/step flips 0.0000  [33,129) growth -0.1790/step flips 0.0000  [129,256) growth -0.0000/step flips 0.0000  | re-converged (d < 1e-10 at the end): 1.00
+  state rms by position window: [0,16) 0.546  [16,64) 0.547  [64,128) 0.547  [128,192) 0.545  [192,256) 0.546
+  class geometry R / M (within-class spread over nearest-centroid distance; classes present) by window: [0,16) 1.330 (114)  [16,64) 1.751 (120)  [64,128) 1.846 (120)  [128,192) 1.939 (120)  [192,256) 2.002 (120)
+  one-step Jacobian, largest singular value (median / max over sequences): t=4: 5.076/5.766  t=16: 4.655/6.364  t=32: 4.587/6.319  t=64: 4.233/5.805  t=128: 4.964/6.151  t=192: 4.519/6.068  t=255: 4.572/5.639

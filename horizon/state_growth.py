@@ -239,6 +239,70 @@ def measure(weights, steps, t0, eps_list, n, seed, windows=((0, 25), (25, 121), 
                 class_margin=class_margin_by_window(model, x, dt.oracle(meta['task'], x)))
 
 
+TOLERANCE = 1e-9            # |growth per step| below this is numerical zero
+GROWTH_G2 = 0.005           # note 5.4, G2: expansion per step that supports "unstable mode"
+FLIP_FACTOR = 5.0           # note 5.4, G2: or a last-window flip rate this many times the S4 Core's
+
+
+def _name(r):
+    return f"{r['task']}-{r['arm']}-w{r['width']}"
+
+
+def _vanished(window):
+    """The perturbation has already reached the float64 floor (every position's log d is the clamp) when the window starts: the window carries no growth information
+    (its 'slope' is rounding noise of averaging clamped values, e.g. +9e-18 for the S4 Core and +8.7e-8 / +4.4e-5 for the S4 LSTM), and the perturbation has contracted
+    as far as it can. Added after the first reading, because the literal tolerance above was not enough for the S4 LSTM; both readings are recorded in the note."""
+    return window['mean_log_d_start'] <= math.log(FLOOR) + 0.01
+
+
+def _non_expanding(window):
+    return window['growth_per_step'] <= TOLERANCE or _vanished(window)
+
+
+def _contracting(window, converged):
+    """A window contracts when the growth is negative, or the perturbation has already vanished (and every sequence re-converged)."""
+    return window['growth_per_step'] < -TOLERANCE or (_vanished(window) and converged >= 0.99)
+
+
+def verdict(records):
+    """E-B2 reading (program note 5.4), applied to the records of `measure`; every eps is read separately and the rule must hold at both.
+    G1: S4 Core: growth <= 0 in every window and flip rate < 1e-3 in the first two windows. G2: S5 Core: last-window growth > +0.005 per step OR last-window flip
+    rate >= 5x the S4 Core's (undefined when the S4 Core's is 0: reported as such, not counted); refuted when every window's growth <= 0 and the flip rate is about the
+    S4 Core's (within 1e-3). G3: every GRU / LSTM model contracts in every window. The tolerance for 'zero' is declared above (added after the first reading)."""
+    by = {_name(r): r for r in records}
+    out = dict(tolerance=TOLERANCE)
+    core4, core5 = by.get('perm4-core-w64'), by.get('perm5-core-w128')
+    if core4:
+        g1 = {}
+        for eps, row in core4['results'].items():
+            wins = list(row['windows'].values())
+            g1[eps] = dict(growth=[w['growth_per_step'] for w in wins], flips=[w['flip_rate'] for w in wins],
+                           holds=all(_non_expanding(w) for w in wins) and all(w['flip_rate'] < 1e-3 for w in wins[:2]))
+        out['G1'] = dict(per_eps=g1, holds=all(v['holds'] for v in g1.values()))
+    if core4 and core5:
+        base = {eps: list(row['windows'].values())[-1]['flip_rate'] for eps, row in core4['results'].items()}
+        g2 = {}
+        for eps, row in core5['results'].items():
+            wins = list(row['windows'].values())
+            last = wins[-1]
+            flip_defined = base[eps] > 0
+            supported = last['growth_per_step'] > GROWTH_G2 or (flip_defined and last['flip_rate'] >= FLIP_FACTOR * base[eps])
+            refuted = all(_non_expanding(w) for w in wins) and abs(last['flip_rate'] - base[eps]) <= 1e-3
+            g2[eps] = dict(growth=[w['growth_per_step'] for w in wins], last_flip=last['flip_rate'], s4_last_flip=base[eps], flip_clause_defined=flip_defined,
+                           supported=supported, refuted=refuted)
+        out['G2'] = dict(per_eps=g2, verdict='SUPPORTED' if all(v['supported'] for v in g2.values()) else 'REFUTED' if all(v['refuted'] for v in g2.values())
+                         else 'NEITHER (neutral: no contraction, no expansion above the threshold)')
+    g3 = {}
+    for name, r in by.items():
+        if r['arm'] in ('gru', 'lstm'):
+            g3[name] = {eps: dict(growth=[w['growth_per_step'] for w in row['windows'].values()], contracting=all(_contracting(w, row['converged']) for w in row['windows'].values()))
+                        for eps, row in r['results'].items()}
+    if g3:
+        out['G3'] = dict(per_model={n: all(v['contracting'] for v in d.values()) for n, d in g3.items()}, detail=g3,
+                         holds=all(all(v['contracting'] for v in d.values()) for d in g3.values()))
+    return out
+
+
 def describe(r):
     lines = [f"{r['arm']} {r['task']} w{r['width']} ({r['parameters']} parameters), {r['n']} dev sequences of length {r['steps']}, kick at position {r['t0']}"]
     for eps, row in r['results'].items():
@@ -258,7 +322,8 @@ def describe(r):
 def main():
     torch.set_num_threads(1)
     p = argparse.ArgumentParser()
-    p.add_argument('weights', nargs='+')
+    p.add_argument('weights', nargs='*')
+    p.add_argument('--verdict', default=None, help='apply the G1-G3 reading rule to a saved state-growth.json instead of measuring')
     p.add_argument('--steps', type=int, default=256)
     p.add_argument('--t0', type=int, default=8)
     p.add_argument('--eps', default='0.001,0.01')
@@ -266,6 +331,9 @@ def main():
     p.add_argument('--seed', type=int, default=1)
     p.add_argument('--out', default=None)
     a = p.parse_args()
+    if a.verdict:
+        print(json.dumps(verdict(json.loads(Path(a.verdict).read_text(encoding='utf8'))), indent=1, default=str))
+        return
     eps_list = [float(v) for v in a.eps.split(',')]
     results = []
     for path in a.weights:

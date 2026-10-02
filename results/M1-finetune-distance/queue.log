@@ -220,3 +220,20 @@
 [06:55:01] NOT: E-B iki kez basladi (06:54:31 eski bekleyicinin cocugu, 06:54:34 yeni bekleyici; eski bekleyiciyi E-A'dan 4 sn sonra oldurdum ama cocugu calismaya devam etti). Eski E-B zinciri (bash 14144/15984, python 5900/9500) ust-alt durduruldu; 06:54:34'te baslayan tek E-B suruyor. Cikti dosyalarina yazan yalniz o. Gecici olarak 3 deney sureci ~20 sn calisti.
 [06:58:35] BITTI E-B (bkz results/Z1-pilot/state-noise-margin.txt)
 [06:58:36] BASLA E-L1P (step002000; CPU, 1 parcacik): L1 geri besleme kanali kullanimi, egitimsiz
+[07:01:26] ZINCIR-DEGISIKLIGI 6: yuva 2: kuyruk 4 (core) bitince E-B2, E-N, E-Q (hata cifti dagilimi; bolum 5.9), E-D; E-C (E-D'den sonra) ayni
+[07:05:09] ZINCIR-DEGISIKLIGI 7: yuva 2: kuyruk 4 (core) bitince E-B2, E-N, E-Q, E-P (lr azaltmali GRU/LSTM adalet kontrolu; bolum 5.10), E-D; E-C ayni (E-D'den sonra)
+[07:05:44] BITTI Z1 count16-core-w64-s1
+[07:05:44] Z1 kuyruk 4 (core) BITTI
+[07:06:09] BASLA E-B2 (CPU, 1 parcacik): durum tekmesinin buyumesi, 6 kayitli model, egitimsiz
+[07:07:26] BITTI E-B2 (bkz results/Z1-pilot/state-growth.txt)
+[07:07:26] BASLA E-N (CPU, 1 parcacik): kimlik-dolgu (notr kosu), 6 kayitli model, egitimsiz
+[07:08:10] BITTI E-N (bkz results/Z1-pilot/neutral-runs.txt)
+[07:08:10] BASLA E-Q (CPU, 1 parcacik): hata cifti dagilimi, GRU/LSTM S4+S5, egitimsiz
+[07:08:31] BITTI E-Q recurrent (bkz results/Z1-pilot/pair-errors-recurrent.txt)
+[07:08:31] BASLA E-Q (CPU, 1 parcacik): hata cifti dagilimi, S5 Core, egitimsiz
+[07:09:41] BITTI E-Q core (bkz results/Z1-pilot/pair-errors-core.txt)
+[07:09:41] BASLA Z1 perm4-gru-w64-s1-cur-lrdecay0.3 (CPU, 1 parcacik, 15000 adim, lr 0.003 son %30'da dogrusal sonume iner, mufredat 1,2,3,4,6,8,12,16)
+[07:10:57] BITTI E-L1P step002000 (bkz results/L1-feedback-probe/step002000.txt)
+[07:10:57] BASLA Z1 count-core_nofb-w64-s1 (CPU, 1 parcacik, 4000 adim, lr 0.003)
+[07:12:42] BITTI Z1 perm4-gru-w64-s1-cur-lrdecay0.3
+[07:12:42] BASLA Z1 perm4-lstm-w64-s1-cur-lrdecay0.3 (CPU, 1 parcacik, 15000 adim, lr 0.003 son %30'da dogrusal sonume iner, mufredat 1,2,3,4,6,8,12,16)

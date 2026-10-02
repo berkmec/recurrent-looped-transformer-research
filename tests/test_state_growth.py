@@ -100,6 +100,62 @@ class JacobianNorms(unittest.TestCase):
         self.assertLessEqual(ratio, norms[t][0] * (1 + 1e-4))          # |J delta| <= ||J||_2 |delta|
 
 
+def window(growth, flips=0.0, start=-9.0):
+    return dict(growth_per_step=growth, flip_rate=flips, mean_log_d_start=start, mean_log_d_stop=start + 1.0)
+
+
+def record(arm, task, width, windows, converged=0.0):
+    row = dict(windows={f'{i}-{i + 1}': w for i, w in enumerate(windows)}, converged=converged)
+    return dict(arm=arm, task=task, width=width, results={'0.001': row, '0.01': row})
+
+
+FLOOR_START = float(np.log(sg.FLOOR))
+
+
+class VerdictRule(unittest.TestCase):
+    """The G1-G3 rule of program note 5.4 (written before the run), with the floor handling added after the first reading."""
+
+    def core4(self, growths=(-0.6, -0.03), last=None, flips=0.0):
+        wins = [window(g, flips) for g in growths] + [last or window(9e-18, 0.0, FLOOR_START)]
+        return record('core', 'perm4', 64, wins, converged=1.0)
+
+    def test_g1_holds_for_a_contracting_core_that_reaches_the_float_floor_and_fails_on_expansion_or_flips(self):
+        self.assertTrue(sg.verdict([self.core4()])['G1']['holds'])
+        self.assertFalse(sg.verdict([self.core4(growths=(-0.6, +0.01))])['G1']['holds'])
+        self.assertFalse(sg.verdict([self.core4(flips=0.01)])['G1']['holds'])
+
+    def test_g2_supported_by_growth_refuted_by_a_flat_flipless_core_and_neither_for_a_neutral_one(self):
+        core4 = self.core4()
+        neutral = record('core', 'perm5', 128, [window(-0.0009), window(0.0016), window(0.0002, 0.00016)])
+        self.assertTrue(sg.verdict([core4, neutral])['G2']['verdict'].startswith('NEITHER'))
+        grows = record('core', 'perm5', 128, [window(-0.0009), window(0.0016), window(0.008)])
+        self.assertEqual(sg.verdict([core4, grows])['G2']['verdict'], 'SUPPORTED')
+        flat = record('core', 'perm5', 128, [window(-0.01), window(-0.001), window(-0.001)])
+        self.assertEqual(sg.verdict([core4, flat])['G2']['verdict'], 'REFUTED')
+
+    def test_g2_flip_clause_needs_a_nonzero_s4_baseline(self):
+        base = self.core4(last=window(9e-18, 0.0004, FLOOR_START))                 # the S4 Core's last-window flip rate is 4e-4
+        many = record('core', 'perm5', 128, [window(-0.001), window(0.0), window(0.0, 0.003)])
+        v = sg.verdict([base, many])['G2']
+        self.assertEqual(v['verdict'], 'SUPPORTED')                                  # 3e-3 >= 5 x 4e-4
+        self.assertTrue(all(d['flip_clause_defined'] for d in v['per_eps'].values()))
+        zero_base = sg.verdict([self.core4(), many])['G2']
+        self.assertFalse(any(d['flip_clause_defined'] for d in zero_base['per_eps'].values()))
+        self.assertFalse(zero_base['verdict'] == 'SUPPORTED')                         # an undefined clause is never counted
+
+    def test_g3_counts_a_vanished_perturbation_as_contracting_even_when_its_slope_is_rounding_noise(self):
+        gru_ok = record('gru', 'perm4', 64, [window(-0.03), window(-0.005), window(-0.002)])
+        gru_bad = record('gru', 'perm5', 256, [window(-0.009), window(-0.001), window(0.0012)])
+        lstm_floor = record('lstm', 'perm4', 64, [window(-0.6), window(-0.05), window(8.7e-8, 0.0, FLOOR_START)], converged=1.0)
+        v = sg.verdict([gru_ok, gru_bad, lstm_floor])['G3']
+        self.assertEqual(v['per_model'], {'perm4-gru-w64': True, 'perm5-gru-w256': False, 'perm4-lstm-w64': True})
+        self.assertFalse(v['holds'])
+        self.assertTrue(sg.verdict([gru_ok, lstm_floor])['G3']['holds'])
+        # a floor window of a run that did NOT re-converge for every sequence does not count as contracting
+        not_all = record('lstm', 'perm4', 64, [window(-0.6), window(-0.05), window(8.7e-8, 0.0, FLOOR_START)], converged=0.5)
+        self.assertFalse(sg.verdict([not_all])['G3']['holds'])
+
+
 class ClassGeometry(unittest.TestCase):
     def test_ratio_is_small_for_separated_classes_and_large_for_overlapping_ones(self):
         # a fake "model": the recurrent trajectory is replaced by planted states so the geometry is known exactly
