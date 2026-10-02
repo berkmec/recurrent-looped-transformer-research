@@ -186,5 +186,17 @@ Kısıt: aynı anda ≤ 2 deney süreci (L1/T1 hariç), BelowNormal; test bölü
 2. Hız: RLT-2 / birleşme-uyumlu şerit gibi RLT'nin tam-durum-geri-besleme özelliğini kısmen bırakan seçenekler, "mantığını bozmadan" ölçütüne girer mi? (Önerim: yalnız K3'ü sağlayan (kapatılabilir) eklentiler; RLT-2 B = 1'de RLT-1'e iner, girer.)
 3. L2 metin korpusu ve yayın/lisans kararı (ana belge §6.8, §10).
 
-## Sayım (bu notun tablolarından, `grep` ile hesaplandı)
-(Aşağıdaki sayılar yazıldıktan sonra tablolardan sayılarak doldurulur.)
+## Sayım (§3 tablolarından `awk` ile sayıldı, 06:24; A-G toplam 64 madde)
+| Durum | Sayı | Maddeler |
+|---|---|---|
+| ÇÖZÜLDÜ | 3 | D9, E9, G4 |
+| KISMİ (KISMİ-ÇÖZÜLDÜ dahil) | 11 | A1, A6, A7, A8, A10, B6, C2, E11, F4, F6, G1 |
+| ÇÖZÜLMEDİ | 9 | A5, B1, B2, B3, B4, B5, B7, F1, F2 |
+| AÇIK | 10 | A4, A9, C3, C5, C6, D8, E10, F5, F7, F8 |
+| KURAL (süreç dersi, kapandı) | 18 | A2, A3, C1, C4, C7-C10, D7, E1-E8, E12 |
+| KARAR (kullanıcı) | 7 | B8, F3, G2, G3, G5, G6, G7 |
+| KISIT (yönetilir, çözülmez) | 6 | D1-D6 |
+
+Toplam 64. KURAL/KARAR/KISIT hariç **teknik çekirdek 33 madde**: 3 çözüldü, 11 kısmi, 9 çözülmedi, 10 açık. Bu 9 "çözülmedi"nin 6'sı B bölümünde (doğrulayıcı, anlamsal erişim, ayrıştırma, başlık grafiği: RLT'nin çevresindeki sistemler; gerçek model yolunda ikincil); RLT çekirdeği ve eğitimiyle ilgili açık/kısmi olanlar A1, A4-A10, D1-D2 (hız), F4-F6, G1 ve N1-N10. Eklenen N bölümü (10 madde): AÇIK 3 (N1, N5, N10), ÇÖZÜLMEDİ 1 (N2), KISMİ 4 (N3, N4, N6, N9), KISIT 1 (N7), DEVAM 1 (N8).
+
+**Not:** sohbette daha önce verdiğim "8 problemden 2 çözüldü (oyuncak), 2 kısmi, 2 denendi-çözülmedi, 2 açık" sayımı 8 birimlik farklı bir gruplamaydı; bu tablo havuzun 64 maddesinin ham kanıta karşı sayımıdır. İki sayım aynı birimde değildir, karşılaştırılmaz; geçerli olan bu dosyadaki maddedir.

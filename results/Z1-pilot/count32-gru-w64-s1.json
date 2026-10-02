@@ -1,0 +1,191 @@
+{
+ "task": "count32",
+ "arm": "gru",
+ "width": 64,
+ "seed": 1,
+ "train": {
+  "steps": 12000,
+  "batch": 64,
+  "lr": 0.003,
+  "clip": 1.0,
+  "guard": {
+   "steps": 12000,
+   "skipped": 0,
+   "clipped": 11813,
+   "max_grad_norm_before_clip": 1229.1306325993912,
+   "skip_reasons": {}
+  },
+  "history": [
+   {
+    "step": 1000,
+    "loss": 0.6806488633155823,
+    "grad_norm": 6.556507913987439,
+    "length": 256,
+    "recent_accuracy": 0.710318603515625
+   },
+   {
+    "step": 2000,
+    "loss": 0.7162315845489502,
+    "grad_norm": 14.503606386307208,
+    "length": 256,
+    "recent_accuracy": 0.756353759765625
+   },
+   {
+    "step": 3000,
+    "loss": 0.5702037811279297,
+    "grad_norm": 8.508019460137263,
+    "length": 256,
+    "recent_accuracy": 0.8071527099609375
+   },
+   {
+    "step": 4000,
+    "loss": 0.3316618800163269,
+    "grad_norm": 7.629489074869794,
+    "length": 256,
+    "recent_accuracy": 0.823179931640625
+   },
+   {
+    "step": 5000,
+    "loss": 0.43689101934432983,
+    "grad_norm": 12.032711524525954,
+    "length": 256,
+    "recent_accuracy": 0.8506072998046875
+   },
+   {
+    "step": 6000,
+    "loss": 0.5171346068382263,
+    "grad_norm": 12.046433090161534,
+    "length": 256,
+    "recent_accuracy": 0.880357666015625
+   },
+   {
+    "step": 7000,
+    "loss": 0.3279983401298523,
+    "grad_norm": 12.368072233253514,
+    "length": 256,
+    "recent_accuracy": 0.9139971923828125
+   },
+   {
+    "step": 8000,
+    "loss": 0.3078628182411194,
+    "grad_norm": 5.343316343278134,
+    "length": 256,
+    "recent_accuracy": 0.8763775634765625
+   },
+   {
+    "step": 9000,
+    "loss": 0.21820227801799774,
+    "grad_norm": 15.689629533590141,
+    "length": 256,
+    "recent_accuracy": 0.9368646240234375
+   },
+   {
+    "step": 10000,
+    "loss": 0.403368204832077,
+    "grad_norm": 11.088275897935077,
+    "length": 256,
+    "recent_accuracy": 0.909744873046875
+   },
+   {
+    "step": 11000,
+    "loss": 0.17178773880004883,
+    "grad_norm": 3.1311096775151,
+    "length": 256,
+    "recent_accuracy": 0.924522705078125
+   },
+   {
+    "step": 12000,
+    "loss": 0.5701768398284912,
+    "grad_norm": 9.246371388881657,
+    "length": 256,
+    "recent_accuracy": 0.9270428466796875
+   }
+  ],
+  "curriculum": [
+   256
+  ],
+  "advances": [],
+  "final_stage_length": 256,
+  "train_seconds": 2548.1944760999977,
+  "parameters": 27233
+ },
+ "eval_points": [
+  32,
+  64,
+  128,
+  256,
+  512
+ ],
+ "curve": {
+  "32": {
+   "length": 256,
+   "final": 0.9900000095367432,
+   "prefix": 0.8734375238418579,
+   "deep": null,
+   "reentry": null,
+   "reentry_positions": 0,
+   "resync": null,
+   "resync_positions": 0
+  },
+  "64": {
+   "length": 384,
+   "final": 1.0,
+   "prefix": 0.578697919845581,
+   "deep": 0.336591511964798,
+   "reentry": 0.015413070097565651,
+   "reentry_positions": 6488,
+   "resync": 0.996815025806427,
+   "resync_positions": 12559
+  },
+  "128": {
+   "length": 768,
+   "final": 1.0,
+   "prefix": 0.5669140815734863,
+   "deep": 0.33328118920326233,
+   "reentry": 0.015339775942265987,
+   "reentry_positions": 6519,
+   "resync": 0.9967179894447327,
+   "resync_positions": 25594
+  },
+  "256": {
+   "length": 1536,
+   "final": 1.0,
+   "prefix": 0.5583528876304626,
+   "deep": 0.33282142877578735,
+   "reentry": 0.015130882151424885,
+   "reentry_positions": 6609,
+   "resync": 0.996220588684082,
+   "resync_positions": 50537
+  },
+  "512": {
+   "length": 3072,
+   "final": 1.0,
+   "prefix": 0.5584765672683716,
+   "deep": 0.3336833715438843,
+   "reentry": 0.015805279836058617,
+   "reentry_positions": 6327,
+   "resync": 0.9962432980537415,
+   "resync_positions": 102217
+  }
+ },
+ "learned_in_range": false,
+ "in_range_accuracy": 0.8734375238418579,
+ "effective_horizon": 0,
+ "horizon_metric": "reentry",
+ "trained_range": 32,
+ "wall_seconds": 2552.458378000003,
+ "length_control": {
+  "256": {
+   "final": 0.9200000166893005,
+   "prefix": 0.8772656321525574
+  },
+  "1024": {
+   "final": 0.9100000262260437,
+   "prefix": 0.8952734470367432
+  },
+  "4096": {
+   "final": 0.6800000071525574,
+   "prefix": 0.823376476764679
+  }
+ }
+}
