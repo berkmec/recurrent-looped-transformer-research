@@ -1,0 +1,15 @@
+--- start 2026-10-02 07:40:15
+count gru w64 s6 step 1000 len 64 loss 0.0012648762203752995 (41s)
+count gru w64 s6 step 2000 len 64 loss 0.0003405747120268643 (84s)
+count gru w64 s6 step 3000 len 64 loss 0.00015847613394726068 (126s)
+count gru w64 s6 step 4000 len 64 loss 8.118907135212794e-05 (167s)
+{"task": "count", "arm": "gru", "width": 64, "seed": 6, "learned_in_range": true, "effective_horizon": 0, "horizon_metric": "reentry", "wall_seconds": 169.93122690000018}
+8 {'length': 64, 'final': 1.0, 'prefix': 1.0, 'deep': None, 'reentry': None, 'reentry_positions': 0, 'resync': None, 'resync_positions': 0}
+16 {'length': 96, 'final': 0.98, 'prefix': 0.643, 'deep': 0.375, 'reentry': 0.057, 'reentry_positions': 1705, 'resync': 0.996, 'resync_positions': 3407}
+32 {'length': 192, 'final': 1.0, 'prefix': 0.605, 'deep': 0.348, 'reentry': 0.059, 'reentry_positions': 1703, 'resync': 1.0, 'resync_positions': 6764}
+64 {'length': 384, 'final': 1.0, 'prefix': 0.576, 'deep': 0.342, 'reentry': 0.055, 'reentry_positions': 1823, 'resync': 1.0, 'resync_positions': 12927}
+128 {'length': 768, 'final': 1.0, 'prefix': 0.569, 'deep': 0.336, 'reentry': 0.061, 'reentry_positions': 1628, 'resync': 1.0, 'resync_positions': 26012}
+256 {'length': 1536, 'final': 1.0, 'prefix': 0.564, 'deep': 0.337, 'reentry': 0.06, 'reentry_positions': 1663, 'resync': 1.0, 'resync_positions': 51567}
+length control 64 {'final': 1.0, 'prefix': 1.0}
+length control 256 {'final': 1.0, 'prefix': 1.0}
+length control 1024 {'final': 1.0, 'prefix': 1.0}
