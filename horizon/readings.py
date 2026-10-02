@@ -6,6 +6,7 @@
   python -B -m horizon.readings ep4           # E-P4: S4 GRU / LSTM w64, seeds 1-5, constant vs annealed: is the floor typical (ARTEFACT CONFIRMED) or a seed lottery?
   python -B -m horizon.readings ep5           # E-P2: the same for the S5 Core w128, GRU w256 and LSTM w208 (seed 1)
   python -B -m horizon.readings ed5           # E-D5: S5 Core w128, state-noise training (sigma 0.1 / 0.2) on top of the lr annealing, against the constant-lr baseline
+  python -B -m horizon.readings ef5           # E-F5: the lr-annealed S5 Core w128 with feedback gain alpha 1.0 / 0.3, or peak lr 1e-3, against the constant-lr baseline
   python -B -m horizon.readings ek4           # E-K4: the S4 Core at widths 32 / 48 (state dimension per class 1.33 / 2.0): does the margin erode when the width shrinks?
   python -B -m horizon.readings ek5           # E-K5: the lr-annealed S5 Core at widths 256 / 192 against the constant-lr w128 baseline (does width remove the margin erosion?)
   python -B -m horizon.readings epseeds       # E-P2 replicates: S4 GRU / LSTM w64, seeds 2 and 3 against their own seed's constant-lr baseline
@@ -277,6 +278,9 @@ def main():
         print(json.dumps(ed_arm('core', sigmas=(0.1, 0.2), tag='lrdecay0.3-noise', task='perm5', width=128, baseline_seeds=(1,)), indent=1, default=str))
     elif which == 'ek5':      # E-K5: the lr-annealed S5 Core at widths 256 / 192 against the constant-lr w128 baseline (note 5.22)
         print(json.dumps(ek5(), indent=1, default=str))
+    elif which == 'ef5':      # E-F5: the lr-annealed S5 Core w128 with another feedback gain alpha (1.0 / 0.3) or another PEAK lr (1e-3), against the constant-lr baseline (note 5.24)
+        print(json.dumps(dict(alpha=ed_arm('core', sigmas=(1.0, 0.3), tag='lrdecay0.3-alpha', task='perm5', width=128, baseline_seeds=(1,)),
+                              peak_lr=ed_arm('core', sigmas=(0.001,), tag='lrdecay0.3-lr', task='perm5', width=128, baseline_seeds=(1,))), indent=1, default=str))
     elif which == 'ek4':      # E-K4: the S4 Core at widths 32 / 48 (state dimension per class 1.33 / 2.0): does the margin erode? (note 5.23)
         print(json.dumps(ek4(), indent=1, default=str))
     elif which == 'epseeds':  # E-P2 replicates: S4 seeds 2 and 3, each against its OWN seed's constant-lr baseline
@@ -287,7 +291,7 @@ def main():
     elif which == 'ec0':
         print(json.dumps(ec0(), indent=1, default=str))
     else:
-        raise SystemExit('usage: python -B -m horizon.readings ed|ep|ep3|ep4|ep5|ed5|ek4|ek5|epseeds|ec|ec0')
+        raise SystemExit('usage: python -B -m horizon.readings ed|ep|ep3|ep4|ep5|ed5|ef5|ek4|ek5|epseeds|ec|ec0')
 
 
 if __name__ == '__main__':

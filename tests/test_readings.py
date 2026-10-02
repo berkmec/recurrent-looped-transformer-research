@@ -142,6 +142,17 @@ class LearningRateDecayReading(unittest.TestCase):
         (Path(self.dir) / 'perm5-core-w192-s1-cur-lrdecay0.3.json').unlink()
         self.assertEqual(rd.ek5(directory=self.dir)['verdict'], 'INCOMPLETE')
 
+    def test_the_feedback_gain_and_peak_lr_runs_of_the_s5_core_are_found_by_their_names(self):
+        # E-F5: `...-lrdecay0.3-alpha{1.0,0.3}.json` and `...-lrdecay0.3-lr0.001.json` against `perm5-core-w128-s1-cur.json`
+        write(self.dir, 'perm5-core-w128-s1-cur.json', perm_result(1.0, 800, 1_024_000))
+        write(self.dir, 'perm5-core-w128-s1-cur-lrdecay0.3-alpha1.0.json', perm_result(1.0, 100, 1_024_000))
+        write(self.dir, 'perm5-core-w128-s1-cur-lrdecay0.3-alpha0.3.json', perm_result(1.0, 750, 1_024_000))
+        write(self.dir, 'perm5-core-w128-s1-cur-lrdecay0.3-lr0.001.json', perm_result(1.0, 700, 1_024_000))
+        a = rd.ed_arm('core', sigmas=(1.0, 0.3), tag='lrdecay0.3-alpha', task='perm5', width=128, baseline_seeds=(1,), directory=self.dir)
+        l = rd.ed_arm('core', sigmas=(0.001,), tag='lrdecay0.3-lr', task='perm5', width=128, baseline_seeds=(1,), directory=self.dir)
+        self.assertEqual((a['verdict'], a['runs'][1.0]['events'], a['runs'][0.3]['events']), ('SUPPORTED', 100, 750))
+        self.assertEqual((l['verdict'], l['runs'][0.001]['events']), ('REFUTED', 700))                      # 700 > 800 / 2: no halving
+
     def test_the_s4_core_width_reading_follows_the_margin_verdicts_and_the_hazards(self):
         # E-K4: perm4-core-w{32,48}-s1-cur.json + margin-profile-s4core-width.json (a list of profiles with `width` and `erosion`)
         def put(w, events, in_range, erosion_verdict, ratio=1.0):
