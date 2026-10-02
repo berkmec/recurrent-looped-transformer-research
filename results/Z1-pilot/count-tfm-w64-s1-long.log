@@ -1,0 +1,27 @@
+--- start 2026-10-02 03:27:35
+count tfm w64 s1 step 1000 len 64 loss 0.5519493818283081 (208s)
+count tfm w64 s1 step 2000 len 64 loss 0.33320870995521545 (424s)
+count tfm w64 s1 step 3000 len 64 loss 0.1769578903913498 (659s)
+count tfm w64 s1 step 4000 len 64 loss 0.19707012176513672 (857s)
+count tfm w64 s1 step 5000 len 64 loss 0.25592952966690063 (1045s)
+count tfm w64 s1 step 6000 len 64 loss 0.169234961271286 (1237s)
+count tfm w64 s1 step 7000 len 64 loss 0.2247510850429535 (1436s)
+count tfm w64 s1 step 8000 len 64 loss 1.2575623989105225 (1627s)
+count tfm w64 s1 step 9000 len 64 loss 0.17048124969005585 (1845s)
+count tfm w64 s1 step 10000 len 64 loss 0.17193761467933655 (2058s)
+count tfm w64 s1 step 11000 len 64 loss 0.16179558634757996 (2278s)
+count tfm w64 s1 step 12000 len 64 loss 0.1575472354888916 (2490s)
+count tfm w64 s1 step 13000 len 64 loss 0.18707390129566193 (2704s)
+count tfm w64 s1 step 14000 len 64 loss 0.16455863416194916 (2916s)
+count tfm w64 s1 step 15000 len 64 loss 0.17596888542175293 (3130s)
+count tfm w64 s1 step 16000 len 64 loss 0.1719476282596588 (3338s)
+{"task": "count", "arm": "tfm", "width": 64, "seed": 1, "learned_in_range": true, "effective_horizon": 0, "horizon_metric": "reentry", "wall_seconds": 3368.8400535000037}
+8 {'length': 64, 'final': 0.99, 'prefix': 0.967, 'deep': None, 'reentry': None, 'reentry_positions': 0, 'resync': None, 'resync_positions': 0}
+16 {'length': 96, 'final': 0.99, 'prefix': 0.743, 'deep': 0.719, 'reentry': 0.186, 'reentry_positions': 1559, 'resync': 0.955, 'resync_positions': 3733}
+32 {'length': 192, 'final': 0.88, 'prefix': 0.734, 'deep': 0.761, 'reentry': 0.101, 'reentry_positions': 1727, 'resync': 0.834, 'resync_positions': 6792}
+64 {'length': 384, 'final': 0.72, 'prefix': 0.722, 'deep': 0.754, 'reentry': 0.129, 'reentry_positions': 1846, 'resync': 0.726, 'resync_positions': 12413}
+128 {'length': 768, 'final': 0.72, 'prefix': 0.718, 'deep': 0.74, 'reentry': 0.106, 'reentry_positions': 1731, 'resync': 0.709, 'resync_positions': 25073}
+256 {'length': 1536, 'final': 0.76, 'prefix': 0.712, 'deep': 0.72, 'reentry': 0.105, 'reentry_positions': 1646, 'resync': 0.711, 'resync_positions': 51626}
+length control 64 {'final': 1.0, 'prefix': 0.937}
+length control 256 {'final': 0.31, 'prefix': 0.661}
+length control 1024 {'final': 0.27, 'prefix': 0.353}
