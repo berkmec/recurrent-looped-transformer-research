@@ -1,0 +1,7322 @@
+{
+ "weights": "results/Z1-pilot/perm5-core-w128-s1-cur.pt",
+ "task": "perm5",
+ "width": 128,
+ "seeds": [
+  1,
+  2,
+  3
+ ],
+ "n": 100,
+ "points": [
+  16,
+  32,
+  64,
+  128,
+  256,
+  512,
+  1024
+ ],
+ "results": {
+  "base": {
+   "config": {
+    "window": 0,
+    "temp": false,
+    "enc": false,
+    "mem": false
+   },
+   "final": {
+    "16": 1.0,
+    "32": 1.0,
+    "64": 1.0,
+    "128": 0.9800000190734863,
+    "256": 0.8700000047683716,
+    "512": 0.5366666615009308,
+    "1024": 0.3033333321412404
+   },
+   "windows": {
+    "0-16": [
+     0,
+     33600
+    ],
+    "16-32": [
+     0,
+     28800
+    ],
+    "32-64": [
+     0,
+     48000
+    ],
+    "64-128": [
+     26,
+     76800
+    ],
+    "128-256": [
+     249,
+     113152
+    ],
+    "256-512": [
+     284,
+     105984
+    ],
+    "512-1024": [
+     67,
+     35840
+    ]
+   },
+   "per_seed": {
+    "1": {
+     "16": {
+      "length": 16,
+      "final": 1.0,
+      "prefix": 1.0,
+      "beyond_horizon": null,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       }
+      ]
+     },
+     "32": {
+      "length": 32,
+      "final": 1.0,
+      "prefix": 1.0,
+      "beyond_horizon": 1.0,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 16,
+        "stop": 32,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       }
+      ]
+     },
+     "64": {
+      "length": 64,
+      "final": 1.0,
+      "prefix": 1.0,
+      "beyond_horizon": 1.0,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 16,
+        "stop": 32,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 32,
+        "stop": 64,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       }
+      ]
+     },
+     "128": {
+      "length": 128,
+      "final": 0.9800000190734863,
+      "prefix": 0.998828113079071,
+      "beyond_horizon": 0.9986607432365417,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 16,
+        "stop": 32,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 32,
+        "stop": 64,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 64,
+        "stop": 128,
+        "at_risk": 100,
+        "first_errors": 2,
+        "rate": 0.0003125
+       }
+      ]
+     },
+     "256": {
+      "length": 256,
+      "final": 0.8799999952316284,
+      "prefix": 0.9764843583106995,
+      "beyond_horizon": 0.9749166369438171,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 16,
+        "stop": 32,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 32,
+        "stop": 64,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 64,
+        "stop": 128,
+        "at_risk": 100,
+        "first_errors": 1,
+        "rate": 0.00015625
+       },
+       {
+        "start": 128,
+        "stop": 256,
+        "at_risk": 99,
+        "first_errors": 22,
+        "rate": 0.001736111111111111
+       }
+      ]
+     },
+     "512": {
+      "length": 512,
+      "final": 0.5400000214576721,
+      "prefix": 0.7885156273841858,
+      "beyond_horizon": 0.7816935777664185,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 16,
+        "stop": 32,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 32,
+        "stop": 64,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 64,
+        "stop": 128,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 128,
+        "stop": 256,
+        "at_risk": 100,
+        "first_errors": 36,
+        "rate": 0.0028125
+       },
+       {
+        "start": 256,
+        "stop": 512,
+        "at_risk": 64,
+        "first_errors": 43,
+        "rate": 0.00262451171875
+       }
+      ]
+     },
+     "1024": {
+      "length": 1024,
+      "final": 0.3100000023841858,
+      "prefix": 0.60205078125,
+      "beyond_horizon": 0.5957341194152832,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 16,
+        "stop": 32,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 32,
+        "stop": 64,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 64,
+        "stop": 128,
+        "at_risk": 100,
+        "first_errors": 6,
+        "rate": 0.0009375
+       },
+       {
+        "start": 128,
+        "stop": 256,
+        "at_risk": 94,
+        "first_errors": 30,
+        "rate": 0.0024933510638297874
+       },
+       {
+        "start": 256,
+        "stop": 512,
+        "at_risk": 64,
+        "first_errors": 43,
+        "rate": 0.00262451171875
+       },
+       {
+        "start": 512,
+        "stop": 1024,
+        "at_risk": 21,
+        "first_errors": 19,
+        "rate": 0.0017671130952380952
+       }
+      ]
+     }
+    },
+    "2": {
+     "16": {
+      "length": 16,
+      "final": 1.0,
+      "prefix": 1.0,
+      "beyond_horizon": null,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       }
+      ]
+     },
+     "32": {
+      "length": 32,
+      "final": 1.0,
+      "prefix": 1.0,
+      "beyond_horizon": 1.0,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 16,
+        "stop": 32,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       }
+      ]
+     },
+     "64": {
+      "length": 64,
+      "final": 1.0,
+      "prefix": 1.0,
+      "beyond_horizon": 1.0,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 16,
+        "stop": 32,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 32,
+        "stop": 64,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       }
+      ]
+     },
+     "128": {
+      "length": 128,
+      "final": 0.9900000095367432,
+      "prefix": 0.9976562261581421,
+      "beyond_horizon": 0.9973214268684387,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 16,
+        "stop": 32,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 32,
+        "stop": 64,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 64,
+        "stop": 128,
+        "at_risk": 100,
+        "first_errors": 2,
+        "rate": 0.0003125
+       }
+      ]
+     },
+     "256": {
+      "length": 256,
+      "final": 0.8700000047683716,
+      "prefix": 0.9706640839576721,
+      "beyond_horizon": 0.968708336353302,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 16,
+        "stop": 32,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 32,
+        "stop": 64,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 64,
+        "stop": 128,
+        "at_risk": 100,
+        "first_errors": 2,
+        "rate": 0.0003125
+       },
+       {
+        "start": 128,
+        "stop": 256,
+        "at_risk": 98,
+        "first_errors": 29,
+        "rate": 0.002311862244897959
+       }
+      ]
+     },
+     "512": {
+      "length": 512,
+      "final": 0.47999998927116394,
+      "prefix": 0.7720312476158142,
+      "beyond_horizon": 0.7646774053573608,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 16,
+        "stop": 32,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 32,
+        "stop": 64,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 64,
+        "stop": 128,
+        "at_risk": 100,
+        "first_errors": 1,
+        "rate": 0.00015625
+       },
+       {
+        "start": 128,
+        "stop": 256,
+        "at_risk": 99,
+        "first_errors": 34,
+        "rate": 0.002683080808080808
+       },
+       {
+        "start": 256,
+        "stop": 512,
+        "at_risk": 65,
+        "first_errors": 50,
+        "rate": 0.0030048076923076925
+       }
+      ]
+     },
+     "1024": {
+      "length": 1024,
+      "final": 0.2800000011920929,
+      "prefix": 0.5914843678474426,
+      "beyond_horizon": 0.5849999785423279,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 16,
+        "stop": 32,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 32,
+        "stop": 64,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 64,
+        "stop": 128,
+        "at_risk": 100,
+        "first_errors": 2,
+        "rate": 0.0003125
+       },
+       {
+        "start": 128,
+        "stop": 256,
+        "at_risk": 98,
+        "first_errors": 15,
+        "rate": 0.0011957908163265306
+       },
+       {
+        "start": 256,
+        "stop": 512,
+        "at_risk": 83,
+        "first_errors": 59,
+        "rate": 0.002776731927710843
+       },
+       {
+        "start": 512,
+        "stop": 1024,
+        "at_risk": 24,
+        "first_errors": 23,
+        "rate": 0.0018717447916666667
+       }
+      ]
+     }
+    },
+    "3": {
+     "16": {
+      "length": 16,
+      "final": 1.0,
+      "prefix": 1.0,
+      "beyond_horizon": null,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       }
+      ]
+     },
+     "32": {
+      "length": 32,
+      "final": 1.0,
+      "prefix": 1.0,
+      "beyond_horizon": 1.0,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 16,
+        "stop": 32,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       }
+      ]
+     },
+     "64": {
+      "length": 64,
+      "final": 1.0,
+      "prefix": 1.0,
+      "beyond_horizon": 1.0,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 16,
+        "stop": 32,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 32,
+        "stop": 64,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       }
+      ]
+     },
+     "128": {
+      "length": 128,
+      "final": 0.9700000286102295,
+      "prefix": 0.9947656393051147,
+      "beyond_horizon": 0.9940178394317627,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 16,
+        "stop": 32,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 32,
+        "stop": 64,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 64,
+        "stop": 128,
+        "at_risk": 100,
+        "first_errors": 6,
+        "rate": 0.0009375
+       }
+      ]
+     },
+     "256": {
+      "length": 256,
+      "final": 0.8600000143051147,
+      "prefix": 0.9671484231948853,
+      "beyond_horizon": 0.9649583101272583,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 16,
+        "stop": 32,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 32,
+        "stop": 64,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 64,
+        "stop": 128,
+        "at_risk": 100,
+        "first_errors": 1,
+        "rate": 0.00015625
+       },
+       {
+        "start": 128,
+        "stop": 256,
+        "at_risk": 99,
+        "first_errors": 24,
+        "rate": 0.001893939393939394
+       }
+      ]
+     },
+     "512": {
+      "length": 512,
+      "final": 0.5899999737739563,
+      "prefix": 0.8220312595367432,
+      "beyond_horizon": 0.8162903189659119,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 16,
+        "stop": 32,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 32,
+        "stop": 64,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 64,
+        "stop": 128,
+        "at_risk": 100,
+        "first_errors": 1,
+        "rate": 0.00015625
+       },
+       {
+        "start": 128,
+        "stop": 256,
+        "at_risk": 99,
+        "first_errors": 23,
+        "rate": 0.0018150252525252525
+       },
+       {
+        "start": 256,
+        "stop": 512,
+        "at_risk": 76,
+        "first_errors": 52,
+        "rate": 0.0026726973684210527
+       }
+      ]
+     },
+     "1024": {
+      "length": 1024,
+      "final": 0.3199999928474426,
+      "prefix": 0.5812792778015137,
+      "beyond_horizon": 0.5746329426765442,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 16,
+        "stop": 32,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 32,
+        "stop": 64,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 64,
+        "stop": 128,
+        "at_risk": 100,
+        "first_errors": 2,
+        "rate": 0.0003125
+       },
+       {
+        "start": 128,
+        "stop": 256,
+        "at_risk": 98,
+        "first_errors": 36,
+        "rate": 0.0028698979591836736
+       },
+       {
+        "start": 256,
+        "stop": 512,
+        "at_risk": 62,
+        "first_errors": 37,
+        "rate": 0.002331149193548387
+       },
+       {
+        "start": 512,
+        "stop": 1024,
+        "at_risk": 25,
+        "first_errors": 25,
+        "rate": 0.001953125
+       }
+      ]
+     }
+    }
+   }
+  },
+  "w16": {
+   "config": {
+    "window": 16,
+    "temp": false,
+    "enc": true,
+    "mem": true
+   },
+   "final": {
+    "16": 1.0,
+    "32": 1.0,
+    "64": 1.0,
+    "128": 0.9800000190734863,
+    "256": 0.8700000047683716,
+    "512": 0.5199999908606211,
+    "1024": 0.29666667183240253
+   },
+   "windows": {
+    "0-16": [
+     0,
+     33600
+    ],
+    "16-32": [
+     0,
+     28800
+    ],
+    "32-64": [
+     0,
+     48000
+    ],
+    "64-128": [
+     25,
+     76800
+    ],
+    "128-256": [
+     254,
+     113280
+    ],
+    "256-512": [
+     280,
+     105216
+    ],
+    "512-1024": [
+     66,
+     35840
+    ]
+   },
+   "per_seed": {
+    "1": {
+     "16": {
+      "length": 16,
+      "final": 1.0,
+      "prefix": 1.0,
+      "beyond_horizon": null,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       }
+      ]
+     },
+     "32": {
+      "length": 32,
+      "final": 1.0,
+      "prefix": 1.0,
+      "beyond_horizon": 1.0,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 16,
+        "stop": 32,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       }
+      ]
+     },
+     "64": {
+      "length": 64,
+      "final": 1.0,
+      "prefix": 1.0,
+      "beyond_horizon": 1.0,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 16,
+        "stop": 32,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 32,
+        "stop": 64,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       }
+      ]
+     },
+     "128": {
+      "length": 128,
+      "final": 0.9800000190734863,
+      "prefix": 0.998828113079071,
+      "beyond_horizon": 0.9986607432365417,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 16,
+        "stop": 32,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 32,
+        "stop": 64,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 64,
+        "stop": 128,
+        "at_risk": 100,
+        "first_errors": 2,
+        "rate": 0.0003125
+       }
+      ]
+     },
+     "256": {
+      "length": 256,
+      "final": 0.8899999856948853,
+      "prefix": 0.9768359661102295,
+      "beyond_horizon": 0.9752916693687439,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 16,
+        "stop": 32,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 32,
+        "stop": 64,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 64,
+        "stop": 128,
+        "at_risk": 100,
+        "first_errors": 1,
+        "rate": 0.00015625
+       },
+       {
+        "start": 128,
+        "stop": 256,
+        "at_risk": 99,
+        "first_errors": 22,
+        "rate": 0.001736111111111111
+       }
+      ]
+     },
+     "512": {
+      "length": 512,
+      "final": 0.5199999809265137,
+      "prefix": 0.7876366972923279,
+      "beyond_horizon": 0.7807862758636475,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 16,
+        "stop": 32,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 32,
+        "stop": 64,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 64,
+        "stop": 128,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 128,
+        "stop": 256,
+        "at_risk": 100,
+        "first_errors": 37,
+        "rate": 0.002890625
+       },
+       {
+        "start": 256,
+        "stop": 512,
+        "at_risk": 63,
+        "first_errors": 41,
+        "rate": 0.0025421626984126985
+       }
+      ]
+     },
+     "1024": {
+      "length": 1024,
+      "final": 0.3100000023841858,
+      "prefix": 0.6007128953933716,
+      "beyond_horizon": 0.5943750143051147,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 16,
+        "stop": 32,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 32,
+        "stop": 64,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 64,
+        "stop": 128,
+        "at_risk": 100,
+        "first_errors": 5,
+        "rate": 0.00078125
+       },
+       {
+        "start": 128,
+        "stop": 256,
+        "at_risk": 95,
+        "first_errors": 31,
+        "rate": 0.002549342105263158
+       },
+       {
+        "start": 256,
+        "stop": 512,
+        "at_risk": 64,
+        "first_errors": 44,
+        "rate": 0.002685546875
+       },
+       {
+        "start": 512,
+        "stop": 1024,
+        "at_risk": 20,
+        "first_errors": 18,
+        "rate": 0.0017578125
+       }
+      ]
+     }
+    },
+    "2": {
+     "16": {
+      "length": 16,
+      "final": 1.0,
+      "prefix": 1.0,
+      "beyond_horizon": null,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       }
+      ]
+     },
+     "32": {
+      "length": 32,
+      "final": 1.0,
+      "prefix": 1.0,
+      "beyond_horizon": 1.0,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 16,
+        "stop": 32,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       }
+      ]
+     },
+     "64": {
+      "length": 64,
+      "final": 1.0,
+      "prefix": 1.0,
+      "beyond_horizon": 1.0,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 16,
+        "stop": 32,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 32,
+        "stop": 64,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       }
+      ]
+     },
+     "128": {
+      "length": 128,
+      "final": 0.9900000095367432,
+      "prefix": 0.9976562261581421,
+      "beyond_horizon": 0.9973214268684387,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 16,
+        "stop": 32,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 32,
+        "stop": 64,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 64,
+        "stop": 128,
+        "at_risk": 100,
+        "first_errors": 2,
+        "rate": 0.0003125
+       }
+      ]
+     },
+     "256": {
+      "length": 256,
+      "final": 0.8700000047683716,
+      "prefix": 0.9704687595367432,
+      "beyond_horizon": 0.968500018119812,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 16,
+        "stop": 32,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 32,
+        "stop": 64,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 64,
+        "stop": 128,
+        "at_risk": 100,
+        "first_errors": 2,
+        "rate": 0.0003125
+       },
+       {
+        "start": 128,
+        "stop": 256,
+        "at_risk": 98,
+        "first_errors": 29,
+        "rate": 0.002311862244897959
+       }
+      ]
+     },
+     "512": {
+      "length": 512,
+      "final": 0.46000000834465027,
+      "prefix": 0.7727929949760437,
+      "beyond_horizon": 0.7654637098312378,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 16,
+        "stop": 32,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 32,
+        "stop": 64,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 64,
+        "stop": 128,
+        "at_risk": 100,
+        "first_errors": 1,
+        "rate": 0.00015625
+       },
+       {
+        "start": 128,
+        "stop": 256,
+        "at_risk": 99,
+        "first_errors": 34,
+        "rate": 0.002683080808080808
+       },
+       {
+        "start": 256,
+        "stop": 512,
+        "at_risk": 65,
+        "first_errors": 50,
+        "rate": 0.0030048076923076925
+       }
+      ]
+     },
+     "1024": {
+      "length": 1024,
+      "final": 0.25,
+      "prefix": 0.5905957221984863,
+      "beyond_horizon": 0.5840972065925598,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 16,
+        "stop": 32,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 32,
+        "stop": 64,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 64,
+        "stop": 128,
+        "at_risk": 100,
+        "first_errors": 2,
+        "rate": 0.0003125
+       },
+       {
+        "start": 128,
+        "stop": 256,
+        "at_risk": 98,
+        "first_errors": 17,
+        "rate": 0.0013552295918367347
+       },
+       {
+        "start": 256,
+        "stop": 512,
+        "at_risk": 81,
+        "first_errors": 57,
+        "rate": 0.0027488425925925927
+       },
+       {
+        "start": 512,
+        "stop": 1024,
+        "at_risk": 24,
+        "first_errors": 22,
+        "rate": 0.0017903645833333333
+       }
+      ]
+     }
+    },
+    "3": {
+     "16": {
+      "length": 16,
+      "final": 1.0,
+      "prefix": 1.0,
+      "beyond_horizon": null,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       }
+      ]
+     },
+     "32": {
+      "length": 32,
+      "final": 1.0,
+      "prefix": 1.0,
+      "beyond_horizon": 1.0,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 16,
+        "stop": 32,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       }
+      ]
+     },
+     "64": {
+      "length": 64,
+      "final": 1.0,
+      "prefix": 1.0,
+      "beyond_horizon": 1.0,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 16,
+        "stop": 32,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 32,
+        "stop": 64,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       }
+      ]
+     },
+     "128": {
+      "length": 128,
+      "final": 0.9700000286102295,
+      "prefix": 0.9946874976158142,
+      "beyond_horizon": 0.9939285516738892,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 16,
+        "stop": 32,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 32,
+        "stop": 64,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 64,
+        "stop": 128,
+        "at_risk": 100,
+        "first_errors": 6,
+        "rate": 0.0009375
+       }
+      ]
+     },
+     "256": {
+      "length": 256,
+      "final": 0.8500000238418579,
+      "prefix": 0.966992199420929,
+      "beyond_horizon": 0.9647916555404663,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 16,
+        "stop": 32,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 32,
+        "stop": 64,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 64,
+        "stop": 128,
+        "at_risk": 100,
+        "first_errors": 1,
+        "rate": 0.00015625
+       },
+       {
+        "start": 128,
+        "stop": 256,
+        "at_risk": 99,
+        "first_errors": 25,
+        "rate": 0.0019728535353535355
+       }
+      ]
+     },
+     "512": {
+      "length": 512,
+      "final": 0.5799999833106995,
+      "prefix": 0.8206445574760437,
+      "beyond_horizon": 0.8148588538169861,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 16,
+        "stop": 32,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 32,
+        "stop": 64,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 64,
+        "stop": 128,
+        "at_risk": 100,
+        "first_errors": 1,
+        "rate": 0.00015625
+       },
+       {
+        "start": 128,
+        "stop": 256,
+        "at_risk": 99,
+        "first_errors": 23,
+        "rate": 0.0018150252525252525
+       },
+       {
+        "start": 256,
+        "stop": 512,
+        "at_risk": 76,
+        "first_errors": 52,
+        "rate": 0.0026726973684210527
+       }
+      ]
+     },
+     "1024": {
+      "length": 1024,
+      "final": 0.33000001311302185,
+      "prefix": 0.5824316143989563,
+      "beyond_horizon": 0.5758035778999329,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 16,
+        "stop": 32,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 32,
+        "stop": 64,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 64,
+        "stop": 128,
+        "at_risk": 100,
+        "first_errors": 2,
+        "rate": 0.0003125
+       },
+       {
+        "start": 128,
+        "stop": 256,
+        "at_risk": 98,
+        "first_errors": 36,
+        "rate": 0.0028698979591836736
+       },
+       {
+        "start": 256,
+        "stop": 512,
+        "at_risk": 62,
+        "first_errors": 36,
+        "rate": 0.0022681451612903227
+       },
+       {
+        "start": 512,
+        "stop": 1024,
+        "at_risk": 26,
+        "first_errors": 26,
+        "rate": 0.001953125
+       }
+      ]
+     }
+    }
+   }
+  },
+  "w32": {
+   "config": {
+    "window": 32,
+    "temp": false,
+    "enc": true,
+    "mem": true
+   },
+   "final": {
+    "16": 1.0,
+    "32": 1.0,
+    "64": 1.0,
+    "128": 0.9800000190734863,
+    "256": 0.8733333349227905,
+    "512": 0.5399999817212423,
+    "1024": 0.30666666229565936
+   },
+   "windows": {
+    "0-16": [
+     0,
+     33600
+    ],
+    "16-32": [
+     0,
+     28800
+    ],
+    "32-64": [
+     0,
+     48000
+    ],
+    "64-128": [
+     25,
+     76800
+    ],
+    "128-256": [
+     252,
+     113280
+    ],
+    "256-512": [
+     283,
+     105728
+    ],
+    "512-1024": [
+     65,
+     35328
+    ]
+   },
+   "per_seed": {
+    "1": {
+     "16": {
+      "length": 16,
+      "final": 1.0,
+      "prefix": 1.0,
+      "beyond_horizon": null,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       }
+      ]
+     },
+     "32": {
+      "length": 32,
+      "final": 1.0,
+      "prefix": 1.0,
+      "beyond_horizon": 1.0,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 16,
+        "stop": 32,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       }
+      ]
+     },
+     "64": {
+      "length": 64,
+      "final": 1.0,
+      "prefix": 1.0,
+      "beyond_horizon": 1.0,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 16,
+        "stop": 32,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 32,
+        "stop": 64,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       }
+      ]
+     },
+     "128": {
+      "length": 128,
+      "final": 0.9800000190734863,
+      "prefix": 0.998828113079071,
+      "beyond_horizon": 0.9986607432365417,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 16,
+        "stop": 32,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 32,
+        "stop": 64,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 64,
+        "stop": 128,
+        "at_risk": 100,
+        "first_errors": 2,
+        "rate": 0.0003125
+       }
+      ]
+     },
+     "256": {
+      "length": 256,
+      "final": 0.8899999856948853,
+      "prefix": 0.9765625,
+      "beyond_horizon": 0.9750000238418579,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 16,
+        "stop": 32,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 32,
+        "stop": 64,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 64,
+        "stop": 128,
+        "at_risk": 100,
+        "first_errors": 1,
+        "rate": 0.00015625
+       },
+       {
+        "start": 128,
+        "stop": 256,
+        "at_risk": 99,
+        "first_errors": 22,
+        "rate": 0.001736111111111111
+       }
+      ]
+     },
+     "512": {
+      "length": 512,
+      "final": 0.5299999713897705,
+      "prefix": 0.787890613079071,
+      "beyond_horizon": 0.7810483574867249,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 16,
+        "stop": 32,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 32,
+        "stop": 64,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 64,
+        "stop": 128,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 128,
+        "stop": 256,
+        "at_risk": 100,
+        "first_errors": 36,
+        "rate": 0.0028125
+       },
+       {
+        "start": 256,
+        "stop": 512,
+        "at_risk": 64,
+        "first_errors": 44,
+        "rate": 0.002685546875
+       }
+      ]
+     },
+     "1024": {
+      "length": 1024,
+      "final": 0.3100000023841858,
+      "prefix": 0.6011425852775574,
+      "beyond_horizon": 0.5948114991188049,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 16,
+        "stop": 32,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 32,
+        "stop": 64,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 64,
+        "stop": 128,
+        "at_risk": 100,
+        "first_errors": 5,
+        "rate": 0.00078125
+       },
+       {
+        "start": 128,
+        "stop": 256,
+        "at_risk": 95,
+        "first_errors": 31,
+        "rate": 0.002549342105263158
+       },
+       {
+        "start": 256,
+        "stop": 512,
+        "at_risk": 64,
+        "first_errors": 43,
+        "rate": 0.00262451171875
+       },
+       {
+        "start": 512,
+        "stop": 1024,
+        "at_risk": 21,
+        "first_errors": 18,
+        "rate": 0.0016741071428571428
+       }
+      ]
+     }
+    },
+    "2": {
+     "16": {
+      "length": 16,
+      "final": 1.0,
+      "prefix": 1.0,
+      "beyond_horizon": null,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       }
+      ]
+     },
+     "32": {
+      "length": 32,
+      "final": 1.0,
+      "prefix": 1.0,
+      "beyond_horizon": 1.0,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 16,
+        "stop": 32,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       }
+      ]
+     },
+     "64": {
+      "length": 64,
+      "final": 1.0,
+      "prefix": 1.0,
+      "beyond_horizon": 1.0,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 16,
+        "stop": 32,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 32,
+        "stop": 64,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       }
+      ]
+     },
+     "128": {
+      "length": 128,
+      "final": 0.9900000095367432,
+      "prefix": 0.9976562261581421,
+      "beyond_horizon": 0.9973214268684387,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 16,
+        "stop": 32,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 32,
+        "stop": 64,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 64,
+        "stop": 128,
+        "at_risk": 100,
+        "first_errors": 2,
+        "rate": 0.0003125
+       }
+      ]
+     },
+     "256": {
+      "length": 256,
+      "final": 0.8799999952316284,
+      "prefix": 0.9708203077316284,
+      "beyond_horizon": 0.968874990940094,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 16,
+        "stop": 32,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 32,
+        "stop": 64,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 64,
+        "stop": 128,
+        "at_risk": 100,
+        "first_errors": 2,
+        "rate": 0.0003125
+       },
+       {
+        "start": 128,
+        "stop": 256,
+        "at_risk": 98,
+        "first_errors": 29,
+        "rate": 0.002311862244897959
+       }
+      ]
+     },
+     "512": {
+      "length": 512,
+      "final": 0.5,
+      "prefix": 0.7726367115974426,
+      "beyond_horizon": 0.7653024196624756,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 16,
+        "stop": 32,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 32,
+        "stop": 64,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 64,
+        "stop": 128,
+        "at_risk": 100,
+        "first_errors": 1,
+        "rate": 0.00015625
+       },
+       {
+        "start": 128,
+        "stop": 256,
+        "at_risk": 99,
+        "first_errors": 34,
+        "rate": 0.002683080808080808
+       },
+       {
+        "start": 256,
+        "stop": 512,
+        "at_risk": 65,
+        "first_errors": 49,
+        "rate": 0.0029447115384615384
+       }
+      ]
+     },
+     "1024": {
+      "length": 1024,
+      "final": 0.25999999046325684,
+      "prefix": 0.5905175805091858,
+      "beyond_horizon": 0.5840178728103638,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 16,
+        "stop": 32,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 32,
+        "stop": 64,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 64,
+        "stop": 128,
+        "at_risk": 100,
+        "first_errors": 2,
+        "rate": 0.0003125
+       },
+       {
+        "start": 128,
+        "stop": 256,
+        "at_risk": 98,
+        "first_errors": 16,
+        "rate": 0.0012755102040816326
+       },
+       {
+        "start": 256,
+        "stop": 512,
+        "at_risk": 82,
+        "first_errors": 58,
+        "rate": 0.0027629573170731706
+       },
+       {
+        "start": 512,
+        "stop": 1024,
+        "at_risk": 24,
+        "first_errors": 23,
+        "rate": 0.0018717447916666667
+       }
+      ]
+     }
+    },
+    "3": {
+     "16": {
+      "length": 16,
+      "final": 1.0,
+      "prefix": 1.0,
+      "beyond_horizon": null,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       }
+      ]
+     },
+     "32": {
+      "length": 32,
+      "final": 1.0,
+      "prefix": 1.0,
+      "beyond_horizon": 1.0,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 16,
+        "stop": 32,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       }
+      ]
+     },
+     "64": {
+      "length": 64,
+      "final": 1.0,
+      "prefix": 1.0,
+      "beyond_horizon": 1.0,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 16,
+        "stop": 32,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 32,
+        "stop": 64,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       }
+      ]
+     },
+     "128": {
+      "length": 128,
+      "final": 0.9700000286102295,
+      "prefix": 0.9947656393051147,
+      "beyond_horizon": 0.9940178394317627,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 16,
+        "stop": 32,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 32,
+        "stop": 64,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 64,
+        "stop": 128,
+        "at_risk": 100,
+        "first_errors": 6,
+        "rate": 0.0009375
+       }
+      ]
+     },
+     "256": {
+      "length": 256,
+      "final": 0.8500000238418579,
+      "prefix": 0.966796875,
+      "beyond_horizon": 0.9645833373069763,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 16,
+        "stop": 32,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 32,
+        "stop": 64,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 64,
+        "stop": 128,
+        "at_risk": 100,
+        "first_errors": 1,
+        "rate": 0.00015625
+       },
+       {
+        "start": 128,
+        "stop": 256,
+        "at_risk": 99,
+        "first_errors": 25,
+        "rate": 0.0019728535353535355
+       }
+      ]
+     },
+     "512": {
+      "length": 512,
+      "final": 0.5899999737739563,
+      "prefix": 0.8221679925918579,
+      "beyond_horizon": 0.81643146276474,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 16,
+        "stop": 32,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 32,
+        "stop": 64,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 64,
+        "stop": 128,
+        "at_risk": 100,
+        "first_errors": 1,
+        "rate": 0.00015625
+       },
+       {
+        "start": 128,
+        "stop": 256,
+        "at_risk": 99,
+        "first_errors": 23,
+        "rate": 0.0018150252525252525
+       },
+       {
+        "start": 256,
+        "stop": 512,
+        "at_risk": 76,
+        "first_errors": 51,
+        "rate": 0.002621299342105263
+       }
+      ]
+     },
+     "1024": {
+      "length": 1024,
+      "final": 0.3499999940395355,
+      "prefix": 0.5825390815734863,
+      "beyond_horizon": 0.5759127140045166,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 16,
+        "stop": 32,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 32,
+        "stop": 64,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 64,
+        "stop": 128,
+        "at_risk": 100,
+        "first_errors": 2,
+        "rate": 0.0003125
+       },
+       {
+        "start": 128,
+        "stop": 256,
+        "at_risk": 98,
+        "first_errors": 36,
+        "rate": 0.0028698979591836736
+       },
+       {
+        "start": 256,
+        "stop": 512,
+        "at_risk": 62,
+        "first_errors": 38,
+        "rate": 0.0023941532258064517
+       },
+       {
+        "start": 512,
+        "stop": 1024,
+        "at_risk": 24,
+        "first_errors": 24,
+        "rate": 0.001953125
+       }
+      ]
+     }
+    }
+   }
+  },
+  "w64": {
+   "config": {
+    "window": 64,
+    "temp": false,
+    "enc": true,
+    "mem": true
+   },
+   "final": {
+    "16": 1.0,
+    "32": 1.0,
+    "64": 1.0,
+    "128": 0.9800000190734863,
+    "256": 0.8666666746139526,
+    "512": 0.5366666615009308,
+    "1024": 0.29333333174387616
+   },
+   "windows": {
+    "0-16": [
+     0,
+     33600
+    ],
+    "16-32": [
+     0,
+     28800
+    ],
+    "32-64": [
+     0,
+     48000
+    ],
+    "64-128": [
+     25,
+     76800
+    ],
+    "128-256": [
+     250,
+     113280
+    ],
+    "256-512": [
+     286,
+     105984
+    ],
+    "512-1024": [
+     66,
+     35328
+    ]
+   },
+   "per_seed": {
+    "1": {
+     "16": {
+      "length": 16,
+      "final": 1.0,
+      "prefix": 1.0,
+      "beyond_horizon": null,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       }
+      ]
+     },
+     "32": {
+      "length": 32,
+      "final": 1.0,
+      "prefix": 1.0,
+      "beyond_horizon": 1.0,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 16,
+        "stop": 32,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       }
+      ]
+     },
+     "64": {
+      "length": 64,
+      "final": 1.0,
+      "prefix": 1.0,
+      "beyond_horizon": 1.0,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 16,
+        "stop": 32,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 32,
+        "stop": 64,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       }
+      ]
+     },
+     "128": {
+      "length": 128,
+      "final": 0.9800000190734863,
+      "prefix": 0.998828113079071,
+      "beyond_horizon": 0.9986607432365417,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 16,
+        "stop": 32,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 32,
+        "stop": 64,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 64,
+        "stop": 128,
+        "at_risk": 100,
+        "first_errors": 2,
+        "rate": 0.0003125
+       }
+      ]
+     },
+     "256": {
+      "length": 256,
+      "final": 0.8799999952316284,
+      "prefix": 0.9765625,
+      "beyond_horizon": 0.9750000238418579,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 16,
+        "stop": 32,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 32,
+        "stop": 64,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 64,
+        "stop": 128,
+        "at_risk": 100,
+        "first_errors": 1,
+        "rate": 0.00015625
+       },
+       {
+        "start": 128,
+        "stop": 256,
+        "at_risk": 99,
+        "first_errors": 22,
+        "rate": 0.001736111111111111
+       }
+      ]
+     },
+     "512": {
+      "length": 512,
+      "final": 0.5400000214576721,
+      "prefix": 0.7879883050918579,
+      "beyond_horizon": 0.7811492085456848,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 16,
+        "stop": 32,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 32,
+        "stop": 64,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 64,
+        "stop": 128,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 128,
+        "stop": 256,
+        "at_risk": 100,
+        "first_errors": 36,
+        "rate": 0.0028125
+       },
+       {
+        "start": 256,
+        "stop": 512,
+        "at_risk": 64,
+        "first_errors": 44,
+        "rate": 0.002685546875
+       }
+      ]
+     },
+     "1024": {
+      "length": 1024,
+      "final": 0.3100000023841858,
+      "prefix": 0.6013574004173279,
+      "beyond_horizon": 0.5950297713279724,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 16,
+        "stop": 32,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 32,
+        "stop": 64,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 64,
+        "stop": 128,
+        "at_risk": 100,
+        "first_errors": 5,
+        "rate": 0.00078125
+       },
+       {
+        "start": 128,
+        "stop": 256,
+        "at_risk": 95,
+        "first_errors": 31,
+        "rate": 0.002549342105263158
+       },
+       {
+        "start": 256,
+        "stop": 512,
+        "at_risk": 64,
+        "first_errors": 43,
+        "rate": 0.00262451171875
+       },
+       {
+        "start": 512,
+        "stop": 1024,
+        "at_risk": 21,
+        "first_errors": 19,
+        "rate": 0.0017671130952380952
+       }
+      ]
+     }
+    },
+    "2": {
+     "16": {
+      "length": 16,
+      "final": 1.0,
+      "prefix": 1.0,
+      "beyond_horizon": null,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       }
+      ]
+     },
+     "32": {
+      "length": 32,
+      "final": 1.0,
+      "prefix": 1.0,
+      "beyond_horizon": 1.0,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 16,
+        "stop": 32,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       }
+      ]
+     },
+     "64": {
+      "length": 64,
+      "final": 1.0,
+      "prefix": 1.0,
+      "beyond_horizon": 1.0,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 16,
+        "stop": 32,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 32,
+        "stop": 64,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       }
+      ]
+     },
+     "128": {
+      "length": 128,
+      "final": 0.9900000095367432,
+      "prefix": 0.9976562261581421,
+      "beyond_horizon": 0.9973214268684387,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 16,
+        "stop": 32,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 32,
+        "stop": 64,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 64,
+        "stop": 128,
+        "at_risk": 100,
+        "first_errors": 2,
+        "rate": 0.0003125
+       }
+      ]
+     },
+     "256": {
+      "length": 256,
+      "final": 0.8600000143051147,
+      "prefix": 0.9707421660423279,
+      "beyond_horizon": 0.968791663646698,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 16,
+        "stop": 32,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 32,
+        "stop": 64,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 64,
+        "stop": 128,
+        "at_risk": 100,
+        "first_errors": 2,
+        "rate": 0.0003125
+       },
+       {
+        "start": 128,
+        "stop": 256,
+        "at_risk": 98,
+        "first_errors": 29,
+        "rate": 0.002311862244897959
+       }
+      ]
+     },
+     "512": {
+      "length": 512,
+      "final": 0.47999998927116394,
+      "prefix": 0.7723827958106995,
+      "beyond_horizon": 0.7650403380393982,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 16,
+        "stop": 32,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 32,
+        "stop": 64,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 64,
+        "stop": 128,
+        "at_risk": 100,
+        "first_errors": 1,
+        "rate": 0.00015625
+       },
+       {
+        "start": 128,
+        "stop": 256,
+        "at_risk": 99,
+        "first_errors": 34,
+        "rate": 0.002683080808080808
+       },
+       {
+        "start": 256,
+        "stop": 512,
+        "at_risk": 65,
+        "first_errors": 50,
+        "rate": 0.0030048076923076925
+       }
+      ]
+     },
+     "1024": {
+      "length": 1024,
+      "final": 0.25999999046325684,
+      "prefix": 0.5906933546066284,
+      "beyond_horizon": 0.5841964483261108,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 16,
+        "stop": 32,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 32,
+        "stop": 64,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 64,
+        "stop": 128,
+        "at_risk": 100,
+        "first_errors": 2,
+        "rate": 0.0003125
+       },
+       {
+        "start": 128,
+        "stop": 256,
+        "at_risk": 98,
+        "first_errors": 15,
+        "rate": 0.0011957908163265306
+       },
+       {
+        "start": 256,
+        "stop": 512,
+        "at_risk": 83,
+        "first_errors": 59,
+        "rate": 0.002776731927710843
+       },
+       {
+        "start": 512,
+        "stop": 1024,
+        "at_risk": 24,
+        "first_errors": 23,
+        "rate": 0.0018717447916666667
+       }
+      ]
+     }
+    },
+    "3": {
+     "16": {
+      "length": 16,
+      "final": 1.0,
+      "prefix": 1.0,
+      "beyond_horizon": null,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       }
+      ]
+     },
+     "32": {
+      "length": 32,
+      "final": 1.0,
+      "prefix": 1.0,
+      "beyond_horizon": 1.0,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 16,
+        "stop": 32,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       }
+      ]
+     },
+     "64": {
+      "length": 64,
+      "final": 1.0,
+      "prefix": 1.0,
+      "beyond_horizon": 1.0,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 16,
+        "stop": 32,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 32,
+        "stop": 64,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       }
+      ]
+     },
+     "128": {
+      "length": 128,
+      "final": 0.9700000286102295,
+      "prefix": 0.9946874976158142,
+      "beyond_horizon": 0.9939285516738892,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 16,
+        "stop": 32,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 32,
+        "stop": 64,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 64,
+        "stop": 128,
+        "at_risk": 100,
+        "first_errors": 6,
+        "rate": 0.0009375
+       }
+      ]
+     },
+     "256": {
+      "length": 256,
+      "final": 0.8600000143051147,
+      "prefix": 0.966992199420929,
+      "beyond_horizon": 0.9647916555404663,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 16,
+        "stop": 32,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 32,
+        "stop": 64,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 64,
+        "stop": 128,
+        "at_risk": 100,
+        "first_errors": 1,
+        "rate": 0.00015625
+       },
+       {
+        "start": 128,
+        "stop": 256,
+        "at_risk": 99,
+        "first_errors": 24,
+        "rate": 0.001893939393939394
+       }
+      ]
+     },
+     "512": {
+      "length": 512,
+      "final": 0.5899999737739563,
+      "prefix": 0.8213866949081421,
+      "beyond_horizon": 0.815625011920929,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 16,
+        "stop": 32,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 32,
+        "stop": 64,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 64,
+        "stop": 128,
+        "at_risk": 100,
+        "first_errors": 1,
+        "rate": 0.00015625
+       },
+       {
+        "start": 128,
+        "stop": 256,
+        "at_risk": 99,
+        "first_errors": 23,
+        "rate": 0.0018150252525252525
+       },
+       {
+        "start": 256,
+        "stop": 512,
+        "at_risk": 76,
+        "first_errors": 52,
+        "rate": 0.0026726973684210527
+       }
+      ]
+     },
+     "1024": {
+      "length": 1024,
+      "final": 0.3100000023841858,
+      "prefix": 0.5805370807647705,
+      "beyond_horizon": 0.5738789439201355,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 16,
+        "stop": 32,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 32,
+        "stop": 64,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 64,
+        "stop": 128,
+        "at_risk": 100,
+        "first_errors": 2,
+        "rate": 0.0003125
+       },
+       {
+        "start": 128,
+        "stop": 256,
+        "at_risk": 98,
+        "first_errors": 36,
+        "rate": 0.0028698979591836736
+       },
+       {
+        "start": 256,
+        "stop": 512,
+        "at_risk": 62,
+        "first_errors": 38,
+        "rate": 0.0023941532258064517
+       },
+       {
+        "start": 512,
+        "stop": 1024,
+        "at_risk": 24,
+        "first_errors": 24,
+        "rate": 0.001953125
+       }
+      ]
+     }
+    }
+   }
+  },
+  "w16_enc": {
+   "config": {
+    "window": 16,
+    "temp": false,
+    "enc": true,
+    "mem": false
+   },
+   "final": {
+    "16": 1.0,
+    "32": 1.0,
+    "64": 1.0,
+    "128": 0.9800000190734863,
+    "256": 0.8666666746139526,
+    "512": 0.526666671037674,
+    "1024": 0.3033333321412404
+   },
+   "windows": {
+    "0-16": [
+     0,
+     33600
+    ],
+    "16-32": [
+     0,
+     28800
+    ],
+    "32-64": [
+     0,
+     48000
+    ],
+    "64-128": [
+     25,
+     76800
+    ],
+    "128-256": [
+     252,
+     113280
+    ],
+    "256-512": [
+     282,
+     105472
+    ],
+    "512-1024": [
+     66,
+     35840
+    ]
+   },
+   "per_seed": {
+    "1": {
+     "16": {
+      "length": 16,
+      "final": 1.0,
+      "prefix": 1.0,
+      "beyond_horizon": null,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       }
+      ]
+     },
+     "32": {
+      "length": 32,
+      "final": 1.0,
+      "prefix": 1.0,
+      "beyond_horizon": 1.0,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 16,
+        "stop": 32,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       }
+      ]
+     },
+     "64": {
+      "length": 64,
+      "final": 1.0,
+      "prefix": 1.0,
+      "beyond_horizon": 1.0,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 16,
+        "stop": 32,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 32,
+        "stop": 64,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       }
+      ]
+     },
+     "128": {
+      "length": 128,
+      "final": 0.9800000190734863,
+      "prefix": 0.998828113079071,
+      "beyond_horizon": 0.9986607432365417,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 16,
+        "stop": 32,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 32,
+        "stop": 64,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 64,
+        "stop": 128,
+        "at_risk": 100,
+        "first_errors": 2,
+        "rate": 0.0003125
+       }
+      ]
+     },
+     "256": {
+      "length": 256,
+      "final": 0.8899999856948853,
+      "prefix": 0.9768359661102295,
+      "beyond_horizon": 0.9752916693687439,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 16,
+        "stop": 32,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 32,
+        "stop": 64,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 64,
+        "stop": 128,
+        "at_risk": 100,
+        "first_errors": 1,
+        "rate": 0.00015625
+       },
+       {
+        "start": 128,
+        "stop": 256,
+        "at_risk": 99,
+        "first_errors": 22,
+        "rate": 0.001736111111111111
+       }
+      ]
+     },
+     "512": {
+      "length": 512,
+      "final": 0.5400000214576721,
+      "prefix": 0.7885546684265137,
+      "beyond_horizon": 0.7817338705062866,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 16,
+        "stop": 32,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 32,
+        "stop": 64,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 64,
+        "stop": 128,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 128,
+        "stop": 256,
+        "at_risk": 100,
+        "first_errors": 36,
+        "rate": 0.0028125
+       },
+       {
+        "start": 256,
+        "stop": 512,
+        "at_risk": 64,
+        "first_errors": 42,
+        "rate": 0.0025634765625
+       }
+      ]
+     },
+     "1024": {
+      "length": 1024,
+      "final": 0.3100000023841858,
+      "prefix": 0.6010156273841858,
+      "beyond_horizon": 0.594682514667511,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 16,
+        "stop": 32,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 32,
+        "stop": 64,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 64,
+        "stop": 128,
+        "at_risk": 100,
+        "first_errors": 5,
+        "rate": 0.00078125
+       },
+       {
+        "start": 128,
+        "stop": 256,
+        "at_risk": 95,
+        "first_errors": 31,
+        "rate": 0.002549342105263158
+       },
+       {
+        "start": 256,
+        "stop": 512,
+        "at_risk": 64,
+        "first_errors": 44,
+        "rate": 0.002685546875
+       },
+       {
+        "start": 512,
+        "stop": 1024,
+        "at_risk": 20,
+        "first_errors": 18,
+        "rate": 0.0017578125
+       }
+      ]
+     }
+    },
+    "2": {
+     "16": {
+      "length": 16,
+      "final": 1.0,
+      "prefix": 1.0,
+      "beyond_horizon": null,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       }
+      ]
+     },
+     "32": {
+      "length": 32,
+      "final": 1.0,
+      "prefix": 1.0,
+      "beyond_horizon": 1.0,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 16,
+        "stop": 32,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       }
+      ]
+     },
+     "64": {
+      "length": 64,
+      "final": 1.0,
+      "prefix": 1.0,
+      "beyond_horizon": 1.0,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 16,
+        "stop": 32,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 32,
+        "stop": 64,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       }
+      ]
+     },
+     "128": {
+      "length": 128,
+      "final": 0.9900000095367432,
+      "prefix": 0.9976562261581421,
+      "beyond_horizon": 0.9973214268684387,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 16,
+        "stop": 32,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 32,
+        "stop": 64,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 64,
+        "stop": 128,
+        "at_risk": 100,
+        "first_errors": 2,
+        "rate": 0.0003125
+       }
+      ]
+     },
+     "256": {
+      "length": 256,
+      "final": 0.8600000143051147,
+      "prefix": 0.9701562523841858,
+      "beyond_horizon": 0.9681666493415833,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 16,
+        "stop": 32,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 32,
+        "stop": 64,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 64,
+        "stop": 128,
+        "at_risk": 100,
+        "first_errors": 2,
+        "rate": 0.0003125
+       },
+       {
+        "start": 128,
+        "stop": 256,
+        "at_risk": 98,
+        "first_errors": 29,
+        "rate": 0.002311862244897959
+       }
+      ]
+     },
+     "512": {
+      "length": 512,
+      "final": 0.46000000834465027,
+      "prefix": 0.7735546827316284,
+      "beyond_horizon": 0.7662500143051147,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 16,
+        "stop": 32,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 32,
+        "stop": 64,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 64,
+        "stop": 128,
+        "at_risk": 100,
+        "first_errors": 1,
+        "rate": 0.00015625
+       },
+       {
+        "start": 128,
+        "stop": 256,
+        "at_risk": 99,
+        "first_errors": 34,
+        "rate": 0.002683080808080808
+       },
+       {
+        "start": 256,
+        "stop": 512,
+        "at_risk": 65,
+        "first_errors": 51,
+        "rate": 0.003064903846153846
+       }
+      ]
+     },
+     "1024": {
+      "length": 1024,
+      "final": 0.25999999046325684,
+      "prefix": 0.5895019769668579,
+      "beyond_horizon": 0.5829861164093018,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 16,
+        "stop": 32,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 32,
+        "stop": 64,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 64,
+        "stop": 128,
+        "at_risk": 100,
+        "first_errors": 2,
+        "rate": 0.0003125
+       },
+       {
+        "start": 128,
+        "stop": 256,
+        "at_risk": 98,
+        "first_errors": 17,
+        "rate": 0.0013552295918367347
+       },
+       {
+        "start": 256,
+        "stop": 512,
+        "at_risk": 81,
+        "first_errors": 57,
+        "rate": 0.0027488425925925927
+       },
+       {
+        "start": 512,
+        "stop": 1024,
+        "at_risk": 24,
+        "first_errors": 22,
+        "rate": 0.0017903645833333333
+       }
+      ]
+     }
+    },
+    "3": {
+     "16": {
+      "length": 16,
+      "final": 1.0,
+      "prefix": 1.0,
+      "beyond_horizon": null,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       }
+      ]
+     },
+     "32": {
+      "length": 32,
+      "final": 1.0,
+      "prefix": 1.0,
+      "beyond_horizon": 1.0,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 16,
+        "stop": 32,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       }
+      ]
+     },
+     "64": {
+      "length": 64,
+      "final": 1.0,
+      "prefix": 1.0,
+      "beyond_horizon": 1.0,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 16,
+        "stop": 32,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 32,
+        "stop": 64,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       }
+      ]
+     },
+     "128": {
+      "length": 128,
+      "final": 0.9700000286102295,
+      "prefix": 0.9946874976158142,
+      "beyond_horizon": 0.9939285516738892,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 16,
+        "stop": 32,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 32,
+        "stop": 64,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 64,
+        "stop": 128,
+        "at_risk": 100,
+        "first_errors": 6,
+        "rate": 0.0009375
+       }
+      ]
+     },
+     "256": {
+      "length": 256,
+      "final": 0.8500000238418579,
+      "prefix": 0.966992199420929,
+      "beyond_horizon": 0.9647916555404663,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 16,
+        "stop": 32,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 32,
+        "stop": 64,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 64,
+        "stop": 128,
+        "at_risk": 100,
+        "first_errors": 1,
+        "rate": 0.00015625
+       },
+       {
+        "start": 128,
+        "stop": 256,
+        "at_risk": 99,
+        "first_errors": 24,
+        "rate": 0.001893939393939394
+       }
+      ]
+     },
+     "512": {
+      "length": 512,
+      "final": 0.5799999833106995,
+      "prefix": 0.8208984136581421,
+      "beyond_horizon": 0.8151209950447083,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 16,
+        "stop": 32,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 32,
+        "stop": 64,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 64,
+        "stop": 128,
+        "at_risk": 100,
+        "first_errors": 1,
+        "rate": 0.00015625
+       },
+       {
+        "start": 128,
+        "stop": 256,
+        "at_risk": 99,
+        "first_errors": 23,
+        "rate": 0.0018150252525252525
+       },
+       {
+        "start": 256,
+        "stop": 512,
+        "at_risk": 76,
+        "first_errors": 52,
+        "rate": 0.0026726973684210527
+       }
+      ]
+     },
+     "1024": {
+      "length": 1024,
+      "final": 0.3400000035762787,
+      "prefix": 0.5810156464576721,
+      "beyond_horizon": 0.5743650794029236,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 16,
+        "stop": 32,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 32,
+        "stop": 64,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 64,
+        "stop": 128,
+        "at_risk": 100,
+        "first_errors": 2,
+        "rate": 0.0003125
+       },
+       {
+        "start": 128,
+        "stop": 256,
+        "at_risk": 98,
+        "first_errors": 36,
+        "rate": 0.0028698979591836736
+       },
+       {
+        "start": 256,
+        "stop": 512,
+        "at_risk": 62,
+        "first_errors": 36,
+        "rate": 0.0022681451612903227
+       },
+       {
+        "start": 512,
+        "stop": 1024,
+        "at_risk": 26,
+        "first_errors": 26,
+        "rate": 0.001953125
+       }
+      ]
+     }
+    }
+   }
+  },
+  "w16_mem": {
+   "config": {
+    "window": 16,
+    "temp": false,
+    "enc": false,
+    "mem": true
+   },
+   "final": {
+    "16": 1.0,
+    "32": 1.0,
+    "64": 1.0,
+    "128": 0.9800000190734863,
+    "256": 0.8666666746139526,
+    "512": 0.526666651169459,
+    "1024": 0.3100000023841858
+   },
+   "windows": {
+    "0-16": [
+     0,
+     33600
+    ],
+    "16-32": [
+     0,
+     28800
+    ],
+    "32-64": [
+     0,
+     48000
+    ],
+    "64-128": [
+     25,
+     76800
+    ],
+    "128-256": [
+     252,
+     113280
+    ],
+    "256-512": [
+     283,
+     105728
+    ],
+    "512-1024": [
+     67,
+     35328
+    ]
+   },
+   "per_seed": {
+    "1": {
+     "16": {
+      "length": 16,
+      "final": 1.0,
+      "prefix": 1.0,
+      "beyond_horizon": null,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       }
+      ]
+     },
+     "32": {
+      "length": 32,
+      "final": 1.0,
+      "prefix": 1.0,
+      "beyond_horizon": 1.0,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 16,
+        "stop": 32,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       }
+      ]
+     },
+     "64": {
+      "length": 64,
+      "final": 1.0,
+      "prefix": 1.0,
+      "beyond_horizon": 1.0,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 16,
+        "stop": 32,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 32,
+        "stop": 64,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       }
+      ]
+     },
+     "128": {
+      "length": 128,
+      "final": 0.9800000190734863,
+      "prefix": 0.998828113079071,
+      "beyond_horizon": 0.9986607432365417,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 16,
+        "stop": 32,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 32,
+        "stop": 64,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 64,
+        "stop": 128,
+        "at_risk": 100,
+        "first_errors": 2,
+        "rate": 0.0003125
+       }
+      ]
+     },
+     "256": {
+      "length": 256,
+      "final": 0.8700000047683716,
+      "prefix": 0.9764453172683716,
+      "beyond_horizon": 0.9748749732971191,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 16,
+        "stop": 32,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 32,
+        "stop": 64,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 64,
+        "stop": 128,
+        "at_risk": 100,
+        "first_errors": 1,
+        "rate": 0.00015625
+       },
+       {
+        "start": 128,
+        "stop": 256,
+        "at_risk": 99,
+        "first_errors": 22,
+        "rate": 0.001736111111111111
+       }
+      ]
+     },
+     "512": {
+      "length": 512,
+      "final": 0.5199999809265137,
+      "prefix": 0.7876952886581421,
+      "beyond_horizon": 0.7808467745780945,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 16,
+        "stop": 32,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 32,
+        "stop": 64,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 64,
+        "stop": 128,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 128,
+        "stop": 256,
+        "at_risk": 100,
+        "first_errors": 36,
+        "rate": 0.0028125
+       },
+       {
+        "start": 256,
+        "stop": 512,
+        "at_risk": 64,
+        "first_errors": 43,
+        "rate": 0.00262451171875
+       }
+      ]
+     },
+     "1024": {
+      "length": 1024,
+      "final": 0.3100000023841858,
+      "prefix": 0.6015722751617432,
+      "beyond_horizon": 0.5952480435371399,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 16,
+        "stop": 32,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 32,
+        "stop": 64,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 64,
+        "stop": 128,
+        "at_risk": 100,
+        "first_errors": 5,
+        "rate": 0.00078125
+       },
+       {
+        "start": 128,
+        "stop": 256,
+        "at_risk": 95,
+        "first_errors": 31,
+        "rate": 0.002549342105263158
+       },
+       {
+        "start": 256,
+        "stop": 512,
+        "at_risk": 64,
+        "first_errors": 43,
+        "rate": 0.00262451171875
+       },
+       {
+        "start": 512,
+        "stop": 1024,
+        "at_risk": 21,
+        "first_errors": 20,
+        "rate": 0.0018601190476190475
+       }
+      ]
+     }
+    },
+    "2": {
+     "16": {
+      "length": 16,
+      "final": 1.0,
+      "prefix": 1.0,
+      "beyond_horizon": null,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       }
+      ]
+     },
+     "32": {
+      "length": 32,
+      "final": 1.0,
+      "prefix": 1.0,
+      "beyond_horizon": 1.0,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 16,
+        "stop": 32,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       }
+      ]
+     },
+     "64": {
+      "length": 64,
+      "final": 1.0,
+      "prefix": 1.0,
+      "beyond_horizon": 1.0,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 16,
+        "stop": 32,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 32,
+        "stop": 64,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       }
+      ]
+     },
+     "128": {
+      "length": 128,
+      "final": 0.9900000095367432,
+      "prefix": 0.9976562261581421,
+      "beyond_horizon": 0.9973214268684387,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 16,
+        "stop": 32,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 32,
+        "stop": 64,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 64,
+        "stop": 128,
+        "at_risk": 100,
+        "first_errors": 2,
+        "rate": 0.0003125
+       }
+      ]
+     },
+     "256": {
+      "length": 256,
+      "final": 0.8700000047683716,
+      "prefix": 0.970703125,
+      "beyond_horizon": 0.96875,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 16,
+        "stop": 32,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 32,
+        "stop": 64,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 64,
+        "stop": 128,
+        "at_risk": 100,
+        "first_errors": 2,
+        "rate": 0.0003125
+       },
+       {
+        "start": 128,
+        "stop": 256,
+        "at_risk": 98,
+        "first_errors": 29,
+        "rate": 0.002311862244897959
+       }
+      ]
+     },
+     "512": {
+      "length": 512,
+      "final": 0.47999998927116394,
+      "prefix": 0.7713086009025574,
+      "beyond_horizon": 0.7639314532279968,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 16,
+        "stop": 32,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 32,
+        "stop": 64,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 64,
+        "stop": 128,
+        "at_risk": 100,
+        "first_errors": 1,
+        "rate": 0.00015625
+       },
+       {
+        "start": 128,
+        "stop": 256,
+        "at_risk": 99,
+        "first_errors": 34,
+        "rate": 0.002683080808080808
+       },
+       {
+        "start": 256,
+        "stop": 512,
+        "at_risk": 65,
+        "first_errors": 49,
+        "rate": 0.0029447115384615384
+       }
+      ]
+     },
+     "1024": {
+      "length": 1024,
+      "final": 0.28999999165534973,
+      "prefix": 0.592968761920929,
+      "beyond_horizon": 0.5865079164505005,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 16,
+        "stop": 32,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 32,
+        "stop": 64,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 64,
+        "stop": 128,
+        "at_risk": 100,
+        "first_errors": 2,
+        "rate": 0.0003125
+       },
+       {
+        "start": 128,
+        "stop": 256,
+        "at_risk": 98,
+        "first_errors": 16,
+        "rate": 0.0012755102040816326
+       },
+       {
+        "start": 256,
+        "stop": 512,
+        "at_risk": 82,
+        "first_errors": 58,
+        "rate": 0.0027629573170731706
+       },
+       {
+        "start": 512,
+        "stop": 1024,
+        "at_risk": 24,
+        "first_errors": 23,
+        "rate": 0.0018717447916666667
+       }
+      ]
+     }
+    },
+    "3": {
+     "16": {
+      "length": 16,
+      "final": 1.0,
+      "prefix": 1.0,
+      "beyond_horizon": null,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       }
+      ]
+     },
+     "32": {
+      "length": 32,
+      "final": 1.0,
+      "prefix": 1.0,
+      "beyond_horizon": 1.0,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 16,
+        "stop": 32,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       }
+      ]
+     },
+     "64": {
+      "length": 64,
+      "final": 1.0,
+      "prefix": 1.0,
+      "beyond_horizon": 1.0,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 16,
+        "stop": 32,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 32,
+        "stop": 64,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       }
+      ]
+     },
+     "128": {
+      "length": 128,
+      "final": 0.9700000286102295,
+      "prefix": 0.9947656393051147,
+      "beyond_horizon": 0.9940178394317627,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 16,
+        "stop": 32,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 32,
+        "stop": 64,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 64,
+        "stop": 128,
+        "at_risk": 100,
+        "first_errors": 6,
+        "rate": 0.0009375
+       }
+      ]
+     },
+     "256": {
+      "length": 256,
+      "final": 0.8600000143051147,
+      "prefix": 0.9673047065734863,
+      "beyond_horizon": 0.9651250243186951,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 16,
+        "stop": 32,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 32,
+        "stop": 64,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 64,
+        "stop": 128,
+        "at_risk": 100,
+        "first_errors": 1,
+        "rate": 0.00015625
+       },
+       {
+        "start": 128,
+        "stop": 256,
+        "at_risk": 99,
+        "first_errors": 25,
+        "rate": 0.0019728535353535355
+       }
+      ]
+     },
+     "512": {
+      "length": 512,
+      "final": 0.5799999833106995,
+      "prefix": 0.8224218487739563,
+      "beyond_horizon": 0.8166935443878174,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 16,
+        "stop": 32,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 32,
+        "stop": 64,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 64,
+        "stop": 128,
+        "at_risk": 100,
+        "first_errors": 1,
+        "rate": 0.00015625
+       },
+       {
+        "start": 128,
+        "stop": 256,
+        "at_risk": 99,
+        "first_errors": 23,
+        "rate": 0.0018150252525252525
+       },
+       {
+        "start": 256,
+        "stop": 512,
+        "at_risk": 76,
+        "first_errors": 52,
+        "rate": 0.0026726973684210527
+       }
+      ]
+     },
+     "1024": {
+      "length": 1024,
+      "final": 0.33000001311302185,
+      "prefix": 0.5837304592132568,
+      "beyond_horizon": 0.5771229863166809,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 16,
+        "stop": 32,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 32,
+        "stop": 64,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 64,
+        "stop": 128,
+        "at_risk": 100,
+        "first_errors": 2,
+        "rate": 0.0003125
+       },
+       {
+        "start": 128,
+        "stop": 256,
+        "at_risk": 98,
+        "first_errors": 36,
+        "rate": 0.0028698979591836736
+       },
+       {
+        "start": 256,
+        "stop": 512,
+        "at_risk": 62,
+        "first_errors": 38,
+        "rate": 0.0023941532258064517
+       },
+       {
+        "start": 512,
+        "stop": 1024,
+        "at_risk": 24,
+        "first_errors": 24,
+        "rate": 0.001953125
+       }
+      ]
+     }
+    }
+   }
+  },
+  "temp": {
+   "config": {
+    "window": 0,
+    "temp": true,
+    "enc": true,
+    "mem": true
+   },
+   "final": {
+    "16": 1.0,
+    "32": 1.0,
+    "64": 1.0,
+    "128": 0.9800000190734863,
+    "256": 0.8700000047683716,
+    "512": 0.5366666615009308,
+    "1024": 0.3033333321412404
+   },
+   "windows": {
+    "0-16": [
+     0,
+     33600
+    ],
+    "16-32": [
+     0,
+     28800
+    ],
+    "32-64": [
+     0,
+     48000
+    ],
+    "64-128": [
+     26,
+     76800
+    ],
+    "128-256": [
+     249,
+     113152
+    ],
+    "256-512": [
+     284,
+     105984
+    ],
+    "512-1024": [
+     67,
+     35840
+    ]
+   },
+   "per_seed": {
+    "1": {
+     "16": {
+      "length": 16,
+      "final": 1.0,
+      "prefix": 1.0,
+      "beyond_horizon": null,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       }
+      ]
+     },
+     "32": {
+      "length": 32,
+      "final": 1.0,
+      "prefix": 1.0,
+      "beyond_horizon": 1.0,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 16,
+        "stop": 32,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       }
+      ]
+     },
+     "64": {
+      "length": 64,
+      "final": 1.0,
+      "prefix": 1.0,
+      "beyond_horizon": 1.0,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 16,
+        "stop": 32,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 32,
+        "stop": 64,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       }
+      ]
+     },
+     "128": {
+      "length": 128,
+      "final": 0.9800000190734863,
+      "prefix": 0.998828113079071,
+      "beyond_horizon": 0.9986607432365417,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 16,
+        "stop": 32,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 32,
+        "stop": 64,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 64,
+        "stop": 128,
+        "at_risk": 100,
+        "first_errors": 2,
+        "rate": 0.0003125
+       }
+      ]
+     },
+     "256": {
+      "length": 256,
+      "final": 0.8799999952316284,
+      "prefix": 0.9764843583106995,
+      "beyond_horizon": 0.9749166369438171,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 16,
+        "stop": 32,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 32,
+        "stop": 64,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 64,
+        "stop": 128,
+        "at_risk": 100,
+        "first_errors": 1,
+        "rate": 0.00015625
+       },
+       {
+        "start": 128,
+        "stop": 256,
+        "at_risk": 99,
+        "first_errors": 22,
+        "rate": 0.001736111111111111
+       }
+      ]
+     },
+     "512": {
+      "length": 512,
+      "final": 0.5400000214576721,
+      "prefix": 0.7885156273841858,
+      "beyond_horizon": 0.7816935777664185,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 16,
+        "stop": 32,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 32,
+        "stop": 64,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 64,
+        "stop": 128,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 128,
+        "stop": 256,
+        "at_risk": 100,
+        "first_errors": 36,
+        "rate": 0.0028125
+       },
+       {
+        "start": 256,
+        "stop": 512,
+        "at_risk": 64,
+        "first_errors": 43,
+        "rate": 0.00262451171875
+       }
+      ]
+     },
+     "1024": {
+      "length": 1024,
+      "final": 0.3100000023841858,
+      "prefix": 0.6020605564117432,
+      "beyond_horizon": 0.5957440733909607,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 16,
+        "stop": 32,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 32,
+        "stop": 64,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 64,
+        "stop": 128,
+        "at_risk": 100,
+        "first_errors": 6,
+        "rate": 0.0009375
+       },
+       {
+        "start": 128,
+        "stop": 256,
+        "at_risk": 94,
+        "first_errors": 30,
+        "rate": 0.0024933510638297874
+       },
+       {
+        "start": 256,
+        "stop": 512,
+        "at_risk": 64,
+        "first_errors": 43,
+        "rate": 0.00262451171875
+       },
+       {
+        "start": 512,
+        "stop": 1024,
+        "at_risk": 21,
+        "first_errors": 19,
+        "rate": 0.0017671130952380952
+       }
+      ]
+     }
+    },
+    "2": {
+     "16": {
+      "length": 16,
+      "final": 1.0,
+      "prefix": 1.0,
+      "beyond_horizon": null,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       }
+      ]
+     },
+     "32": {
+      "length": 32,
+      "final": 1.0,
+      "prefix": 1.0,
+      "beyond_horizon": 1.0,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 16,
+        "stop": 32,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       }
+      ]
+     },
+     "64": {
+      "length": 64,
+      "final": 1.0,
+      "prefix": 1.0,
+      "beyond_horizon": 1.0,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 16,
+        "stop": 32,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 32,
+        "stop": 64,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       }
+      ]
+     },
+     "128": {
+      "length": 128,
+      "final": 0.9900000095367432,
+      "prefix": 0.9976562261581421,
+      "beyond_horizon": 0.9973214268684387,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 16,
+        "stop": 32,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 32,
+        "stop": 64,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 64,
+        "stop": 128,
+        "at_risk": 100,
+        "first_errors": 2,
+        "rate": 0.0003125
+       }
+      ]
+     },
+     "256": {
+      "length": 256,
+      "final": 0.8700000047683716,
+      "prefix": 0.9706249833106995,
+      "beyond_horizon": 0.968666672706604,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 16,
+        "stop": 32,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 32,
+        "stop": 64,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 64,
+        "stop": 128,
+        "at_risk": 100,
+        "first_errors": 2,
+        "rate": 0.0003125
+       },
+       {
+        "start": 128,
+        "stop": 256,
+        "at_risk": 98,
+        "first_errors": 29,
+        "rate": 0.002311862244897959
+       }
+      ]
+     },
+     "512": {
+      "length": 512,
+      "final": 0.47999998927116394,
+      "prefix": 0.7720116972923279,
+      "beyond_horizon": 0.7646572589874268,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 16,
+        "stop": 32,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 32,
+        "stop": 64,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 64,
+        "stop": 128,
+        "at_risk": 100,
+        "first_errors": 1,
+        "rate": 0.00015625
+       },
+       {
+        "start": 128,
+        "stop": 256,
+        "at_risk": 99,
+        "first_errors": 34,
+        "rate": 0.002683080808080808
+       },
+       {
+        "start": 256,
+        "stop": 512,
+        "at_risk": 65,
+        "first_errors": 50,
+        "rate": 0.0030048076923076925
+       }
+      ]
+     },
+     "1024": {
+      "length": 1024,
+      "final": 0.2800000011920929,
+      "prefix": 0.5914941430091858,
+      "beyond_horizon": 0.5850099325180054,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 16,
+        "stop": 32,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 32,
+        "stop": 64,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 64,
+        "stop": 128,
+        "at_risk": 100,
+        "first_errors": 2,
+        "rate": 0.0003125
+       },
+       {
+        "start": 128,
+        "stop": 256,
+        "at_risk": 98,
+        "first_errors": 15,
+        "rate": 0.0011957908163265306
+       },
+       {
+        "start": 256,
+        "stop": 512,
+        "at_risk": 83,
+        "first_errors": 59,
+        "rate": 0.002776731927710843
+       },
+       {
+        "start": 512,
+        "stop": 1024,
+        "at_risk": 24,
+        "first_errors": 23,
+        "rate": 0.0018717447916666667
+       }
+      ]
+     }
+    },
+    "3": {
+     "16": {
+      "length": 16,
+      "final": 1.0,
+      "prefix": 1.0,
+      "beyond_horizon": null,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       }
+      ]
+     },
+     "32": {
+      "length": 32,
+      "final": 1.0,
+      "prefix": 1.0,
+      "beyond_horizon": 1.0,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 16,
+        "stop": 32,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       }
+      ]
+     },
+     "64": {
+      "length": 64,
+      "final": 1.0,
+      "prefix": 1.0,
+      "beyond_horizon": 1.0,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 16,
+        "stop": 32,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 32,
+        "stop": 64,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       }
+      ]
+     },
+     "128": {
+      "length": 128,
+      "final": 0.9700000286102295,
+      "prefix": 0.9947656393051147,
+      "beyond_horizon": 0.9940178394317627,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 16,
+        "stop": 32,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 32,
+        "stop": 64,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 64,
+        "stop": 128,
+        "at_risk": 100,
+        "first_errors": 6,
+        "rate": 0.0009375
+       }
+      ]
+     },
+     "256": {
+      "length": 256,
+      "final": 0.8600000143051147,
+      "prefix": 0.9671484231948853,
+      "beyond_horizon": 0.9649583101272583,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 16,
+        "stop": 32,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 32,
+        "stop": 64,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 64,
+        "stop": 128,
+        "at_risk": 100,
+        "first_errors": 1,
+        "rate": 0.00015625
+       },
+       {
+        "start": 128,
+        "stop": 256,
+        "at_risk": 99,
+        "first_errors": 24,
+        "rate": 0.001893939393939394
+       }
+      ]
+     },
+     "512": {
+      "length": 512,
+      "final": 0.5899999737739563,
+      "prefix": 0.8220312595367432,
+      "beyond_horizon": 0.8162903189659119,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 16,
+        "stop": 32,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 32,
+        "stop": 64,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 64,
+        "stop": 128,
+        "at_risk": 100,
+        "first_errors": 1,
+        "rate": 0.00015625
+       },
+       {
+        "start": 128,
+        "stop": 256,
+        "at_risk": 99,
+        "first_errors": 23,
+        "rate": 0.0018150252525252525
+       },
+       {
+        "start": 256,
+        "stop": 512,
+        "at_risk": 76,
+        "first_errors": 52,
+        "rate": 0.0026726973684210527
+       }
+      ]
+     },
+     "1024": {
+      "length": 1024,
+      "final": 0.3199999928474426,
+      "prefix": 0.581298828125,
+      "beyond_horizon": 0.5746527910232544,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 16,
+        "stop": 32,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 32,
+        "stop": 64,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 64,
+        "stop": 128,
+        "at_risk": 100,
+        "first_errors": 2,
+        "rate": 0.0003125
+       },
+       {
+        "start": 128,
+        "stop": 256,
+        "at_risk": 98,
+        "first_errors": 36,
+        "rate": 0.0028698979591836736
+       },
+       {
+        "start": 256,
+        "stop": 512,
+        "at_risk": 62,
+        "first_errors": 37,
+        "rate": 0.002331149193548387
+       },
+       {
+        "start": 512,
+        "stop": 1024,
+        "at_risk": 25,
+        "first_errors": 25,
+        "rate": 0.001953125
+       }
+      ]
+     }
+    }
+   }
+  },
+  "temp_enc": {
+   "config": {
+    "window": 0,
+    "temp": true,
+    "enc": true,
+    "mem": false
+   },
+   "final": {
+    "16": 1.0,
+    "32": 1.0,
+    "64": 1.0,
+    "128": 0.9800000190734863,
+    "256": 0.8700000047683716,
+    "512": 0.5366666615009308,
+    "1024": 0.3033333321412404
+   },
+   "windows": {
+    "0-16": [
+     0,
+     33600
+    ],
+    "16-32": [
+     0,
+     28800
+    ],
+    "32-64": [
+     0,
+     48000
+    ],
+    "64-128": [
+     26,
+     76800
+    ],
+    "128-256": [
+     249,
+     113152
+    ],
+    "256-512": [
+     284,
+     105984
+    ],
+    "512-1024": [
+     67,
+     35840
+    ]
+   },
+   "per_seed": {
+    "1": {
+     "16": {
+      "length": 16,
+      "final": 1.0,
+      "prefix": 1.0,
+      "beyond_horizon": null,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       }
+      ]
+     },
+     "32": {
+      "length": 32,
+      "final": 1.0,
+      "prefix": 1.0,
+      "beyond_horizon": 1.0,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 16,
+        "stop": 32,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       }
+      ]
+     },
+     "64": {
+      "length": 64,
+      "final": 1.0,
+      "prefix": 1.0,
+      "beyond_horizon": 1.0,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 16,
+        "stop": 32,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 32,
+        "stop": 64,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       }
+      ]
+     },
+     "128": {
+      "length": 128,
+      "final": 0.9800000190734863,
+      "prefix": 0.998828113079071,
+      "beyond_horizon": 0.9986607432365417,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 16,
+        "stop": 32,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 32,
+        "stop": 64,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 64,
+        "stop": 128,
+        "at_risk": 100,
+        "first_errors": 2,
+        "rate": 0.0003125
+       }
+      ]
+     },
+     "256": {
+      "length": 256,
+      "final": 0.8799999952316284,
+      "prefix": 0.9764843583106995,
+      "beyond_horizon": 0.9749166369438171,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 16,
+        "stop": 32,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 32,
+        "stop": 64,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 64,
+        "stop": 128,
+        "at_risk": 100,
+        "first_errors": 1,
+        "rate": 0.00015625
+       },
+       {
+        "start": 128,
+        "stop": 256,
+        "at_risk": 99,
+        "first_errors": 22,
+        "rate": 0.001736111111111111
+       }
+      ]
+     },
+     "512": {
+      "length": 512,
+      "final": 0.5400000214576721,
+      "prefix": 0.7885156273841858,
+      "beyond_horizon": 0.7816935777664185,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 16,
+        "stop": 32,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 32,
+        "stop": 64,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 64,
+        "stop": 128,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 128,
+        "stop": 256,
+        "at_risk": 100,
+        "first_errors": 36,
+        "rate": 0.0028125
+       },
+       {
+        "start": 256,
+        "stop": 512,
+        "at_risk": 64,
+        "first_errors": 43,
+        "rate": 0.00262451171875
+       }
+      ]
+     },
+     "1024": {
+      "length": 1024,
+      "final": 0.3100000023841858,
+      "prefix": 0.60205078125,
+      "beyond_horizon": 0.5957341194152832,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 16,
+        "stop": 32,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 32,
+        "stop": 64,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 64,
+        "stop": 128,
+        "at_risk": 100,
+        "first_errors": 6,
+        "rate": 0.0009375
+       },
+       {
+        "start": 128,
+        "stop": 256,
+        "at_risk": 94,
+        "first_errors": 30,
+        "rate": 0.0024933510638297874
+       },
+       {
+        "start": 256,
+        "stop": 512,
+        "at_risk": 64,
+        "first_errors": 43,
+        "rate": 0.00262451171875
+       },
+       {
+        "start": 512,
+        "stop": 1024,
+        "at_risk": 21,
+        "first_errors": 19,
+        "rate": 0.0017671130952380952
+       }
+      ]
+     }
+    },
+    "2": {
+     "16": {
+      "length": 16,
+      "final": 1.0,
+      "prefix": 1.0,
+      "beyond_horizon": null,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       }
+      ]
+     },
+     "32": {
+      "length": 32,
+      "final": 1.0,
+      "prefix": 1.0,
+      "beyond_horizon": 1.0,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 16,
+        "stop": 32,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       }
+      ]
+     },
+     "64": {
+      "length": 64,
+      "final": 1.0,
+      "prefix": 1.0,
+      "beyond_horizon": 1.0,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 16,
+        "stop": 32,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 32,
+        "stop": 64,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       }
+      ]
+     },
+     "128": {
+      "length": 128,
+      "final": 0.9900000095367432,
+      "prefix": 0.9976562261581421,
+      "beyond_horizon": 0.9973214268684387,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 16,
+        "stop": 32,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 32,
+        "stop": 64,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 64,
+        "stop": 128,
+        "at_risk": 100,
+        "first_errors": 2,
+        "rate": 0.0003125
+       }
+      ]
+     },
+     "256": {
+      "length": 256,
+      "final": 0.8700000047683716,
+      "prefix": 0.9706640839576721,
+      "beyond_horizon": 0.968708336353302,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 16,
+        "stop": 32,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 32,
+        "stop": 64,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 64,
+        "stop": 128,
+        "at_risk": 100,
+        "first_errors": 2,
+        "rate": 0.0003125
+       },
+       {
+        "start": 128,
+        "stop": 256,
+        "at_risk": 98,
+        "first_errors": 29,
+        "rate": 0.002311862244897959
+       }
+      ]
+     },
+     "512": {
+      "length": 512,
+      "final": 0.47999998927116394,
+      "prefix": 0.7720312476158142,
+      "beyond_horizon": 0.7646774053573608,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 16,
+        "stop": 32,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 32,
+        "stop": 64,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 64,
+        "stop": 128,
+        "at_risk": 100,
+        "first_errors": 1,
+        "rate": 0.00015625
+       },
+       {
+        "start": 128,
+        "stop": 256,
+        "at_risk": 99,
+        "first_errors": 34,
+        "rate": 0.002683080808080808
+       },
+       {
+        "start": 256,
+        "stop": 512,
+        "at_risk": 65,
+        "first_errors": 50,
+        "rate": 0.0030048076923076925
+       }
+      ]
+     },
+     "1024": {
+      "length": 1024,
+      "final": 0.2800000011920929,
+      "prefix": 0.5914745926856995,
+      "beyond_horizon": 0.5849900841712952,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 16,
+        "stop": 32,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 32,
+        "stop": 64,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 64,
+        "stop": 128,
+        "at_risk": 100,
+        "first_errors": 2,
+        "rate": 0.0003125
+       },
+       {
+        "start": 128,
+        "stop": 256,
+        "at_risk": 98,
+        "first_errors": 15,
+        "rate": 0.0011957908163265306
+       },
+       {
+        "start": 256,
+        "stop": 512,
+        "at_risk": 83,
+        "first_errors": 59,
+        "rate": 0.002776731927710843
+       },
+       {
+        "start": 512,
+        "stop": 1024,
+        "at_risk": 24,
+        "first_errors": 23,
+        "rate": 0.0018717447916666667
+       }
+      ]
+     }
+    },
+    "3": {
+     "16": {
+      "length": 16,
+      "final": 1.0,
+      "prefix": 1.0,
+      "beyond_horizon": null,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       }
+      ]
+     },
+     "32": {
+      "length": 32,
+      "final": 1.0,
+      "prefix": 1.0,
+      "beyond_horizon": 1.0,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 16,
+        "stop": 32,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       }
+      ]
+     },
+     "64": {
+      "length": 64,
+      "final": 1.0,
+      "prefix": 1.0,
+      "beyond_horizon": 1.0,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 16,
+        "stop": 32,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 32,
+        "stop": 64,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       }
+      ]
+     },
+     "128": {
+      "length": 128,
+      "final": 0.9700000286102295,
+      "prefix": 0.9947656393051147,
+      "beyond_horizon": 0.9940178394317627,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 16,
+        "stop": 32,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 32,
+        "stop": 64,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 64,
+        "stop": 128,
+        "at_risk": 100,
+        "first_errors": 6,
+        "rate": 0.0009375
+       }
+      ]
+     },
+     "256": {
+      "length": 256,
+      "final": 0.8600000143051147,
+      "prefix": 0.9671484231948853,
+      "beyond_horizon": 0.9649583101272583,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 16,
+        "stop": 32,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 32,
+        "stop": 64,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 64,
+        "stop": 128,
+        "at_risk": 100,
+        "first_errors": 1,
+        "rate": 0.00015625
+       },
+       {
+        "start": 128,
+        "stop": 256,
+        "at_risk": 99,
+        "first_errors": 24,
+        "rate": 0.001893939393939394
+       }
+      ]
+     },
+     "512": {
+      "length": 512,
+      "final": 0.5899999737739563,
+      "prefix": 0.8220312595367432,
+      "beyond_horizon": 0.8162903189659119,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 16,
+        "stop": 32,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 32,
+        "stop": 64,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 64,
+        "stop": 128,
+        "at_risk": 100,
+        "first_errors": 1,
+        "rate": 0.00015625
+       },
+       {
+        "start": 128,
+        "stop": 256,
+        "at_risk": 99,
+        "first_errors": 23,
+        "rate": 0.0018150252525252525
+       },
+       {
+        "start": 256,
+        "stop": 512,
+        "at_risk": 76,
+        "first_errors": 52,
+        "rate": 0.0026726973684210527
+       }
+      ]
+     },
+     "1024": {
+      "length": 1024,
+      "final": 0.3199999928474426,
+      "prefix": 0.5812792778015137,
+      "beyond_horizon": 0.5746329426765442,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 16,
+        "stop": 32,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 32,
+        "stop": 64,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 64,
+        "stop": 128,
+        "at_risk": 100,
+        "first_errors": 2,
+        "rate": 0.0003125
+       },
+       {
+        "start": 128,
+        "stop": 256,
+        "at_risk": 98,
+        "first_errors": 36,
+        "rate": 0.0028698979591836736
+       },
+       {
+        "start": 256,
+        "stop": 512,
+        "at_risk": 62,
+        "first_errors": 37,
+        "rate": 0.002331149193548387
+       },
+       {
+        "start": 512,
+        "stop": 1024,
+        "at_risk": 25,
+        "first_errors": 25,
+        "rate": 0.001953125
+       }
+      ]
+     }
+    }
+   }
+  },
+  "temp_mem": {
+   "config": {
+    "window": 0,
+    "temp": true,
+    "enc": false,
+    "mem": true
+   },
+   "final": {
+    "16": 1.0,
+    "32": 1.0,
+    "64": 1.0,
+    "128": 0.9800000190734863,
+    "256": 0.8700000047683716,
+    "512": 0.5366666615009308,
+    "1024": 0.3033333321412404
+   },
+   "windows": {
+    "0-16": [
+     0,
+     33600
+    ],
+    "16-32": [
+     0,
+     28800
+    ],
+    "32-64": [
+     0,
+     48000
+    ],
+    "64-128": [
+     26,
+     76800
+    ],
+    "128-256": [
+     249,
+     113152
+    ],
+    "256-512": [
+     284,
+     105984
+    ],
+    "512-1024": [
+     67,
+     35840
+    ]
+   },
+   "per_seed": {
+    "1": {
+     "16": {
+      "length": 16,
+      "final": 1.0,
+      "prefix": 1.0,
+      "beyond_horizon": null,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       }
+      ]
+     },
+     "32": {
+      "length": 32,
+      "final": 1.0,
+      "prefix": 1.0,
+      "beyond_horizon": 1.0,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 16,
+        "stop": 32,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       }
+      ]
+     },
+     "64": {
+      "length": 64,
+      "final": 1.0,
+      "prefix": 1.0,
+      "beyond_horizon": 1.0,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 16,
+        "stop": 32,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 32,
+        "stop": 64,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       }
+      ]
+     },
+     "128": {
+      "length": 128,
+      "final": 0.9800000190734863,
+      "prefix": 0.998828113079071,
+      "beyond_horizon": 0.9986607432365417,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 16,
+        "stop": 32,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 32,
+        "stop": 64,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 64,
+        "stop": 128,
+        "at_risk": 100,
+        "first_errors": 2,
+        "rate": 0.0003125
+       }
+      ]
+     },
+     "256": {
+      "length": 256,
+      "final": 0.8799999952316284,
+      "prefix": 0.9764843583106995,
+      "beyond_horizon": 0.9749166369438171,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 16,
+        "stop": 32,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 32,
+        "stop": 64,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 64,
+        "stop": 128,
+        "at_risk": 100,
+        "first_errors": 1,
+        "rate": 0.00015625
+       },
+       {
+        "start": 128,
+        "stop": 256,
+        "at_risk": 99,
+        "first_errors": 22,
+        "rate": 0.001736111111111111
+       }
+      ]
+     },
+     "512": {
+      "length": 512,
+      "final": 0.5400000214576721,
+      "prefix": 0.7885156273841858,
+      "beyond_horizon": 0.7816935777664185,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 16,
+        "stop": 32,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 32,
+        "stop": 64,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 64,
+        "stop": 128,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 128,
+        "stop": 256,
+        "at_risk": 100,
+        "first_errors": 36,
+        "rate": 0.0028125
+       },
+       {
+        "start": 256,
+        "stop": 512,
+        "at_risk": 64,
+        "first_errors": 43,
+        "rate": 0.00262451171875
+       }
+      ]
+     },
+     "1024": {
+      "length": 1024,
+      "final": 0.3100000023841858,
+      "prefix": 0.6020605564117432,
+      "beyond_horizon": 0.5957440733909607,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 16,
+        "stop": 32,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 32,
+        "stop": 64,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 64,
+        "stop": 128,
+        "at_risk": 100,
+        "first_errors": 6,
+        "rate": 0.0009375
+       },
+       {
+        "start": 128,
+        "stop": 256,
+        "at_risk": 94,
+        "first_errors": 30,
+        "rate": 0.0024933510638297874
+       },
+       {
+        "start": 256,
+        "stop": 512,
+        "at_risk": 64,
+        "first_errors": 43,
+        "rate": 0.00262451171875
+       },
+       {
+        "start": 512,
+        "stop": 1024,
+        "at_risk": 21,
+        "first_errors": 19,
+        "rate": 0.0017671130952380952
+       }
+      ]
+     }
+    },
+    "2": {
+     "16": {
+      "length": 16,
+      "final": 1.0,
+      "prefix": 1.0,
+      "beyond_horizon": null,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       }
+      ]
+     },
+     "32": {
+      "length": 32,
+      "final": 1.0,
+      "prefix": 1.0,
+      "beyond_horizon": 1.0,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 16,
+        "stop": 32,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       }
+      ]
+     },
+     "64": {
+      "length": 64,
+      "final": 1.0,
+      "prefix": 1.0,
+      "beyond_horizon": 1.0,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 16,
+        "stop": 32,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 32,
+        "stop": 64,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       }
+      ]
+     },
+     "128": {
+      "length": 128,
+      "final": 0.9900000095367432,
+      "prefix": 0.9976562261581421,
+      "beyond_horizon": 0.9973214268684387,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 16,
+        "stop": 32,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 32,
+        "stop": 64,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 64,
+        "stop": 128,
+        "at_risk": 100,
+        "first_errors": 2,
+        "rate": 0.0003125
+       }
+      ]
+     },
+     "256": {
+      "length": 256,
+      "final": 0.8700000047683716,
+      "prefix": 0.9706249833106995,
+      "beyond_horizon": 0.968666672706604,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 16,
+        "stop": 32,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 32,
+        "stop": 64,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 64,
+        "stop": 128,
+        "at_risk": 100,
+        "first_errors": 2,
+        "rate": 0.0003125
+       },
+       {
+        "start": 128,
+        "stop": 256,
+        "at_risk": 98,
+        "first_errors": 29,
+        "rate": 0.002311862244897959
+       }
+      ]
+     },
+     "512": {
+      "length": 512,
+      "final": 0.47999998927116394,
+      "prefix": 0.7720116972923279,
+      "beyond_horizon": 0.7646572589874268,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 16,
+        "stop": 32,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 32,
+        "stop": 64,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 64,
+        "stop": 128,
+        "at_risk": 100,
+        "first_errors": 1,
+        "rate": 0.00015625
+       },
+       {
+        "start": 128,
+        "stop": 256,
+        "at_risk": 99,
+        "first_errors": 34,
+        "rate": 0.002683080808080808
+       },
+       {
+        "start": 256,
+        "stop": 512,
+        "at_risk": 65,
+        "first_errors": 50,
+        "rate": 0.0030048076923076925
+       }
+      ]
+     },
+     "1024": {
+      "length": 1024,
+      "final": 0.2800000011920929,
+      "prefix": 0.591503918170929,
+      "beyond_horizon": 0.5850198268890381,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 16,
+        "stop": 32,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 32,
+        "stop": 64,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 64,
+        "stop": 128,
+        "at_risk": 100,
+        "first_errors": 2,
+        "rate": 0.0003125
+       },
+       {
+        "start": 128,
+        "stop": 256,
+        "at_risk": 98,
+        "first_errors": 15,
+        "rate": 0.0011957908163265306
+       },
+       {
+        "start": 256,
+        "stop": 512,
+        "at_risk": 83,
+        "first_errors": 59,
+        "rate": 0.002776731927710843
+       },
+       {
+        "start": 512,
+        "stop": 1024,
+        "at_risk": 24,
+        "first_errors": 23,
+        "rate": 0.0018717447916666667
+       }
+      ]
+     }
+    },
+    "3": {
+     "16": {
+      "length": 16,
+      "final": 1.0,
+      "prefix": 1.0,
+      "beyond_horizon": null,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       }
+      ]
+     },
+     "32": {
+      "length": 32,
+      "final": 1.0,
+      "prefix": 1.0,
+      "beyond_horizon": 1.0,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 16,
+        "stop": 32,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       }
+      ]
+     },
+     "64": {
+      "length": 64,
+      "final": 1.0,
+      "prefix": 1.0,
+      "beyond_horizon": 1.0,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 16,
+        "stop": 32,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 32,
+        "stop": 64,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       }
+      ]
+     },
+     "128": {
+      "length": 128,
+      "final": 0.9700000286102295,
+      "prefix": 0.9947656393051147,
+      "beyond_horizon": 0.9940178394317627,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 16,
+        "stop": 32,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 32,
+        "stop": 64,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 64,
+        "stop": 128,
+        "at_risk": 100,
+        "first_errors": 6,
+        "rate": 0.0009375
+       }
+      ]
+     },
+     "256": {
+      "length": 256,
+      "final": 0.8600000143051147,
+      "prefix": 0.9671484231948853,
+      "beyond_horizon": 0.9649583101272583,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 16,
+        "stop": 32,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 32,
+        "stop": 64,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 64,
+        "stop": 128,
+        "at_risk": 100,
+        "first_errors": 1,
+        "rate": 0.00015625
+       },
+       {
+        "start": 128,
+        "stop": 256,
+        "at_risk": 99,
+        "first_errors": 24,
+        "rate": 0.001893939393939394
+       }
+      ]
+     },
+     "512": {
+      "length": 512,
+      "final": 0.5899999737739563,
+      "prefix": 0.8220312595367432,
+      "beyond_horizon": 0.8162903189659119,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 16,
+        "stop": 32,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 32,
+        "stop": 64,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 64,
+        "stop": 128,
+        "at_risk": 100,
+        "first_errors": 1,
+        "rate": 0.00015625
+       },
+       {
+        "start": 128,
+        "stop": 256,
+        "at_risk": 99,
+        "first_errors": 23,
+        "rate": 0.0018150252525252525
+       },
+       {
+        "start": 256,
+        "stop": 512,
+        "at_risk": 76,
+        "first_errors": 52,
+        "rate": 0.0026726973684210527
+       }
+      ]
+     },
+     "1024": {
+      "length": 1024,
+      "final": 0.3199999928474426,
+      "prefix": 0.581298828125,
+      "beyond_horizon": 0.5746527910232544,
+      "hazard": [
+       {
+        "start": 0,
+        "stop": 16,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 16,
+        "stop": 32,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 32,
+        "stop": 64,
+        "at_risk": 100,
+        "first_errors": 0,
+        "rate": 0.0
+       },
+       {
+        "start": 64,
+        "stop": 128,
+        "at_risk": 100,
+        "first_errors": 2,
+        "rate": 0.0003125
+       },
+       {
+        "start": 128,
+        "stop": 256,
+        "at_risk": 98,
+        "first_errors": 36,
+        "rate": 0.0028698979591836736
+       },
+       {
+        "start": 256,
+        "stop": 512,
+        "at_risk": 62,
+        "first_errors": 37,
+        "rate": 0.002331149193548387
+       },
+       {
+        "start": 512,
+        "stop": 1024,
+        "at_risk": 25,
+        "first_errors": 25,
+        "rate": 0.001953125
+       }
+      ]
+     }
+    }
+   }
+  }
+ },
+ "baseline_max_abs_difference": 0.0
+}

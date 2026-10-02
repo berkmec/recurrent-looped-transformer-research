@@ -1,0 +1,8 @@
+temp      max|dlogit| 2.425e-03  mean 2.938e-04  argmax changed at 0 of 1200 positions
+temp_enc  max|dlogit| 3.614e-04  mean 4.231e-05  argmax changed at 0 of 1200 positions
+temp_mem  max|dlogit| 2.497e-03  mean 2.979e-04  argmax changed at 0 of 1200 positions
+w16       max|dlogit| 7.308e-01  mean 9.455e-02  argmax changed at 3 of 1200 positions
+w16_enc   max|dlogit| 6.832e-01  mean 7.494e-02  argmax changed at 1 of 1200 positions
+w16_mem   max|dlogit| 2.019e-01  mean 3.626e-02  argmax changed at 0 of 1200 positions
+encoder self-attention entropy at positions >= 64: 5.126 nats (uniform over the visible keys, same positions: 5.126)
+decoder memory-read entropy, mean over positions: 4.769 nats (uniform over the keys: mean of ln(t + 1) = 4.769)

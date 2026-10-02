@@ -213,3 +213,8 @@
 [06:35:23] ZINCIR: E-C (sayac, olcek-cesitli asma: count8_32/count8_64 LSTM+GRU; on-kayit notes/RLT_SORUN_ESLEME... bolum 5.3) E-D bitince ikinci yuvada
 [06:41:23] ZINCIR-DEGISIKLIGI 3: ikinci yuva: kuyruk 4 (core) bitince once E-B2 (durum tekmesi buyumesi; on-kayit notes/RLT_SORUN_ESLEME... bolum 5.4), sonra E-D, sonra E-C
 [06:51:50] ZINCIR-DEGISIKLIGI 4: yuva 1: E-A bitince (E-A kosuyor) E-B, sonra E-C0 (sayac tohum dagilimi + E-M core_nofb; bolum 5.6), sonra kuyruk 5. Yuva 2: kuyruk 4 (core) bitince E-B2, E-N (kimlik-dolgu; bolum 5.7), E-D; E-C (13276) E-D'den sonra
+[06:54:27] BITTI E-A (bkz results/Z1-pilot/perm5-core-intervention.txt)
+[06:54:31] BASLA E-B (CPU, 1 parcacik): durum gurultusu marj egrileri, 8 kayitli model, egitimsiz
+[06:54:33] ZINCIR-DEGISIKLIGI 5: yuva 1: E-A bitince E-B, E-L1P (L1 geri besleme kanali kullanimi; bolum 5.8), E-C0, kuyruk 5
+[06:54:34] BASLA E-B (CPU, 1 parcacik): durum gurultusu marj egrileri, 8 kayitli model, egitimsiz
+[06:55:01] NOT: E-B iki kez basladi (06:54:31 eski bekleyicinin cocugu, 06:54:34 yeni bekleyici; eski bekleyiciyi E-A'dan 4 sn sonra oldurdum ama cocugu calismaya devam etti). Eski E-B zinciri (bash 14144/15984, python 5900/9500) ust-alt durduruldu; 06:54:34'te baslayan tek E-B suruyor. Cikti dosyalarina yazan yalniz o. Gecici olarak 3 deney sureci ~20 sn calisti.

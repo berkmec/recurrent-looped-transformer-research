@@ -159,7 +159,7 @@ def baseline_reproduces(result, stored_path, points):
 def main():
     torch.set_num_threads(1)
     p = argparse.ArgumentParser()
-    p.add_argument('weights')
+    p.add_argument('weights', nargs='?')
     p.add_argument('--interventions', default=','.join(INTERVENTIONS))
     p.add_argument('--seeds', default=None, help='dev-draw seeds, several independent draws are pooled (default: the model seed)')
     p.add_argument('--points', default='16,32,64,128,256,512,1024')
@@ -171,6 +171,8 @@ def main():
     if a.verdict:
         print(json.dumps(verdict(json.loads(Path(a.verdict).read_text(encoding='utf8'))), indent=1))
         return
+    if not a.weights:
+        p.error('give a weights file (or --verdict RESULT.json)')
     names = [v for v in a.interventions.split(',') if v]
     points = [int(v) for v in a.points.split(',')]
     meta_seed = torch.load(a.weights, weights_only=True)['meta']['seed']
