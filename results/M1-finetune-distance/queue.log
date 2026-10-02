@@ -404,3 +404,10 @@
 [14:21:26] BASLA ES sk3-lstm-w112-s1 (CPU, 1 parcacik, 15000 adim, lr 0.003 son %30'da ~0'a, mufredat 0..16)
 [14:27:40] BITTI E-A9L (bkz results/Z1-pilot/snap-long.txt)
 [14:27:41] BASLA E-A5x (CPU, 1 parcacik): durum sapmasinin yasa gore buyumesi (sistematik / rastgele), 5 Core modeli, egitimsiz, betimleyici
+[14:29:02] BITTI ES sk3-lstm-w112-s1
+[14:29:02] BASLA ES sk3-gru-w128-s1 (CPU, 1 parcacik, 15000 adim, lr 0.003 son %30'da ~0'a, mufredat 0..16)
+[14:29:27] ZINCIR-DEGISIKLIGI 32: hafif ucuncu lane: E-R5 tohum 2 ve 3 modelleri hazir ve onceki ext bitince betimleyici run_ext.sh (E-A5 okumasi + E-A9 yapismasi tohum 2-3'te: E-A9'un tek-tohum sinirini kaldirir; hukme girmez)
+[14:38:14] BITTI ES sk3-gru-w128-s1
+[14:38:14] BASLA ES sk3-core_nofb-w64-s1 (CPU, 1 parcacik, 15000 adim, lr 0.003 son %30'da ~0'a, mufredat 0..16)
+[14:40:20] BITTI E-A5x (bkz results/Z1-pilot/drift-profile.txt)
+[14:40:32] BASLA E-A9b (CPU, 1 parcacik): etiketsiz yapisma (k-means prototipleri), 5 Core modeli, 1.024 konum n = 200, egitimsiz
