@@ -1,0 +1,210 @@
+[
+ {
+  "weights": "results/Z1-pilot/perm5-core-w128-s1-cur.pt",
+  "task": "perm5",
+  "width": 128,
+  "seed": 1,
+  "n": 200,
+  "length": 1024,
+  "conditions": {
+   "base": {
+    "events": 195,
+    "person_steps": 73631,
+    "at_risk": 200,
+    "final": 0.3100000023841858,
+    "in_range": 1.0
+   },
+   "kmeans-q30": {
+    "events": 193,
+    "person_steps": 26356,
+    "at_risk": 193,
+    "final": 0.10999999940395355,
+    "fired": 0.0841748046875,
+    "in_range": 0.9918749928474426
+   },
+   "kmeans-q50": {
+    "events": 11,
+    "person_steps": 197736,
+    "at_risk": 200,
+    "final": 0.9700000286102295,
+    "fired": 0.610107421875,
+    "in_range": 1.0
+   },
+   "kmeans-q70": {
+    "events": 84,
+    "person_steps": 167063,
+    "at_risk": 200,
+    "final": 0.7250000238418579,
+    "fired": 0.351904296875,
+    "in_range": 1.0
+   },
+   "labelled-q50": {
+    "events": 4,
+    "person_steps": 199908,
+    "at_risk": 200,
+    "final": 0.9850000143051147,
+    "fired": 0.9012646484375,
+    "in_range": 1.0
+   }
+  },
+  "gate0_identity": true,
+  "kmeans_clusters": 120,
+  "stored_control": true
+ },
+ {
+  "weights": "results/Z1-pilot/perm5-core-w128-s1-cur-lrdecay0.3.pt",
+  "task": "perm5",
+  "width": 128,
+  "seed": 1,
+  "n": 200,
+  "length": 1024,
+  "conditions": {
+   "base": {
+    "events": 199,
+    "person_steps": 60045,
+    "at_risk": 200,
+    "final": 0.19499999284744263,
+    "in_range": 1.0
+   },
+   "kmeans-q30": {
+    "events": 164,
+    "person_steps": 16473,
+    "at_risk": 165,
+    "final": 0.054999999701976776,
+    "fired": 0.0497265625,
+    "in_range": 0.9375
+   },
+   "kmeans-q50": {
+    "events": 112,
+    "person_steps": 134281,
+    "at_risk": 199,
+    "final": 0.5299999713897705,
+    "fired": 0.4118310546875,
+    "in_range": 0.9996874928474426
+   },
+   "kmeans-q70": {
+    "events": 80,
+    "person_steps": 166385,
+    "at_risk": 200,
+    "final": 0.6800000071525574,
+    "fired": 0.3512109375,
+    "in_range": 1.0
+   },
+   "labelled-q50": {
+    "events": 4,
+    "person_steps": 200120,
+    "at_risk": 200,
+    "final": 0.9850000143051147,
+    "fired": 0.90197265625,
+    "in_range": 1.0
+   }
+  },
+  "gate0_identity": true,
+  "kmeans_clusters": 119,
+  "stored_control": true
+ },
+ {
+  "weights": "results/Z1-pilot/perm4-core-w32-s1-cur.pt",
+  "task": "perm4",
+  "width": 32,
+  "seed": 1,
+  "n": 200,
+  "length": 1024,
+  "conditions": {
+   "base": {
+    "events": 0,
+    "person_steps": 201600,
+    "at_risk": 200,
+    "final": 1.0,
+    "in_range": 1.0
+   },
+   "kmeans-q30": {
+    "events": 165,
+    "person_steps": 91801,
+    "at_risk": 193,
+    "final": 0.5450000166893005,
+    "fired": 0.7188037109375,
+    "in_range": 0.9921875
+   },
+   "kmeans-q50": {
+    "events": 8,
+    "person_steps": 196747,
+    "at_risk": 200,
+    "final": 0.9800000190734863,
+    "fired": 0.5216259765625,
+    "in_range": 1.0
+   },
+   "kmeans-q70": {
+    "events": 0,
+    "person_steps": 201600,
+    "at_risk": 200,
+    "final": 1.0,
+    "fired": 0.3066357421875,
+    "in_range": 1.0
+   },
+   "labelled-q50": {
+    "events": 0,
+    "person_steps": 201600,
+    "at_risk": 200,
+    "final": 1.0,
+    "fired": 0.533212890625,
+    "in_range": 1.0
+   }
+  },
+  "gate0_identity": true,
+  "kmeans_clusters": 24,
+  "stored_control": true
+ },
+ {
+  "weights": "results/Z1-pilot/perm4-core-w64-s1-cur.pt",
+  "task": "perm4",
+  "width": 64,
+  "seed": 1,
+  "n": 200,
+  "length": 1024,
+  "conditions": {
+   "base": {
+    "events": 0,
+    "person_steps": 201600,
+    "at_risk": 200,
+    "final": 1.0,
+    "in_range": 1.0
+   },
+   "kmeans-q30": {
+    "events": 180,
+    "person_steps": 80194,
+    "at_risk": 197,
+    "final": 0.33500000834465027,
+    "fired": 0.686904296875,
+    "in_range": 0.9921875
+   },
+   "kmeans-q50": {
+    "events": 0,
+    "person_steps": 201600,
+    "at_risk": 200,
+    "final": 1.0,
+    "fired": 0.5131201171875,
+    "in_range": 1.0
+   },
+   "kmeans-q70": {
+    "events": 0,
+    "person_steps": 201600,
+    "at_risk": 200,
+    "final": 1.0,
+    "fired": 0.301650390625,
+    "in_range": 1.0
+   },
+   "labelled-q50": {
+    "events": 0,
+    "person_steps": 201600,
+    "at_risk": 200,
+    "final": 1.0,
+    "fired": 0.5092529296875,
+    "in_range": 1.0
+   }
+  },
+  "gate0_identity": true,
+  "kmeans_clusters": 24,
+  "stored_control": true
+ }
+]

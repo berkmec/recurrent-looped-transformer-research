@@ -1,0 +1,77 @@
+results/Z1-pilot/perm5-core-w128-s1-cur.pt: perm5 width 128, 16000 in-range feedback vectors
+  kmeans-q30    first errors 193/ 26356 person-steps = 7.32e-03  final 0.11  in-range 0.992  fired 0.08  (37 s)
+  kmeans-q50    first errors  11/197736 person-steps = 5.56e-05  final 0.97  in-range 1.000  fired 0.61  (36 s)
+  kmeans-q70    first errors  84/167063 person-steps = 5.03e-04  final 0.73  in-range 1.000  fired 0.35  (37 s)
+  labelled-q50  first errors   4/199908 person-steps = 2.00e-05  final 0.99  in-range 1.000  fired 0.90  (37 s)
+  base          first errors 195/ 73631 person-steps = 2.65e-03
+perm5 w128, gate-0 identity True, stored-window control True, k-means clusters 120
+  [16,1024): base 195/73631  kmeans-q30 193/26356  kmeans-q50 11/197736  kmeans-q70 84/167063  labelled-q50 4/199908
+  in-range accuracy: base 1.000  kmeans-q30 0.992  kmeans-q50 1.000  kmeans-q70 1.000  labelled-q50 1.000
+  gate fired on: kmeans-q30 0.08  kmeans-q50 0.61  kmeans-q70 0.35  labelled-q50 0.90
+  labels: kmeans-q30 HARMS  kmeans-q50 RESCUES  kmeans-q70 RESCUES  labelled-q50 RESCUES
+results/Z1-pilot/perm5-core-w128-s1-cur-lrdecay0.3.pt: perm5 width 128, 16000 in-range feedback vectors
+  kmeans-q30    first errors 164/ 16473 person-steps = 9.96e-03  final 0.05  in-range 0.938  fired 0.05  (37 s)
+  kmeans-q50    first errors 112/134281 person-steps = 8.34e-04  final 0.53  in-range 1.000  fired 0.41  (37 s)
+  kmeans-q70    first errors  80/166385 person-steps = 4.81e-04  final 0.68  in-range 1.000  fired 0.35  (37 s)
+  labelled-q50  first errors   4/200120 person-steps = 2.00e-05  final 0.99  in-range 1.000  fired 0.90  (38 s)
+  base          first errors 199/ 60045 person-steps = 3.31e-03
+perm5 w128, gate-0 identity True, stored-window control True, k-means clusters 119
+  [16,1024): base 199/60045  kmeans-q30 164/16473  kmeans-q50 112/134281  kmeans-q70 80/166385  labelled-q50 4/200120
+  in-range accuracy: base 1.000  kmeans-q30 0.938  kmeans-q50 1.000  kmeans-q70 1.000  labelled-q50 1.000
+  gate fired on: kmeans-q30 0.05  kmeans-q50 0.41  kmeans-q70 0.35  labelled-q50 0.90
+  labels: kmeans-q30 HARMS  kmeans-q50 PARTIAL  kmeans-q70 RESCUES  labelled-q50 RESCUES
+results/Z1-pilot/perm4-core-w32-s1-cur.pt: perm4 width 32, 16000 in-range feedback vectors
+  kmeans-q30    first errors 165/ 91801 person-steps = 1.80e-03  final 0.55  in-range 0.992  fired 0.72  (19 s)
+  kmeans-q50    first errors   8/196747 person-steps = 4.07e-05  final 0.98  in-range 1.000  fired 0.52  (18 s)
+  kmeans-q70    first errors   0/201600 person-steps = 0.00e+00  final 1.00  in-range 1.000  fired 0.31  (18 s)
+  labelled-q50  first errors   0/201600 person-steps = 0.00e+00  final 1.00  in-range 1.000  fired 0.53  (18 s)
+  base          first errors   0/201600 person-steps = 0.00e+00
+perm4 w32, gate-0 identity True, stored-window control True, k-means clusters 24
+  [16,1024): base 0/201600  kmeans-q30 165/91801  kmeans-q50 8/196747  kmeans-q70 0/201600  labelled-q50 0/201600
+  in-range accuracy: base 1.000  kmeans-q30 0.992  kmeans-q50 1.000  kmeans-q70 1.000  labelled-q50 1.000
+  gate fired on: kmeans-q30 0.72  kmeans-q50 0.52  kmeans-q70 0.31  labelled-q50 0.53
+  labels: kmeans-q30 HARMS  kmeans-q50 HARMS  kmeans-q70 NEUTRAL  labelled-q50 NEUTRAL
+results/Z1-pilot/perm4-core-w64-s1-cur.pt: perm4 width 64, 16000 in-range feedback vectors
+  kmeans-q30    first errors 180/ 80194 person-steps = 2.24e-03  final 0.34  in-range 0.992  fired 0.69  (25 s)
+  kmeans-q50    first errors   0/201600 person-steps = 0.00e+00  final 1.00  in-range 1.000  fired 0.51  (25 s)
+  kmeans-q70    first errors   0/201600 person-steps = 0.00e+00  final 1.00  in-range 1.000  fired 0.30  (25 s)
+  labelled-q50  first errors   0/201600 person-steps = 0.00e+00  final 1.00  in-range 1.000  fired 0.51  (25 s)
+  base          first errors   0/201600 person-steps = 0.00e+00
+perm4 w64, gate-0 identity True, stored-window control True, k-means clusters 24
+  [16,1024): base 0/201600  kmeans-q30 180/80194  kmeans-q50 0/201600  kmeans-q70 0/201600  labelled-q50 0/201600
+  in-range accuracy: base 1.000  kmeans-q30 0.992  kmeans-q50 1.000  kmeans-q70 1.000  labelled-q50 1.000
+  gate fired on: kmeans-q30 0.69  kmeans-q50 0.51  kmeans-q70 0.30  labelled-q50 0.51
+  labels: kmeans-q30 HARMS  kmeans-q50 NEUTRAL  kmeans-q70 NEUTRAL  labelled-q50 NEUTRAL
+{
+ "verdict": "INCONCLUSIVE (an S4 control is harmed: perm4 w32)",
+ "primary": [
+  "RESCUES",
+  "PARTIAL"
+ ],
+ "models": {
+  "perm5 w128 perm5-core-w128-s1-cur": {
+   "kmeans-q30": "HARMS",
+   "kmeans-q50": "RESCUES",
+   "kmeans-q70": "RESCUES",
+   "labelled-q50": "RESCUES"
+  },
+  "perm5 w128 perm5-core-w128-s1-cur-lrdecay0.3": {
+   "kmeans-q30": "HARMS",
+   "kmeans-q50": "PARTIAL",
+   "kmeans-q70": "RESCUES",
+   "labelled-q50": "RESCUES"
+  },
+  "perm4 w32 perm4-core-w32-s1-cur": {
+   "kmeans-q30": "HARMS",
+   "kmeans-q50": "HARMS",
+   "kmeans-q70": "NEUTRAL",
+   "labelled-q50": "NEUTRAL"
+  },
+  "perm4 w64 perm4-core-w64-s1-cur": {
+   "kmeans-q30": "HARMS",
+   "kmeans-q50": "NEUTRAL",
+   "kmeans-q70": "NEUTRAL",
+   "labelled-q50": "NEUTRAL"
+  }
+ }
+}
