@@ -53,7 +53,7 @@ def nearest_centroid_distance(centroids):
 
 def profile(weights, t0s=T0S, span=SPAN, n=2000, batch=250, log=print):
     meta = torch.load(weights, weights_only=True)['meta']
-    if meta['arm'] != 'core' or dt.is_count(meta['task']):
+    if meta['arm'] not in ('core', 'core_clean') or dt.is_count(meta['task']):
         raise ValueError('the drift profile is defined for the Core on the permutation tasks')
     model = dr.load_model(weights).eval()
     centroids = class_centroids(model, meta['task'], meta['seed'])

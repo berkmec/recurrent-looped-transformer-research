@@ -3,6 +3,7 @@ reading is mechanical."""
 import tempfile
 import unittest
 from pathlib import Path
+from unittest import mock
 
 import torch
 
@@ -73,6 +74,26 @@ class Windows(unittest.TestCase):
                 self.assertTrue(torch.allclose(out[:, :6], base[:, :6], atol=1e-5), kwargs)
                 self.assertGreater(float((out[:, 12:] - base[:, 12:]).abs().max()), 1e-4, kwargs)
         es.configure(model)
+
+    def test_the_banded_chunked_attention_equals_the_dense_masked_attention(self):
+        g = torch.Generator().manual_seed(4)
+        q, k, v = (torch.randn(2, 3, 300, 8, generator=g) for _ in range(3))
+        idx = torch.arange(300)
+        for window in (1, 17, 64, 299):
+            mask = ((idx[:, None] - idx[None, :]) >= 0) & ((idx[:, None] - idx[None, :]) < window)
+            dense = torch.nn.functional.scaled_dot_product_attention(q, k, v, attn_mask=mask)
+            banded = es.windowed_attention(q, k, v, window, chunk=64)
+            self.assertTrue(torch.allclose(dense, banded, atol=1e-5), window)
+
+    def test_the_encoder_gives_the_same_result_on_the_dense_and_on_the_banded_path(self):
+        model, x = tiny(), tokens(2, 90)
+        es.configure(model, enc=12)
+        with torch.no_grad():
+            dense, _, _ = model.encode(x)
+            with mock.patch.object(es, 'DENSE_LIMIT', 20):
+                banded, _, _ = model.encode(x)
+        es.configure(model)
+        self.assertTrue(torch.allclose(dense, banded, atol=1e-5))
 
     def test_configure_validates(self):
         model = tiny()

@@ -65,6 +65,24 @@ S4_CONTROL_EVENTS = 2
 WINDOW_EDGES = (16, 64, 128, 256, 512, 1024)
 
 
+DENSE_LIMIT = 2048                      # up to this length the windowed encoder builds the dense (steps x steps) mask; beyond it the banded chunked path (same numbers, tested)
+
+
+def windowed_attention(q, k, v, window, chunk=1024):
+    """Causal attention in which every query sees itself and the `window` - 1 previous keys, computed in query chunks: memory O(chunk x (chunk + window)) instead of O(steps^2), cost O(steps x window).
+    q, k, v: (batch, heads, steps, head_dim); returns (batch, heads, steps, head_dim)."""
+    steps = q.shape[2]
+    out = []
+    for a in range(0, steps, chunk):
+        b = min(a + chunk, steps)
+        lo = max(0, a - window + 1)
+        queries = torch.arange(a, b, device=q.device)[:, None]
+        keys = torch.arange(lo, b, device=q.device)[None, :]
+        mask = (keys <= queries) & (queries - keys < window)
+        out.append(F.scaled_dot_product_attention(q[:, :, a:b], k[:, :, lo:b], v[:, :, lo:b], attn_mask=mask))
+    return torch.cat(out, 2)
+
+
 class ProbeCore(Core):
     """The sealed Core with (a) the context paths restricted to the last K positions and (b) the carried state replaced before one decoder step. Nothing changes unless it is configured."""
 
@@ -81,10 +99,13 @@ class ProbeCore(Core):
         e = self.embedding(x)
         n = self.en(e)
         q, k, v = self.rope(self.split(self.eq(n))), self.rope(self.split(self.ek(n))), self.split(self.ev(n))
-        idx = torch.arange(steps, device=x.device)
-        delta = idx[:, None] - idx[None, :]
-        mask = (delta >= 0) & (delta < self.enc)
-        a = F.scaled_dot_product_attention(q, k, v, attn_mask=mask).transpose(1, 2).reshape(q.shape[0], q.shape[2], self.width)
+        if steps > DENSE_LIMIT:
+            a = windowed_attention(q, k, v, self.enc).transpose(1, 2).reshape(q.shape[0], q.shape[2], self.width)       # very long sequences: banded, O(steps x window) memory
+        else:
+            idx = torch.arange(steps, device=x.device)
+            delta = idx[:, None] - idx[None, :]
+            mask = (delta >= 0) & (delta < self.enc)
+            a = F.scaled_dot_product_attention(q, k, v, attn_mask=mask).transpose(1, 2).reshape(q.shape[0], q.shape[2], self.width)
         e = e + self.eo(a)
         e = e + self.eff(self.efn(e))
         return e, k, v
@@ -253,7 +274,7 @@ def injection_part(model, x, y, centroids, batch=40, log=print):
 
 def measure(weights, n=200, length=1024, batch=40, log=print):
     meta = torch.load(weights, weights_only=True)['meta']
-    if meta['arm'] != 'core' or dt.is_count(meta['task']):
+    if meta['arm'] not in ('core', 'core_clean') or dt.is_count(meta['task']):
         raise ValueError('E-A5 is defined for the Core on the permutation tasks')
     model = dr.load_model(weights).eval()
     x, y, _ = dt.heldout(dr.NAMESPACE, meta['task'], meta['seed'], 'dev', n, length)
