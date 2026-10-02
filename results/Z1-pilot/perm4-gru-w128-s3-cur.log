@@ -1,0 +1,31 @@
+--- start 2026-10-02 08:51:19
+perm4 gru w128 s3 step 200 curriculum advance 1 -> 2 (1s)
+perm4 gru w128 s3 step 400 curriculum advance 2 -> 3 (2s)
+perm4 gru w128 s3 step 600 curriculum advance 3 -> 4 (4s)
+perm4 gru w128 s3 step 800 curriculum advance 4 -> 6 (5s)
+perm4 gru w128 s3 step 1000 curriculum advance 6 -> 8 (7s)
+perm4 gru w128 s3 step 1000 len 8 loss 0.01576078310608864 (7s)
+perm4 gru w128 s3 step 1200 curriculum advance 8 -> 12 (10s)
+perm4 gru w128 s3 step 1400 curriculum advance 12 -> 16 (13s)
+perm4 gru w128 s3 step 2000 len 16 loss 0.08826839923858643 (26s)
+perm4 gru w128 s3 step 3000 len 16 loss 0.0007288451306521893 (47s)
+perm4 gru w128 s3 step 4000 len 16 loss 0.043143972754478455 (67s)
+perm4 gru w128 s3 step 5000 len 16 loss 0.09815727174282074 (88s)
+perm4 gru w128 s3 step 6000 len 16 loss 0.00581041444092989 (109s)
+perm4 gru w128 s3 step 7000 len 16 loss 0.000607377733103931 (130s)
+perm4 gru w128 s3 step 8000 len 16 loss 0.0015511272940784693 (151s)
+perm4 gru w128 s3 step 9000 len 16 loss 0.006093746982514858 (172s)
+perm4 gru w128 s3 step 10000 len 16 loss 0.02431384101510048 (192s)
+perm4 gru w128 s3 step 11000 len 16 loss 0.000894136494025588 (213s)
+perm4 gru w128 s3 step 12000 len 16 loss 0.00743997935205698 (234s)
+perm4 gru w128 s3 step 13000 len 16 loss 0.00063346978276968 (254s)
+perm4 gru w128 s3 step 14000 len 16 loss 0.0008043064153753221 (275s)
+perm4 gru w128 s3 step 15000 len 16 loss 0.04142154008150101 (296s)
+{"task": "perm4", "arm": "gru", "width": 128, "seed": 3, "learned_in_range": true, "effective_horizon": 32, "horizon_metric": "final", "wall_seconds": 298.9399861000056}
+16 {'length': 16, 'final': 0.98, 'prefix': 0.996, 'beyond_horizon': None, 'hazard': [{'start': 0, 'stop': 16, 'at_risk': 100, 'first_errors': 2, 'rate': 0.00125}]}
+32 {'length': 32, 'final': 0.97, 'prefix': 0.992, 'beyond_horizon': 0.984, 'hazard': [{'start': 0, 'stop': 16, 'at_risk': 100, 'first_errors': 1, 'rate': 0.000625}, {'start': 16, 'stop': 32, 'at_risk': 99, 'first_errors': 3, 'rate': 0.001893939393939394}]}
+64 {'length': 64, 'final': 0.88, 'prefix': 0.954, 'beyond_horizon': 0.939, 'hazard': [{'start': 0, 'stop': 16, 'at_risk': 100, 'first_errors': 1, 'rate': 0.000625}, {'start': 16, 'stop': 32, 'at_risk': 99, 'first_errors': 3, 'rate': 0.001893939393939394}, {'start': 32, 'stop': 64, 'at_risk': 96, 'first_errors': 14, 'rate': 0.004557291666666667}]}
+128 {'length': 128, 'final': 0.81, 'prefix': 0.924, 'beyond_horizon': 0.913, 'hazard': [{'start': 0, 'stop': 16, 'at_risk': 100, 'first_errors': 1, 'rate': 0.000625}, {'start': 16, 'stop': 32, 'at_risk': 99, 'first_errors': 2, 'rate': 0.0012626262626262627}, {'start': 32, 'stop': 64, 'at_risk': 97, 'first_errors': 8, 'rate': 0.002577319587628866}, {'start': 64, 'stop': 128, 'at_risk': 89, 'first_errors': 25, 'rate': 0.004389044943820225}]}
+256 {'length': 256, 'final': 0.73, 'prefix': 0.868, 'beyond_horizon': 0.859, 'hazard': [{'start': 0, 'stop': 16, 'at_risk': 100, 'first_errors': 1, 'rate': 0.000625}, {'start': 16, 'stop': 32, 'at_risk': 99, 'first_errors': 5, 'rate': 0.0031565656565656565}, {'start': 32, 'stop': 64, 'at_risk': 94, 'first_errors': 12, 'rate': 0.003989361702127659}, {'start': 64, 'stop': 128, 'at_risk': 82, 'first_errors': 19, 'rate': 0.003620426829268293}, {'start': 128, 'stop': 256, 'at_risk': 63, 'first_errors': 24, 'rate': 0.002976190476190476}]}
+512 {'length': 512, 'final': 0.56, 'prefix': 0.735, 'beyond_horizon': 0.727, 'hazard': [{'start': 0, 'stop': 16, 'at_risk': 100, 'first_errors': 2, 'rate': 0.00125}, {'start': 16, 'stop': 32, 'at_risk': 98, 'first_errors': 4, 'rate': 0.002551020408163265}, {'start': 32, 'stop': 64, 'at_risk': 94, 'first_errors': 10, 'rate': 0.003324468085106383}, {'start': 64, 'stop': 128, 'at_risk': 84, 'first_errors': 11, 'rate': 0.0020461309523809525}, {'start': 128, 'stop': 256, 'at_risk': 73, 'first_errors': 30, 'rate': 0.003210616438356164}, {'start': 256, 'stop': 512, 'at_risk': 43, 'first_errors': 28, 'rate': 0.002543604651162791}]}
+1024 {'length': 1024, 'final': 0.3, 'prefix': 0.524, 'beyond_horizon': 0.516, 'hazard': [{'start': 0, 'stop': 16, 'at_risk': 100, 'first_errors': 0, 'rate': 0.0}, {'start': 16, 'stop': 32, 'at_risk': 100, 'first_errors': 4, 'rate': 0.0025}, {'start': 32, 'stop': 64, 'at_risk': 96, 'first_errors': 10, 'rate': 0.0032552083333333335}, {'start': 64, 'stop': 128, 'at_risk': 86, 'first_errors': 23, 'rate': 0.0041787790697674415}, {'start': 128, 'stop': 256, 'at_risk': 63, 'first_errors': 29, 'rate': 0.0035962301587301585}, {'start': 256, 'stop': 512, 'at_risk': 34, 'first_errors': 29, 'rate': 0.003331801470588235}, {'start': 512, 'stop': 1024, 'at_risk': 5, 'first_errors': 5, 'rate': 0.001953125}]}

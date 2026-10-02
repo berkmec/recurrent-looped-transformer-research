@@ -1,0 +1,31 @@
+--- start 2026-10-02 08:44:19
+perm4 gru w64 s3 step 200 curriculum advance 1 -> 2 (1s)
+perm4 gru w64 s3 step 457 curriculum advance 2 -> 3 (2s)
+perm4 gru w64 s3 step 838 curriculum advance 3 -> 4 (4s)
+perm4 gru w64 s3 step 1000 len 4 loss 0.19470585882663727 (4s)
+perm4 gru w64 s3 step 1121 curriculum advance 4 -> 6 (5s)
+perm4 gru w64 s3 step 1345 curriculum advance 6 -> 8 (7s)
+perm4 gru w64 s3 step 1545 curriculum advance 8 -> 12 (8s)
+perm4 gru w64 s3 step 1745 curriculum advance 12 -> 16 (10s)
+perm4 gru w64 s3 step 2000 len 16 loss 0.026592282578349113 (13s)
+perm4 gru w64 s3 step 3000 len 16 loss 0.08074202388525009 (25s)
+perm4 gru w64 s3 step 4000 len 16 loss 0.005269106011837721 (37s)
+perm4 gru w64 s3 step 5000 len 16 loss 0.06250149756669998 (49s)
+perm4 gru w64 s3 step 6000 len 16 loss 0.07051926106214523 (61s)
+perm4 gru w64 s3 step 7000 len 16 loss 0.0009391992352902889 (74s)
+perm4 gru w64 s3 step 8000 len 16 loss 0.0012049009092152119 (87s)
+perm4 gru w64 s3 step 9000 len 16 loss 0.0005633163382299244 (99s)
+perm4 gru w64 s3 step 10000 len 16 loss 0.0010160073870792985 (112s)
+perm4 gru w64 s3 step 11000 len 16 loss 0.0006869689095765352 (125s)
+perm4 gru w64 s3 step 12000 len 16 loss 0.0005404060939326882 (137s)
+perm4 gru w64 s3 step 13000 len 16 loss 0.00022474679281003773 (149s)
+perm4 gru w64 s3 step 14000 len 16 loss 0.00014037362416274846 (160s)
+perm4 gru w64 s3 step 15000 len 16 loss 0.0008545625605620444 (172s)
+{"task": "perm4", "arm": "gru", "width": 64, "seed": 3, "learned_in_range": true, "effective_horizon": 256, "horizon_metric": "final", "wall_seconds": 174.54107629999635}
+16 {'length': 16, 'final': 1.0, 'prefix': 1.0, 'beyond_horizon': None, 'hazard': [{'start': 0, 'stop': 16, 'at_risk': 100, 'first_errors': 0, 'rate': 0.0}]}
+32 {'length': 32, 'final': 1.0, 'prefix': 0.999, 'beyond_horizon': 1.0, 'hazard': [{'start': 0, 'stop': 16, 'at_risk': 100, 'first_errors': 1, 'rate': 0.000625}, {'start': 16, 'stop': 32, 'at_risk': 99, 'first_errors': 0, 'rate': 0.0}]}
+64 {'length': 64, 'final': 0.99, 'prefix': 0.998, 'beyond_horizon': 0.997, 'hazard': [{'start': 0, 'stop': 16, 'at_risk': 100, 'first_errors': 0, 'rate': 0.0}, {'start': 16, 'stop': 32, 'at_risk': 100, 'first_errors': 0, 'rate': 0.0}, {'start': 32, 'stop': 64, 'at_risk': 100, 'first_errors': 1, 'rate': 0.0003125}]}
+128 {'length': 128, 'final': 0.97, 'prefix': 0.986, 'beyond_horizon': 0.984, 'hazard': [{'start': 0, 'stop': 16, 'at_risk': 100, 'first_errors': 0, 'rate': 0.0}, {'start': 16, 'stop': 32, 'at_risk': 100, 'first_errors': 0, 'rate': 0.0}, {'start': 32, 'stop': 64, 'at_risk': 100, 'first_errors': 2, 'rate': 0.000625}, {'start': 64, 'stop': 128, 'at_risk': 98, 'first_errors': 2, 'rate': 0.00031887755102040814}]}
+256 {'length': 256, 'final': 0.97, 'prefix': 0.981, 'beyond_horizon': 0.98, 'hazard': [{'start': 0, 'stop': 16, 'at_risk': 100, 'first_errors': 1, 'rate': 0.000625}, {'start': 16, 'stop': 32, 'at_risk': 99, 'first_errors': 0, 'rate': 0.0}, {'start': 32, 'stop': 64, 'at_risk': 99, 'first_errors': 0, 'rate': 0.0}, {'start': 64, 'stop': 128, 'at_risk': 99, 'first_errors': 1, 'rate': 0.00015782828282828284}, {'start': 128, 'stop': 256, 'at_risk': 98, 'first_errors': 2, 'rate': 0.00015943877551020407}]}
+512 {'length': 512, 'final': 0.94, 'prefix': 0.962, 'beyond_horizon': 0.961, 'hazard': [{'start': 0, 'stop': 16, 'at_risk': 100, 'first_errors': 0, 'rate': 0.0}, {'start': 16, 'stop': 32, 'at_risk': 100, 'first_errors': 0, 'rate': 0.0}, {'start': 32, 'stop': 64, 'at_risk': 100, 'first_errors': 0, 'rate': 0.0}, {'start': 64, 'stop': 128, 'at_risk': 100, 'first_errors': 3, 'rate': 0.00046875}, {'start': 128, 'stop': 256, 'at_risk': 97, 'first_errors': 3, 'rate': 0.0002416237113402062}, {'start': 256, 'stop': 512, 'at_risk': 94, 'first_errors': 2, 'rate': 8.311170212765957e-05}]}
+1024 {'length': 1024, 'final': 0.89, 'prefix': 0.953, 'beyond_horizon': 0.952, 'hazard': [{'start': 0, 'stop': 16, 'at_risk': 100, 'first_errors': 0, 'rate': 0.0}, {'start': 16, 'stop': 32, 'at_risk': 100, 'first_errors': 0, 'rate': 0.0}, {'start': 32, 'stop': 64, 'at_risk': 100, 'first_errors': 0, 'rate': 0.0}, {'start': 64, 'stop': 128, 'at_risk': 100, 'first_errors': 2, 'rate': 0.0003125}, {'start': 128, 'stop': 256, 'at_risk': 98, 'first_errors': 2, 'rate': 0.00015943877551020407}, {'start': 256, 'stop': 512, 'at_risk': 96, 'first_errors': 0, 'rate': 0.0}, {'start': 512, 'stop': 1024, 'at_risk': 96, 'first_errors': 11, 'rate': 0.00022379557291666666}]}
