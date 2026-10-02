@@ -34,7 +34,11 @@ TASKS = {'perm3': dict(kind='perm', n=3), 'perm4': dict(kind='perm', n=4), 'perm
          # log-uniformly from `excursions` (the evaluation-style climb, descent and wander), so a first descent from 8 .. R_max has to be counted;
          # the test then goes past R_max
          'count8_32': dict(kind='count', peak=8, length=256, excursions=(8, 32)),
-         'count8_64': dict(kind='count', peak=8, length=512, excursions=(8, 64))}
+         'count8_64': dict(kind='count', peak=8, length=512, excursions=(8, 64)),
+         # state-keyed retrieval (E-S, horizon/sk_task.py): facts {group element -> value} in the prefix, then a group walk with queries whose answer is the
+         # fact keyed by the CURRENT state. Only the arms use these entries (vocabulary / classes); the sequences come from sk_task, not from `generate`.
+         'sk3': dict(kind='sk', n=3), 'sk4': dict(kind='sk', n=4)}
+SK_VALUES = 8
 _GROUPS = {}
 
 
@@ -74,11 +78,15 @@ def peak(task):
 
 def vocab(task):
     s = _spec(task)
+    if s['kind'] == 'sk':
+        return 2 * len(group(s['n'])[0]) + SK_VALUES + 1       # walk tokens, fact keys, values, the query token
     return len(group(s['n'])[0]) if s['kind'] == 'perm' else 2
 
 
 def classes(task):
     s = _spec(task)
+    if s['kind'] == 'sk':
+        return len(group(s['n'])[0]) + SK_VALUES               # two heads over one readout: the state (first G logits) and the retrieved value (last V)
     return len(group(s['n'])[0]) if s['kind'] == 'perm' else s['peak'] + 1
 
 
@@ -126,6 +134,8 @@ def resync_mask(trajectory, peak=TRAIN_DEPTH):
 def oracle(task, x):
     """Per-position labels for the token matrix x (n, length)."""
     s = _spec(task)
+    if s['kind'] == 'sk':
+        raise ValueError('state-keyed retrieval labels come with the sequences from horizon.sk_task.generate')
     if s['kind'] == 'count':
         return torch.clamp(depth_trajectory(x), max=s['peak'])
     arr = _token_matrix(x)
@@ -175,6 +185,8 @@ def _count_tokens(rng, n, length, depth, trained_peak=TRAIN_DEPTH):
 def generate(task, n, length, seed, depth=None):
     """(x, y): n sequences of the given length. depth only applies to 'count' (the peak that must be counted to)."""
     s = _spec(task)
+    if s['kind'] == 'sk':
+        raise ValueError('state-keyed retrieval sequences come from horizon.sk_task.generate')
     if n < 1 or length < 1:
         raise ValueError('invalid budget')
     rng = np.random.default_rng(seed)
