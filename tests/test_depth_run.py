@@ -235,12 +235,20 @@ class LearningRateDecay(unittest.TestCase):
         self.assertEqual(c['lr_decay_fraction'], 0.5)
         self.assertFalse(all(torch.equal(p, q) for p, q in zip(constant.parameters(), decayed.parameters())))
 
-    def test_the_rate_is_untouched_before_the_decay_window_and_reaches_a_small_value_at_the_end(self):
-        steps, fraction = 100, 0.3
-        scale = lambda step: min(1.0, (steps - step + 1) / (fraction * steps))
-        self.assertEqual(scale(71), 1.0)                                    # the window is the last 30 updates: 71 .. 100; the first of them still has the full rate
-        self.assertLess(scale(72), 1.0)
-        self.assertAlmostEqual(scale(100), 1 / 30)
+    def test_the_last_update_of_a_30_percent_decay_runs_at_one_thirtieth_of_the_rate(self):
+        _, info = dr.train('perm3', 'gru', 8, seed=1, steps=100, batch=4, curriculum=[3], lr=0.03, lr_decay_fraction=0.3)
+        self.assertAlmostEqual(info['lr_last'], 0.03 / 30)                  # the window is the last 30 updates (71 .. 100): the last one has (100 - 100 + 1) / 30 of the rate
+
+    def test_the_floor_lifts_the_end_of_the_decay_and_is_ignored_without_a_decay(self):
+        base = dict(seed=1, steps=10, batch=8, curriculum=[4], lr=0.01)
+        model0, a = dr.train('perm3', 'gru', 16, lr_decay_fraction=0.5, **base)
+        model_explicit, b = dr.train('perm3', 'gru', 16, lr_decay_fraction=0.5, lr_floor=0.0, **base)
+        _, c = dr.train('perm3', 'gru', 16, lr_decay_fraction=0.5, lr_floor=0.1, **base)
+        _, d = dr.train('perm3', 'gru', 16, lr_floor=0.1, **base)
+        self.assertTrue(all(torch.equal(p, q) for p, q in zip(model0.parameters(), model_explicit.parameters())))     # floor 0 is the E-P behaviour, bit for bit
+        self.assertAlmostEqual(a['lr_last'], 0.01 * 0.2)
+        self.assertAlmostEqual(c['lr_last'], 0.01 * (0.1 + 0.9 * 0.2))
+        self.assertEqual((d['lr_last'], d['lr_floor']), (0.01, 0.1))         # without a decay the floor changes nothing
 
 
 if __name__ == '__main__':

@@ -2,6 +2,7 @@
 
   python -B -m horizon.readings ed            # noise-trained S4 GRU / LSTM against the best baseline seed
   python -B -m horizon.readings ep            # E-P: S4 GRU / LSTM trained with the learning rate decayed over the last 30 % (same rule as E-D; SUPPORTED = DECAY FIXES)
+  python -B -m horizon.readings ep3           # E-P3: lr floor dose-response (0.3 / 0.1 / 0.03 / 0.01 x the base rate) on the S4 GRU / LSTM w64; the shallowest sufficient floor
   python -B -m horizon.readings ep5           # E-P2: the same for the S5 Core w128, GRU w256 and LSTM w208 (seed 1)
   python -B -m horizon.readings epseeds       # E-P2 replicates: S4 GRU / LSTM w64, seeds 2 and 3 against their own seed's constant-lr baseline
   python -B -m horizon.readings ec            # scale-diverse excursion counter (count8_32 and count8_64, LSTM and GRU)
@@ -71,6 +72,21 @@ def ed_arm(arm, sigmas=(0.1, 0.05, 0.2), directory=RESULTS, width=64, baseline_s
     refuted = len(runs) == len(sigmas) and all(r['hazard'] >= best / 2 or r['in_range'] < 0.95 for r in runs.values())
     return dict(arm=arm, baseline_hazards=base, best_baseline=best, provisional=set(base) == {1}, runs=runs, complete=len(runs) == len(sigmas),
                 verdict='SUPPORTED' if supported else 'REFUTED' if refuted else 'MIXED' if len(runs) == len(sigmas) else 'INCOMPLETE')
+
+
+FLOORS = (0.3, 0.1, 0.03, 0.01)
+
+
+def ep3_arm(arm, floors=FLOORS, directory=RESULTS, width=64, baseline_seeds=(1, 2, 3)):
+    """E-P3 (note 5.12): the dose-response of the S4 error floor to how far the learning rate is annealed. Each run decays linearly over the last 30 % to `floor` x the
+    base rate. `sufficient_floor` = the LARGEST floor whose run meets the E-P rule (in-range accuracy >= 0.99 and hazard <= best baseline / 5): the shallowest annealing
+    that removes the floor. The curve (hazard per floor) is reported whole; None when no floor meets it."""
+    out = ed_arm(arm, sigmas=floors, directory=directory, width=width, baseline_seeds=baseline_seeds, tag='lrfloor')
+    runs = out.get('runs', {})
+    ok = [f for f, r in runs.items() if r['in_range'] >= 0.99 and r['hazard'] <= out['best_baseline'] / 5]
+    out['sufficient_floor'] = max(ok) if ok else None
+    out['curve'] = {f: (runs[f]['hazard'], runs[f]['events']) for f in sorted(runs, reverse=True)}
+    return out
 
 
 def rho_of(result, r_max, first=16):
@@ -147,6 +163,8 @@ def main():
         print(json.dumps([ed_arm('gru'), ed_arm('lstm')], indent=1, default=str))
     elif which == 'ep':
         print(json.dumps([ed_arm('gru', sigmas=(0.3,), tag='lrdecay'), ed_arm('lstm', sigmas=(0.3,), tag='lrdecay')], indent=1, default=str))
+    elif which == 'ep3':      # E-P3: lr floor dose-response on the S4 GRU / LSTM w64 (note 5.12)
+        print(json.dumps([ep3_arm('gru'), ep3_arm('lstm')], indent=1, default=str))
     elif which == 'ep5':      # E-P2: the S5 arms (note 5.11), seed 1 against the stored seed-1 baselines
         print(json.dumps([ed_arm('core', sigmas=(0.3,), tag='lrdecay', task='perm5', width=128, baseline_seeds=(1,)),
                           ed_arm('gru', sigmas=(0.3,), tag='lrdecay', task='perm5', width=256, baseline_seeds=(1,)),
@@ -159,7 +177,7 @@ def main():
     elif which == 'ec0':
         print(json.dumps(ec0(), indent=1, default=str))
     else:
-        raise SystemExit('usage: python -B -m horizon.readings ed|ep|ep5|epseeds|ec|ec0')
+        raise SystemExit('usage: python -B -m horizon.readings ed|ep|ep3|ep5|epseeds|ec|ec0')
 
 
 if __name__ == '__main__':

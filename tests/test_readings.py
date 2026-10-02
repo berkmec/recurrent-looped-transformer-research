@@ -105,6 +105,21 @@ class LearningRateDecayReading(unittest.TestCase):
         # without the matching seed-2 run file nothing is read
         self.assertEqual(rd.ed_arm('lstm', sigmas=(0.3,), directory=self.dir, tag='lrdecay', baseline_seeds=(3,), run_seed=3)['verdict'], 'NO BASELINE')
 
+    def test_the_dose_response_names_the_shallowest_annealing_that_meets_the_ep_rule(self):
+        # baseline 600 events: the E-P rule needs <= 120; hazards by floor 0.3 / 0.1 / 0.03 / 0.01 = 400 / 130 / 100 / 5
+        for floor, events in ((0.3, 400), (0.1, 130), (0.03, 100), (0.01, 5)):
+            write(self.dir, f'perm4-lstm-w64-s1-cur-lrfloor{floor}.json', perm_result(0.995, events, 1_024_000))
+        r = rd.ep3_arm('lstm', directory=self.dir)
+        self.assertEqual(r['sufficient_floor'], 0.03)                        # 0.1 gives 130 > 120; 0.03 is the largest floor that meets it
+        self.assertEqual([f for f in r['curve']], [0.3, 0.1, 0.03, 0.01])    # reported from the shallowest annealing to the deepest
+        self.assertEqual(r['curve'][0.01][1], 5)
+        # a floor whose range is not learned never counts, however low its hazard
+        write(self.dir, 'perm4-lstm-w64-s1-cur-lrfloor0.03.json', perm_result(0.9, 0, 1_024_000))
+        self.assertEqual(rd.ep3_arm('lstm', directory=self.dir)['sufficient_floor'], 0.01)
+        # nothing sufficient -> None
+        write(self.dir, 'perm4-lstm-w64-s1-cur-lrfloor0.01.json', perm_result(0.995, 500, 1_024_000))
+        self.assertIsNone(rd.ep3_arm('lstm', directory=self.dir)['sufficient_floor'])
+
 
 def count_result(prefix8, first_descent):
     curve = {'8': dict(prefix=prefix8, reentry=None)}
