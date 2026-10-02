@@ -89,6 +89,22 @@ class LearningRateDecayReading(unittest.TestCase):
         self.assertEqual(rd.rate_ratio_p(0, 100, 0, 100), 1.0)
         self.assertLess(rd.rate_ratio_p(50, 1000, 0, 1000), 1e-12)
 
+    def test_s5_files_and_per_seed_replicates_are_read_from_their_own_names(self):
+        # S5 Core w128 seed 1 against its own stored baseline
+        write(self.dir, 'perm5-core-w128-s1-cur.json', perm_result(1.0, 800, 1_024_000))
+        write(self.dir, 'perm5-core-w128-s1-cur-lrdecay0.3.json', perm_result(1.0, 100, 1_024_000))
+        r = rd.ed_arm('core', sigmas=(0.3,), directory=self.dir, tag='lrdecay', task='perm5', width=128, baseline_seeds=(1,))
+        self.assertEqual(r['verdict'], 'SUPPORTED')
+        self.assertEqual(r['runs'][0.3]['events'], 100)
+        # seed 2 of the S4 LSTM: compared with ITS seed's baseline (900 events), not the seed-1 baseline (600)
+        write(self.dir, 'perm4-lstm-w64-s2-cur.json', perm_result(0.99, 900, 1_024_000))
+        write(self.dir, 'perm4-lstm-w64-s2-cur-lrdecay0.3.json', perm_result(0.995, 150, 1_024_000))     # 150 <= 900 / 5 = 180 but not <= 600 / 5 = 120
+        r2 = rd.ed_arm('lstm', sigmas=(0.3,), directory=self.dir, tag='lrdecay', baseline_seeds=(2,), run_seed=2)
+        self.assertEqual(r2['verdict'], 'SUPPORTED')
+        self.assertAlmostEqual(r2['best_baseline'], 900 / 1_024_000)
+        # without the matching seed-2 run file nothing is read
+        self.assertEqual(rd.ed_arm('lstm', sigmas=(0.3,), directory=self.dir, tag='lrdecay', baseline_seeds=(3,), run_seed=3)['verdict'], 'NO BASELINE')
+
 
 def count_result(prefix8, first_descent):
     curve = {'8': dict(prefix=prefix8, reentry=None)}

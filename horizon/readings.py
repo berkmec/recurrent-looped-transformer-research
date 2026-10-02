@@ -2,6 +2,8 @@
 
   python -B -m horizon.readings ed            # noise-trained S4 GRU / LSTM against the best baseline seed
   python -B -m horizon.readings ep            # E-P: S4 GRU / LSTM trained with the learning rate decayed over the last 30 % (same rule as E-D; SUPPORTED = DECAY FIXES)
+  python -B -m horizon.readings ep5           # E-P2: the same for the S5 Core w128, GRU w256 and LSTM w208 (seed 1)
+  python -B -m horizon.readings epseeds       # E-P2 replicates: S4 GRU / LSTM w64, seeds 2 and 3 against their own seed's constant-lr baseline
   python -B -m horizon.readings ec            # scale-diverse excursion counter (count8_32 and count8_64, LSTM and GRU)
 
 E-D (per arm): the baseline is the LOWEST pooled first-error hazard over the seeds that exist (provisional while only seed 1 does). SUPPORTED when some
@@ -44,20 +46,20 @@ def rate_ratio_p(events_base, exposure_base, events_run, exposure_run):
     return float(min(1.0, math.exp(top) * sum(math.exp(t - top) for t in log_terms)))
 
 
-def ed_arm(arm, sigmas=(0.1, 0.05, 0.2), directory=RESULTS, width=64, baseline_seeds=(1, 2, 3), tag='noise'):
+def ed_arm(arm, sigmas=(0.1, 0.05, 0.2), directory=RESULTS, width=64, baseline_seeds=(1, 2, 3), tag='noise', task='perm4', run_seed=1):
     base = {}
     for seed in baseline_seeds:
-        path = Path(directory) / f'perm4-{arm}-w{width}-s{seed}-cur.json'
+        path = Path(directory) / f'{task}-{arm}-w{width}-s{seed}-cur.json'
         if path.exists():
             base[seed] = pooled_rate(_load(path))[0]
     if not base:
         return dict(arm=arm, verdict='NO BASELINE')
     best = min(v for v in base.values() if v is not None)
     best_seed = min((s for s, v in base.items() if v == best))
-    base_events, base_exposure = pooled_rate(_load(Path(directory) / f'perm4-{arm}-w{width}-s{best_seed}-cur.json'))[1:]
+    base_events, base_exposure = pooled_rate(_load(Path(directory) / f'{task}-{arm}-w{width}-s{best_seed}-cur.json'))[1:]
     runs = {}
     for sigma in sigmas:
-        path = Path(directory) / f'perm4-{arm}-w{width}-s1-cur-{tag}{sigma}.json'
+        path = Path(directory) / f'{task}-{arm}-w{width}-s{run_seed}-cur-{tag}{sigma}.json'
         if path.exists():
             result = _load(path)
             rate, events, exposure = pooled_rate(result)
@@ -145,12 +147,19 @@ def main():
         print(json.dumps([ed_arm('gru'), ed_arm('lstm')], indent=1, default=str))
     elif which == 'ep':
         print(json.dumps([ed_arm('gru', sigmas=(0.3,), tag='lrdecay'), ed_arm('lstm', sigmas=(0.3,), tag='lrdecay')], indent=1, default=str))
+    elif which == 'ep5':      # E-P2: the S5 arms (note 5.11), seed 1 against the stored seed-1 baselines
+        print(json.dumps([ed_arm('core', sigmas=(0.3,), tag='lrdecay', task='perm5', width=128, baseline_seeds=(1,)),
+                          ed_arm('gru', sigmas=(0.3,), tag='lrdecay', task='perm5', width=256, baseline_seeds=(1,)),
+                          ed_arm('lstm', sigmas=(0.3,), tag='lrdecay', task='perm5', width=208, baseline_seeds=(1,))], indent=1, default=str))
+    elif which == 'epseeds':  # E-P2 replicates: S4 seeds 2 and 3, each against its OWN seed's constant-lr baseline
+        print(json.dumps({f'{arm}-s{seed}': ed_arm(arm, sigmas=(0.3,), tag='lrdecay', baseline_seeds=(seed,), run_seed=seed) for arm in ('gru', 'lstm') for seed in (2, 3)},
+                         indent=1, default=str))
     elif which == 'ec':
         print(json.dumps([ec_task('count8_32'), ec_task('count8_64')], indent=1, default=str))
     elif which == 'ec0':
         print(json.dumps(ec0(), indent=1, default=str))
     else:
-        raise SystemExit('usage: python -B -m horizon.readings ed|ep|ec|ec0')
+        raise SystemExit('usage: python -B -m horizon.readings ed|ep|ep5|epseeds|ec|ec0')
 
 
 if __name__ == '__main__':

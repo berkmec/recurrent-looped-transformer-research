@@ -1,0 +1,42 @@
+[
+ {
+  "arm": "gru",
+  "baseline_hazards": {
+   "1": 0.000757050392972723
+  },
+  "best_baseline": 0.000757050392972723,
+  "provisional": true,
+  "runs": {
+   "0.3": {
+    "in_range": 1.0,
+    "hazard": 0.0,
+    "ratio": 0.0,
+    "events": 0,
+    "exposure": 203200,
+    "p_lower": 6.475627083581807e-45
+   }
+  },
+  "complete": true,
+  "verdict": "SUPPORTED"
+ },
+ {
+  "arm": "lstm",
+  "baseline_hazards": {
+   "1": 0.0005254400560469393
+  },
+  "best_baseline": 0.0005254400560469393,
+  "provisional": true,
+  "runs": {
+   "0.3": {
+    "in_range": 1.0,
+    "hazard": 4.921259842519685e-06,
+    "ratio": 0.009365977690288714,
+    "events": 1,
+    "exposure": 203200,
+    "p_lower": 3.451641760865381e-30
+   }
+  },
+  "complete": true,
+  "verdict": "SUPPORTED"
+ }
+]
