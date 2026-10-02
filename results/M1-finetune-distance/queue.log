@@ -241,3 +241,9 @@
 [07:15:00] Z1 kuyruk EP BITTI
 [07:15:01] BASLA Z1 perm4-gru-w64-s1-cur-noise0.1 (CPU, 1 parcacik, 15000 adim, lr 0.003, mufredat 1,2,3,4,6,8,12,16, egitim-durum-gurultusu 0.1)
 [07:17:45] ZINCIR-DEGISIKLIGI 8: yuva 2: E-D bitince E-P2 (S5 lr azaltma + S4 tekrarlari; bolum 5.11), sonra E-C (E-C bekleyicisi oldurulup E-P2'nin arkasina alindi; E-C bekleyicisinin cocugu yoktu)
+[07:19:33] BITTI Z1 count-core_nofb-w64-s1
+[07:19:33] BASLA Z1 count-lstm-w64-s2 (CPU, 1 parcacik, 4000 adim, lr 0.003)
+[07:19:59] BITTI Z1 perm4-gru-w64-s1-cur-noise0.1
+[07:19:59] BASLA Z1 perm4-lstm-w64-s1-cur-noise0.1 (CPU, 1 parcacik, 15000 adim, lr 0.003, mufredat 1,2,3,4,6,8,12,16, egitim-durum-gurultusu 0.1)
+[07:21:23] BITTI Z1 count-lstm-w64-s2
+[07:21:23] BASLA Z1 count-gru-w64-s2 (CPU, 1 parcacik, 4000 adim, lr 0.003)

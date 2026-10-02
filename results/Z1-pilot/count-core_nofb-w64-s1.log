@@ -1,0 +1,15 @@
+--- start 2026-10-02 07:10:57
+count core_nofb w64 s1 step 1000 len 64 loss 0.4430043399333954 (124s)
+count core_nofb w64 s1 step 2000 len 64 loss 0.27378594875335693 (250s)
+count core_nofb w64 s1 step 3000 len 64 loss 0.24241159856319427 (376s)
+count core_nofb w64 s1 step 4000 len 64 loss 0.18364866077899933 (501s)
+{"task": "count", "arm": "core_nofb", "width": 64, "seed": 1, "learned_in_range": true, "effective_horizon": 0, "horizon_metric": "reentry", "wall_seconds": 508.92623950000416}
+8 {'length': 64, 'final': 0.98, 'prefix': 0.954, 'deep': None, 'reentry': None, 'reentry_positions': 0, 'resync': None, 'resync_positions': 0}
+16 {'length': 96, 'final': 0.67, 'prefix': 0.65, 'deep': 0.496, 'reentry': 0.137, 'reentry_positions': 1559, 'resync': 0.913, 'resync_positions': 3733}
+32 {'length': 192, 'final': 0.8, 'prefix': 0.429, 'deep': 0.462, 'reentry': 0.176, 'reentry_positions': 1727, 'resync': 0.353, 'resync_positions': 6792}
+64 {'length': 384, 'final': 0.81, 'prefix': 0.44, 'deep': 0.491, 'reentry': 0.181, 'reentry_positions': 1846, 'resync': 0.325, 'resync_positions': 12413}
+128 {'length': 768, 'final': 0.86, 'prefix': 0.454, 'deep': 0.468, 'reentry': 0.139, 'reentry_positions': 1731, 'resync': 0.423, 'resync_positions': 25073}
+256 {'length': 1536, 'final': 0.84, 'prefix': 0.452, 'deep': 0.46, 'reentry': 0.156, 'reentry_positions': 1646, 'resync': 0.433, 'resync_positions': 51626}
+length control 64 {'final': 0.94, 'prefix': 0.927}
+length control 256 {'final': 0.37, 'prefix': 0.539}
+length control 1024 {'final': 0.26, 'prefix': 0.346}
