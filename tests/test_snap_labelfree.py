@@ -41,6 +41,8 @@ class Reading(unittest.TestCase):
     def test_verdicts_follow_the_registered_rule(self):
         s4 = [fake('perm4', 32, base=(0, 10000), primary=(0, 10000))]
         self.assertEqual(sf.reading(self.s5(primary=(10, 10000)) + s4)['verdict'], 'LABEL-FREE SNAP WORKS')
+        harmed = [fake('perm4', 32, base=(0, 10000), primary=(30, 10000))]
+        self.assertTrue(sf.reading(self.s5(primary=(10, 10000)) + harmed)['verdict'].startswith('INCONCLUSIVE'))      # blind review F4: a harmed S4 control beats three rescues
         self.assertEqual(sf.reading(self.s5() + s4)['verdict'], 'LABEL-FREE SNAP DOES NOT WORK')
         self.assertEqual(sf.reading([fake(width=128, primary=(10, 10000)), fake(width=129), fake(width=130)] + s4)['verdict'], 'MIXED')
         self.assertTrue(sf.reading(self.s5(accuracy=0.9) + s4)['verdict'].startswith('INCONCLUSIVE'))

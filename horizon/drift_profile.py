@@ -10,7 +10,9 @@ This measures the cause directly. For `t0` in {8, 128, 256} the state is replace
               the even / odd sequences of the class, so independent sampling noise does not inflate it); a class-specific constant offset that grows with age is a clock-like drift
   random      the rest: history-dependent scatter (random-walk-like when its square grows linearly with age)
 
-and the untouched run (the same positions, no injection) is measured the same way for comparison. How the total grows with age (like sqrt(age): neutral accumulation of independent
+and the untouched run (the same positions, no injection; for t0 = 8 it is the natural age = position profile of a fresh sequence) is measured the same way for comparison. Blind review F1: only
+rows whose sequence is still error-free (since the start, or since the injection) enter total / systematic / random (the deviation of a sequence that has already erred contains a class-specific
+offset toward the wrong class that the even / odd estimator would call "systematic"); `alive` is the fraction of rows kept and `total_all` the unconditioned total. How the total grows with age (like sqrt(age): neutral accumulation of independent
 per-step errors; like age: a coherent bias; saturating: a restoring force) says what an error-correcting fix has to do. Descriptive only.
 
   python -B -m horizon.drift_profile results/Z1-pilot/perm5-core-w128-s1-cur.pt ... --out results/Z1-pilot/drift-profile.json
@@ -64,19 +66,21 @@ def profile(weights, t0s=T0S, span=SPAN, n=2000, batch=250, log=print):
     out = {}
     for t0 in t0s:
         for variant in ('injected', 'untouched'):
-            if variant == 'untouched' and t0 == t0s[0]:
-                continue                                    # the in-range window is the same run as the injected one's first steps: skip the duplicate
-            devs = []
+            devs, alives = [], []
             with torch.no_grad():
                 for at in range(0, n, batch):
                     sl = slice(at, at + batch)
                     configure(model)
                     if variant == 'injected':
                         configure(model, at=t0, state=centroids[y[sl, t0 - 1]], reset_cache=True)
-                    states, _ = core_trajectory(model, x[sl, :t0 + span])
+                    states, logits = core_trajectory(model, x[sl, :t0 + span])
                     configure(model)
                     devs.append(states[:, t0:t0 + span] - centroids[y[sl, t0:t0 + span]])
-            dev = torch.cat(devs)                           # (n, span, W)
+                    wrong = logits.argmax(-1) != y[sl, :t0 + span]
+                    if variant == 'injected':
+                        wrong[:, :t0] = False                      # a run that is reset at t0 is only judged on what happens after the reset
+                    alives.append((wrong.cumsum(1) == 0)[:, t0:t0 + span])      # error-free so far (since the start, or since the injection)
+            dev, alive = torch.cat(devs), torch.cat(alives)        # (n, span, W), (n, span)
             rows = {}
             for a, b in AGES:
                 if a >= span:
@@ -85,18 +89,24 @@ def profile(weights, t0s=T0S, span=SPAN, n=2000, batch=250, log=print):
                 flat = dev[:, a:b].reshape(-1, dev.shape[-1])
                 lab = y[:, t0 + a:t0 + b].reshape(-1)
                 par = parity[:, None].expand(n, b - a).reshape(-1)
-                total, systematic = decompose(flat, lab, par)
+                keep = alive[:, a:b].reshape(-1)
+                total_all, _ = decompose(flat, lab, par)
+                if int(keep.sum()) < 2:
+                    rows[f'{a}-{b}'] = dict(total=None, systematic=None, random=None, alive=0.0, total_all=total_all ** 0.5 / scale)
+                    continue
+                total, systematic = decompose(flat[keep], lab[keep], par[keep])      # only rows whose sequence is still error-free (blind review F1)
                 systematic = max(0.0, systematic)
-                rows[f'{a}-{b}'] = dict(total=total ** 0.5 / scale, systematic=systematic ** 0.5 / scale, random=max(0.0, total - systematic) ** 0.5 / scale)
+                rows[f'{a}-{b}'] = dict(total=total ** 0.5 / scale, systematic=systematic ** 0.5 / scale, random=max(0.0, total - systematic) ** 0.5 / scale,
+                                        alive=float(keep.float().mean()), total_all=total_all ** 0.5 / scale)
             out[f'{variant}@{t0}'] = rows
-            log(f'  t0 {t0:>3} {variant:<9} ' + '  '.join(f'age {k}: {v["total"]:.3f} (sys {v["systematic"]:.3f})' for k, v in rows.items()))
+            log(f'  t0 {t0:>3} {variant:<9} ' + '  '.join(f'age {k}: ' + ('-' if v['total'] is None else f'{v["total"]:.3f} (sys {v["systematic"]:.3f}, alive {v["alive"]:.2f})') for k, v in rows.items()))
     return dict(weights=str(weights), task=meta['task'], width=meta['width'], seed=meta['seed'], n=n, span=span, scale=scale, profile=out)
 
 
 def describe(r):
     lines = [f'{r["task"]} w{r["width"]} (n = {r["n"]}, M = {r["scale"]:.2f}): deviation from the true class centroid / M, by age (total, systematic, random)']
     for key, rows in r['profile'].items():
-        lines.append(f'  {key:<14} ' + '  '.join(f'{k}: {v["total"]:.3f} / {v["systematic"]:.3f} / {v["random"]:.3f}' for k, v in rows.items()))
+        lines.append(f'  {key:<14} ' + '  '.join(f'{k}: ' + ('-' if v['total'] is None else f'{v["total"]:.3f} / {v["systematic"]:.3f} / {v["random"]:.3f} (alive {v["alive"]:.2f}; all rows {v["total_all"]:.3f})') for k, v in rows.items()))
     return '\n'.join(lines)
 
 

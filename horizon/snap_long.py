@@ -14,7 +14,9 @@ shorter sequences (`equivalence`: the fraction of positions at which the windowe
 Reading rule (written before the first run, program note 5.29): per model and condition, first errors / person-steps over the positions after the first 16 of every sequence (the E-X
 definition): CLEAN (0 errors, >= 1e6 person-steps), SPARSE (1-4 errors), FLOOR (>= 5 errors); the verdict of the experiment, read on the primary condition `class-16` and the two S5 Cores
 (constant-lr and annealed): EXACT TO 131,072 if both are CLEAN or SPARSE at 131,072; EXACT TO 32,768 if both are CLEAN or SPARSE at 32,768 and not at 131,072; NOT EXACT otherwise (at least one
-model has a FLOOR already at 32,768). Descriptive: the other conditions, the first-error window of any error, and the window / no-window equivalence.
+model has a FLOOR already at 32,768). Read monotonically: `EXACT TO L` needs BOTH models to be CLEAN or SPARSE at every evaluated length up to L (a model that is a FLOOR at 32,768 and SPARSE at 131,072 is NOT EXACT: blind
+review F3). `SHORT` (no error but fewer than 1e6 person-steps, e.g. when a sequence fails before position 16 and leaves the risk set) counts as not OK, as registered. Descriptive: the other conditions, the first-error
+window of any error, and the window / no-window equivalence.
 """
 import argparse
 import json
@@ -121,8 +123,12 @@ def reading(results):
     for length in longest:
         labels = [r['lengths'][str(length)]['conditions'][PRIMARY]['label'] for r in s5 if str(length) in r['lengths']]
         per_length[length] = dict(labels=labels, ok=all(v in ('CLEAN', 'SPARSE') for v in labels) and len(labels) == len(s5))
-    ok = [length for length in longest if per_length[length]['ok']]
-    verdict = 'NOT EXACT' if not ok else f'EXACT TO {max(ok):,}'
+    best = None
+    for length in longest:                                           # monotone (blind review F3): EXACT TO L needs every evaluated length <= L to be CLEAN / SPARSE for both models
+        if not per_length[length]['ok']:
+            break
+        best = length
+    verdict = 'NOT EXACT' if best is None else f'EXACT TO {best:,}'
     return dict(verdict=verdict, per_length={str(k): v for k, v in per_length.items()})
 
 

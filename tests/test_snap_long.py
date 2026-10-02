@@ -79,6 +79,10 @@ class Reading(unittest.TestCase):
         self.assertEqual(sl.reading([self.fake(128, both), self.fake(129, mid)])['verdict'], 'EXACT TO 32,768')                # one model has a floor at 131,072
         self.assertEqual(sl.reading([self.fake(128, {32768: 'FLOOR', 131072: 'FLOOR'}), self.fake(129, both)])['verdict'], 'NOT EXACT')
         self.assertEqual(sl.reading([dict(task='perm4', lengths={})])['verdict'], 'NO S5 MODEL')
+        # blind review F3: read monotonically, not 'the longest length that happens to pass'
+        floor_then_ok = {32768: 'FLOOR', 131072: 'SPARSE'}
+        self.assertEqual(sl.reading([self.fake(128, floor_then_ok), self.fake(129, {32768: 'CLEAN', 131072: 'CLEAN'})])['verdict'], 'NOT EXACT')
+        self.assertEqual(sl.reading([self.fake(128, {32768: 'SHORT', 131072: 'CLEAN'}), self.fake(129, both)])['verdict'], 'NOT EXACT')
 
 
 class EndToEnd(unittest.TestCase):

@@ -205,6 +205,11 @@ class LearningRateDecayReading(unittest.TestCase):
         self.assertEqual((r['verdict'], r['unlearned_seeds']), ('SAME PHENOMENON', [3]))
         write(self.dir, 'perm5-core-w128-s2-cur.json', perm_result(0.5, 100, 1_024_000))
         self.assertEqual(rd.es5seeds(directory=self.dir)['verdict'], 'NOT LEARNED')
+        # blind review F13: a seed with in-range accuracy in [0.95, 0.99) is neither read nor lost
+        write(self.dir, 'perm5-core-w128-s2-cur.json', perm_result(0.97, 2000, 1_024_000))
+        write(self.dir, 'perm5-core-w128-s3-cur.json', perm_result(0.97, 2000, 1_024_000))
+        r = rd.es5seeds(directory=self.dir)
+        self.assertEqual((r['verdict'], r['unlearned_seeds'], r['borderline_seeds']), ('NOT LEARNED', [], [2, 3]))
 
     def test_the_floor_dose_response_flags_a_non_monotone_curve_and_gives_the_strict_floor(self):
         # blind review R2-9: baseline 600 events (rule <= 120); floors 0.3 / 0.1 / 0.03 / 0.01 -> 110 / 300 / 20 / 5

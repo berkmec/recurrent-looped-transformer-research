@@ -87,6 +87,16 @@ class Cleanup(unittest.TestCase):
         for name, p in plain.named_parameters():
             self.assertTrue(torch.equal(p, dict(opened.named_parameters())[name.replace('pn.weight', 'pn.norm.weight')]), name)            # the base weights do not depend on the gate
 
+    def test_the_cleanup_parameters_can_be_exempted_from_weight_decay(self):
+        # blind review F12: AdamW's weight decay also acts on open / log beta / keys / values unless exempted (default: decayed, as registered)
+        kw = dict(steps=20, batch=4, curriculum=[4], weight_decay=5.0, lr=0.05, cleanup_open=0.3)
+        decayed, trained = dr.train('perm3', 'core_clean', 32, 1, cleanup_no_decay=False, **kw)
+        exempt, trained_exempt = dr.train('perm3', 'core_clean', 32, 1, cleanup_no_decay=True, **kw)
+        self.assertEqual((trained['cleanup_no_decay'], trained_exempt['cleanup_no_decay']), (False, True))
+        # with a huge decay the exempted log beta only moves through gradients (it stays near log 20 = 3.0); the decayed one is shrunk toward 0
+        self.assertLess(float(decayed.pn.log_beta.detach().abs()), float(exempt.pn.log_beta.detach().abs()))
+        self.assertGreater(float(exempt.pn.log_beta.detach()), 2.0)
+
     def test_a_cleanup_needs_the_feedback_path(self):
         with self.assertRaises(ValueError):
             cl.add_cleanup(dm.make_arm('core_nofb', 'perm3', 32, 1))

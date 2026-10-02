@@ -64,6 +64,30 @@ class Windows(unittest.TestCase):
             Core.decode = original
         self.assertEqual(seen, [(t, min(t + 1, 5), min(t + 1, 5)) for t in range(14)])
 
+    def test_the_cross_window_keeps_the_last_k_memory_positions_not_the_first_k(self):
+        # blind review F14: asserting only the length would pass a first-K slice
+        model, x, seen = tiny(), tokens(2, 12), {}
+        original = Core.decode
+
+        def spy(self, e, s, mk, mv, t):
+            seen[t] = mk.clone()
+            return original(self, e, s, mk, mv, t)
+
+        with torch.no_grad():
+            Core.decode = spy
+            try:
+                es.configure(model, cross=4)
+                model(x)
+                windowed = dict(seen)
+                seen.clear()
+                es.configure(model)
+                model(x)
+                full = dict(seen)
+            finally:
+                Core.decode = original
+        for t in range(12):
+            self.assertTrue(torch.equal(windowed[t], full[t][:, :, -4:]), t)                   # the 4 most recent memory positions, in order
+
     def test_a_window_changes_nothing_before_its_first_k_positions_and_something_later(self):
         model, x = tiny(), tokens(3, 40)
         with torch.no_grad():
@@ -183,6 +207,32 @@ def fake(task='perm5', width=128, base=(100, 10000), both16=None, inject=None, s
     return dict(weights=f'x/{task}-w{width}.pt', task=task, width=width, seed=1, n=200, length=1024, parameters=1, stored_control=stored, windows=windows, injection=injection, in_range={})
 
 
+class FreshInRange(unittest.TestCase):
+    def test_the_control_rows_are_disjoint_from_the_calibration_rows_of_the_nested_draw(self):
+        x_cal, _, _ = dt.heldout(dr.NAMESPACE, 'perm3', 1, 'dev', 300, 16)
+        x_big, _, _ = dt.heldout(dr.NAMESPACE, 'perm3', 1, 'dev', 340, 16)
+        self.assertTrue(torch.equal(x_big[:300], x_cal))                                      # draws nest: the first 300 rows of a larger draw ARE the smaller draw
+        x_fresh, y_fresh = es.fresh_in_range('perm3', 1, calibration_n=300, n=40)
+        self.assertTrue(torch.equal(x_fresh, x_big[300:]))
+        self.assertEqual(tuple(x_fresh.shape), (40, 16))
+        self.assertTrue(all(not torch.equal(row, c) for row in x_fresh[:5] for c in x_cal))   # none of the first five fresh rows occurs among the calibration rows
+
+
+class StoredControl(unittest.TestCase):
+    def test_true_false_and_none_paths(self):
+        with tempfile.TemporaryDirectory() as d:
+            weights = Path(d) / 'm.pt'
+            self.assertIsNone(es.stored_control(weights, torch.zeros(5, dtype=torch.long)))                      # no stored result: not verified
+            hazard = [dict(start=0, stop=16, at_risk=5, first_errors=0), dict(start=16, stop=32, at_risk=5, first_errors=2)]
+            weights.with_suffix('.json').write_text(__import__('json').dumps(dict(curve={'1024': dict(hazard=hazard)})), encoding='utf8')
+            first = torch.tensor([32, 32, 32, 20, 18])                                                           # two first errors inside [16, 32), none before 16
+            self.assertTrue(es.stored_control(weights, first))
+            self.assertFalse(es.stored_control(weights, torch.tensor([32, 32, 32, 32, 18])))                      # one first error instead of two
+            self.assertIsNone(es.stored_control(weights, first[:3]))                                              # fewer sequences than the stored draw
+            weights.with_suffix('.json').write_text(__import__('json').dumps(dict(curve={})), encoding='utf8')
+            self.assertIsNone(es.stored_control(weights, first))                                                  # no 1,024 curve
+
+
 class Reading(unittest.TestCase):
     def s5(self, **kw):
         return [fake(width=128 + i, **kw) for i in range(3)]
@@ -208,6 +258,18 @@ class Reading(unittest.TestCase):
         self.assertTrue(harmed['window'].startswith('INCONCLUSIVE'))
         creates = es.reading(self.s5() + [fake('perm4', 32, base=(0, 10000), both16=(0, 10000), inject=((0, 10000), (0, 10000)), s4_events=1)])
         self.assertTrue(creates['injection'].startswith('INCONCLUSIVE'))                          # 3 pooled events after injection in the S4 control (> 2)
+
+    def test_other_arms_are_not_pooled_and_the_registered_set_is_required(self):
+        # blind review F7: core_clean results are read descriptively, and a verdict needs three S5 Core models and an S4 control
+        s4 = [fake('perm4', 32, base=(0, 10000), both16=(0, 10000), inject=((0, 10000), (0, 10000)))]
+        three = self.s5(both16=(10, 10000), inject=((100, 10000), (100, 10000)))
+        self.assertEqual(es.reading(three + s4)['window'], 'ATTENTION PATHS CARRY THE EROSION')
+        extra = dict(fake(width=140, both16=(10, 10000)), arm='core_clean')
+        self.assertEqual(es.reading(three + s4 + [extra])['window'], 'ATTENTION PATHS CARRY THE EROSION')       # the core_clean result is not pooled into the registered Core set
+        self.assertTrue(es.reading(three[:2] + s4)['window'].startswith('INCOMPLETE'))
+        self.assertTrue(es.reading(three)['injection'].startswith('INCOMPLETE'))                                 # no S4 control
+        unverified = dict(fake(width=150), stored_control=None)
+        self.assertIn('perm5 w150', es.reading(three + [unverified] + s4)['unverified_stored_control'])
 
     def test_failed_controls_void_the_verdicts(self):
         s4 = [fake('perm4', 32, base=(0, 10000), both16=(0, 10000), inject=((0, 10000), (0, 10000)))]

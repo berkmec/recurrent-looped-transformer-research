@@ -27,7 +27,7 @@ import torch
 from . import depth_run as dr
 from . import depth_tasks as dt
 from .cleanup import add_cleanup, PROTOTYPES
-from .erosion_source import classify, first_errors, predictions, stored_control, window_counts, WINDOW_FROM
+from .erosion_source import classify, first_errors, fresh_in_range, predictions, stored_control, window_counts, WINDOW_FROM
 from .snap_labelfree import kmeans
 from .state_growth import core_trajectory
 
@@ -80,7 +80,7 @@ def measure(weights, n=200, length=1024, batch=40, log=print):
     classes = dt.classes(meta['task'])
     r, labels = feedback_vectors(model, meta['task'], meta['seed'])
     x, y, _ = dt.heldout(dr.NAMESPACE, meta['task'], meta['seed'], 'dev', n, length)
-    short_x, short_y, _ = dt.heldout(dr.NAMESPACE, meta['task'], meta['seed'], 'dev', 200, 16)
+    short_x, short_y = fresh_in_range(meta['task'], meta['seed'])              # not among the 2,000 sequences the prototypes were fitted on (blind review F10)
     log(f'{weights}: {meta["task"]} width {meta["width"]}, {len(r)} in-range feedback vectors')
     base_pred = predictions(model, x, batch)
     base_first = first_errors(base_pred, y)

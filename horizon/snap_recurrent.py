@@ -26,7 +26,7 @@ from torch.nn import functional as F
 
 from . import depth_run as dr
 from . import depth_tasks as dt
-from .erosion_source import classify, first_errors, stored_control, window_counts, WINDOW_FROM
+from .erosion_source import classify, first_errors, fresh_in_range, stored_control, window_counts, WINDOW_FROM
 from .state_growth import recurrent_trajectory
 
 CONDITIONS = (('class', 16), ('class', 1), ('nearest', 16))
@@ -109,7 +109,7 @@ def measure(weights, n=200, length=1024, batch=50, log=print):
         events, person, at_risk = window_counts(first, WINDOW_FROM, length)
         out[name] = dict(events=events, person_steps=person, at_risk=at_risk, final=float((pred[:, -1] == y[:, -1]).float().mean()))
         log(f'  {name:<11} first errors {events:>3}/{person:>6} person-steps = {events / max(person, 1):.2e}  final {out[name]["final"]:.2f}  ({time.perf_counter() - started:.0f} s)')
-    short_x, short_y, _ = dt.heldout(dr.NAMESPACE, meta['task'], meta['seed'], 'dev', 200, 16)
+    short_x, short_y = fresh_in_range(meta['task'], meta['seed'])              # not among the 2,000 sequences the centroids were calibrated on (blind review F10)
     in_range = {f'{s}-{e}': float((predictions(arm, short_x, centroids, s, e, batch) == short_y).float().mean()) for s, e in CONDITIONS}
     return dict(weights=str(weights), arm=meta['arm'], task=meta['task'], width=meta['width'], seed=meta['seed'], n=n, length=length, parameters=dr.parameter_count(arm),
                 identity=identity, conditions=out, in_range=in_range, stored_control=stored_control(weights, base_first))

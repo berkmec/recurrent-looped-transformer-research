@@ -9,9 +9,10 @@ and the same training length (16), is exact and has a flat margin. Two sources o
      the encoder self-attention (`enc`), the cross-attention (`cross`) or both to the last K positions. RoPE scores depend only on relative offsets and the first token carries no marker, so
      the last K tokens are attended exactly as a trained-range prefix of K tokens would be (tested: the windowed encoder at position t equals the unwindowed encoder on the last K tokens);
      the carried recurrent state keeps its whole history. K = 16 is the trained horizon.
-  B  the carried recurrent state. Before the decoder step `at` the carried state (the previous step's final decoder output `z`, which the feedback reads, and optionally the three cached
-     decoder keys / values) is replaced by the centroid of the TRUE class of the previous position, measured on in-range (positions 8..15) dev sequences. This is an oracle used for diagnosis
-     only. The first-error hazard of the next `span` = 64 positions is measured on all sequences and compared with the hazard of the same window in the untouched run among the sequences that
+  B  the carried recurrent state. Before the decoder step `at` the carried state (the previous step's final decoder output `z`, which the feedback reads) is replaced by the centroid of the
+     TRUE class of the previous position, measured on in-range (positions 8..15) dev sequences; in the `state+cache` variant the three cached decoder keys / values are in addition EMPTIED
+     (as at the start of a sequence; they are not replaced by a centroid: blind review F6). This is an oracle used for diagnosis
+     only. The first-error hazard of the next `span` = 128 positions is measured on all sequences and compared with the hazard of the same window in the untouched run among the sequences that
      are still error-free at `at`. The encoder memory and the current input are NOT reset: only the history carried in the state is.
 
 A restricts what the context paths see and leaves the state alone; B resets the state and leaves the context paths alone. Rescue by A and not B: the erosion lives in the non-recurrent
@@ -26,7 +27,9 @@ tests of `readings.rate_ratio_p` (lower tail: the condition's hazard is lower; s
   RESCUES  R >= 5 and p(lower) < 0.01;   PARTIAL  2 <= R < 5 and p(lower) < 0.01;   HARMS  R <= 0.5, p(higher) < 0.01 and >= 5 events in the condition;   NEUTRAL  otherwise.
 A: primary condition `both16` (encoder and cross-attention windows of 16), window [16, 1024), the three S5 Core models; the S4 Core models are the control.
 B: primary condition `state+cache` (state and cache reset), the first-error hazard of [t0, t0 + 128) pooled over t0 in {128, 256, 512}.
-Verdict per part: >= 2 of the 3 S5 models RESCUES -> CARRIES THE EROSION; no S5 model RESCUES or PARTIAL and at least two NEUTRAL (and the S4 control not HARMS) -> NOT THE SOURCE;
+Verdict per part: >= 2 of the 3 S5 models RESCUES -> CARRIES THE EROSION; no S5 model RESCUES or PARTIAL and at least two NEUTRAL (and the S4 control not HARMS; the injection control
+(B) is HARMS also when the S4 models together show more than S4_CONTROL_EVENTS = 2 pooled `state+cache` first errors, a clause added when the rule was coded and not in the first registered
+text: the E-A5 run had 0 such events, so it decided nothing; blind review F2) -> NOT THE SOURCE;
 no S5 model RESCUES or PARTIAL otherwise -> INCONCLUSIVE (the intervention itself harms); anything else -> MIXED. CONTROL FAILED when the untouched run does not reproduce the stored
 first-error windows of the model, when a window changes a prediction before its first K positions, or (B) when the in-range injection at position 8 leaves a model below 0.99 accuracy on
 positions 8..15.
@@ -177,8 +180,16 @@ def class_centroids(model, task, seed, n=2000, length=16, positions=(8, 16)):
     return centroids
 
 
+def fresh_in_range(task, seed, calibration_n=2000, n=200, length=16):
+    """The in-range control sequences: rows [calibration_n, calibration_n + n) of the nested dev draw, i.e. NOT among the first `calibration_n` rows that the class centroids / k-means prototypes were
+    calibrated on (blind review F10: the first 200 rows of a draw are the first 200 rows of every larger draw, so a control on the first 200 would be in-sample)."""
+    x, y, _ = dt.heldout(dr.NAMESPACE, task, seed, 'dev', calibration_n + n, length)
+    return x[calibration_n:], y[calibration_n:]
+
+
 def stored_control(weights, first, n_stored=None):
-    """Does the untouched run reproduce the first-error windows stored with the model (same dev draw)? None when no stored result is found."""
+    """Does the untouched run reproduce the first-error windows stored with the model (same dev draw)? None when no stored result is found (reported as `unverified`, not as a failure). Note: the
+    sealed forward is not batch-invariant (the same sequences in a batch of 8 and of 40 differ by ~2e-4 in the logits), so a near-tie can in principle read False (fails closed; blind review F8)."""
     stored_path = Path(weights).with_suffix('.json')
     if not stored_path.exists():
         return None
@@ -282,7 +293,7 @@ def measure(weights, n=200, length=1024, batch=40, log=print):
     windows, base_pred = window_part(model, x, y, batch, log)
     centroids = class_centroids(model, meta['task'], meta['seed'])
     injection = injection_part(model, x, y, centroids, batch, log)
-    return dict(weights=str(weights), task=meta['task'], width=meta['width'], seed=meta['seed'], n=n, length=length, parameters=dr.parameter_count(model),
+    return dict(weights=str(weights), arm=meta['arm'], task=meta['task'], width=meta['width'], seed=meta['seed'], n=n, length=length, parameters=dr.parameter_count(model),
                 stored_control=stored_control(weights, first_errors(base_pred, y)), windows=windows, injection=injection, in_range=range_part(model, meta['task'], meta['seed']))
 
 
@@ -333,11 +344,14 @@ def _verdict(labels, s4_labels, carries, source):
 
 
 def reading(results):
-    """The registered verdicts for a list of `measure` results (S5 Core models carry the verdict, S4 Core models are the control)."""
-    s5 = [r for r in results if r['task'] == 'perm5']
-    s4 = [r for r in results if r['task'] == 'perm4']
+    """The registered verdicts for a list of `measure` results (the three S5 Core models carry the verdict, the S4 Core models are the control). Only plain `core` models count (results that
+    record another arm, e.g. `core_clean`, are read descriptively, never pooled into the registered verdict; blind review F7) and the verdict needs the registered set: >= 3 S5 models and an S4
+    control, else it reads INCOMPLETE (a single-model extension run prints per-model labels only)."""
+    s5 = [r for r in results if r['task'] == 'perm5' and r.get('arm', 'core') == 'core']
+    s4 = [r for r in results if r['task'] == 'perm4' and r.get('arm', 'core') == 'core']
     if not s5:
         return dict(window='NO S5 MODEL', injection='NO S5 MODEL')
+    unverified = [f'{r["task"]} w{r["width"]}' for r in s5 + s4 if r.get('stored_control') is None]
     failed = []
     for r in s5 + s4:
         name = f'{r["task"]} w{r["width"]}'
@@ -350,13 +364,16 @@ def reading(results):
             control = r['injection'].get(str(CONTROL_AT), {}).get(variant)
             if control is not None and control['accuracy'] < CONTROL_ACCURACY - 1e-9:
                 failed.append(f'{name}: the in-range injection ({variant}) leaves accuracy {control["accuracy"]:.3f} on positions 8..15')
-    out = dict(controls=failed, models={})
+    out = dict(controls=failed, unverified_stored_control=unverified, models={})
     for r in s5 + s4:
         out['models'][f'{r["task"]} w{r["width"]} s{r["seed"]} {Path(r["weights"]).stem}'] = dict(
             window={label: window_labels(r, label)[0] for label in r['windows'] if label != 'base'},
             injection={variant: injection_labels(r, variant)[0] for variant in ('state', 'state+cache')})
     if failed:
         out['window'] = out['injection'] = 'CONTROL FAILED: ' + '; '.join(failed)
+        return out
+    if len(s5) < 3 or not s4:
+        out['window'] = out['injection'] = f'INCOMPLETE: the registered verdict needs three S5 Core models and an S4 control (got {len(s5)} and {len(s4)})'
         return out
     s4_window = [window_labels(r)[0] for r in s4]
     s4_inject = [injection_labels(r)[0] for r in s4]

@@ -38,12 +38,14 @@ class EndToEnd(unittest.TestCase):
             dr.run('perm3', 'core', 32, 1, steps=2, points=[16], n_eval=4, out=out, batch=4, curriculum=[4])
             r = dp.profile(out.with_suffix('.pt'), t0s=(8, 32), span=32, n=40, batch=20, log=lambda m: None)
         self.assertEqual((r['task'], r['width'], r['n'], r['span']), ('perm3', 32, 40, 32))
-        self.assertEqual(set(r['profile']), {'injected@8', 'injected@32', 'untouched@32'})
+        self.assertEqual(set(r['profile']), {'injected@8', 'untouched@8', 'injected@32', 'untouched@32'})       # blind review F11: the natural profile at t0 = 8 is there too
         self.assertEqual(list(r['profile']['injected@32']), ['0-1', '1-4', '4-16', '16-32'])        # windows past the span are dropped, the last is clipped
         for rows in r['profile'].values():
             for v in rows.values():
-                self.assertGreaterEqual(v['total'], v['systematic'] - 1e-9)
-                self.assertGreaterEqual(v['random'], 0.0)
+                self.assertTrue(0.0 <= v['alive'] <= 1.0)
+                if v['total'] is not None:
+                    self.assertGreaterEqual(v['total'], v['systematic'] - 1e-9)
+                    self.assertGreaterEqual(v['random'], 0.0)
         self.assertIn('injected@32', dp.describe(r))
 
 

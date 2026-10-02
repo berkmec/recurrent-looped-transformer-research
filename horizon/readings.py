@@ -52,7 +52,9 @@ def _load(path):
 
 def rate_ratio_p(events_base, exposure_base, events_run, exposure_run):
     """One-sided exact p-value that the run's hazard is not lower than the baseline's: conditional on the total number of events, the run's share is binomial with
-    probability exposure_run / (exposure_base + exposure_run) under equal hazards; p = P(X <= events_run). Descriptive (not part of any verdict)."""
+    probability exposure_run / (exposure_base + exposure_run) under equal hazards; p = P(X <= events_run). Descriptive in `ed_arm` (its verdicts use the hazard thresholds only) but a condition of the
+    RESCUES / PARTIAL / HARMS labels of the E-A5 / E-A9 family (`erosion_source.classify`: p < 0.01) and of `long_eval.reading`'s BREAK test. It treats the two counts as independent Poisson counts: arms
+    measured on the SAME sequences and injection windows pooled over several steps are not independent, so those p-values are optimistic (blind review F9)."""
     total = events_base + events_run
     if total == 0:
         return 1.0
@@ -193,8 +195,9 @@ def es5seeds(seeds=(2, 3), directory=RESULTS, task='perm5', arm='core', width=12
             runs[seed] = dict(in_range=result['curve']['16']['final'], hazard=rate, events=events, exposure=exposure, windows={f'{a}-{b}': cell for (a, b), cell in pooled_windows(result).items()})
     base_path = Path(directory) / f'{task}-{arm}-w{width}-s{baseline_seed}-cur.json'
     baseline = pooled_rate(_load(base_path))[0] if base_path.exists() else None
-    learned = {seed: r for seed, r in runs.items() if ge(r['in_range'], 0.99)}
+    learned = {seed: r for seed, r in runs.items() if ge(r['in_range'], 0.99) and r['hazard'] is not None}
     unlearned = sorted(seed for seed, r in runs.items() if not ge(r['in_range'], 0.95))
+    borderline = sorted(seed for seed, r in runs.items() if ge(r['in_range'], 0.95) and not ge(r['in_range'], 0.99))       # in [0.95, 0.99): not read, listed (blind review F13)
     if not runs:
         verdict = 'NO RUNS'
     elif not learned:
@@ -207,7 +210,7 @@ def es5seeds(seeds=(2, 3), directory=RESULTS, task='perm5', arm='core', width=12
         verdict = 'MIXED'
     if runs and len(runs) < len(list(seeds)):
         verdict += ' (INCOMPLETE: ' + str(len(runs)) + ' of ' + str(len(list(seeds))) + ' seeds)'
-    return dict(verdict=verdict, baseline_hazard=baseline, runs=runs, unlearned_seeds=unlearned)
+    return dict(verdict=verdict, baseline_hazard=baseline, runs=runs, unlearned_seeds=unlearned, borderline_seeds=borderline)
 
 
 def ek4(widths=(32, 48), directory=RESULTS, profile_file='margin-profile-s4core-width.json'):

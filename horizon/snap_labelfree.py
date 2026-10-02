@@ -10,7 +10,8 @@ readout, no label anywhere). The clusters are scored against the true classes on
 Reading rule (written before the first run, program note 5.30): the first-error hazard of [16, 1024) in events / person-steps on the same 200 dev sequences as E-A9, untouched run as reference,
 the classification of E-A5 (`erosion_source.classify`: RESCUES R >= 5 and p < 0.01, PARTIAL 2 <= R < 5, HARMS, NEUTRAL). Primary condition `kmeans-16` (every 16 steps), the three S5 Cores
 (constant-lr, annealed, annealed with state noise); the two S4 Cores are the control. Verdict: >= 2 of the 3 S5 models RESCUES -> LABEL-FREE SNAP WORKS; no S5 model RESCUES or PARTIAL and at least
-two NEUTRAL -> LABEL-FREE SNAP DOES NOT WORK; otherwise MIXED (and INCONCLUSIVE when the S4 control is HARMS or the in-range accuracy under the primary snap falls below 0.99 on any model).
+two NEUTRAL -> LABEL-FREE SNAP DOES NOT WORK; otherwise MIXED; INCONCLUSIVE when the S4 control is HARMS or the in-range accuracy under the primary snap falls below 0.99 on any model, and then it
+takes precedence over WORKS (blind review F4: the first coding let three S5 rescues win over a harmed S4 control); CONTROL FAILED when the untouched run does not reproduce the stored windows.
 Descriptive: `kmeans-1` (every step), the cluster purity, the labelled-centroid `nearest-16` of E-A9 next to it.
 """
 import argparse
@@ -22,7 +23,7 @@ import torch
 
 from . import depth_run as dr
 from . import depth_tasks as dt
-from .erosion_source import classify, core_trajectory, first_errors, predictions, stored_control, window_counts, WINDOW_FROM
+from .erosion_source import classify, core_trajectory, first_errors, fresh_in_range, predictions, stored_control, window_counts, WINDOW_FROM
 from .self_snap import configure
 
 CONDITIONS = (('kmeans', 16), ('kmeans', 1))
@@ -88,7 +89,7 @@ def measure(weights, n=200, length=1024, batch=40, log=print):
         events, person, at_risk = window_counts(first, WINDOW_FROM, length)
         out[name] = dict(events=events, person_steps=person, at_risk=at_risk, final=float((pred[:, -1] == y[:, -1]).float().mean()))
         log(f'  {name:<10} first errors {events:>3}/{person:>6} person-steps = {events / max(person, 1):.2e}  final {out[name]["final"]:.2f}  ({time.perf_counter() - started:.0f} s)')
-    short_x, short_y, _ = dt.heldout(dr.NAMESPACE, meta['task'], meta['seed'], 'dev', 200, 16)
+    short_x, short_y = fresh_in_range(meta['task'], meta['seed'])              # not among the 2,000 sequences the k-means was fitted on (blind review F10)
     accuracy = {}
     for name, (selector, every) in [(f'{s}-{e}', (s, e)) for s, e in CONDITIONS]:
         configure(model, centroids, 'nearest', every, 1.0)
@@ -115,10 +116,10 @@ def reading(results):
     helped = rescues + primary.count('PARTIAL')
     if any(r.get('stored_control') is False for r in s5 + s4):
         verdict = 'CONTROL FAILED: the untouched run does not reproduce the stored first-error windows'
-    elif rescues >= 2 and not weak:
-        verdict = 'LABEL-FREE SNAP WORKS'
-    elif weak or 'HARMS' in control:
+    elif weak or 'HARMS' in control:                                   # INCONCLUSIVE takes precedence over the S5 rescues (blind review F4: code and docstring now agree)
         verdict = 'INCONCLUSIVE (the snap harms the in-range accuracy or the S4 control)'
+    elif rescues >= 2:
+        verdict = 'LABEL-FREE SNAP WORKS'
     elif helped == 0 and primary.count('NEUTRAL') >= 2:
         verdict = 'LABEL-FREE SNAP DOES NOT WORK'
     else:
