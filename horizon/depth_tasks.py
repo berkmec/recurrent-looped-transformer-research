@@ -29,7 +29,12 @@ COUNT_TRAIN_LENGTH = 64     # counter: long enough that the walk wanders for a l
 TASKS = {'perm3': dict(kind='perm', n=3), 'perm4': dict(kind='perm', n=4), 'perm5': dict(kind='perm', n=5),
          'count': dict(kind='count', peak=TRAIN_DEPTH, length=COUNT_TRAIN_LENGTH),       # the default counter: trained peak 8, length 64
          'count16': dict(kind='count', peak=16, length=128), 'count32': dict(kind='count', peak=32, length=256),
-         'count64': dict(kind='count', peak=64, length=512)}                              # training length 8 x the trained peak
+         'count64': dict(kind='count', peak=64, length=512),                              # training length 8 x the trained peak
+         # scale-diverse excursions (E-C): the label still saturates at `peak` (8: nine classes) but TRAINING climbs to a per-sequence depth drawn
+         # log-uniformly from `excursions` (the evaluation-style climb, descent and wander), so a first descent from 8 .. R_max has to be counted;
+         # the test then goes past R_max
+         'count8_32': dict(kind='count', peak=8, length=256, excursions=(8, 32)),
+         'count8_64': dict(kind='count', peak=8, length=512, excursions=(8, 64))}
 _GROUPS = {}
 
 
@@ -147,7 +152,7 @@ def _count_tokens(rng, n, length, depth, trained_peak=TRAIN_DEPTH):
     (push probability 0.25, reflecting at D) and wanders near the bottom. Both bias values lie inside the training range of statistics, so
     what changes at test is how deep the count has been, not which tokens occur."""
     training = depth is None
-    peak = trained_peak if training else int(depth)
+    peak = trained_peak if training else np.asarray(depth, dtype=np.int64)       # a scalar (every test) or one depth per sequence (E-C training)
     ramp = rng.integers(0, peak + 1, size=n) if training else None
     p_push = rng.uniform(0.25, 0.75, size=n) if training else None
     current = np.zeros(n, dtype=np.int64)
@@ -176,6 +181,9 @@ def generate(task, n, length, seed, depth=None):
     if s['kind'] == 'perm':
         x = torch.from_numpy(rng.integers(0, vocab(task), size=(n, length)).astype(np.int64))
     else:
+        if depth is None and s.get('excursions'):
+            low, high = s['excursions']      # log-uniform per-sequence depth in [low, high], then the evaluation-style climb / descent / wander
+            depth = np.rint(low * (high / low) ** rng.random(n)).astype(np.int64)
         x = torch.from_numpy(_count_tokens(rng, n, length, depth, s['peak']))
     return x, oracle(task, x)
 

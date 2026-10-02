@@ -95,5 +95,43 @@ class Variants(unittest.TestCase):
         self.assertEqual(r['horizon_metric'], 'reentry')
 
 
+class ScaleDiverseExcursions(unittest.TestCase):
+    """E-C: the label saturates at 8 but training climbs to a log-uniform depth per sequence (8 .. R_max), so the excursion has to be counted."""
+
+    def test_sizes_and_classes(self):
+        for task, length in (('count8_32', 256), ('count8_64', 512)):
+            self.assertEqual((dt.peak(task), dt.classes(task), dt.train_length(task), dt.vocab(task)), (8, 9, length, 2))
+            self.assertTrue(dt.is_count(task))
+
+    def test_training_climbs_to_a_log_uniform_depth_and_labels_saturate_at_eight(self):
+        x, y = dt.generate('count8_64', 400, 512, seed=3)
+        depth = dt.depth_trajectory(x)
+        top = depth.max(1).values
+        self.assertGreaterEqual(int(top.min()), 8)
+        self.assertLessEqual(int(top.max()), 64)
+        self.assertTrue(16 <= float(top.float().median()) <= 30, float(top.float().median()))     # log-uniform: near sqrt(8 * 64) = 22.6, not the arithmetic centre 36
+        self.assertEqual(int(y.max()), 8)
+        self.assertTrue(torch.equal(y, torch.clamp(depth, max=8)))
+
+    def test_training_sequences_come_back_down_within_the_length(self):
+        for task, length in (('count8_32', 256), ('count8_64', 512)):
+            x, _ = dt.generate(task, 200, length, seed=4)
+            depth = dt.depth_trajectory(x)
+            self.assertTrue(bool((depth[:, -1] < depth.max(1).values).all()), task)
+
+    def test_the_first_descent_is_part_of_almost_every_training_sequence(self):
+        x, _ = dt.generate('count8_32', 300, 256, seed=5)
+        traj = dt.depth_trajectory(x)
+        mask = dt.reentry_mask(traj, dt.peak('count8_32'))
+        exceeds = traj.max(1).values > 8                  # a sequence whose depth is drawn as exactly 8 never leaves the label range
+        self.assertGreater(float(exceeds.float().mean()), 0.9)
+        self.assertTrue(bool(mask.any(1)[exceeds].all()))  # the others go past the cap and come back: the excursion must be counted to answer the descent
+
+    def test_a_scalar_test_depth_is_unchanged_by_the_per_sequence_generalisation(self):
+        x, y = dt.generate('count', 6, 96, seed=7, depth=16)
+        self.assertEqual(int(dt.depth_trajectory(x).max()), 16)
+        self.assertEqual(digest(*dt.heldout(dr.NAMESPACE, 'count', 1, 'dev', 20, dt.count_eval_length(16), depth=16)[:2]), '45b62e558d453fad54ca')
+
+
 if __name__ == '__main__':
     unittest.main()

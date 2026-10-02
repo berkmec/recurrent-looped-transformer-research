@@ -189,6 +189,15 @@ Koşular: S₄ GRU w64 ve LSTM w64, tohum 1, 15.000 güncelleme, müfredat 1,2,3
 - **KARMA:** arası. Çok büyük σ_train'de öğrenmenin bozulması (aralık-içi doğruluk düşer) çürütme değil, sınır bulgusudur.
 - *Ek (mekanizma):* yeni modellerin E-B marj eğrisi: Gauss-havza modeli ve marj yorumu doğruysa örtük yarıçap σ_train ile artar (r(σ_train = 0,1) ≥ 1,5 × r(taban)); artmıyorsa hazard düşse bile "marj büyüdü" yorumu desteksizdir.
 
+### 5.3 E-C okuma kuralı (koşudan ÖNCE yazıldı; görev `count8_32` / `count8_64` (`horizon/depth_tasks.py`, 5 test), betik `scripts/run_ec.sh`)
+Görev: etiket P = 8'e doyar (9 sınıf; eski sayaçla aynı çıktı sözlüğü), ama EĞİTİM her dizide log-tekdüze çekilen bir derinliğe (8 … R_max; `count8_32`: R_max = 32, uzunluk 256; `count8_64`: R_max = 64, uzunluk 512) tırmanır, iner ve dibe yakın dolaşır (değerlendirme biçimi); yani 8'in üstüne çıkan her aşma sayılmak zorundadır. Test: D ∈ {8, 16, 32, 64, 128, 256, 512} (R_max'ın 1×, 2×, 4× … katları). Kollar: GRU w64 ve LSTM w64, tohum 1, 12.000 güncelleme, lr 3×10⁻³, müfredatsız (Core CPU'da bu uzunlukta 9 saat/koşu: yalnız GRU/LSTM sonucu bakılırsa). Ölçü: ilk-iniş doğruluğu `reentry` (D başına), aralık-içi doğruluk (D = 8, `prefix`).
+- **Geçerlilik:** aralık-içi (D = 8) `prefix` ≥ 0,95. Değilse sonuç bütçe/plato kaydıdır (P = 32 GRU'da olduğu gibi), dışdeğerleme okunmaz.
+- **Ö1 (tarif çalışıyor mu):** eğitim aralığında (D ≤ R_max) ilk-iniş ≥ 0,9. < 0,5 ise "log-tekdüze aşma bu bütçede sayma öğretmiyor" (müfredat gerekir).
+- **Ö2 (LSTM, tanh doyması ≈ 2,7×; §4.4 `[T/H]`):** D = 2·R_max'ta ilk-iniş ≥ 0,5, D = 4·R_max'ta < 0,5. **Çürütme:** D = 4·R_max'ta ≥ 0,95 ise sınır tanh doyması değildir (kesinlikle > 4×).
+- **Ö3:** GRU'nun dışdeğerleme çarpanı LSTM'inkinden küçük ya da eşit (GRU durumu [−1, 1]'de sınırlı).
+- **Çarpan** ρ = (ilk-iniş ≥ 0,95 olan en büyük D) / R_max (D ≤ R_max noktalarından başlayıp kesintisiz). Literatür emsali LSTM ≈ 2-2,5× (**[R]**, ajan notu).
+- *Sonraki adım koşulu:* ρ ≥ 4 çıkarsa (tarif gerçekten sayaç öğretiyor) Core ve dönel şerit (E-I) aynı görevde sınanır; ρ ≈ 1-2 ise sayaç dışdeğerlemesi tarif değil mimari sorunudur ve E-I öne çıkar.
+
 ## 6. Gerçek model yolu
 
 1. **Ne iddia edilir:** "küçük, bayt-düzeyi bir RLT, durum-izleme/çok-adımlı görevlerde eşit-parametre ve eşit-token bir transformer'a yapısal bir üstünlük gösteriyor mu". LM kaybında üstünlük iddia edilmez (bağımsız değerlendirme bulamadı).
