@@ -1,0 +1,57 @@
+results/Z1-pilot/perm5-core-w128-s1-cur.pt: perm5 width 128, 16000 in-range feedback vectors
+  labelled  first errors   0/201600 person-steps = 0.00e+00  final 1.00  in-range 1.000  (36 s)
+  kmeans    first errors  41/   485 person-steps = 8.45e-02  final 0.02  in-range 0.558  (37 s)
+  base      first errors 195/ 73631 person-steps = 2.65e-03
+perm5 w128, gate-0 identity True, stored-window control True, k-means clusters 120
+  [16,1024): base 195/73631  labelled 0/201600  kmeans 41/485
+  in-range accuracy: base 1.000  labelled 1.000  kmeans 0.558
+  labels: labelled RESCUES  kmeans HARMS
+results/Z1-pilot/perm5-core-w128-s1-cur-lrdecay0.3.pt: perm5 width 128, 16000 in-range feedback vectors
+  labelled  first errors   0/201600 person-steps = 0.00e+00  final 1.00  in-range 1.000  (34 s)
+  kmeans    first errors  15/   232 person-steps = 6.47e-02  final 0.01  in-range 0.375  (37 s)
+  base      first errors 199/ 60045 person-steps = 3.31e-03
+perm5 w128, gate-0 identity True, stored-window control True, k-means clusters 119
+  [16,1024): base 199/60045  labelled 0/201600  kmeans 15/232
+  in-range accuracy: base 1.000  labelled 1.000  kmeans 0.375
+  labels: labelled RESCUES  kmeans HARMS
+results/Z1-pilot/perm4-core-w32-s1-cur.pt: perm4 width 32, 16000 in-range feedback vectors
+  labelled  first errors   0/201600 person-steps = 0.00e+00  final 1.00  in-range 1.000  (16 s)
+  kmeans    first errors 110/  2502 person-steps = 4.40e-02  final 0.52  in-range 0.763  (17 s)
+  base      first errors   0/201600 person-steps = 0.00e+00
+perm4 w32, gate-0 identity True, stored-window control True, k-means clusters 24
+  [16,1024): base 0/201600  labelled 0/201600  kmeans 110/2502
+  in-range accuracy: base 1.000  labelled 1.000  kmeans 0.763
+  labels: labelled NEUTRAL  kmeans HARMS
+results/Z1-pilot/perm4-core-w64-s1-cur.pt: perm4 width 64, 16000 in-range feedback vectors
+  labelled  first errors   0/201600 person-steps = 0.00e+00  final 1.00  in-range 1.000  (23 s)
+  kmeans    first errors  47/   516 person-steps = 9.11e-02  final 0.29  in-range 0.617  (23 s)
+  base      first errors   0/201600 person-steps = 0.00e+00
+perm4 w64, gate-0 identity True, stored-window control True, k-means clusters 24
+  [16,1024): base 0/201600  labelled 0/201600  kmeans 47/516
+  in-range accuracy: base 1.000  labelled 1.000  kmeans 0.617
+  labels: labelled NEUTRAL  kmeans HARMS
+{
+ "verdict": "THE MODULE CAN CLEAN",
+ "primary": [
+  "RESCUES",
+  "RESCUES"
+ ],
+ "models": {
+  "perm5 w128 perm5-core-w128-s1-cur": {
+   "labelled": "RESCUES",
+   "kmeans": "HARMS"
+  },
+  "perm5 w128 perm5-core-w128-s1-cur-lrdecay0.3": {
+   "labelled": "RESCUES",
+   "kmeans": "HARMS"
+  },
+  "perm4 w32 perm4-core-w32-s1-cur": {
+   "labelled": "NEUTRAL",
+   "kmeans": "HARMS"
+  },
+  "perm4 w64 perm4-core-w64-s1-cur": {
+   "labelled": "NEUTRAL",
+   "kmeans": "HARMS"
+  }
+ }
+}

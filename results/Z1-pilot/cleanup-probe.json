@@ -1,0 +1,138 @@
+[
+ {
+  "weights": "results/Z1-pilot/perm5-core-w128-s1-cur.pt",
+  "task": "perm5",
+  "width": 128,
+  "seed": 1,
+  "n": 200,
+  "length": 1024,
+  "conditions": {
+   "base": {
+    "events": 195,
+    "person_steps": 73631,
+    "at_risk": 200,
+    "final": 0.3100000023841858,
+    "in_range": 1.0
+   },
+   "labelled": {
+    "events": 0,
+    "person_steps": 201600,
+    "at_risk": 200,
+    "final": 1.0,
+    "in_range": 1.0
+   },
+   "kmeans": {
+    "events": 41,
+    "person_steps": 485,
+    "at_risk": 41,
+    "final": 0.019999999552965164,
+    "in_range": 0.557812511920929
+   }
+  },
+  "gate0_identity": true,
+  "kmeans_clusters": 120,
+  "stored_control": true
+ },
+ {
+  "weights": "results/Z1-pilot/perm5-core-w128-s1-cur-lrdecay0.3.pt",
+  "task": "perm5",
+  "width": 128,
+  "seed": 1,
+  "n": 200,
+  "length": 1024,
+  "conditions": {
+   "base": {
+    "events": 199,
+    "person_steps": 60045,
+    "at_risk": 200,
+    "final": 0.19499999284744263,
+    "in_range": 1.0
+   },
+   "labelled": {
+    "events": 0,
+    "person_steps": 201600,
+    "at_risk": 200,
+    "final": 1.0,
+    "in_range": 1.0
+   },
+   "kmeans": {
+    "events": 15,
+    "person_steps": 232,
+    "at_risk": 15,
+    "final": 0.009999999776482582,
+    "in_range": 0.3753125071525574
+   }
+  },
+  "gate0_identity": true,
+  "kmeans_clusters": 119,
+  "stored_control": true
+ },
+ {
+  "weights": "results/Z1-pilot/perm4-core-w32-s1-cur.pt",
+  "task": "perm4",
+  "width": 32,
+  "seed": 1,
+  "n": 200,
+  "length": 1024,
+  "conditions": {
+   "base": {
+    "events": 0,
+    "person_steps": 201600,
+    "at_risk": 200,
+    "final": 1.0,
+    "in_range": 1.0
+   },
+   "labelled": {
+    "events": 0,
+    "person_steps": 201600,
+    "at_risk": 200,
+    "final": 1.0,
+    "in_range": 1.0
+   },
+   "kmeans": {
+    "events": 110,
+    "person_steps": 2502,
+    "at_risk": 110,
+    "final": 0.5249999761581421,
+    "in_range": 0.7634375095367432
+   }
+  },
+  "gate0_identity": true,
+  "kmeans_clusters": 24,
+  "stored_control": true
+ },
+ {
+  "weights": "results/Z1-pilot/perm4-core-w64-s1-cur.pt",
+  "task": "perm4",
+  "width": 64,
+  "seed": 1,
+  "n": 200,
+  "length": 1024,
+  "conditions": {
+   "base": {
+    "events": 0,
+    "person_steps": 201600,
+    "at_risk": 200,
+    "final": 1.0,
+    "in_range": 1.0
+   },
+   "labelled": {
+    "events": 0,
+    "person_steps": 201600,
+    "at_risk": 200,
+    "final": 1.0,
+    "in_range": 1.0
+   },
+   "kmeans": {
+    "events": 47,
+    "person_steps": 516,
+    "at_risk": 47,
+    "final": 0.29499998688697815,
+    "in_range": 0.6171875
+   }
+  },
+  "gate0_identity": true,
+  "kmeans_clusters": 24,
+  "stored_control": true
+ }
+]
