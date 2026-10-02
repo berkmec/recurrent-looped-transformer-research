@@ -19,7 +19,10 @@ log() { echo "[$(date +%H:%M:%S)] $*" >> "$LOG"; }
 mkdir -p "$OUT"
 
 NEWEST=$(ls "$RUN"/snapshots/step*.pt | sort | tail -n 1)
-for snap in "$RUN/snapshots/step002000.pt" "$NEWEST"; do
+# default: the 2,000-update snapshot and the newest one; explicit snapshot paths as arguments replace that list (E-L1P at update 3,000, right after the retrieval
+# transition: the first run, at ~07:00, saw only step002000 as the newest, so only one snapshot was evaluated)
+if [ "$#" -gt 0 ]; then SNAPS=("$@"); else SNAPS=("$RUN/snapshots/step002000.pt" "$NEWEST"); fi
+for snap in "${SNAPS[@]}"; do
   name=$(basename "$snap" .pt)
   if [ -f "$OUT/$name-feedback-probe.json" ] || [ ! -f "$snap" ]; then continue; fi
   log "BASLA E-L1P ($name; CPU, 1 parcacik): L1 geri besleme kanali kullanimi, egitimsiz"

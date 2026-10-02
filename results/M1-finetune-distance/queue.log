@@ -247,3 +247,11 @@
 [07:19:59] BASLA Z1 perm4-lstm-w64-s1-cur-noise0.1 (CPU, 1 parcacik, 15000 adim, lr 0.003, mufredat 1,2,3,4,6,8,12,16, egitim-durum-gurultusu 0.1)
 [07:21:23] BITTI Z1 count-lstm-w64-s2
 [07:21:23] BASLA Z1 count-gru-w64-s2 (CPU, 1 parcacik, 4000 adim, lr 0.003)
+[07:24:14] BITTI Z1 count-gru-w64-s2
+[07:24:14] BASLA Z1 count-lstm-w64-s3 (CPU, 1 parcacik, 4000 adim, lr 0.003)
+[07:25:15] ZINCIR-DEGISIKLIGI 9: yuva 2: E-D bitince E-P2 (bolum 5.11) -> E-P3 (lr tabani doz-yaniti; bolum 5.12) -> E-C (bekleyici yeniden kuruldu; eski bekleyicinin cocugu yoktu, E-D bitmemisti)
+[07:25:58] BITTI Z1 perm4-lstm-w64-s1-cur-noise0.1
+[07:25:58] BASLA Z1 perm4-gru-w64-s1-cur-noise0.05 (CPU, 1 parcacik, 15000 adim, lr 0.003, mufredat 1,2,3,4,6,8,12,16, egitim-durum-gurultusu 0.05)
+[07:26:05] BITTI Z1 count-lstm-w64-s3
+[07:26:05] BASLA Z1 count-gru-w64-s3 (CPU, 1 parcacik, 4000 adim, lr 0.003)
+[07:27:47] ZINCIR-DEGISIKLIGI 10: yuva 1: E-C0 bitince E-L1P (adim 3000 anlik goruntusu: geri besleme kanali kullanimi gecisten sonra) -> kuyruk 5 (eski bekleyici oldurulup yeniden kuruldu; calisan E-C0 cocugu (run_ec0.sh) yasiyor, yeni bekleyici onun bitis satirini bekliyor)
