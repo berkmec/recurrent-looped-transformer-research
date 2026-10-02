@@ -87,6 +87,35 @@ def state_rms_by_window(model, x, edges=(0, 16, 64, 128, 192, 256)):
     return {f'{a}-{min(b, x.shape[1])}': float(rms[a:b].mean()) for a, b in zip(edges[:-1], edges[1:]) if a < x.shape[1]}
 
 
+def class_margin_by_window(model, x, labels, edges=(0, 16, 64, 128, 192, 256), min_count=3):
+    """Cluster geometry of the carried state by true class (R2's q(t) = R / M): inside each position window the states are grouped by the label (the running
+    product), R is the mean root-mean-square distance of a state to its class centroid, M the mean distance from a class centroid to the nearest other centroid; a
+    growing R / M with position is a loss of margin. Classes with fewer than `min_count` states in the window are skipped. Descriptive only (no threshold)."""
+    model = copy.deepcopy(model).double().eval()
+    run = core_trajectory if isinstance(model, Core) else recurrent_trajectory
+    with torch.no_grad():
+        states, _ = run(model, x)
+    out = {}
+    for a, b in zip(edges[:-1], edges[1:]):
+        if a >= x.shape[1]:
+            break
+        b = min(b, x.shape[1])
+        s, lab = states[:, a:b].reshape(-1, states.shape[-1]), labels[:, a:b].reshape(-1)
+        centroids, spreads = {}, []
+        for c in torch.unique(lab).tolist():
+            members = s[lab == c]
+            if members.shape[0] >= min_count:
+                centroids[c] = members.mean(0)
+                spreads.append(float(((members - centroids[c]).square().sum(-1)).mean().sqrt()))
+        if len(centroids) < 2:
+            continue
+        cent = torch.stack(list(centroids.values()))
+        dist = torch.cdist(cent, cent) + torch.eye(len(cent), dtype=cent.dtype) * 1e30
+        spread, nearest = sum(spreads) / len(spreads), float(dist.min(1).values.mean())
+        out[f'{a}-{b}'] = dict(spread=spread, nearest_centroid=nearest, ratio=spread / nearest, classes=len(centroids))
+    return out
+
+
 def jacobian_norms(model, x, positions):
     """Largest singular value of the ONE-STEP Jacobian of the carried state, d state_t / d state_{t-1} (float64, one sequence at a time), at the given
     positions of x. The Core's three cached decoder keys/values are held at their clean values (only the feedback path is differentiated); the LSTM's
@@ -206,7 +235,8 @@ def measure(weights, steps, t0, eps_list, n, seed, windows=((0, 25), (25, 121), 
     norms = jacobian_norms(model, x[:jacobian_n], positions)
     jac = {t: dict(median=float(np.median(v)), max=float(np.max(v)), above_one=float(np.mean(np.array(v) > 1.0))) for t, v in norms.items()}
     return dict(weights=str(weights), arm=meta['arm'], task=meta['task'], width=meta['width'], parameters=meta['parameters'], steps=steps, t0=t0, n=n,
-                results=result, jacobian=jac, state_rms=state_rms_by_window(model, x))
+                results=result, jacobian=jac, state_rms=state_rms_by_window(model, x),
+                class_margin=class_margin_by_window(model, x, dt.oracle(meta['task'], x)))
 
 
 def describe(r):
@@ -216,6 +246,9 @@ def describe(r):
         lines.append(f"  eps {eps:g}: {cells}  | re-converged (d < 1e-10 at the end): {row['converged']:.2f}")
     if r.get('state_rms'):
         lines.append('  state rms by position window: ' + '  '.join(f'[{k.replace("-", ",")}) {v:.3f}' for k, v in r['state_rms'].items()))
+    if r.get('class_margin'):
+        lines.append('  class geometry R / M (within-class spread over nearest-centroid distance; classes present) by window: ' +
+                     '  '.join(f"[{k.replace('-', ',')}) {v['ratio']:.3f} ({v['classes']})" for k, v in r['class_margin'].items()))
     if r.get('jacobian'):
         lines.append('  one-step Jacobian, largest singular value (median / max over sequences): ' +
                      '  '.join(f"t={t}: {v['median']:.3f}/{v['max']:.3f}" for t, v in r['jacobian'].items()))

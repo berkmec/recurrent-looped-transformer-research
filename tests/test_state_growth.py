@@ -100,6 +100,35 @@ class JacobianNorms(unittest.TestCase):
         self.assertLessEqual(ratio, norms[t][0] * (1 + 1e-4))          # |J delta| <= ||J||_2 |delta|
 
 
+class ClassGeometry(unittest.TestCase):
+    def test_ratio_is_small_for_separated_classes_and_large_for_overlapping_ones(self):
+        # a fake "model": the recurrent trajectory is replaced by planted states so the geometry is known exactly
+        import types
+        n, steps, d = 6, 40, 4
+        labels = torch.arange(steps).remainder(3).unsqueeze(0).repeat(n, 1)
+        centres = torch.tensor([[10.0, 0, 0, 0], [0, 10.0, 0, 0], [0, 0, 10.0, 0]], dtype=torch.float64)
+        for noise, expect_small in ((0.1, True), (30.0, False)):
+            torch.manual_seed(0)
+            planted = centres[labels] + noise * torch.randn(n, steps, d, dtype=torch.float64)
+            fake = types.SimpleNamespace()
+            original = sg.recurrent_trajectory
+            sg.recurrent_trajectory = lambda model, x, planted=planted: (planted, None)
+            try:
+                gru = make_arm('gru', 'perm4', 16, 1)
+                out = sg.class_margin_by_window(gru, torch.zeros(n, steps, dtype=torch.long), labels, edges=(0, steps))
+            finally:
+                sg.recurrent_trajectory = original
+            ratio = out['0-40']['ratio']
+            self.assertEqual(out['0-40']['classes'], 3)
+            self.assertTrue((ratio < 0.1) if expect_small else (ratio > 0.5), (noise, ratio))
+
+    def test_windows_without_two_populated_classes_are_skipped_and_real_models_run(self):
+        model = make_arm('core', 'perm4', 32, 1)
+        x = tokens(40, batch=4)
+        out = sg.class_margin_by_window(model, x, dt.oracle('perm4', x), edges=(0, 20, 40), min_count=1)
+        self.assertTrue(all(v['ratio'] > 0 and v['classes'] >= 2 for v in out.values()))
+
+
 class StateScale(unittest.TestCase):
     def test_rms_by_window_matches_a_hand_computation(self):
         model = make_arm('gru', 'perm4', 16, 1)
