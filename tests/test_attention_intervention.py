@@ -10,6 +10,10 @@ from horizon import attention_intervention as ai
 from horizon.depth_models import make_arm, parameter_count
 
 
+def tokens_for(length, batch=3, vocab=24, seed=0):
+    return torch.randint(0, vocab, (batch, length), generator=torch.Generator().manual_seed(seed))
+
+
 def tiny(width=32, heads=2, window=4):
     torch.manual_seed(0)
     return Core(width=width, heads=heads, window=window, classes=5)
@@ -51,6 +55,17 @@ class BaseIsThePlainCore(unittest.TestCase):
             tempered = ai.intervene(copy.deepcopy(model), 'temp')(x[:, :16])       # up to the trained context the temperature is 1
         self.assertTrue(torch.allclose(plain, windowed, atol=1e-5))
         self.assertTrue(torch.allclose(plain[:, :16], tempered, atol=1e-5))
+
+    def test_a_window_changes_the_logits_beyond_the_window_and_only_there(self):
+        # guards against the intervention being a silent no-op: with random weights every attention matters
+        model = make_arm('core', 'perm4', 32, 1).eval()
+        x = tokens_for(40)
+        with torch.no_grad():
+            plain = model(x)
+            for name in ('w16', 'w16_enc', 'w16_mem', 'temp', 'temp_enc', 'temp_mem'):
+                changed = ai.intervene(copy.deepcopy(model), name)(x)
+                self.assertTrue(torch.allclose(plain[:, :16], changed[:, :16], atol=1e-5), name)          # inside the trained context: untouched
+                self.assertFalse(torch.allclose(plain[:, 20:], changed[:, 20:], atol=1e-4), name)         # beyond it: the intervention does something
 
     def test_the_streaming_step_path_is_refused_rather_than_silently_misclassified(self):
         model = ai.intervene(make_arm('core', 'perm4', 32, 1), 'w16')

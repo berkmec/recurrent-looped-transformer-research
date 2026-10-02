@@ -98,6 +98,24 @@ class TrainingHook(unittest.TestCase):
         self.assertFalse(all(torch.equal(p, q) for p, q in zip(plain.parameters(), noisy_.parameters())))
 
 
+class EndToEnd(unittest.TestCase):
+    def test_a_saved_arm_reproduces_its_stored_result_at_sigma_zero_and_reports_windows(self):
+        from horizon import depth_run as dr
+        with tempfile.TemporaryDirectory() as d:
+            for arm, width, exact in (('core', 32, True), ('gru', 16, False), ('lstm', 16, False)):
+                out = Path(d) / f'{arm}.json'
+                dr.run('perm3', arm, width, 1, steps=3, points=[16, 32], n_eval=8, out=out, batch=8, curriculum=[4])
+                r = sn.margin_curve(out.with_suffix('.pt'), [0.0, 0.2], [16, 32], n=8, seed=1, batch=50)
+                check = r['sigma0_vs_stored']
+                self.assertTrue(check['reproduces'], (arm, check))
+                if exact:
+                    self.assertEqual(tuple(check['stored']), tuple(check['run']))
+                for sigma, row in r['results'].items():
+                    self.assertEqual(set(row['windows']), {'0-16', '16-32'}, (arm, sigma))
+                    self.assertEqual(sum(c[0] for c in row['windows'].values()), row['all_events'])
+                self.assertIn('by window', sn.describe(r))
+
+
 class StoredCheck(unittest.TestCase):
     def test_stored_early_sums_the_windows_up_to_64_over_the_given_points(self):
         with tempfile.TemporaryDirectory() as d:

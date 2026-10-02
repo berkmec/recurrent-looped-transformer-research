@@ -170,10 +170,11 @@ def margin_curve(weights, sigmas, points, n, seed, batch=50):
     for sigma in sigmas:
         model = noisy(dr.load_model(weights), sigma, seed=1000 + seed)
         curve = dr.evaluate(model, meta['task'], points, n, seed, batch=batch)
-        (early, e_err, e_exp), (total, t_err, t_exp), _ = pooled_hazards(curve)
+        (early, e_err, e_exp), (total, t_err, t_exp), cells = pooled_hazards(curve)
         rows[sigma] = dict(final={p: curve[p]['final'] for p in points}, hazard_early=early, early_events=e_err, early_exposure=e_exp,
                            hazard_all=total, all_events=t_err, all_exposure=t_exp, implied_radius_early=implied_radius(sigma, early),
-                           implied_radius_all=implied_radius(sigma, total))
+                           implied_radius_all=implied_radius(sigma, total),
+                           windows={f'{a}-{b}': list(c) for (a, b), c in cells.items()})       # first errors and exposure per position window: does the noise sensitivity grow with position?
     check = None
     if 0.0 in rows and seed == meta['seed']:
         stored, run = stored_early(weights, points), (rows[0.0]['early_events'], rows[0.0]['early_exposure'])
@@ -194,6 +195,8 @@ def describe(r):
         lines.append(f"  sigma {sigma:<5} hazard early (<=64) {f(row['hazard_early'])} ({row['early_events']}/{row['early_exposure']})  all {f(row['hazard_all'])} "
                      f"({row['all_events']}/{row['all_exposure']})  implied radius early {f(row['implied_radius_early'], '.3f')} all {f(row['implied_radius_all'], '.3f')}  "
                      f"final " + ' '.join(f"{p}:{v:.2f}" for p, v in row['final'].items()))
+        lines.append('        by window (x1e-4/step): ' + '  '.join(f"[{k.replace('-', ',')}) {(c[0] / c[1] * 1e4 if c[1] else float('nan')):.1f}"
+                                                                for k, c in row['windows'].items()))
     return '\n'.join(lines)
 
 
