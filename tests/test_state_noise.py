@@ -139,6 +139,60 @@ class StoredCheck(unittest.TestCase):
         self.assertIsNone(sn.reproduces(None, (1, 1), True))
 
 
+def fake_model(task, arm, width, hazards, floor=None, reproduces=True):
+    """A per-model result with the given early hazard per sigma (radii computed the way margin_curve does)."""
+    rows = {}
+    for sigma, h in hazards.items():
+        rows[sigma] = dict(hazard_early=h, hazard_all=(floor if sigma == 0.0 else h), implied_radius_early=sn.implied_radius(sigma, h))
+    return dict(task=task, arm=arm, width=width, results=rows, sigma0_vs_stored=dict(reproduces=reproduces))
+
+
+class ReadingRule(unittest.TestCase):
+    GRID = (0.0, 0.01, 0.02, 0.05, 0.1, 0.2)
+
+    def gaussian(self, radius):
+        """Early hazards that follow erfc(radius / (sigma sqrt 2)) exactly."""
+        return {s: (0.0 if s == 0.0 else math.erfc(radius / (s * math.sqrt(2)))) for s in self.GRID}
+
+    def test_sigma_tol_and_spearman_and_radius_spread(self):
+        rows = {s: dict(hazard_early=h, implied_radius_early=sn.implied_radius(s, h)) for s, h in self.gaussian(0.12).items()}
+        self.assertEqual(sn.sigma_tol(rows), 0.05)                         # erfc(0.12 / (0.05 sqrt 2)) = erfc(1.70) ~ 0.0161 >= 1e-3, 0.02 gives ~ 1e-9
+        self.assertEqual(sn.sigma_tol({s: dict(hazard_early=0.0) for s in self.GRID}), math.inf)
+        self.assertAlmostEqual(sn.spearman([1, 2, 3, 4], [4, 3, 2, 1]), -1.0)
+        self.assertTrue(math.isnan(sn.spearman([1, 1, 1], [1, 2, 3])))
+        self.assertAlmostEqual(sn.radius_spread(rows) or 0.0, 0.0, places=6)           # a Gaussian-basin model has one radius
+
+    def results(self, s4_radius, s5_radius, floors):
+        out = [fake_model('perm4', 'core', 64, self.gaussian(s4_radius), floor=0.0),
+               fake_model('perm5', 'core', 128, self.gaussian(s5_radius), floor=2.4e-3)]
+        for (arm, width), (radius, floor) in zip((('gru', 64), ('lstm', 64), ('gru', 128), ('lstm', 112)), floors):
+            out.append(fake_model('perm4', arm, width, self.gaussian(radius), floor=floor))
+        return out
+
+    def test_the_four_predictions_hold_for_a_consistent_gaussian_world(self):
+        # S4 Core has a wide basin (O1: hazard at sigma 0.1 below 1e-3), S5 Core a narrower one (O2), the four RNNs order inversely to their floors (O4)
+        floors = [(0.06, 7.6e-4), (0.08, 5.3e-4), (0.09, 4.5e-4), (0.12, 1.15e-4)]
+        v = sn.verdict(self.results(0.5, 0.2, floors))
+        self.assertTrue(v['O1'])
+        self.assertTrue(v['O2'])
+        self.assertTrue(v['O4'])
+        self.assertLess(v['O4_spearman'], -0.6)
+        self.assertTrue(all(x is not False for x in v['O3'].values()))
+
+    def test_a_model_that_does_not_reproduce_is_not_read_and_a_bad_world_fails(self):
+        floors = [(0.12, 7.6e-4), (0.09, 5.3e-4), (0.08, 4.5e-4), (0.06, 1.15e-4)]            # the wrong way round
+        bad = self.results(0.1, 0.2, floors)                                                  # S4 Core narrower than S5 Core, hazard at 0.1 is high
+        v = sn.verdict(bad)
+        self.assertFalse(v['O1'])
+        self.assertFalse(v['O2'])
+        self.assertFalse(v['O4'])
+        bad[0]['sigma0_vs_stored']['reproduces'] = False
+        v = sn.verdict(bad)
+        self.assertIsNone(v['O1'])
+        self.assertIsNone(v['O2'])
+        self.assertFalse(v['models']['perm4-core-w64']['valid'])
+
+
 class MarginMaths(unittest.TestCase):
     def test_margin_inverts_the_gaussian_tail(self):
         for m in (3.04, 3.29, 4.89, 6.11):

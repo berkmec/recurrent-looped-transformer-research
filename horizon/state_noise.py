@@ -183,6 +183,72 @@ def margin_curve(weights, sigmas, points, n, seed, batch=50):
                 points=list(points), sigma0_vs_stored=check, results=rows)
 
 
+def sigma_tol(rows, threshold=1e-3):
+    """Smallest sigma > 0 whose early (positions <= 64) hazard reaches `threshold`; infinity when none of the grid does."""
+    for sigma in sorted(s for s in rows if s > 0):
+        h = rows[sigma]['hazard_early']
+        if h is not None and h >= threshold:
+            return sigma
+    return math.inf
+
+
+def _ranks(values):
+    order = sorted(range(len(values)), key=lambda i: values[i])
+    ranks, i = [0.0] * len(values), 0
+    while i < len(order):
+        j = i
+        while j + 1 < len(order) and values[order[j + 1]] == values[order[i]]:
+            j += 1
+        for k in range(i, j + 1):
+            ranks[order[k]] = (i + j) / 2 + 1
+        i = j + 1
+    return ranks
+
+
+def spearman(a, b):
+    """Spearman rank correlation with average ranks for ties; nan when one side is constant."""
+    ra, rb = _ranks(a), _ranks(b)
+    ma, mb = sum(ra) / len(ra), sum(rb) / len(rb)
+    cov = sum((x - ma) * (y - mb) for x, y in zip(ra, rb))
+    va, vb = sum((x - ma) ** 2 for x in ra), sum((y - mb) ** 2 for y in rb)
+    return cov / math.sqrt(va * vb) if va > 0 and vb > 0 else float('nan')
+
+
+def radius_spread(rows):
+    """Coefficient of variation of the early implied radius over the sigmas whose early hazard lies in (1e-4, 0.3); None with fewer than 3 such sigmas."""
+    radii = [r['implied_radius_early'] for s, r in rows.items() if s > 0 and r['hazard_early'] is not None and 1e-4 < r['hazard_early'] < 0.3
+             and r['implied_radius_early'] is not None]
+    if len(radii) < 3:
+        return None
+    mean = sum(radii) / len(radii)
+    return math.sqrt(sum((x - mean) ** 2 for x in radii) / len(radii)) / mean
+
+
+def verdict(results):
+    """The reading rule written BEFORE the run (program note, section 5.1, E-B) applied to the list of per-model results (as saved in the JSON).
+    A model whose sigma = 0 row does not reproduce its stored result is not read. O1: S4 Core early hazard at sigma 0.1 < 1e-3. O2: sigma_tol(S5 Core) <
+    sigma_tol(S4 Core). O3: per model, the implied radius has a coefficient of variation <= 0.35 (else the Gaussian-basin model is rejected for it).
+    O4: over the four S4 GRU/LSTM models, Spearman(sigma_tol, noise-free hazard) <= -0.6."""
+    models = {}
+    for r in results:
+        rows = {float(s): row for s, row in r['results'].items()}
+        check = (r.get('sigma0_vs_stored') or {}).get('reproduces')
+        name = f"{r['task']}-{r['arm']}-w{r['width']}"
+        models[name] = dict(rows=rows, valid=check is True, tol=sigma_tol(rows), spread=radius_spread(rows), floor=rows.get(0.0, {}).get('hazard_all'))
+    out = dict(models={n: dict(valid=m['valid'], sigma_tol=m['tol'], radius_cv=m['spread'], noise_free_hazard=m['floor']) for n, m in models.items()})
+    s4, s5 = models.get('perm4-core-w64'), models.get('perm5-core-w128')
+    out['O1'] = (s4['rows'][0.1]['hazard_early'] < 1e-3) if s4 and s4['valid'] and 0.1 in s4['rows'] and s4['rows'][0.1]['hazard_early'] is not None else None
+    out['O2'] = (s5['tol'] < s4['tol']) if s4 and s5 and s4['valid'] and s5['valid'] else None
+    out['O3'] = {n: (m['spread'] <= 0.35 if m['spread'] is not None else None) for n, m in models.items() if m['valid']}
+    four = [models.get(n) for n in ('perm4-gru-w64', 'perm4-lstm-w64', 'perm4-gru-w128', 'perm4-lstm-w112')]
+    if all(m and m['valid'] and m['floor'] is not None for m in four):
+        out['O4_spearman'] = spearman([m['tol'] if math.isfinite(m['tol']) else 1.0 for m in four], [m['floor'] for m in four])
+        out['O4'] = out['O4_spearman'] <= -0.6
+    else:
+        out['O4_spearman'], out['O4'] = None, None
+    return out
+
+
 def describe(r):
     lines = [f"{r['arm']} {r['task']} w{r['width']} ({r['parameters']} parameters), dev seed {r['seed']}, n = {r['n']}, lengths {r['points']}"]
     c = r.get('sigma0_vs_stored')
@@ -203,13 +269,19 @@ def describe(r):
 def main():
     torch.set_num_threads(1)
     p = argparse.ArgumentParser()
-    p.add_argument('weights', nargs='+')
+    p.add_argument('weights', nargs='*')
     p.add_argument('--sigmas', default=','.join(str(s) for s in SIGMAS))
     p.add_argument('--points', default='16,64,256,1024')
     p.add_argument('--n', type=int, default=100)
     p.add_argument('--seed', type=int, default=1, help='dev-draw seed')
     p.add_argument('--out', default=None)
+    p.add_argument('--verdict', default=None, help='apply the pre-registered reading rule to this result file and exit (weights are ignored)')
     a = p.parse_args()
+    if a.verdict:
+        print(json.dumps(verdict(json.loads(Path(a.verdict).read_text(encoding='utf8'))), indent=1, default=str))
+        return
+    if not a.weights:
+        p.error('give at least one weights file (or --verdict RESULT.json)')
     sigmas = [float(v) for v in a.sigmas.split(',') if v]
     points = [int(v) for v in a.points.split(',')]
     results = []
