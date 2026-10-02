@@ -174,6 +174,14 @@ Kısıt: aynı anda ≤ 2 deney süreci (L1/T1 hariç), BelowNormal; test bölü
 | **E-I** | Yapılandırılmış (Householder/dönel) birleştirme kolu (§4.4-4.5; K3 geçerli) | E-C ve E-D bakılır; yalnız onların sonuçları yetersizse | Yeni kod | |
 | **L2** | Gerçek model: akıl yürütme izli karışım + eşleşmiş transformer tabanı (§6) | | GPU, günler | |
 
+### 5.1 E-B okuma kuralı (koşudan ÖNCE yazıldı; kod `horizon/state_noise.py`, 9 test)
+Modeller (kayıtlı ağırlıklar, hepsi dev bölünmesi, tohum 1, n = 100, uzunluklar 16/64/256/1.024): S₄ Core w64, S₄ GRU w64 ve w128, S₄ LSTM w64 ve w112, S₅ Core w128, S₅ GRU w256, S₅ LSTM w208. Gürültü: taşınan duruma (Core: önceki son kod çözücü çıktısı; GRU: h; LSTM: h ve c) her adımda, ikinci adımdan itibaren, göreli Gauss σ ∈ {0; 0,01; 0,02; 0,05; 0,1; 0,2} (σ × satır rms'i). Ölçü: ilk 64 konumdaki (pencereler ≤ 64) ve tüm pencerelerdeki havuzlanmış ilk-hata oranı λ(σ). **σ_tol** = λ_erken(σ) ≥ 1e-3 olan en küçük σ (ızgarada yoksa "> 0,2").
+- **Ö1:** S₄ Core için λ_erken(σ = 0,1) < 1e-3 (σ_tol ≥ 0,2).
+- **Ö2:** σ_tol(S₅ Core) < σ_tol(S₄ Core) (120 durum, daha küçük havza).
+- **Ö3 (Gauss-havza modeli):** (σ, λ) çiftlerinden 1e-4 < λ < 0,3 olanların ≥ 3'ü olan her model için örtük yarıçap r_i = σ_i · m(λ_i) değişim katsayısı ≤ 0,35 (tek bir r). Sağlanmazsa o model için Gauss-havza modeli REDDEDİLİR (eğriler yine raporlanır; §4.2'nin nicel iddiası desteksiz kalır).
+- **Ö4:** S₄'ün dört GRU/LSTM modelinde gürültüsüz taban sırası (GRU w64 7,6e-4 > LSTM w64 5,3e-4 > LSTM w112 4,5e-4 > GRU w128 1,15e-4) ile σ_tol sırası ters orantılı (Spearman ρ ≤ −0,6).
+- Geçerlilik: σ = 0 satırı, kayıtlı sonuç dosyasındaki aynı noktaların erken-pencere ilk-hata sayılarını ve pozlanmayı üretmeli (Core: birebir; GRU/LSTM σ = 0'da elle açılmış hücrelerle koşar, kütüphane katmanıyla fark ≤ 1e-5: ≤ 2 ilk hata ve pozlanmanın %1'i kadar fark kabul; 06:33'te, koşudan önce eklendi). Üretmeyen modelin satırları okunmaz. Çürütme: Ö1 tutmazsa S₄ Core'un hatasızlığı marj kaynaklı değildir.
+
 ## 6. Gerçek model yolu
 
 1. **Ne iddia edilir:** "küçük, bayt-düzeyi bir RLT, durum-izleme/çok-adımlı görevlerde eşit-parametre ve eşit-token bir transformer'a yapısal bir üstünlük gösteriyor mu". LM kaybında üstünlük iddia edilmez (bağımsız değerlendirme bulamadı).
