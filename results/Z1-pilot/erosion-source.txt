@@ -1,0 +1,217 @@
+results/Z1-pilot/perm5-core-w128-s1-cur.pt: perm5 width 128, 200 dev sequences of 1024 positions
+  base      first errors 195/ 73631 person-steps = 2.65e-03  final 0.31  (32 s)
+  both16    first errors 196/ 72507 person-steps = 2.70e-03  final 0.30  (20 s)
+  both32    first errors 195/ 73069 person-steps = 2.67e-03  final 0.31  (20 s)
+  both64    first errors 196/ 73001 person-steps = 2.68e-03  final 0.31  (21 s)
+  both128   first errors 195/ 73714 person-steps = 2.65e-03  final 0.31  (23 s)
+  cross16   first errors 196/ 73309 person-steps = 2.67e-03  final 0.31  (20 s)
+  cross64   first errors 195/ 73646 person-steps = 2.65e-03  final 0.31  (21 s)
+  enc16     first errors 196/ 72096 person-steps = 2.72e-03  final 0.31  (33 s)
+  enc64     first errors 196/ 73732 person-steps = 2.66e-03  final 0.31  (33 s)
+  t0   8: untouched   0/ 1600  state   0/ 1600  state+cache   0/ 1600  (1 s)
+  t0  32: untouched  19/25100  state   7/25492  state+cache   7/25493  (9 s)
+  t0  64: untouched  34/24279  state   7/25493  state+cache   7/25493  (11 s)
+  t0 128: untouched  55/21132  state   3/25514  state+cache   3/25514  (16 s)
+  t0 256: untouched  65/13207  state   4/25551  state+cache   4/25551  (26 s)
+  t0 512: untouched  20/ 4266  state   8/25482  state+cache   8/25480  (50 s)
+perm5 w128 (409720 parameters), n = 200, stored-window control True
+  windows [16,1024): base 195/73631  both16 196/72507  both32 195/73069  both64 196/73001  both128 195/73714  cross16 196/73309  cross64 195/73646  enc16 196/72096  enc64 196/73732   (final accuracy 0.31 -> both16 0.30)
+  in-range accuracy by window K (both paths): full 1.000  K1 1.000  K2 1.000  K4 1.000  K8 1.000
+  t0   8 span  8: untouched 0/1600  state 0/1600 (acc 1.000)  state+cache 0/1600 (acc 1.000)
+  t0  32 span 128: untouched 19/25100  state 7/25492 (acc 0.998)  state+cache 7/25493 (acc 0.998)
+  t0  64 span 128: untouched 34/24279  state 7/25493 (acc 0.998)  state+cache 7/25493 (acc 0.998)
+  t0 128 span 128: untouched 55/21132  state 3/25514 (acc 0.999)  state+cache 3/25514 (acc 0.999)
+  t0 256 span 128: untouched 65/13207  state 4/25551 (acc 1.000)  state+cache 4/25551 (acc 1.000)
+  t0 512 span 128: untouched 20/4266  state 8/25482 (acc 0.998)  state+cache 8/25480 (acc 0.998)
+  both16: NEUTRAL (R 0.9797105339670873); state+cache pooled at (128, 256, 512): RESCUES (R 18.505893019038986)
+results/Z1-pilot/perm5-core-w128-s1-cur-lrdecay0.3.pt: perm5 width 128, 200 dev sequences of 1024 positions
+  base      first errors 199/ 60045 person-steps = 3.31e-03  final 0.19  (32 s)
+  both16    first errors 199/ 60608 person-steps = 3.28e-03  final 0.18  (20 s)
+  both32    first errors 199/ 59987 person-steps = 3.32e-03  final 0.18  (21 s)
+  both64    first errors 199/ 60052 person-steps = 3.31e-03  final 0.19  (21 s)
+  both128   first errors 199/ 60097 person-steps = 3.31e-03  final 0.19  (23 s)
+  cross16   first errors 199/ 60114 person-steps = 3.31e-03  final 0.19  (19 s)
+  cross64   first errors 199/ 60103 person-steps = 3.31e-03  final 0.19  (22 s)
+  enc16     first errors 199/ 60562 person-steps = 3.29e-03  final 0.19  (34 s)
+  enc64     first errors 199/ 60212 person-steps = 3.30e-03  final 0.17  (33 s)
+  t0   8: untouched   0/ 1600  state   0/ 1600  state+cache   0/ 1600  (1 s)
+  t0  32: untouched  36/24539  state  18/25351  state+cache  18/25362  (9 s)
+  t0  64: untouched  49/23153  state  10/25399  state+cache  10/25373  (11 s)
+  t0 128: untouched  69/19375  state   9/25452  state+cache   9/25456  (16 s)
+  t0 256: untouched  62/10677  state  15/25186  state+cache  15/25189  (26 s)
+  t0 512: untouched  17/ 2021  state  19/25295  state+cache  19/25294  (49 s)
+perm5 w128 (409720 parameters), n = 200, stored-window control True
+  windows [16,1024): base 199/60045  both16 199/60608  both32 199/59987  both64 199/60052  both128 199/60097  cross16 199/60114  cross64 199/60103  enc16 199/60562  enc64 199/60212   (final accuracy 0.19 -> both16 0.18)
+  in-range accuracy by window K (both paths): full 1.000  K1 1.000  K2 1.000  K4 1.000  K8 1.000
+  t0   8 span  8: untouched 0/1600  state 0/1600 (acc 1.000)  state+cache 0/1600 (acc 1.000)
+  t0  32 span 128: untouched 36/24539  state 18/25351 (acc 0.996)  state+cache 18/25362 (acc 0.996)
+  t0  64 span 128: untouched 49/23153  state 10/25399 (acc 0.994)  state+cache 10/25373 (acc 0.994)
+  t0 128 span 128: untouched 69/19375  state 9/25452 (acc 0.998)  state+cache 9/25456 (acc 0.998)
+  t0 256 span 128: untouched 62/10677  state 15/25186 (acc 0.993)  state+cache 15/25189 (acc 0.993)
+  t0 512 span 128: untouched 17/2021  state 19/25295 (acc 0.990)  state+cache 19/25294 (acc 0.990)
+  both16: NEUTRAL (R 1.0093763011075028); state+cache pooled at (128, 256, 512): RESCUES (R 8.149267042698378)
+results/Z1-pilot/perm5-core-w128-s1-cur-lrdecay0.3-noise0.2.pt: perm5 width 128, 200 dev sequences of 1024 positions
+  base      first errors 200/ 35346 person-steps = 5.66e-03  final 0.03  (34 s)
+  both16    first errors 189/ 79455 person-steps = 2.38e-03  final 0.35  (20 s)
+  both32    first errors 195/ 70564 person-steps = 2.76e-03  final 0.33  (21 s)
+  both64    first errors 199/ 56727 person-steps = 3.51e-03  final 0.26  (22 s)
+  both128   first errors 200/ 42436 person-steps = 4.71e-03  final 0.19  (23 s)
+  cross16   first errors 200/ 38538 person-steps = 5.19e-03  final 0.02  (19 s)
+  cross64   first errors 200/ 38188 person-steps = 5.24e-03  final 0.01  (21 s)
+  enc16     first errors 197/ 67722 person-steps = 2.91e-03  final 0.23  (33 s)
+  enc64     first errors 200/ 50457 person-steps = 3.96e-03  final 0.17  (36 s)
+  t0   8: untouched   0/ 1600  state   0/ 1600  state+cache   0/ 1600  (1 s)
+  t0  32: untouched  73/23075  state  54/24110  state+cache  53/24113  (10 s)
+  t0  64: untouched 105/20170  state  76/23054  state+cache  76/23014  (12 s)
+  t0 128: untouched 130/12351  state 125/20502  state+cache 124/20489  (17 s)
+  t0 256: untouched  30/ 1339  state 167/16106  state+cache 169/16034  (26 s)
+  t0 512: untouched   0/    0  state 200/ 9146  state+cache 200/ 9000  (53 s)
+perm5 w128 (409720 parameters), n = 200, stored-window control True
+  windows [16,1024): base 200/35346  both16 189/79455  both32 195/70564  both64 199/56727  both128 200/42436  cross16 200/38538  cross64 200/38188  enc16 197/67722  enc64 200/50457   (final accuracy 0.03 -> both16 0.35)
+  in-range accuracy by window K (both paths): full 1.000  K1 1.000  K2 1.000  K4 1.000  K8 1.000
+  t0   8 span  8: untouched 0/1600  state 0/1600 (acc 1.000)  state+cache 0/1600 (acc 1.000)
+  t0  32 span 128: untouched 73/23075  state 54/24110 (acc 0.962)  state+cache 53/24113 (acc 0.963)
+  t0  64 span 128: untouched 105/20170  state 76/23054 (acc 0.943)  state+cache 76/23014 (acc 0.942)
+  t0 128 span 128: untouched 130/12351  state 125/20502 (acc 0.880)  state+cache 124/20489 (acc 0.879)
+  t0 256 span 128: untouched 30/1339  state 167/16106 (acc 0.746)  state+cache 169/16034 (acc 0.746)
+  t0 512 span 128: untouched 0/0  state 200/9146 (acc 0.523)  state+cache 200/9000 (acc 0.523)
+  both16: PARTIAL (R 2.3787519119381284); state+cache pooled at (128, 256, 512): NEUTRAL (R 1.0791964048912681)
+results/Z1-pilot/perm4-core-w32-s1-cur.pt: perm4 width 32, 200 dev sequences of 1024 positions
+  base      first errors   0/201600 person-steps = 0.00e+00  final 1.00  (17 s)
+  both16    first errors   0/201600 person-steps = 0.00e+00  final 1.00  (12 s)
+  both32    first errors   0/201600 person-steps = 0.00e+00  final 1.00  (12 s)
+  both64    first errors   0/201600 person-steps = 0.00e+00  final 1.00  (13 s)
+  both128   first errors   0/201600 person-steps = 0.00e+00  final 1.00  (13 s)
+  cross16   first errors   0/201600 person-steps = 0.00e+00  final 1.00  (12 s)
+  cross64   first errors   0/201600 person-steps = 0.00e+00  final 1.00  (12 s)
+  enc16     first errors   0/201600 person-steps = 0.00e+00  final 1.00  (16 s)
+  enc64     first errors   0/201600 person-steps = 0.00e+00  final 1.00  (17 s)
+  t0   8: untouched   0/ 1600  state   0/ 1600  state+cache   0/ 1600  (1 s)
+  t0  32: untouched   0/25600  state   0/25600  state+cache   0/25600  (6 s)
+  t0  64: untouched   0/25600  state   0/25600  state+cache   0/25600  (7 s)
+  t0 128: untouched   0/25600  state   0/25600  state+cache   0/25600  (10 s)
+  t0 256: untouched   0/25600  state   0/25600  state+cache   0/25600  (14 s)
+  t0 512: untouched   0/25600  state   0/25600  state+cache   0/25600  (26 s)
+perm4 w32 (25624 parameters), n = 200, stored-window control True
+  windows [16,1024): base 0/201600  both16 0/201600  both32 0/201600  both64 0/201600  both128 0/201600  cross16 0/201600  cross64 0/201600  enc16 0/201600  enc64 0/201600   (final accuracy 1.00 -> both16 1.00)
+  in-range accuracy by window K (both paths): full 1.000  K1 1.000  K2 1.000  K4 1.000  K8 1.000
+  t0   8 span  8: untouched 0/1600  state 0/1600 (acc 1.000)  state+cache 0/1600 (acc 1.000)
+  t0  32 span 128: untouched 0/25600  state 0/25600 (acc 1.000)  state+cache 0/25600 (acc 1.000)
+  t0  64 span 128: untouched 0/25600  state 0/25600 (acc 1.000)  state+cache 0/25600 (acc 1.000)
+  t0 128 span 128: untouched 0/25600  state 0/25600 (acc 1.000)  state+cache 0/25600 (acc 1.000)
+  t0 256 span 128: untouched 0/25600  state 0/25600 (acc 1.000)  state+cache 0/25600 (acc 1.000)
+  t0 512 span 128: untouched 0/25600  state 0/25600 (acc 1.000)  state+cache 0/25600 (acc 1.000)
+  both16: NEUTRAL (R 0.0); state+cache pooled at (128, 256, 512): NEUTRAL (R 0.0)
+results/Z1-pilot/perm4-core-w64-s1-cur.pt: perm4 width 64, 200 dev sequences of 1024 positions
+  base      first errors   0/201600 person-steps = 0.00e+00  final 1.00  (22 s)
+  both16    first errors   0/201600 person-steps = 0.00e+00  final 1.00  (15 s)
+  both32    first errors   0/201600 person-steps = 0.00e+00  final 1.00  (15 s)
+  both64    first errors   0/201600 person-steps = 0.00e+00  final 1.00  (15 s)
+  both128   first errors   0/201600 person-steps = 0.00e+00  final 1.00  (16 s)
+  cross16   first errors   0/201600 person-steps = 0.00e+00  final 1.00  (14 s)
+  cross64   first errors   0/201600 person-steps = 0.00e+00  final 1.00  (15 s)
+  enc16     first errors   0/201600 person-steps = 0.00e+00  final 1.00  (22 s)
+  enc64     first errors   0/201600 person-steps = 0.00e+00  final 1.00  (22 s)
+  t0   8: untouched   0/ 1600  state   0/ 1600  state+cache   0/ 1600  (1 s)
+  t0  32: untouched   0/25600  state   0/25600  state+cache   0/25600  (7 s)
+  t0  64: untouched   0/25600  state   0/25600  state+cache   0/25600  (8 s)
+  t0 128: untouched   0/25600  state   0/25600  state+cache   0/25600  (12 s)
+  t0 256: untouched   0/25600  state   0/25600  state+cache   0/25600  (18 s)
+  t0 512: untouched   0/25600  state   0/25600  state+cache   0/25600  (34 s)
+perm4 w64 (98328 parameters), n = 200, stored-window control True
+  windows [16,1024): base 0/201600  both16 0/201600  both32 0/201600  both64 0/201600  both128 0/201600  cross16 0/201600  cross64 0/201600  enc16 0/201600  enc64 0/201600   (final accuracy 1.00 -> both16 1.00)
+  in-range accuracy by window K (both paths): full 1.000  K1 1.000  K2 1.000  K4 1.000  K8 1.000
+  t0   8 span  8: untouched 0/1600  state 0/1600 (acc 1.000)  state+cache 0/1600 (acc 1.000)
+  t0  32 span 128: untouched 0/25600  state 0/25600 (acc 1.000)  state+cache 0/25600 (acc 1.000)
+  t0  64 span 128: untouched 0/25600  state 0/25600 (acc 1.000)  state+cache 0/25600 (acc 1.000)
+  t0 128 span 128: untouched 0/25600  state 0/25600 (acc 1.000)  state+cache 0/25600 (acc 1.000)
+  t0 256 span 128: untouched 0/25600  state 0/25600 (acc 1.000)  state+cache 0/25600 (acc 1.000)
+  t0 512 span 128: untouched 0/25600  state 0/25600 (acc 1.000)  state+cache 0/25600 (acc 1.000)
+  both16: NEUTRAL (R 0.0); state+cache pooled at (128, 256, 512): NEUTRAL (R 0.0)
+{
+ "controls": [],
+ "models": {
+  "perm5 w128 s1 perm5-core-w128-s1-cur": {
+   "window": {
+    "both16": "NEUTRAL",
+    "both32": "NEUTRAL",
+    "both64": "NEUTRAL",
+    "both128": "NEUTRAL",
+    "cross16": "NEUTRAL",
+    "cross64": "NEUTRAL",
+    "enc16": "NEUTRAL",
+    "enc64": "NEUTRAL"
+   },
+   "injection": {
+    "state": "RESCUES",
+    "state+cache": "RESCUES"
+   }
+  },
+  "perm5 w128 s1 perm5-core-w128-s1-cur-lrdecay0.3": {
+   "window": {
+    "both16": "NEUTRAL",
+    "both32": "NEUTRAL",
+    "both64": "NEUTRAL",
+    "both128": "NEUTRAL",
+    "cross16": "NEUTRAL",
+    "cross64": "NEUTRAL",
+    "enc16": "NEUTRAL",
+    "enc64": "NEUTRAL"
+   },
+   "injection": {
+    "state": "RESCUES",
+    "state+cache": "RESCUES"
+   }
+  },
+  "perm5 w128 s1 perm5-core-w128-s1-cur-lrdecay0.3-noise0.2": {
+   "window": {
+    "both16": "PARTIAL",
+    "both32": "PARTIAL",
+    "both64": "NEUTRAL",
+    "both128": "NEUTRAL",
+    "cross16": "NEUTRAL",
+    "cross64": "NEUTRAL",
+    "enc16": "NEUTRAL",
+    "enc64": "NEUTRAL"
+   },
+   "injection": {
+    "state": "NEUTRAL",
+    "state+cache": "NEUTRAL"
+   }
+  },
+  "perm4 w32 s1 perm4-core-w32-s1-cur": {
+   "window": {
+    "both16": "NEUTRAL",
+    "both32": "NEUTRAL",
+    "both64": "NEUTRAL",
+    "both128": "NEUTRAL",
+    "cross16": "NEUTRAL",
+    "cross64": "NEUTRAL",
+    "enc16": "NEUTRAL",
+    "enc64": "NEUTRAL"
+   },
+   "injection": {
+    "state": "NEUTRAL",
+    "state+cache": "NEUTRAL"
+   }
+  },
+  "perm4 w64 s1 perm4-core-w64-s1-cur": {
+   "window": {
+    "both16": "NEUTRAL",
+    "both32": "NEUTRAL",
+    "both64": "NEUTRAL",
+    "both128": "NEUTRAL",
+    "cross16": "NEUTRAL",
+    "cross64": "NEUTRAL",
+    "enc16": "NEUTRAL",
+    "enc64": "NEUTRAL"
+   },
+   "injection": {
+    "state": "NEUTRAL",
+    "state+cache": "NEUTRAL"
+   }
+  }
+ },
+ "window": "MIXED",
+ "injection": "THE CARRIED STATE HISTORY CARRIES THE EROSION"
+}
