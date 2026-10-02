@@ -1,0 +1,792 @@
+[
+ {
+  "weights": "results/Z1-pilot/perm5-core-w128-s1-cur.pt",
+  "task": "perm5",
+  "width": 128,
+  "seed": 1,
+  "n": 200,
+  "length": 1024,
+  "parameters": 409720,
+  "conditions": {
+   "base": {
+    "selector": null,
+    "every": 1,
+    "strength": 1.0,
+    "events": 195,
+    "person_steps": 73631,
+    "at_risk": 200,
+    "final": 0.3100000023841858
+   },
+   "class-1": {
+    "selector": "class",
+    "every": 1,
+    "strength": 1.0,
+    "events": 0,
+    "person_steps": 201600,
+    "at_risk": 200,
+    "final": 1.0
+   },
+   "class-4": {
+    "selector": "class",
+    "every": 4,
+    "strength": 1.0,
+    "events": 0,
+    "person_steps": 201600,
+    "at_risk": 200,
+    "final": 1.0
+   },
+   "class-16": {
+    "selector": "class",
+    "every": 16,
+    "strength": 1.0,
+    "events": 0,
+    "person_steps": 201600,
+    "at_risk": 200,
+    "final": 1.0
+   },
+   "nearest-1": {
+    "selector": "nearest",
+    "every": 1,
+    "strength": 1.0,
+    "events": 0,
+    "person_steps": 201600,
+    "at_risk": 200,
+    "final": 1.0
+   },
+   "nearest-16": {
+    "selector": "nearest",
+    "every": 16,
+    "strength": 1.0,
+    "events": 0,
+    "person_steps": 201600,
+    "at_risk": 200,
+    "final": 1.0
+   },
+   "class-1-soft0.5": {
+    "selector": "class",
+    "every": 1,
+    "strength": 0.5,
+    "events": 0,
+    "person_steps": 201600,
+    "at_risk": 200,
+    "final": 1.0
+   }
+  },
+  "in_range": {
+   "base": 1.0,
+   "class-1": 1.0,
+   "class-4": 1.0,
+   "class-16": 1.0,
+   "nearest-1": 1.0,
+   "nearest-16": 1.0,
+   "class-1-soft0.5": 1.0
+  },
+  "stored_control": true,
+  "long": {
+   "base": {
+    "windows": {
+     "16-64": {
+      "events": 0,
+      "person_steps": 1920,
+      "at_risk": 40
+     },
+     "64-256": {
+      "events": 9,
+      "person_steps": 7130,
+      "at_risk": 40
+     },
+     "256-1024": {
+      "events": 28,
+      "person_steps": 6923,
+      "at_risk": 31
+     },
+     "1024-2048": {
+      "events": 3,
+      "person_steps": 524,
+      "at_risk": 3
+     },
+     "2048-4096": {
+      "events": 0,
+      "person_steps": 0,
+      "at_risk": 0
+     },
+     "4096-8192": {
+      "events": 0,
+      "person_steps": 0,
+      "at_risk": 0
+     }
+    },
+    "error_free": 0,
+    "final": 0.05000000074505806
+   },
+   "class-1": {
+    "windows": {
+     "16-64": {
+      "events": 0,
+      "person_steps": 1920,
+      "at_risk": 40
+     },
+     "64-256": {
+      "events": 0,
+      "person_steps": 7680,
+      "at_risk": 40
+     },
+     "256-1024": {
+      "events": 0,
+      "person_steps": 30720,
+      "at_risk": 40
+     },
+     "1024-2048": {
+      "events": 0,
+      "person_steps": 40960,
+      "at_risk": 40
+     },
+     "2048-4096": {
+      "events": 0,
+      "person_steps": 81920,
+      "at_risk": 40
+     },
+     "4096-8192": {
+      "events": 0,
+      "person_steps": 163840,
+      "at_risk": 40
+     }
+    },
+    "error_free": 40,
+    "final": 1.0
+   }
+  }
+ },
+ {
+  "weights": "results/Z1-pilot/perm5-core-w128-s1-cur-lrdecay0.3.pt",
+  "task": "perm5",
+  "width": 128,
+  "seed": 1,
+  "n": 200,
+  "length": 1024,
+  "parameters": 409720,
+  "conditions": {
+   "base": {
+    "selector": null,
+    "every": 1,
+    "strength": 1.0,
+    "events": 199,
+    "person_steps": 60045,
+    "at_risk": 200,
+    "final": 0.19499999284744263
+   },
+   "class-1": {
+    "selector": "class",
+    "every": 1,
+    "strength": 1.0,
+    "events": 0,
+    "person_steps": 201600,
+    "at_risk": 200,
+    "final": 1.0
+   },
+   "class-4": {
+    "selector": "class",
+    "every": 4,
+    "strength": 1.0,
+    "events": 0,
+    "person_steps": 201600,
+    "at_risk": 200,
+    "final": 1.0
+   },
+   "class-16": {
+    "selector": "class",
+    "every": 16,
+    "strength": 1.0,
+    "events": 0,
+    "person_steps": 201600,
+    "at_risk": 200,
+    "final": 1.0
+   },
+   "nearest-1": {
+    "selector": "nearest",
+    "every": 1,
+    "strength": 1.0,
+    "events": 0,
+    "person_steps": 201600,
+    "at_risk": 200,
+    "final": 1.0
+   },
+   "nearest-16": {
+    "selector": "nearest",
+    "every": 16,
+    "strength": 1.0,
+    "events": 0,
+    "person_steps": 201600,
+    "at_risk": 200,
+    "final": 1.0
+   },
+   "class-1-soft0.5": {
+    "selector": "class",
+    "every": 1,
+    "strength": 0.5,
+    "events": 0,
+    "person_steps": 201600,
+    "at_risk": 200,
+    "final": 1.0
+   }
+  },
+  "in_range": {
+   "base": 1.0,
+   "class-1": 1.0,
+   "class-4": 1.0,
+   "class-16": 1.0,
+   "nearest-1": 1.0,
+   "nearest-16": 1.0,
+   "class-1-soft0.5": 1.0
+  },
+  "stored_control": true,
+  "long": {
+   "base": {
+    "windows": {
+     "16-64": {
+      "events": 0,
+      "person_steps": 1920,
+      "at_risk": 40
+     },
+     "64-256": {
+      "events": 14,
+      "person_steps": 6817,
+      "at_risk": 40
+     },
+     "256-1024": {
+      "events": 26,
+      "person_steps": 4806,
+      "at_risk": 26
+     },
+     "1024-2048": {
+      "events": 0,
+      "person_steps": 0,
+      "at_risk": 0
+     },
+     "2048-4096": {
+      "events": 0,
+      "person_steps": 0,
+      "at_risk": 0
+     },
+     "4096-8192": {
+      "events": 0,
+      "person_steps": 0,
+      "at_risk": 0
+     }
+    },
+    "error_free": 0,
+    "final": 0.0
+   },
+   "class-1": {
+    "windows": {
+     "16-64": {
+      "events": 0,
+      "person_steps": 1920,
+      "at_risk": 40
+     },
+     "64-256": {
+      "events": 0,
+      "person_steps": 7680,
+      "at_risk": 40
+     },
+     "256-1024": {
+      "events": 0,
+      "person_steps": 30720,
+      "at_risk": 40
+     },
+     "1024-2048": {
+      "events": 0,
+      "person_steps": 40960,
+      "at_risk": 40
+     },
+     "2048-4096": {
+      "events": 0,
+      "person_steps": 81920,
+      "at_risk": 40
+     },
+     "4096-8192": {
+      "events": 0,
+      "person_steps": 163840,
+      "at_risk": 40
+     }
+    },
+    "error_free": 40,
+    "final": 1.0
+   }
+  }
+ },
+ {
+  "weights": "results/Z1-pilot/perm5-core-w128-s1-cur-lrdecay0.3-noise0.2.pt",
+  "task": "perm5",
+  "width": 128,
+  "seed": 1,
+  "n": 200,
+  "length": 1024,
+  "parameters": 409720,
+  "conditions": {
+   "base": {
+    "selector": null,
+    "every": 1,
+    "strength": 1.0,
+    "events": 200,
+    "person_steps": 35346,
+    "at_risk": 200,
+    "final": 0.02500000037252903
+   },
+   "class-1": {
+    "selector": "class",
+    "every": 1,
+    "strength": 1.0,
+    "events": 10,
+    "person_steps": 199897,
+    "at_risk": 200,
+    "final": 0.949999988079071
+   },
+   "class-4": {
+    "selector": "class",
+    "every": 4,
+    "strength": 1.0,
+    "events": 63,
+    "person_steps": 193287,
+    "at_risk": 200,
+    "final": 0.7149999737739563
+   },
+   "class-16": {
+    "selector": "class",
+    "every": 16,
+    "strength": 1.0,
+    "events": 200,
+    "person_steps": 117543,
+    "at_risk": 200,
+    "final": 0.03999999910593033
+   },
+   "nearest-1": {
+    "selector": "nearest",
+    "every": 1,
+    "strength": 1.0,
+    "events": 11,
+    "person_steps": 199883,
+    "at_risk": 200,
+    "final": 0.9599999785423279
+   },
+   "nearest-16": {
+    "selector": "nearest",
+    "every": 16,
+    "strength": 1.0,
+    "events": 200,
+    "person_steps": 116057,
+    "at_risk": 200,
+    "final": 0.03999999910593033
+   },
+   "class-1-soft0.5": {
+    "selector": "class",
+    "every": 1,
+    "strength": 0.5,
+    "events": 12,
+    "person_steps": 200233,
+    "at_risk": 200,
+    "final": 0.9399999976158142
+   }
+  },
+  "in_range": {
+   "base": 1.0,
+   "class-1": 1.0,
+   "class-4": 1.0,
+   "class-16": 1.0,
+   "nearest-1": 1.0,
+   "nearest-16": 1.0,
+   "class-1-soft0.5": 1.0
+  },
+  "stored_control": true,
+  "long": {
+   "base": {
+    "windows": {
+     "16-64": {
+      "events": 1,
+      "person_steps": 1919,
+      "at_risk": 40
+     },
+     "64-256": {
+      "events": 30,
+      "person_steps": 4593,
+      "at_risk": 39
+     },
+     "256-1024": {
+      "events": 9,
+      "person_steps": 660,
+      "at_risk": 9
+     },
+     "1024-2048": {
+      "events": 0,
+      "person_steps": 0,
+      "at_risk": 0
+     },
+     "2048-4096": {
+      "events": 0,
+      "person_steps": 0,
+      "at_risk": 0
+     },
+     "4096-8192": {
+      "events": 0,
+      "person_steps": 0,
+      "at_risk": 0
+     }
+    },
+    "error_free": 0,
+    "final": 0.02500000037252903
+   },
+   "class-1": {
+    "windows": {
+     "16-64": {
+      "events": 0,
+      "person_steps": 1920,
+      "at_risk": 40
+     },
+     "64-256": {
+      "events": 0,
+      "person_steps": 7680,
+      "at_risk": 40
+     },
+     "256-1024": {
+      "events": 3,
+      "person_steps": 30654,
+      "at_risk": 40
+     },
+     "1024-2048": {
+      "events": 36,
+      "person_steps": 19683,
+      "at_risk": 37
+     },
+     "2048-4096": {
+      "events": 1,
+      "person_steps": 102,
+      "at_risk": 1
+     },
+     "4096-8192": {
+      "events": 0,
+      "person_steps": 0,
+      "at_risk": 0
+     }
+    },
+    "error_free": 0,
+    "final": 0.0
+   }
+  }
+ },
+ {
+  "weights": "results/Z1-pilot/perm4-core-w32-s1-cur.pt",
+  "task": "perm4",
+  "width": 32,
+  "seed": 1,
+  "n": 200,
+  "length": 1024,
+  "parameters": 25624,
+  "conditions": {
+   "base": {
+    "selector": null,
+    "every": 1,
+    "strength": 1.0,
+    "events": 0,
+    "person_steps": 201600,
+    "at_risk": 200,
+    "final": 1.0
+   },
+   "class-1": {
+    "selector": "class",
+    "every": 1,
+    "strength": 1.0,
+    "events": 0,
+    "person_steps": 201600,
+    "at_risk": 200,
+    "final": 1.0
+   },
+   "class-4": {
+    "selector": "class",
+    "every": 4,
+    "strength": 1.0,
+    "events": 0,
+    "person_steps": 201600,
+    "at_risk": 200,
+    "final": 1.0
+   },
+   "class-16": {
+    "selector": "class",
+    "every": 16,
+    "strength": 1.0,
+    "events": 0,
+    "person_steps": 201600,
+    "at_risk": 200,
+    "final": 1.0
+   },
+   "nearest-1": {
+    "selector": "nearest",
+    "every": 1,
+    "strength": 1.0,
+    "events": 0,
+    "person_steps": 201600,
+    "at_risk": 200,
+    "final": 1.0
+   },
+   "nearest-16": {
+    "selector": "nearest",
+    "every": 16,
+    "strength": 1.0,
+    "events": 0,
+    "person_steps": 201600,
+    "at_risk": 200,
+    "final": 1.0
+   },
+   "class-1-soft0.5": {
+    "selector": "class",
+    "every": 1,
+    "strength": 0.5,
+    "events": 0,
+    "person_steps": 201600,
+    "at_risk": 200,
+    "final": 1.0
+   }
+  },
+  "in_range": {
+   "base": 1.0,
+   "class-1": 1.0,
+   "class-4": 1.0,
+   "class-16": 1.0,
+   "nearest-1": 1.0,
+   "nearest-16": 1.0,
+   "class-1-soft0.5": 1.0
+  },
+  "stored_control": true,
+  "long": {
+   "base": {
+    "windows": {
+     "16-64": {
+      "events": 0,
+      "person_steps": 1920,
+      "at_risk": 40
+     },
+     "64-256": {
+      "events": 0,
+      "person_steps": 7680,
+      "at_risk": 40
+     },
+     "256-1024": {
+      "events": 0,
+      "person_steps": 30720,
+      "at_risk": 40
+     },
+     "1024-2048": {
+      "events": 0,
+      "person_steps": 40960,
+      "at_risk": 40
+     },
+     "2048-4096": {
+      "events": 0,
+      "person_steps": 81920,
+      "at_risk": 40
+     },
+     "4096-8192": {
+      "events": 0,
+      "person_steps": 163840,
+      "at_risk": 40
+     }
+    },
+    "error_free": 40,
+    "final": 1.0
+   },
+   "class-1": {
+    "windows": {
+     "16-64": {
+      "events": 0,
+      "person_steps": 1920,
+      "at_risk": 40
+     },
+     "64-256": {
+      "events": 0,
+      "person_steps": 7680,
+      "at_risk": 40
+     },
+     "256-1024": {
+      "events": 0,
+      "person_steps": 30720,
+      "at_risk": 40
+     },
+     "1024-2048": {
+      "events": 0,
+      "person_steps": 40960,
+      "at_risk": 40
+     },
+     "2048-4096": {
+      "events": 0,
+      "person_steps": 81920,
+      "at_risk": 40
+     },
+     "4096-8192": {
+      "events": 0,
+      "person_steps": 163840,
+      "at_risk": 40
+     }
+    },
+    "error_free": 40,
+    "final": 1.0
+   }
+  }
+ },
+ {
+  "weights": "results/Z1-pilot/perm4-core-w64-s1-cur.pt",
+  "task": "perm4",
+  "width": 64,
+  "seed": 1,
+  "n": 200,
+  "length": 1024,
+  "parameters": 98328,
+  "conditions": {
+   "base": {
+    "selector": null,
+    "every": 1,
+    "strength": 1.0,
+    "events": 0,
+    "person_steps": 201600,
+    "at_risk": 200,
+    "final": 1.0
+   },
+   "class-1": {
+    "selector": "class",
+    "every": 1,
+    "strength": 1.0,
+    "events": 0,
+    "person_steps": 201600,
+    "at_risk": 200,
+    "final": 1.0
+   },
+   "class-4": {
+    "selector": "class",
+    "every": 4,
+    "strength": 1.0,
+    "events": 0,
+    "person_steps": 201600,
+    "at_risk": 200,
+    "final": 1.0
+   },
+   "class-16": {
+    "selector": "class",
+    "every": 16,
+    "strength": 1.0,
+    "events": 0,
+    "person_steps": 201600,
+    "at_risk": 200,
+    "final": 1.0
+   },
+   "nearest-1": {
+    "selector": "nearest",
+    "every": 1,
+    "strength": 1.0,
+    "events": 0,
+    "person_steps": 201600,
+    "at_risk": 200,
+    "final": 1.0
+   },
+   "nearest-16": {
+    "selector": "nearest",
+    "every": 16,
+    "strength": 1.0,
+    "events": 0,
+    "person_steps": 201600,
+    "at_risk": 200,
+    "final": 1.0
+   },
+   "class-1-soft0.5": {
+    "selector": "class",
+    "every": 1,
+    "strength": 0.5,
+    "events": 0,
+    "person_steps": 201600,
+    "at_risk": 200,
+    "final": 1.0
+   }
+  },
+  "in_range": {
+   "base": 1.0,
+   "class-1": 1.0,
+   "class-4": 1.0,
+   "class-16": 1.0,
+   "nearest-1": 1.0,
+   "nearest-16": 1.0,
+   "class-1-soft0.5": 1.0
+  },
+  "stored_control": true,
+  "long": {
+   "base": {
+    "windows": {
+     "16-64": {
+      "events": 0,
+      "person_steps": 1920,
+      "at_risk": 40
+     },
+     "64-256": {
+      "events": 0,
+      "person_steps": 7680,
+      "at_risk": 40
+     },
+     "256-1024": {
+      "events": 0,
+      "person_steps": 30720,
+      "at_risk": 40
+     },
+     "1024-2048": {
+      "events": 0,
+      "person_steps": 40960,
+      "at_risk": 40
+     },
+     "2048-4096": {
+      "events": 0,
+      "person_steps": 81920,
+      "at_risk": 40
+     },
+     "4096-8192": {
+      "events": 0,
+      "person_steps": 163840,
+      "at_risk": 40
+     }
+    },
+    "error_free": 40,
+    "final": 1.0
+   },
+   "class-1": {
+    "windows": {
+     "16-64": {
+      "events": 0,
+      "person_steps": 1920,
+      "at_risk": 40
+     },
+     "64-256": {
+      "events": 0,
+      "person_steps": 7680,
+      "at_risk": 40
+     },
+     "256-1024": {
+      "events": 0,
+      "person_steps": 30720,
+      "at_risk": 40
+     },
+     "1024-2048": {
+      "events": 0,
+      "person_steps": 40960,
+      "at_risk": 40
+     },
+     "2048-4096": {
+      "events": 0,
+      "person_steps": 81920,
+      "at_risk": 40
+     },
+     "4096-8192": {
+      "events": 0,
+      "person_steps": 163840,
+      "at_risk": 40
+     }
+    },
+    "error_free": 40,
+    "final": 1.0
+   }
+  }
+ }
+]

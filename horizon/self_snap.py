@@ -34,7 +34,7 @@ from core.model import Core
 
 from . import depth_run as dr
 from . import depth_tasks as dt
-from .erosion_source import class_centroids, classify, first_errors, predictions, stored_control, window_counts, WINDOW_FROM
+from .erosion_source import class_centroids, classify, first_errors, fresh_in_range, predictions, stored_control, window_counts, WINDOW_FROM
 
 PRIMARY = 'class-1'
 CONDITIONS = (('class', 1, 1.0), ('class', 4, 1.0), ('class', 16, 1.0), ('nearest', 1, 1.0), ('nearest', 16, 1.0), ('class', 1, 0.5))
@@ -94,7 +94,7 @@ def run_conditions(model, x, y, prototypes, batch, log=print):
 
 
 def in_range(model, task, seed, prototypes, n=200, length=16, batch=50):
-    x, y, _ = dt.heldout(dr.NAMESPACE, task, seed, 'dev', n, length)
+    x, y = fresh_in_range(task, seed, n=n, length=length)          # rows outside the 2,000 the centroids were calibrated on (blind review F10; E-A9 itself ran on the first 200 rows)
     out = {}
     for name, (selector, every, strength) in [('base', (None, 1, 1.0))] + [(label(*c), c) for c in CONDITIONS]:
         configure(model, None if name == 'base' else prototypes, selector or 'class', every, strength)
@@ -121,14 +121,14 @@ def long_part(model, task, seed, prototypes, batch=20, log=print):
 
 def measure(weights, n=200, length=1024, batch=40, long_eval=True, log=print):
     meta = torch.load(weights, weights_only=True)['meta']
-    if meta['arm'] != 'core' or dt.is_count(meta['task']):
+    if meta['arm'] not in ('core', 'core_clean') or dt.is_count(meta['task']):
         raise ValueError('E-A9 is defined for the Core on the permutation tasks')
     model = dr.load_model(weights).eval()
     x, y, _ = dt.heldout(dr.NAMESPACE, meta['task'], meta['seed'], 'dev', n, length)
     log(f'{weights}: {meta["task"]} width {meta["width"]}, {n} dev sequences of {length} positions')
     prototypes = class_centroids(model, meta['task'], meta['seed'])
     conditions, base_first = run_conditions(model, x, y, prototypes, batch, log)
-    result = dict(weights=str(weights), task=meta['task'], width=meta['width'], seed=meta['seed'], n=n, length=length, parameters=dr.parameter_count(model), conditions=conditions,
+    result = dict(weights=str(weights), arm=meta['arm'], task=meta['task'], width=meta['width'], seed=meta['seed'], n=n, length=length, parameters=dr.parameter_count(model), conditions=conditions,
                   in_range=in_range(model, meta['task'], meta['seed'], prototypes))
     result['stored_control'] = stored_control(weights, base_first)
     if long_eval:
@@ -142,8 +142,8 @@ def labels(result, primary=PRIMARY):
 
 
 def reading(results):
-    s5 = [r for r in results if r['task'] == 'perm5']
-    s4 = [r for r in results if r['task'] == 'perm4']
+    s5 = [r for r in results if r['task'] == 'perm5' and r.get('arm', 'core') == 'core']       # plain Core results only (blind review F7)
+    s4 = [r for r in results if r['task'] == 'perm4' and r.get('arm', 'core') == 'core']
     if not s5:
         return dict(verdict='NO S5 MODEL')
     failed = []
@@ -156,6 +156,9 @@ def reading(results):
     out = dict(controls=failed, models={f'{r["task"]} w{r["width"]} s{r["seed"]} {Path(r["weights"]).stem}': labels(r) for r in s5 + s4})
     if failed:
         out['verdict'] = 'CONTROL FAILED: ' + '; '.join(failed)
+        return out
+    if len(s5) < 3 or not s4:
+        out['verdict'] = f'INCOMPLETE: the registered verdict needs three S5 Core models and an S4 control (got {len(s5)} and {len(s4)})'
         return out
     primary = [labels(r)[PRIMARY] for r in s5]
     control = [labels(r)[PRIMARY] for r in s4]

@@ -1,0 +1,126 @@
+results/Z1-pilot/perm5-core-w128-s1-cur.pt: perm5 width 128, 200 dev sequences of 1024 positions
+  base           first errors 195/ 73631 person-steps = 2.65e-03  final 0.31  (32 s)
+  class-1        first errors   0/201600 person-steps = 0.00e+00  final 1.00  (33 s)
+  class-4        first errors   0/201600 person-steps = 0.00e+00  final 1.00  (33 s)
+  class-16       first errors   0/201600 person-steps = 0.00e+00  final 1.00  (32 s)
+  nearest-1      first errors   0/201600 person-steps = 0.00e+00  final 1.00  (36 s)
+  nearest-16     first errors   0/201600 person-steps = 0.00e+00  final 1.00  (33 s)
+  class-1-soft0.5 first errors   0/201600 person-steps = 0.00e+00  final 1.00  (33 s)
+  long base     error-free sequences 0/40, final accuracy 0.05  (253 s)
+  long class-1  error-free sequences 40/40, final accuracy 1.00  (256 s)
+perm5 w128 (409720 parameters), n = 200, stored-window control True
+  [16,1024): base 195/73631  class-1 0/201600  class-4 0/201600  class-16 0/201600  nearest-1 0/201600  nearest-16 0/201600  class-1-soft0.5 0/201600
+  in-range accuracy (length 16): base 1.000  class-1 1.000  class-4 1.000  class-16 1.000  nearest-1 1.000  nearest-16 1.000  class-1-soft0.5 1.000
+  labels: class-1 RESCUES  class-4 RESCUES  class-16 RESCUES  nearest-1 RESCUES  nearest-16 RESCUES  class-1-soft0.5 RESCUES
+  long base: error-free 0/40; [16-64) 0/1920 [64-256) 9/7130 [256-1024) 28/6923 [1024-2048) 3/524 [2048-4096) 0/0 [4096-8192) 0/0
+  long class-1: error-free 40/40; [16-64) 0/1920 [64-256) 0/7680 [256-1024) 0/30720 [1024-2048) 0/40960 [2048-4096) 0/81920 [4096-8192) 0/163840
+results/Z1-pilot/perm5-core-w128-s1-cur-lrdecay0.3.pt: perm5 width 128, 200 dev sequences of 1024 positions
+  base           first errors 199/ 60045 person-steps = 3.31e-03  final 0.19  (32 s)
+  class-1        first errors   0/201600 person-steps = 0.00e+00  final 1.00  (34 s)
+  class-4        first errors   0/201600 person-steps = 0.00e+00  final 1.00  (34 s)
+  class-16       first errors   0/201600 person-steps = 0.00e+00  final 1.00  (34 s)
+  nearest-1      first errors   0/201600 person-steps = 0.00e+00  final 1.00  (34 s)
+  nearest-16     first errors   0/201600 person-steps = 0.00e+00  final 1.00  (33 s)
+  class-1-soft0.5 first errors   0/201600 person-steps = 0.00e+00  final 1.00  (34 s)
+  long base     error-free sequences 0/40, final accuracy 0.00  (254 s)
+  long class-1  error-free sequences 40/40, final accuracy 1.00  (258 s)
+perm5 w128 (409720 parameters), n = 200, stored-window control True
+  [16,1024): base 199/60045  class-1 0/201600  class-4 0/201600  class-16 0/201600  nearest-1 0/201600  nearest-16 0/201600  class-1-soft0.5 0/201600
+  in-range accuracy (length 16): base 1.000  class-1 1.000  class-4 1.000  class-16 1.000  nearest-1 1.000  nearest-16 1.000  class-1-soft0.5 1.000
+  labels: class-1 RESCUES  class-4 RESCUES  class-16 RESCUES  nearest-1 RESCUES  nearest-16 RESCUES  class-1-soft0.5 RESCUES
+  long base: error-free 0/40; [16-64) 0/1920 [64-256) 14/6817 [256-1024) 26/4806 [1024-2048) 0/0 [2048-4096) 0/0 [4096-8192) 0/0
+  long class-1: error-free 40/40; [16-64) 0/1920 [64-256) 0/7680 [256-1024) 0/30720 [1024-2048) 0/40960 [2048-4096) 0/81920 [4096-8192) 0/163840
+results/Z1-pilot/perm5-core-w128-s1-cur-lrdecay0.3-noise0.2.pt: perm5 width 128, 200 dev sequences of 1024 positions
+  base           first errors 200/ 35346 person-steps = 5.66e-03  final 0.03  (33 s)
+  class-1        first errors  10/199897 person-steps = 5.00e-05  final 0.95  (40 s)
+  class-4        first errors  63/193287 person-steps = 3.26e-04  final 0.71  (36 s)
+  class-16       first errors 200/117543 person-steps = 1.70e-03  final 0.04  (32 s)
+  nearest-1      first errors  11/199883 person-steps = 5.50e-05  final 0.96  (37 s)
+  nearest-16     first errors 200/116057 person-steps = 1.72e-03  final 0.04  (35 s)
+  class-1-soft0.5 first errors  12/200233 person-steps = 5.99e-05  final 0.94  (34 s)
+  long base     error-free sequences 0/40, final accuracy 0.03  (247 s)
+  long class-1  error-free sequences 0/40, final accuracy 0.00  (254 s)
+perm5 w128 (409720 parameters), n = 200, stored-window control True
+  [16,1024): base 200/35346  class-1 10/199897  class-4 63/193287  class-16 200/117543  nearest-1 11/199883  nearest-16 200/116057  class-1-soft0.5 12/200233
+  in-range accuracy (length 16): base 1.000  class-1 1.000  class-4 1.000  class-16 1.000  nearest-1 1.000  nearest-16 1.000  class-1-soft0.5 1.000
+  labels: class-1 RESCUES  class-4 RESCUES  class-16 PARTIAL  nearest-1 RESCUES  nearest-16 PARTIAL  class-1-soft0.5 RESCUES
+  long base: error-free 0/40; [16-64) 1/1919 [64-256) 30/4593 [256-1024) 9/660 [1024-2048) 0/0 [2048-4096) 0/0 [4096-8192) 0/0
+  long class-1: error-free 0/40; [16-64) 0/1920 [64-256) 0/7680 [256-1024) 3/30654 [1024-2048) 36/19683 [2048-4096) 1/102 [4096-8192) 0/0
+results/Z1-pilot/perm4-core-w32-s1-cur.pt: perm4 width 32, 200 dev sequences of 1024 positions
+  base           first errors   0/201600 person-steps = 0.00e+00  final 1.00  (15 s)
+  class-1        first errors   0/201600 person-steps = 0.00e+00  final 1.00  (17 s)
+  class-4        first errors   0/201600 person-steps = 0.00e+00  final 1.00  (16 s)
+  class-16       first errors   0/201600 person-steps = 0.00e+00  final 1.00  (16 s)
+  nearest-1      first errors   0/201600 person-steps = 0.00e+00  final 1.00  (17 s)
+  nearest-16     first errors   0/201600 person-steps = 0.00e+00  final 1.00  (16 s)
+  class-1-soft0.5 first errors   0/201600 person-steps = 0.00e+00  final 1.00  (17 s)
+  long base     error-free sequences 40/40, final accuracy 1.00  (80 s)
+  long class-1  error-free sequences 40/40, final accuracy 1.00  (82 s)
+perm4 w32 (25624 parameters), n = 200, stored-window control True
+  [16,1024): base 0/201600  class-1 0/201600  class-4 0/201600  class-16 0/201600  nearest-1 0/201600  nearest-16 0/201600  class-1-soft0.5 0/201600
+  in-range accuracy (length 16): base 1.000  class-1 1.000  class-4 1.000  class-16 1.000  nearest-1 1.000  nearest-16 1.000  class-1-soft0.5 1.000
+  labels: class-1 NEUTRAL  class-4 NEUTRAL  class-16 NEUTRAL  nearest-1 NEUTRAL  nearest-16 NEUTRAL  class-1-soft0.5 NEUTRAL
+  long base: error-free 40/40; [16-64) 0/1920 [64-256) 0/7680 [256-1024) 0/30720 [1024-2048) 0/40960 [2048-4096) 0/81920 [4096-8192) 0/163840
+  long class-1: error-free 40/40; [16-64) 0/1920 [64-256) 0/7680 [256-1024) 0/30720 [1024-2048) 0/40960 [2048-4096) 0/81920 [4096-8192) 0/163840
+results/Z1-pilot/perm4-core-w64-s1-cur.pt: perm4 width 64, 200 dev sequences of 1024 positions
+  base           first errors   0/201600 person-steps = 0.00e+00  final 1.00  (21 s)
+  class-1        first errors   0/201600 person-steps = 0.00e+00  final 1.00  (22 s)
+  class-4        first errors   0/201600 person-steps = 0.00e+00  final 1.00  (21 s)
+  class-16       first errors   0/201600 person-steps = 0.00e+00  final 1.00  (21 s)
+  nearest-1      first errors   0/201600 person-steps = 0.00e+00  final 1.00  (22 s)
+  nearest-16     first errors   0/201600 person-steps = 0.00e+00  final 1.00  (21 s)
+  class-1-soft0.5 first errors   0/201600 person-steps = 0.00e+00  final 1.00  (22 s)
+  long base     error-free sequences 40/40, final accuracy 1.00  (134 s)
+  long class-1  error-free sequences 40/40, final accuracy 1.00  (137 s)
+perm4 w64 (98328 parameters), n = 200, stored-window control True
+  [16,1024): base 0/201600  class-1 0/201600  class-4 0/201600  class-16 0/201600  nearest-1 0/201600  nearest-16 0/201600  class-1-soft0.5 0/201600
+  in-range accuracy (length 16): base 1.000  class-1 1.000  class-4 1.000  class-16 1.000  nearest-1 1.000  nearest-16 1.000  class-1-soft0.5 1.000
+  labels: class-1 NEUTRAL  class-4 NEUTRAL  class-16 NEUTRAL  nearest-1 NEUTRAL  nearest-16 NEUTRAL  class-1-soft0.5 NEUTRAL
+  long base: error-free 40/40; [16-64) 0/1920 [64-256) 0/7680 [256-1024) 0/30720 [1024-2048) 0/40960 [2048-4096) 0/81920 [4096-8192) 0/163840
+  long class-1: error-free 40/40; [16-64) 0/1920 [64-256) 0/7680 [256-1024) 0/30720 [1024-2048) 0/40960 [2048-4096) 0/81920 [4096-8192) 0/163840
+{
+ "controls": [],
+ "models": {
+  "perm5 w128 s1 perm5-core-w128-s1-cur": {
+   "class-1": "RESCUES",
+   "class-4": "RESCUES",
+   "class-16": "RESCUES",
+   "nearest-1": "RESCUES",
+   "nearest-16": "RESCUES",
+   "class-1-soft0.5": "RESCUES"
+  },
+  "perm5 w128 s1 perm5-core-w128-s1-cur-lrdecay0.3": {
+   "class-1": "RESCUES",
+   "class-4": "RESCUES",
+   "class-16": "RESCUES",
+   "nearest-1": "RESCUES",
+   "nearest-16": "RESCUES",
+   "class-1-soft0.5": "RESCUES"
+  },
+  "perm5 w128 s1 perm5-core-w128-s1-cur-lrdecay0.3-noise0.2": {
+   "class-1": "RESCUES",
+   "class-4": "RESCUES",
+   "class-16": "PARTIAL",
+   "nearest-1": "RESCUES",
+   "nearest-16": "PARTIAL",
+   "class-1-soft0.5": "RESCUES"
+  },
+  "perm4 w32 s1 perm4-core-w32-s1-cur": {
+   "class-1": "NEUTRAL",
+   "class-4": "NEUTRAL",
+   "class-16": "NEUTRAL",
+   "nearest-1": "NEUTRAL",
+   "nearest-16": "NEUTRAL",
+   "class-1-soft0.5": "NEUTRAL"
+  },
+  "perm4 w64 s1 perm4-core-w64-s1-cur": {
+   "class-1": "NEUTRAL",
+   "class-4": "NEUTRAL",
+   "class-16": "NEUTRAL",
+   "nearest-1": "NEUTRAL",
+   "nearest-16": "NEUTRAL",
+   "class-1-soft0.5": "NEUTRAL"
+  }
+ },
+ "verdict": "SELF-SNAP RESTORES EXACTNESS"
+}

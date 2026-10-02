@@ -124,6 +124,16 @@ class Reading(unittest.TestCase):
         self.assertTrue(sn.reading(self.s5() + harmed_control)['verdict'].startswith('INCONCLUSIVE'))
         self.assertEqual(sn.reading(s4)['verdict'], 'NO S5 MODEL')
 
+    def test_other_arms_are_not_pooled_and_the_registered_set_is_required(self):
+        # blind review F7
+        s4 = [fake('perm4', 32, base=(0, 10000), primary=(0, 10000))]
+        three = self.s5(primary=(10, 10000))
+        self.assertEqual(sn.reading(three + s4)['verdict'], 'SELF-SNAP RESTORES EXACTNESS')
+        extra = dict(fake(width=140, primary=(10, 10000)), arm='core_clean')
+        self.assertEqual(sn.reading(three + s4 + [extra])['verdict'], 'SELF-SNAP RESTORES EXACTNESS')
+        self.assertTrue(sn.reading(three[:2] + s4)['verdict'].startswith('INCOMPLETE'))
+        self.assertTrue(sn.reading(three)['verdict'].startswith('INCOMPLETE'))                                   # no S4 control
+
     def test_failed_controls_void_the_verdict(self):
         s4 = [fake('perm4', 32, base=(0, 10000), primary=(0, 10000))]
         out = sn.reading(self.s5(stored=False) + s4)
