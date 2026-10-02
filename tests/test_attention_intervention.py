@@ -79,6 +79,43 @@ class BaseIsThePlainCore(unittest.TestCase):
             ai.intervene(make_arm('gru', 'perm4', 32, 1), 'w16')
 
 
+def fake_result(late_by_name, early=0.0):
+    """A result dict whose [128, 256) window has the given late rate (exposure 1e6) and whose early windows have the given early rate."""
+    rows = {}
+    for name, rate in late_by_name.items():
+        e = early[name] if isinstance(early, dict) else early
+        rows[name] = dict(windows={'0-16': [int(e * 1e6), int(1e6)], '16-64': [0, 0], '128-256': [int(rate * 1e6), int(1e6)]})
+    return dict(results=rows)
+
+
+class ReadingRule(unittest.TestCase):
+    NAMES = ('base', 'w16', 'w32', 'w64', 'w16_enc', 'w16_mem', 'temp', 'temp_enc', 'temp_mem')
+
+    def result(self, **over):
+        rates = {n: 2.0e-3 for n in self.NAMES}
+        rates.update(over)
+        return fake_result(rates)
+
+    def test_no_intervention_moves_the_rate_means_state(self):
+        v = ai.verdict(self.result(w16=1.9e-3, temp=2.1e-3))
+        self.assertEqual(v['verdict'], 'STATE (H2)')
+
+    def test_a_large_drop_with_clean_early_windows_means_attention_and_names_the_path(self):
+        v = ai.verdict(self.result(temp=2.0e-4, temp_enc=1.0e-3, temp_mem=2.5e-4))
+        self.assertEqual(v['verdict'], 'ATTENTION (H1)')
+        self.assertEqual(v['best_of_w16_w32_temp'], 'temp')
+        self.assertEqual(v['localised_to'], ['temp_mem'])
+
+    def test_a_drop_that_breaks_the_early_windows_is_not_attention(self):
+        rates = {n: 2.0e-3 for n in self.NAMES}
+        rates['w16'] = 1.0e-4
+        result = fake_result(rates, early={**{n: 0.0 for n in self.NAMES}, 'w16': 5e-4})
+        self.assertNotEqual(ai.verdict(result)['verdict'], 'ATTENTION (H1)')
+
+    def test_in_between_is_mixed(self):
+        self.assertEqual(ai.verdict(self.result(w16=1.0e-3))['verdict'], 'MIXED')
+
+
 class WindowsAndTemperatures(unittest.TestCase):
     def setUp(self):
         torch.manual_seed(1)

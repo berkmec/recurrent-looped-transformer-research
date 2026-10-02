@@ -118,6 +118,31 @@ def describe(name, row):
     return f'{name:<9} final accuracy by length {finals} | first-error hazard (x1e-4/step) {cells}'
 
 
+def _pooled(row, keep):
+    cells = [c for k, c in row['windows'].items() if keep(*(int(v) for v in k.split('-')))]
+    exposure = sum(c[1] for c in cells)
+    return (sum(c[0] for c in cells) / exposure) if exposure else None
+
+
+def verdict(result):
+    """The reading rule written BEFORE the run (program note, section 5, E-A), applied mechanically to a result file.
+    H_taban = pooled first-error rate over the windows starting at 128 or later. ATTENTION (H1): the best of {w16, w32, temp} has H <= 0.2 H_taban AND an
+    early ([0, 64)) rate <= 1e-4. STATE (H2): every intervention has H >= 0.7 H_taban. Otherwise MIXED. Localisation: an encoder-only or memory-only variant
+    at <= 0.3 H_taban names that path."""
+    rows = result['results']
+    late = {name: _pooled(row, lambda a, b: a >= 128) for name, row in rows.items()}
+    early = {name: _pooled(row, lambda a, b: b <= 64) for name, row in rows.items()}
+    base = late['base']
+    ratio = {name: (late[name] / base if base else None) for name in rows if name != 'base'}
+    candidates = [n for n in ('w16', 'w32', 'temp') if n in ratio]
+    best = min(candidates, key=lambda n: ratio[n]) if candidates else None
+    h1 = bool(best) and ratio[best] <= 0.2 and (early[best] or 0.0) <= 1e-4
+    h2 = bool(ratio) and all(r >= 0.7 for r in ratio.values())
+    local = [n for n in ('w16_enc', 'w16_mem', 'temp_enc', 'temp_mem') if n in ratio and ratio[n] <= 0.3]
+    return dict(verdict='ATTENTION (H1)' if h1 else 'STATE (H2)' if h2 else 'MIXED', base_late_hazard=base, late_hazard=late, early_hazard=early,
+                ratio_to_base=ratio, best_of_w16_w32_temp=best, localised_to=local)
+
+
 def baseline_reproduces(result, stored_path, points):
     """The `base` row must equal the numbers stored when the model was trained (same draws): otherwise the harness, not the model, differs."""
     stored = json.loads(Path(stored_path).read_text(encoding='utf8'))['curve']
@@ -141,7 +166,11 @@ def main():
     p.add_argument('--n', type=int, default=100)
     p.add_argument('--batch', type=int, default=10)
     p.add_argument('--out', default=None)
+    p.add_argument('--verdict', default=None, help='apply the pre-registered reading rule to this result file and exit (weights argument is ignored)')
     a = p.parse_args()
+    if a.verdict:
+        print(json.dumps(verdict(json.loads(Path(a.verdict).read_text(encoding='utf8'))), indent=1))
+        return
     names = [v for v in a.interventions.split(',') if v]
     points = [int(v) for v in a.points.split(',')]
     meta_seed = torch.load(a.weights, weights_only=True)['meta']['seed']
