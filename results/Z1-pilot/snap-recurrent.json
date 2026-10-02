@@ -1,0 +1,174 @@
+[
+ {
+  "weights": "results/Z1-pilot/perm5-gru-w256-s1-cur.pt",
+  "arm": "gru",
+  "task": "perm5",
+  "width": 256,
+  "seed": 1,
+  "n": 200,
+  "length": 1024,
+  "parameters": 456312,
+  "identity": 7.152557373046875e-05,
+  "conditions": {
+   "base": {
+    "events": 191,
+    "person_steps": 51267,
+    "at_risk": 194,
+    "final": 0.17499999701976776
+   },
+   "class-16": {
+    "events": 140,
+    "person_steps": 109458,
+    "at_risk": 194,
+    "final": 0.4350000023841858
+   },
+   "class-1": {
+    "events": 0,
+    "person_steps": 201600,
+    "at_risk": 200,
+    "final": 1.0
+   },
+   "nearest-16": {
+    "events": 174,
+    "person_steps": 75392,
+    "at_risk": 194,
+    "final": 0.22499999403953552
+   }
+  },
+  "in_range": {
+   "class-16": 0.9940624833106995,
+   "class-1": 1.0,
+   "nearest-16": 0.9940624833106995
+  },
+  "stored_control": true
+ },
+ {
+  "weights": "results/Z1-pilot/perm5-gru-w256-s1-cur-lrdecay0.3.pt",
+  "arm": "gru",
+  "task": "perm5",
+  "width": 256,
+  "seed": 1,
+  "n": 200,
+  "length": 1024,
+  "parameters": 456312,
+  "identity": 1.33514404296875e-05,
+  "conditions": {
+   "base": {
+    "events": 29,
+    "person_steps": 188315,
+    "at_risk": 200,
+    "final": 0.8999999761581421
+   },
+   "class-16": {
+    "events": 10,
+    "person_steps": 197950,
+    "at_risk": 200,
+    "final": 0.9599999785423279
+   },
+   "class-1": {
+    "events": 0,
+    "person_steps": 201600,
+    "at_risk": 200,
+    "final": 1.0
+   },
+   "nearest-16": {
+    "events": 69,
+    "person_steps": 165578,
+    "at_risk": 200,
+    "final": 0.6800000071525574
+   }
+  },
+  "in_range": {
+   "class-16": 1.0,
+   "class-1": 1.0,
+   "nearest-16": 1.0
+  },
+  "stored_control": true
+ },
+ {
+  "weights": "results/Z1-pilot/perm5-lstm-w208-s1-cur.pt",
+  "arm": "lstm",
+  "task": "perm5",
+  "width": 208,
+  "seed": 1,
+  "n": 200,
+  "length": 1024,
+  "parameters": 397816,
+  "identity": 3.62396240234375e-05,
+  "conditions": {
+   "base": {
+    "events": 140,
+    "person_steps": 117767,
+    "at_risk": 199,
+    "final": 0.375
+   },
+   "class-16": {
+    "events": 57,
+    "person_steps": 168564,
+    "at_risk": 199,
+    "final": 0.7699999809265137
+   },
+   "class-1": {
+    "events": 0,
+    "person_steps": 201600,
+    "at_risk": 200,
+    "final": 1.0
+   },
+   "nearest-16": {
+    "events": 95,
+    "person_steps": 149388,
+    "at_risk": 199,
+    "final": 0.5799999833106995
+   }
+  },
+  "in_range": {
+   "class-16": 1.0,
+   "class-1": 1.0,
+   "nearest-16": 1.0
+  },
+  "stored_control": true
+ },
+ {
+  "weights": "results/Z1-pilot/perm5-lstm-w208-s1-cur-lrdecay0.3.pt",
+  "arm": "lstm",
+  "task": "perm5",
+  "width": 208,
+  "seed": 1,
+  "n": 200,
+  "length": 1024,
+  "parameters": 397816,
+  "identity": 1.1444091796875e-05,
+  "conditions": {
+   "base": {
+    "events": 23,
+    "person_steps": 188641,
+    "at_risk": 200,
+    "final": 0.8949999809265137
+   },
+   "class-16": {
+    "events": 1,
+    "person_steps": 200751,
+    "at_risk": 200,
+    "final": 0.9950000047683716
+   },
+   "class-1": {
+    "events": 0,
+    "person_steps": 201600,
+    "at_risk": 200,
+    "final": 1.0
+   },
+   "nearest-16": {
+    "events": 30,
+    "person_steps": 188588,
+    "at_risk": 200,
+    "final": 0.8500000238418579
+   }
+  },
+  "in_range": {
+   "class-16": 1.0,
+   "class-1": 1.0,
+   "nearest-16": 1.0
+  },
+  "stored_control": true
+ }
+]

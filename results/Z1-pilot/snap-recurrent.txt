@@ -1,0 +1,67 @@
+results/Z1-pilot/perm5-gru-w256-s1-cur.pt: gru perm5 width 256, 200 dev sequences of 1024 positions
+  base        first errors 191/ 51267 person-steps = 3.73e-03  final 0.17  (5 s)
+  class-16    first errors 140/109458 person-steps = 1.28e-03  final 0.44  (5 s)
+  class-1     first errors   0/201600 person-steps = 0.00e+00  final 1.00  (6 s)
+  nearest-16  first errors 174/ 75392 person-steps = 2.31e-03  final 0.22  (5 s)
+gru perm5 w256 (456312 parameters), n = 200, identity 7.2e-05, stored-window control True
+  [16,1024): base 191/51267  class-16 140/109458  class-1 0/201600  nearest-16 174/75392
+  in-range accuracy: class-16 0.994  class-1 1.000  nearest-16 0.994
+  labels: class-16 PARTIAL  class-1 RESCUES  nearest-16 NEUTRAL
+results/Z1-pilot/perm5-gru-w256-s1-cur-lrdecay0.3.pt: gru perm5 width 256, 200 dev sequences of 1024 positions
+  base        first errors  29/188315 person-steps = 1.54e-04  final 0.90  (5 s)
+  class-16    first errors  10/197950 person-steps = 5.05e-05  final 0.96  (6 s)
+  class-1     first errors   0/201600 person-steps = 0.00e+00  final 1.00  (6 s)
+  nearest-16  first errors  69/165578 person-steps = 4.17e-04  final 0.68  (5 s)
+gru perm5 w256 (456312 parameters), n = 200, identity 1.3e-05, stored-window control True
+  [16,1024): base 29/188315  class-16 10/197950  class-1 0/201600  nearest-16 69/165578
+  in-range accuracy: class-16 1.000  class-1 1.000  nearest-16 1.000
+  labels: class-16 PARTIAL  class-1 RESCUES  nearest-16 HARMS
+results/Z1-pilot/perm5-lstm-w208-s1-cur.pt: lstm perm5 width 208, 200 dev sequences of 1024 positions
+  base        first errors 140/117767 person-steps = 1.19e-03  final 0.38  (5 s)
+  class-16    first errors  57/168564 person-steps = 3.38e-04  final 0.77  (5 s)
+  class-1     first errors   0/201600 person-steps = 0.00e+00  final 1.00  (6 s)
+  nearest-16  first errors  95/149388 person-steps = 6.36e-04  final 0.58  (5 s)
+lstm perm5 w208 (397816 parameters), n = 200, identity 3.6e-05, stored-window control True
+  [16,1024): base 140/117767  class-16 57/168564  class-1 0/201600  nearest-16 95/149388
+  in-range accuracy: class-16 1.000  class-1 1.000  nearest-16 1.000
+  labels: class-16 PARTIAL  class-1 RESCUES  nearest-16 NEUTRAL
+results/Z1-pilot/perm5-lstm-w208-s1-cur-lrdecay0.3.pt: lstm perm5 width 208, 200 dev sequences of 1024 positions
+  base        first errors  23/188641 person-steps = 1.22e-04  final 0.89  (5 s)
+  class-16    first errors   1/200751 person-steps = 4.98e-06  final 1.00  (5 s)
+  class-1     first errors   0/201600 person-steps = 0.00e+00  final 1.00  (6 s)
+  nearest-16  first errors  30/188588 person-steps = 1.59e-04  final 0.85  (5 s)
+lstm perm5 w208 (397816 parameters), n = 200, identity 1.1e-05, stored-window control True
+  [16,1024): base 23/188641  class-16 1/200751  class-1 0/201600  nearest-16 30/188588
+  in-range accuracy: class-16 1.000  class-1 1.000  nearest-16 1.000
+  labels: class-16 RESCUES  class-1 RESCUES  nearest-16 NEUTRAL
+{
+ "verdict": "MIXED",
+ "primary": [
+  "PARTIAL",
+  "PARTIAL",
+  "PARTIAL",
+  "RESCUES"
+ ],
+ "models": {
+  "gru w256 perm5-gru-w256-s1-cur": {
+   "class-16": "PARTIAL",
+   "class-1": "RESCUES",
+   "nearest-16": "NEUTRAL"
+  },
+  "gru w256 perm5-gru-w256-s1-cur-lrdecay0.3": {
+   "class-16": "PARTIAL",
+   "class-1": "RESCUES",
+   "nearest-16": "HARMS"
+  },
+  "lstm w208 perm5-lstm-w208-s1-cur": {
+   "class-16": "PARTIAL",
+   "class-1": "RESCUES",
+   "nearest-16": "NEUTRAL"
+  },
+  "lstm w208 perm5-lstm-w208-s1-cur-lrdecay0.3": {
+   "class-16": "RESCUES",
+   "class-1": "RESCUES",
+   "nearest-16": "NEUTRAL"
+  }
+ }
+}
