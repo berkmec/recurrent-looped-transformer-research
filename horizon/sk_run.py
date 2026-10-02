@@ -131,6 +131,17 @@ MIN_EXTRAPOLATION = 0.6
 NO_ADVANTAGE_MARGIN = 0.05
 
 
+def _final_stage(r):
+    """Where a run stopped in the walk curriculum (descriptive, NOT part of the verdict): the walk of the stage it ended in, the update at which it reached the last stage
+    (None when it never did) and its budget. An arm that was 'not learned' while stuck at an early walk for the whole run fails differently from one that reached the last
+    stage late, with the learning rate already decaying (the annealing starts at 70 % of the updates): the second may just have been short of budget."""
+    t = r.get('train') or {}
+    curriculum = t.get('curriculum') or []
+    reached = bool(curriculum) and t.get('final_stage_walk') == curriculum[-1]
+    advances = t.get('advances') or []
+    return dict(stopped_at_walk=t.get('final_stage_walk'), reached_last_stage_at=((advances[-1]['step'] if advances else 0) if reached else None), steps=t.get('steps'))
+
+
 def reading(results, min_seeds=2):
     """The E-S reading rule (program note 5.16, written before the first run), applied to run results of ONE task: several arms, several seeds each. Per arm the mean in-range
     and extrapolation value accuracy over its seeds. An arm is LEARNED when its mean in-range accuracy is >= 0.95. Verdicts, for the Core arm 'core':
@@ -148,7 +159,8 @@ def reading(results, min_seeds=2):
         in_range = sum(r['in_range'] for r in rs) / len(rs)
         ext = [r['extrapolation'] for r in rs if r.get('extrapolation') is not None]
         table[arm] = dict(seeds=len(rs), in_range=in_range, extrapolation=(sum(ext) / len(ext) if ext else None), learned=in_range >= LEARNED - 1e-6,
-                          state_extrapolation=(sum(r['state_extrapolation'] for r in rs if r.get('state_extrapolation') is not None) / len(rs)))
+                          state_extrapolation=(sum(r['state_extrapolation'] for r in rs if r.get('state_extrapolation') is not None) / len(rs)),
+                          final_stage=[_final_stage(r) for r in rs])
     core = table.get('core')
     if core is None:
         return dict(verdict='NO CORE RUN', arms=table)

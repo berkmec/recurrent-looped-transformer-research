@@ -167,6 +167,18 @@ class Runner(unittest.TestCase):
         self.assertIn('provisional', r['verdict'])
         self.assertTrue(r['verdict'].startswith('ADVANTAGE'))
 
+    def test_the_reading_reports_where_each_run_stopped_in_the_curriculum_without_changing_the_verdict(self):
+        stuck = dict(arm='gru', seed=1, in_range=0.5, extrapolation=0.1, state_extrapolation=0.9,
+                     train=dict(curriculum=[0, 1, 2], final_stage_walk=1, advances=[dict(step=300, from_walk=0, to_walk=1)], steps=1000))
+        late = dict(arm='gru', seed=2, in_range=0.9, extrapolation=0.1, state_extrapolation=0.9,
+                    train=dict(curriculum=[0, 1, 2], final_stage_walk=2, advances=[dict(step=300, from_walk=0, to_walk=1), dict(step=800, from_walk=1, to_walk=2)], steps=1000))
+        core = [dict(arm='core', seed=s, in_range=0.99, extrapolation=0.9, state_extrapolation=0.99) for s in (1, 2)]       # no `train` block at all
+        r = run.reading([stuck, late] + core)
+        self.assertEqual(r['arms']['gru']['final_stage'], [dict(stopped_at_walk=1, reached_last_stage_at=None, steps=1000),
+                                                          dict(stopped_at_walk=2, reached_last_stage_at=800, steps=1000)])
+        self.assertEqual(r['arms']['core']['final_stage'], [dict(stopped_at_walk=None, reached_last_stage_at=None, steps=None)] * 2)
+        self.assertEqual(r['verdict'], 'ADVANTAGE (LEARNABILITY)')                       # the verdict is untouched: the rivals did not learn the range
+
     def test_every_arm_accepts_the_task(self):
         from horizon.depth_models import ARMS, make_arm
         b = sk.generate(3, 3, 5, seed=1, queries=2)
