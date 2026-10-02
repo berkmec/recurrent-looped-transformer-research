@@ -375,3 +375,17 @@
 [11:15:13] BASLA E-L1K (step005000; CPU, 1 parcacik): tek adimlik yanlis geri besleme durumunun hasari ne kadar suruyor, egitimsiz
 [11:22:40] BITTI E-L1K step005000 (bkz results/L1-feedback-probe/step005000-kick.txt)
 [11:22:40] BASLA Z1 perm5-core-w256-s1-cur-lrdecay0.3 (E-K5; CPU, 1 parcacik, 30000 adim, lr 0.003 son %30'da ~0'a, genislik 256, mufredat 1,2,3,4,6,8,12,16)
+[11:42:29] BASLA E-A5 (CPU, 1 parcacik): dikkat pencereleri (A) ve kahin durum yeniden enjeksiyonu (B), 5 Core modeli, 1.024 konum, n = 200, egitimsiz
+[11:52:04] ZINCIR-DEGISIKLIGI 21: hafif ucuncu lane: E-A5 bitince E-A9 (kendi tahmin ettigi sinifin merkezine durum temizligi; not 5.27, kural commit 6ff918d koşudan once)
+[11:54:23] ZINCIR-DEGISIKLIGI 22: hafif ucuncu lane: E-A9 bitince E-A5x (durum sapmasinin yasa gore buyumesi, betimleyici; kod horizon/drift_profile.py, 3 test)
+[12:04:52] ZINCIR-DEGISIKLIGI 23: yuva 1 bekleyicisi yeniden zincirlendi (E-D5 calismaya devam ediyor): E-D5 bitince E-A10(a) (core_clean + durum gurultusu 0.1; not 5.28, kural commit 41a7419) -> E-F5 -> E-K5 (kilitli) -> E-S (kilitli) -> E-C; E-A10 (b)/(c) bos yuvada
+[12:06:46] BITTI E-A5 (bkz results/Z1-pilot/erosion-source.txt)
+[12:07:06] BASLA E-A9 (CPU, 1 parcacik): kendi tahmin ettigi sinifin merkezine durum temizligi, 5 Core modeli, 1.024 konum n = 200 + 8.192 konum n = 40, egitimsiz
+[12:14:20] ZINCIR-DEGISIKLIGI 24: hafif ucuncu lane yeniden zincirlendi: E-A9 bitince E-A9L (cok uzun diziler 32.768 / 131.072; not 5.29, kural commit 8ae4938 koşudan once) -> E-A5x
+[12:16:47] ZINCIR-DEGISIKLIGI 25: hafif ucuncu lane: E-A5x bitince E-A9b (etiketsiz k-means yapisma; not 5.30, kural commit ac2ecd0 koşudan once)
+[12:19:12] ZINCIR-DEGISIKLIGI 26: iki yuva yeniden zincirlendi (calisan E-D5 sigma 0.1 ve E-K5 w256 surerken). Yuva 1: E-D5 bitince E-A10(a) -> E-R5 (S5 Core tohum 2-3, not 5.31, kural commit 1c0ef25) -> E-F5 -> E-K5 -> E-S -> E-C. Yuva 2: E-K5 w256 bitince (w192 ERTELENDI: kilit dizini olusturuldu; rmdir ile acilir) E-S (once) -> E-P4 -> E-C. Gerekce: tohum tekrari ve RLT yapisal testi (E-S), kapasite dozundan (w192) ve ayar taramasindan (E-F5) onceliklidir
+[12:22:02] ZINCIR-DEGISIKLIGI 27: hafif ucuncu lane: E-A9b bitince E-A9c (ayni yapisma GRU/LSTM'e de yariyor mu; not 5.32, kural commit 62cf52d koşudan once)
+[12:26:21] ZINCIR-DEGISIKLIGI 28: hafif ucuncu lane yeniden zincirlendi: E-A9 bitince E-A10p (Hopfield temizleme modulu veriden kurulu prototiplerle temizleyebiliyor mu; not 5.33, kural commit dc3ed01) -> E-A9L -> E-A5x -> E-A9b -> E-A9c
+[12:28:35] BITTI Z1 perm5-core-w128-s1-cur-lrdecay0.3-noise0.1
+[12:28:35] E-D5 kuyruk BITTI
+[12:28:43] BASLA Z1 perm5-core_clean-w128-s1-cur-lrdecay0.3-noise0.1-open0.3 (E-A10; CPU, 1 parcacik, 30000 adim, lr 0.003 son %30'da ~0'a, core_clean (kapali Hopfield temizleme, kapi tanh(0.3)), durum gurultusu sigma 0.1, mufredat 1,2,3,4,6,8,12,16)
