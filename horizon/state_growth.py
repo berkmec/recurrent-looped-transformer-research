@@ -76,6 +76,65 @@ def recurrent_trajectory(arm, x, t0=None, delta=None):
     return torch.stack(states, 1), arm.read(torch.stack(outs, 1))
 
 
+def jacobian_norms(model, x, positions):
+    """Largest singular value of the ONE-STEP Jacobian of the carried state, d state_t / d state_{t-1} (float64, one sequence at a time), at the given
+    positions of x. The Core's three cached decoder keys/values are held at their clean values (only the feedback path is differentiated); the LSTM's
+    state is h and c together. Returns {position: [norm per sequence]}. A norm below 1 is a local contraction, above 1 a local expansion."""
+    model = copy.deepcopy(model).double().eval()
+    out = {t: [] for t in positions}
+    for i in range(x.shape[0]):
+        xi = x[i:i + 1]
+        if isinstance(model, Core):
+            with torch.no_grad():
+                e, _, _ = model.encode(xi)
+                n = model.mn(e)
+                mk = model.rope(model.split(model.mk(n)))
+                mv = model.split(model.mv(n))
+                s, states = None, []
+                for t in range(xi.shape[1]):
+                    _, s = model.decode(e[:, t], s, mk[:, :, :t + 1], mv[:, :, :t + 1], t)
+                    states.append(s)
+            for t in positions:
+                prev = states[t - 1]
+                def step(v, t=t, prev=prev):
+                    return model.decode(e[:, t], dict(prev, s=v), mk[:, :, :t + 1], mv[:, :, :t + 1], t)[1]['s'][0]
+                jac = torch.autograd.functional.jacobian(step, prev['s'])[:, 0, :]
+                out[t].append(float(torch.linalg.matrix_norm(jac, ord=2)))
+        else:
+            lstm = isinstance(model.rnn, nn.LSTM)
+            with torch.no_grad():
+                emb = model.embedding(xi)
+                states = []
+                h = emb.new_zeros(1, emb.shape[-1])
+                c = emb.new_zeros(1, emb.shape[-1])
+                for t in range(xi.shape[1]):
+                    h, c = _cell(model.rnn, emb[:, t], h, c, lstm)
+                    states.append((h, c))
+            for t in positions:
+                h0, c0 = states[t - 1]
+                width = h0.shape[-1]
+                def step(v, t=t, width=width):
+                    h_, c_ = _cell(model.rnn, emb[:, t], v[:, :width], v[:, width:], lstm)
+                    return torch.cat([h_, c_], -1)[0] if lstm else h_[0]
+                start = torch.cat([h0, c0], -1) if lstm else h0
+                jac = torch.autograd.functional.jacobian(step, start)[:, 0, :]
+                out[t].append(float(torch.linalg.matrix_norm(jac, ord=2)))
+    return out
+
+
+def _cell(rnn, x_t, h, c, lstm):
+    gi = F.linear(x_t, rnn.weight_ih_l0, rnn.bias_ih_l0)
+    gh = F.linear(h, rnn.weight_hh_l0, rnn.bias_hh_l0)
+    if lstm:
+        i, f, g, o = (gi + gh).chunk(4, -1)
+        c = torch.sigmoid(f) * c + torch.sigmoid(i) * torch.tanh(g)
+        return torch.sigmoid(o) * torch.tanh(c), c
+    ir, iz, inn = gi.chunk(3, -1)
+    hr, hz, hn = gh.chunk(3, -1)
+    r, z = torch.sigmoid(ir + hr), torch.sigmoid(iz + hz)
+    return (1 - z) * torch.tanh(inn + r * hn) + z * h, c
+
+
 def kick_for(model, clean_states, t0, eps, gen):
     """A relative kick (random direction, eps times the rms of the clean state at t0 - 1) for the carried state the runner kicks at position t0."""
     prev = clean_states[:, t0 - 1]
@@ -118,7 +177,8 @@ def summarise(series, t0, steps, windows):
     return out
 
 
-def measure(weights, steps, t0, eps_list, n, seed, windows=((0, 25), (25, 121), (121, 10 ** 9))):
+def measure(weights, steps, t0, eps_list, n, seed, windows=((0, 25), (25, 121), (121, 10 ** 9)), jacobian_positions=(4, 16, 32, 64, 128, 192, 255),
+            jacobian_n=8):
     raw = torch.load(weights, weights_only=True)
     meta = raw['meta']
     if meta['arm'] not in ('core', 'gru', 'lstm'):
@@ -130,8 +190,12 @@ def measure(weights, steps, t0, eps_list, n, seed, windows=((0, 25), (25, 121), 
     for eps in eps_list:
         series = growth_series(model, x, t0, eps, seed=11)
         result[eps] = summarise(series, t0, steps, rel)
+    # extra recorded detail, not part of the reading rule: the one-step Jacobian's largest singular value at a few positions (8 sequences)
+    positions = [t for t in jacobian_positions if 1 <= t < steps]
+    norms = jacobian_norms(model, x[:jacobian_n], positions)
+    jac = {t: dict(median=float(np.median(v)), max=float(np.max(v)), above_one=float(np.mean(np.array(v) > 1.0))) for t, v in norms.items()}
     return dict(weights=str(weights), arm=meta['arm'], task=meta['task'], width=meta['width'], parameters=meta['parameters'], steps=steps, t0=t0, n=n,
-                results=result)
+                results=result, jacobian=jac)
 
 
 def describe(r):
@@ -139,6 +203,9 @@ def describe(r):
     for eps, row in r['results'].items():
         cells = '  '.join(f"[{k.replace('-', ',')}) growth {v['growth_per_step']:+.4f}/step flips {v['flip_rate']:.4f}" for k, v in row['windows'].items())
         lines.append(f"  eps {eps:g}: {cells}  | re-converged (d < 1e-10 at the end): {row['converged']:.2f}")
+    if r.get('jacobian'):
+        lines.append('  one-step Jacobian, largest singular value (median / max over sequences): ' +
+                     '  '.join(f"t={t}: {v['median']:.3f}/{v['max']:.3f}" for t, v in r['jacobian'].items()))
     return '\n'.join(lines)
 
 

@@ -204,6 +204,7 @@ Görev: etiket P = 8'e doyar (9 sınıf; eski sayaçla aynı çıktı sözlüğ�
 - **G1:** S₄ Core: tüm pencerelerde büyüme ≤ 0 (genişlemeyen) ve ilk iki pencerede çevrilme oranı < 0,001.
 - **G2:** S₅ Core: son pencerede büyüme > +0,005/adım YA DA çevrilme oranı S₄ Core'unkinin ≥ 5 katı. Bu, kopuşun "kararsız mod" yorumunu destekler. **Çürütme:** S₅ Core'da tüm pencerelerde büyüme ≤ 0 ve çevrilme oranı ≈ S₄'ünkine yakın → kopuş üstel kararsızlık değildir; açıklama başka bir mekanizmada (veri-yönelimli, nadir tetiklenen) aranır.
 - **G3:** GRU/LSTM (S₄, S₅): tüm pencerelerde büyüme < 0 (büzülen): hata tabanı genişlemeden değil gürültü marjından (E-B) gelir.
+- *Ek kaydedilen ayrıntı (okuma kuralının parçası DEĞİL; 06:43, koşudan önce eklendi):* tek-adım Jacobian'ın en büyük tekil değeri (taşınan durum üzerinden; Core'un üç önbellek anahtar/değeri temiz değerlerinde sabit) t ∈ {4, 16, 32, 64, 128, 192, 255} konumlarında, 8 dizi, float64: §4.1'deki ‖J‖ ≲ α‖W_s‖/ρ tahminini ve R3 ajanının "ρ_t medyanı < 1" öngörüsünü ölçer; yorum yalnız betimleyici.
 - *Sınır:* tek tekme tüm Lyapunov spektrumunu ölçmez; rastgele yön en hızlı genişleyen yöne yakınsar (üst Lyapunov üssü). "Büzülüyor" sonucu "hiç genişleyen yön yok" değil, "tipik tekme genişlemiyor" demektir.
 
 ## 6. Gerçek model yolu

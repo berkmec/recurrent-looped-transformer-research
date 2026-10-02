@@ -66,6 +66,40 @@ class KicksLeaveTheRightTrace(unittest.TestCase):
         self.assertGreater(rates['amplified'], rates['damped'] + 0.05)
 
 
+class JacobianNorms(unittest.TestCase):
+    def test_gru_with_closed_or_open_update_gate_gives_norm_zero_or_one(self):
+        # recurrent weights zero: h' = (1 - z) n + z h with n independent of h, so the Jacobian is z * I: 0 when z -> 0 and 1 when z -> 1
+        for bias, expected in ((-30.0, 0.0), (30.0, 1.0)):
+            model = make_arm('gru', 'perm4', 16, 1)
+            with torch.no_grad():
+                model.rnn.weight_hh_l0.zero_()
+                model.rnn.bias_hh_l0.zero_()
+                model.rnn.bias_ih_l0[16:32].fill_(bias)           # the z gate rows
+            norms = sg.jacobian_norms(model, tokens(8, batch=2), [3, 6])
+            for t in (3, 6):
+                self.assertTrue(all(abs(v - expected) < 1e-6 for v in norms[t]), (bias, norms))
+
+    def test_core_jacobian_predicts_a_small_finite_difference_kick(self):
+        model = make_arm('core', 'perm4', 32, 1).double().eval()
+        x = tokens(12, batch=1)
+        t = 7
+        norms = sg.jacobian_norms(model, x, [t])
+        self.assertTrue(np.isfinite(norms[t][0]) and norms[t][0] > 0)
+        # first-order check: kicking the state at t by a small delta changes the NEXT state by about (norm-bounded) J delta
+        with torch.no_grad():
+            e, _, _ = model.encode(x)
+            mk = model.rope(model.split(model.mk(model.mn(e))))
+            mv = model.split(model.mv(model.mn(e)))
+            s = None
+            for step in range(t):
+                _, s = model.decode(e[:, step], s, mk[:, :, :step + 1], mv[:, :, :step + 1], step)
+            delta = 1e-7 * torch.randn(1, 32, dtype=torch.float64)
+            base = model.decode(e[:, t], s, mk[:, :, :t + 1], mv[:, :, :t + 1], t)[1]['s']
+            moved = model.decode(e[:, t], dict(s, s=s['s'] + delta), mk[:, :, :t + 1], mv[:, :, :t + 1], t)[1]['s']
+        ratio = float((moved - base).norm() / delta.norm())
+        self.assertLessEqual(ratio, norms[t][0] * (1 + 1e-4))          # |J delta| <= ||J||_2 |delta|
+
+
 class SlopeAndSummary(unittest.TestCase):
     def test_slope_recovers_a_known_rate(self):
         t = np.arange(40, dtype=np.float64)
