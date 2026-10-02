@@ -38,3 +38,4 @@ if [ -f "$OUT/perm4-gru-w128-s1-cur-lrdecay0.3.pt" ] && [ -f "$OUT/perm4-lstm-w1
   if [ -f "$OUT/long-eval-matched.json" ]; then log "BITTI E-P5 (bkz $OUT/long-eval-matched.txt)"; else log "HATA E-P5: sonuc dosyasi yok"; fi
 fi
 log "Z1 kuyruk EP5 BITTI"
+bash scripts/run_ew.sh       # E-W (weight-space margin of the S4 arms, note 5.18) once the matched annealed models exist; added at 08:30, before this script started
