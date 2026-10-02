@@ -1,0 +1,29 @@
+--- start 2026-10-02 14:29:02
+sk3 gru w128 s1 step 200 curriculum advance walk 0 -> 1 (5s)
+sk3 gru w128 s1 step 934 curriculum advance walk 1 -> 2 (23s)
+sk3 gru w128 s1 step 1000 walk 2 loss 1.1468117237091064 value acc 0.6252367424242424 (25s)
+sk3 gru w128 s1 step 2000 walk 2 loss 0.4598737359046936 value acc 0.84234375 (53s)
+sk3 gru w128 s1 step 3000 walk 2 loss 0.20243799686431885 value acc 0.933359375 (81s)
+sk3 gru w128 s1 step 3865 curriculum advance walk 2 -> 3 (105s)
+sk3 gru w128 s1 step 4000 walk 3 loss 0.5979256629943848 value acc 0.7646875005960464 (110s)
+sk3 gru w128 s1 step 5000 walk 3 loss 0.2882872223854065 value acc 0.866302084326744 (141s)
+sk3 gru w128 s1 step 6000 walk 3 loss 0.2819421589374542 value acc 0.8973437494039536 (172s)
+sk3 gru w128 s1 step 7000 walk 3 loss 0.21575066447257996 value acc 0.933541664481163 (202s)
+sk3 gru w128 s1 step 8000 walk 3 loss 0.12073315680027008 value acc 0.9590625017881393 (233s)
+sk3 gru w128 s1 step 8520 curriculum advance walk 3 -> 4 (250s)
+sk3 gru w128 s1 step 9000 walk 4 loss 0.15202827751636505 value acc 0.9478515625 (266s)
+sk3 gru w128 s1 step 9451 curriculum advance walk 4 -> 6 (281s)
+sk3 gru w128 s1 step 10000 walk 6 loss 0.0856204479932785 value acc 0.9666796875 (301s)
+sk3 gru w128 s1 step 10022 curriculum advance walk 6 -> 8 (302s)
+sk3 gru w128 s1 step 10222 curriculum advance walk 8 -> 12 (310s)
+sk3 gru w128 s1 step 10422 curriculum advance walk 12 -> 16 (319s)
+sk3 gru w128 s1 step 11000 walk 16 loss 0.020103879272937775 value acc 0.9992578125 (347s)
+sk3 gru w128 s1 step 12000 walk 16 loss 0.007463985588401556 value acc 0.9998046875 (397s)
+sk3 gru w128 s1 step 13000 walk 16 loss 0.007622675970196724 value acc 0.9986328125 (446s)
+sk3 gru w128 s1 step 14000 walk 16 loss 0.0032873426098376513 value acc 1.0 (496s)
+sk3 gru w128 s1 step 15000 walk 16 loss 0.0031338895205408335 value acc 1.0 (544s)
+{"task": "sk3", "arm": "gru", "width": 128, "seed": 1, "in_range": 1.0, "state_in_range": 1.0, "extrapolation": 0.9983333333333333, "state_extrapolation": 1.0, "extrapolation_queries": 2400, "wall_seconds": 547.2974517999974}
+8 length 22 queries 200 value accuracy 1.0 state accuracy 1.0 {'4-15': 1.0}
+16 length 32 queries 400 value accuracy 1.0 state accuracy 1.0 {'4-15': 1.0, '16-31': 1.0}
+64 length 92 queries 1600 value accuracy 0.999 state accuracy 1.0 {'4-15': 1.0, '16-31': 1.0, '32-63': 0.999, '64-127': 1.0}
+512 length 652 queries 12800 value accuracy 0.912 state accuracy 1.0 {'4-15': 1.0, '16-31': 1.0, '32-63': 1.0, '64-127': 0.998, '128-255': 0.967, '256-511': 0.846, '512+': 0.75}
