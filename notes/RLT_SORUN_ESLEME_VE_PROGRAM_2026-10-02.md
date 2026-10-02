@@ -49,12 +49,12 @@ Durum sözlüğü: **ÇÖZÜLDÜ** (ölçülmüş çözüm, sınırlarıyla), **
 | A1 | Boş koşuda sürüklenme | KISMİ | U2c `hard_st`: onarım %94/%79 (beş-durum), %99/%92 (yığın), iki lr, genişlik 32; GRU da kayıyor (Z1-G, R2: 52-74 puan kayıp); LM'de kapı SINANMADI (M1: hold ≈ 5e-6) | E-G |
 | A2 | Üç ucuz çare | KURAL (kapandı, negatif) | pencere 16 / değişmezlik kaybı / durum-geçmişi dikkati: 3/3 `MEASURED_NEGATIVE` | |
 | A3 | Zarar görünürlüğü göreve bağlı | KURAL | her müdahale iki cebirde (onarılabilir/onarılamaz) sınanır | |
-| A4 | Başlangıç kararlı, bilgi taşıyan durum değil | AÇIK | Jacobian/Lyapunov/gürültü marjı ölçülmedi | E-B |
+| A4 | Başlangıç kararlı, bilgi taşıyan durum değil | AÇIK → KISMİ (10:02) | Jacobian/Lyapunov/gürültü marjı ölçülmedi. **Güncelleme (10:02):** ölçüldü (E-B, E-B2, E-M5): S₄ Core büzülen ve çok geniş marjlı (15,2 ± 0,6, konumla düz), S₅ Core nötr ve marjı konumla eriyor (16 → 6), tek-adım Jacobian'ın en büyük tekil değeri ≈ 1,2; GRU/LSTM durağan, lr azaltma marjı %20-25 artırıyor | E-K5, E-D5 |
 | A5 | Uzak kredi ataması | ÇÖZÜLMEDİ | tbptt8-final'de başlangıç parametresi güncellenmedi; M-mesafe: uçurum eğitim aralığıyla ≈ 6× kaydı (64 → ≈ 448) | E-A, mesafe-çeşitli eğitim |
 | A6 | Büyüyen bellek (yığın/sayaç) | KISMİ | yığın eğitim ufkunda %94, 4.096'da %72-81; sayaç: Core/GRU/LSTM eğitilen tepeye doyan sayaç (P = 8, 16) | E-C |
-| A7 | Tohum piyangosu | KISMİ | pilotlar tek tohum; S₄ tohum 2-3 kuyruk 5'te | kuyruk 5 |
+| A7 | Tohum piyangosu | KISMİ | pilotlar tek tohum; S₄ tohum 2-3 kuyruk 5'te. **Güncelleme (10:02):** S₄ tohum 1-3 ölçüldü: sabit-lr tabanı tohuma göre ≈ 25× değişiyor (GRU w64 3×10⁻⁵-7,6×10⁻⁴), annealed GRU 3/3'te sıfır, annealed LSTM 5×10⁻⁶-1,2×10⁻⁴; S₅ hâlâ tek tohum | E-P4 (tohum 4-5) |
 | A8 | Gradyan sıçramaları | KISMİ | kırpma var, kararlılık kapısı yok; sayaç GRU P=32'de kırpma 11.813/12.000 adımda | kararlılık günlüğü |
-| A9 | Öğrenme oranı duyarlılığı | AÇIK | kol başına lr taranmadı; makale lr 1e-4, bizde 3e-3 / 1e-3 | E-F |
+| A9 | Öğrenme oranı duyarlılığı | AÇIK → KISMİ (10:02) | kol başına lr taranmadı; makale lr 1e-4, bizde 3e-3 / 1e-3. **Güncelleme (10:02):** lr ÇİZELGESİ (azaltma) ölçüldü, etkisi büyük: S₄ ve S₅ GRU/LSTM sabit-lr tabanları siliniyor (E-P, E-P2), S₅ Core'da etkisiz; **tepe lr** (Core 3×10⁻³, GRU/LSTM 1×10⁻³) hâlâ taranmadı | E-F (tepe lr) |
 | A10 | Geç öğrenme (plato) | KISMİ-ÇÖZÜLDÜ | uzunluk müfredatı S₄ (15.000) ve S₅ (30.000) platoyu aştı; sayaç P=32 GRU 12.000 güncellemede hâlâ aralıkta öğrenmedi | E-C (tepe müfredatı) |
 
 ### B. Doğrulama, başlık ve bellek katmanı (RLT çevresindeki sistemler; gerçek model yolunda ikincil)
@@ -117,16 +117,16 @@ G1 (sürüklenme için mimari hamle): **kısmen yanıtlandı**: mimari kapı oyu
 ### N. Havuza eklenenler (M-hattı, Z1, L1'den; 18 Eylül sonrası)
 | ID | Problem | Durum | Kanıt |
 |---|---|---|---|
-| N1 | S₅'te Core'un 4-8× kopuşu: nedeni bilinmiyor (dikkat? durum?) | AÇIK | pencere başına ilk-hata ×1e-4: 0·0·0·3,5·23,5·26,2·17,7; GRU/LSTM baştan sabit taban; S₄'te aynı mimari 1.024'te sıfır **[V]** |
+| N1 | S₅'te Core'un 4-8× kopuşu: nedeni bilinmiyor (dikkat? durum?) | AÇIK | pencere başına ilk-hata ×1e-4: 0·0·0·3,5·23,5·26,2·17,7; GRU/LSTM baştan sabit taban; S₄'te aynı mimari 1.024'te sıfır **[V]**. **Güncelleme (10:02):** dikkat değil (E-A), optimizasyon artefaktı değil (E-P2: lr azaltma etkisiz); marj konumla eriyor (E-M5: 16 → 6, GRU/LSTM düz); aday: durum boyutu / sınıf sayısı = 1,07 (diğerleri 1,7-2,7); E-K5 (genişlik) ve E-D5 (durum gürültüsü) koşuyor, durum AÇIK → KISMİ-AÇIK |
 | N2 | Sayaç: derinlik dışdeğerlemesi yok (doyan sayaç) | ÇÖZÜLMEDİ | P = 8: Core/GRU/LSTM ilk-iniş 0,064/0,058/0,054/0,058/0,061 aynı; P = 16 GRU/LSTM 0,029-0,032; yalnız gerçek derinlik 0'da doğru; P = 32 GRU 12.000 güncellemede aralıkta öğrenmedi (prefix 0,873; ilk-iniş 0,015) **[V]** |
 | N3 | Mesafe uçurumu = eğitim-aralığı etkisi; iğne görevi konuma kilitli | KISMİ | uçurum 64 → ≈ 448 (6×) ince ayarla; yem-olgu probu: en yakın olgu **[V]** |
 | N4 | Anahtar eşleştirme harfe/anahtar türüne bağlı | KISMİ | D5/D6: görülmemiş gerçek anahtarlar 0,28 → 0,957 yalnız eğitime karıştırılınca; T–Z rastgele 0,38 **[V]** |
 | N5 | Kapı LM ölçeğinde geçerli sınanmadı | AÇIK | M1: hold 4,8e-6, kapı hiç kapanmadı **[V]** |
 | N6 | Transformer tabanı (NoPE, 4 katman, w64) S₄/S₅'i öğrenemedi | KISMİ | S₄ 60.000 güncelleme müfredatla bile uzunluk 8'de takıldı; taban zayıflığı mı, tabanın kötü ayarı mı (konum kodlamalı/geniş denenmedi) | 
 | N7 | RLT eğitim hızı | KISIT | = D1; L1 ölçüsü |
-| N8 | L1 eşikleri | DEVAM | 2.000. adım pili 0/3; tek-olgu getirme dolgu 0-64'te çalışıyor, ≥ 128'de 0 **[V]** |
-| N9 | Core'un S₄ avantajı tek eğitim tohumuna dayanıyor | KISMİ | kuyruk 5 (tohum 2-3) |
-| N10 | GRU/LSTM sabit hata tabanı ≠ Core kopuşu: mekanizma farkı | AÇIK | hazard tablosu `results/Z1-pilot/hazard-by-window-s4-s5.txt` |
+| N8 | L1 eşikleri | DEVAM | 2.000. adım pili 0/3; tek-olgu getirme dolgu 0-64'te çalışıyor, ≥ 128'de 0 **[V]**. **Güncelleme (10:02):** 3.000. adımda REACH aşıldı (@384 0,969); 4.000. adımda ANAHTAR EŞLEŞTİRME de aşıldı (train_k4_first 0,890 ≥ 0,8), b/B 1,730; GENELLEME (held_k4_first 0,396 < 0,6) henüz değil **[V]** |
+| N9 | Core'un S₄ avantajı tek eğitim tohumuna dayanıyor | KISMİ | kuyruk 5 (tohum 2-3). **Güncelleme (10:02):** kuyruk 5 bitti: Core w64 sabit lr 3/3 tohumda 0 / 203.200; sabit-lr GRU/LSTM her tohumda taban; **annealed GRU w64 de 3/3'te 0** ⇒ avantaj yalnız sabit-lr rakiplere karşı; annealed'e karşı ≤ 1.024'te yok, uzun konum E-P5'te; S₅'te ise Core, annealed GRU/LSTM'in 7-18× gerisinde (§5.11.2) |
+| N10 | GRU/LSTM sabit hata tabanı ≠ Core kopuşu: mekanizma farkı | AÇIK → KISMİ-ÇÖZÜLDÜ (10:02) | hazard tablosu `results/Z1-pilot/hazard-by-window-s4-s5.txt`. **Güncelleme (10:02):** mekanizma farkı ayrıştı: GRU/LSTM tabanı = sabit-lr son-yineleme gürültüsü (lr azaltmayla 12-100× siliniyor: E-P, E-P2; marj profili durağan), Core'un S₅ kopuşu = marj erimesi (lr azaltmayla değişmiyor: E-P2; E-M5); Core kopuşunun nedeni (kapasite mi, dinamik mi) E-K5 / E-D5'te |
 
 **Sayımlar (tablolardan hesaplanır, aşağıdaki "Sayım" bölümünde).**
 
