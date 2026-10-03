@@ -1,0 +1,26 @@
+results/Z1-pilot/perm5-core-w128-s2-cur.pt: perm5 width 128, 200 dev sequences of 1024 positions
+  base           first errors   5/199351 person-steps = 2.51e-05  final 0.98  (36 s)
+  class-1        first errors   0/201600 person-steps = 0.00e+00  final 1.00  (36 s)
+  class-4        first errors   0/201600 person-steps = 0.00e+00  final 1.00  (35 s)
+  class-16       first errors   0/201600 person-steps = 0.00e+00  final 1.00  (30 s)
+  nearest-1      first errors   0/201600 person-steps = 0.00e+00  final 1.00  (31 s)
+  nearest-16     first errors   0/201600 person-steps = 0.00e+00  final 1.00  (30 s)
+  class-1-soft0.5 first errors   0/201600 person-steps = 0.00e+00  final 1.00  (31 s)
+perm5 w128 (409720 parameters), n = 200, stored-window control True
+  [16,1024): base 5/199351  class-1 0/201600  class-4 0/201600  class-16 0/201600  nearest-1 0/201600  nearest-16 0/201600  class-1-soft0.5 0/201600
+  in-range accuracy (length 16): base 1.000  class-1 1.000  class-4 1.000  class-16 1.000  nearest-1 1.000  nearest-16 1.000  class-1-soft0.5 1.000
+  labels: class-1 NEUTRAL  class-4 NEUTRAL  class-16 NEUTRAL  nearest-1 NEUTRAL  nearest-16 NEUTRAL  class-1-soft0.5 NEUTRAL
+{
+ "controls": [],
+ "models": {
+  "perm5 w128 s2 perm5-core-w128-s2-cur": {
+   "class-1": "NEUTRAL",
+   "class-4": "NEUTRAL",
+   "class-16": "NEUTRAL",
+   "nearest-1": "NEUTRAL",
+   "nearest-16": "NEUTRAL",
+   "class-1-soft0.5": "NEUTRAL"
+  }
+ },
+ "verdict": "INCOMPLETE: the registered verdict needs three S5 Core models and an S4 control (got 1 and 0)"
+}

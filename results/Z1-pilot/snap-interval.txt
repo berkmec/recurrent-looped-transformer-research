@@ -1,0 +1,98 @@
+results/Z1-pilot/perm5-core-w128-s1-cur.pt: perm5 width 128; injection hazard of [64,128): 15 / 38145
+  length   8192 n 40 class-32    first errors 0/327040 person-steps  SHORT  error-free sequences 40/40  (59 s)
+  length   8192 n 40 class-64    first errors 2/319733 person-steps  SPARSE  error-free sequences 38/40  (59 s)
+  length   8192 n 40 class-96    first errors 17/261743 person-steps  FLOOR  error-free sequences 23/40  (59 s)
+  length   8192 n 40 class-128   first errors 30/155514 person-steps  FLOOR  error-free sequences 10/40  (64 s)
+  length   8192 n 40 class-256   first errors 40/31567 person-steps  FLOOR  error-free sequences 0/40  (62 s)
+results/Z1-pilot/perm5-core-w128-s1-cur.pt: perm5 w128, 40 sequences x 8192 positions
+  class-32   first errors   0/ 327040 = 0.00e+00  predicted 0.00e+00  error-free 40/40  consistent True
+  class-64   first errors   2/ 319733 = 6.26e-06  predicted 0.00e+00  error-free 38/40  consistent True
+  class-96   first errors  17/ 261743 = 6.49e-05  predicted 1.31e-04  error-free 23/40  consistent True
+  class-128  first errors  30/ 155514 = 1.93e-04  predicted 1.97e-04  error-free 10/40  consistent True
+  class-256  first errors  40/  31567 = 1.27e-03  predicted n/a       error-free 0/40
+results/Z1-pilot/perm5-core-w128-s1-cur-lrdecay0.3.pt: perm5 width 128; injection hazard of [64,128): 43 / 37539
+  length   8192 n 40 class-32    first errors 0/327040 person-steps  SHORT  error-free sequences 40/40  (57 s)
+  length   8192 n 40 class-64    first errors 5/303262 person-steps  FLOOR  error-free sequences 35/40  (56 s)
+  length   8192 n 40 class-96    first errors 24/204354 person-steps  FLOOR  error-free sequences 16/40  (55 s)
+  length   8192 n 40 class-128   first errors 40/70486 person-steps  FLOOR  error-free sequences 0/40  (55 s)
+  length   8192 n 40 class-256   first errors 40/19122 person-steps  FLOOR  error-free sequences 0/40  (54 s)
+results/Z1-pilot/perm5-core-w128-s1-cur-lrdecay0.3.pt: perm5 w128, 40 sequences x 8192 positions
+  class-32   first errors   0/ 327040 = 0.00e+00  predicted 0.00e+00  error-free 40/40  consistent True
+  class-64   first errors   5/ 303262 = 1.65e-05  predicted 0.00e+00  error-free 35/40  consistent True
+  class-96   first errors  24/ 204354 = 1.17e-04  predicted 3.82e-04  error-free 16/40  consistent True
+  class-128  first errors  40/  70486 = 5.67e-04  predicted 5.73e-04  error-free 0/40  consistent True
+  class-256  first errors  40/  19122 = 2.09e-03  predicted n/a       error-free 0/40
+{
+ "verdict": "RENEWAL HOLDS",
+ "broken": [],
+ "models": {
+  "perm5-core-w128-s1-cur": {
+   "32": {
+    "events": 0,
+    "person_steps": 327040,
+    "hazard": 0.0,
+    "predicted": 0.0,
+    "consistent": true,
+    "error_free": 40
+   },
+   "64": {
+    "events": 2,
+    "person_steps": 319733,
+    "hazard": 6.255219198518764e-06,
+    "predicted": 0.0,
+    "consistent": true,
+    "error_free": 38
+   },
+   "96": {
+    "events": 17,
+    "person_steps": 261743,
+    "hazard": 6.494920590044432e-05,
+    "predicted": 0.00013107877834578582,
+    "consistent": true,
+    "error_free": 23
+   },
+   "128": {
+    "events": 30,
+    "person_steps": 155514,
+    "hazard": 0.0001929086770322929,
+    "predicted": 0.00019661816751867872,
+    "consistent": true,
+    "error_free": 10
+   }
+  },
+  "perm5-core-w128-s1-cur-lrdecay0.3": {
+   "32": {
+    "events": 0,
+    "person_steps": 327040,
+    "hazard": 0.0,
+    "predicted": 0.0,
+    "consistent": true,
+    "error_free": 40
+   },
+   "64": {
+    "events": 5,
+    "person_steps": 303262,
+    "hazard": 1.6487393738747352e-05,
+    "predicted": 0.0,
+    "consistent": true,
+    "error_free": 35
+   },
+   "96": {
+    "events": 24,
+    "person_steps": 204354,
+    "hazard": 0.00011744326022490385,
+    "predicted": 0.00038182512409316535,
+    "consistent": true,
+    "error_free": 16
+   },
+   "128": {
+    "events": 40,
+    "person_steps": 70486,
+    "hazard": 0.0005674885792923417,
+    "predicted": 0.000572737686139748,
+    "consistent": true,
+    "error_free": 0
+   }
+  }
+ }
+}

@@ -1,0 +1,364 @@
+[
+ {
+  "weights": "results/Z1-pilot/perm5-core-w128-s1-cur.pt",
+  "task": "perm5",
+  "width": 128,
+  "seed": 1,
+  "length": 8192,
+  "n": 40,
+  "window": 64,
+  "age_hazard": {
+   "0-16": [
+    0,
+    9600
+   ],
+   "16-32": [
+    0,
+    9600
+   ],
+   "32-64": [
+    0,
+    19200
+   ],
+   "64-128": [
+    15,
+    38145
+   ]
+  },
+  "conditions": {
+   "class-32": {
+    "events": 0,
+    "person_steps": 327040,
+    "label": "SHORT",
+    "final": 1.0,
+    "error_free": 40,
+    "windows": {
+     "16-256": {
+      "events": 0,
+      "person_steps": 9600,
+      "at_risk": 40
+     },
+     "256-1024": {
+      "events": 0,
+      "person_steps": 30720,
+      "at_risk": 40
+     },
+     "1024-4096": {
+      "events": 0,
+      "person_steps": 122880,
+      "at_risk": 40
+     },
+     "4096-8192": {
+      "events": 0,
+      "person_steps": 163840,
+      "at_risk": 40
+     }
+    }
+   },
+   "class-64": {
+    "events": 2,
+    "person_steps": 319733,
+    "label": "SPARSE",
+    "final": 0.9750000238418579,
+    "error_free": 38,
+    "windows": {
+     "16-256": {
+      "events": 0,
+      "person_steps": 9600,
+      "at_risk": 40
+     },
+     "256-1024": {
+      "events": 0,
+      "person_steps": 30720,
+      "at_risk": 40
+     },
+     "1024-4096": {
+      "events": 1,
+      "person_steps": 122301,
+      "at_risk": 40
+     },
+     "4096-8192": {
+      "events": 1,
+      "person_steps": 157112,
+      "at_risk": 39
+     }
+    }
+   },
+   "class-96": {
+    "events": 17,
+    "person_steps": 261743,
+    "label": "FLOOR",
+    "final": 0.675000011920929,
+    "error_free": 23,
+    "windows": {
+     "16-256": {
+      "events": 0,
+      "person_steps": 9600,
+      "at_risk": 40
+     },
+     "256-1024": {
+      "events": 2,
+      "person_steps": 30185,
+      "at_risk": 40
+     },
+     "1024-4096": {
+      "events": 6,
+      "person_steps": 106887,
+      "at_risk": 38
+     },
+     "4096-8192": {
+      "events": 9,
+      "person_steps": 115071,
+      "at_risk": 32
+     }
+    }
+   },
+   "class-128": {
+    "events": 30,
+    "person_steps": 155514,
+    "label": "FLOOR",
+    "final": 0.44999998807907104,
+    "error_free": 10,
+    "windows": {
+     "16-256": {
+      "events": 3,
+      "person_steps": 9427,
+      "at_risk": 40
+     },
+     "256-1024": {
+      "events": 4,
+      "person_steps": 27452,
+      "at_risk": 37
+     },
+     "1024-4096": {
+      "events": 18,
+      "person_steps": 67247,
+      "at_risk": 33
+     },
+     "4096-8192": {
+      "events": 5,
+      "person_steps": 51388,
+      "at_risk": 15
+     }
+    }
+   },
+   "class-256": {
+    "events": 40,
+    "person_steps": 31567,
+    "label": "FLOOR",
+    "final": 0.07500000298023224,
+    "error_free": 0,
+    "windows": {
+     "16-256": {
+      "events": 9,
+      "person_steps": 9044,
+      "at_risk": 40
+     },
+     "256-1024": {
+      "events": 22,
+      "person_steps": 15585,
+      "at_risk": 31
+     },
+     "1024-4096": {
+      "events": 9,
+      "person_steps": 6938,
+      "at_risk": 9
+     },
+     "4096-8192": {
+      "events": 0,
+      "person_steps": 0,
+      "at_risk": 0
+     }
+    }
+   }
+  },
+  "predicted": {
+   "32": 0.0,
+   "64": 0.0,
+   "96": 0.00013107877834578582,
+   "128": 0.00019661816751867872,
+   "256": null
+  }
+ },
+ {
+  "weights": "results/Z1-pilot/perm5-core-w128-s1-cur-lrdecay0.3.pt",
+  "task": "perm5",
+  "width": 128,
+  "seed": 1,
+  "length": 8192,
+  "n": 40,
+  "window": 64,
+  "age_hazard": {
+   "0-16": [
+    0,
+    9600
+   ],
+   "16-32": [
+    0,
+    9600
+   ],
+   "32-64": [
+    0,
+    19200
+   ],
+   "64-128": [
+    43,
+    37539
+   ]
+  },
+  "conditions": {
+   "class-32": {
+    "events": 0,
+    "person_steps": 327040,
+    "label": "SHORT",
+    "final": 1.0,
+    "error_free": 40,
+    "windows": {
+     "16-256": {
+      "events": 0,
+      "person_steps": 9600,
+      "at_risk": 40
+     },
+     "256-1024": {
+      "events": 0,
+      "person_steps": 30720,
+      "at_risk": 40
+     },
+     "1024-4096": {
+      "events": 0,
+      "person_steps": 122880,
+      "at_risk": 40
+     },
+     "4096-8192": {
+      "events": 0,
+      "person_steps": 163840,
+      "at_risk": 40
+     }
+    }
+   },
+   "class-64": {
+    "events": 5,
+    "person_steps": 303262,
+    "label": "FLOOR",
+    "final": 0.925000011920929,
+    "error_free": 35,
+    "windows": {
+     "16-256": {
+      "events": 0,
+      "person_steps": 9600,
+      "at_risk": 40
+     },
+     "256-1024": {
+      "events": 1,
+      "person_steps": 30524,
+      "at_risk": 40
+     },
+     "1024-4096": {
+      "events": 2,
+      "person_steps": 117625,
+      "at_risk": 39
+     },
+     "4096-8192": {
+      "events": 2,
+      "person_steps": 145513,
+      "at_risk": 37
+     }
+    }
+   },
+   "class-96": {
+    "events": 24,
+    "person_steps": 204354,
+    "label": "FLOOR",
+    "final": 0.4749999940395355,
+    "error_free": 16,
+    "windows": {
+     "16-256": {
+      "events": 0,
+      "person_steps": 9600,
+      "at_risk": 40
+     },
+     "256-1024": {
+      "events": 3,
+      "person_steps": 29715,
+      "at_risk": 40
+     },
+     "1024-4096": {
+      "events": 15,
+      "person_steps": 88543,
+      "at_risk": 37
+     },
+     "4096-8192": {
+      "events": 6,
+      "person_steps": 76496,
+      "at_risk": 22
+     }
+    }
+   },
+   "class-128": {
+    "events": 40,
+    "person_steps": 70486,
+    "label": "FLOOR",
+    "final": 0.17499999701976776,
+    "error_free": 0,
+    "windows": {
+     "16-256": {
+      "events": 3,
+      "person_steps": 9264,
+      "at_risk": 40
+     },
+     "256-1024": {
+      "events": 9,
+      "person_steps": 25482,
+      "at_risk": 37
+     },
+     "1024-4096": {
+      "events": 27,
+      "person_steps": 33706,
+      "at_risk": 28
+     },
+     "4096-8192": {
+      "events": 1,
+      "person_steps": 2034,
+      "at_risk": 1
+     }
+    }
+   },
+   "class-256": {
+    "events": 40,
+    "person_steps": 19122,
+    "label": "FLOOR",
+    "final": 0.0,
+    "error_free": 0,
+    "windows": {
+     "16-256": {
+      "events": 14,
+      "person_steps": 8713,
+      "at_risk": 40
+     },
+     "256-1024": {
+      "events": 25,
+      "person_steps": 10228,
+      "at_risk": 26
+     },
+     "1024-4096": {
+      "events": 1,
+      "person_steps": 181,
+      "at_risk": 1
+     },
+     "4096-8192": {
+      "events": 0,
+      "person_steps": 0,
+      "at_risk": 0
+     }
+    }
+   }
+  },
+  "predicted": {
+   "32": 0.0,
+   "64": 0.0,
+   "96": 0.00038182512409316535,
+   "128": 0.000572737686139748,
+   "256": null
+  }
+ }
+]

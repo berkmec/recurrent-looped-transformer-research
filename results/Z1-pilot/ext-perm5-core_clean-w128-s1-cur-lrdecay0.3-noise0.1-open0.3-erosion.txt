@@ -1,0 +1,30 @@
+results/Z1-pilot/perm5-core_clean-w128-s1-cur-lrdecay0.3-noise0.1-open0.3.pt: perm5 width 128, 200 dev sequences of 1024 positions
+  base      first errors 200/ 45207 person-steps = 4.42e-03  final 0.05  (32 s)
+  both16    first errors   1/200616 person-steps = 4.98e-06  final 1.00  (24 s)
+  both32    first errors   1/200616 person-steps = 4.98e-06  final 1.00  (25 s)
+  both64    first errors   7/197776 person-steps = 3.54e-05  final 0.98  (24 s)
+  both128   first errors 123/139495 person-steps = 8.82e-04  final 0.62  (25 s)
+  cross16   first errors 200/ 45200 person-steps = 4.42e-03  final 0.05  (24 s)
+  cross64   first errors 200/ 45198 person-steps = 4.42e-03  final 0.06  (24 s)
+  enc16     first errors   1/200616 person-steps = 4.98e-06  final 1.00  (38 s)
+  enc64     first errors   7/197776 person-steps = 3.54e-05  final 0.98  (36 s)
+  t0   8: untouched   0/ 1600  state   0/ 1600  state+cache   0/ 1600  (1 s)
+  t0  32: untouched   9/25312  state   8/25430  state+cache   8/25430  (10 s)
+  t0  64: untouched  26/24798  state  26/24977  state+cache  26/24977  (12 s)
+  t0 128: untouched 126/20558  state 123/21381  state+cache 123/21378  (17 s)
+  t0 256: untouched  71/ 2347  state 199/ 9212  state+cache 199/ 9174  (30 s)
+  t0 512: untouched   0/    0  state 200/ 3639  state+cache 200/ 3648  (56 s)
+perm5 w128 (442490 parameters), n = 200, stored-window control True
+  windows [16,1024): base 200/45207  both16 1/200616  both32 1/200616  both64 7/197776  both128 123/139495  cross16 200/45200  cross64 200/45198  enc16 1/200616  enc64 7/197776   (final accuracy 0.05 -> both16 1.00)
+  in-range accuracy by window K (both paths): full 1.000  K1 1.000  K2 1.000  K4 1.000  K8 1.000
+  t0   8 span  8: untouched 0/1600  state 0/1600 (acc 1.000)  state+cache 0/1600 (acc 1.000)
+  t0  32 span 128: untouched 9/25312  state 8/25430 (acc 0.996)  state+cache 8/25430 (acc 0.996)
+  t0  64 span 128: untouched 26/24798  state 26/24977 (acc 0.990)  state+cache 26/24977 (acc 0.990)
+  t0 128 span 128: untouched 126/20558  state 123/21381 (acc 0.903)  state+cache 123/21378 (acc 0.902)
+  t0 256 span 128: untouched 71/2347  state 199/9212 (acc 0.591)  state+cache 199/9174 (acc 0.591)
+  t0 512 span 128: untouched 0/0  state 200/3639 (acc 0.439)  state+cache 200/3648 (acc 0.441)
+  both16: RESCUES (R 295.8479881434291); state+cache pooled at (128, 256, 512): NEUTRAL (R 0.5634969024983252)
+{
+ "window": "NO S5 MODEL",
+ "injection": "NO S5 MODEL"
+}

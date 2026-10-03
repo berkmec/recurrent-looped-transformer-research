@@ -1,0 +1,15 @@
+results/Z1-pilot/perm5-core_clean-w128-s1-cur-lrdecay0.3-noise0.1-open0.3.pt: perm5 width 128, 200 dev sequences of 1024 positions
+  base           first errors 200/ 45207 person-steps = 4.42e-03  final 0.05  (36 s)
+  class-1        first errors  95/188734 person-steps = 5.03e-04  final 0.55  (34 s)
+  class-4        first errors 200/123802 person-steps = 1.62e-03  final 0.06  (33 s)
+  class-16       first errors 200/ 67669 person-steps = 2.96e-03  final 0.00  (33 s)
+  nearest-1      first errors 125/181585 person-steps = 6.88e-04  final 0.46  (41 s)
+  nearest-16     first errors 200/ 67268 person-steps = 2.97e-03  final 0.01  (39 s)
+  class-1-soft0.5 first errors 145/176213 person-steps = 8.23e-04  final 0.30  (38 s)
+perm5 w128 (442490 parameters), n = 200, stored-window control True
+  [16,1024): base 200/45207  class-1 95/188734  class-4 200/123802  class-16 200/67669  nearest-1 125/181585  nearest-16 200/67268  class-1-soft0.5 145/176213
+  in-range accuracy (length 16): base 1.000  class-1 1.000  class-4 1.000  class-16 1.000  nearest-1 1.000  nearest-16 1.000  class-1-soft0.5 1.000
+  labels: class-1 RESCUES  class-4 PARTIAL  class-16 NEUTRAL  nearest-1 RESCUES  nearest-16 NEUTRAL  class-1-soft0.5 RESCUES
+{
+ "verdict": "NO S5 MODEL"
+}

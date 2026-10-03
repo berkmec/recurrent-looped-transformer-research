@@ -1,0 +1,23 @@
+--- start 2026-10-02 17:46:29
+perm4 lstm w64 s4 step 200 curriculum advance 1 -> 2 (1s)
+perm4 lstm w64 s4 step 501 curriculum advance 2 -> 3 (2s)
+perm4 lstm w64 s4 step 910 curriculum advance 3 -> 4 (4s)
+perm4 lstm w64 s4 step 1150 curriculum advance 4 -> 6 (5s)
+perm4 lstm w64 s4 step 1357 curriculum advance 6 -> 8 (6s)
+perm4 lstm w64 s4 step 1557 curriculum advance 8 -> 12 (7s)
+perm4 lstm w64 s4 step 1757 curriculum advance 12 -> 16 (8s)
+perm4 lstm w64 s4 step 2000 len 16 loss 0.04664340615272522 (10s)
+perm4 lstm w64 s4 step 4000 len 16 loss 0.0029924302361905575 (27s)
+perm4 lstm w64 s4 step 6000 len 16 loss 0.0016219881363213062 (45s)
+perm4 lstm w64 s4 step 8000 len 16 loss 0.007934792898595333 (63s)
+perm4 lstm w64 s4 step 10000 len 16 loss 0.000485066237160936 (81s)
+perm4 lstm w64 s4 step 12000 len 16 loss 0.0005886295111849904 (100s)
+perm4 lstm w64 s4 step 14000 len 16 loss 0.00026883126702159643 (118s)
+{"task": "perm4", "arm": "lstm", "width": 64, "seed": 4, "learned_in_range": true, "effective_horizon": 512, "horizon_metric": "final", "wall_seconds": 128.95336549999774}
+16 {'length': 16, 'final': 1.0, 'prefix': 1.0, 'beyond_horizon': None, 'hazard': [{'start': 0, 'stop': 16, 'at_risk': 100, 'first_errors': 0, 'rate': 0.0}]}
+32 {'length': 32, 'final': 1.0, 'prefix': 1.0, 'beyond_horizon': 1.0, 'hazard': [{'start': 0, 'stop': 16, 'at_risk': 100, 'first_errors': 0, 'rate': 0.0}, {'start': 16, 'stop': 32, 'at_risk': 100, 'first_errors': 0, 'rate': 0.0}]}
+64 {'length': 64, 'final': 0.99, 'prefix': 0.994, 'beyond_horizon': 0.993, 'hazard': [{'start': 0, 'stop': 16, 'at_risk': 100, 'first_errors': 0, 'rate': 0.0}, {'start': 16, 'stop': 32, 'at_risk': 100, 'first_errors': 1, 'rate': 0.000625}, {'start': 32, 'stop': 64, 'at_risk': 99, 'first_errors': 0, 'rate': 0.0}]}
+128 {'length': 128, 'final': 1.0, 'prefix': 1.0, 'beyond_horizon': 1.0, 'hazard': [{'start': 0, 'stop': 16, 'at_risk': 100, 'first_errors': 0, 'rate': 0.0}, {'start': 16, 'stop': 32, 'at_risk': 100, 'first_errors': 0, 'rate': 0.0}, {'start': 32, 'stop': 64, 'at_risk': 100, 'first_errors': 0, 'rate': 0.0}, {'start': 64, 'stop': 128, 'at_risk': 100, 'first_errors': 0, 'rate': 0.0}]}
+256 {'length': 256, 'final': 1.0, 'prefix': 1.0, 'beyond_horizon': 1.0, 'hazard': [{'start': 0, 'stop': 16, 'at_risk': 100, 'first_errors': 0, 'rate': 0.0}, {'start': 16, 'stop': 32, 'at_risk': 100, 'first_errors': 0, 'rate': 0.0}, {'start': 32, 'stop': 64, 'at_risk': 100, 'first_errors': 0, 'rate': 0.0}, {'start': 64, 'stop': 128, 'at_risk': 100, 'first_errors': 0, 'rate': 0.0}, {'start': 128, 'stop': 256, 'at_risk': 100, 'first_errors': 0, 'rate': 0.0}]}
+512 {'length': 512, 'final': 0.99, 'prefix': 0.999, 'beyond_horizon': 0.999, 'hazard': [{'start': 0, 'stop': 16, 'at_risk': 100, 'first_errors': 0, 'rate': 0.0}, {'start': 16, 'stop': 32, 'at_risk': 100, 'first_errors': 0, 'rate': 0.0}, {'start': 32, 'stop': 64, 'at_risk': 100, 'first_errors': 0, 'rate': 0.0}, {'start': 64, 'stop': 128, 'at_risk': 100, 'first_errors': 0, 'rate': 0.0}, {'start': 128, 'stop': 256, 'at_risk': 100, 'first_errors': 0, 'rate': 0.0}, {'start': 256, 'stop': 512, 'at_risk': 100, 'first_errors': 1, 'rate': 3.90625e-05}]}
+1024 {'length': 1024, 'final': 0.92, 'prefix': 0.967, 'beyond_horizon': 0.966, 'hazard': [{'start': 0, 'stop': 16, 'at_risk': 100, 'first_errors': 0, 'rate': 0.0}, {'start': 16, 'stop': 32, 'at_risk': 100, 'first_errors': 0, 'rate': 0.0}, {'start': 32, 'stop': 64, 'at_risk': 100, 'first_errors': 0, 'rate': 0.0}, {'start': 64, 'stop': 128, 'at_risk': 100, 'first_errors': 0, 'rate': 0.0}, {'start': 128, 'stop': 256, 'at_risk': 100, 'first_errors': 2, 'rate': 0.00015625}, {'start': 256, 'stop': 512, 'at_risk': 98, 'first_errors': 2, 'rate': 7.971938775510203e-05}, {'start': 512, 'stop': 1024, 'at_risk': 96, 'first_errors': 5, 'rate': 0.00010172526041666667}]}

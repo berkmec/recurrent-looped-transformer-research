@@ -433,3 +433,48 @@
 [15:34:17] BASLA Z1 perm5-core-w128-s3-cur (E-R5; CPU, 1 parcacik, 30000 adim, lr 0.003 sabit, genislik 128, tohum 3, mufredat 1,2,3,4,6,8,12,16)
 [15:51:48] BITTI ES sk3-core_nofb-w64-s2
 [15:51:48] BASLA ES sk3-tfm-w64-s2 (CPU, 1 parcacik, 15000 adim, lr 0.003 son %30'da ~0'a, mufredat 0..16)
+[16:07:25] BITTI E-L1X step006000 8192 (bkz results/L1-long-doc/step006000-long-doc-8192.txt)
+[16:07:25] E-L1X kuyruk BITTI
+[16:07:33] BASLA E-A9k (CPU, 1 parcacik): yakalama araligi k doz-yaniti (32..256) ve yenilenme ongorusu, 2 S5 Core, 8.192 konum n = 40, egitimsiz
+[16:13:22] BITTI ES sk3-tfm-w64-s2
+[16:13:22] BASLA ES sk3-core-w64-s1 (CPU, 1 parcacik, 15000 adim, lr 0.003 son %30'da ~0'a, mufredat 0..16)
+[16:17:21] BITTI E-A9k (bkz results/Z1-pilot/snap-interval.txt)
+[16:17:22] BASLA E-A9d (CPU, 1 parcacik): yakalama araligi izgarasi Core vs GRU/LSTM, 6 model, 1.024 konum n = 200, egitimsiz, betimleyici
+[16:28:19] BITTI E-A9d (bkz results/Z1-pilot/snap-grid.txt)
+[16:28:20] BASLA ext perm5-core-w128-s1-cur-lrdecay0.3-noise0.1 (E-A5 okumasi: dikkat pencereleri + kahin enjeksiyon; betimleyici)
+[16:34:08] BITTI ext perm5-core-w128-s1-cur-lrdecay0.3-noise0.1 erosion
+[16:34:08] BASLA ext perm5-core-w128-s1-cur-lrdecay0.3-noise0.1 (E-A9 okumasi: kendi-sinifina yapisma, 1.024 konum; betimleyici)
+[16:38:03] BITTI ext perm5-core-w128-s1-cur-lrdecay0.3-noise0.1 snap
+[16:38:03] BASLA ext perm5-core_clean-w128-s1-cur-lrdecay0.3-noise0.1-open0.3 (E-A5 okumasi: dikkat pencereleri + kahin enjeksiyon; betimleyici)
+[16:44:28] BITTI ext perm5-core_clean-w128-s1-cur-lrdecay0.3-noise0.1-open0.3 erosion
+[16:44:28] BASLA ext perm5-core_clean-w128-s1-cur-lrdecay0.3-noise0.1-open0.3 (E-A9 okumasi: kendi-sinifina yapisma, 1.024 konum; betimleyici)
+[16:48:50] BITTI ext perm5-core_clean-w128-s1-cur-lrdecay0.3-noise0.1-open0.3 snap
+[16:48:50] ext kuyruk BITTI (perm5-core-w128-s1-cur-lrdecay0.3-noise0.1 perm5-core_clean-w128-s1-cur-lrdecay0.3-noise0.1-open0.3)
+[17:12:21] BITTI Z1 perm5-core-w128-s3-cur
+[17:12:21] E-R5 kuyruk BITTI
+[17:12:22] BASLA Z1 perm5-core-w128-s1-cur-lrdecay0.3-alpha1.0 (E-F5; CPU, 1 parcacik, 30000 adim, tepe lr 0.003, alfa 1.0, lr son %30'da ~0'a, mufredat 1,2,3,4,6,8,12,16)
+[17:12:32] BASLA ext perm5-core-w128-s2-cur (E-A5 okumasi: dikkat pencereleri + kahin enjeksiyon; betimleyici)
+[17:18:52] BITTI ext perm5-core-w128-s2-cur erosion
+[17:18:52] BASLA ext perm5-core-w128-s2-cur (E-A9 okumasi: kendi-sinifina yapisma, 1.024 konum; betimleyici)
+[17:22:24] BITTI ES sk3-core-w64-s1
+[17:22:24] BASLA ES sk3-core-w64-s2 (CPU, 1 parcacik, 15000 adim, lr 0.003 son %30'da ~0'a, mufredat 0..16)
+[17:22:48] BITTI ext perm5-core-w128-s2-cur snap
+[17:22:48] BASLA ext perm5-core-w128-s3-cur (E-A5 okumasi: dikkat pencereleri + kahin enjeksiyon; betimleyici)
+[17:28:09] BITTI ext perm5-core-w128-s3-cur erosion
+[17:28:09] BASLA ext perm5-core-w128-s3-cur (E-A9 okumasi: kendi-sinifina yapisma, 1.024 konum; betimleyici)
+[17:31:52] BITTI ext perm5-core-w128-s3-cur snap
+[17:31:52] ext kuyruk BITTI (perm5-core-w128-s2-cur perm5-core-w128-s3-cur)
+[17:46:19] L1 results/L1-scratch-w928-s401: surec cikti (kod 1), 8557 adim
+[17:46:20] HATA Z1 perm5-core-w128-s1-cur-lrdecay0.3-alpha1.0: sonuc dosyasi yok (bkz results/Z1-pilot/perm5-core-w128-s1-cur-lrdecay0.3-alpha1.0.log)
+[17:46:20] BASLA Z1 perm5-core-w128-s1-cur-lrdecay0.3-lr0.001 (E-F5; CPU, 1 parcacik, 30000 adim, tepe lr 0.001, alfa 0.1, lr son %30'da ~0'a, mufredat 1,2,3,4,6,8,12,16)
+[17:46:21] HATA ES sk3-core-w64-s2: sonuc dosyasi yok (bkz results/ES-pilot/sk3-core-w64-s2.log)
+[17:46:21] ES kuyruk A BITTI
+[17:46:22] BASLA Z1 perm4-gru-w64-s4-cur (CPU, 1 parcacik, 15000 adim, lr 0.003, mufredat 1,2,3,4,6,8,12,16, lr azaltma kesri 0)
+[17:46:27] HATA Z1 perm5-core-w128-s1-cur-lrdecay0.3-lr0.001: sonuc dosyasi yok (bkz results/Z1-pilot/perm5-core-w128-s1-cur-lrdecay0.3-lr0.001.log)
+[17:46:27] BASLA Z1 perm5-core-w128-s1-cur-lrdecay0.3-alpha0.3 (E-F5; CPU, 1 parcacik, 30000 adim, tepe lr 0.003, alfa 0.3, lr son %30'da ~0'a, mufredat 1,2,3,4,6,8,12,16)
+[17:46:29] HATA Z1 perm4-gru-w64-s4-cur: sonuc dosyasi yok (bkz results/Z1-pilot/perm4-gru-w64-s4-cur.log)
+[17:46:29] BASLA Z1 perm4-lstm-w64-s4-cur (CPU, 1 parcacik, 15000 adim, lr 0.003, mufredat 1,2,3,4,6,8,12,16, lr azaltma kesri 0)
+[17:46:49] BASLA L1 results/L1-scratch-w928-s401 (tarif m2-draft, deneme 4)
+[17:48:41] BITTI Z1 perm4-lstm-w64-s4-cur
+[17:48:41] BASLA Z1 perm4-gru-w64-s5-cur (CPU, 1 parcacik, 15000 adim, lr 0.003, mufredat 1,2,3,4,6,8,12,16, lr azaltma kesri 0)
+[17:51:56] ZINCIR-DEGISIKLIGI 35: KULLANICI bilgisayara ihtiyac duydu (gecici): TUM deney surecleri DONDURULDU (NtSuspendProcess; oldurulmedi, durum korunuyor, kilit dizinleri bozulmadi): L1 (run_longrun.sh 12144/17344, mline.longrun 10572/19212; adim 8527 bellekte, latest.pt adim 8500), E-F5 (run_ef5.sh 5436/15184, depth_run 17536/19024), E-P4 (run_ep4.sh 2372/13048, depth_run 18600/19076 = perm4 gru s5), bekleyiciler 10132/11084. Devam: ayni PID listesine NtResumeProcess (paused_pids.txt, is dizini tmp). 17:46da kullanici python sureclerini elle oldurmustu: bekciler L1'i (deneme 4, latest.pt adim 8500'den) ve Z1 zincirini geri baslatti. 33 sizan l1watch.sh izleyicisi kapatildi. A0 ikizi plani beklemede (kod ve not degismedi).

@@ -1,0 +1,87 @@
+[
+ {
+  "weights": "results/Z1-pilot/perm5-core-w128-s1-cur-lrdecay0.3-noise0.1.pt",
+  "arm": "core",
+  "task": "perm5",
+  "width": 128,
+  "seed": 1,
+  "n": 200,
+  "length": 1024,
+  "parameters": 409720,
+  "conditions": {
+   "base": {
+    "selector": null,
+    "every": 1,
+    "strength": 1.0,
+    "events": 200,
+    "person_steps": 26185,
+    "at_risk": 200,
+    "final": 0.019999999552965164
+   },
+   "class-1": {
+    "selector": "class",
+    "every": 1,
+    "strength": 1.0,
+    "events": 16,
+    "person_steps": 199738,
+    "at_risk": 200,
+    "final": 0.9200000166893005
+   },
+   "class-4": {
+    "selector": "class",
+    "every": 4,
+    "strength": 1.0,
+    "events": 158,
+    "person_steps": 171576,
+    "at_risk": 200,
+    "final": 0.2800000011920929
+   },
+   "class-16": {
+    "selector": "class",
+    "every": 16,
+    "strength": 1.0,
+    "events": 200,
+    "person_steps": 82917,
+    "at_risk": 200,
+    "final": 0.014999999664723873
+   },
+   "nearest-1": {
+    "selector": "nearest",
+    "every": 1,
+    "strength": 1.0,
+    "events": 21,
+    "person_steps": 199384,
+    "at_risk": 200,
+    "final": 0.9100000262260437
+   },
+   "nearest-16": {
+    "selector": "nearest",
+    "every": 16,
+    "strength": 1.0,
+    "events": 200,
+    "person_steps": 82022,
+    "at_risk": 200,
+    "final": 0.02500000037252903
+   },
+   "class-1-soft0.5": {
+    "selector": "class",
+    "every": 1,
+    "strength": 0.5,
+    "events": 26,
+    "person_steps": 198446,
+    "at_risk": 200,
+    "final": 0.8700000047683716
+   }
+  },
+  "in_range": {
+   "base": 1.0,
+   "class-1": 1.0,
+   "class-4": 1.0,
+   "class-16": 1.0,
+   "nearest-1": 1.0,
+   "nearest-16": 1.0,
+   "class-1-soft0.5": 1.0
+  },
+  "stored_control": true
+ }
+]

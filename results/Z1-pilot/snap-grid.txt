@@ -1,0 +1,60 @@
+results/Z1-pilot/perm5-core-w128-s1-cur.pt: core perm5 width 128
+  length   1024 n 200 class-1     first errors 0/201600 person-steps  SHORT  error-free sequences 200/200  (33 s)
+  length   1024 n 200 class-2     first errors 0/201600 person-steps  SHORT  error-free sequences 200/200  (33 s)
+  length   1024 n 200 class-4     first errors 0/201600 person-steps  SHORT  error-free sequences 200/200  (30 s)
+  length   1024 n 200 class-8     first errors 0/201600 person-steps  SHORT  error-free sequences 200/200  (29 s)
+  length   1024 n 200 class-16    first errors 0/201600 person-steps  SHORT  error-free sequences 200/200  (32 s)
+  length   1024 n 200 class-32    first errors 0/201600 person-steps  SHORT  error-free sequences 200/200  (28 s)
+  length   1024 n 200 class-64    first errors 0/201600 person-steps  SHORT  error-free sequences 200/200  (29 s)
+  length   1024 n 200 class-128   first errors 36/184442 person-steps  FLOOR  error-free sequences 164/200  (30 s)
+core perm5 w128 (perm5-core-w128-s1-cur): k_max 64  first errors by k: k=1 0  k=2 0  k=4 0  k=8 0  k=16 0  k=32 0  k=64 0  k=128 36
+results/Z1-pilot/perm5-core-w128-s1-cur-lrdecay0.3.pt: core perm5 width 128
+  length   1024 n 200 class-1     first errors 0/201600 person-steps  SHORT  error-free sequences 200/200  (32 s)
+  length   1024 n 200 class-2     first errors 0/201600 person-steps  SHORT  error-free sequences 200/200  (30 s)
+  length   1024 n 200 class-4     first errors 0/201600 person-steps  SHORT  error-free sequences 200/200  (30 s)
+  length   1024 n 200 class-8     first errors 0/201600 person-steps  SHORT  error-free sequences 200/200  (31 s)
+  length   1024 n 200 class-16    first errors 0/201600 person-steps  SHORT  error-free sequences 200/200  (32 s)
+  length   1024 n 200 class-32    first errors 0/201600 person-steps  SHORT  error-free sequences 200/200  (31 s)
+  length   1024 n 200 class-64    first errors 1/201401 person-steps  SPARSE  error-free sequences 199/200  (29 s)
+  length   1024 n 200 class-128   first errors 80/160344 person-steps  FLOOR  error-free sequences 120/200  (30 s)
+core perm5 w128 (perm5-core-w128-s1-cur-lrdecay0.3): k_max 32  first errors by k: k=1 0  k=2 0  k=4 0  k=8 0  k=16 0  k=32 0  k=64 1  k=128 80
+results/Z1-pilot/perm5-gru-w256-s1-cur.pt: gru perm5 width 256
+  class-1    first errors   0/201600  error-free 200/200  (6 s)
+  class-2    first errors   0/201600  error-free 200/200  (5 s)
+  class-4    first errors   9/197255  error-free 191/200  (5 s)
+  class-8    first errors  67/163002  error-free 131/200  (5 s)
+  class-16   first errors 140/109458  error-free 54/200  (5 s)
+  class-32   first errors 162/ 86815  error-free 32/200  (5 s)
+  class-64   first errors 183/ 66944  error-free 11/200  (6 s)
+  class-128  first errors 186/ 60404  error-free 8/200  (6 s)
+gru perm5 w256 (perm5-gru-w256-s1-cur): k_max 2  first errors by k: k=1 0  k=2 0  k=4 9  k=8 67  k=16 140  k=32 162  k=64 183  k=128 186
+results/Z1-pilot/perm5-gru-w256-s1-cur-lrdecay0.3.pt: gru perm5 width 256
+  class-1    first errors   0/201600  error-free 200/200  (6 s)
+  class-2    first errors   0/201600  error-free 200/200  (5 s)
+  class-4    first errors   0/201600  error-free 200/200  (5 s)
+  class-8    first errors   4/199750  error-free 196/200  (5 s)
+  class-16   first errors  10/197950  error-free 190/200  (5 s)
+  class-32   first errors  17/194204  error-free 183/200  (5 s)
+  class-64   first errors  21/191872  error-free 179/200  (5 s)
+  class-128  first errors  24/189941  error-free 176/200  (5 s)
+gru perm5 w256 (perm5-gru-w256-s1-cur-lrdecay0.3): k_max 4  first errors by k: k=1 0  k=2 0  k=4 0  k=8 4  k=16 10  k=32 17  k=64 21  k=128 24
+results/Z1-pilot/perm5-lstm-w208-s1-cur.pt: lstm perm5 width 208
+  class-1    first errors   0/201600  error-free 200/200  (5 s)
+  class-2    first errors   0/201600  error-free 200/200  (5 s)
+  class-4    first errors   0/201600  error-free 200/200  (5 s)
+  class-8    first errors   7/198234  error-free 193/200  (4 s)
+  class-16   first errors  57/168564  error-free 142/200  (5 s)
+  class-32   first errors 110/138844  error-free 89/200  (5 s)
+  class-64   first errors 124/128763  error-free 75/200  (4 s)
+  class-128  first errors 135/121796  error-free 64/200  (4 s)
+lstm perm5 w208 (perm5-lstm-w208-s1-cur): k_max 4  first errors by k: k=1 0  k=2 0  k=4 0  k=8 7  k=16 57  k=32 110  k=64 124  k=128 135
+results/Z1-pilot/perm5-lstm-w208-s1-cur-lrdecay0.3.pt: lstm perm5 width 208
+  class-1    first errors   0/201600  error-free 200/200  (5 s)
+  class-2    first errors   0/201600  error-free 200/200  (5 s)
+  class-4    first errors   0/201600  error-free 200/200  (5 s)
+  class-8    first errors   0/201600  error-free 200/200  (4 s)
+  class-16   first errors   1/200751  error-free 199/200  (4 s)
+  class-32   first errors   9/195513  error-free 191/200  (4 s)
+  class-64   first errors  14/193322  error-free 186/200  (4 s)
+  class-128  first errors  18/190533  error-free 182/200  (4 s)
+lstm perm5 w208 (perm5-lstm-w208-s1-cur-lrdecay0.3): k_max 8  first errors by k: k=1 0  k=2 0  k=4 0  k=8 0  k=16 1  k=32 9  k=64 14  k=128 18

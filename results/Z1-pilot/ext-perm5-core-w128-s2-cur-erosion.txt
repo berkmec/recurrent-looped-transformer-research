@@ -1,0 +1,50 @@
+results/Z1-pilot/perm5-core-w128-s2-cur.pt: perm5 width 128, 200 dev sequences of 1024 positions
+  base      first errors   5/199351 person-steps = 2.51e-05  final 0.98  (36 s)
+  both16    first errors   0/201600 person-steps = 0.00e+00  final 1.00  (22 s)
+  both32    first errors   0/201600 person-steps = 0.00e+00  final 1.00  (26 s)
+  both64    first errors   5/199013 person-steps = 2.51e-05  final 0.98  (24 s)
+  both128   first errors   4/199765 person-steps = 2.00e-05  final 0.98  (30 s)
+  cross16   first errors   0/201600 person-steps = 0.00e+00  final 1.00  (21 s)
+  cross64   first errors   5/199007 person-steps = 2.51e-05  final 0.98  (21 s)
+  enc16     first errors   5/199351 person-steps = 2.51e-05  final 0.98  (36 s)
+  enc64     first errors   5/199351 person-steps = 2.51e-05  final 0.98  (33 s)
+  t0   8: untouched   0/ 1600  state   0/ 1600  state+cache   0/ 1600  (1 s)
+  t0  32: untouched   0/25600  state   0/25600  state+cache   0/25600  (9 s)
+  t0  64: untouched   0/25600  state   0/25600  state+cache   0/25600  (12 s)
+  t0 128: untouched   0/25600  state   0/25600  state+cache   0/25600  (18 s)
+  t0 256: untouched   0/25600  state   0/25600  state+cache   0/25600  (30 s)
+  t0 512: untouched   3/25308  state   2/25561  state+cache   2/25561  (55 s)
+perm5 w128 (409720 parameters), n = 200, stored-window control True
+  windows [16,1024): base 5/199351  both16 0/201600  both32 0/201600  both64 5/199013  both128 4/199765  cross16 0/201600  cross64 5/199007  enc16 5/199351  enc64 5/199351   (final accuracy 0.98 -> both16 1.00)
+  in-range accuracy by window K (both paths): full 1.000  K1 1.000  K2 1.000  K4 1.000  K8 1.000
+  t0   8 span  8: untouched 0/1600  state 0/1600 (acc 1.000)  state+cache 0/1600 (acc 1.000)
+  t0  32 span 128: untouched 0/25600  state 0/25600 (acc 1.000)  state+cache 0/25600 (acc 1.000)
+  t0  64 span 128: untouched 0/25600  state 0/25600 (acc 1.000)  state+cache 0/25600 (acc 1.000)
+  t0 128 span 128: untouched 0/25600  state 0/25600 (acc 1.000)  state+cache 0/25600 (acc 1.000)
+  t0 256 span 128: untouched 0/25600  state 0/25600 (acc 1.000)  state+cache 0/25600 (acc 1.000)
+  t0 512 span 128: untouched 3/25308  state 2/25561 (acc 0.998)  state+cache 2/25561 (acc 0.998)
+  both16: NEUTRAL (R 1.6854693480343714); state+cache pooled at (128, 256, 512): NEUTRAL (R 1.0033068437287604)
+{
+ "controls": [],
+ "unverified_stored_control": [],
+ "models": {
+  "perm5 w128 s2 perm5-core-w128-s2-cur": {
+   "window": {
+    "both16": "NEUTRAL",
+    "both32": "NEUTRAL",
+    "both64": "NEUTRAL",
+    "both128": "NEUTRAL",
+    "cross16": "NEUTRAL",
+    "cross64": "NEUTRAL",
+    "enc16": "NEUTRAL",
+    "enc64": "NEUTRAL"
+   },
+   "injection": {
+    "state": "NEUTRAL",
+    "state+cache": "NEUTRAL"
+   }
+  }
+ },
+ "window": "INCOMPLETE: the registered verdict needs three S5 Core models and an S4 control (got 1 and 0)",
+ "injection": "INCOMPLETE: the registered verdict needs three S5 Core models and an S4 control (got 1 and 0)"
+}

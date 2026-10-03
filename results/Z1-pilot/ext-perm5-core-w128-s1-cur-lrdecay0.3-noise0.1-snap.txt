@@ -1,0 +1,26 @@
+results/Z1-pilot/perm5-core-w128-s1-cur-lrdecay0.3-noise0.1.pt: perm5 width 128, 200 dev sequences of 1024 positions
+  base           first errors 200/ 26185 person-steps = 7.64e-03  final 0.02  (31 s)
+  class-1        first errors  16/199738 person-steps = 8.01e-05  final 0.92  (34 s)
+  class-4        first errors 158/171576 person-steps = 9.21e-04  final 0.28  (34 s)
+  class-16       first errors 200/ 82917 person-steps = 2.41e-03  final 0.01  (32 s)
+  nearest-1      first errors  21/199384 person-steps = 1.05e-04  final 0.91  (33 s)
+  nearest-16     first errors 200/ 82022 person-steps = 2.44e-03  final 0.03  (31 s)
+  class-1-soft0.5 first errors  26/198446 person-steps = 1.31e-04  final 0.87  (33 s)
+perm5 w128 (409720 parameters), n = 200, stored-window control True
+  [16,1024): base 200/26185  class-1 16/199738  class-4 158/171576  class-16 200/82917  nearest-1 21/199384  nearest-16 200/82022  class-1-soft0.5 26/198446
+  in-range accuracy (length 16): base 1.000  class-1 1.000  class-4 1.000  class-16 1.000  nearest-1 1.000  nearest-16 1.000  class-1-soft0.5 1.000
+  labels: class-1 RESCUES  class-4 RESCUES  class-16 PARTIAL  nearest-1 RESCUES  nearest-16 PARTIAL  class-1-soft0.5 RESCUES
+{
+ "controls": [],
+ "models": {
+  "perm5 w128 s1 perm5-core-w128-s1-cur-lrdecay0.3-noise0.1": {
+   "class-1": "RESCUES",
+   "class-4": "RESCUES",
+   "class-16": "PARTIAL",
+   "nearest-1": "RESCUES",
+   "nearest-16": "PARTIAL",
+   "class-1-soft0.5": "RESCUES"
+  }
+ },
+ "verdict": "INCOMPLETE: the registered verdict needs three S5 Core models and an S4 control (got 1 and 0)"
+}
