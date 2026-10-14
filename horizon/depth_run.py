@@ -35,7 +35,7 @@ def _log(message):
 
 def train(task, arm, width, seed, steps, batch=64, lr=3e-3, clip=1.0, weight_decay=0.01, namespace=None, log_every=0, log=_log,
           curriculum=None, advance_at=0.97, min_stage_steps=200, window=100, state_noise=0.0, lr_decay_fraction=0.0, lr_floor=0.0, alpha=0.1, cleanup_open=0.0, cleanup_no_decay=False,
-          neutral_p=0.0, hold_tmax=16, hold_decay_gate=False):
+          neutral_p=0.0, hold_tmax=16, hold_decay_gate=False, data_seed=None):
     """curriculum: increasing training lengths, e.g. [2, 4, 8, 16]. The stage advances when the mean per-position accuracy over the last
     `window` updates reaches `advance_at` (and the stage has run at least `min_stage_steps` updates). The last length is the trained range;
     nothing beyond it is ever trained on. Without a curriculum every update uses the task's trained length.
@@ -51,9 +51,12 @@ def train(task, arm, width, seed, steps, batch=64, lr=3e-3, clip=1.0, weight_dec
     four tensors (the RMS weight inside the cleanup wrapper keeps its decay, as in the plain Core).
     neutral_p: E-G. Share of perm-task training tokens replaced by the identity element (neutral intervals the HOLD gate must learn to ride through); 0 = the
     previous behaviour, bit for bit. hold_tmax: E-G chrono horizon (timescales 1..t_max-1); hold/hold_nc arms only. hold_decay_gate: E-G control. False (the
-    registered behaviour) exempts the hold gate head from AdamW's weight decay (R-2b: decay x0.47 pulls the gate closed); True applies decay to every parameter."""
+    registered behaviour) exempts the hold gate head from AdamW's weight decay (R-2b: decay x0.47 pulls the gate closed); True applies decay to every parameter.
+    data_seed: M-3b. The seed of the training-data stream (`dt.train_batch`); None (the previous behaviour, bit for bit) = `seed`, i.e. init and data share one
+    stream exactly as before. Callers splitting streams pass the init seed as `seed` and the data seed here."""
     namespace = namespace or NAMESPACE
     lengths = list(curriculum) if curriculum else [dt.train_length(task)]
+    dseed = seed if data_seed is None else data_seed
     model = make_arm(arm, task, width, seed, alpha=alpha, open_init=cleanup_open, hold_tmax=hold_tmax)
     forward = model
     if state_noise > 0:
@@ -77,7 +80,7 @@ def train(task, arm, width, seed, steps, batch=64, lr=3e-3, clip=1.0, weight_dec
             lr_last = lr * (lr_floor + (1.0 - lr_floor) * min(1.0, (steps - step + 1) / (lr_decay_fraction * steps)))
             for group in opt.param_groups:
                 group['lr'] = lr_last
-        b = dt.train_batch(namespace, task, seed, step, batch, length=lengths[stage], neutral_p=neutral_p)
+        b = dt.train_batch(namespace, task, dseed, step, batch, length=lengths[stage], neutral_p=neutral_p)
         model.train()
         logits = forward(b['x'])
         loss = F.cross_entropy(logits.flatten(0, 1), b['y'].flatten())
@@ -87,19 +90,19 @@ def train(task, arm, width, seed, steps, batch=64, lr=3e-3, clip=1.0, weight_dec
         in_stage += 1
         if stage < len(lengths) - 1 and in_stage >= min_stage_steps and len(recent) == window and sum(recent) / window >= advance_at:
             advances.append(dict(step=step, from_length=lengths[stage], to_length=lengths[stage + 1]))
-            log(f'{task} {arm} w{width} s{seed} step {step} curriculum advance {lengths[stage]} -> {lengths[stage + 1]} ({time.perf_counter() - start:.0f}s)')
+            log(f'{task} {arm} w{width} s{seed}{"" if dseed == seed else f"/d{dseed}"} step {step} curriculum advance {lengths[stage]} -> {lengths[stage + 1]} ({time.perf_counter() - start:.0f}s)')
             stage, in_stage, recent = stage + 1, 0, []
         if log_every and step % log_every == 0:
             history.append(dict(step=step, loss=report['loss'], grad_norm=report['grad_norm_before_clip'], length=lengths[stage],
                                 recent_accuracy=(sum(recent) / len(recent)) if recent else None))
-            log(f'{task} {arm} w{width} s{seed} step {step} len {lengths[stage]} loss {report["loss"]} ({time.perf_counter() - start:.0f}s)')
+            log(f'{task} {arm} w{width} s{seed}{"" if dseed == seed else f"/d{dseed}"} step {step} len {lengths[stage]} loss {report["loss"]} ({time.perf_counter() - start:.0f}s)')
     if state_noise > 0:
         from .state_noise import clean
         clean(model)
     return model, dict(steps=steps, batch=batch, lr=lr, clip=clip, guard=guard.summary(), history=history, curriculum=lengths, advances=advances,
                        final_stage_length=lengths[stage], train_seconds=time.perf_counter() - start, parameters=parameter_count(model),
                        state_noise=state_noise, lr_decay_fraction=lr_decay_fraction, lr_floor=lr_floor, lr_last=lr_last, alpha=alpha, cleanup_open=cleanup_open, cleanup_no_decay=cleanup_no_decay,
-                       neutral_p=neutral_p, hold_tmax=hold_tmax, hold_decay_gate=hold_decay_gate)
+                       neutral_p=neutral_p, hold_tmax=hold_tmax, hold_decay_gate=hold_decay_gate, data_seed=dseed)
 
 
 @torch.no_grad()
@@ -203,13 +206,16 @@ def default_points(task):
     return [16, 32, 64, 128, 256, 512, 1024]
 
 
-def save_model(model, path, task, arm, width, seed, trained):
+def save_model(model, path, task, arm, width, seed, trained, wseed=None, dseed=None, eval_seed=None):
     """Weights as plain tensors plus primitive metadata only, so `torch.load(path, weights_only=True)` works."""
     path = Path(path)
     path.parent.mkdir(parents=True, exist_ok=True)
     meta = dict(task=task, arm=arm, width=int(width), seed=int(seed), steps=int(trained['steps']), parameters=int(trained['parameters']),
                 curriculum=[int(v) for v in trained['curriculum']], alpha=float(trained.get('alpha', 0.1)),
-                hold_tmax=int(trained.get('hold_tmax', 16)))
+                hold_tmax=int(trained.get('hold_tmax', 16)),
+                wseed=int(wseed) if wseed is not None else int(seed),
+                dseed=int(dseed) if dseed is not None else int(trained.get('data_seed', seed)),
+                eval_seed=int(eval_seed) if eval_seed is not None else int(seed))
     torch.save(dict(state_dict=model.state_dict(), meta=meta), path)
 
 
@@ -221,28 +227,33 @@ def load_model(path):
     return model
 
 
-def run(task, arm, width, seed, steps, points=None, n_eval=100, out=None, **kw):
+def run(task, arm, width, seed, steps, points=None, n_eval=100, out=None, wseed=None, dseed=None, eval_seed=None, **kw):
+    """M-3b seed split: W (init) = wseed or seed, D (training-data stream) = dseed or seed, E (evaluation draws) = eval_seed or seed.
+    All None = the previous behaviour, bit for bit (one stream drives init, data, and eval exactly as before)."""
     started = time.perf_counter()
-    model, trained = train(task, arm, width, seed, steps, **kw)
+    W = seed if wseed is None else wseed
+    D = seed if dseed is None else dseed
+    E = seed if eval_seed is None else eval_seed
+    model, trained = train(task, arm, width, W, steps, data_seed=D, **kw)
     if out:   # before the slow evaluation: a crash there must not lose the trained model
-        save_model(model, Path(out).with_suffix('.pt'), task, arm, width, seed, trained)
+        save_model(model, Path(out).with_suffix('.pt'), task, arm, width, W, trained, wseed=W, dseed=D, eval_seed=E)
     # a horizon only means something if the task was learned inside the trained range, so that point is ALWAYS evaluated (never fail open)
     counting = dt.is_count(task)
     in_range_point = dt.peak(task) if counting else dt.TRAIN_LENGTH
     in_range_key = 'prefix' if counting else 'final'
     points = sorted(set(points or default_points(task)) | {in_range_point})
     eval_batch = 8 if arm == 'tfm' else 50          # attention is quadratic in the length: the transformer arm needs small batches at 1,000+ positions
-    curve = evaluate(model, task, points, n_eval, seed, batch=eval_batch)
+    curve = evaluate(model, task, points, n_eval, E, batch=eval_batch)
     key = 'reentry' if counting else 'final'
     in_range = curve[in_range_point][in_range_key]
     learned = meets(in_range)
-    result = dict(task=task, arm=arm, width=width, seed=seed, train=trained, eval_points=points, curve=curve,
+    result = dict(task=task, arm=arm, width=width, seed=seed, wseed=W, dseed=D, eval_seed=E, train=trained, eval_points=points, curve=curve,
                   learned_in_range=learned, in_range_accuracy=in_range,
                   effective_horizon=effective_horizon(curve, key) if learned else 0, horizon_metric=key,
                   trained_range=in_range_point, wall_seconds=time.perf_counter() - started)
     if counting:
         trained_length = dt.train_length(task)       # 64 / 256 / 1,024 for the default counter (4 x and 16 x the trained length)
-        result['length_control'] = evaluate_length_control(model, [trained_length, 4 * trained_length, 16 * trained_length], n_eval, seed,
+        result['length_control'] = evaluate_length_control(model, [trained_length, 4 * trained_length, 16 * trained_length], n_eval, E,
                                                            batch=eval_batch, task=task)
     if out:
         path = Path(out)
@@ -276,6 +287,9 @@ def main():
     p.add_argument('--neutral-p', type=float, default=0.0, help='share of perm-task training tokens replaced by the identity element (neutral intervals; the `hold`/`hold_nc` arms, E-G; 0 = previous behaviour)')
     p.add_argument('--hold-tmax', type=int, default=16, help='chrono horizon of the `hold` arm (timescales 1..t_max-1; E-G)')
     p.add_argument('--hold-decay-gate', action='store_true', help='apply AdamW weight decay to the hold gate head (E-G control; default: decay-free, as registered)')
+    p.add_argument('--wseed', type=int, default=None, help='init stream seed (M-3b seed split; default None = --seed: previous behaviour bit for bit)')
+    p.add_argument('--dseed', type=int, default=None, help='training-data stream seed (M-3b seed split; default None = --seed: previous behaviour bit for bit)')
+    p.add_argument('--eval-seed', type=int, default=None, help='evaluation-draw seed (M-3b seed split; default None = --seed: previous behaviour bit for bit)')
     p.add_argument('--out', required=True)
     a = p.parse_args()
     points = [int(v) for v in a.points.split(',')] if a.points else None
@@ -283,8 +297,9 @@ def main():
     r = run(a.task, a.arm, a.width, a.seed, a.steps, points=points, n_eval=a.n_eval, out=a.out, batch=a.batch, lr=a.lr, log_every=a.log_every,
             curriculum=curriculum, advance_at=a.advance_at, min_stage_steps=a.min_stage_steps, state_noise=a.state_noise,
             lr_decay_fraction=a.lr_decay_fraction, lr_floor=a.lr_floor, alpha=a.alpha, cleanup_open=a.cleanup_open, cleanup_no_decay=a.cleanup_no_decay,
-            neutral_p=a.neutral_p, hold_tmax=a.hold_tmax, hold_decay_gate=a.hold_decay_gate)
-    print(json.dumps({k: r[k] for k in ('task', 'arm', 'width', 'seed', 'learned_in_range', 'effective_horizon', 'horizon_metric', 'wall_seconds')}))
+            neutral_p=a.neutral_p, hold_tmax=a.hold_tmax, hold_decay_gate=a.hold_decay_gate,
+            wseed=a.wseed, dseed=a.dseed, eval_seed=a.eval_seed)
+    print(json.dumps({k: r[k] for k in ('task', 'arm', 'width', 'seed', 'wseed', 'dseed', 'eval_seed', 'learned_in_range', 'effective_horizon', 'horizon_metric', 'wall_seconds')}))
     for point, row in r['curve'].items():
         print(point, {k: (round(v, 3) if isinstance(v, float) else v) for k, v in row.items()})
     for length, row in r.get('length_control', {}).items():
