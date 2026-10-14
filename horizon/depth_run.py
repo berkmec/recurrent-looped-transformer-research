@@ -34,7 +34,8 @@ def _log(message):
 
 
 def train(task, arm, width, seed, steps, batch=64, lr=3e-3, clip=1.0, weight_decay=0.01, namespace=None, log_every=0, log=_log,
-          curriculum=None, advance_at=0.97, min_stage_steps=200, window=100, state_noise=0.0, lr_decay_fraction=0.0, lr_floor=0.0, alpha=0.1, cleanup_open=0.0, cleanup_no_decay=False):
+          curriculum=None, advance_at=0.97, min_stage_steps=200, window=100, state_noise=0.0, lr_decay_fraction=0.0, lr_floor=0.0, alpha=0.1, cleanup_open=0.0, cleanup_no_decay=False,
+          neutral_p=0.0, hold_tmax=16, hold_decay_gate=False):
     """curriculum: increasing training lengths, e.g. [2, 4, 8, 16]. The stage advances when the mean per-position accuracy over the last
     `window` updates reaches `advance_at` (and the stage has run at least `min_stage_steps` updates). The last length is the trained range;
     nothing beyond it is ever trained on. Without a curriculum every update uses the task's trained length.
@@ -47,16 +48,23 @@ def train(task, arm, width, seed, steps, batch=64, lr=3e-3, clip=1.0, weight_dec
     cleanup_open: E-A10. The initial pre-activation of the `core_clean` arm's cleanup gate (the gate is tanh(open); 0 = closed, exactly the plain Core; ignored by the other arms).
     cleanup_no_decay: E-A10 follow-up (blind review F12). False (the registered behaviour, bit for bit) applies AdamW's weight decay to every parameter, including the cleanup's open / log beta / keys / values:
     with lr 3e-3 annealed over 30,000 updates the cumulative decay factor is ~0.47, which pulls the gate toward closed and beta toward 1 unless the gradient holds them. True exempts those
-    four tensors (the RMS weight inside the cleanup wrapper keeps its decay, as in the plain Core)."""
+    four tensors (the RMS weight inside the cleanup wrapper keeps its decay, as in the plain Core).
+    neutral_p: E-G. Share of perm-task training tokens replaced by the identity element (neutral intervals the HOLD gate must learn to ride through); 0 = the
+    previous behaviour, bit for bit. hold_tmax: E-G chrono horizon (timescales 1..t_max-1); hold/hold_nc arms only. hold_decay_gate: E-G control. False (the
+    registered behaviour) exempts the hold gate head from AdamW's weight decay (R-2b: decay x0.47 pulls the gate closed); True applies decay to every parameter."""
     namespace = namespace or NAMESPACE
     lengths = list(curriculum) if curriculum else [dt.train_length(task)]
-    model = make_arm(arm, task, width, seed, alpha=alpha, open_init=cleanup_open)
+    model = make_arm(arm, task, width, seed, alpha=alpha, open_init=cleanup_open, hold_tmax=hold_tmax)
     forward = model
     if state_noise > 0:
         from .state_noise import noisy         # imported here: state_noise imports this module
         forward = noisy(model, state_noise, seed=seed + 7)
     if cleanup_no_decay:
         special = [p for name, p in model.named_parameters() if name in ('pn.open', 'pn.log_beta', 'pn.keys', 'pn.values')]
+        taken = {id(p) for p in special}
+        opt = torch.optim.AdamW([dict(params=[p for p in model.parameters() if id(p) not in taken]), dict(params=special, weight_decay=0.0)], lr=lr, weight_decay=weight_decay)
+    elif arm in ('hold', 'hold_nc') and not hold_decay_gate:
+        special = [p for name, p in model.named_parameters() if name.split('.')[0] == 'head']
         taken = {id(p) for p in special}
         opt = torch.optim.AdamW([dict(params=[p for p in model.parameters() if id(p) not in taken]), dict(params=special, weight_decay=0.0)], lr=lr, weight_decay=weight_decay)
     else:
@@ -69,7 +77,7 @@ def train(task, arm, width, seed, steps, batch=64, lr=3e-3, clip=1.0, weight_dec
             lr_last = lr * (lr_floor + (1.0 - lr_floor) * min(1.0, (steps - step + 1) / (lr_decay_fraction * steps)))
             for group in opt.param_groups:
                 group['lr'] = lr_last
-        b = dt.train_batch(namespace, task, seed, step, batch, length=lengths[stage])
+        b = dt.train_batch(namespace, task, seed, step, batch, length=lengths[stage], neutral_p=neutral_p)
         model.train()
         logits = forward(b['x'])
         loss = F.cross_entropy(logits.flatten(0, 1), b['y'].flatten())
@@ -90,7 +98,8 @@ def train(task, arm, width, seed, steps, batch=64, lr=3e-3, clip=1.0, weight_dec
         clean(model)
     return model, dict(steps=steps, batch=batch, lr=lr, clip=clip, guard=guard.summary(), history=history, curriculum=lengths, advances=advances,
                        final_stage_length=lengths[stage], train_seconds=time.perf_counter() - start, parameters=parameter_count(model),
-                       state_noise=state_noise, lr_decay_fraction=lr_decay_fraction, lr_floor=lr_floor, lr_last=lr_last, alpha=alpha, cleanup_open=cleanup_open, cleanup_no_decay=cleanup_no_decay)
+                       state_noise=state_noise, lr_decay_fraction=lr_decay_fraction, lr_floor=lr_floor, lr_last=lr_last, alpha=alpha, cleanup_open=cleanup_open, cleanup_no_decay=cleanup_no_decay,
+                       neutral_p=neutral_p, hold_tmax=hold_tmax, hold_decay_gate=hold_decay_gate)
 
 
 @torch.no_grad()
@@ -199,14 +208,15 @@ def save_model(model, path, task, arm, width, seed, trained):
     path = Path(path)
     path.parent.mkdir(parents=True, exist_ok=True)
     meta = dict(task=task, arm=arm, width=int(width), seed=int(seed), steps=int(trained['steps']), parameters=int(trained['parameters']),
-                curriculum=[int(v) for v in trained['curriculum']], alpha=float(trained.get('alpha', 0.1)))
+                curriculum=[int(v) for v in trained['curriculum']], alpha=float(trained.get('alpha', 0.1)),
+                hold_tmax=int(trained.get('hold_tmax', 16)))
     torch.save(dict(state_dict=model.state_dict(), meta=meta), path)
 
 
 def load_model(path):
     raw = torch.load(path, weights_only=True)
     meta = raw['meta']
-    model = make_arm(meta['arm'], meta['task'], meta['width'], meta['seed'], alpha=float(meta.get('alpha', 0.1)))        # files saved before the alpha option carry no alpha: 0.1
+    model = make_arm(meta['arm'], meta['task'], meta['width'], meta['seed'], alpha=float(meta.get('alpha', 0.1)), hold_tmax=int(meta.get('hold_tmax', 16)))        # files saved before the alpha option carry no alpha: 0.1
     model.load_state_dict(raw['state_dict'])
     return model
 
@@ -262,14 +272,18 @@ def main():
     p.add_argument('--lr-floor', type=float, default=0.0, help='the decay ends at lr * this instead of ~0 (E-P3); 0 = to ~0; ignored without --lr-decay-fraction')
     p.add_argument('--alpha', type=float, default=0.1, help="the Core's feedback gain (the sealed default 0.1; ignored by the other arms)")
     p.add_argument('--cleanup-open', type=float, default=0.0, help="the initial value of the cleanup gate's pre-activation (tanh(open) = the initial gate; the `core_clean` arm only, E-A10)")
-    p.add_argument('--cleanup-no-decay', action='store_true', help="exempt the cleanup's open / log beta / keys / values from AdamW's weight decay (the `core_clean` arm; default: decayed, as registered)")
+    p.add_argument('--cleanup-no-decay', action='store_true', help="exempt the cleanup's open / log beta / keys / values from AdamW's weight decay (the `core_clean` arm only; default: decayed, as registered)")
+    p.add_argument('--neutral-p', type=float, default=0.0, help='share of perm-task training tokens replaced by the identity element (neutral intervals; the `hold`/`hold_nc` arms, E-G; 0 = previous behaviour)')
+    p.add_argument('--hold-tmax', type=int, default=16, help='chrono horizon of the `hold` arm (timescales 1..t_max-1; E-G)')
+    p.add_argument('--hold-decay-gate', action='store_true', help='apply AdamW weight decay to the hold gate head (E-G control; default: decay-free, as registered)')
     p.add_argument('--out', required=True)
     a = p.parse_args()
     points = [int(v) for v in a.points.split(',')] if a.points else None
     curriculum = [int(v) for v in a.curriculum.split(',')] if a.curriculum else None
     r = run(a.task, a.arm, a.width, a.seed, a.steps, points=points, n_eval=a.n_eval, out=a.out, batch=a.batch, lr=a.lr, log_every=a.log_every,
             curriculum=curriculum, advance_at=a.advance_at, min_stage_steps=a.min_stage_steps, state_noise=a.state_noise,
-            lr_decay_fraction=a.lr_decay_fraction, lr_floor=a.lr_floor, alpha=a.alpha, cleanup_open=a.cleanup_open, cleanup_no_decay=a.cleanup_no_decay)
+            lr_decay_fraction=a.lr_decay_fraction, lr_floor=a.lr_floor, alpha=a.alpha, cleanup_open=a.cleanup_open, cleanup_no_decay=a.cleanup_no_decay,
+            neutral_p=a.neutral_p, hold_tmax=a.hold_tmax, hold_decay_gate=a.hold_decay_gate)
     print(json.dumps({k: r[k] for k in ('task', 'arm', 'width', 'seed', 'learned_in_range', 'effective_horizon', 'horizon_metric', 'wall_seconds')}))
     for point, row in r['curve'].items():
         print(point, {k: (round(v, 3) if isinstance(v, float) else v) for k, v in row.items()})

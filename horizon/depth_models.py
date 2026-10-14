@@ -15,7 +15,7 @@ from core.model import Core
 from . import depth_tasks as dt
 from .cleanup import add_cleanup
 
-ARMS = ('core', 'core_nofb', 'gru', 'lstm', 'tfm', 'core_clean')
+ARMS = ('core', 'core_nofb', 'gru', 'lstm', 'tfm', 'core_clean', 'hold', 'hold_nc')
 
 
 class GRUArm(nn.Module):
@@ -59,7 +59,7 @@ class TfmArm(nn.Module):
         return self.read(self.norm(self.encoder(self.embedding(x), mask=mask, is_causal=True)))
 
 
-def make_arm(arm, task, width, seed, window=4, alpha=0.1, open_init=0.0):
+def make_arm(arm, task, width, seed, window=4, alpha=0.1, open_init=0.0, hold_tmax=16):
     if arm not in ARMS:
         raise ValueError('unknown arm: ' + str(arm))
     with torch.random.fork_rng(devices=[]):
@@ -70,11 +70,14 @@ def make_arm(arm, task, width, seed, window=4, alpha=0.1, open_init=0.0):
             return LSTMArm(dt.vocab(task), dt.classes(task), width)
         if arm == 'tfm':
             return TfmArm(dt.vocab(task), dt.classes(task), width)
-        model = Core(width=width, heads=width // 32, window=window, classes=dt.classes(task), feedback=(arm in ('core', 'core_clean')), alpha=alpha)
+        model = Core(width=width, heads=width // 32, window=window, classes=dt.classes(task), feedback=(arm in ('core', 'core_clean', 'hold', 'hold_nc')), alpha=alpha)
         if dt.vocab(task) != model.embedding.num_embeddings:
             model.embedding = nn.Embedding(dt.vocab(task), width)
         if arm == 'core_clean':
             add_cleanup(model, open_init=open_init)         # after the base weights are drawn: they equal the plain `core` of the same seed
+        if arm in ('hold', 'hold_nc'):
+            from .hold import HoldCore
+            model = HoldCore(model, mode='hard_st', t_max=hold_tmax, chrono=(arm == 'hold'), seed=seed)
     return model
 
 

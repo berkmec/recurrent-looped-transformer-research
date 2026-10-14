@@ -182,16 +182,24 @@ def _count_tokens(rng, n, length, depth, trained_peak=TRAIN_DEPTH):
     return x
 
 
-def generate(task, n, length, seed, depth=None):
-    """(x, y): n sequences of the given length. depth only applies to 'count' (the peak that must be counted to)."""
+def generate(task, n, length, seed, depth=None, neutral_p=0.0):
+    """(x, y): n sequences of the given length. depth only applies to 'count' (the peak that must be counted to).
+    neutral_p (E-G): share of perm-task tokens replaced by the identity element (token 0) during TRAINING, so the
+    gate sees neutral intervals; 0 = the previous behaviour, bit for bit (no mask is drawn). Non-perm tasks refuse neutral_p > 0."""
     s = _spec(task)
     if s['kind'] == 'sk':
         raise ValueError('state-keyed retrieval sequences come from horizon.sk_task.generate')
     if n < 1 or length < 1:
         raise ValueError('invalid budget')
+    if neutral_p < 0 or neutral_p >= 1:
+        raise ValueError('neutral_p must be in [0, 1)')
+    if neutral_p > 0 and s['kind'] != 'perm':
+        raise ValueError('neutral_p is defined for the permutation tasks only')
     rng = np.random.default_rng(seed)
     if s['kind'] == 'perm':
         x = torch.from_numpy(rng.integers(0, vocab(task), size=(n, length)).astype(np.int64))
+        if neutral_p > 0:
+            x = torch.where(torch.from_numpy(rng.random((n, length)) < neutral_p), torch.zeros((), dtype=torch.int64), x)
     else:
         if depth is None and s.get('excursions'):
             low, high = s['excursions']      # log-uniform per-sequence depth in [low, high], then the evaluation-style climb / descent / wander
@@ -210,12 +218,14 @@ def train_length(task):
     return s['length'] if s['kind'] == 'count' else TRAIN_LENGTH
 
 
-def train_batch(namespace, task, seed, step, batch, length=None, depth=None):
+def train_batch(namespace, task, seed, step, batch, length=None, depth=None, neutral_p=0.0):
     length = train_length(task) if length is None else length
     # the depth is part of the seed so that one source_seed names exactly one dataset; depth=None (the training distribution) maps to 0,
     # i.e. the derivation every recorded pilot used
     s = source_seed(namespace, task, seed, 'train', step=step, length=length, depth=0 if depth is None else depth)
-    x, y = generate(task, batch, length, s, depth=depth)
+    if neutral_p > 0:   # E-G: neutral fill changes the dataset, so it enters the seed; neutral_p = 0 keeps the old seed bit for bit
+        s = int.from_bytes(hashlib.sha256(f'{s}|neutral_p={neutral_p}'.encode()).digest()[:8], 'little')
+    x, y = generate(task, batch, length, s, depth=depth, neutral_p=neutral_p)
     return dict(x=x, y=y, source_seed=s)
 
 
