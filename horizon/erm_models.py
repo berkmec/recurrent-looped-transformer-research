@@ -21,7 +21,7 @@ from torch import nn
 
 from . import erm_tasks as et
 
-ARMS = ('A', 'B', 'B_comp', 'B_32', 'B_rmt', 'Apr', 'B0')
+ARMS = ('A', 'B', 'B_aux', 'B_comp', 'B_32', 'B_rmt', 'B_orc', 'Apr', 'B0')
 
 
 def rms(x, eps=1e-6):
@@ -64,8 +64,8 @@ class WriteModule(nn.Module):
         self.c = nn.Parameter(torch.tensor(-2.0))
         self.u = nn.Parameter(torch.zeros(d_mem + 1))
 
-    def forward(self, e, m, lam):
-        """e (B,W,d) pencere kodlaması, m (M,d_mem); → (m_yeni, a (B,M), s_hat)."""
+    def attention(self, e, m):
+        """Yazma dikkati (gradyanlı): alpha (B,M,h,W) + s_hat (B,M,d_mem)."""
         b, w, _ = e.shape
         h, dh = self.heads, self.d_mem // self.heads
         k = self.Wk(e).view(b, w, h, dh)
@@ -76,11 +76,21 @@ class WriteModule(nn.Module):
         alpha = torch.softmax(torch.cat([scores, null], -1), -1)[..., :w]
         self.last_alpha = alpha.detach()
         s_hat = torch.einsum('bmhw,bwhd->bmhd', alpha, v).reshape(b, self.slots, self.d_mem)
+        return alpha, s_hat
+
+    def advance(self, m, s_hat, lam):
+        """Bellek güncelleme: m ← λm + a·ŝ (a bağımsız-σ ya da rekabetçi-softmax)."""
         m_rms = m.square().mean(-1).sqrt()                              # (B,M)
         gate_in = torch.cat([s_hat, m_rms[:, :, None]], -1)
         s = self.c + (gate_in * self.u).sum(-1)                         # (B,M)
         a = torch.softmax(s, -1) if self.competitive else torch.sigmoid(s)
         m_new = lam[None, :, None] * m + a[:, :, None] * s_hat
+        return m_new, a
+
+    def forward(self, e, m, lam):
+        """e (B,W,d) pencere kodlaması, m (M,d_mem); → (m_yeni, a (B,M), s_hat)."""
+        alpha, s_hat = self.attention(e, m)
+        m_new, a = self.advance(m, s_hat, lam)
         return m_new, a, s_hat
 
 
@@ -154,6 +164,69 @@ class RLTM(nn.Module):
         self.last_m = (m.detach() if self.slots > 0 else None)  # (B,M,d_mem) P0 tanisi
         return torch.stack(outs, 1)
 
+    def forward_aux(self, xw, facts):
+        """P1 yardımlı yazma: forward + gradyanlı L_yard.
+        facts (B,F,2): (pencere, pencere-içi DEĞER konumu); çift hücresi {pos-1,pos}.
+        → (logits, L_yard)."""
+        if self.slots == 0:
+            raise ValueError('forward_aux bellekli kol ister')
+        b, nw, w = xw.shape
+        e = self.enc.forward_windows(xw)
+        m = torch.zeros(b, self.slots, self.write.d_mem, device=xw.device)
+        outs, yterms = [], []
+        for t in range(nw):
+            z = self.read(e[:, t], m)
+            outs.append(self.head(z))
+            alpha, _ = self.write.attention(e[:, t], m)
+            sel = (facts[:, :, 0] == t)
+            if bool(sel.any()):
+                ahead = alpha.mean(2)                    # (B,M,W) baş-ortalaması
+                for s in range(b):
+                    ff = facts[s][sel[s]]
+                    if len(ff):
+                        cells = torch.cat([ff[:, 1] - 1, ff[:, 1]]).clamp(0, w - 1)
+                        mx = ahead[s][:, cells].max()
+                        yterms.append(-torch.log(mx.clamp_min(1e-9)))
+            m, _, _ = self.write(e[:, t], m, self.lam)
+        Lyard = torch.stack(yterms).mean() if yterms else torch.zeros((), device=xw.device)
+        return torch.stack(outs, 1), Lyard
+
+
+class ArmOrc(nn.Module):
+    """B_orc (P2 kehanet-yazma): yazma öğrenilmez — olgu k, f sırasına göre
+    yuvaya (f mod M) a=1 ile, kodlayıcı çıktısı doğrudan yazılır; diğer yuvalar
+    yalnız sönümlenir. Eğitilen: kodlayıcı + okuma + başlık. facts (B,F,2)."""
+
+    def __init__(self, vocab=et.VOCAB, width=64, slots=16, d_mem=64, seed=0):
+        super().__init__()
+        self.slots = slots
+        with torch.random.fork_rng(devices=[]):
+            torch.manual_seed(seed)
+            self.enc = Encoder(vocab, width)
+            self.read = ReadModule(width, d_mem)
+            tau = 8.0 * (1024.0 ** (torch.arange(slots).float() / max(1, slots - 1)))
+            self.register_buffer('lam', 1.0 - 1.0 / tau)
+            self.head = nn.Sequential(nn.LayerNorm(width), nn.Linear(width, vocab))
+
+    def forward(self, xw, facts):
+        b, nw, w = xw.shape
+        e = self.enc.forward_windows(xw)
+        m = torch.zeros(b, self.slots, self.read.Wkr.in_features, device=xw.device)
+        outs = []
+        self.last_m = None
+        for t in range(nw):
+            z = self.read(e[:, t], m)
+            outs.append(self.head(z))
+            m = self.lam[None, :, None] * m
+            sel = (facts[:, :, 0] == t)
+            for s in range(b):
+                ff = facts[s][sel[s]]
+                for k in range(len(ff)):
+                    pos = int(ff[k, 1])
+                    m[s, k % self.slots] = m[s, k % self.slots] + e[s, t, pos]
+        self.last_m = m.detach()
+        return torch.stack(outs, 1)
+
 
 class ArmA(nn.Module):
     """Belleksiz kol: aynı kodlayıcı, pencereler bağımsız."""
@@ -225,6 +298,10 @@ def make_arm(arm, seed=1, width=64, slots=16):
         return ArmApr(width=width, seed=seed)
     if arm == 'B_rmt':
         return ArmRMT(width=width, seed=seed)
+    if arm == 'B_orc':
+        return ArmOrc(width=width, slots=slots, seed=seed)
+    if arm == 'B_aux':
+        return RLTM(width=width, slots=slots, seed=seed)
     if arm == 'B_comp':
         return RLTM(width=width, slots=slots, competitive=True, seed=seed)
     if arm == 'B_32':

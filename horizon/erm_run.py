@@ -32,7 +32,10 @@ def _device():
     return torch.device('cpu')
 
 
-def train(arm, seed, steps, batch=32, lr=3e-3, wd=0.01, log_every=500, log=print):
+def train(arm, seed, steps, batch=32, lr=3e-3, wd=0.01, log_every=500, log=print,
+          aux_weight=0.0):
+    """aux_weight > 0 (yalnız B_aux/P1): L = L_cevap + aux_weight·L_yard
+    (yardımlı yazma; facts üreticiden)."""
     torch.set_num_threads(1)
     dev = _device()
     model = em.make_arm(arm, seed=seed).to(dev)
@@ -48,8 +51,18 @@ def train(arm, seed, steps, batch=32, lr=3e-3, wd=0.01, log_every=500, log=print
         x = b['x'].reshape(batch, et.N_WINDOWS, et.WINDOW).to(dev)
         tgt = b['target'].to(dev)
         apos = b['answer_pos']
+        facts = b.get('fact_cells')
+        facts = facts.to(dev) if facts is not None else None
         model.train()
-        logits = model(x)
+        aux_loss = None
+        if arm == 'B_aux':
+            if aux_weight <= 0:
+                raise ValueError('B_aux aux_weight ister')
+            logits, aux_loss = model.forward_aux(x, facts)
+        elif arm == 'B_orc':
+            logits = model(x, facts)
+        else:
+            logits = model(x)
         if arm == 'Apr':
             flat = logits.reshape(batch, -1, et.VOCAB)
             idx = (torch.arange(batch), (3 * et.WINDOW + apos % et.WINDOW).clamp_max(et.N_WINDOWS * et.WINDOW - 1))
@@ -57,15 +70,21 @@ def train(arm, seed, steps, batch=32, lr=3e-3, wd=0.01, log_every=500, log=print
         else:
             sel = logits[torch.arange(batch), 3, apos % et.WINDOW]
         loss = F.cross_entropy(sel, tgt)
+        if aux_loss is not None:
+            loss = loss + aux_weight * aux_loss
         opt.zero_grad()
         loss.backward()
         torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0)
         opt.step()
         if log_every and step % log_every == 0:
             acc = float((sel.detach().argmax(-1) == tgt).float().mean())
-            history.append(dict(step=step, loss=float(loss), train_acc=acc))
+            row = dict(step=step, loss=float(loss), train_acc=acc)
+            if aux_loss is not None:
+                row['aux_loss'] = float(aux_loss)
+            history.append(row)
             log(f'{arm} s{seed} adim {step} kayip {float(loss):.3f} acc {acc:.3f} ({time.perf_counter() - start:.0f}s)')
     info = dict(arm=arm, seed=seed, steps=steps, batch=batch, lr=lr, weight_decay=wd,
+                aux_weight=float(aux_weight),
                 parameters=em.parameter_count(model), history=history,
                 train_seconds=time.perf_counter() - start)
     return model, info
@@ -97,13 +116,18 @@ def evaluate(model, arm, d_list=(1, 2, 3), n=200, seed=777, batch=50):
             x, apos, tgt, meta = et.generate(n, seed=seed * 131 + d)
             keep = torch.tensor([m['d'] == d for m in meta])
             xs, xs_ap, xs_tg = x[keep], apos[keep], tgt[keep]
+            xs_facts = et.fact_cells_tensor([meta[i] for i in torch.where(keep)[0].tolist()]) \
+                if arm in ('B_orc',) else None
             if len(xs) == 0:
                 out[d] = dict(n=0, acc=None)
                 continue
             accs = []
             for at in range(0, len(xs), batch):
                 xb = xs[at:at + batch].reshape(-1, et.N_WINDOWS, et.WINDOW)
-                lg = model(xb)
+                if arm == 'B_orc':
+                    lg = model(xb, xs_facts[at:at + batch])
+                else:
+                    lg = model(xb)
                 if arm == 'Apr':
                     flat = lg.reshape(len(xb), -1, et.VOCAB)
                     idx = (3 * et.WINDOW + xs_ap[at:at + batch] % et.WINDOW).clamp_max(et.N_WINDOWS * et.WINDOW - 1)
@@ -135,7 +159,21 @@ def telemetry(model, arm, n=64, seed=555):
                     mem_token_spread=list(map(float, spread)),
                     slots_used=int(used), sign_ok=None,
                     not_='B_rmt-ozel: imza tanimsiz (dikkat-yazma yok)')
-    if arm not in ('B', 'B_comp', 'B_32'):
+    if arm == 'B_orc':
+        torch.set_num_threads(1)
+        model.eval()
+        x, _, _, meta = et.generate(n, seed=seed)
+        fc = et.fact_cells_tensor(meta)
+        with torch.no_grad():
+            model(x.reshape(n, et.N_WINDOWS, et.WINDOW), fc)
+        per_slot = model.last_m.square().mean(-1).sqrt()   # (B,M)
+        spread = per_slot.std(0)
+        used = int((spread > 0.1 * float(spread.max())).sum())
+        return dict(mem_rms_mean=float(per_slot.mean()),
+                    mem_spread=list(map(float, spread)),
+                    slots_used=int(used), sign_ok=None,
+                    not_='B_orc: kehanet-yazma, imza tanimsiz (betimleyici)')
+    if arm not in ('B', 'B_comp', 'B_32', 'B_aux'):
         return dict(telemetry='yok (belleksiz kol)')
     torch.set_num_threads(1)
     model.eval()
@@ -194,6 +232,48 @@ def reading_rmt(result):
                     kural='B_rmt-ozel', telemetry=result.get('telemetry'))
     return dict(verdict='KALDI', b_acc3=b3['acc'], kural='B_rmt-ozel',
                 reason='B_rmt d=3 < 0,95: E-RM DURUR (uc yedek tukendi)')
+
+
+def _aux_applied(result):
+    """Manipülasyon kontrolü: eğitim geçmişinde aux_loss ilk > son (sıkı azalma
+    değil, yönsel: yardım UYGULANDI mı). Geçmiş .pt metasından (g03 yükler)."""
+    hist = ((result.get('train') or {}).get('history')) or []
+    aux = [h['aux_loss'] for h in hist if h.get('aux_loss') is not None]
+    if len(aux) < 2:
+        return None
+    return bool(aux[-1] < aux[0])
+
+
+def reading_p1(result):
+    """P1 yardımlı-yazma kuralı: G0.3 eşikleri + yardım-UYGULANDI kontrolü.
+    GECTI + uygulandı ⇒ SİNYAL_YOK adayı; KALDI + uygulandı ⇒ P2 koşar;
+    uygulanmadı ⇒ YARDIM_UYGULANMADI."""
+    applied = _aux_applied(result)
+    base = reading(result)
+    base['kural'] = 'P1'
+    base['yardim_uygulandi'] = applied
+    if applied is False or applied is None:
+        if base['verdict'] in ('GECTI', 'KALDI', 'KISMEN'):
+            base['verdict'] = 'YARDIM_UYGULANMADI'
+            base['reason'] = 'aux_loss azalmadi/olcumu yok: kod kontrolu'
+    return base
+
+
+def reading_p2(result):
+    """P2 kehanet-yazma kuralı (acc-only): yazma sabit olduğundan imza/yuva
+    koşulları tanımsız; eşikler G0.3 ile aynı (d=3 ≥ 0,95; A ≤ 0,30).
+    GECTI ⇒ YAZMA_ÖLÜ adayı; KALDI ⇒ MİMARİ_YETERSİZ adayı."""
+    b3 = (result.get('eval') or {}).get('3', {})
+    a3 = (result.get('control_A') or {}).get('3', {})
+    if not b3.get('acc') or not a3.get('acc'):
+        return dict(verdict='INCOMPLETE', reason='eksik olcu', kural='P2')
+    if a3['acc'] > G03_A_BROKEN:
+        return dict(verdict='KONTROL_BOZUK', reason='A siziyor', kural='P2')
+    if b3['acc'] >= G03_B_MIN and a3['acc'] <= G03_A_MAX:
+        return dict(verdict='GECTI', b_acc3=b3['acc'], a_acc3=a3['acc'],
+                    kural='P2', telemetry=result.get('telemetry'))
+    return dict(verdict='KALDI', b_acc3=b3['acc'], kural='P2',
+                reason='P2 d=3 < 0,95')
 
 
 def gate_g01(seed=11):
@@ -297,7 +377,8 @@ def main():
     p.add_argument('--weights', default=None)
     p.add_argument('--b', default=None)
     p.add_argument('--a', default=None)
-    p.add_argument('--kural', default='g03', help='g03 (dikkat-yazma kollari) | rmt (B_rmt-ozel acc-only)')
+    p.add_argument('--kural', default='g03', help='g03 | rmt | p1 | p2')
+    p.add_argument('--aux-weight', type=float, default=0.0, help='P1 yardimli-yazma agirligi (B_aux ile >0 sart)')
     p.add_argument('--d', default='1,2,3')
     p.add_argument('--n', type=int, default=200)
     p.add_argument('--out', default=None)
@@ -310,7 +391,7 @@ def main():
         return
     if a.cmd == 'train':
         model, info = train(a.arm, a.seed, a.steps, batch=a.batch, lr=a.lr,
-                            log_every=a.log_every)
+                            log_every=a.log_every, aux_weight=a.aux_weight)
         if a.out:
             save_model(model, Path(a.out).with_suffix('.pt'), info)
             Path(a.out).write_text(json.dumps(info, indent=1), encoding='utf8')
@@ -340,7 +421,10 @@ def main():
         rb = json.loads(Path(a.b).read_text(encoding='utf8'))
         ra = json.loads(Path(a.a).read_text(encoding='utf8'))
         rb['control_A'] = ra['eval']
-        rule = reading_rmt if a.kural == 'rmt' else reading
+        rule = {'rmt': reading_rmt, 'p1': reading_p1, 'p2': reading_p2}.get(a.kural, reading)
+        if a.kural == 'p1':
+            raw = torch.load(rb['weights'], map_location='cpu', weights_only=True)
+            rb['train'] = raw['meta']
         rb['reading'] = rule(rb)
         if a.out:
             Path(a.out).parent.mkdir(parents=True, exist_ok=True)

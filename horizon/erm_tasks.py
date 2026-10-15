@@ -57,6 +57,7 @@ def generate(n, windows=N_WINDOWS, window=WINDOW, facts=N_FACTS, seed=0,
         taken = [set() for _ in range(windows)]
         ws = list(rng.permutation([i for i, c in enumerate(quota) for _ in range(c)]))
         pairs = []
+        vallist = []
         for f in range(facts):
             w = ws[f]
             k = KEYS[int(rng.integers(0, N_KEYS))]
@@ -65,6 +66,7 @@ def generate(n, windows=N_WINDOWS, window=WINDOW, facts=N_FACTS, seed=0,
             taken[w] = cells
             seq[at], seq[at + 1] = k, v
             pairs.append((w, k, v))
+            vallist.append((w, at + 1))
         qi, qk, qv = pairs[int(rng.integers(0, facts))]
         qat, qcells = _place(rng, taken[qw], qw * window, (qw + 1) * window, 2)
         taken[qw] = qcells
@@ -72,16 +74,27 @@ def generate(n, windows=N_WINDOWS, window=WINDOW, facts=N_FACTS, seed=0,
         x[s] = seq
         answer_pos[s] = qat + 1
         target[s] = qv
-        meta.append(dict(key=qk, fact_window=qi, query_window=qw, d=qw - qi))
+        meta.append(dict(key=qk, fact_window=qi, query_window=qw, d=qw - qi,
+                         fact_val=vallist))
     return (torch.from_numpy(x),
             torch.from_numpy(answer_pos),
             torch.from_numpy(target), meta)
 
 
 def train_batch(seed, step, batch, windows=N_WINDOWS, window=WINDOW, facts=N_FACTS):
-    x, apos, tgt, _ = generate(batch, windows, window, facts,
-                               seed=(seed * 1_000_003 + step) % 2**31)
-    return dict(x=x, answer_pos=apos, target=tgt)
+    x, apos, tgt, meta = generate(batch, windows, window, facts,
+                                  seed=(seed * 1_000_003 + step) % 2**31)
+    return dict(x=x, answer_pos=apos, target=tgt,
+                fact_cells=fact_cells_tensor(meta, windows, window))
+
+
+def fact_cells_tensor(meta, windows=N_WINDOWS, window=WINDOW):
+    """(n, F, 2): olgu DEĞER konumu (pencere, pencere-içi konum). Çift hücresi
+    {pos-1, pos} (anahtar+değer bitişik)."""
+    rows = []
+    for m in meta:
+        rows.append([[w, p - w * window] for (w, p) in m['fact_val']])
+    return torch.tensor(rows, dtype=torch.long)
 
 
 def queried_value_absent(x, answer_pos, target, windows=N_WINDOWS, window=WINDOW,
