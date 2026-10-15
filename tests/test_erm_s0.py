@@ -230,6 +230,22 @@ class ErmS0Tests(unittest.TestCase):
         p2bad = dict(eval={'3': dict(acc=0.20)}, control_A={'3': dict(acc=0.10)}, telemetry={})
         self.assertEqual(er.reading_p2(p2bad)['verdict'], 'KALDI')
 
+    def test_zero_acc_is_measured_not_missing(self):
+        # falsy düzeltmesi: acc 0.0 geçerli ölçümdür, INCOMPLETE değil.
+        from horizon import erm_run as er
+        zero = dict(eval={'3': dict(acc=0.0)}, control_A={'3': dict(acc=0.10)},
+                    telemetry=dict(sign_ok=True, slots_used=5))
+        self.assertEqual(er.reading(zero)['verdict'], 'KALDI')
+        zero_p1 = dict(eval={'3': dict(acc=0.0)}, control_A={'3': dict(acc=0.10)},
+                       telemetry=dict(sign_ok=True, slots_used=5),
+                       train=dict(history=[dict(step=1000, aux_loss=1.0),
+                                           dict(step=2000, aux_loss=0.5)]))
+        r = er.reading_p1(zero_p1)
+        self.assertEqual(r['verdict'], 'KALDI')
+        self.assertTrue(r['yardim_uygulandi'])
+        missing = dict(eval={'3': dict(acc=None)}, control_A={'3': dict(acc=0.10)}, telemetry={})
+        self.assertEqual(er.reading(missing)['verdict'], 'INCOMPLETE')
+
     def test_mini_train_probe_arms(self):
         from horizon import erm_run as er
         m, info = er.train('B_aux', seed=5, steps=6, batch=4, log_every=0,

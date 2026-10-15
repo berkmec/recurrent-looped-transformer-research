@@ -202,7 +202,7 @@ def reading(result):
     b3 = (result.get('eval') or {}).get('3', {})
     a3 = (result.get('control_A') or {}).get('3', {})
     tel = result.get('telemetry') or {}
-    if not b3.get('acc') or not a3.get('acc'):
+    if b3.get('acc') is None or a3.get('acc') is None:
         return dict(verdict='INCOMPLETE', reason='eksik olcu')
     if a3['acc'] > G03_A_BROKEN:
         return dict(verdict='KONTROL_BOZUK', reason=f"A d=3'te {a3['acc']:.2f} (sans 0,125): gorev siziyor")
@@ -223,7 +223,7 @@ def reading_rmt(result):
     merdiven-3 kolunun yapısındandır; hükümde `kural` alanı taşır."""
     b3 = (result.get('eval') or {}).get('3', {})
     a3 = (result.get('control_A') or {}).get('3', {})
-    if not b3.get('acc') or not a3.get('acc'):
+    if b3.get('acc') is None or a3.get('acc') is None:
         return dict(verdict='INCOMPLETE', reason='eksik olcu', kural='B_rmt-ozel')
     if a3['acc'] > G03_A_BROKEN:
         return dict(verdict='KONTROL_BOZUK', reason='A siziyor', kural='B_rmt-ozel')
@@ -265,7 +265,7 @@ def reading_p2(result):
     GECTI ⇒ YAZMA_ÖLÜ adayı; KALDI ⇒ MİMARİ_YETERSİZ adayı."""
     b3 = (result.get('eval') or {}).get('3', {})
     a3 = (result.get('control_A') or {}).get('3', {})
-    if not b3.get('acc') or not a3.get('acc'):
+    if b3.get('acc') is None or a3.get('acc') is None:
         return dict(verdict='INCOMPLETE', reason='eksik olcu', kural='P2')
     if a3['acc'] > G03_A_BROKEN:
         return dict(verdict='KONTROL_BOZUK', reason='A siziyor', kural='P2')
