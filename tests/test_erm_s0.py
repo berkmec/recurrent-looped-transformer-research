@@ -113,6 +113,35 @@ class ErmS0Tests(unittest.TestCase):
         ev = er.evaluate(model, 'B', d_list=(3,), n=12, seed=8)
         self.assertIn(3, ev)
 
+    def test_p0_telemetry_hooks(self):
+        from horizon import erm_models as em
+        from horizon import erm_tasks as et
+        m = em.make_arm('B', seed=1)
+        m.eval()
+        x, _, _, _ = et.generate(4, seed=2)
+        with torch.no_grad():
+            m(x.reshape(4, et.N_WINDOWS, et.WINDOW))
+        self.assertEqual(tuple(m.last_m.shape), (4, 16, 64))
+        self.assertEqual(tuple(m.write.last_alpha.shape), (4, 16, 4, 32))
+
+    def test_rmt_rule_and_telemetry(self):
+        from horizon import erm_run as er
+        ok = dict(eval={'3': dict(acc=0.96)}, control_A={'3': dict(acc=0.10)},
+                  telemetry=dict(slots_used=3, sign_ok=None))
+        r = er.reading_rmt(ok)
+        self.assertEqual(r['verdict'], 'GECTI')
+        self.assertEqual(r['kural'], 'B_rmt-ozel')
+        bad = dict(eval={'3': dict(acc=0.20)}, control_A={'3': dict(acc=0.10)},
+                   telemetry={})
+        self.assertEqual(er.reading_rmt(bad)['verdict'], 'KALDI')
+        # standart kural bozulmadi: ayni sonuc G0.3'te de KALDI (B < 0,95)
+        self.assertEqual(er.reading(bad)['verdict'], 'KALDI')
+        from horizon import erm_models as em
+        m = em.make_arm('B_rmt', seed=1)
+        tel = er.telemetry(m, 'B_rmt', n=8, seed=3)
+        self.assertIn('slots_used', tel)
+        self.assertIsNone(tel['sign_ok'])
+
     def test_g05_longdoc_continuity(self):
         import json
         from pathlib import Path

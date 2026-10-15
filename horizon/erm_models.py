@@ -74,6 +74,7 @@ class WriteModule(nn.Module):
         scores = torch.einsum('bmhd,bwhd->bmhw', q, k) / math.sqrt(dh)   # (B,M,h,W)
         null = torch.zeros(b, self.slots, h, 1, device=e.device)
         alpha = torch.softmax(torch.cat([scores, null], -1), -1)[..., :w]
+        self.last_alpha = alpha.detach()
         s_hat = torch.einsum('bmhw,bwhd->bmhd', alpha, v).reshape(b, self.slots, self.d_mem)
         m_rms = m.square().mean(-1).sqrt()                              # (B,M)
         gate_in = torch.cat([s_hat, m_rms[:, :, None]], -1)
@@ -150,6 +151,7 @@ class RLTM(nn.Module):
                 mrms.append(float(m.detach().square().mean().sqrt()))
         self.last_a = torch.stack(avals, 1) if avals else None   # (B,nW,M)
         self.last_m_rms = mrms
+        self.last_m = (m.detach() if self.slots > 0 else None)  # (B,M,d_mem) P0 tanisi
         return torch.stack(outs, 1)
 
 
@@ -195,6 +197,7 @@ class ArmRMT(nn.Module):
             self.mem0 = nn.Parameter(torch.randn(slots_mem, width) * 0.1)
             self.wr0 = nn.Parameter(torch.randn(slots_mem, width) * 0.1)
             self.head = nn.Sequential(nn.LayerNorm(width), nn.Linear(width, vocab))
+        self.last_mem = None
 
     def forward(self, xw):
         b, nw, w = xw.shape
@@ -204,9 +207,12 @@ class ArmRMT(nn.Module):
         for t in range(nw):
             inp = torch.cat([mem, emb[:, t],
                              self.wr0.expand(b, -1, -1)], 1)
-            h = self.enc.norm(self.enc.tr(inp, mask=None, is_causal=True))
+            L = inp.shape[1]
+            mask = torch.triu(torch.ones(L, L, dtype=torch.bool, device=inp.device), diagonal=1)
+            h = self.enc.norm(self.enc.tr(inp, mask=mask))
             outs.append(self.head(h[:, self.slots_mem:self.slots_mem + w]))
             mem = h[:, -self.slots_mem:]
+        self.last_mem = mem.detach()
         return torch.stack(outs, 1)
 
 

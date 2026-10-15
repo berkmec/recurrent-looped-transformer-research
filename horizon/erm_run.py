@@ -119,7 +119,22 @@ def evaluate(model, arm, d_list=(1, 2, 3), n=200, seed=777, batch=50):
 
 
 def telemetry(model, arm, n=64, seed=555):
-    """R-2 ekleri: yazma-gücü telemetrisi + kapı İMZASI + yuva kullanımı."""
+    """R-2 ekleri: yazma-gücü telemetrisi + kapı İMZASI + yuva kullanımı.
+    B_rmt: dikkat-yazma yok; telemetri = taşınan yuva-belirteçlerinin içerik
+    yayılımı (dizi başına son-pencere mem RMS'i; std = bilgi taşınımı)."""
+    if arm == 'B_rmt':
+        torch.set_num_threads(1)
+        model.eval()
+        x, _, _, _ = et.generate(n, seed=seed)
+        with torch.no_grad():
+            model(x.reshape(n, et.N_WINDOWS, et.WINDOW))
+        per_tok = model.last_mem.square().mean(-1).sqrt()   # (B,S)
+        spread = per_tok.std(0)
+        used = int((spread > 0.1 * float(spread.max())).sum())
+        return dict(mem_token_rms_mean=float(per_tok.mean()),
+                    mem_token_spread=list(map(float, spread)),
+                    slots_used=int(used), sign_ok=None,
+                    not_='B_rmt-ozel: imza tanimsiz (dikkat-yazma yok)')
     if arm not in ('B', 'B_comp', 'B_32'):
         return dict(telemetry='yok (belleksiz kol)')
     torch.set_num_threads(1)
@@ -161,6 +176,24 @@ def reading(result):
         return dict(verdict='KALDI', b_acc3=b3['acc'], reason='B d=3 < 0,95: yedek merdiven sirayla')
     return dict(verdict='KISMEN', b_acc3=b3['acc'], a_acc3=a3['acc'],
                 sign_ok=tel.get('sign_ok'), slots_used=tel.get('slots_used'))
+
+
+def reading_rmt(result):
+    """B_rmt-özel kural (acc-only): RMT-sadık kolda dikkat-yazma telemetrisi
+    (sign_ok) tanımsız olduğundan G0.3'ün imza/yuva koşulları uygulanmaz;
+    telemetri betimleyici olarak taşınır. Sapma ERM_S0_ONKAYIT'tan DEĞİL,
+    merdiven-3 kolunun yapısındandır; hükümde `kural` alanı taşır."""
+    b3 = (result.get('eval') or {}).get('3', {})
+    a3 = (result.get('control_A') or {}).get('3', {})
+    if not b3.get('acc') or not a3.get('acc'):
+        return dict(verdict='INCOMPLETE', reason='eksik olcu', kural='B_rmt-ozel')
+    if a3['acc'] > G03_A_BROKEN:
+        return dict(verdict='KONTROL_BOZUK', reason='A siziyor', kural='B_rmt-ozel')
+    if b3['acc'] >= G03_B_MIN and a3['acc'] <= G03_A_MAX:
+        return dict(verdict='GECTI', b_acc3=b3['acc'], a_acc3=a3['acc'],
+                    kural='B_rmt-ozel', telemetry=result.get('telemetry'))
+    return dict(verdict='KALDI', b_acc3=b3['acc'], kural='B_rmt-ozel',
+                reason='B_rmt d=3 < 0,95: E-RM DURUR (uc yedek tukendi)')
 
 
 def gate_g01(seed=11):
@@ -262,6 +295,9 @@ def main():
     p.add_argument('--batch', type=int, default=32)
     p.add_argument('--lr', type=float, default=3e-3)
     p.add_argument('--weights', default=None)
+    p.add_argument('--b', default=None)
+    p.add_argument('--a', default=None)
+    p.add_argument('--kural', default='g03', help='g03 (dikkat-yazma kollari) | rmt (B_rmt-ozel acc-only)')
     p.add_argument('--d', default='1,2,3')
     p.add_argument('--n', type=int, default=200)
     p.add_argument('--out', default=None)
@@ -301,19 +337,14 @@ def main():
         print(json.dumps(r, indent=1))
         return
     if a.cmd == 'g03':
-        import sys
-        p2 = argparse.ArgumentParser()
-        p2.add_argument('--b', required=True)
-        p2.add_argument('--a', required=True)
-        p2.add_argument('--out', default=None)
-        b2 = p2.parse_args(sys.argv[2:])
-        rb = json.loads(Path(b2.b).read_text(encoding='utf8'))
-        ra = json.loads(Path(b2.a).read_text(encoding='utf8'))
+        rb = json.loads(Path(a.b).read_text(encoding='utf8'))
+        ra = json.loads(Path(a.a).read_text(encoding='utf8'))
         rb['control_A'] = ra['eval']
-        rb['reading'] = reading(rb)
-        if b2.out:
-            Path(b2.out).parent.mkdir(parents=True, exist_ok=True)
-            Path(b2.out).write_text(json.dumps(rb, indent=1), encoding='utf8')
+        rule = reading_rmt if a.kural == 'rmt' else reading
+        rb['reading'] = rule(rb)
+        if a.out:
+            Path(a.out).parent.mkdir(parents=True, exist_ok=True)
+            Path(a.out).write_text(json.dumps(rb, indent=1), encoding='utf8')
         print(json.dumps(rb['reading'], indent=1))
         return
     raise SystemExit('komut: train | eval | g01 | g02 | g05 | --reading')
