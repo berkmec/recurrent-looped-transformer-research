@@ -81,13 +81,111 @@ class HoldTests(unittest.TestCase):
         self.assertGreater(stats2['hold_neutral'], stats2['hold_informative'])
 
     def test_reading_rule_cases(self):
+        """c8c64fd Z4 branch order and Z5 sign conjunct, thresholds of 319f13c (0.5 / 5 / 20) at their edges."""
         hold = self.api()
-        self.assertEqual(hold.reading(dict(hold_neutral=0.7, neutral_loss_points=2.0))['verdict'], 'DESTEKLENİR')
-        self.assertEqual(hold.reading(dict(hold_neutral=0.05, neutral_loss_points=2.0))['verdict'], 'ÇÜRÜTÜLDÜ')
-        self.assertEqual(hold.reading(dict(hold_neutral=0.7, neutral_loss_points=25.0))['verdict'], 'ÇÜRÜTÜLDÜ')
-        self.assertEqual(hold.reading(dict(hold_neutral=0.3, neutral_loss_points=2.0))['verdict'], 'MANIPULATION_NOT_APPLIED')
-        self.assertEqual(hold.reading(dict(hold_neutral=0.7, neutral_loss_points=10.0))['verdict'], 'KISMEN')
-        self.assertEqual(hold.reading(dict(hold_neutral=None, neutral_loss_points=2.0))['verdict'], 'INCOMPLETE')
+        v = lambda h, l, s=True, **kw: hold.reading(dict(hold_neutral=h, neutral_loss_points=l, sign_ok=s, **kw))['verdict']
+        self.assertEqual(v(0.7, 2.0), 'DESTEKLENİR')                      # (i)
+        self.assertEqual(v(0.5, 5.0), 'DESTEKLENİR')                      # (i) edges inclusive
+        self.assertEqual(v(0.7, -50.5), 'DESTEKLENİR')                    # negative loss passes, no floor (Q3)
+        self.assertEqual(v(0.7, 25.0), 'ÇÜRÜTÜLDÜ')                       # (ii)
+        self.assertEqual(v(0.05, 25.0), 'ÇÜRÜTÜLDÜ')                      # (ii) before (iii)
+        self.assertEqual(v(0.7, 20.0), 'KISMEN')                          # 20 is not > 20
+        self.assertEqual(v(0.05, 2.0), 'MANIPULATION_NOT_APPLIED')        # Z4: hold < 0.1 is not a refutation any more
+        self.assertEqual(v(0.3, 2.0), 'MANIPULATION_NOT_APPLIED')         # (iii)
+        self.assertEqual(v(0.4999, 10.0), 'MANIPULATION_NOT_APPLIED')
+        self.assertEqual(v(0.7, 10.0), 'KISMEN')                          # (iv)
+        self.assertEqual(v(None, 2.0), 'INCOMPLETE')
+        self.assertEqual(v(0.7, None), 'INCOMPLETE')
+        self.assertEqual(v(0.7, 2.0, None), 'INCOMPLETE')                 # sign_ok is a measurement of (i)
+
+    def test_inverted_gate_is_not_support(self):
+        """Z5 negative test (E-A10): a gate that holds informative steps more than neutral ones never reads DESTEKLENİR."""
+        hold = self.api()
+        mask = torch.zeros(4, 20, dtype=torch.bool)
+        mask[:, 10:] = True
+        gates = torch.full((4, 20, 3), 0.4)    # neutral: hold 0.6
+        gates[:, :10] = 0.1                    # informative: hold 0.9 -> inverted
+        stats = hold.hold_stats(gates, neutral_mask=mask)
+        self.assertFalse(stats['sign_ok'])
+        r = hold.reading(dict(stats, neutral_loss_points=1.0))
+        self.assertGreaterEqual(r['hold_neutral'], 0.5)
+        self.assertEqual(r['verdict'], 'KISMEN')
+        gates[:, :10] = 0.9                    # same neutral hold, correct sign
+        self.assertEqual(hold.reading(dict(hold.hold_stats(gates, neutral_mask=mask), neutral_loss_points=1.0))['verdict'], 'DESTEKLENİR')
+
+    def test_hold_nc_reading(self):
+        """Z7: the negative control is never support or refutation."""
+        hold = self.api()
+        r = lambda h, l, s=True: hold.reading(dict(arm='hold_nc', hold_neutral=h, neutral_loss_points=l, sign_ok=s))
+        self.assertEqual(r(0.3, 2.0)['verdict'], 'MANIPULATION_NOT_APPLIED')
+        self.assertEqual(r(0.05, 30.0)['verdict'], 'MANIPULATION_NOT_APPLIED')
+        self.assertEqual(r(0.7, 30.0)['verdict'], 'MANIPULATION_NOT_APPLIED')   # loss > 20: descriptive, control arm
+        self.assertEqual(r(0.7, 2.0)['verdict'], 'KISMEN')
+        self.assertIn('CHRONO_UNNECESSARY', r(0.7, 2.0)['flags'])
+        self.assertEqual(r(0.7, 10.0)['verdict'], 'KISMEN')
+        self.assertNotIn('CHRONO_UNNECESSARY', r(0.7, 10.0)['flags'])
+
+    def test_arm_and_eg_combination(self):
+        """Z6: seed -> arm (perm4 3 seeds, perm5 2 seeds) -> E-G."""
+        hold = self.api()
+        S, R, M = (dict(hold_neutral=0.7, neutral_loss_points=2.0, sign_ok=True),
+                   dict(hold_neutral=0.7, neutral_loss_points=30.0, sign_ok=True),
+                   dict(hold_neutral=0.2, neutral_loss_points=2.0, sign_ok=True))
+        seeds = lambda *rs: [dict(r, seed=i + 1, arm='hold') for i, r in enumerate(rs)]
+        arm = lambda task, *rs: hold.arm_reading(seeds(*rs), task)
+        self.assertEqual(arm('perm4', S, S, M)['verdict'], 'DESTEKLENİR')
+        self.assertEqual(arm('perm4', S, M, M)['verdict'], 'MANIPULATION_NOT_APPLIED')
+        self.assertEqual(arm('perm4', S, R, M)['verdict'], 'KISMEN')           # 1-1-1
+        a = arm('perm4', S, S, R)
+        self.assertEqual(a['verdict'], 'KISMEN')                               # a refuted seed blocks arm support
+        self.assertEqual(a['refuted_seeds'], [3])
+        self.assertEqual(arm('perm4', R, R, S)['verdict'], 'ÇÜRÜTÜLDÜ')
+        self.assertEqual(arm('perm5', S, S)['verdict'], 'DESTEKLENİR')
+        self.assertEqual(arm('perm5', S, M)['verdict'], 'KISMEN')              # 1-1
+        self.assertEqual(arm('perm5', S, S, S)['verdict'], 'INCOMPLETE')       # not the registered seed count
+        self.assertEqual(arm('perm4', S, S)['verdict'], 'INCOMPLETE')
+        with self.assertRaises(ValueError):
+            hold.arm_reading([dict(S, arm='hold_nc', seed=1)] * 3, 'perm4')
+        eg = lambda a4, a5: hold.eg_reading(dict(perm4=a4, perm5=a5))
+        self.assertEqual(eg('DESTEKLENİR', 'DESTEKLENİR')['verdict'], 'DESTEKLENİR')
+        self.assertEqual(eg('ÇÜRÜTÜLDÜ', 'ÇÜRÜTÜLDÜ')['verdict'], 'ÇÜRÜTÜLDÜ')
+        self.assertEqual(eg('DESTEKLENİR', 'ÇÜRÜTÜLDÜ')['verdict'], 'KISMEN')
+        self.assertTrue(eg('DESTEKLENİR', 'ÇÜRÜTÜLDÜ')['scale_split'])
+        self.assertEqual(eg('DESTEKLENİR', 'MANIPULATION_NOT_APPLIED')['verdict'], 'KISMEN')
+        self.assertEqual(eg('DESTEKLENİR', 'INCOMPLETE')['verdict'], 'INCOMPLETE')
+
+    def test_ci_flag_is_descriptive(self):
+        """Z10: CIs are written, SINIRDA flags a CI across 5 or 20, the label is unchanged."""
+        hold = self.api()
+        base = dict(hold_neutral=0.7, sign_ok=True, n_loss=200)
+        near = hold.reading(dict(base, acc0=0.90, acc9=0.86, neutral_loss_points=4.0))
+        self.assertEqual(near['verdict'], 'DESTEKLENİR')
+        self.assertIn('SINIRDA', near['flags'])
+        lo, hi = near['loss_ci']
+        self.assertLess(lo, 4.0)
+        self.assertGreater(hi, 5.0)
+        far = hold.reading(dict(base, acc0=0.99, acc9=1.0, neutral_loss_points=-1.0))
+        self.assertNotIn('SINIRDA', far['flags'])
+        self.assertTrue(0.0 <= far['acc9_ci'][0] <= far['acc9_ci'][1] <= 1.0)
+        self.assertNotIn('loss_ci', hold.reading(dict(base, neutral_loss_points=4.0)))   # old result files: no CI, same label
+
+    def test_measure_persists_acc_and_scope(self):
+        """Q1/Q4: measure stores acc0/acc9 with n, the gate-telemetry n (first batch), length and eval seed."""
+        import tempfile
+        from pathlib import Path
+        from horizon import depth_models as dm
+        hold = self.api()
+        torch.manual_seed(9)
+        model = dm.make_arm('hold', 'perm4', 32, 1)
+        meta = dict(arm='hold', task='perm4', width=32, seed=1, hold_tmax=16,
+                    parameters=sum(p.numel() for p in model.parameters()))
+        with tempfile.TemporaryDirectory() as d:
+            path = Path(d) / 'tiny.pt'
+            torch.save(dict(state_dict=model.state_dict(), meta=meta), path)
+            r = hold.measure(path, length=16, n=6, seed=3, batch=4, log=lambda m: None)
+        self.assertEqual((r['n_loss'], r['n_gate'], r['length'], r['eval_seed'], r['seed']), (6, 4, 16, 3, 1))
+        self.assertAlmostEqual(r['neutral_loss_points'], 100.0 * (r['acc0'] - r['acc9']), places=9)
+        self.assertEqual(r['reading'], hold.reading(r))                                   # --reading reproduces it
 
     def test_neutral_p_zero_is_bit_identical(self):
         from horizon import depth_tasks as dt

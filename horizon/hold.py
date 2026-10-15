@@ -112,29 +112,120 @@ def hold_stats(gates, neutral_mask=None):
     return out
 
 
+HOLD_MIN, LOSS_SUPPORT, LOSS_REFUTE = 0.5, 5.0, 20.0   # registered (319f13c), unchanged by c8c64fd
+ARM_SEEDS = {'perm4': 3, 'perm5': 2}                    # Z6: registered seeds per arm
+Z95 = 1.959963984540054
+
+
+def wilson(k, n, z=Z95):
+    """95% binomial (Wilson) interval of k/n, descriptive only (Z10)."""
+    if not n:
+        return None
+    p = k / n
+    d = 1 + z * z / n
+    c = (p + z * z / (2 * n)) / d
+    h = z * math.sqrt(p * (1 - p) / n + z * z / (4 * n * n)) / d
+    return [max(0.0, c - h), min(1.0, c + h)]
+
+
+def loss_ci(acc0, acc9, n0, n9, z=Z95):
+    """95% CI of 100*(acc0 - acc9), two independent binomials (different token draws per p_id), normal approx (Z10)."""
+    if not n0 or not n9:
+        return None
+    se = math.sqrt(acc0 * (1 - acc0) / n0 + acc9 * (1 - acc9) / n9)
+    d = acc0 - acc9
+    return [100.0 * (d - z * se), 100.0 * (d + z * se)]
+
+
 def reading(result):
-    """Registered E-G rule (M-1): hold>=0.5 AND neutral-loss<=5 -> DEST EKLENIR...;
-    refutation hold<0.1 or loss>20; manipulation check hold<0.5 (A§11-4)."""
-    for key in ('hold_neutral', 'neutral_loss_points'):
+    """Registered E-G seed rule, c8c64fd addendum (Z4/Z5/Z7/Z10), thresholds of 319f13c unchanged.
+    Z4 branch order, first match wins:
+      (i)   hold >= 0.5 AND loss <= 5 AND sign_ok          -> DESTEKLENİR   (Z5: an inverted gate is not support)
+      (ii)  loss > 20                                       -> ÇÜRÜTÜLDÜ
+      (iii) hold < 0.5 (hold < 0.1 included)                -> MANIPULATION_NOT_APPLIED (not tested != refuted)
+      (iv)  otherwise                                       -> KISMEN
+      a missing measurement (hold_neutral, loss or sign_ok) -> INCOMPLETE.
+    Z7 (arm 'hold_nc', the negative control): hold < 0.5 or loss > 20 -> MANIPULATION_NOT_APPLIED (loss descriptive);
+      hold >= 0.5 AND loss <= 5 -> KISMEN + CHRONO_UNNECESSARY (never support); otherwise KISMEN.
+    Z10: when acc0/acc9 and their n are stored, the 95% CIs are written; a loss CI containing 5 or 20 adds SINIRDA.
+      The label is the computed one either way (single reading, no re-read).
+    Q3 (Meredith, nloss < 0): loss is 100*(acc(0) - acc(0.9)) as registered, without a floor; a negative loss
+      (the model is MORE accurate under heavy neutral padding, fewer real updates to compose) is <= 5 and passes the
+      loss conjunct. Clamping would be a rule change; the sign is visible in the stored value and its CI."""
+    for key in ('hold_neutral', 'neutral_loss_points', 'sign_ok'):
         if result.get(key) is None:
-            return dict(verdict='INCOMPLETE', reason=f'missing {key}')
-    hold, loss = result['hold_neutral'], result['neutral_loss_points']
-    if hold >= 0.5 and loss <= 5:
+            return dict(verdict='INCOMPLETE', reason=f'missing {key}', flags=[])
+    hold, loss, sign_ok = result['hold_neutral'], result['neutral_loss_points'], bool(result['sign_ok'])
+    flags = []
+    if result.get('arm') == 'hold_nc':
+        if hold < HOLD_MIN or loss > LOSS_REFUTE:
+            verdict = 'MANIPULATION_NOT_APPLIED'
+        else:
+            verdict = 'KISMEN'
+            if loss <= LOSS_SUPPORT:
+                flags.append('CHRONO_UNNECESSARY')
+    elif hold >= HOLD_MIN and loss <= LOSS_SUPPORT and sign_ok:
         verdict = 'DESTEKLENİR'
-    elif hold < 0.1 or loss > 20:
+    elif loss > LOSS_REFUTE:
         verdict = 'ÇÜRÜTÜLDÜ'
-    elif hold < 0.5:
+    elif hold < HOLD_MIN:
         verdict = 'MANIPULATION_NOT_APPLIED'
     else:
         verdict = 'KISMEN'
-    return dict(verdict=verdict, hold_neutral=hold, neutral_loss_points=loss,
-                sign_ok=result.get('sign_ok'))
+    out = dict(verdict=verdict, hold_neutral=hold, neutral_loss_points=loss, sign_ok=sign_ok, flags=flags)
+    if all(result.get(k) is not None for k in ('acc0', 'acc9', 'n_loss')):
+        n = result['n_loss']
+        out['acc0_ci'] = wilson(round(result['acc0'] * n), n)
+        out['acc9_ci'] = wilson(round(result['acc9'] * n), n)
+        out['loss_ci'] = loss_ci(result['acc0'], result['acc9'], n, n)
+        lo, hi = out['loss_ci']
+        if any(lo <= t <= hi for t in (LOSS_SUPPORT, LOSS_REFUTE)):
+            flags.append('SINIRDA')
+    return out
+
+
+def arm_reading(seed_results, task):
+    """Z6 arm verdict from the per-seed `reading` labels (hold arm only; hold_nc is never combined).
+    perm4 (3 seeds): >= 2 equal labels -> that label, 1-1-1 -> KISMEN; perm5 (2 seeds): 2/2 -> that label, 1-1 -> KISMEN.
+    A ÇÜRÜTÜLDÜ seed does not veto but is named, and blocks an arm DESTEKLENİR (-> KISMEN).
+    Fewer/more seeds than registered, or a majority of INCOMPLETE seeds -> INCOMPLETE."""
+    if task not in ARM_SEEDS:
+        raise ValueError(f'Z6 combines perm4/perm5 arms only, not {task}')
+    if any(r.get('arm') == 'hold_nc' for r in seed_results):
+        raise ValueError('Z6: hold_nc does not enter the combination (Z7 reads it alone)')
+    labels = [reading(r)['verdict'] for r in seed_results]
+    refuted = [r.get('seed') for r, v in zip(seed_results, labels) if v == 'ÇÜRÜTÜLDÜ']
+    out = dict(task=task, seeds=[r.get('seed') for r in seed_results], seed_verdicts=labels, refuted_seeds=refuted)
+    if len(labels) != ARM_SEEDS[task]:
+        return dict(out, verdict='INCOMPLETE', reason=f'{len(labels)} seeds, registered {ARM_SEEDS[task]}')
+    top = max(set(labels), key=labels.count)
+    verdict = top if labels.count(top) * 2 > len(labels) else 'KISMEN'
+    if verdict == 'DESTEKLENİR' and refuted:
+        verdict = 'KISMEN'
+    return dict(out, verdict=verdict)
+
+
+def eg_reading(arm_verdicts):
+    """Z6 E-G overall from the two arm verdicts {'perm4': ..., 'perm5': ...}: both DESTEKLENİR -> DESTEKLENİR;
+    both ÇÜRÜTÜLDÜ -> ÇÜRÜTÜLDÜ; exactly one ÇÜRÜTÜLDÜ -> KISMEN (scale split, reported); other cases KISMEN.
+    An INCOMPLETE or missing arm -> INCOMPLETE (missing measurement, Z4 last line)."""
+    v = [arm_verdicts.get(t) for t in ARM_SEEDS]
+    if any(x in (None, 'INCOMPLETE') for x in v):
+        return dict(verdict='INCOMPLETE', arms=dict(arm_verdicts))
+    if all(x == 'DESTEKLENİR' for x in v):
+        verdict = 'DESTEKLENİR'
+    elif all(x == 'ÇÜRÜTÜLDÜ' for x in v):
+        verdict = 'ÇÜRÜTÜLDÜ'
+    else:
+        verdict = 'KISMEN'
+    return dict(verdict=verdict, arms=dict(arm_verdicts), scale_split=v.count('ÇÜRÜTÜLDÜ') == 1)
 
 
 def describe(r):
+    flags = r['reading'].get('flags') or []
     return (f"{r['weights']}: hold_neutral={r['hold_neutral']:.3f} "
             f"neutral_loss={r['neutral_loss_points']:.1f}pts sign_ok={r['sign_ok']} "
-            f"-> {r['reading']['verdict']}")
+            f"-> {r['reading']['verdict']}" + (f" [{','.join(flags)}]" if flags else ''))
 
 
 def measure(weights, p_ids=NEUTRAL_PIDS, length=1024, n=200, seed=1, batch=50, log=print):
@@ -150,19 +241,28 @@ def measure(weights, p_ids=NEUTRAL_PIDS, length=1024, n=200, seed=1, batch=50, l
     acc0 = base['results'][0.0]['final']
     heavy = nr.measure(weights, p_ids=(0.9,), length=length, n=n, seed=seed, batch=batch)
     acc9 = heavy['results'][0.9]['final']
-    nloss = 100.0 * (acc0 - acc9)
+    nloss = 100.0 * (acc0 - acc9)   # Q3: no floor, may be negative -> see reading()
     model.eval()
     x = nr.neutral_tokens(task, n, length, 0.9, seed)
+    # Q1 (Meredith, the old loop + `break`): gate telemetry is the FIRST batch only, by registration (Z1:
+    # hold_neutral/hold_informative/sign_ok on the first 50 sequences; the loss above uses all n). Written as one
+    # slice so the scope is explicit and persisted as n_gate; last_gates holds exactly this batch.
+    xg = x[:batch]
     with torch.no_grad():
-        for at in range(0, len(x), batch):
-            model(x[at:at + batch])
-            break
-    g0 = model.last_gates.shape[0]
-    stats = hold_stats(model.last_gates, neutral_mask=(x[:g0] == 0))
+        model(xg)
+    # Q2 (Meredith, the `x == 0` mask): token 0 is the identity (depth_tasks: perms[0]); neutral_tokens draws it with
+    # probability p_id, and a uniform draw may also land on 0 - that step is an identity update too, so it is
+    # neutral by definition, not mislabelled. The mask is (B, T) over the same rows as gates (B, T, W).
+    assert model.last_gates.shape[:2] == xg.shape
+    stats = hold_stats(model.last_gates, neutral_mask=(xg == 0))
+    # Q4 persist rule: acc0/acc9 with their n, the evaluation seed and length are stored with every result, so the
+    # Z10 CIs are recomputable by --reading; eval_seed (data) is distinct from seed (model). An existing --out file is
+    # never overwritten (single reading, Z10) - see main().
     result = dict(weights=str(weights), task=task, arm=meta['arm'], width=meta['width'], seed=meta['seed'],
                   hold_mean=stats['hold_mean'], hold_neutral=stats['hold_neutral'],
                   hold_informative=stats['hold_informative'], tau_per_dim=stats['tau_per_dim'],
                   sign_ok=stats['sign_ok'], neutral_loss_points=nloss,
+                  acc0=acc0, acc9=acc9, n_loss=n, n_gate=int(xg.shape[0]), length=length, eval_seed=seed,
                   hold_tmax=meta.get('hold_tmax', T_MAX_DEFAULT))
     result['reading'] = reading(result)
     log(describe(result))
@@ -182,6 +282,8 @@ def main():
             r['reading'] = reading(r)
             print(describe(r))
         return
+    if a.out and Path(a.out).exists():
+        raise SystemExit(f'{a.out} exists: a reading is written once (Z10), choose a new --out')
     results = []
     for path in a.weights:
         r = measure(path, log=lambda m: print(m, flush=True))
@@ -194,4 +296,7 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    # `-m horizon.hold` runs this file as __main__ while depth_models imports horizon.hold, giving two HoldCore classes
+    # and a false isinstance failure in measure (Meredith D-2); run the package copy instead.
+    from horizon.hold import main as _main
+    _main()
