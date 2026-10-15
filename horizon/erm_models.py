@@ -211,19 +211,25 @@ class ArmOrc(nn.Module):
     def forward(self, xw, facts):
         b, nw, w = xw.shape
         e = self.enc.forward_windows(xw)
-        m = torch.zeros(b, self.slots, self.read.Wkr.in_features, device=xw.device)
+        dm = self.read.Wkr.in_features
+        m = torch.zeros(b, self.slots, dm, device=xw.device)
         outs = []
         self.last_m = None
+        f = facts.shape[1]
+        fwin = facts[:, :, 0]
+        fpos = facts[:, :, 1].clamp(0, w - 1)
+        slots = torch.arange(f, device=xw.device) % self.slots
         for t in range(nw):
             z = self.read(e[:, t], m)
             outs.append(self.head(z))
             m = self.lam[None, :, None] * m
-            sel = (facts[:, :, 0] == t)
-            for s in range(b):
-                ff = facts[s][sel[s]]
-                for k in range(len(ff)):
-                    pos = int(ff[k, 1])
-                    m[s, k % self.slots] = m[s, k % self.slots] + e[s, t, pos]
+            hit = (fwin == t)
+            if bool(hit.any()):
+                g = e[:, t].gather(1, fpos[:, :, None].expand(b, f, e.shape[-1]))
+                add = torch.zeros(b, self.slots, dm, device=xw.device)
+                add.scatter_add_(1, slots[None, :, None].expand(b, f, dm),
+                                 g * hit[:, :, None].to(e.dtype))
+                m = m + add
         self.last_m = m.detach()
         return torch.stack(outs, 1)
 
