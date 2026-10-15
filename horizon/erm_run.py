@@ -26,6 +26,47 @@ G03_A_MAX = 0.30
 G03_A_BROKEN = 0.50
 G03_SLOTS_MIN = 2
 G05_EVAL_SEED = 9182
+G05_TOL = 0.002          # kayıtlı (29a6a1b); program §5.40 ±1e-4 der — tekilleştirme kararı god'da (zeyl S0-Z4)
+G02_REL_ERR = 0.05       # kayıtlı, değişmedi
+TOL = 1e-6               # zeyl S0-Z5: acc float32 ortalaması (190/200 = 0.949999988); eşik karşılaştırması yuvarlamaya bağlı olmaz (readings.TOL, kör inceleme F6)
+KURALLAR = ('g03', 'rmt', 'p1', 'p2')
+
+
+def _ge(v, t):
+    return v >= t - TOL
+
+
+def _le(v, t):
+    return v <= t + TOL
+
+
+def _gt(v, t):
+    return v > t + TOL
+
+
+def _finite(v):
+    return v is not None and isinstance(v, (int, float)) and math.isfinite(v)
+
+
+def _diverged(result):
+    """Zeyl S0-Z2: eğitim geçmişinde sonlu-olmayan kayıp/aux ya da eval'de sonlu-olmayan logit → koşu ıraksadı.
+    NaN logitlerin argmax'ı 0 sınıfıdır; o acc ölçüm DEĞİL artefakttır, okunmaz."""
+    hist = ((result.get('train') or {}).get('history')) or []
+    for h in hist:
+        for k in ('loss', 'aux_loss'):
+            if k in h and h[k] is not None and not _finite(h[k]):
+                return f"egitim gecmisinde {k}={h[k]} (adim {h.get('step')})"
+    for d, cell in ((result.get('eval') or {}).items()):
+        if (cell or {}).get('nonfinite'):
+            return f"eval d={d}: {cell['nonfinite']} sonlu-olmayan logit satiri"
+    return None
+
+
+def _diverged_reading(result, kural):
+    why = _diverged(result)
+    if why is None:
+        return None
+    return dict(verdict='DIVERGED', reason=f'kosu gecersiz (iraksadi): {why}', kural=kural)
 
 
 def _device():
@@ -106,22 +147,43 @@ def load_model(path):
     return model, meta
 
 
-def evaluate(model, arm, d_list=(1, 2, 3), n=200, seed=777, batch=50):
-    """acc(d): yanıtı olgu penceresi `d` geride olan sorgularda tam-eşleşme."""
+EVAL_MAX_DRAWS = 64
+
+
+def _cell_draw(n, d, seed, per_cell=False):
+    """per_cell=False (varsayılan): eski davranış bit-bit (n çek, d'ye süz → hücre < n).
+    per_cell=True (zeyl S0-Z3 önerisi; yürürlük god'da): hücre başına TAM n; ilk çekim eskisiyle aynı, eksik ayrık-tohumlu ek
+    çekimlerle tamamlanır (eski hücre yeni hücrenin öneki)."""
+    xs, aps, tgs, ms = [], [], [], []
+    have = 0
+    for k in range(EVAL_MAX_DRAWS if per_cell else 1):
+        x, apos, tgt, meta = et.generate(n, seed=seed * 131 + d + k * 1_000_003)
+        keep = torch.tensor([m['d'] == d for m in meta])
+        idx = torch.where(keep)[0].tolist()
+        xs.append(x[keep]); aps.append(apos[keep]); tgs.append(tgt[keep]); ms += [meta[i] for i in idx]
+        have += len(idx)
+        if have >= n:
+            break
+    if per_cell and have < n:
+        raise RuntimeError(f'd={d}: {EVAL_MAX_DRAWS} cekimde {have} < {n} dizi')
+    m = n if per_cell else have
+    return torch.cat(xs)[:m], torch.cat(aps)[:m], torch.cat(tgs)[:m], ms[:m]
+
+
+def evaluate(model, arm, d_list=(1, 2, 3), n=200, seed=777, batch=50, per_cell=False):
+    """acc(d): yanıtı olgu penceresi `d` geride olan sorgularda tam-eşleşme. Gerçek hücre büyüklüğü `n` alanında
+    (varsayılan yolda < istenen n; S0-Z3). `nonfinite`: sonlu-olmayan logit satırı (S0-Z2; > 0 ⇒ okuma DIVERGED)."""
     torch.set_num_threads(1)
     model.eval()
     out = {}
     with torch.no_grad():
         for d in d_list:
-            x, apos, tgt, meta = et.generate(n, seed=seed * 131 + d)
-            keep = torch.tensor([m['d'] == d for m in meta])
-            xs, xs_ap, xs_tg = x[keep], apos[keep], tgt[keep]
-            xs_facts = et.fact_cells_tensor([meta[i] for i in torch.where(keep)[0].tolist()]) \
-                if arm in ('B_orc',) else None
+            xs, xs_ap, xs_tg, kept_meta = _cell_draw(n, d, seed, per_cell)
+            xs_facts = et.fact_cells_tensor(kept_meta) if arm in ('B_orc',) else None
             if len(xs) == 0:
                 out[d] = dict(n=0, acc=None)
                 continue
-            accs = []
+            accs, nonfinite = [], 0
             for at in range(0, len(xs), batch):
                 xb = xs[at:at + batch].reshape(-1, et.N_WINDOWS, et.WINDOW)
                 if arm == 'B_orc':
@@ -134,11 +196,12 @@ def evaluate(model, arm, d_list=(1, 2, 3), n=200, seed=777, batch=50):
                     sel = flat[torch.arange(len(xb)), idx]
                 else:
                     sel = lg[torch.arange(len(xb)), 3, xs_ap[at:at + batch] % et.WINDOW]
+                nonfinite += int((~torch.isfinite(sel)).any(-1).sum())
                 accs.append((sel.argmax(-1) == xs_tg[at:at + batch]).float())
             acc = torch.cat(accs)
             a = float(acc.mean())
             se = math.sqrt(a * (1 - a) / len(acc)) if len(acc) else None
-            out[d] = dict(n=int(len(acc)), acc=a, se=se)
+            out[d] = dict(n=int(len(acc)), acc=a, se=se, nonfinite=nonfinite)
     return out
 
 
@@ -198,19 +261,22 @@ def telemetry(model, arm, n=64, seed=555):
 
 
 def reading(result):
-    """Kayıtlı G0.3 kuralı."""
+    """Kayıtlı G0.3 kuralı (+ S0-Z2 DIVERGED önceliği, S0-Z5 float32 toleransı; eşikler aynı)."""
+    div = _diverged_reading(result, 'g03')
+    if div:
+        return div
     b3 = (result.get('eval') or {}).get('3', {})
     a3 = (result.get('control_A') or {}).get('3', {})
     tel = result.get('telemetry') or {}
     if b3.get('acc') is None or a3.get('acc') is None:
         return dict(verdict='INCOMPLETE', reason='eksik olcu')
-    if a3['acc'] > G03_A_BROKEN:
+    if _gt(a3['acc'], G03_A_BROKEN):
         return dict(verdict='KONTROL_BOZUK', reason=f"A d=3'te {a3['acc']:.2f} (sans 0,125): gorev siziyor")
-    if b3['acc'] >= G03_B_MIN and a3['acc'] <= G03_A_MAX and tel.get('sign_ok') \
+    if _ge(b3['acc'], G03_B_MIN) and _le(a3['acc'], G03_A_MAX) and tel.get('sign_ok') \
             and (tel.get('slots_used') or 0) >= G03_SLOTS_MIN:
         return dict(verdict='GECTI', b_acc3=b3['acc'], a_acc3=a3['acc'],
                     sign_ok=tel.get('sign_ok'), slots_used=tel.get('slots_used'))
-    if b3['acc'] < G03_B_MIN:
+    if not _ge(b3['acc'], G03_B_MIN):
         return dict(verdict='KALDI', b_acc3=b3['acc'], reason='B d=3 < 0,95: yedek merdiven sirayla')
     return dict(verdict='KISMEN', b_acc3=b3['acc'], a_acc3=a3['acc'],
                 sign_ok=tel.get('sign_ok'), slots_used=tel.get('slots_used'))
@@ -221,13 +287,16 @@ def reading_rmt(result):
     (sign_ok) tanımsız olduğundan G0.3'ün imza/yuva koşulları uygulanmaz;
     telemetri betimleyici olarak taşınır. Sapma ERM_S0_ONKAYIT'tan DEĞİL,
     merdiven-3 kolunun yapısındandır; hükümde `kural` alanı taşır."""
+    div = _diverged_reading(result, 'B_rmt-ozel')
+    if div:
+        return div
     b3 = (result.get('eval') or {}).get('3', {})
     a3 = (result.get('control_A') or {}).get('3', {})
     if b3.get('acc') is None or a3.get('acc') is None:
         return dict(verdict='INCOMPLETE', reason='eksik olcu', kural='B_rmt-ozel')
-    if a3['acc'] > G03_A_BROKEN:
+    if _gt(a3['acc'], G03_A_BROKEN):
         return dict(verdict='KONTROL_BOZUK', reason='A siziyor', kural='B_rmt-ozel')
-    if b3['acc'] >= G03_B_MIN and a3['acc'] <= G03_A_MAX:
+    if _ge(b3['acc'], G03_B_MIN) and _le(a3['acc'], G03_A_MAX):
         return dict(verdict='GECTI', b_acc3=b3['acc'], a_acc3=a3['acc'],
                     kural='B_rmt-ozel', telemetry=result.get('telemetry'))
     return dict(verdict='KALDI', b_acc3=b3['acc'], kural='B_rmt-ozel',
@@ -238,7 +307,7 @@ def _aux_applied(result):
     """Manipülasyon kontrolü: eğitim geçmişinde aux_loss ilk > son (sıkı azalma
     değil, yönsel: yardım UYGULANDI mı). Geçmiş .pt metasından (g03 yükler)."""
     hist = ((result.get('train') or {}).get('history')) or []
-    aux = [h['aux_loss'] for h in hist if h.get('aux_loss') is not None]
+    aux = [h['aux_loss'] for h in hist if _finite(h.get('aux_loss'))]   # S0-Z2: NaN < x yanlış döner; sonlu-olmayan değer okunmaz
     if len(aux) < 2:
         return None
     return bool(aux[-1] < aux[0])
@@ -263,13 +332,16 @@ def reading_p2(result):
     """P2 kehanet-yazma kuralı (acc-only): yazma sabit olduğundan imza/yuva
     koşulları tanımsız; eşikler G0.3 ile aynı (d=3 ≥ 0,95; A ≤ 0,30).
     GECTI ⇒ YAZMA_ÖLÜ adayı; KALDI ⇒ MİMARİ_YETERSİZ adayı."""
+    div = _diverged_reading(result, 'P2')
+    if div:
+        return div
     b3 = (result.get('eval') or {}).get('3', {})
     a3 = (result.get('control_A') or {}).get('3', {})
     if b3.get('acc') is None or a3.get('acc') is None:
         return dict(verdict='INCOMPLETE', reason='eksik olcu', kural='P2')
-    if a3['acc'] > G03_A_BROKEN:
+    if _gt(a3['acc'], G03_A_BROKEN):
         return dict(verdict='KONTROL_BOZUK', reason='A siziyor', kural='P2')
-    if b3['acc'] >= G03_B_MIN and a3['acc'] <= G03_A_MAX:
+    if _ge(b3['acc'], G03_B_MIN) and _le(a3['acc'], G03_A_MAX):
         return dict(verdict='GECTI', b_acc3=b3['acc'], a_acc3=a3['acc'],
                     kural='P2', telemetry=result.get('telemetry'))
     return dict(verdict='KALDI', b_acc3=b3['acc'], kural='P2',
@@ -316,32 +388,64 @@ def gate_g02(seed=13):
     opt.zero_grad()
     F.cross_entropy(sel, tgt).backward()
     opt.step()
-    logits = model(x)
-    sel = logits[torch.arange(8), 3, apos % et.WINDOW]
-    loss = F.cross_entropy(sel, tgt)
-    loss.backward()
-    enc_norm = float(torch.cat([p.grad.flatten() for p in model.enc.parameters()]).norm())
-    wrt_norm = float(torch.cat([p.grad.flatten() for p in model.write.parameters()]).norm())
-    names = ['write.Wq.weight', 'write.u', 'enc.embedding.weight']
-    fd = {}
+    # S0-Z1 cetvel onarımı (ısınma adımı kayıtlı hâliyle float32; ölçüm float64 kopyada):
+    #  (a) zero_grad: ısınma gradyanı ölçüm gradyanına birikmesin (mühürlü test zaten yapıyordu, kapı yapmıyordu);
+    #  (b) float64: float32'de L≈2 civarında çözünürlük ~2,4e-7, beklenen kayıp farkı ~1e-12 → sayısal türev 0 çıkıyordu;
+    #  (c) indeks = |analitik gradyan| maksimumu (indeks 0 gradyansız olabilir); (d) bağıl adım h = cbrt(eps)·max(1,|θ|).
+    opt.zero_grad()
+    with float64():   # modeldeki dtype'sız torch.zeros (erm_models:75,152,175) da float64 olsun; model koduna dokunulmaz
+        model = model.double()
+        loss_fn = lambda: F.cross_entropy(model(x)[torch.arange(8), 3, apos % et.WINDOW], tgt)
+        loss_fn().backward()
+        enc_norm = float(torch.cat([p.grad.flatten() for p in model.enc.parameters()]).norm())
+        wrt_norm = float(torch.cat([p.grad.flatten() for p in model.write.parameters()]).norm())
+        names = ['write.Wq.weight', 'write.u', 'enc.embedding.weight']
+        fd = fd_check(model, loss_fn, names)
+    resolved = all(v['resolved'] for v in fd.values())
+    ok = enc_norm > 0 and wrt_norm > 0 and all(v['rel_err'] < G02_REL_ERR for v in fd.values())
+    verdict = 'GECTI' if ok else ('KALDI' if resolved else 'INCOMPLETE')   # çözünürlüksüz cetvel ölçmedi: KALDI değil INCOMPLETE
+    return dict(gate='G0.2', enc_grad_norm=enc_norm, write_grad_norm=wrt_norm, dtype='float64',
+                finite_diff=fd, cetvel_cozunur=resolved, verdict=verdict)
+
+
+class float64:
+    """Varsayılan dtype'ı geçici olarak float64 yapar, çıkışta geri yükler (S0-Z1 ölçüm bağlamı)."""
+
+    def __enter__(self):
+        self.old = torch.get_default_dtype()
+        torch.set_default_dtype(torch.float64)
+
+    def __exit__(self, *exc):
+        torch.set_default_dtype(self.old)
+        return False
+
+
+def fd_check(model, loss_fn, names):
+    """Merkezi fark ile analitik gradyan karşılaştırması (S0-Z1). Gradyanlar `loss_fn().backward()` ile ÖNCEDEN doldurulmuş olmalı.
+    resolved: beklenen kayıp farkı |g|·2h, yuvarlama gürültüsünün (≈ 1e3·eps·|L|) üstünde mi; değilse rel_err anlamsızdır."""
+    params = dict(model.named_parameters())
+    out = {}
     with torch.no_grad():
+        base = float(loss_fn())
         for nm in names:
-            p = dict(model.named_parameters())[nm]
-            idx = (0,) * p.dim()
-            e = 1e-3
+            p = params[nm]
+            eps = torch.finfo(p.dtype).eps
+            flat = p.grad.abs().flatten()
+            idx = tuple(int(i) for i in torch.unravel_index(flat.argmax(), p.shape))
             old = float(p[idx])
-            p[idx] = old + e
-            lp = float(F.cross_entropy(model(x)[torch.arange(8), 3, apos % et.WINDOW], tgt))
-            p[idx] = old - e
-            lm = float(F.cross_entropy(model(x)[torch.arange(8), 3, apos % et.WINDOW], tgt))
+            h = eps ** (1 / 3) * max(1.0, abs(old))
+            p[idx] = old + h
+            lp = float(loss_fn())
+            p[idx] = old - h
+            lm = float(loss_fn())
             p[idx] = old
-            ana = float(dict(model.named_parameters())[nm].grad[idx])
-            num = (lp - lm) / (2 * e)
-            fd[nm] = dict(analytic=ana, numeric=num,
-                          rel_err=abs(ana - num) / max(1e-8, abs(num)))
-    ok = enc_norm > 0 and wrt_norm > 0 and all(v['rel_err'] < 0.05 for v in fd.values())
-    return dict(gate='G0.2', enc_grad_norm=enc_norm, write_grad_norm=wrt_norm,
-                finite_diff=fd, verdict=('GECTI' if ok else 'KALDI'))
+            ana = float(p.grad[idx])
+            num = (lp - lm) / (2 * h)
+            noise = 1e3 * eps * max(1.0, abs(base))
+            out[nm] = dict(index=list(idx), step=h, analytic=ana, numeric=num,
+                           rel_err=abs(ana - num) / max(1e-8, abs(num)),
+                           resolved=bool(abs(ana) * 2 * h > noise))
+    return out
 
 
 def gate_g05():
@@ -357,7 +461,7 @@ def gate_g05():
     re = ld.reading(stored)
     d = ld.differences(stored)
     wmax = max(abs(v[0]) for b, v in d['win512'].items() if int(b.split('-')[0]) >= 1024)
-    ok = prop and re == stored['reading'] and wmax <= 0.002
+    ok = prop and re == stored['reading'] and wmax <= G05_TOL
     return dict(gate='G0.5', generator_property_500=prop,
                 rereading_equals_stored=(re == stored['reading']),
                 stored_verdict=stored['reading'].get('verdict'),
@@ -377,7 +481,8 @@ def main():
     p.add_argument('--weights', default=None)
     p.add_argument('--b', default=None)
     p.add_argument('--a', default=None)
-    p.add_argument('--kural', default='g03', help='g03 | rmt | p1 | p2')
+    p.add_argument('--kural', default='g03', choices=KURALLAR, help='g03 | rmt | p1 | p2 (bilinmeyen değer hata; S0-Z6)')
+    p.add_argument('--per-cell', action='store_true', help='eval: hücre başına tam n (S0-Z3 önerisi; varsayılan eski çekim)')
     p.add_argument('--aux-weight', type=float, default=0.0, help='P1 yardimli-yazma agirligi (B_aux ile >0 sart)')
     p.add_argument('--d', default='1,2,3')
     p.add_argument('--n', type=int, default=200)
@@ -400,7 +505,7 @@ def main():
     if a.cmd == 'eval':
         model, meta = load_model(a.weights)
         ds = [int(v) for v in a.d.split(',')]
-        ev = evaluate(model, meta['arm'], d_list=ds, n=a.n)
+        ev = evaluate(model, meta['arm'], d_list=ds, n=a.n, per_cell=a.per_cell)
         tel = telemetry(model, meta['arm'])
         res = dict(weights=str(a.weights), arm=meta['arm'], seed=meta['seed'], eval={str(k): v for k, v in ev.items()},
                    control_A=None, telemetry=tel)
@@ -421,8 +526,8 @@ def main():
         rb = json.loads(Path(a.b).read_text(encoding='utf8'))
         ra = json.loads(Path(a.a).read_text(encoding='utf8'))
         rb['control_A'] = ra['eval']
-        rule = {'rmt': reading_rmt, 'p1': reading_p1, 'p2': reading_p2}.get(a.kural, reading)
-        if a.kural == 'p1':
+        rule = {'g03': reading, 'rmt': reading_rmt, 'p1': reading_p1, 'p2': reading_p2}[a.kural]
+        if a.kural == 'p1' or Path(rb['weights']).exists():   # S0-Z2: eğitim geçmişi her kuralda DIVERGED denetimine girer
             raw = torch.load(rb['weights'], map_location='cpu', weights_only=True)
             rb['train'] = raw['meta']
         rb['reading'] = rule(rb)
