@@ -1,0 +1,23 @@
+{
+ "gate": "G0.2",
+ "enc_grad_norm": 5.253756523132324,
+ "write_grad_norm": 5.8114628700423054e-06,
+ "finite_diff": {
+  "write.Wq.weight": {
+   "analytic": -8.312939225874061e-10,
+   "numeric": 0.0,
+   "rel_err": 0.08312939225874061
+  },
+  "write.u": {
+   "analytic": 3.5741676285283575e-10,
+   "numeric": 0.0,
+   "rel_err": 0.035741676285283575
+  },
+  "enc.embedding.weight": {
+   "analytic": -9.46736133933257e-10,
+   "numeric": 0.0,
+   "rel_err": 0.0946736133933257
+  }
+ },
+ "verdict": "KALDI"
+}

@@ -1,0 +1,38 @@
+{
+ "weights": "results/ERM-S0/erm-B_32-s1.pt",
+ "arm": "B_32",
+ "seed": 1,
+ "eval": {
+  "1": {
+   "n": 65,
+   "acc": 0.20000000298023224,
+   "se": 0.04961389411292262,
+   "nonfinite": 0
+  },
+  "2": {
+   "n": 55,
+   "acc": 0.145454540848732,
+   "se": 0.047538982548338264,
+   "nonfinite": 0
+  },
+  "3": {
+   "n": 81,
+   "acc": 0.1111111119389534,
+   "se": 0.03491885350575078,
+   "nonfinite": 0
+  }
+ },
+ "control_A": null,
+ "telemetry": {
+  "a_fact_windows": 0.9997062683105469,
+  "a_query_window": 0.9997115731239319,
+  "sign_ok": false,
+  "slots_used": 32,
+  "gamma_mean": 0.020051462575793266,
+  "m_rms_final": 6.687302112579346
+ },
+ "reading": {
+  "verdict": "INCOMPLETE",
+  "reason": "eksik olcu"
+ }
+}

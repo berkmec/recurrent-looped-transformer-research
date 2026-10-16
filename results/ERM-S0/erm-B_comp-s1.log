@@ -1,0 +1,17 @@
+--- start 2026-10-14 19:42:01
+__RLT_ROOT__\2026-09-18-phase2\horizon\erm_run.py:66: UserWarning: Converting a tensor with requires_grad=True to a scalar may lead to unexpected behavior.
+Consider using tensor.detach() first. (Triggered internally at C:\actions-runner\_work\pytorch\pytorch\torch\csrc\autograd\generated\python_variable_methods.cpp:839.)
+  history.append(dict(step=step, loss=float(loss), train_acc=acc))
+B_comp s1 adim 1000 kayip 2.082 acc 0.156 (159s)
+B_comp s1 adim 2000 kayip 2.097 acc 0.031 (321s)
+B_comp s1 adim 3000 kayip 2.082 acc 0.031 (478s)
+B_comp s1 adim 4000 kayip 2.067 acc 0.094 (634s)
+B_comp s1 adim 5000 kayip 2.091 acc 0.094 (787s)
+B_comp s1 adim 6000 kayip 2.077 acc 0.125 (930s)
+{
+ "arm": "B_comp",
+ "seed": 1,
+ "steps": 6000,
+ "parameters": 134755,
+ "train_seconds": 929.6522389000165
+}

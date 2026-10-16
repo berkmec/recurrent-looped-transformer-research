@@ -1,0 +1,30 @@
+{
+ "weights": "results/ERM-S0/erm-Apr-s1.pt",
+ "arm": "Apr",
+ "seed": 1,
+ "eval": {
+  "1": {
+   "n": 65,
+   "acc": 0.13846154510974884,
+   "se": 0.042839583714771555
+  },
+  "2": {
+   "n": 55,
+   "acc": 0.12727272510528564,
+   "se": 0.0449392273570268
+  },
+  "3": {
+   "n": 81,
+   "acc": 0.1975308656692505,
+   "se": 0.04423735402436079
+  }
+ },
+ "control_A": null,
+ "telemetry": {
+  "telemetry": "yok (belleksiz kol)"
+ },
+ "reading": {
+  "verdict": "INCOMPLETE",
+  "reason": "eksik olcu"
+ }
+}

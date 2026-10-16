@@ -1,0 +1,49 @@
+{
+ "arm": "B_aux",
+ "seed": 1,
+ "steps": 6000,
+ "batch": 32,
+ "lr": 0.003,
+ "weight_decay": 0.01,
+ "aux_weight": 0.3,
+ "parameters": 134755,
+ "history": [
+  {
+   "step": 1000,
+   "loss": 2.0822298526763916,
+   "train_acc": 0.0625,
+   "aux_loss": 0.004953174851834774
+  },
+  {
+   "step": 2000,
+   "loss": NaN,
+   "train_acc": 0.0,
+   "aux_loss": NaN
+  },
+  {
+   "step": 3000,
+   "loss": NaN,
+   "train_acc": 0.0,
+   "aux_loss": NaN
+  },
+  {
+   "step": 4000,
+   "loss": NaN,
+   "train_acc": 0.0,
+   "aux_loss": NaN
+  },
+  {
+   "step": 5000,
+   "loss": NaN,
+   "train_acc": 0.0,
+   "aux_loss": NaN
+  },
+  {
+   "step": 6000,
+   "loss": NaN,
+   "train_acc": 0.0,
+   "aux_loss": NaN
+  }
+ ],
+ "train_seconds": 939.3823525999906
+}

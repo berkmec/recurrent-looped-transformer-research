@@ -1,0 +1,39 @@
+{
+ "weights": "results/ERM-S0/erm-B_rmt-s1.pt",
+ "arm": "B_rmt",
+ "seed": 1,
+ "eval": {
+  "1": {
+   "n": 65,
+   "acc": 0.1846153885126114,
+   "se": 0.04812364632852607
+  },
+  "2": {
+   "n": 55,
+   "acc": 0.145454540848732,
+   "se": 0.047538982548338264
+  },
+  "3": {
+   "n": 81,
+   "acc": 0.14814814925193787,
+   "se": 0.03947186451087636
+  }
+ },
+ "control_A": null,
+ "telemetry": {
+  "mem_token_rms_mean": 1.5140511989593506,
+  "mem_token_spread": [
+   0.00016242315177805722,
+   0.0005482593551278114,
+   0.0002714004076551646,
+   0.0002333219745196402
+  ],
+  "slots_used": 4,
+  "sign_ok": null,
+  "not_": "B_rmt-ozel: imza tanimsiz (dikkat-yazma yok)"
+ },
+ "reading": {
+  "verdict": "INCOMPLETE",
+  "reason": "eksik olcu"
+ }
+}

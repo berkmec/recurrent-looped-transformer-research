@@ -1,0 +1,71 @@
+--- start 2026-10-14 21:00:23
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "__RLT_ROOT__\2026-09-18-phase2\horizon\erm_run.py", line 354, in <module>
+    main()
+  File "__RLT_ROOT__\2026-09-18-phase2\horizon\erm_run.py", line 312, in main
+    model, info = train(a.arm, a.seed, a.steps, batch=a.batch, lr=a.lr,
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "__RLT_ROOT__\2026-09-18-phase2\horizon\erm_run.py", line 52, in train
+    logits = model(x)
+             ^^^^^^^^
+  File "__PY_ENV_DIR__\.venv\Lib\site-packages\torch\nn\modules\module.py", line 1778, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "__PY_ENV_DIR__\.venv\Lib\site-packages\torch\nn\modules\module.py", line 1789, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "__RLT_ROOT__\2026-09-18-phase2\horizon\erm_models.py", line 208, in forward
+    h = self.enc.norm(self.enc.tr(inp, mask=None, is_causal=True))
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "__PY_ENV_DIR__\.venv\Lib\site-packages\torch\nn\modules\module.py", line 1778, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "__PY_ENV_DIR__\.venv\Lib\site-packages\torch\nn\modules\module.py", line 1789, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "__PY_ENV_DIR__\.venv\Lib\site-packages\torch\nn\modules\transformer.py", line 538, in forward
+    output = mod(
+             ^^^^
+  File "__PY_ENV_DIR__\.venv\Lib\site-packages\torch\nn\modules\module.py", line 1778, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "__PY_ENV_DIR__\.venv\Lib\site-packages\torch\nn\modules\module.py", line 1789, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "__PY_ENV_DIR__\.venv\Lib\site-packages\torch\nn\modules\transformer.py", line 943, in forward
+    x = x + self._sa_block(
+            ^^^^^^^^^^^^^^^
+  File "__PY_ENV_DIR__\.venv\Lib\site-packages\torch\nn\modules\transformer.py", line 964, in _sa_block
+    x = self.self_attn(
+        ^^^^^^^^^^^^^^^
+  File "__PY_ENV_DIR__\.venv\Lib\site-packages\torch\nn\modules\module.py", line 1778, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "__PY_ENV_DIR__\.venv\Lib\site-packages\torch\nn\modules\module.py", line 1789, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "__PY_ENV_DIR__\.venv\Lib\site-packages\torch\nn\modules\activation.py", line 1494, in forward
+    attn_output, attn_output_weights = F.multi_head_attention_forward(
+                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "__PY_ENV_DIR__\.venv\Lib\site-packages\torch\nn\functional.py", line 6450, in multi_head_attention_forward
+    raise RuntimeError(
+RuntimeError: Need attn_mask if specifying the is_causal hint. You may use the Transformer module method `generate_square_subsequent_mask` to create this mask.
+--- start 2026-10-14 21:01:25
+__RLT_ROOT__\2026-09-18-phase2\horizon\erm_run.py:66: UserWarning: Converting a tensor with requires_grad=True to a scalar may lead to unexpected behavior.
+Consider using tensor.detach() first. (Triggered internally at C:\actions-runner\_work\pytorch\pytorch\torch\csrc\autograd\generated\python_variable_methods.cpp:839.)
+  history.append(dict(step=step, loss=float(loss), train_acc=acc))
+B_rmt s1 adim 1000 kayip 2.088 acc 0.156 (134s)
+B_rmt s1 adim 2000 kayip 2.112 acc 0.062 (256s)
+B_rmt s1 adim 3000 kayip 2.087 acc 0.031 (375s)
+B_rmt s1 adim 4000 kayip 2.062 acc 0.250 (475s)
+B_rmt s1 adim 5000 kayip 2.094 acc 0.094 (572s)
+B_rmt s1 adim 6000 kayip 2.076 acc 0.125 (672s)
+{
+ "arm": "B_rmt",
+ "seed": 1,
+ "steps": 6000,
+ "parameters": 104993,
+ "train_seconds": 671.6291931000305
+}

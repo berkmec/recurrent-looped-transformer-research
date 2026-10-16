@@ -1,0 +1,102 @@
+{
+ "weights": "results/ERM-S0/erm-B_aux-s1.pt",
+ "arm": "B_aux",
+ "seed": 1,
+ "eval": {
+  "1": {
+   "n": 65,
+   "acc": 0.0,
+   "se": 0.0
+  },
+  "2": {
+   "n": 55,
+   "acc": 0.0,
+   "se": 0.0
+  },
+  "3": {
+   "n": 81,
+   "acc": 0.0,
+   "se": 0.0
+  }
+ },
+ "control_A": {
+  "1": {
+   "n": 65,
+   "acc": 0.1846153885126114,
+   "se": 0.04812364632852607
+  },
+  "2": {
+   "n": 55,
+   "acc": 0.145454540848732,
+   "se": 0.047538982548338264
+  },
+  "3": {
+   "n": 81,
+   "acc": 0.14814814925193787,
+   "se": 0.03947186451087636
+  }
+ },
+ "telemetry": {
+  "a_fact_windows": NaN,
+  "a_query_window": NaN,
+  "sign_ok": false,
+  "slots_used": 0,
+  "gamma_mean": NaN,
+  "m_rms_final": NaN
+ },
+ "reading": {
+  "verdict": "INCOMPLETE",
+  "reason": "eksik olcu",
+  "kural": "P1",
+  "yardim_uygulandi": false
+ },
+ "train": {
+  "arm": "B_aux",
+  "seed": 1,
+  "steps": 6000,
+  "batch": 32,
+  "lr": 0.003,
+  "weight_decay": 0.01,
+  "aux_weight": 1.0,
+  "parameters": 134755,
+  "history": [
+   {
+    "step": 1000,
+    "loss": 2.087811231613159,
+    "train_acc": 0.15625,
+    "aux_loss": 0.007969064638018608
+   },
+   {
+    "step": 2000,
+    "loss": NaN,
+    "train_acc": 0.0,
+    "aux_loss": NaN
+   },
+   {
+    "step": 3000,
+    "loss": NaN,
+    "train_acc": 0.0,
+    "aux_loss": NaN
+   },
+   {
+    "step": 4000,
+    "loss": NaN,
+    "train_acc": 0.0,
+    "aux_loss": NaN
+   },
+   {
+    "step": 5000,
+    "loss": NaN,
+    "train_acc": 0.0,
+    "aux_loss": NaN
+   },
+   {
+    "step": 6000,
+    "loss": NaN,
+    "train_acc": 0.0,
+    "aux_loss": NaN
+   }
+  ],
+  "train_seconds": 989.7538521999959
+ }
+}

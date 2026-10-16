@@ -1,0 +1,19 @@
+--- start 2026-10-14 18:02:09
+scripts/run_erm_s0.sh: line 37: __PY_ENV_DIR__/.venv/Scripts/python.exe: No such file or directory
+--- start 2026-10-14 18:17:44
+__RLT_ROOT__\2026-09-18-phase2\horizon\erm_run.py:66: UserWarning: Converting a tensor with requires_grad=True to a scalar may lead to unexpected behavior.
+Consider using tensor.detach() first. (Triggered internally at C:\actions-runner\_work\pytorch\pytorch\torch\csrc\autograd\generated\python_variable_methods.cpp:839.)
+  history.append(dict(step=step, loss=float(loss), train_acc=acc))
+A s1 adim 1000 kayip 2.090 acc 0.156 (96s)
+A s1 adim 2000 kayip 2.109 acc 0.062 (210s)
+A s1 adim 3000 kayip 2.085 acc 0.062 (320s)
+A s1 adim 4000 kayip 2.064 acc 0.094 (429s)
+A s1 adim 5000 kayip 2.093 acc 0.094 (539s)
+A s1 adim 6000 kayip 2.077 acc 0.125 (639s)
+{
+ "arm": "A",
+ "seed": 1,
+ "steps": 6000,
+ "parameters": 104481,
+ "train_seconds": 638.9540619000327
+}

@@ -1,0 +1,35 @@
+{
+ "weights": "results/ERM-S0/erm-B_aux03-s1.pt",
+ "arm": "B_aux",
+ "seed": 1,
+ "eval": {
+  "1": {
+   "n": 65,
+   "acc": 0.0,
+   "se": 0.0
+  },
+  "2": {
+   "n": 55,
+   "acc": 0.0,
+   "se": 0.0
+  },
+  "3": {
+   "n": 81,
+   "acc": 0.0,
+   "se": 0.0
+  }
+ },
+ "control_A": null,
+ "telemetry": {
+  "a_fact_windows": NaN,
+  "a_query_window": NaN,
+  "sign_ok": false,
+  "slots_used": 0,
+  "gamma_mean": NaN,
+  "m_rms_final": NaN
+ },
+ "reading": {
+  "verdict": "INCOMPLETE",
+  "reason": "eksik olcu"
+ }
+}
