@@ -19,11 +19,16 @@ export PYTHONIOENCODING=utf-8 PYTHONPATH=. OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 P
 OUT=results/ERM-S0
 LOG=results/M1-finetune-distance/queue.log
 log() { echo "[$(date +%H:%M:%S)] $*" >> "$LOG"; }
+manifest() {  # RUNMAN tek-yazim manifest (_hive_KOSU_HIJYENI_SEMA.md; god 7060c0)
+  "$PY" -B -c "from horizon.run_manifest import quick; import sys; print(quick(*sys.argv[1:]))" \
+    "$1" "$2" jim-mv8403zi "$3" "$4" "$5" "$0" >> "$LOG" 2>&1 || log "MANIFEST HATA $1"
+}
 
 ID=erm-B_orc-s1
 if [ ! -f "$OUT/$ID.json" ]; then
   if mkdir "$OUT/$ID.lock" 2>/dev/null; then
     echo "--- start $(date '+%Y-%m-%d %H:%M:%S') (muafiyet TEKRAR; vektorize; unbuffered)" >> "$OUT/$ID.log"
+    manifest "$ID" ERM-S0 "python -B -m horizon.erm_run train --arm B_orc --seed 1 --steps 6000 --batch 32 --lr 0.003 (A4 muafiyet TEKRAR)" "notes/ERM_PROB_YAZMA_ONKAYIT.md" '{"init":1}'
     log "BASLA ERM $ID (prob P2 muafiyet TEKRAR, vektorize, CPU, 1 parcacik, 6000 adim)"
     $PY -B -m horizon.erm_run train --arm B_orc --seed 1 --steps 6000 --batch 32 --lr 0.003 --log-every 1000 --out "$OUT/$ID.json" >> "$OUT/$ID.log" 2>&1
     if [ -f "$OUT/$ID.json" ]; then log "BITTI ERM $ID"; else log "HATA ERM $ID (bkz $OUT/$ID.log)"; rmdir "$OUT/$ID.lock" 2>/dev/null; fi

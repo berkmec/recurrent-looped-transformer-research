@@ -18,6 +18,10 @@ OUT=results/ERM-S0
 LOG=results/M1-finetune-distance/queue.log
 mkdir -p "$OUT"
 log() { echo "[$(date +%H:%M:%S)] $*" >> "$LOG"; }
+manifest() {  # RUNMAN tek-yazim manifest (_hive_KOSU_HIJYENI_SEMA.md; god 7060c0)
+  "$PY" -B -c "from horizon.run_manifest import quick; import sys; print(quick(*sys.argv[1:]))" \
+    "$1" "$2" jim-mv8403zi "$3" "$4" "$5" "$0" >> "$LOG" 2>&1 || log "MANIFEST HATA $1"
+}
 
 gate() {  # hizli kapi (g01|g02|g05)
   local id="erm-$1"
@@ -33,6 +37,7 @@ trainjob() {  # kol tohum adim
   if [ -f "$OUT/$id.json" ]; then return 0; fi
   if ! mkdir "$OUT/$id.lock" 2>/dev/null; then return 0; fi
   echo "--- start $(date '+%Y-%m-%d %H:%M:%S')" >> "$OUT/$id.log"
+  manifest "$id" ERM-S0 "python -B -m horizon.erm_run train --arm $1 --seed $2 --steps $3 --batch 32 --lr 0.003" "notes/ERM_S0_ONKAYIT_2026-10-14.md" "{\"init\":$2}"
   log "BASLA ERM $id (CPU, 1 parcacik, $3 adim, batch 32, lr 0.003, ~22 dk)"
   $PY -B -m horizon.erm_run train --arm "$1" --seed "$2" --steps "$3" --batch 32 --lr 0.003 --log-every 1000 --out "$OUT/$id.json" >> "$OUT/$id.log" 2>&1
   if [ -f "$OUT/$id.json" ]; then log "BITTI ERM $id"; else log "HATA ERM $id (bkz $OUT/$id.log)"; rmdir "$OUT/$id.lock" 2>/dev/null; fi

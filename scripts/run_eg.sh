@@ -19,6 +19,10 @@ OUT=results/Z1-pilot
 LOG=results/M1-finetune-distance/queue.log
 mkdir -p "$OUT"
 log() { echo "[$(date +%H:%M:%S)] $*" >> "$LOG"; }
+manifest() {  # RUNMAN tek-yazim manifest (_hive_KOSU_HIJYENI_SEMA.md; god 7060c0)
+  "$PY" -B -c "from horizon.run_manifest import quick; import sys; print(quick(*sys.argv[1:]))" \
+    "$1" "$2" jim-mv8403zi "$3" "$4" "$5" "$0" >> "$LOG" 2>&1 || log "MANIFEST HATA $1"
+}
 
 CUR=1,2,3,4,6,8,12,16
 job() {   # task arm width seed steps
@@ -26,6 +30,7 @@ job() {   # task arm width seed steps
   if [ -f "$OUT/$id.json" ]; then return 0; fi
   if ! mkdir "$OUT/$id.lock" 2>/dev/null; then return 0; fi
   echo "--- start $(date '+%Y-%m-%d %H:%M:%S')" >> "$OUT/$id.log"
+  manifest "$id" Z1-pilot "python -B -m horizon.depth_run --task $1 --arm $2 --width $3 --seed $4 --steps $5 --lr 0.003 --curriculum $CUR --neutral-p 0.5 --hold-tmax 16" "notes/EG_ONKAYIT_2026-10-14.md" "{\"init\":$4,\"data_split\":$4}"
   log "BASLA EG $id (CPU, 1 parcacik, $5 adim, mufredat $CUR, notr-p 0.5, hold-tmax 16, kapida sonum yok)"
   $PY -B -m horizon.depth_run --task "$1" --arm "$2" --width "$3" --seed "$4" --steps "$5" --lr 0.003 --curriculum "$CUR" --neutral-p 0.5 --hold-tmax 16 --out "$OUT/$id.json" --log-every 1000 >> "$OUT/$id.log" 2>&1
   if [ -f "$OUT/$id.json" ]; then log "BITTI EG $id"; else log "HATA EG $id: sonuc dosyasi yok (bkz $OUT/$id.log)"; rmdir "$OUT/$id.lock" 2>/dev/null; fi
