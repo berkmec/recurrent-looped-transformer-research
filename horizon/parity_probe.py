@@ -111,15 +111,21 @@ def emb_tap(model, holder):
     return orig
 
 
-def measure(model, x, y, segment, mode):
-    """Tek ölçüm geçişi: ileri + geri; loss + ilk-segment kaybı + grad sözlüğü + PN çıpaları."""
+def measure(model, x, y, segment, mode, loss_scope="all"):
+    """Tek ölçüm geçişi: ileri + geri; loss + ilk-segment kaybı + grad sözlüğü + PN çıpaları.
+    loss_scope: "all" (varsayılan; tam-CE — PL/PG/PN aynen) | "final" (fix-3: final-segment CE,
+    yalnız Z ölçümü; H2 m.2 :59 önceden-kayıtlı konvansiyon; Pam/god ruling 3888c3)."""
     model.zero_grad(set_to_none=True)
     holder = {}
     orig_encode = encode_tap(model, holder)                                # dL/de (PN encoder-kök)
     orig_emb = emb_tap(model, holder)                                      # ∂L/∂emb(x₁) — tensor-hook gövdesi
     try:
         z = remat.run(model, x, segment=segment, mode=mode)
-        loss = F.cross_entropy(z.flatten(0, 1), y.flatten())
+        if loss_scope == "final":
+            # fix-3: (i) final-segment CE — son segmentin kaybı; PL/PG/PN tam-CE'sinden ETKİLENMEZ.
+            loss = F.cross_entropy(z[:, -1, :], y[:, -1])
+        else:
+            loss = F.cross_entropy(z.flatten(0, 1), y.flatten())
         loss.backward()
     finally:
         model.embedding.forward = orig_emb
@@ -128,6 +134,11 @@ def measure(model, x, y, segment, mode):
     for name, p in model.named_parameters():
         if name in PARITY["TENSORS"]:
             if p.grad is None:
+                if loss_scope == "final" and name == "initial":
+                    # fix-3: son-segment CE'de initial yolu KESIK -> kredisizlik 0.00 eksak (H2 m.2 :59);
+                    # autograd hem None hem tam-sıfır tensörü aynı eksak-sıfır ölçüme eşler.
+                    grads[name] = torch.zeros_like(p)
+                    continue
                 raise RuntimeError(f"grad yok: {name} (pin/mantık hatası)")
             grads[name] = p.grad.detach().clone()
     if "enc_root" not in holder:
@@ -196,10 +207,11 @@ def main():
 
     full = measure(model, x, y, None, "full")
     cmp_ = measure(model, x, y, 8, "remat")                     # asıl parite: K3
-    tb = measure(model, x, y, 8, "detach")                      # TBPTT8: Z-grad (+/veya k2 bilgi)
+    tb = measure(model, x, y, 8, "detach")                      # TBPTT8: PN/k2 kaynak ölçümü (tam-CE aynen)
+    zt = measure(model, x, y, 8, "detach", loss_scope="final")  # fix-3: Z ölçümü (i) final-segment CE (ruling 3888c3)
 
     n = PARITY["NUMS"]
-    z_norm = float(torch.linalg.vector_norm(tb["grads"]["initial"]))
+    z_norm = float(torch.linalg.vector_norm(zt["grads"]["initial"]))   # fix-3: Z kaynağı zt (tam-CE tb kalmaz)
     z_pass = z_norm <= n["Z"]["init_grad_max"]
     info = args.arm_cmp == "k2"
     rel_ds = tb if info else cmp_
@@ -217,6 +229,7 @@ def main():
         main_pair = None
     else:
         pl_pass = abs(cmp_["loss"] - full["loss"]) <= n["PL"]["atol"] + n["PL"]["rtol"] * abs(full["loss"])
+        pl = pl_pass   # fix-2 (crash-yolu): k3 ana kolu PL satırını tasiyor (k2 :209 pl=None aynen) - eski :239 UnboundLocal kök-nedeni
         pg = pg_rows(full, cmp_)
         pg_pass = all(r["pass_"] for r in pg)
         pn_norms = dict(full=float(torch.linalg.vector_norm(full["grads"]["initial"])),
@@ -244,7 +257,10 @@ def main():
                 initial_grad_norms=pn_norms,
                 emb_t0_grad_norms=dict(full=full["emb_t0_grad_norm"], cmp=rel_ds["emb_t0_grad_norm"]),
                 enc_root_grad_norms=dict(full=full["enc_root_grad_norm"], cmp=rel_ds["enc_root_grad_norm"])),
-        Z=dict(pass_=bool(z_pass), init_grad_norm=z_norm, label="TBPTT8 kesinti; ihlal=config hatası -> DUR"),
+        Z=dict(pass_=bool(z_pass), init_grad_norm=z_norm,
+               z_loss_scope="final-segment-CE (H2 m.2)",
+               diag_notu="tam-CE'de init 0,0680 = MEŞRU kredi; eşik TASARIM-GEREĞİ geçilmez (config-alarmı değil)",
+               label="TBPTT8 kesinti; ihlal=config hatası -> DUR"),
         PASS=pass_all, verdict=verdict, seconds=time.perf_counter() - t0,
     )
     out["source_note"] = "PARITY bloğu mühür-öncesi commit; sayı/tensör/yakalama-noktası tadilati yalnız god L3 revizyonuyla"
