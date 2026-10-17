@@ -21,6 +21,8 @@ from . import gate_telemetry as gt
 from .depth_models import make_arm, parameter_count
 from .guards import GuardCounter, guarded_step
 
+from . import telemetry_std1 as ts1   # I1-a/v1 std1 (kod zeyli; --telemetry off default: bit-aynı)
+
 NAMESPACE = dict(train='z1-train', dev='z1-dev', test='z1-test')
 THRESHOLD = 0.95
 TOLERANCE = 1e-6      # accuracies are float32 means over n = 100 sequences: 95/100 is stored as 0.94999999 and must still meet a 0.95 threshold
@@ -36,7 +38,8 @@ def _log(message):
 
 def train(task, arm, width, seed, steps, batch=64, lr=3e-3, clip=1.0, weight_decay=0.01, namespace=None, log_every=0, log=_log,
           curriculum=None, advance_at=0.97, min_stage_steps=200, window=100, state_noise=0.0, lr_decay_fraction=0.0, lr_floor=0.0, alpha=0.1, cleanup_open=0.0, cleanup_no_decay=False,
-          neutral_p=0.0, hold_tmax=16, hold_decay_gate=False, data_seed=None, gate_telemetry=None, warmup=0, adam_eps=1e-8):
+          neutral_p=0.0, hold_tmax=16, hold_decay_gate=False, data_seed=None, gate_telemetry=None, warmup=0, adam_eps=1e-8,
+          telemetry_mode=None, tensor_probe_every=0, grad_probe_every=0, state_probe_every=0):
     """curriculum: increasing training lengths, e.g. [2, 4, 8, 16]. The stage advances when the mean per-position accuracy over the last
     `window` updates reaches `advance_at` (and the stage has run at least `min_stage_steps` updates). The last length is the trained range;
     nothing beyond it is ever trained on. Without a curriculum every update uses the task's trained length.
@@ -60,7 +63,10 @@ def train(task, arm, width, seed, steps, batch=64, lr=3e-3, clip=1.0, weight_dec
     once (never overwritten), flushed every step; rows read right after the guarded step (post-clip gradients).
     warmup: I1-c. Linear ramp of the learning rate over the first `warmup` updates (rate = lr * step / warmup, ending exactly at lr); 0 (the previous behaviour,
     bit for bit) = no ramp. With a decay the rate is the lower of the ramp and the decay curve.
-    adam_eps: I1-c. AdamW's epsilon; 1e-8 (the torch default) = the previous behaviour, bit for bit."""
+    adam_eps: I1-c. AdamW's epsilon; 1e-8 (the torch default) = the previous behaviour, bit for bit.
+    telemetry_mode: I1-a/v1 std1 kod zeyli. None (bugünkü davranış, bit for bit) veya 'std1'; std1'de §2a satır alanları (clipped;
+    kadanslı tensor_max_g — post-clip canlı gradlar, A3 gate-telemetry sınıfı; update_norm; ilk satırda init_grad_norm /
+    init_update_norm) + §2b run_telemetry bloğu yazılır (horizon/telemetry_std1.py). grad/state probe bu ailede taşınmaz (SystemExit)."""
     namespace = namespace or NAMESPACE
     lengths = list(curriculum) if curriculum else [dt.train_length(task)]
     dseed = seed if data_seed is None else data_seed
@@ -80,6 +86,19 @@ def train(task, arm, width, seed, steps, batch=64, lr=3e-3, clip=1.0, weight_dec
     else:
         opt = torch.optim.AdamW(model.parameters(), lr=lr, weight_decay=weight_decay, eps=adam_eps)
     guard, history, start = GuardCounter(), [], time.perf_counter()
+    std1 = telemetry_mode == 'std1'
+    if grad_probe_every or state_probe_every:
+        raise SystemExit('depth_run std1 zeyli: --grad-probe-every (full-BPTT ailesinde k-cift yok; bos-hukum) ve --state-probe-every (hold-portunden sonra; simdi tasinamaz) K>0 kabul edilmez; std1 kendi calisir')
+    divergences = []
+    import sys as _sys
+    psu = None
+    if std1:
+        try:
+            import psutil as _psu
+        except ImportError:
+            _psu = None
+        psu = _psu
+    m_peak = 0.0
     stage, in_stage, recent, advances = 0, 0, [], []
     lr_last = lr
     telemetry = open(gate_telemetry, 'x', encoding='utf8') if gate_telemetry else None
@@ -98,7 +117,13 @@ def train(task, arm, width, seed, steps, batch=64, lr=3e-3, clip=1.0, weight_dec
         model.train()
         logits = forward(b['x'])
         loss = F.cross_entropy(logits.flatten(0, 1), b['y'].flatten())
+        p_before = [p.detach().clone() for p in model.parameters()] if std1 else None
         report = guard.record(guarded_step(opt, model.parameters(), loss, clip_norm=clip))
+        if std1:
+            _gn = report['grad_norm_before_clip']
+            if not math.isfinite(report['loss']) or not math.isfinite(_gn) or _gn >= 1e6:
+                _trigger = 'nonfinite_loss' if not math.isfinite(report['loss']) else ('max_g≥1e6' if _gn >= 1e6 else 'nonfinite_grad')
+                divergences.append(ts1.divergence_event(step, _trigger, {'loss': report['loss'], 'grad_norm': _gn}, 'continued'))
         if telemetry is not None:   # A3: read now — post-clip grads are the optimizer's direction and are still live (guards zeroes them at the next step)
             row = dict(step=step, stage_len=lengths[stage], loss=report['loss'], applied=bool(report['applied']), clipped=bool(report['clipped']))
             row.update(gt.read_gate_row(model, applied=bool(report['applied'])))
@@ -110,19 +135,44 @@ def train(task, arm, width, seed, steps, batch=64, lr=3e-3, clip=1.0, weight_dec
             advances.append(dict(step=step, from_length=lengths[stage], to_length=lengths[stage + 1]))
             log(f'{task} {arm} w{width} s{seed}{"" if dseed == seed else f"/d{dseed}"} step {step} curriculum advance {lengths[stage]} -> {lengths[stage + 1]} ({time.perf_counter() - start:.0f}s)')
             stage, in_stage, recent = stage + 1, 0, []
+        produce = std1 and (step == 1 or (log_every and step % log_every == 0) or bool(report['clipped']) or (tensor_probe_every and step % tensor_probe_every == 0))
+        if produce:
+            with torch.no_grad():
+                _names = [n for n, _ in model.named_parameters()]
+                _items = [(n, float(g.detach().norm() ** 2)) for n, g in zip(_names, [p.grad for p in model.parameters()]) if g is not None]
+                tensor_max_g = [[n, v ** 0.5] for n, v in sorted(_items, key=lambda x: -x[1])[:3]]   # post-clip canli gradlar (A3 gate-telemetry sinifi; pre-clip global report'ta)
+                update_norm = float(sum((p - q).detach().norm() ** 2 for p, q in zip(model.parameters(), p_before)) ** 0.5) if p_before is not None else None
+                if psu is not None:
+                    m_peak = max(m_peak, float(psu.Process().memory_info().rss))
+            row = ts1.step_line(step, report['loss'], report['grad_norm_before_clip'], bool(report['clipped']),
+                                tensor_max_g=tensor_max_g, update_norm=update_norm,
+                                init_grad_norm=(report['grad_norm_before_clip'] if step == 1 else None),
+                                init_update_norm=(update_norm if step == 1 else None),
+                                wall_seconds=time.perf_counter() - start,
+                                extra=dict(length=lengths[stage], recent_accuracy=(sum(recent) / len(recent)) if recent else None))
+            _miss = ts1.validate_line(row)
+            if _miss:
+                raise SystemExit(f'std1 satiri dogrulamada eksik: {_miss}')
+            history.append(row)
         if log_every and step % log_every == 0:
-            history.append(dict(step=step, loss=report['loss'], grad_norm=report['grad_norm_before_clip'], length=lengths[stage],
-                                recent_accuracy=(sum(recent) / len(recent)) if recent else None))
+            if not std1:
+                history.append(dict(step=step, loss=report['loss'], grad_norm=report['grad_norm_before_clip'], length=lengths[stage],
+                                    recent_accuracy=(sum(recent) / len(recent)) if recent else None))
             log(f'{task} {arm} w{width} s{seed}{"" if dseed == seed else f"/d{dseed}"} step {step} len {lengths[stage]} loss {report["loss"]} ({time.perf_counter() - start:.0f}s)')
     if telemetry is not None:
         telemetry.close()
     if state_noise > 0:
         from .state_noise import clean
         clean(model)
-    return model, dict(steps=steps, batch=batch, lr=lr, clip=clip, guard=guard.summary(), history=history, curriculum=lengths, advances=advances,
-                       final_stage_length=lengths[stage], train_seconds=time.perf_counter() - start, parameters=parameter_count(model),
-                       state_noise=state_noise, lr_decay_fraction=lr_decay_fraction, lr_floor=lr_floor, lr_last=lr_last, alpha=alpha, cleanup_open=cleanup_open, cleanup_no_decay=cleanup_no_decay,
-                       neutral_p=neutral_p, hold_tmax=hold_tmax, hold_decay_gate=hold_decay_gate, data_seed=dseed, gate_telemetry=gate_telemetry, warmup=warmup, adam_eps=adam_eps)
+    res = dict(steps=steps, batch=batch, lr=lr, clip=clip, guard=guard.summary(), history=history, curriculum=lengths, advances=advances,
+               final_stage_length=lengths[stage], train_seconds=time.perf_counter() - start, parameters=parameter_count(model),
+               state_noise=state_noise, lr_decay_fraction=lr_decay_fraction, lr_floor=lr_floor, lr_last=lr_last, alpha=alpha, cleanup_open=cleanup_open, cleanup_no_decay=cleanup_no_decay,
+               neutral_p=neutral_p, hold_tmax=hold_tmax, hold_decay_gate=hold_decay_gate, data_seed=dseed, gate_telemetry=gate_telemetry, warmup=warmup, adam_eps=adam_eps)
+    if std1:
+        res['telemetry_mode'] = 'std1'
+        res['divergences'] = divergences
+        res['memory_peak_mib'] = (m_peak / (1024 * 1024)) if psu else None
+    return model, res
 
 
 @torch.no_grad()
@@ -271,6 +321,14 @@ def run(task, arm, width, seed, steps, points=None, n_eval=100, out=None, wseed=
                   learned_in_range=learned, in_range_accuracy=in_range,
                   effective_horizon=effective_horizon(curve, key) if learned else 0, horizon_metric=key,
                   trained_range=in_range_point, wall_seconds=time.perf_counter() - started)
+    if trained.get('telemetry_mode') == 'std1':
+        result['run_telemetry'] = ts1.run_telemetry_block(status='COMPLETE', guard_summary=trained['guard'],
+                                                          cost={'train_seconds': trained['train_seconds'], 'sec_per_step': trained['train_seconds'] / trained['steps'],
+                                                                'memory_peak_mib': trained.get('memory_peak_mib'), 'per_length': None},
+                                                          divergences=trained.get('divergences', []))
+        _miss = ts1.validate_block(result['run_telemetry'])
+        if _miss:
+            raise SystemExit(f'run_telemetry dogrulamada eksik: {_miss}')
     if counting:
         trained_length = dt.train_length(task)       # 64 / 256 / 1,024 for the default counter (4 x and 16 x the trained length)
         result['length_control'] = evaluate_length_control(model, [trained_length, 4 * trained_length, 16 * trained_length], n_eval, E,
@@ -313,6 +371,10 @@ def main():
     p.add_argument('--dseed', type=int, default=None, help='training-data stream seed (M-3b seed split; default None = --seed: previous behaviour bit for bit)')
     p.add_argument('--eval-seed', type=int, default=None, help='evaluation-draw seed (M-3b seed split; default None = --seed: previous behaviour bit for bit)')
     p.add_argument('--gate-telemetry', default=None, help='A3: JSONL path for the per-step gate-head gradient telemetry (hold/hold_nc arms only; written once)')
+    p.add_argument('--telemetry', default='off', choices=['off', 'std1'], help='I1-a/v1 (std1 kod zeyli): std1 = §2a satır alanları + §2b run_telemetry bloğu; off (default) = bit-aynı')
+    p.add_argument('--tensor-probe-every', type=int, default=0, help='std1 ek kadans satırları (0 = ilk adım + log-every + clipped)')
+    p.add_argument('--grad-probe-every', type=int, default=0, help='std1 gradprobe yan-dosyası (I1a §2c; depth_run ailesinde taşınmaz — bkz zeyl notu)')
+    p.add_argument('--state-probe-every', type=int, default=0, help='std1 durum probe (I1a §2c; depth_run ailesinde taşınmaz)')
     p.add_argument('--out', required=True)
     a = p.parse_args()
     if a.gate_telemetry:
@@ -326,7 +388,8 @@ def main():
             curriculum=curriculum, advance_at=a.advance_at, min_stage_steps=a.min_stage_steps, state_noise=a.state_noise,
             lr_decay_fraction=a.lr_decay_fraction, lr_floor=a.lr_floor, alpha=a.alpha, cleanup_open=a.cleanup_open, cleanup_no_decay=a.cleanup_no_decay,
             neutral_p=a.neutral_p, hold_tmax=a.hold_tmax, hold_decay_gate=a.hold_decay_gate, warmup=a.warmup, adam_eps=a.adam_eps,
-            wseed=a.wseed, dseed=a.dseed, eval_seed=a.eval_seed, gate_telemetry=a.gate_telemetry)
+            wseed=a.wseed, dseed=a.dseed, eval_seed=a.eval_seed, gate_telemetry=a.gate_telemetry,
+            telemetry_mode=a.telemetry, tensor_probe_every=a.tensor_probe_every, grad_probe_every=a.grad_probe_every, state_probe_every=a.state_probe_every)
     print(json.dumps({k: r[k] for k in ('task', 'arm', 'width', 'seed', 'wseed', 'dseed', 'eval_seed', 'learned_in_range', 'effective_horizon', 'horizon_metric', 'wall_seconds')}))
     for point, row in r['curve'].items():
         print(point, {k: (round(v, 3) if isinstance(v, float) else v) for k, v in row.items()})
