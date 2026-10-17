@@ -88,20 +88,41 @@ def encode_tap(model, holder):
     return orig
 
 
+def emb_tap(model, holder):
+    """PN x1 tap (torch-2.14 duzeltisi; donuk SEMANTIK aynen: dL/d emb(x)[:,0,:]).
+    yerlesik mekanizma = tensor-hook (in-file enc_root tap'i ile ayni sinif; :79-84):
+    torch 2.14'te nn.Embedding uzerinde full-backward-hook guvenilmez (go[0]=None Veya
+    hook hic cagrilmiyor; staging tmp_hook_semantics.py V-dogru). model.embedding.forward
+    ornek-gecici sarmasi; remat.py/model DOKUNULMAZ."""
+    orig = model.embedding.forward
+
+    def fwd(x, *a, **k):
+        e_out = orig(x, *a, **k)
+
+        def _grab(g):
+            if "emb_x1" not in holder:
+                holder["emb_x1"] = g.detach().clone()
+            return g
+
+        e_out.register_hook(_grab)
+        return e_out
+
+    model.embedding.forward = fwd
+    return orig
+
+
 def measure(model, x, y, segment, mode):
     """Tek ölçüm geçişi: ileri + geri; loss + ilk-segment kaybı + grad sözlüğü + PN çıpaları."""
     model.zero_grad(set_to_none=True)
-    caps = []
     holder = {}
     orig_encode = encode_tap(model, holder)                                # dL/de (PN encoder-kök)
-    h_emb = model.embedding.register_full_backward_hook(
-        lambda m, go, gi: caps.append(go[0][:, 0, :].detach().clone()))      # ∂L/∂emb(x₁)
+    orig_emb = emb_tap(model, holder)                                      # ∂L/∂emb(x₁) — tensor-hook gövdesi
     try:
         z = remat.run(model, x, segment=segment, mode=mode)
         loss = F.cross_entropy(z.flatten(0, 1), y.flatten())
         loss.backward()
     finally:
-        h_emb.remove()
+        model.embedding.forward = orig_emb
         model.encode = orig_encode
     grads = {}
     for name, p in model.named_parameters():
@@ -111,9 +132,11 @@ def measure(model, x, y, segment, mode):
             grads[name] = p.grad.detach().clone()
     if "enc_root" not in holder:
         raise RuntimeError("PN encoder-kök tap kaçtı (encode-sargısı çalışmadı) -> protokol hatası, DUR")
+    if "emb_x1" not in holder:
+        raise RuntimeError("PN x1 tap kaçtı (emb-sarması çalışmadı) -> protokol hatası, DUR")
     enc = holder["enc_root"]
     return dict(loss=float(loss.detach()), prefix8=_prefix_ce(z, y, 8), grads=grads,
-                emb_t0_grad_norm=float(torch.linalg.vector_norm(caps[0])),
+                emb_t0_grad_norm=float(torch.linalg.vector_norm(holder["emb_x1"][:, 0, :])),
                 enc_root_grad_norm=float(torch.linalg.vector_norm(enc[:, 0, :])))
 
 
