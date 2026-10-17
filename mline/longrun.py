@@ -29,6 +29,7 @@ import torch.nn.functional as F
 
 from horizon import guards as gu
 from horizon import sweep as sw
+from horizon import telemetry_std1 as ts
 from mline import checkpoint as ck
 from mline import decoy_train as dt
 from mline import lm as ml
@@ -155,8 +156,10 @@ def _atomic_save(path, state):
 
 def train(out, *, width, heads, steps, batch, length, lr, seed, needle_rate, phases, lm_batch, natural_keys=None, warmup=500,
           decay_fraction=.1, floor=.1, weight_decay=.01, clip=1., ckpt_every=250, snapshot_every=1000, eval_every=1000,
-          eval_fn=None, device='cuda', arm='plain', window=4, alpha=.1, max_skips=50, verbose=True):
+          eval_fn=None, device='cuda', arm='plain', window=4, alpha=.1, max_skips=50, verbose=True, telemetry='off'):
     check_phases(phases)
+    if telemetry not in ('off', 'std1'):
+        raise SystemExit("telemetry 'off' veya 'std1' olmali (I1a:63/65; sessiz eksik-log yasak)")
     out = Path(out)
     out.mkdir(parents=True, exist_ok=True)
     done = out / 'complete.json'
@@ -201,6 +204,10 @@ def train(out, *, width, heads, steps, batch, length, lr, seed, needle_rate, pha
         model.train()
         logits = ml.forward_logits(model, x)
         ce = F.cross_entropy(logits.flatten(0, 1), y.flatten(), reduction='none').view(y.shape)
+        telemetry_on = telemetry == 'std1'
+        prev_capture = None
+        if telemetry_on:
+            prev_capture = [(n, p.detach().clone()) for n, p in model.named_parameters()]
         report = counter.record(gu.guarded_step(opt, model.parameters(), ce.mean(), clip_norm=clip))
         with torch.no_grad():
             rows = ce.detach()
@@ -213,11 +220,27 @@ def train(out, *, width, heads, steps, batch, length, lr, seed, needle_rate, pha
                        loss_synthetic=_finite(rows[n_lm:].mean()) if n_synthetic else None,
                        answer_loss=_finite(rows[n_lm:][four_d].mean()) if bool(four_d.any()) else None,
                        first_digit_accuracy=_finite(hit[first_d].float().mean()) if answers else None, answers=answers)
+            if telemetry_on:
+                row['clipped'] = bool(report['clipped'])
+                row['wall_seconds'] = round(time.perf_counter() - t0, 6)
+                row['update_norm'] = float(torch.sqrt(sum((p_detach - q.detach()).square().sum()
+                                                          for p_detach, q in zip([q for _, q in prev_capture], model.parameters()))))
+                prev_initial = dict(prev_capture)['initial']
+                if step == 1:
+                    row['init_update_norm'] = float(torch.linalg.vector_norm(model.initial.detach() - prev_initial))
+                    row['init_grad_norm'] = None if model.initial.grad is None else float(torch.linalg.vector_norm(model.initial.grad))
         if not report['applied']:
             skipped_in_a_row += 1
             if skipped_in_a_row > max_skips:
                 (out / 'DIVERGED.txt').write_text('%d updates in a row were skipped (non-finite loss or gradient), last at step %d: %s\n'
                                                   % (skipped_in_a_row, step, report.get('reason')), encoding='utf8')
+                if telemetry_on:
+                    train_seconds = time.perf_counter() - t0
+                    block = ts.run_telemetry_block(status='STOPPED', guard_summary=counter.summary(),
+                                                   cost={'train_seconds': train_seconds,
+                                                         'sec_per_step': train_seconds / max(1, step - start + 1)},
+                                                   reason='diverged: %d skipped in a row at step %d' % (skipped_in_a_row, step))
+                    sw.append_line(out / 'telemetry_std1.jsonl', block)
                 raise RuntimeError('the run diverged: %d skipped updates in a row at step %d' % (skipped_in_a_row, step))
         else:
             skipped_in_a_row = 0
@@ -240,6 +263,12 @@ def train(out, *, width, heads, steps, batch, length, lr, seed, needle_rate, pha
             print('step %6d  loss %.3f  answer_loss %s  first-digit %s  lr %.2e  %.1f min'
                   % (step, row['loss'] or float('nan'), row['answer_loss'], row['first_digit_accuracy'], current_lr,
                      (time.perf_counter() - t0) / 60), flush=True)
+    if telemetry_on:
+        train_seconds = time.perf_counter() - t0
+        block = ts.run_telemetry_block(status='COMPLETE', guard_summary=counter.summary(),
+                                       cost={'train_seconds': train_seconds,
+                                             'sec_per_step': train_seconds / max(1, steps - start + 1)})
+        sw.append_line(out / 'telemetry_std1.jsonl', block)
     done.write_text(json.dumps(dict(steps=steps, tokens=steps * batch * length, wall_seconds=time.perf_counter() - t0,
                                     utc=time.time()), indent=1), encoding='utf8')
     return out

@@ -31,6 +31,7 @@ from torch import nn
 from core.model import Core
 from horizon import guards as gu
 from horizon import sweep as sw
+from horizon import telemetry_std1 as ts
 from mline import checkpoint as ck
 from mline import decoy_probe as dp
 from mline import decoy_train as dt
@@ -78,9 +79,11 @@ def summarize(rows):
 def train(out, width, heads, feedback, steps, batch, lr, warmup, seed, facts, queries, key_length, alphabet, filler, pad_to,
           eval_every, eval_items, eval_configs, eval_alphabets, eval_key_lengths, init_from=None, clip=1.,
           weight_decay=.01, verbose=True, batch_fn=None, extra_eval=None, source='mqar', with_replacement=False,
-          filler_kind='repeat'):
+          filler_kind='repeat', telemetry='off'):# std1 opt-in SDK (I1a §3; default off = mevcut çıktı bit-ayni)
     """`batch_fn(step) -> (x, y)` replaces the MQAR batch (induction rows use it); `extra_eval(model) -> dict` adds a number
     to every eval row. Both default to nothing, which is the MQAR run T1a/T1b were made with."""
+    if telemetry not in ('off', 'std1'):
+        raise SystemExit("telemetry 'off' veya 'std1' olmali (I1a:63/65; sessiz eksik-log yasak)")
     out = Path(out)
     out.mkdir(parents=True, exist_ok=True)
     model = build_small(width, heads, feedback, seed)
@@ -112,6 +115,8 @@ def train(out, width, heads, feedback, steps, batch, lr, warmup, seed, facts, qu
             print('resuming from step %d' % resume['step'], flush=True)
     counter = gu.GuardCounter()
     t0 = time.perf_counter()
+    telemetry_on = telemetry == 'std1'
+    prev_capture = None
     for step in range(start, steps + 1):
         x, y = batch_fn(step) if batch_fn is not None else draw(batch, seed, step, facts, queries, key_length, alphabet, filler,
                                                                 pad_to, with_replacement, filler_kind)
@@ -119,8 +124,20 @@ def train(out, width, heads, feedback, steps, batch, lr, warmup, seed, facts, qu
             group['lr'] = lr_at(step, lr, warmup)
         model.train()
         loss = F.cross_entropy(ml.forward_logits(model, x).flatten(0, 1), y.flatten())
+        if telemetry_on:
+            prev_capture = [(n, p.detach().clone()) for n, p in model.named_parameters()]
         report = counter.record(gu.guarded_step(opt, model.parameters(), loss, clip_norm=clip))
         row = dict(step=step, loss=report['loss'], grad_norm=report['grad_norm_before_clip'])
+        if telemetry_on:
+            row['clipped'] = bool(report['clipped'])
+            row['wall_seconds'] = round(time.perf_counter() - t0, 6)
+            with torch.no_grad():
+                row['update_norm'] = float(torch.sqrt(sum((p.detach() - q).square().sum() for p, q in
+                                                          zip([q for _, q in prev_capture], model.parameters()))))
+                prev_initial = dict(prev_capture)['initial']
+                if step == 1:
+                    row['init_update_norm'] = float(torch.linalg.vector_norm(model.initial.detach() - prev_initial))
+                    row['init_grad_norm'] = None if model.initial.grad is None else float(torch.linalg.vector_norm(model.initial.grad))
         if step % eval_every == 0 or step == steps:
             rows = dp.probe_model(model, eval_configs, alphabets=eval_alphabets, items=eval_items,
                                   batch=min(16, eval_items), key_lengths=eval_key_lengths, verbose=False)
@@ -135,6 +152,12 @@ def train(out, width, heads, feedback, steps, batch, lr, warmup, seed, facts, qu
                 print('step %5d  loss %.3f  (first/decoy asked-share)  %s%s  %.1f min'
                       % (step, report['loss'] or float('nan'), cells, extra, (time.perf_counter() - t0) / 60), flush=True)
         sw.append_line(out / 'probe.jsonl', row)
+    if telemetry_on:
+        train_seconds = time.perf_counter() - t0
+        block = ts.run_telemetry_block(status='COMPLETE', guard_summary=counter.summary(),
+                                       cost={'train_seconds': train_seconds,
+                                             'sec_per_step': train_seconds / max(1, steps - start + 1)})
+        sw.append_line(out / 'telemetry_std1.jsonl', block)
     return out
 
 
@@ -170,6 +193,8 @@ def main():
     parser.add_argument('--eval-key-lengths', default='1,4')
     parser.add_argument('--init-from', default=None)
     parser.add_argument('--threads', type=int, default=1)
+    parser.add_argument('--telemetry', default='off', choices=('off', 'std1'),
+                        help='I1a std1 opt-in telemetri; off = bugunku cikti bit-ayni (I1a:63)')
     parser.add_argument('--filler-kind', default='repeat', choices=('repeat', 'pangram'),
                         help="'pangram': the filler contains every upper-case letter (none of them in a key), so the held-out key letters are"
                              ' known to the model rather than untrained embeddings')
@@ -199,7 +224,7 @@ def main():
           em.parse_range(args.train_filler), args.pad_to, args.eval_every, args.eval_items, parse_configs(args.eval_configs),
           tuple(args.eval_alphabets.split(',')), tuple(int(v) for v in args.eval_key_lengths.split(',')),
           init_from=args.init_from, batch_fn=batch_fn, extra_eval=extra_eval, source=args.source,
-          with_replacement=args.with_replacement, filler_kind=args.filler_kind)
+          with_replacement=args.with_replacement, filler_kind=args.filler_kind, telemetry=args.telemetry)
 
 
 if __name__ == '__main__':
