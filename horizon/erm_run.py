@@ -21,6 +21,8 @@ from torch.nn import functional as F
 from . import erm_models as em
 from . import erm_tasks as et
 
+from . import telemetry_std1 as ts1   # I1-a/v1 std1 (kod zeyli; --telemetry off default: bit-ayni)
+
 G03_B_MIN = 0.95
 G03_A_MAX = 0.30
 G03_A_BROKEN = 0.50
@@ -74,9 +76,15 @@ def _device():
 
 
 def train(arm, seed, steps, batch=32, lr=3e-3, wd=0.01, log_every=500, log=print,
-          aux_weight=0.0):
+          aux_weight=0.0,
+          telemetry_mode=None, tensor_probe_every=0, grad_probe_every=0, state_probe_every=0):
     """aux_weight > 0 (yalnız B_aux/P1): L = L_cevap + aux_weight·L_yard
-    (yardımlı yazma; facts üreticiden)."""
+    (yardımlı yazma; facts üreticiden).
+
+    telemetry_mode: I1-a/v1 std1 kod zeyli. None (bugünkü davranış, bit for bit) veya 'std1'; std1'de
+    §2a satır alanları (clipped; kadanslı tensor_max_g — post-clip canlı gradlar; update_norm; ilk satırda
+    init_grad_norm / init_update_norm) + §2b run_telemetry bloğu info'ya gömülür (aile-içi blok).
+    grad/state probe bu ailede taşınmaz (SystemExit; pencere-full-BPTT, k-çifti yok)."""
     torch.set_num_threads(1)
     dev = _device()
     model = em.make_arm(arm, seed=seed).to(dev)
@@ -86,6 +94,18 @@ def train(arm, seed, steps, batch=32, lr=3e-3, wd=0.01, log_every=500, log=print
     groups = ([dict(params=rest)] if rest else []) + ([dict(params=gate, weight_decay=0.0)] if gate else [])
     opt = torch.optim.AdamW(groups, lr=lr, weight_decay=wd)
     history = []
+    std1 = telemetry_mode == 'std1'
+    if grad_probe_every or state_probe_every:
+        raise SystemExit('erm_run std1 zeyli: --grad-probe-every (pencere-full-BPTT ailesinde k-cift yok; bos-hukum) ve --state-probe-every (hold-portlu; simdi tasinamaz) K>0 kabul edilmez; std1 kendi calisir')
+    divergences = []
+    psu = None
+    if std1:
+        try:
+            import psutil as _psu
+        except ImportError:
+            _psu = None
+        psu = _psu
+    m_peak = 0.0
     start = time.perf_counter()
     for step in range(1, steps + 1):
         b = et.train_batch(seed, step, batch)
@@ -113,21 +133,63 @@ def train(arm, seed, steps, batch=32, lr=3e-3, wd=0.01, log_every=500, log=print
         loss = F.cross_entropy(sel, tgt)
         if aux_loss is not None:
             loss = loss + aux_weight * aux_loss
+        p_before = [p.detach().clone() for p in model.parameters()] if std1 else None
         opt.zero_grad()
         loss.backward()
-        torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0)
+        _gn = float(torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0))
+        _clipped = _gn > 1.0
         opt.step()
-        if log_every and step % log_every == 0:
+        if std1:
+            loss_v = float(loss.detach())
+            if not math.isfinite(loss_v) or not math.isfinite(_gn) or _gn >= 1e6:
+                _trigger = 'nonfinite_loss' if not math.isfinite(loss_v) else ('max_g≥1e6' if _gn >= 1e6 else 'nonfinite_grad')
+                divergences.append(ts1.divergence_event(step, _trigger, {'loss': loss_v, 'grad_norm': _gn}, 'continued'))
+        produce = std1 and (step == 1 or (log_every and step % log_every == 0) or _clipped or (tensor_probe_every and step % tensor_probe_every == 0))
+        if produce:
+            with torch.no_grad():
+                _names = [n for n, _ in model.named_parameters()]
+                _items = [(n, float(g.detach().norm() ** 2)) for n, g in zip(_names, [p.grad for p in model.parameters()]) if g is not None]
+                tensor_max_g = [[n, v ** 0.5] for n, v in sorted(_items, key=lambda x: -x[1])[:3]]   # post-clip canli gradlar (A3 gate-telemetry sinifi)
+                update_norm = float(sum((p - q).detach().norm() ** 2 for p, q in zip(model.parameters(), p_before)) ** 0.5) if p_before is not None else None
+                if psu is not None:
+                    m_peak = max(m_peak, float(psu.Process().memory_info().rss))
             acc = float((sel.detach().argmax(-1) == tgt).float().mean())
-            row = dict(step=step, loss=float(loss), train_acc=acc)
+            extra = dict(train_acc=acc)
             if aux_loss is not None:
-                row['aux_loss'] = float(aux_loss)
+                extra['aux_loss'] = float(aux_loss)
+            row = ts1.step_line(step, loss_v, _gn, _clipped,
+                                tensor_max_g=tensor_max_g, update_norm=update_norm,
+                                init_grad_norm=(_gn if step == 1 else None),
+                                init_update_norm=(update_norm if step == 1 else None),
+                                wall_seconds=time.perf_counter() - start, extra=extra)
+            _miss = ts1.validate_line(row)
+            if _miss:
+                raise SystemExit(f'std1 satiri dogrulamada eksik: {_miss}')
             history.append(row)
+        if log_every and step % log_every == 0:
+            if not std1:
+                acc = float((sel.detach().argmax(-1) == tgt).float().mean())
+                row = dict(step=step, loss=float(loss), train_acc=acc)
+                if aux_loss is not None:
+                    row['aux_loss'] = float(aux_loss)
+                history.append(row)
             log(f'{arm} s{seed} adim {step} kayip {float(loss):.3f} acc {acc:.3f} ({time.perf_counter() - start:.0f}s)')
     info = dict(arm=arm, seed=seed, steps=steps, batch=batch, lr=lr, weight_decay=wd,
                 aux_weight=float(aux_weight),
                 parameters=em.parameter_count(model), history=history,
                 train_seconds=time.perf_counter() - start)
+    if std1:
+        info['telemetry_mode'] = 'std1'
+        info['divergences'] = divergences
+        info['memory_peak_mib'] = (m_peak / (1024 * 1024)) if psu else None
+        info['run_telemetry'] = ts1.run_telemetry_block(
+            status='COMPLETE', guard_summary={},     # erm ailesinde guard-sayaci yok (pencere kollari); clipped std1 satirlarindan okunur
+            cost={'train_seconds': info['train_seconds'], 'sec_per_step': info['train_seconds'] / steps,
+                  'memory_peak_mib': info['memory_peak_mib'], 'per_length': None},
+            divergences=divergences)
+        _miss = ts1.validate_block(info['run_telemetry'])
+        if _miss:
+            raise SystemExit(f'run_telemetry dogrulamada eksik: {_miss}')
     return model, info
 
 
@@ -489,6 +551,10 @@ def main():
     p.add_argument('--out', default=None)
     p.add_argument('--reading', default=None)
     p.add_argument('--log-every', type=int, default=500)
+    p.add_argument('--telemetry', default='off', choices=['off', 'std1'], help='I1-a/v1 (std1 kod zeyli): std1 = §2a satır alanları + §2b run_telemetry bloğu (info içine aile-içi); off (default) = bit-aynı')
+    p.add_argument('--tensor-probe-every', type=int, default=0, help='std1 ek kadans satırları (0 = ilk adım + log-every + clipped)')
+    p.add_argument('--grad-probe-every', type=int, default=0, help='std1 gradprobe yan-dosyası (I1a §2c; erm pencere-full-BPTT ailesinde taşınmaz)')
+    p.add_argument('--state-probe-every', type=int, default=0, help='std1 durum probe (I1a §2c; erm ailesinde taşınmaz)')
     a = p.parse_args()
     if a.reading:
         r = json.loads(Path(a.reading).read_text(encoding='utf8'))
@@ -496,7 +562,9 @@ def main():
         return
     if a.cmd == 'train':
         model, info = train(a.arm, a.seed, a.steps, batch=a.batch, lr=a.lr,
-                            log_every=a.log_every, aux_weight=a.aux_weight)
+                            log_every=a.log_every, aux_weight=a.aux_weight,
+                            telemetry_mode=a.telemetry, tensor_probe_every=a.tensor_probe_every,
+                            grad_probe_every=a.grad_probe_every, state_probe_every=a.state_probe_every)
         if a.out:
             save_model(model, Path(a.out).with_suffix('.pt'), info)
             Path(a.out).write_text(json.dumps(info, indent=1), encoding='utf8')
