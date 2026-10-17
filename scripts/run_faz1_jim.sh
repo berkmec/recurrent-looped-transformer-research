@@ -39,7 +39,7 @@ l12run() {  # id [extra...]
   log "BASLA L12-E $id (eval-only, 1 parcacik, BelowNormal)"
   "$PY" -B -m horizon.l12_eval "${L12_CKPTS[@]}" --n 200 --seed 1 --batch 50 --out "$OUT/$id.json" "$@" >> "$OUT/$id.log" 2>&1
   if [ -f "$OUT/$id.json" ]; then
-    log "BITTI L12-E $id (genel: $("$PY" -B -c "import json;print(json.load(open(r'$OUT/$id.json'))['combination']['overall'])" 2>/dev/null || echo '?'))"
+    log "BITTI L12-E $id (genel: $("$PY" -B -c "import json;print(json.load(open(r'$OUT/$id.json', encoding='utf-8'))['combination']['overall'])" 2>/dev/null || echo '?'))"
   else
     log "HATA L12-E $id (bkz $OUT/$id.log)"; rmdir "$OUT/$id.lock" 2>/dev/null
   fi
@@ -82,17 +82,17 @@ a3 a3-r3-perm5-core-w128-s1 "notes/_hive_A3_ONKAYIT.md" '{"init":1,"data_split":
   --task perm5 --arm core --width 128 --seed 1 --steps 6000 --curriculum "$CUR" \
   --out "$OUT/a3-r3-perm5-core-w128-s1.json" || exit 1
 
-R3LOSS=$("$PY" -B -c "import json;print(json.load(open(r'$OUT/a3-r3-perm5-core-w128-s1.json'))['train']['history'][-1]['loss'])" 2>/dev/null || echo BILINMIYOR)
+R3LOSS=$("$PY" -B -c "import json;print(json.load(open(r'$OUT/a3-r3-perm5-core-w128-s1.json', encoding='utf-8'))['train']['history'][-1]['loss'])" 2>/dev/null || echo BILINMIYOR)
 log "[A3] R3 (duz Core) son kayip: $R3LOSS (K5c esigi <= 0,5)"
 
 # R2 okumasi (K5b: enstrumantasyon canli — kendi G_ratio'sundan)
 if [ ! -f "$OUT/a3-r2-reading.json" ]; then
   "$PY" -B -m horizon.gate_telemetry --reading "$OUT/a3-r2-perm4-hold-w64-s1-np0.tel.jsonl" --ref "$OUT/a3-r2-perm4-hold-w64-s1-np0.json" \
     --r0-equal --r2-live-auto --r3-loss "$R3LOSS" --out "$OUT/a3-r2-reading.json" >> "$OUT/a3-r2-reading.log" 2>&1 \
-    && log "[A3] R2 okuma yazildi: $("$PY" -B -c "import json;print(json.load(open(r'$OUT/a3-r2-reading.json'))['label'])" 2>/dev/null || echo '?')" \
+    && log "[A3] R2 okuma yazildi: $("$PY" -B -c "import json;print(json.load(open(r'$OUT/a3-r2-reading.json', encoding='utf-8'))['label'])" 2>/dev/null || echo '?')" \
     || log "[A3] R2 okuma HATA (bkz a3-r2-reading.log)"
 fi
-R2LIVE=$("$PY" -B -c "import json; s=json.load(open(r'$OUT/a3-r2-reading.json')); print('YES' if (s['G_ratio'] is not None and s['G_ratio'] >= 0.10) else 'NO')" 2>/dev/null || echo NO)
+R2LIVE=$("$PY" -B -c "import json; s=json.load(open(r'$OUT/a3-r2-reading.json', encoding='utf-8')); print('YES' if (s['G_ratio'] is not None and s['G_ratio'] >= 0.10) else 'NO')" 2>/dev/null || echo NO)
 log "[A3] R2 canli mi (K5b, G_ratio >= 0,10): $R2LIVE"
 R1K5=(--r0-equal --r3-loss "$R3LOSS")
 if [ "$R2LIVE" = "YES" ]; then R1K5=(--r2-live "${R1K5[@]}"); else R1K5=(--r2-dead "${R1K5[@]}"); fi
@@ -101,11 +101,11 @@ if [ "$R2LIVE" = "YES" ]; then R1K5=(--r2-live "${R1K5[@]}"); else R1K5=(--r2-de
 if [ ! -f "$OUT/a3-r1-reading.json" ]; then
   "$PY" -B -m horizon.gate_telemetry --reading "$OUT/a3-r1-perm5-hold-w128-s1-np0.tel.jsonl" --ref "$OUT/a3-r1-perm5-hold-w128-s1-np0.json" \
     "${R1K5[@]}" --out "$OUT/a3-r1-reading.json" >> "$OUT/a3-r1-reading.log" 2>&1 \
-    && log "[A3] R1 okuma yazildi: $("$PY" -B -c "import json;print(json.load(open(r'$OUT/a3-r1-reading.json'))['label'])" 2>/dev/null || echo '?')" \
+    && log "[A3] R1 okuma yazildi: $("$PY" -B -c "import json;print(json.load(open(r'$OUT/a3-r1-reading.json', encoding='utf-8'))['label'])" 2>/dev/null || echo '?')" \
     || log "[A3] R1 okuma HATA (bkz a3-r1-reading.log)"
 fi
-R1L=$("$PY" -B -c "import json;print(json.load(open(r'$OUT/a3-r1-reading.json'))['label'])" 2>/dev/null || echo BILINMIYOR)
-SEED2=$("$PY" -B -c "import json;print('YES' if json.load(open(r'$OUT/a3-r1-reading.json'))['needs_seed2'] else 'NO')" 2>/dev/null || echo NO)
+R1L=$("$PY" -B -c "import json;print(json.load(open(r'$OUT/a3-r1-reading.json', encoding='utf-8'))['label'])" 2>/dev/null || echo BILINMIYOR)
+SEED2=$("$PY" -B -c "import json;print('YES' if json.load(open(r'$OUT/a3-r1-reading.json', encoding='utf-8'))['needs_seed2'] else 'NO')" 2>/dev/null || echo NO)
 log "[A3] R1 etiket: $R1L | K4 bant (needs_seed2): $SEED2"
 
 # K4 bandindaysa R1-s2 (tohum-2) + okuma; iki etiket ayniysa o etiket, farkliysa KARISIK (tohum-ayrimi)
@@ -118,7 +118,7 @@ if [ "$SEED2" = "YES" ]; then
       "${R1K5[@]}" --out "$OUT/a3-r1-s2-reading.json" >> "$OUT/a3-r1-s2-reading.log" 2>&1 \
       && log "[A3] R1-s2 okuma yazildi" || log "[A3] R1-s2 okuma HATA (bkz a3-r1-s2-reading.log)"
   fi
-  S2L=$("$PY" -B -c "import json;print(json.load(open(r'$OUT/a3-r1-s2-reading.json'))['label'])" 2>/dev/null || echo BILINMIYOR)
+  S2L=$("$PY" -B -c "import json;print(json.load(open(r'$OUT/a3-r1-s2-reading.json', encoding='utf-8'))['label'])" 2>/dev/null || echo BILINMIYOR)
   if [ "$R1L" = "$S2L" ]; then
     log "[A3] SONUC: R1=$R1L = R1-s2=$S2L (K4 ayni etiket; tohum-ayrimi yok)"
   else
