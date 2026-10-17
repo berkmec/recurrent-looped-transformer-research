@@ -19,6 +19,11 @@ parameter-matched E-P5 evaluation ran), applied to the windows beyond 1,024 posi
 The original BREAK test compared only the LAST window with events with the first window (events / at-risk-sequences x width, a rate capped at 1 / width), which could read constant
 floors as BREAK (a zero first window) and steep breaks as FLOOR (the last window with events held < 5). Results stored before this change carry no `person_steps`: their exposure is the
 midpoint approximation (at-risk steps - events x width / 2); on the seven stored E-X results the old and new labels agree.
+
+Z6 (I3-d eval zeyli; seal Rev.2, 00:45Z): `--reset-every m` is an opt-in extension — at the decoder steps t > 0 with t % m == 0 the carried state s['s'] is replaced by the learned
+initial state (the E-L1X `reset512` semantics of `mline/long_doc.py`; the decoder's window cache dk/dv and the cross-attention memory are untouched). Off (0) the file behaves exactly
+as before, bit for bit; the result JSON carries `reset_every` only when it is on. Defined for the recurrent Core arms (feedback=True); evidence: tests/test_long_eval_reset.py +
+results/faz-z6/ (off-path bit-for-bit runs against the pre-zeyil file).
 """
 import argparse
 import json
@@ -27,6 +32,7 @@ from pathlib import Path
 
 import torch
 
+from core.model import Core
 from . import depth_run as dr
 from . import depth_tasks as dt
 from .readings import rate_ratio_p
@@ -52,12 +58,42 @@ def hazard_rows(pred, target, edges):
     return rows
 
 
-def measure(weights, lengths, n, batch=20):
+class ResetCore(Core):
+    """Z6 (I3-d): the Core with the E-L1X periodic reset of the carried state (`mline/long_doc.py`'s `reset512` semantics): at every decoder step t > 0 with t % reset_every == 0 the
+    carried state s['s'] is replaced by the learned initial state; the decoder's window cache (dk / dv) and the cross-attention memory are untouched. Only `configure_reset` turns it
+    on; a freshly loaded Core never has `reset_every` set."""
+
+    reset_every = None
+
+    def decode(self, e, s, mk, mv, t):
+        if self.reset_every and s is not None and t > 0 and t % self.reset_every == 0:
+            s = dict(s)
+            s['s'] = self.initial.expand_as(s['s'])
+        return super().decode(e, s, mk, mv, t)
+
+
+def configure_reset(model, reset_every):
+    """Turn the Z6 reset on in place (class swap, the house pattern: `erosion_source.configure` / `snap_long.configure`). `reset_every >= 1`; the recurrent Core arms only
+    (feedback=True, `depth_models.py`). Returns the model."""
+    if not isinstance(reset_every, int) or reset_every < 1:
+        raise ValueError('--reset-every needs a positive interval')
+    if not isinstance(model, Core) or not getattr(model, 'feedback', False):
+        raise ValueError('--reset-every is defined for the recurrent Core arms')
+    model.__class__ = ResetCore
+    model.reset_every = int(reset_every)
+    return model
+
+
+def measure(weights, lengths, n, batch=20, reset_every=0):
     raw = torch.load(weights, weights_only=True)
     meta = raw['meta']
     if dt.is_count(meta['task']):
         raise ValueError('long evaluation is defined for the permutation tasks')
     model = dr.load_model(weights)
+    if reset_every:
+        if meta['arm'] not in ('core', 'core_clean'):
+            raise ValueError('--reset-every is defined for the Core arms')
+        configure_reset(model, reset_every)
     curve = {}
     for length in lengths:
         started = time.perf_counter()
@@ -66,8 +102,11 @@ def measure(weights, lengths, n, batch=20):
         ok = pred == target
         curve[str(length)] = dict(length=length, n=n, final=float(ok[:, -1].float().mean()), prefix=float(ok.float().mean()), error_free=int(ok.all(1).sum()),
                                   hazard=hazard_rows(pred, target, EDGES), seconds=time.perf_counter() - started)
-    return dict(weights=str(weights), arm=meta['arm'], task=meta['task'], width=meta['width'], seed=meta['seed'], n=n, lengths=list(lengths), curve=curve,
-                train=dict(parameters=dr.parameter_count(model)))
+    result = dict(weights=str(weights), arm=meta['arm'], task=meta['task'], width=meta['width'], seed=meta['seed'], n=n, lengths=list(lengths), curve=curve,
+                  train=dict(parameters=dr.parameter_count(model)))
+    if reset_every:
+        result['reset_every'] = int(reset_every)
+    return result
 
 
 def exactness_horizon(result):
@@ -136,13 +175,14 @@ def main():
     p.add_argument('--n', type=int, default=100)
     p.add_argument('--core-n', type=int, default=40)
     p.add_argument('--batch', type=int, default=20)
+    p.add_argument('--reset-every', type=int, default=0, help='Z6: replace the carried state with the learned initial at every step t > 0 where t is a multiple of m (0 = off, the previous behaviour)')
     p.add_argument('--out', default=None)
     a = p.parse_args()
     results = []
     for path in a.weights:
         arm = torch.load(path, weights_only=True)['meta']['arm']
         lengths = [int(v) for v in (a.core_lengths if (arm == 'core' and a.core_lengths) else a.lengths).split(',')]
-        r = measure(path, lengths, a.core_n if arm == 'core' else a.n, a.batch)
+        r = measure(path, lengths, a.core_n if arm == 'core' else a.n, a.batch, a.reset_every)
         results.append(r)
         print(describe(r), flush=True)
     if a.out:
