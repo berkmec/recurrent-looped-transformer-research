@@ -17,6 +17,7 @@ import torch
 from torch.nn import functional as F
 
 from . import depth_tasks as dt
+from . import gate_telemetry as gt
 from .depth_models import make_arm, parameter_count
 from .guards import GuardCounter, guarded_step
 
@@ -35,7 +36,7 @@ def _log(message):
 
 def train(task, arm, width, seed, steps, batch=64, lr=3e-3, clip=1.0, weight_decay=0.01, namespace=None, log_every=0, log=_log,
           curriculum=None, advance_at=0.97, min_stage_steps=200, window=100, state_noise=0.0, lr_decay_fraction=0.0, lr_floor=0.0, alpha=0.1, cleanup_open=0.0, cleanup_no_decay=False,
-          neutral_p=0.0, hold_tmax=16, hold_decay_gate=False, data_seed=None):
+          neutral_p=0.0, hold_tmax=16, hold_decay_gate=False, data_seed=None, gate_telemetry=None, warmup=0, adam_eps=1e-8):
     """curriculum: increasing training lengths, e.g. [2, 4, 8, 16]. The stage advances when the mean per-position accuracy over the last
     `window` updates reaches `advance_at` (and the stage has run at least `min_stage_steps` updates). The last length is the trained range;
     nothing beyond it is ever trained on. Without a curriculum every update uses the task's trained length.
@@ -53,7 +54,13 @@ def train(task, arm, width, seed, steps, batch=64, lr=3e-3, clip=1.0, weight_dec
     previous behaviour, bit for bit. hold_tmax: E-G chrono horizon (timescales 1..t_max-1); hold/hold_nc arms only. hold_decay_gate: E-G control. False (the
     registered behaviour) exempts the hold gate head from AdamW's weight decay (R-2b: decay x0.47 pulls the gate closed); True applies decay to every parameter.
     data_seed: M-3b. The seed of the training-data stream (`dt.train_batch`); None (the previous behaviour, bit for bit) = `seed`, i.e. init and data share one
-    stream exactly as before. Callers splitting streams pass the init seed as `seed` and the data seed here."""
+    stream exactly as before. Callers splitting streams pass the init seed as `seed` and the data seed here.
+    gate_telemetry: A3. Path of a JSONL file for the per-step HOLD-gate gradient telemetry (`horizon.gate_telemetry`, K1-K4);
+    None (the registered default) = the previous behaviour, bit for bit. hold/hold_nc arms only (main() enforces it); written
+    once (never overwritten), flushed every step; rows read right after the guarded step (post-clip gradients).
+    warmup: I1-c. Linear ramp of the learning rate over the first `warmup` updates (rate = lr * step / warmup, ending exactly at lr); 0 (the previous behaviour,
+    bit for bit) = no ramp. With a decay the rate is the lower of the ramp and the decay curve.
+    adam_eps: I1-c. AdamW's epsilon; 1e-8 (the torch default) = the previous behaviour, bit for bit."""
     namespace = namespace or NAMESPACE
     lengths = list(curriculum) if curriculum else [dt.train_length(task)]
     dseed = seed if data_seed is None else data_seed
@@ -75,9 +82,16 @@ def train(task, arm, width, seed, steps, batch=64, lr=3e-3, clip=1.0, weight_dec
     guard, history, start = GuardCounter(), [], time.perf_counter()
     stage, in_stage, recent, advances = 0, 0, [], []
     lr_last = lr
+    telemetry = open(gate_telemetry, 'x', encoding='utf8') if gate_telemetry else None
     for step in range(1, steps + 1):
+        if warmup > 0:   # I1-c: linear ramp lr * step / warmup; 0 = the previous behaviour, bit for bit
+            lr_last = lr * min(1.0, step / warmup)
         if lr_decay_fraction > 0:
-            lr_last = lr * (lr_floor + (1.0 - lr_floor) * min(1.0, (steps - step + 1) / (lr_decay_fraction * steps)))
+            lr_decay = lr * (lr_floor + (1.0 - lr_floor) * min(1.0, (steps - step + 1) / (lr_decay_fraction * steps)))
+            lr_last = lr_decay if warmup <= 0 else min(lr_last, lr_decay)
+            for group in opt.param_groups:
+                group['lr'] = lr_last
+        elif warmup > 0:
             for group in opt.param_groups:
                 group['lr'] = lr_last
         b = dt.train_batch(namespace, task, dseed, step, batch, length=lengths[stage], neutral_p=neutral_p)
@@ -85,6 +99,10 @@ def train(task, arm, width, seed, steps, batch=64, lr=3e-3, clip=1.0, weight_dec
         logits = forward(b['x'])
         loss = F.cross_entropy(logits.flatten(0, 1), b['y'].flatten())
         report = guard.record(guarded_step(opt, model.parameters(), loss, clip_norm=clip))
+        if telemetry is not None:   # A3: read now — post-clip grads are the optimizer's direction and are still live (guards zeroes them at the next step)
+            row = dict(step=step, stage_len=lengths[stage], loss=report['loss'], applied=bool(report['applied']), clipped=bool(report['clipped']))
+            row.update(gt.read_gate_row(model, applied=bool(report['applied'])))
+            gt.append_row(telemetry, row)
         recent.append(float((logits.detach().argmax(-1) == b['y']).float().mean()))
         recent = recent[-window:]
         in_stage += 1
@@ -96,13 +114,15 @@ def train(task, arm, width, seed, steps, batch=64, lr=3e-3, clip=1.0, weight_dec
             history.append(dict(step=step, loss=report['loss'], grad_norm=report['grad_norm_before_clip'], length=lengths[stage],
                                 recent_accuracy=(sum(recent) / len(recent)) if recent else None))
             log(f'{task} {arm} w{width} s{seed}{"" if dseed == seed else f"/d{dseed}"} step {step} len {lengths[stage]} loss {report["loss"]} ({time.perf_counter() - start:.0f}s)')
+    if telemetry is not None:
+        telemetry.close()
     if state_noise > 0:
         from .state_noise import clean
         clean(model)
     return model, dict(steps=steps, batch=batch, lr=lr, clip=clip, guard=guard.summary(), history=history, curriculum=lengths, advances=advances,
                        final_stage_length=lengths[stage], train_seconds=time.perf_counter() - start, parameters=parameter_count(model),
                        state_noise=state_noise, lr_decay_fraction=lr_decay_fraction, lr_floor=lr_floor, lr_last=lr_last, alpha=alpha, cleanup_open=cleanup_open, cleanup_no_decay=cleanup_no_decay,
-                       neutral_p=neutral_p, hold_tmax=hold_tmax, hold_decay_gate=hold_decay_gate, data_seed=dseed)
+                       neutral_p=neutral_p, hold_tmax=hold_tmax, hold_decay_gate=hold_decay_gate, data_seed=dseed, gate_telemetry=gate_telemetry, warmup=warmup, adam_eps=adam_eps)
 
 
 @torch.no_grad()
@@ -290,15 +310,21 @@ def main():
     p.add_argument('--wseed', type=int, default=None, help='init stream seed (M-3b seed split; default None = --seed: previous behaviour bit for bit)')
     p.add_argument('--dseed', type=int, default=None, help='training-data stream seed (M-3b seed split; default None = --seed: previous behaviour bit for bit)')
     p.add_argument('--eval-seed', type=int, default=None, help='evaluation-draw seed (M-3b seed split; default None = --seed: previous behaviour bit for bit)')
+    p.add_argument('--gate-telemetry', default=None, help='A3: JSONL path for the per-step gate-head gradient telemetry (hold/hold_nc arms only; written once)')
     p.add_argument('--out', required=True)
     a = p.parse_args()
+    if a.gate_telemetry:
+        if a.arm not in ('hold', 'hold_nc'):
+            raise SystemExit('--gate-telemetry is defined for the hold / hold_nc arms only (A3)')
+        if Path(a.gate_telemetry).exists():
+            raise SystemExit(f'{a.gate_telemetry} exists: raw telemetry is archived, never overwritten')
     points = [int(v) for v in a.points.split(',')] if a.points else None
     curriculum = [int(v) for v in a.curriculum.split(',')] if a.curriculum else None
     r = run(a.task, a.arm, a.width, a.seed, a.steps, points=points, n_eval=a.n_eval, out=a.out, batch=a.batch, lr=a.lr, log_every=a.log_every,
             curriculum=curriculum, advance_at=a.advance_at, min_stage_steps=a.min_stage_steps, state_noise=a.state_noise,
             lr_decay_fraction=a.lr_decay_fraction, lr_floor=a.lr_floor, alpha=a.alpha, cleanup_open=a.cleanup_open, cleanup_no_decay=a.cleanup_no_decay,
             neutral_p=a.neutral_p, hold_tmax=a.hold_tmax, hold_decay_gate=a.hold_decay_gate,
-            wseed=a.wseed, dseed=a.dseed, eval_seed=a.eval_seed)
+            wseed=a.wseed, dseed=a.dseed, eval_seed=a.eval_seed, gate_telemetry=a.gate_telemetry)
     print(json.dumps({k: r[k] for k in ('task', 'arm', 'width', 'seed', 'wseed', 'dseed', 'eval_seed', 'learned_in_range', 'effective_horizon', 'horizon_metric', 'wall_seconds')}))
     for point, row in r['curve'].items():
         print(point, {k: (round(v, 3) if isinstance(v, float) else v) for k, v in row.items()})
