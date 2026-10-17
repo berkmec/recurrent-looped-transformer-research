@@ -72,13 +72,13 @@ def train(task, arm, width, seed, steps, batch=64, lr=3e-3, clip=1.0, weight_dec
     if cleanup_no_decay:
         special = [p for name, p in model.named_parameters() if name in ('pn.open', 'pn.log_beta', 'pn.keys', 'pn.values')]
         taken = {id(p) for p in special}
-        opt = torch.optim.AdamW([dict(params=[p for p in model.parameters() if id(p) not in taken]), dict(params=special, weight_decay=0.0)], lr=lr, weight_decay=weight_decay)
+        opt = torch.optim.AdamW([dict(params=[p for p in model.parameters() if id(p) not in taken]), dict(params=special, weight_decay=0.0)], lr=lr, weight_decay=weight_decay, eps=adam_eps)
     elif arm in ('hold', 'hold_nc') and not hold_decay_gate:
         special = [p for name, p in model.named_parameters() if name.split('.')[0] == 'head']
         taken = {id(p) for p in special}
-        opt = torch.optim.AdamW([dict(params=[p for p in model.parameters() if id(p) not in taken]), dict(params=special, weight_decay=0.0)], lr=lr, weight_decay=weight_decay)
+        opt = torch.optim.AdamW([dict(params=[p for p in model.parameters() if id(p) not in taken]), dict(params=special, weight_decay=0.0)], lr=lr, weight_decay=weight_decay, eps=adam_eps)
     else:
-        opt = torch.optim.AdamW(model.parameters(), lr=lr, weight_decay=weight_decay)
+        opt = torch.optim.AdamW(model.parameters(), lr=lr, weight_decay=weight_decay, eps=adam_eps)
     guard, history, start = GuardCounter(), [], time.perf_counter()
     stage, in_stage, recent, advances = 0, 0, [], []
     lr_last = lr
@@ -301,6 +301,8 @@ def main():
     p.add_argument('--state-noise', type=float, default=0.0, help='relative Gaussian noise on the carried state during training only (E-D)')
     p.add_argument('--lr-decay-fraction', type=float, default=0.0, help='linear decay of the learning rate to ~0 over the last fraction of the updates (E-P); 0 = constant')
     p.add_argument('--lr-floor', type=float, default=0.0, help='the decay ends at lr * this instead of ~0 (E-P3); 0 = to ~0; ignored without --lr-decay-fraction')
+    p.add_argument('--warmup', type=int, default=0, help='I1-c: linear warmup of the learning rate over the first N updates (rate = lr * step / N); 0 = the previous behaviour, bit for bit')
+    p.add_argument('--adam-eps', type=float, default=1e-8, help='I1-c: AdamW epsilon (1e-8 = the torch default: the previous behaviour, bit for bit)')
     p.add_argument('--alpha', type=float, default=0.1, help="the Core's feedback gain (the sealed default 0.1; ignored by the other arms)")
     p.add_argument('--cleanup-open', type=float, default=0.0, help="the initial value of the cleanup gate's pre-activation (tanh(open) = the initial gate; the `core_clean` arm only, E-A10)")
     p.add_argument('--cleanup-no-decay', action='store_true', help="exempt the cleanup's open / log beta / keys / values from AdamW's weight decay (the `core_clean` arm only; default: decayed, as registered)")
@@ -323,7 +325,7 @@ def main():
     r = run(a.task, a.arm, a.width, a.seed, a.steps, points=points, n_eval=a.n_eval, out=a.out, batch=a.batch, lr=a.lr, log_every=a.log_every,
             curriculum=curriculum, advance_at=a.advance_at, min_stage_steps=a.min_stage_steps, state_noise=a.state_noise,
             lr_decay_fraction=a.lr_decay_fraction, lr_floor=a.lr_floor, alpha=a.alpha, cleanup_open=a.cleanup_open, cleanup_no_decay=a.cleanup_no_decay,
-            neutral_p=a.neutral_p, hold_tmax=a.hold_tmax, hold_decay_gate=a.hold_decay_gate,
+            neutral_p=a.neutral_p, hold_tmax=a.hold_tmax, hold_decay_gate=a.hold_decay_gate, warmup=a.warmup, adam_eps=a.adam_eps,
             wseed=a.wseed, dseed=a.dseed, eval_seed=a.eval_seed, gate_telemetry=a.gate_telemetry)
     print(json.dumps({k: r[k] for k in ('task', 'arm', 'width', 'seed', 'wseed', 'dseed', 'eval_seed', 'learned_in_range', 'effective_horizon', 'horizon_metric', 'wall_seconds')}))
     for point, row in r['curve'].items():
