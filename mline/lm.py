@@ -9,6 +9,9 @@ Arms:
   plain    - the sealed Core, feedback on, no gate (the control)
   hard_st  - GatedCore with exact bitwise preservation (the replicated result)
   soft     - GatedCore with soft mixing (predicted to lose, because language state carries contents like `stack`)
+  a0       - the sealed Core with feedback OFF: the A0 twin of `plain` (upstream RLT-0 in function: the gate, W_s, the
+             norm and the initial state are allocated but unused). Core builds every module whatever `feedback` is, so the
+             same seed gives exactly `plain`'s initial weights; with no feedback Core.forward takes its parallel path.
 
 Nothing here edits a sealed file.
 """
@@ -18,7 +21,7 @@ from torch import nn
 from core.model import Core
 from horizon import gated as gd
 
-ARMS = ('plain', 'hard_st', 'soft')
+ARMS = ('plain', 'hard_st', 'soft', 'a0')
 VOCAB = 256
 
 
@@ -27,9 +30,9 @@ def build(arm, width=1152, heads=8, window=4, alpha=.1, seed=117, gate_k=2):
         raise ValueError('arm must be one of ' + ', '.join(ARMS))
     with torch.random.fork_rng(devices=[]):
         torch.manual_seed(seed)
-        core = Core(width=width, heads=heads, window=window, classes=VOCAB, feedback=True, alpha=alpha)
+        core = Core(width=width, heads=heads, window=window, classes=VOCAB, feedback=arm != 'a0', alpha=alpha)
         core.embedding = nn.Embedding(VOCAB, width)
-        if arm == 'plain':
+        if arm in ('plain', 'a0'):
             return core
         torch.manual_seed(seed + 7)
         return gd.GatedCore(core, mode=arm, k=gate_k)

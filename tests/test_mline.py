@@ -19,7 +19,7 @@ class MLineModelTests(unittest.TestCase):
 
     def test_arms_and_vocabulary(self):
         lm = self.api()
-        self.assertEqual(tuple(lm.ARMS), ('plain', 'hard_st', 'soft'))
+        self.assertEqual(tuple(lm.ARMS), ('plain', 'hard_st', 'soft', 'a0'))     # a0 (feedback off, A0 twin) added 2026-10-22
         self.assertEqual(lm.VOCAB, 256)
         with self.assertRaises(ValueError):
             lm.build('nonsense', width=64, heads=2)

@@ -297,6 +297,42 @@ class BatteryTests(unittest.TestCase):
         self.assertEqual(seen, ['cuda-sentinel'] * 6)
 
 
+class ArmAndStopTests(unittest.TestCase):
+    def test_the_a0_arm_has_feedback_off_and_exactly_the_plain_initial_weights(self):
+        from mline import lm as ml
+        plain, a0 = ml.build('plain', width=32, heads=2, seed=5), ml.build('a0', width=32, heads=2, seed=5)
+        self.assertTrue(plain.feedback)
+        self.assertFalse(a0.feedback)
+        sp, sa = plain.state_dict(), a0.state_dict()
+        self.assertEqual(sorted(sp), sorted(sa))
+        for k in sp:
+            self.assertTrue(torch.equal(sp[k], sa[k]), k)
+
+    def test_the_a0_parallel_forward_equals_the_sequential_no_feedback_loop(self):
+        from mline import lm as ml
+        model = ml.build('a0', width=32, heads=2, seed=5).eval()
+        x = torch.randint(0, 256, (2, 12), generator=torch.Generator().manual_seed(0))
+        with torch.no_grad():
+            parallel = ml.forward_logits(model, x)
+            sequential = model(x, parallel_control=False)
+        self.assertTrue(torch.allclose(parallel, sequential, atol=1e-5), float((parallel - sequential).abs().max()))
+
+    def test_stop_at_ends_early_on_the_full_schedule_and_the_run_can_go_on(self):
+        with tempfile.TemporaryDirectory() as d, tempfile.TemporaryDirectory() as full:
+            tiny(d, steps=10, stop_at=4)
+            rows = [json.loads(line) for line in Path(d, 'probe.jsonl').read_text(encoding='utf8').splitlines() if line.strip()]
+            self.assertEqual([r['step'] for r in rows], [1, 2, 3, 4])
+            self.assertFalse(Path(d, 'complete.json').exists())
+            self.assertEqual(json.loads(Path(d, 'stopped.json').read_text(encoding='utf8'))['stopped_at'], 4)
+            tiny(full, steps=10)
+            ref = [json.loads(line) for line in Path(full, 'probe.jsonl').read_text(encoding='utf8').splitlines() if line.strip()]
+            self.assertEqual([r['lr'] for r in rows], [r['lr'] for r in ref[:4]])       # the schedule follows `steps`, not `stop_at`
+            tiny(d, steps=10)                                                            # going on from the stop
+            again = [json.loads(line) for line in Path(d, 'probe.jsonl').read_text(encoding='utf8').splitlines() if line.strip()]
+            self.assertEqual([r['step'] for r in again], list(range(1, 11)))
+            self.assertTrue(Path(d, 'complete.json').exists())
+
+
 class GuardTests(unittest.TestCase):
     def test_too_many_skipped_updates_in_a_row_stop_the_run_with_a_marker_instead_of_looping(self):
         with tempfile.TemporaryDirectory() as d:

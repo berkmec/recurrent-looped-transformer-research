@@ -156,7 +156,9 @@ def _atomic_save(path, state):
 
 def train(out, *, width, heads, steps, batch, length, lr, seed, needle_rate, phases, lm_batch, natural_keys=None, warmup=500,
           decay_fraction=.1, floor=.1, weight_decay=.01, clip=1., ckpt_every=250, snapshot_every=1000, eval_every=1000,
-          eval_fn=None, device='cuda', arm='plain', window=4, alpha=.1, max_skips=50, verbose=True, telemetry='off'):
+          eval_fn=None, device='cuda', arm='plain', window=4, alpha=.1, max_skips=50, verbose=True, telemetry='off', stop_at=None):
+    """`stop_at` ends the run early ON THE FULL SCHEDULE (the learning rate still follows `steps`), leaving `stopped.json`
+    instead of `complete.json`: a twin can retrace the first `stop_at` updates of a longer run exactly (A0 twin of L1)."""
     check_phases(phases)
     if telemetry not in ('off', 'std1'):
         raise SystemExit("telemetry 'off' veya 'std1' olmali (I1a:63/65; sessiz eksik-log yasak)")
@@ -192,7 +194,8 @@ def train(out, *, width, heads, steps, batch, length, lr, seed, needle_rate, pha
     n_synthetic = round(batch * needle_rate)
     n_lm = batch - n_synthetic
     t0 = time.perf_counter()
-    for step in range(start, steps + 1):
+    last = steps if stop_at is None else min(steps, int(stop_at))
+    for step in range(start, last + 1):
         phase, specs = phase_at(phases, step)
         lm_x, lm_y = lm_batch(step, n_lm) if n_lm else (torch.zeros(0, length, dtype=torch.long),) * 2
         sx, sy, first, four = synthetic_batch(specs, n_synthetic, seed, step, length, natural_keys)
@@ -256,13 +259,23 @@ def train(out, *, width, heads, steps, batch, length, lr, seed, needle_rate, pha
                 print('step %6d  %s' % (step, json.dumps(row['eval'], default=float)[:400]), flush=True)
         if snapshot_every and step % snapshot_every == 0:
             _atomic_save(out / 'snapshots' / ('step%06d.pt' % step), {k: v.detach().cpu() for k, v in model.state_dict().items()})
-        if step % ckpt_every == 0 or step == steps:
+        if step % ckpt_every == 0 or step == last:
             ck.save(out / ck.LATEST, model, opt, step=step, meta=dict(seed=seed, width=width, tokens=step * batch * length))
         sw.append_line(out / 'probe.jsonl', row)
         if verbose and step % 100 == 0:
             print('step %6d  loss %.3f  answer_loss %s  first-digit %s  lr %.2e  %.1f min'
                   % (step, row['loss'] or float('nan'), row['answer_loss'], row['first_digit_accuracy'], current_lr,
                      (time.perf_counter() - t0) / 60), flush=True)
+    if last < steps:
+        if telemetry == 'std1':
+            train_seconds = time.perf_counter() - t0
+            sw.append_line(out / 'telemetry_std1.jsonl', ts.run_telemetry_block(
+                status='STOPPED', guard_summary=counter.summary(),
+                cost={'train_seconds': train_seconds, 'sec_per_step': train_seconds / max(1, last - start + 1)},
+                reason='stop_at %d of %d planned updates' % (last, steps)))
+        (out / 'stopped.json').write_text(json.dumps(dict(stopped_at=last, steps_planned=steps, tokens=last * batch * length,
+                                                          wall_seconds=time.perf_counter() - t0, utc=time.time()), indent=1), encoding='utf8')
+        return out
     if telemetry_on:
         train_seconds = time.perf_counter() - t0
         block = ts.run_telemetry_block(status='COMPLETE', guard_summary=counter.summary(),
@@ -325,6 +338,9 @@ def main():
     parser.add_argument('--eval-every', type=int, default=1000)
     parser.add_argument('--eval-items', type=int, default=32, help='rows per cell of the battery')
     parser.add_argument('--device', default='cuda')
+    parser.add_argument('--arm', default='plain', choices=ml.ARMS, help="'a0' = the same Core with feedback off (the A0 twin)")
+    parser.add_argument('--stop-at', type=int, default=None, help='stop after this update, keeping the full schedule (see train)')
+    parser.add_argument('--telemetry', default='off', choices=('off', 'std1'))
     args = parser.parse_args()
     from mline import data as md
     from mline import mqar_eval as me
@@ -345,7 +361,8 @@ def main():
     train(args.out, width=args.width, heads=args.heads, steps=steps, batch=args.batch, length=args.length, lr=args.lr, seed=args.seed,
           needle_rate=args.needle_rate, phases=phases, lm_batch=lm_batch, natural_keys=natural_train, warmup=args.warmup,
           decay_fraction=args.decay_fraction, ckpt_every=args.ckpt_every, snapshot_every=args.snapshot_every,
-          eval_every=args.eval_every, eval_fn=eval_fn, device=args.device)
+          eval_every=args.eval_every, eval_fn=eval_fn, device=args.device, arm=args.arm, stop_at=args.stop_at,
+          telemetry=args.telemetry)
 
 
 if __name__ == '__main__':
