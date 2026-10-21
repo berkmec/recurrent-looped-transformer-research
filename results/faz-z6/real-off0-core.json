@@ -1,0 +1,52 @@
+[
+ {
+  "weights": "results/Z1-pilot/perm5-core-w128-s1-cur.pt",
+  "arm": "core",
+  "task": "perm5",
+  "width": 128,
+  "seed": 1,
+  "n": 6,
+  "lengths": [
+   256
+  ],
+  "curve": {
+   "256": {
+    "length": 256,
+    "n": 6,
+    "final": 0.8333333134651184,
+    "prefix": 0.9641926884651184,
+    "error_free": 5,
+    "hazard": [
+     {
+      "start": 0,
+      "stop": 16,
+      "at_risk": 6,
+      "first_errors": 0,
+      "rate": 0.0,
+      "person_steps": 96
+     },
+     {
+      "start": 16,
+      "stop": 64,
+      "at_risk": 6,
+      "first_errors": 0,
+      "rate": 0.0,
+      "person_steps": 288
+     },
+     {
+      "start": 64,
+      "stop": 256,
+      "at_risk": 6,
+      "first_errors": 1,
+      "rate": 0.0008680555555555555,
+      "person_steps": 1097
+     }
+    ],
+    "seconds": 1.0505964999902062
+   }
+  },
+  "train": {
+   "parameters": 409720
+  }
+ }
+]

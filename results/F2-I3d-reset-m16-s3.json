@@ -1,0 +1,552 @@
+[
+ {
+  "weights": "__RLT_ROOT__\\2026-09-18-phase2\\results\\Z1-pilot\\perm5-core-w128-s3-cur.pt",
+  "arm": "core",
+  "task": "perm5",
+  "width": 128,
+  "seed": 3,
+  "reset_every": 16,
+  "window": 64,
+  "n": [
+   20,
+   8,
+   8,
+   8,
+   4,
+   2
+  ],
+  "lengths": [
+   4096,
+   8192,
+   16384,
+   32768,
+   65536,
+   131072
+  ],
+  "curve": {
+   "4096": {
+    "length": 4096,
+    "n": 20,
+    "batch": 20,
+    "final": 0.0,
+    "prefix": 0.01132812537252903,
+    "error_free": 0,
+    "hazard": [
+     {
+      "start": 0,
+      "stop": 16,
+      "at_risk": 20,
+      "first_errors": 0,
+      "rate": 0.0,
+      "person_steps": 320
+     },
+     {
+      "start": 16,
+      "stop": 64,
+      "at_risk": 20,
+      "first_errors": 20,
+      "rate": 0.020833333333333332,
+      "person_steps": 20
+     },
+     {
+      "start": 64,
+      "stop": 256,
+      "at_risk": 0,
+      "first_errors": 0,
+      "rate": null,
+      "person_steps": 0
+     },
+     {
+      "start": 256,
+      "stop": 1024,
+      "at_risk": 0,
+      "first_errors": 0,
+      "rate": null,
+      "person_steps": 0
+     },
+     {
+      "start": 1024,
+      "stop": 2048,
+      "at_risk": 0,
+      "first_errors": 0,
+      "rate": null,
+      "person_steps": 0
+     },
+     {
+      "start": 2048,
+      "stop": 4096,
+      "at_risk": 0,
+      "first_errors": 0,
+      "rate": null,
+      "person_steps": 0
+     }
+    ],
+    "seconds": 13.1021,
+    "label": "FLOOR",
+    "events": 20,
+    "person_steps": 20,
+    "at_risk": 20
+   },
+   "8192": {
+    "length": 8192,
+    "n": 8,
+    "batch": 20,
+    "final": 0.0,
+    "prefix": 0.010009765625,
+    "error_free": 0,
+    "hazard": [
+     {
+      "start": 0,
+      "stop": 16,
+      "at_risk": 8,
+      "first_errors": 0,
+      "rate": 0.0,
+      "person_steps": 128
+     },
+     {
+      "start": 16,
+      "stop": 64,
+      "at_risk": 8,
+      "first_errors": 8,
+      "rate": 0.020833333333333332,
+      "person_steps": 8
+     },
+     {
+      "start": 64,
+      "stop": 256,
+      "at_risk": 0,
+      "first_errors": 0,
+      "rate": null,
+      "person_steps": 0
+     },
+     {
+      "start": 256,
+      "stop": 1024,
+      "at_risk": 0,
+      "first_errors": 0,
+      "rate": null,
+      "person_steps": 0
+     },
+     {
+      "start": 1024,
+      "stop": 2048,
+      "at_risk": 0,
+      "first_errors": 0,
+      "rate": null,
+      "person_steps": 0
+     },
+     {
+      "start": 2048,
+      "stop": 4096,
+      "at_risk": 0,
+      "first_errors": 0,
+      "rate": null,
+      "person_steps": 0
+     },
+     {
+      "start": 4096,
+      "stop": 8192,
+      "at_risk": 0,
+      "first_errors": 0,
+      "rate": null,
+      "person_steps": 0
+     }
+    ],
+    "seconds": 20.2009,
+    "label": "FLOOR",
+    "events": 8,
+    "person_steps": 8,
+    "at_risk": 8
+   },
+   "16384": {
+    "length": 16384,
+    "n": 8,
+    "batch": 18,
+    "final": 0.0,
+    "prefix": 0.010009765625,
+    "error_free": 0,
+    "hazard": [
+     {
+      "start": 0,
+      "stop": 16,
+      "at_risk": 8,
+      "first_errors": 0,
+      "rate": 0.0,
+      "person_steps": 128
+     },
+     {
+      "start": 16,
+      "stop": 64,
+      "at_risk": 8,
+      "first_errors": 8,
+      "rate": 0.020833333333333332,
+      "person_steps": 8
+     },
+     {
+      "start": 64,
+      "stop": 256,
+      "at_risk": 0,
+      "first_errors": 0,
+      "rate": null,
+      "person_steps": 0
+     },
+     {
+      "start": 256,
+      "stop": 1024,
+      "at_risk": 0,
+      "first_errors": 0,
+      "rate": null,
+      "person_steps": 0
+     },
+     {
+      "start": 1024,
+      "stop": 2048,
+      "at_risk": 0,
+      "first_errors": 0,
+      "rate": null,
+      "person_steps": 0
+     },
+     {
+      "start": 2048,
+      "stop": 4096,
+      "at_risk": 0,
+      "first_errors": 0,
+      "rate": null,
+      "person_steps": 0
+     },
+     {
+      "start": 4096,
+      "stop": 8192,
+      "at_risk": 0,
+      "first_errors": 0,
+      "rate": null,
+      "person_steps": 0
+     },
+     {
+      "start": 8192,
+      "stop": 16384,
+      "at_risk": 0,
+      "first_errors": 0,
+      "rate": null,
+      "person_steps": 0
+     }
+    ],
+    "seconds": 38.6579,
+    "label": "FLOOR",
+    "events": 8,
+    "person_steps": 8,
+    "at_risk": 8
+   },
+   "32768": {
+    "length": 32768,
+    "n": 8,
+    "batch": 9,
+    "final": 0.0,
+    "prefix": 0.00982666015625,
+    "error_free": 0,
+    "hazard": [
+     {
+      "start": 0,
+      "stop": 16,
+      "at_risk": 8,
+      "first_errors": 0,
+      "rate": 0.0,
+      "person_steps": 128
+     },
+     {
+      "start": 16,
+      "stop": 64,
+      "at_risk": 8,
+      "first_errors": 8,
+      "rate": 0.020833333333333332,
+      "person_steps": 8
+     },
+     {
+      "start": 64,
+      "stop": 256,
+      "at_risk": 0,
+      "first_errors": 0,
+      "rate": null,
+      "person_steps": 0
+     },
+     {
+      "start": 256,
+      "stop": 1024,
+      "at_risk": 0,
+      "first_errors": 0,
+      "rate": null,
+      "person_steps": 0
+     },
+     {
+      "start": 1024,
+      "stop": 2048,
+      "at_risk": 0,
+      "first_errors": 0,
+      "rate": null,
+      "person_steps": 0
+     },
+     {
+      "start": 2048,
+      "stop": 4096,
+      "at_risk": 0,
+      "first_errors": 0,
+      "rate": null,
+      "person_steps": 0
+     },
+     {
+      "start": 4096,
+      "stop": 8192,
+      "at_risk": 0,
+      "first_errors": 0,
+      "rate": null,
+      "person_steps": 0
+     },
+     {
+      "start": 8192,
+      "stop": 16384,
+      "at_risk": 0,
+      "first_errors": 0,
+      "rate": null,
+      "person_steps": 0
+     },
+     {
+      "start": 16384,
+      "stop": 32768,
+      "at_risk": 0,
+      "first_errors": 0,
+      "rate": null,
+      "person_steps": 0
+     }
+    ],
+    "seconds": 78.1026,
+    "label": "FLOOR",
+    "events": 8,
+    "person_steps": 8,
+    "at_risk": 8
+   },
+   "65536": {
+    "length": 65536,
+    "n": 4,
+    "batch": 4,
+    "final": 0.0,
+    "prefix": 0.00933837890625,
+    "error_free": 0,
+    "hazard": [
+     {
+      "start": 0,
+      "stop": 16,
+      "at_risk": 4,
+      "first_errors": 0,
+      "rate": 0.0,
+      "person_steps": 64
+     },
+     {
+      "start": 16,
+      "stop": 64,
+      "at_risk": 4,
+      "first_errors": 4,
+      "rate": 0.020833333333333332,
+      "person_steps": 4
+     },
+     {
+      "start": 64,
+      "stop": 256,
+      "at_risk": 0,
+      "first_errors": 0,
+      "rate": null,
+      "person_steps": 0
+     },
+     {
+      "start": 256,
+      "stop": 1024,
+      "at_risk": 0,
+      "first_errors": 0,
+      "rate": null,
+      "person_steps": 0
+     },
+     {
+      "start": 1024,
+      "stop": 2048,
+      "at_risk": 0,
+      "first_errors": 0,
+      "rate": null,
+      "person_steps": 0
+     },
+     {
+      "start": 2048,
+      "stop": 4096,
+      "at_risk": 0,
+      "first_errors": 0,
+      "rate": null,
+      "person_steps": 0
+     },
+     {
+      "start": 4096,
+      "stop": 8192,
+      "at_risk": 0,
+      "first_errors": 0,
+      "rate": null,
+      "person_steps": 0
+     },
+     {
+      "start": 8192,
+      "stop": 16384,
+      "at_risk": 0,
+      "first_errors": 0,
+      "rate": null,
+      "person_steps": 0
+     },
+     {
+      "start": 16384,
+      "stop": 32768,
+      "at_risk": 0,
+      "first_errors": 0,
+      "rate": null,
+      "person_steps": 0
+     },
+     {
+      "start": 32768,
+      "stop": 65536,
+      "at_risk": 0,
+      "first_errors": 0,
+      "rate": null,
+      "person_steps": 0
+     }
+    ],
+    "seconds": 136.617,
+    "label": "SPARSE",
+    "events": 4,
+    "person_steps": 4,
+    "at_risk": 4
+   },
+   "131072": {
+    "length": 131072,
+    "n": 2,
+    "batch": 2,
+    "final": 0.0,
+    "prefix": 0.00897216796875,
+    "error_free": 0,
+    "hazard": [
+     {
+      "start": 0,
+      "stop": 16,
+      "at_risk": 2,
+      "first_errors": 0,
+      "rate": 0.0,
+      "person_steps": 32
+     },
+     {
+      "start": 16,
+      "stop": 64,
+      "at_risk": 2,
+      "first_errors": 2,
+      "rate": 0.020833333333333332,
+      "person_steps": 2
+     },
+     {
+      "start": 64,
+      "stop": 256,
+      "at_risk": 0,
+      "first_errors": 0,
+      "rate": null,
+      "person_steps": 0
+     },
+     {
+      "start": 256,
+      "stop": 1024,
+      "at_risk": 0,
+      "first_errors": 0,
+      "rate": null,
+      "person_steps": 0
+     },
+     {
+      "start": 1024,
+      "stop": 2048,
+      "at_risk": 0,
+      "first_errors": 0,
+      "rate": null,
+      "person_steps": 0
+     },
+     {
+      "start": 2048,
+      "stop": 4096,
+      "at_risk": 0,
+      "first_errors": 0,
+      "rate": null,
+      "person_steps": 0
+     },
+     {
+      "start": 4096,
+      "stop": 8192,
+      "at_risk": 0,
+      "first_errors": 0,
+      "rate": null,
+      "person_steps": 0
+     },
+     {
+      "start": 8192,
+      "stop": 16384,
+      "at_risk": 0,
+      "first_errors": 0,
+      "rate": null,
+      "person_steps": 0
+     },
+     {
+      "start": 16384,
+      "stop": 32768,
+      "at_risk": 0,
+      "first_errors": 0,
+      "rate": null,
+      "person_steps": 0
+     },
+     {
+      "start": 32768,
+      "stop": 65536,
+      "at_risk": 0,
+      "first_errors": 0,
+      "rate": null,
+      "person_steps": 0
+     },
+     {
+      "start": 65536,
+      "stop": 131072,
+      "at_risk": 0,
+      "first_errors": 0,
+      "rate": null,
+      "person_steps": 0
+     }
+    ],
+    "seconds": 247.749,
+    "label": "SPARSE",
+    "events": 2,
+    "person_steps": 2,
+    "at_risk": 2
+   }
+  },
+  "train": {
+   "parameters": 409720
+  },
+  "equivalence": {
+   "length": 4096,
+   "n": 8,
+   "window": 64,
+   "reset_every": 16,
+   "positions": 1.0,
+   "sequences": 1.0,
+   "first_errors_full": 8,
+   "first_errors_windowed": 8
+  },
+  "batch_positions": 300000,
+  "seconds": 562.674,
+  "note": "GAP-2-analog: pencere satirlari yalniz equivalence satiriyla birlikte okunur; bu dosya huk\u00fcm kurmaz.",
+  "reading": {
+   "verdict": "SHORT",
+   "events": 0,
+   "exposure": 0,
+   "hazard": null,
+   "person_hazard": null,
+   "windows": {},
+   "exactness_horizon": null
+  }
+ }
+]

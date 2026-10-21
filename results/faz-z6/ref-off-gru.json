@@ -1,0 +1,52 @@
+[
+ {
+  "weights": "results/Z1-pilot/perm5-gru-w256-s1-cur.pt",
+  "arm": "gru",
+  "task": "perm5",
+  "width": 256,
+  "seed": 1,
+  "n": 6,
+  "lengths": [
+   256
+  ],
+  "curve": {
+   "256": {
+    "length": 256,
+    "n": 6,
+    "final": 0.6666666865348816,
+    "prefix": 0.802734375,
+    "error_free": 3,
+    "hazard": [
+     {
+      "start": 0,
+      "stop": 16,
+      "at_risk": 6,
+      "first_errors": 1,
+      "rate": 0.010416666666666666,
+      "person_steps": 85
+     },
+     {
+      "start": 16,
+      "stop": 64,
+      "at_risk": 5,
+      "first_errors": 0,
+      "rate": 0.0,
+      "person_steps": 240
+     },
+     {
+      "start": 64,
+      "stop": 256,
+      "at_risk": 5,
+      "first_errors": 2,
+      "rate": 0.0020833333333333333,
+      "person_steps": 797
+     }
+    ],
+    "seconds": 0.11750580000807531
+   }
+  },
+  "train": {
+   "parameters": 456312
+  }
+ }
+]

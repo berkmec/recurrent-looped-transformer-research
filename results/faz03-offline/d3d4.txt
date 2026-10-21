@@ -1,0 +1,77 @@
+S4 Core w64: core perm4 w64, n=64, steps=256
+  clear_from_d0: benefit_acc +0.9584  benefit_ce +14.101  |dlogit| 64.4/96.5  flip 15702/16384 (0.958)  acc_full 1.000
+  clear_from_d16: benefit_acc +0.9577  benefit_ce +14.092  |dlogit| 64.4/96.5  flip 14710/15360 (0.958)  acc_full 1.000
+  clear_from_d32: benefit_acc +0.9586  benefit_ce +14.094  |dlogit| 64.4/96.5  flip 13743/14336 (0.959)  acc_full 1.000
+  clear_from_d64: benefit_acc +0.9591  benefit_ce +14.092  |dlogit| 64.4/96.5  flip 11785/12288 (0.959)  acc_full 1.000
+  clear_from_d128: benefit_acc +0.9596  benefit_ce +14.110  |dlogit| 64.5/96.5  flip 7861/8192 (0.960)  acc_full 1.000
+  clear_from_d192: benefit_acc +0.9609  benefit_ce +14.245  |dlogit| 64.7/96.5  flip 3936/4096 (0.961)  acc_full 1.000
+  clear_from_d224: benefit_acc +0.9614  benefit_ce +14.246  |dlogit| 64.7/96.5  flip 1969/2048 (0.961)  acc_full 1.000
+  reset_every_d128: benefit_acc +0.9531  benefit_ce +27.811  |dlogit| 74.5/109  flip 7808/8192 (0.953)  acc_full 1.000
+  D4 continuous: |dlogit| max 96.5 mean 64.4  flips 15702/16384
+  D4 once t0_64: mean|dlogit| 74.8 max 109 flips 11711/12288 | ages age1-4: 73/0.94  age4-16: 75/0.96  age16-64: 75/0.95  age64-192: 75/0.95
+  D4 once t0_192: mean|dlogit| 78.8 max 109 flips 3967/4096 | ages age1-4: 78/0.96  age4-16: 79/0.97  age16-64: 79/0.97
+
+S4 GRU w64: gru perm4 w64, n=64, steps=256
+  clear_from_d0: benefit_acc +0.8699  benefit_ce +15.924  |dlogit| 47.1/72.8  flip 15640/16384 (0.955)  acc_full 0.915
+  clear_from_d16: benefit_acc +0.8680  benefit_ce +15.946  |dlogit| 47.3/72.8  flip 14720/15360 (0.958)  acc_full 0.910
+  clear_from_d32: benefit_acc +0.8621  benefit_ce +15.888  |dlogit| 47.3/72.8  flip 13737/14336 (0.958)  acc_full 0.904
+  clear_from_d64: benefit_acc +0.8507  benefit_ce +15.749  |dlogit| 47.2/72.8  flip 11782/12288 (0.959)  acc_full 0.892
+  clear_from_d128: benefit_acc +0.8287  benefit_ce +15.581  |dlogit| 47.2/72.7  flip 7854/8192 (0.959)  acc_full 0.869
+  clear_from_d192: benefit_acc +0.8179  benefit_ce +15.514  |dlogit| 47.2/69.8  flip 3925/4096 (0.958)  acc_full 0.857
+  clear_from_d224: benefit_acc +0.8198  benefit_ce +15.498  |dlogit| 47.2/69.8  flip 1962/2048 (0.958)  acc_full 0.859
+  reset_every_d128: benefit_acc +0.8220  benefit_ce +17.597  |dlogit| 49.6/83.9  flip 7703/8192 (0.940)  acc_full 0.869
+  D4 continuous: |dlogit| max 72.8 mean 47.1  flips 15640/16384
+  D4 once t0_64: mean|dlogit| 51.2 max 84 flips 11904/12288 | ages age1-4: 51/0.97  age4-16: 52/0.97  age16-64: 52/0.97  age64-192: 51/0.97
+  D4 once t0_192: mean|dlogit| 50.3 max 80.4 flips 3965/4096 | ages age1-4: 49/0.97  age4-16: 50/0.97  age16-64: 50/0.97
+
+S4 LSTM w64: lstm perm4 w64, n=64, steps=256
+  clear_from_d0: benefit_acc +0.9100  benefit_ce +15.230  |dlogit| 38.3/61.4  flip 15622/16384 (0.953)  acc_full 0.956
+  clear_from_d16: benefit_acc +0.9108  benefit_ce +15.255  |dlogit| 38.5/61.4  flip 14702/15360 (0.957)  acc_full 0.953
+  clear_from_d32: benefit_acc +0.9073  benefit_ce +15.230  |dlogit| 38.5/61.4  flip 13719/14336 (0.957)  acc_full 0.949
+  clear_from_d64: benefit_acc +0.8997  benefit_ce +15.159  |dlogit| 38.5/61.4  flip 11763/12288 (0.957)  acc_full 0.941
+  clear_from_d128: benefit_acc +0.8896  benefit_ce +15.075  |dlogit| 38.5/61.4  flip 7849/8192 (0.958)  acc_full 0.930
+  clear_from_d192: benefit_acc +0.8828  benefit_ce +15.115  |dlogit| 38.6/59.1  flip 3927/4096 (0.959)  acc_full 0.922
+  clear_from_d224: benefit_acc +0.8784  benefit_ce +15.062  |dlogit| 38.6/58.7  flip 1964/2048 (0.959)  acc_full 0.917
+  reset_every_d128: benefit_acc +0.8829  benefit_ce +13.735  |dlogit| 38.2/66.7  flip 7804/8192 (0.953)  acc_full 0.930
+  D4 continuous: |dlogit| max 61.4 mean 38.3  flips 15622/16384
+  D4 once t0_64: mean|dlogit| 40.4 max 68.7 flips 11776/12288 | ages age1-4: 42/0.97  age4-16: 41/0.97  age16-64: 41/0.97  age64-192: 40/0.95
+  D4 once t0_192: mean|dlogit| 40.2 max 66.5 flips 3904/4096 | ages age1-4: 40/0.95  age4-16: 40/0.95  age16-64: 40/0.95
+
+S5 Core w128: core perm5 w128, n=64, steps=256
+  clear_from_d0: benefit_acc +0.9670  benefit_ce +10.931  |dlogit| 184/246  flip 16241/16384 (0.991)  acc_full 0.976
+  clear_from_d16: benefit_acc +0.9651  benefit_ce +10.924  |dlogit| 184/246  flip 15221/15360 (0.991)  acc_full 0.974
+  clear_from_d32: benefit_acc +0.9635  benefit_ce +10.930  |dlogit| 184/246  flip 14210/14336 (0.991)  acc_full 0.973
+  clear_from_d64: benefit_acc +0.9594  benefit_ce +10.940  |dlogit| 185/246  flip 12186/12288 (0.992)  acc_full 0.968
+  clear_from_d128: benefit_acc +0.9436  benefit_ce +10.859  |dlogit| 184/246  flip 8127/8192 (0.992)  acc_full 0.952
+  clear_from_d192: benefit_acc +0.9033  benefit_ce +10.701  |dlogit| 184/243  flip 4064/4096 (0.992)  acc_full 0.912
+  clear_from_d224: benefit_acc +0.8882  benefit_ce +10.635  |dlogit| 184/240  flip 2034/2048 (0.993)  acc_full 0.896
+  reset_every_d128: benefit_acc +0.9521  benefit_ce +38.274  |dlogit| 235/335  flip 8192/8192 (1.000)  acc_full 0.952
+  D4 continuous: |dlogit| max 246 mean 184  flips 16241/16384
+  D4 once t0_64: mean|dlogit| 252 max 362 flips 12288/12288 | ages age1-4: 2.4e+02/1.00  age4-16: 2.5e+02/1.00  age16-64: 2.5e+02/1.00  age64-192: 2.5e+02/1.00
+  D4 once t0_192: mean|dlogit| 244 max 352 flips 4094/4096 | ages age1-4: 2.4e+02/0.99  age4-16: 2.4e+02/1.00  age16-64: 2.5e+02/1.00
+
+S5 GRU w256: gru perm5 w256, n=64, steps=256
+  clear_from_d0: benefit_acc +0.7928  benefit_ce +20.538  |dlogit| 108/169  flip 16217/16384 (0.990)  acc_full 0.804
+  clear_from_d16: benefit_acc +0.7848  benefit_ce +20.537  |dlogit| 109/169  flip 15270/15360 (0.994)  acc_full 0.791
+  clear_from_d32: benefit_acc +0.7710  benefit_ce +20.401  |dlogit| 109/169  flip 14253/14336 (0.994)  acc_full 0.778
+  clear_from_d64: benefit_acc +0.7409  benefit_ce +20.158  |dlogit| 109/164  flip 12214/12288 (0.994)  acc_full 0.748
+  clear_from_d128: benefit_acc +0.6818  benefit_ce +19.641  |dlogit| 109/163  flip 8145/8192 (0.994)  acc_full 0.689
+  clear_from_d192: benefit_acc +0.6272  benefit_ce +18.986  |dlogit| 109/163  flip 4078/4096 (0.996)  acc_full 0.633
+  clear_from_d224: benefit_acc +0.5879  benefit_ce +18.567  |dlogit| 109/163  flip 2040/2048 (0.996)  acc_full 0.594
+  reset_every_d128: benefit_acc +0.6785  benefit_ce +21.865  |dlogit| 117/183  flip 8083/8192 (0.987)  acc_full 0.689
+  D4 continuous: |dlogit| max 169 mean 108  flips 16217/16384
+  D4 once t0_64: mean|dlogit| 111 max 174 flips 12096/12288 | ages age1-4: 1.1e+02/0.98  age4-16: 1.1e+02/0.98  age16-64: 1.1e+02/0.98  age64-192: 1.1e+02/0.98
+  D4 once t0_192: mean|dlogit| 119 max 169 flips 4032/4096 | ages age1-4: 1.2e+02/0.98  age4-16: 1.2e+02/0.98  age16-64: 1.2e+02/0.98
+
+S5 LSTM w208: lstm perm5 w208, n=64, steps=256
+  clear_from_d0: benefit_acc +0.9135  benefit_ce +21.704  |dlogit| 81.5/120  flip 16205/16384 (0.989)  acc_full 0.924
+  clear_from_d16: benefit_acc +0.9132  benefit_ce +21.772  |dlogit| 81.8/120  flip 15258/15360 (0.993)  acc_full 0.920
+  clear_from_d32: benefit_acc +0.9081  benefit_ce +21.727  |dlogit| 81.8/120  flip 14241/14336 (0.993)  acc_full 0.915
+  clear_from_d64: benefit_acc +0.8945  benefit_ce +21.631  |dlogit| 81.8/120  flip 12201/12288 (0.993)  acc_full 0.902
+  clear_from_d128: benefit_acc +0.8710  benefit_ce +21.506  |dlogit| 81.8/120  flip 8132/8192 (0.993)  acc_full 0.878
+  clear_from_d192: benefit_acc +0.8538  benefit_ce +21.317  |dlogit| 81.6/119  flip 4070/4096 (0.994)  acc_full 0.860
+  clear_from_d224: benefit_acc +0.8364  benefit_ce +21.355  |dlogit| 81.9/119  flip 2033/2048 (0.993)  acc_full 0.843
+  reset_every_d128: benefit_acc +0.8781  benefit_ce +19.081  |dlogit| 82/124  flip 8190/8192 (1.000)  acc_full 0.878
+  D4 continuous: |dlogit| max 120 mean 81.5  flips 16205/16384
+  D4 once t0_64: mean|dlogit| 78.5 max 126 flips 12253/12288 | ages age1-4: 80/0.99  age4-16: 79/1.00  age16-64: 79/0.99  age64-192: 78/1.00
+  D4 once t0_192: mean|dlogit| 82.2 max 124 flips 4093/4096 | ages age1-4: 83/1.00  age4-16: 82/1.00  age16-64: 82/1.00

@@ -1,0 +1,25 @@
+S4 Core w64: core perm4 w64 (98328 params), n=512, steps=256, probe fit 1.000 on 384 rows, 3.5 s
+  windows: [0-16) D 20.2 rel 1.39 pA 1.00 oA 1.00 hazard 0.000  [16-64) D 20.2 rel 1.39 pA 1.00 oA 1.00 hazard 0.000  [64-128) D 20.2 rel 1.39 pA 1.00 oA 1.00 hazard 0.000  [128-192) D 20.2 rel 1.39 pA 1.00 oA 1.00 hazard 0.000  [192-256) D 20.2 rel 1.39 pA 1.00 oA 1.00 hazard 0.000
+  first-error hazard: [0,16) 0.00e+00  [16,32) 0.00e+00  [32,64) 0.00e+00  [64,128) 0.00e+00  [128,256) 0.00e+00
+  neutral p_id=0.5: final 1.00; [0-16) id 0.53 D_id 3.93 D_rand 20.2  [16-64) id 0.54 D_id 3.8 D_rand 20.1  [64-128) id 0.53 D_id 3.9 D_rand 20.3  [128-256) id 0.53 D_id 3.86 D_rand 20.2  [256-511) id 0.51 D_id 4 D_rand 20.3
+
+S4 GRU w64: gru perm4 w64 (28056 params), n=512, steps=256, probe fit 0.914 on 384 rows, 0.5 s
+  windows: [0-16) D 6.14 rel 0.998 pA 0.98 oA 1.00 hazard 0.001  [16-64) D 6.17 rel 0.974 pA 0.95 oA 0.98 hazard 0.017  [64-128) D 6.18 rel 0.971 pA 0.92 oA 0.96 hazard 0.044  [128-192) D 6.2 rel 0.973 pA 0.90 oA 0.92 hazard 0.075  [192-256) D 6.18 rel 0.968 pA 0.87 oA 0.89 hazard 0.110
+  first-error hazard: [0,16) 4.88e-04  [16,32) 1.23e-03  [32,64) 4.39e-04  [64,128) 9.23e-04  [128,256) 9.13e-04
+
+S4 LSTM w64: lstm perm4 w64 (36376 params), n=512, steps=256, probe fit 0.965 on 384 rows, 0.9 s
+  windows: [0-16) D 8.18 rel 1.13 pA 1.00 oA 1.00 hazard 0.002  [16-64) D 8.19 rel 1.13 pA 0.98 oA 0.99 hazard 0.013  [64-128) D 8.19 rel 1.12 pA 0.96 oA 0.97 hazard 0.027  [128-192) D 8.2 rel 1.13 pA 0.93 oA 0.95 hazard 0.048  [192-256) D 8.18 rel 1.12 pA 0.90 oA 0.93 hazard 0.074
+  first-error hazard: [0,16) 4.88e-04  [16,32) 3.69e-04  [32,64) 6.81e-04  [64,128) 4.74e-04  [128,256) 4.57e-04
+
+S5 Core w128: core perm5 w128 (409720 params), n=512, steps=256, probe fit 0.897 on 384 rows, 7.1 s
+  windows: [0-16) D 52.4 rel 1.41 pA 0.98 oA 1.00 hazard 0.000  [16-64) D 52.5 rel 1.39 pA 0.97 oA 1.00 hazard 0.000  [64-128) D 52.8 rel 1.39 pA 0.91 oA 0.99 hazard 0.006  [128-192) D 52.7 rel 1.39 pA 0.84 oA 0.97 hazard 0.032  [192-256) D 52.7 rel 1.39 pA 0.71 oA 0.89 hazard 0.108
+  first-error hazard: [0,16) 0.00e+00  [16,32) 0.00e+00  [32,64) 0.00e+00  [64,128) 4.27e-04  [128,256) 2.01e-03
+  neutral p_id=0.5: final 0.15; [0-16) id 0.51 D_id 10.3 D_rand 52.2  [16-64) id 0.51 D_id 9.95 D_rand 52.1  [64-128) id 0.51 D_id 10.1 D_rand 52.3  [128-256) id 0.50 D_id 10.1 D_rand 52.3  [256-511) id 0.50 D_id 10.1 D_rand 52.3
+
+S5 GRU w256: gru perm5 w256 (456312 params), n=512, steps=256, probe fit 0.797 on 384 rows, 3.3 s
+  windows: [0-16) D 10.5 rel 0.881 pA 0.93 oA 1.00 hazard 0.005  [16-64) D 10.5 rel 0.857 pA 0.92 oA 0.94 hazard 0.057  [64-128) D 10.5 rel 0.852 pA 0.83 oA 0.85 hazard 0.151  [128-192) D 10.6 rel 0.85 pA 0.72 oA 0.74 hazard 0.256  [192-256) D 10.5 rel 0.847 pA 0.64 oA 0.67 hazard 0.333
+  first-error hazard: [0,16) 8.54e-04  [16,32) 1.73e-03  [32,64) 2.99e-03  [64,128) 2.71e-03  [128,256) 2.58e-03
+
+S5 LSTM w208: lstm perm5 w208 (397816 params), n=512, steps=256, probe fit 0.903 on 384 rows, 4.2 s
+  windows: [0-16) D 11 rel 0.992 pA 0.99 oA 1.00 hazard 0.001  [16-64) D 10.9 rel 0.981 pA 0.94 oA 0.97 hazard 0.027  [64-128) D 10.9 rel 0.981 pA 0.88 oA 0.92 hazard 0.081  [128-192) D 10.9 rel 0.982 pA 0.85 oA 0.87 hazard 0.129  [192-256) D 10.9 rel 0.981 pA 0.82 oA 0.83 hazard 0.168
+  first-error hazard: [0,16) 2.44e-04  [16,32) 1.47e-03  [32,64) 1.00e-03  [64,128) 1.13e-03  [128,256) 8.91e-04

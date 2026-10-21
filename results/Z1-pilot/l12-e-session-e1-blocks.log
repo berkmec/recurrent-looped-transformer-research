@@ -1,0 +1,33 @@
+L12 draw perm4: base_seed=6034477910361253431 (n=200, k=102, layout=blocks)
+perm4-hold-w64-s1-cur-egnp05: DESTEKLENİR | valid=True | L12-kayip(P90)=5.0 hold(P90)=0.8483942747116089 sign_ok=True
+perm4-hold-w64-s2-cur-egnp05: DESTEKLENİR | valid=False | L12-kayip(P90)=-6.0 hold(P90)=0.8287818431854248 sign_ok=True
+perm4-hold-w64-s3-cur-egnp05: DESTEKLENİR | valid=True | L12-kayip(P90)=-4.5 hold(P90)=0.7059946656227112 sign_ok=True
+perm4-hold_nc-w64-s1-cur-egnp05: DESTEKLENİR | valid=True | L12-kayip(P90)=2.5 hold(P90)=0.8083499073982239 sign_ok=True
+L12 draw perm5: base_seed=6646513235130984643 (n=200, k=102, layout=blocks)
+perm5-hold-w128-s1-cur-egnp05: KISMEN | valid=False | L12-kayip(P90)=-0.5 hold(P90)=0.5577538013458252 sign_ok=False
+perm5-hold-w128-s2-cur-egnp05: MANIPULATION_NOT_APPLIED | valid=False | L12-kayip(P90)=1.5 hold(P90)=0.49534934759140015 sign_ok=False
+{
+ "perm4": "DESTEKLENİR",
+ "perm5": "INCOMPLETE",
+ "overall": "INCOMPLETE",
+ "arms": {
+  "perm4": {
+   "verdict": "DESTEKLENİR",
+   "labels": {
+    "perm4-hold-w64-s1-cur-egnp05": "DESTEKLENİR",
+    "perm4-hold-w64-s3-cur-egnp05": "DESTEKLENİR"
+   },
+   "valid_cells": [
+    "perm4-hold-w64-s1-cur-egnp05",
+    "perm4-hold-w64-s3-cur-egnp05"
+   ],
+   "refuted": []
+  },
+  "perm5": {
+   "verdict": "INCOMPLETE",
+   "reason": "0 valid cells (>= 2 required)",
+   "valid_cells": []
+  }
+ },
+ "note": "section 3c literal: overall DESTEKLENİR only when both arms are; a refuted cell is named and blocks its arm"
+}

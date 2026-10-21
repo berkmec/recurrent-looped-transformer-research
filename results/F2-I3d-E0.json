@@ -1,0 +1,107 @@
+{
+ "weights": "__RLT_ROOT__\\2026-09-18-phase2\\results\\Z1-pilot\\perm5-core-w128-s1-cur.pt",
+ "stored_file": "__RLT_ROOT__\\2026-09-18-phase2\\results\\Z1-pilot\\perm5-core-w128-s1-cur.json",
+ "replay": {
+  "length": 1024,
+  "n": 120,
+  "compare_n": 100,
+  "batch": 40
+ },
+ "consistency": true,
+ "rows_mine": [
+  {
+   "start": 0,
+   "stop": 16,
+   "first_errors": 0,
+   "at_risk": 100
+  },
+  {
+   "start": 16,
+   "stop": 32,
+   "first_errors": 0,
+   "at_risk": 100
+  },
+  {
+   "start": 32,
+   "stop": 64,
+   "first_errors": 0,
+   "at_risk": 100
+  },
+  {
+   "start": 64,
+   "stop": 128,
+   "first_errors": 6,
+   "at_risk": 100
+  },
+  {
+   "start": 128,
+   "stop": 256,
+   "first_errors": 30,
+   "at_risk": 94
+  },
+  {
+   "start": 256,
+   "stop": 512,
+   "first_errors": 43,
+   "at_risk": 64
+  },
+  {
+   "start": 512,
+   "stop": 1024,
+   "first_errors": 19,
+   "at_risk": 21
+  }
+ ],
+ "rows_stored": [
+  {
+   "start": 0,
+   "stop": 16,
+   "first_errors": 0,
+   "at_risk": 100
+  },
+  {
+   "start": 16,
+   "stop": 32,
+   "first_errors": 0,
+   "at_risk": 100
+  },
+  {
+   "start": 32,
+   "stop": 64,
+   "first_errors": 0,
+   "at_risk": 100
+  },
+  {
+   "start": 64,
+   "stop": 128,
+   "first_errors": 6,
+   "at_risk": 100
+  },
+  {
+   "start": 128,
+   "stop": 256,
+   "first_errors": 30,
+   "at_risk": 94
+  },
+  {
+   "start": 256,
+   "stop": 512,
+   "first_errors": 43,
+   "at_risk": 64
+  },
+  {
+   "start": 512,
+   "stop": 1024,
+   "first_errors": 19,
+   "at_risk": 21
+  }
+ ],
+ "in_range": {
+  "recorded": true,
+  "measured": 1.0,
+  "length": 16,
+  "n": 200
+ },
+ "seconds": 19.2968,
+ "note": "E0: tutarlilik kapi; huk\u00fcm YOK \u2014 uyusmazlik olursa olcum hatti gecersiz isaretlenir."
+}

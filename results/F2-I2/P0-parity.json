@@ -1,0 +1,369 @@
+{
+  "schema": "z3-skelet/1",
+  "seal_hash": "EEE5F0591AD27BDB69171C58C210F2A2B6326782B1E057142E664387110FB4DB",
+  "torch": "2.12.0+cu130",
+  "dtype": "float32",
+  "threads": 1,
+  "batch_seed": 742,
+  "steps": 128,
+  "arm_cmp": "k3",
+  "PN_ANCHORS": {
+    "x1": "embedding mod\u00fcl\u00fc grad_output, t=0 dilimi (\u2202L/\u2202emb(x\u2081); hook semanti\u011fi birebir)",
+    "enc_root": "encoder_root = dL/de (encode() \u00e7\u0131kt\u0131s\u0131, ilk-token dilimi [:,0,:]) \u2014 Pam 3df8d5 (ii); yakalama: probe-taraf\u0131 encode-sarg\u0131s\u0131 (model.encode'a tensor-hook; remat.py DOKUNULMAZ)",
+    "initial": "yaprak parametrenin .grad'i (TENSORS listesinde)"
+  },
+  "k2_info": null,
+  "main_pair": {
+    "full_loss": 0.7256336808204651,
+    "remat_loss": 0.7256336808204651
+  },
+  "PL": {
+    "pass_": true,
+    "abs_diff": 0.0,
+    "limit": 8.256336808204651e-07
+  },
+  "PG": [
+    {
+      "tensor": "embedding.weight",
+      "branch": "normal",
+      "cos": 1.0000001290065457,
+      "relL2": 0.0,
+      "diff_norm": 0.0,
+      "ref_norm": 0.06567337363958359,
+      "pass_": true
+    },
+    {
+      "tensor": "initial",
+      "branch": "normal",
+      "cos": 0.999999891898799,
+      "relL2": 0.0,
+      "diff_norm": 0.0,
+      "ref_norm": 0.031521014869213104,
+      "pass_": true
+    },
+    {
+      "tensor": "en.weight",
+      "branch": "normal",
+      "cos": 0.9999998420686271,
+      "relL2": 0.0,
+      "diff_norm": 0.0,
+      "ref_norm": 0.01605551689863205,
+      "pass_": true
+    },
+    {
+      "tensor": "efn.weight",
+      "branch": "normal",
+      "cos": 1.0000000159367233,
+      "relL2": 0.0,
+      "diff_norm": 0.0,
+      "ref_norm": 0.010069693438708782,
+      "pass_": true
+    },
+    {
+      "tensor": "pn.weight",
+      "branch": "normal",
+      "cos": 0.9999998904577577,
+      "relL2": 0.0,
+      "diff_norm": 0.0,
+      "ref_norm": 0.0013368803774937987,
+      "pass_": true
+    },
+    {
+      "tensor": "dn.weight",
+      "branch": "normal",
+      "cos": 1.0000001552319104,
+      "relL2": 0.0,
+      "diff_norm": 0.0,
+      "ref_norm": 0.012620591558516026,
+      "pass_": true
+    },
+    {
+      "tensor": "cn.weight",
+      "branch": "normal",
+      "cos": 0.9999999267935805,
+      "relL2": 0.0,
+      "diff_norm": 0.0,
+      "ref_norm": 0.005863039754331112,
+      "pass_": true
+    },
+    {
+      "tensor": "dfn.weight",
+      "branch": "normal",
+      "cos": 0.9999999789394209,
+      "relL2": 0.0,
+      "diff_norm": 0.0,
+      "ref_norm": 0.011304136365652084,
+      "pass_": true
+    },
+    {
+      "tensor": "mn.weight",
+      "branch": "normal",
+      "cos": 1.0000000656699366,
+      "relL2": 0.0,
+      "diff_norm": 0.0,
+      "ref_norm": 0.013145167380571365,
+      "pass_": true
+    },
+    {
+      "tensor": "outn.weight",
+      "branch": "normal",
+      "cos": 0.9999999657168386,
+      "relL2": 0.0,
+      "diff_norm": 0.0,
+      "ref_norm": 0.06865488737821579,
+      "pass_": true
+    },
+    {
+      "tensor": "eq.weight",
+      "branch": "normal",
+      "cos": 1.0000000124033015,
+      "relL2": 0.0,
+      "diff_norm": 0.0,
+      "ref_norm": 0.042470403015613556,
+      "pass_": true
+    },
+    {
+      "tensor": "ek.weight",
+      "branch": "normal",
+      "cos": 0.9999998239646244,
+      "relL2": 0.0,
+      "diff_norm": 0.0,
+      "ref_norm": 0.032504454255104065,
+      "pass_": true
+    },
+    {
+      "tensor": "ev.weight",
+      "branch": "normal",
+      "cos": 0.9999997138389307,
+      "relL2": 0.0,
+      "diff_norm": 0.0,
+      "ref_norm": 0.1534443348646164,
+      "pass_": true
+    },
+    {
+      "tensor": "eo.weight",
+      "branch": "normal",
+      "cos": 1.000000051886378,
+      "relL2": 0.0,
+      "diff_norm": 0.0,
+      "ref_norm": 0.11249284446239471,
+      "pass_": true
+    },
+    {
+      "tensor": "merge.weight",
+      "branch": "normal",
+      "cos": 0.9999999454254284,
+      "relL2": 0.0,
+      "diff_norm": 0.0,
+      "ref_norm": 0.013771274127066135,
+      "pass_": true
+    },
+    {
+      "tensor": "dq.weight",
+      "branch": "normal",
+      "cos": 0.9999996477387553,
+      "relL2": 0.0,
+      "diff_norm": 0.0,
+      "ref_norm": 0.009063650853931904,
+      "pass_": true
+    },
+    {
+      "tensor": "dk.weight",
+      "branch": "normal",
+      "cos": 1.000000124077319,
+      "relL2": 0.0,
+      "diff_norm": 0.0,
+      "ref_norm": 0.008950414136052132,
+      "pass_": true
+    },
+    {
+      "tensor": "dv.weight",
+      "branch": "normal",
+      "cos": 0.9999998415044887,
+      "relL2": 0.0,
+      "diff_norm": 0.0,
+      "ref_norm": 0.12484245002269745,
+      "pass_": true
+    },
+    {
+      "tensor": "do.weight",
+      "branch": "normal",
+      "cos": 0.9999999075431053,
+      "relL2": 0.0,
+      "diff_norm": 0.0,
+      "ref_norm": 0.13795146346092224,
+      "pass_": true
+    },
+    {
+      "tensor": "cq.weight",
+      "branch": "normal",
+      "cos": 0.9999998411261404,
+      "relL2": 0.0,
+      "diff_norm": 0.0,
+      "ref_norm": 0.044155944138765335,
+      "pass_": true
+    },
+    {
+      "tensor": "co.weight",
+      "branch": "normal",
+      "cos": 0.9999999269826912,
+      "relL2": 0.0,
+      "diff_norm": 0.0,
+      "ref_norm": 0.10951630771160126,
+      "pass_": true
+    },
+    {
+      "tensor": "mk.weight",
+      "branch": "normal",
+      "cos": 1.0000001721834764,
+      "relL2": 0.0,
+      "diff_norm": 0.0,
+      "ref_norm": 0.023749124258756638,
+      "pass_": true
+    },
+    {
+      "tensor": "mv.weight",
+      "branch": "normal",
+      "cos": 0.9999999514840454,
+      "relL2": 0.0,
+      "diff_norm": 0.0,
+      "ref_norm": 0.11538203805685043,
+      "pass_": true
+    },
+    {
+      "tensor": "gate.weight",
+      "branch": "normal",
+      "cos": 0.9999999558718974,
+      "relL2": 0.0,
+      "diff_norm": 0.0,
+      "ref_norm": 0.0062393611297011375,
+      "pass_": true
+    },
+    {
+      "tensor": "gate.bias",
+      "branch": "normal",
+      "cos": 0.9999999565421087,
+      "relL2": 0.0,
+      "diff_norm": 0.0,
+      "ref_norm": 0.0008504880825057626,
+      "pass_": true
+    },
+    {
+      "tensor": "eff.0.weight",
+      "branch": "normal",
+      "cos": 1.000000021033543,
+      "relL2": 0.0,
+      "diff_norm": 0.0,
+      "ref_norm": 0.13724152743816376,
+      "pass_": true
+    },
+    {
+      "tensor": "eff.0.bias",
+      "branch": "normal",
+      "cos": 1.0000000142252348,
+      "relL2": 0.0,
+      "diff_norm": 0.0,
+      "ref_norm": 0.022904185578227043,
+      "pass_": true
+    },
+    {
+      "tensor": "eff.2.weight",
+      "branch": "normal",
+      "cos": 1.0000000873456325,
+      "relL2": 0.0,
+      "diff_norm": 0.0,
+      "ref_norm": 0.21655218303203583,
+      "pass_": true
+    },
+    {
+      "tensor": "eff.2.bias",
+      "branch": "normal",
+      "cos": 1.0000000915598681,
+      "relL2": 0.0,
+      "diff_norm": 0.0,
+      "ref_norm": 0.06306774914264679,
+      "pass_": true
+    },
+    {
+      "tensor": "dff.0.weight",
+      "branch": "normal",
+      "cos": 1.000000010500585,
+      "relL2": 0.0,
+      "diff_norm": 0.0,
+      "ref_norm": 0.11087062954902649,
+      "pass_": true
+    },
+    {
+      "tensor": "dff.0.bias",
+      "branch": "normal",
+      "cos": 1.0000001608725833,
+      "relL2": 0.0,
+      "diff_norm": 0.0,
+      "ref_norm": 0.018896907567977905,
+      "pass_": true
+    },
+    {
+      "tensor": "dff.2.weight",
+      "branch": "normal",
+      "cos": 0.9999999990574842,
+      "relL2": 0.0,
+      "diff_norm": 0.0,
+      "ref_norm": 0.1910792887210846,
+      "pass_": true
+    },
+    {
+      "tensor": "dff.2.bias",
+      "branch": "normal",
+      "cos": 1.0000001429309133,
+      "relL2": 0.0,
+      "diff_norm": 0.0,
+      "ref_norm": 0.0577334426343441,
+      "pass_": true
+    },
+    {
+      "tensor": "read.weight",
+      "branch": "normal",
+      "cos": 1.0000000171582986,
+      "relL2": 0.0,
+      "diff_norm": 0.0,
+      "ref_norm": 0.5831584334373474,
+      "pass_": true
+    },
+    {
+      "tensor": "read.bias",
+      "branch": "normal",
+      "cos": 0.9999999885138158,
+      "relL2": 0.0,
+      "diff_norm": 0.0,
+      "ref_norm": 0.0959615483880043,
+      "pass_": true
+    }
+  ],
+  "PN": {
+    "pass_": true,
+    "info_only": false,
+    "initial_grad_norms": {
+      "full": 0.031521014869213104,
+      "cmp": 0.031521014869213104
+    },
+    "emb_t0_grad_norms": {
+      "full": 0.0014647600473836064,
+      "cmp": 0.0014647600473836064
+    },
+    "enc_root_grad_norms": {
+      "full": 0.0013737676199525595,
+      "cmp": 0.0013737676199525595
+    }
+  },
+  "Z": {
+    "pass_": true,
+    "init_grad_norm": 0.0,
+    "z_loss_scope": "final-segment-CE (H2 m.2)",
+    "diag_notu": "tam-CE'de init 0,0680 = ME\u015eRU kredi; e\u015fik TASARIM-GERE\u011e\u0130 ge\u00e7ilmez (config-alarm\u0131 de\u011fil)",
+    "label": "TBPTT8 kesinti; ihlal=config hatas\u0131 -> DUR"
+  },
+  "PASS": true,
+  "verdict": "PASS",
+  "seconds": 5.697069799993187,
+  "source_note": "PARITY blo\u011fu m\u00fch\u00fcr-\u00f6ncesi commit; say\u0131/tens\u00f6r/yakalama-noktas\u0131 tadilati yaln\u0131z god L3 revizyonuyla"
+}
