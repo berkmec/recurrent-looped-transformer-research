@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="380" viewBox="0 0 760 380" role="img" aria-labelledby="t d">
+<title id="t">S₅ durum izleme: kopuş tohuma bağlı</title><desc id="d">Tohum 1 ve 3 eğitim uzunluğunun (16) 4-8 katından sonra kopuyor, tohum 2 kopmuyor.</desc>
+<style>
+.bg{fill:#fcfcfb}.t1{fill:#0b0b0b}.t2{fill:#52514e}.tm{fill:#898781}.grid{stroke:#e1e0d9}.axis{stroke:#c3c2b7}.ring{stroke:#fcfcfb}
+.l1{stroke:#2a78d6}.l2{stroke:#eb6834}.l3{stroke:#1baf7a}.l4{stroke:#eda100}
+.f1{fill:#2a78d6}.f2{fill:#eb6834}.f3{fill:#1baf7a}.f4{fill:#eda100}
+@media (prefers-color-scheme:dark){.bg{fill:#1a1a19}.t1{fill:#f0efec}.t2{fill:#c3c2b7}.grid{stroke:#2c2c2a}.axis{stroke:#383835}
+.ring{stroke:#1a1a19}.l1{stroke:#3987e5}.l2{stroke:#d95926}.l3{stroke:#199e70}.l4{stroke:#c98500}
+.f1{fill:#3987e5}.f2{fill:#d95926}.f3{fill:#199e70}.f4{fill:#c98500}}
+text{font-family:system-ui,-apple-system,'Segoe UI',sans-serif}
+</style>
+<rect class="bg" width="760" height="380" rx="8"/>
+<text class="t1" x="24.0" y="30.0" font-size="16" font-weight="600" text-anchor="start">S₅ durum izleme: kopuş tohuma bağlı</text>
+<text class="t2" x="24.0" y="50.0" font-size="12.5" font-weight="400" text-anchor="start">Core w128, aynı tarif (sabit lr, müfredat 1…16); konum penceresi başına ilk-hata hazard’ı</text>
+<line class="l1" x1="24.0" y1="70.0" x2="42.0" y2="70.0" stroke-width="2.5"/>
+<text class="t2" x="48.0" y="74.0" font-size="12" font-weight="400" text-anchor="start">tohum 1</text>
+<line class="l2" x1="117.0" y1="70.0" x2="135.0" y2="70.0" stroke-width="2.5"/>
+<text class="t2" x="141.0" y="74.0" font-size="12" font-weight="400" text-anchor="start">tohum 2</text>
+<line class="l3" x1="210.1" y1="70.0" x2="228.1" y2="70.0" stroke-width="2.5"/>
+<text class="t2" x="234.1" y="74.0" font-size="12" font-weight="400" text-anchor="start">tohum 3</text>
+<line class="grid" x1="70.0" y1="308.0" x2="720.0" y2="308.0" stroke-width="1"/>
+<text class="tm" x="62.0" y="312.0" font-size="11" font-weight="400" text-anchor="end">0</text>
+<line class="grid" x1="70.0" y1="264.8" x2="720.0" y2="264.8" stroke-width="1"/>
+<text class="tm" x="62.0" y="268.8" font-size="11" font-weight="400" text-anchor="end">10</text>
+<line class="grid" x1="70.0" y1="221.6" x2="720.0" y2="221.6" stroke-width="1"/>
+<text class="tm" x="62.0" y="225.6" font-size="11" font-weight="400" text-anchor="end">20</text>
+<line class="grid" x1="70.0" y1="178.4" x2="720.0" y2="178.4" stroke-width="1"/>
+<text class="tm" x="62.0" y="182.4" font-size="11" font-weight="400" text-anchor="end">30</text>
+<line class="grid" x1="70.0" y1="135.2" x2="720.0" y2="135.2" stroke-width="1"/>
+<text class="tm" x="62.0" y="139.2" font-size="11" font-weight="400" text-anchor="end">40</text>
+<line class="grid" x1="70.0" y1="92.0" x2="720.0" y2="92.0" stroke-width="1"/>
+<text class="tm" x="62.0" y="96.0" font-size="11" font-weight="400" text-anchor="end">50</text>
+<line class="axis" x1="70.0" y1="308.0" x2="720.0" y2="308.0" stroke-width="1"/>
+<text class="tm" x="70.0" y="326.0" font-size="11" font-weight="400" text-anchor="middle">16–32</text>
+<text class="tm" x="200.0" y="326.0" font-size="11" font-weight="400" text-anchor="middle">32–64</text>
+<text class="tm" x="330.0" y="326.0" font-size="11" font-weight="400" text-anchor="middle">64–128</text>
+<text class="tm" x="460.0" y="326.0" font-size="11" font-weight="400" text-anchor="middle">128–256</text>
+<text class="tm" x="590.0" y="326.0" font-size="11" font-weight="400" text-anchor="middle">256–512</text>
+<text class="tm" x="720.0" y="326.0" font-size="11" font-weight="400" text-anchor="middle">512–1024</text>
+<text class="tm" x="395.0" y="344.0" font-size="11" font-weight="400" text-anchor="middle">konum penceresi (eğitim uzunluğu 16)</text>
+<text class="tm" font-size="11" transform="translate(16 200.0) rotate(-90)" text-anchor="middle">ilk-hata hazard’ı (×10⁻⁴ / adım)</text>
+<polyline class="l1" fill="none" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" points="70.0,308.0 200.0,308.0 330.0,292.8 460.0,206.6 590.0,194.6 720.0,231.7"/>
+<circle class="f1 ring" cx="70.0" cy="308.0" r="4" stroke-width="2"/>
+<circle class="f1 ring" cx="200.0" cy="308.0" r="4" stroke-width="2"/>
+<circle class="f1 ring" cx="330.0" cy="292.8" r="4" stroke-width="2"/>
+<circle class="f1 ring" cx="460.0" cy="206.6" r="4" stroke-width="2"/>
+<circle class="f1 ring" cx="590.0" cy="194.6" r="4" stroke-width="2"/>
+<circle class="f1 ring" cx="720.0" cy="231.7" r="4" stroke-width="2"/>
+<polyline class="l2" fill="none" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" points="70.0,308.0 200.0,308.0 330.0,306.3 460.0,306.9 590.0,308.0 720.0,307.2"/>
+<circle class="f2 ring" cx="70.0" cy="308.0" r="4" stroke-width="2"/>
+<circle class="f2 ring" cx="200.0" cy="308.0" r="4" stroke-width="2"/>
+<circle class="f2 ring" cx="330.0" cy="306.3" r="4" stroke-width="2"/>
+<circle class="f2 ring" cx="460.0" cy="306.9" r="4" stroke-width="2"/>
+<circle class="f2 ring" cx="590.0" cy="308.0" r="4" stroke-width="2"/>
+<circle class="f2 ring" cx="720.0" cy="307.2" r="4" stroke-width="2"/>
+<polyline class="l3" fill="none" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" points="70.0,308.0 200.0,286.4 330.0,111.0 460.0,95.3 590.0,166.4 720.0,223.6"/>
+<circle class="f3 ring" cx="70.0" cy="308.0" r="4" stroke-width="2"/>
+<circle class="f3 ring" cx="200.0" cy="286.4" r="4" stroke-width="2"/>
+<circle class="f3 ring" cx="330.0" cy="111.0" r="4" stroke-width="2"/>
+<circle class="f3 ring" cx="460.0" cy="95.3" r="4" stroke-width="2"/>
+<circle class="f3 ring" cx="590.0" cy="166.4" r="4" stroke-width="2"/>
+<circle class="f3 ring" cx="720.0" cy="223.6" r="4" stroke-width="2"/>
+<text class="tm" x="24.0" y="368.0" font-size="11" font-weight="400" text-anchor="start">Kaynak: results/Z1-pilot/perm5-core-w128-s{1,2,3}-cur.json (E-R5).</text>
+</svg>

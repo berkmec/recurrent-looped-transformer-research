@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="380" viewBox="0 0 760 380" role="img" aria-labelledby="t d">
+<title id="t">Taşınan durumun sapması yaşla büyüyor mu?</title><desc id="d">S₅ tohum 1 difüzyon gibi doğrusal büyüyor; S₅ tohum 2 ve S₄ düz.</desc>
+<style>
+.bg{fill:#fcfcfb}.t1{fill:#0b0b0b}.t2{fill:#52514e}.tm{fill:#898781}.grid{stroke:#e1e0d9}.axis{stroke:#c3c2b7}.ring{stroke:#fcfcfb}
+.l1{stroke:#2a78d6}.l2{stroke:#eb6834}.l3{stroke:#1baf7a}.l4{stroke:#eda100}
+.f1{fill:#2a78d6}.f2{fill:#eb6834}.f3{fill:#1baf7a}.f4{fill:#eda100}
+@media (prefers-color-scheme:dark){.bg{fill:#1a1a19}.t1{fill:#f0efec}.t2{fill:#c3c2b7}.grid{stroke:#2c2c2a}.axis{stroke:#383835}
+.ring{stroke:#1a1a19}.l1{stroke:#3987e5}.l2{stroke:#d95926}.l3{stroke:#199e70}.l4{stroke:#c98500}
+.f1{fill:#3987e5}.f2{fill:#d95926}.f3{fill:#199e70}.f4{fill:#c98500}}
+text{font-family:system-ui,-apple-system,'Segoe UI',sans-serif}
+</style>
+<rect class="bg" width="760" height="380" rx="8"/>
+<text class="t1" x="24.0" y="30.0" font-size="16" font-weight="600" text-anchor="start">Taşınan durumun sapması yaşla büyüyor mu?</text>
+<text class="t2" x="24.0" y="50.0" font-size="12.5" font-weight="400" text-anchor="start">Kahin enjeksiyonundan sonra durumun doğru sınıf merkezine uzaklığının karesi (M² birimi), t0 = 128</text>
+<line class="l1" x1="24.0" y1="70.0" x2="42.0" y2="70.0" stroke-width="2.5"/>
+<text class="t2" x="48.0" y="74.0" font-size="12" font-weight="400" text-anchor="start">S₅ tohum 1</text>
+<line class="l2" x1="137.2" y1="70.0" x2="155.2" y2="70.0" stroke-width="2.5"/>
+<text class="t2" x="161.2" y="74.0" font-size="12" font-weight="400" text-anchor="start">S₅ tohum 2</text>
+<line class="l3" x1="250.4" y1="70.0" x2="268.4" y2="70.0" stroke-width="2.5"/>
+<text class="t2" x="274.4" y="74.0" font-size="12" font-weight="400" text-anchor="start">S₄ w64</text>
+<line class="grid" x1="70.0" y1="308.0" x2="720.0" y2="308.0" stroke-width="1"/>
+<text class="tm" x="62.0" y="312.0" font-size="11" font-weight="400" text-anchor="end">0,10</text>
+<line class="grid" x1="70.0" y1="236.0" x2="720.0" y2="236.0" stroke-width="1"/>
+<text class="tm" x="62.0" y="240.0" font-size="11" font-weight="400" text-anchor="end">0,15</text>
+<line class="grid" x1="70.0" y1="164.0" x2="720.0" y2="164.0" stroke-width="1"/>
+<text class="tm" x="62.0" y="168.0" font-size="11" font-weight="400" text-anchor="end">0,20</text>
+<line class="grid" x1="70.0" y1="92.0" x2="720.0" y2="92.0" stroke-width="1"/>
+<text class="tm" x="62.0" y="96.0" font-size="11" font-weight="400" text-anchor="end">0,25</text>
+<line class="axis" x1="70.0" y1="308.0" x2="720.0" y2="308.0" stroke-width="1"/>
+<text class="tm" x="70.0" y="326.0" font-size="11" font-weight="400" text-anchor="middle">0-1</text>
+<text class="tm" x="200.0" y="326.0" font-size="11" font-weight="400" text-anchor="middle">1-4</text>
+<text class="tm" x="330.0" y="326.0" font-size="11" font-weight="400" text-anchor="middle">4-16</text>
+<text class="tm" x="460.0" y="326.0" font-size="11" font-weight="400" text-anchor="middle">16-32</text>
+<text class="tm" x="590.0" y="326.0" font-size="11" font-weight="400" text-anchor="middle">32-64</text>
+<text class="tm" x="720.0" y="326.0" font-size="11" font-weight="400" text-anchor="middle">64-128</text>
+<text class="tm" x="395.0" y="344.0" font-size="11" font-weight="400" text-anchor="middle">enjeksiyondan beri geçen adım (yaş)</text>
+<text class="tm" font-size="11" transform="translate(16 200.0) rotate(-90)" text-anchor="middle">sapma² (M²)</text>
+<polyline class="l1" fill="none" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" points="70.0,214.8 200.0,222.3 330.0,213.0 460.0,195.5 590.0,162.6 720.0,96.2"/>
+<circle class="f1 ring" cx="70.0" cy="214.8" r="4" stroke-width="2"/>
+<circle class="f1 ring" cx="200.0" cy="222.3" r="4" stroke-width="2"/>
+<circle class="f1 ring" cx="330.0" cy="213.0" r="4" stroke-width="2"/>
+<circle class="f1 ring" cx="460.0" cy="195.5" r="4" stroke-width="2"/>
+<circle class="f1 ring" cx="590.0" cy="162.6" r="4" stroke-width="2"/>
+<circle class="f1 ring" cx="720.0" cy="96.2" r="4" stroke-width="2"/>
+<polyline class="l2" fill="none" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" points="70.0,172.8 200.0,182.2 330.0,179.1 460.0,179.7 590.0,178.9 720.0,178.9"/>
+<circle class="f2 ring" cx="70.0" cy="172.8" r="4" stroke-width="2"/>
+<circle class="f2 ring" cx="200.0" cy="182.2" r="4" stroke-width="2"/>
+<circle class="f2 ring" cx="330.0" cy="179.1" r="4" stroke-width="2"/>
+<circle class="f2 ring" cx="460.0" cy="179.7" r="4" stroke-width="2"/>
+<circle class="f2 ring" cx="590.0" cy="178.9" r="4" stroke-width="2"/>
+<circle class="f2 ring" cx="720.0" cy="178.9" r="4" stroke-width="2"/>
+<polyline class="l3" fill="none" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" points="70.0,248.7 200.0,254.9 330.0,254.5 460.0,254.8 590.0,254.4 720.0,254.5"/>
+<circle class="f3 ring" cx="70.0" cy="248.7" r="4" stroke-width="2"/>
+<circle class="f3 ring" cx="200.0" cy="254.9" r="4" stroke-width="2"/>
+<circle class="f3 ring" cx="330.0" cy="254.5" r="4" stroke-width="2"/>
+<circle class="f3 ring" cx="460.0" cy="254.8" r="4" stroke-width="2"/>
+<circle class="f3 ring" cx="590.0" cy="254.4" r="4" stroke-width="2"/>
+<circle class="f3 ring" cx="720.0" cy="254.5" r="4" stroke-width="2"/>
+<text class="tm" x="24.0" y="368.0" font-size="11" font-weight="400" text-anchor="start">Kaynak: results/Z1-pilot/drift-profile.json, drift-profile-s2.json (E-A5x, E-R5).</text>
+</svg>

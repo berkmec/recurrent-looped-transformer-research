@@ -1,0 +1,83 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="380" viewBox="0 0 760 380" role="img" aria-labelledby="t d">
+<title id="t">L1: dikkat belleğiyle getirme</title><desc id="d">Eğitim ve doğal anahtarlar 0,9’u, tek olgu @384 1,0’ı geçiyor; görülmemiş anahtarlar 0,6 eşiğinin altında.</desc>
+<style>
+.bg{fill:#fcfcfb}.t1{fill:#0b0b0b}.t2{fill:#52514e}.tm{fill:#898781}.grid{stroke:#e1e0d9}.axis{stroke:#c3c2b7}.ring{stroke:#fcfcfb}
+.l1{stroke:#2a78d6}.l2{stroke:#eb6834}.l3{stroke:#1baf7a}.l4{stroke:#eda100}
+.f1{fill:#2a78d6}.f2{fill:#eb6834}.f3{fill:#1baf7a}.f4{fill:#eda100}
+@media (prefers-color-scheme:dark){.bg{fill:#1a1a19}.t1{fill:#f0efec}.t2{fill:#c3c2b7}.grid{stroke:#2c2c2a}.axis{stroke:#383835}
+.ring{stroke:#1a1a19}.l1{stroke:#3987e5}.l2{stroke:#d95926}.l3{stroke:#199e70}.l4{stroke:#c98500}
+.f1{fill:#3987e5}.f2{fill:#d95926}.f3{fill:#199e70}.f4{fill:#c98500}}
+text{font-family:system-ui,-apple-system,'Segoe UI',sans-serif}
+</style>
+<rect class="bg" width="760" height="380" rx="8"/>
+<text class="t1" x="24.0" y="30.0" font-size="16" font-weight="600" text-anchor="start">L1: dikkat belleğiyle getirme</text>
+<text class="t2" x="24.0" y="50.0" font-size="12.5" font-weight="400" text-anchor="start">Anahtar eşleştirme (ilk hane doğruluğu) ve 384 bayt uzaktan tek olgu getirme (tam doğruluk)</text>
+<line class="l1" x1="24.0" y1="70.0" x2="42.0" y2="70.0" stroke-width="2.5"/>
+<text class="t2" x="48.0" y="74.0" font-size="12" font-weight="400" text-anchor="start">eğitim anahtarları</text>
+<line class="l2" x1="191.0" y1="70.0" x2="209.0" y2="70.0" stroke-width="2.5"/>
+<text class="t2" x="215.0" y="74.0" font-size="12" font-weight="400" text-anchor="start">görülmemiş anahtarlar</text>
+<line class="l3" x1="378.1" y1="70.0" x2="396.1" y2="70.0" stroke-width="2.5"/>
+<text class="t2" x="402.1" y="74.0" font-size="12" font-weight="400" text-anchor="start">doğal anahtarlar</text>
+<line class="l4" x1="531.6" y1="70.0" x2="549.6" y2="70.0" stroke-width="2.5"/>
+<text class="t2" x="555.6" y="74.0" font-size="12" font-weight="400" text-anchor="start">tek olgu @384</text>
+<line class="grid" x1="70.0" y1="308.0" x2="720.0" y2="308.0" stroke-width="1"/>
+<text class="tm" x="62.0" y="312.0" font-size="11" font-weight="400" text-anchor="end">0,0</text>
+<line class="grid" x1="70.0" y1="264.8" x2="720.0" y2="264.8" stroke-width="1"/>
+<text class="tm" x="62.0" y="268.8" font-size="11" font-weight="400" text-anchor="end">0,2</text>
+<line class="grid" x1="70.0" y1="221.6" x2="720.0" y2="221.6" stroke-width="1"/>
+<text class="tm" x="62.0" y="225.6" font-size="11" font-weight="400" text-anchor="end">0,4</text>
+<line class="grid" x1="70.0" y1="178.4" x2="720.0" y2="178.4" stroke-width="1"/>
+<text class="tm" x="62.0" y="182.4" font-size="11" font-weight="400" text-anchor="end">0,6</text>
+<line class="grid" x1="70.0" y1="135.2" x2="720.0" y2="135.2" stroke-width="1"/>
+<text class="tm" x="62.0" y="139.2" font-size="11" font-weight="400" text-anchor="end">0,8</text>
+<line class="grid" x1="70.0" y1="92.0" x2="720.0" y2="92.0" stroke-width="1"/>
+<text class="tm" x="62.0" y="96.0" font-size="11" font-weight="400" text-anchor="end">1,0</text>
+<line class="axis" x1="70.0" y1="308.0" x2="720.0" y2="308.0" stroke-width="1"/>
+<text class="tm" x="70.0" y="326.0" font-size="11" font-weight="400" text-anchor="middle">1K</text>
+<text class="tm" x="162.9" y="326.0" font-size="11" font-weight="400" text-anchor="middle">2K</text>
+<text class="tm" x="255.7" y="326.0" font-size="11" font-weight="400" text-anchor="middle">3K</text>
+<text class="tm" x="348.6" y="326.0" font-size="11" font-weight="400" text-anchor="middle">4K</text>
+<text class="tm" x="441.4" y="326.0" font-size="11" font-weight="400" text-anchor="middle">5K</text>
+<text class="tm" x="534.3" y="326.0" font-size="11" font-weight="400" text-anchor="middle">6K</text>
+<text class="tm" x="627.1" y="326.0" font-size="11" font-weight="400" text-anchor="middle">7K</text>
+<text class="tm" x="720.0" y="326.0" font-size="11" font-weight="400" text-anchor="middle">8K</text>
+<text class="tm" x="395.0" y="344.0" font-size="11" font-weight="400" text-anchor="middle">güncelleme</text>
+<text class="tm" font-size="11" transform="translate(16 200.0) rotate(-90)" text-anchor="middle">doğruluk</text>
+<polyline class="l1" fill="none" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" points="70.0,255.3 162.9,234.2 255.7,143.4 348.6,115.7 441.4,106.5 534.3,99.9 627.1,94.6 720.0,94.6"/>
+<circle class="f1 ring" cx="70.0" cy="255.3" r="4" stroke-width="2"/>
+<circle class="f1 ring" cx="162.9" cy="234.2" r="4" stroke-width="2"/>
+<circle class="f1 ring" cx="255.7" cy="143.4" r="4" stroke-width="2"/>
+<circle class="f1 ring" cx="348.6" cy="115.7" r="4" stroke-width="2"/>
+<circle class="f1 ring" cx="441.4" cy="106.5" r="4" stroke-width="2"/>
+<circle class="f1 ring" cx="534.3" cy="99.9" r="4" stroke-width="2"/>
+<circle class="f1 ring" cx="627.1" cy="94.6" r="4" stroke-width="2"/>
+<circle class="f1 ring" cx="720.0" cy="94.6" r="4" stroke-width="2"/>
+<polyline class="l2" fill="none" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" points="70.0,259.3 162.9,232.9 255.7,226.3 348.6,222.4 441.4,205.3 534.3,204.0 627.1,182.9 720.0,192.1"/>
+<circle class="f2 ring" cx="70.0" cy="259.3" r="4" stroke-width="2"/>
+<circle class="f2 ring" cx="162.9" cy="232.9" r="4" stroke-width="2"/>
+<circle class="f2 ring" cx="255.7" cy="226.3" r="4" stroke-width="2"/>
+<circle class="f2 ring" cx="348.6" cy="222.4" r="4" stroke-width="2"/>
+<circle class="f2 ring" cx="441.4" cy="205.3" r="4" stroke-width="2"/>
+<circle class="f2 ring" cx="534.3" cy="204.0" r="4" stroke-width="2"/>
+<circle class="f2 ring" cx="627.1" cy="182.9" r="4" stroke-width="2"/>
+<circle class="f2 ring" cx="720.0" cy="192.1" r="4" stroke-width="2"/>
+<polyline class="l3" fill="none" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" points="70.0,266.3 162.9,255.5 255.7,139.8 348.6,127.5 441.4,116.7 534.3,102.8 627.1,101.3 720.0,98.2"/>
+<circle class="f3 ring" cx="70.0" cy="266.3" r="4" stroke-width="2"/>
+<circle class="f3 ring" cx="162.9" cy="255.5" r="4" stroke-width="2"/>
+<circle class="f3 ring" cx="255.7" cy="139.8" r="4" stroke-width="2"/>
+<circle class="f3 ring" cx="348.6" cy="127.5" r="4" stroke-width="2"/>
+<circle class="f3 ring" cx="441.4" cy="116.7" r="4" stroke-width="2"/>
+<circle class="f3 ring" cx="534.3" cy="102.8" r="4" stroke-width="2"/>
+<circle class="f3 ring" cx="627.1" cy="101.3" r="4" stroke-width="2"/>
+<circle class="f3 ring" cx="720.0" cy="98.2" r="4" stroke-width="2"/>
+<polyline class="l4" fill="none" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" points="70.0,308.0 162.9,308.0 255.7,98.8 348.6,92.0 441.4,92.0 534.3,92.0 627.1,92.0 720.0,98.8"/>
+<circle class="f4 ring" cx="70.0" cy="308.0" r="4" stroke-width="2"/>
+<circle class="f4 ring" cx="162.9" cy="308.0" r="4" stroke-width="2"/>
+<circle class="f4 ring" cx="255.7" cy="98.8" r="4" stroke-width="2"/>
+<circle class="f4 ring" cx="348.6" cy="92.0" r="4" stroke-width="2"/>
+<circle class="f4 ring" cx="441.4" cy="92.0" r="4" stroke-width="2"/>
+<circle class="f4 ring" cx="534.3" cy="92.0" r="4" stroke-width="2"/>
+<circle class="f4 ring" cx="627.1" cy="92.0" r="4" stroke-width="2"/>
+<circle class="f4 ring" cx="720.0" cy="98.8" r="4" stroke-width="2"/>
+<text class="tm" x="24.0" y="368.0" font-size="11" font-weight="400" text-anchor="start">Eşikler: anahtar eşleştirme ≥ 0,8; genelleme (görülmemiş ve doğal) ≥ 0,6; uzaklık @384 ≥ 0,9.</text>
+</svg>
