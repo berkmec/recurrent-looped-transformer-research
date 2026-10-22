@@ -40,6 +40,16 @@ class TaskTests(unittest.TestCase):
             sel = er.answers(model(x.reshape(4, et.N_WINDOWS, et.WINDOW)), apos)
             self.assertEqual(tuple(sel.shape), (4, er.QUERIES, et.VOCAB), arm)
 
+    def test_positions_add_no_parameters_and_tell_positions_apart(self):
+        for arm in ('A', 'Apr', 'B', 'B_comp'):
+            plain, posed = er.make(arm, seed=1), er.make(arm, seed=1, positions=True)
+            self.assertEqual(sum(p.numel() for p in plain.parameters()), sum(p.numel() for p in posed.parameters()), arm)
+        emb = er.make('Apr', seed=1, positions=True).enc.embedding
+        x = torch.full((1, 6), 30)                                   # the same filler token six times
+        e = emb(x)[0]
+        self.assertGreater(float((e[1] - e[0]).abs().max()), 0.1)    # the same token at two positions now differs
+        self.assertTrue(torch.equal(er.make('Apr', seed=1).enc.embedding(x)[0][0], er.make('Apr', seed=1).enc.embedding(x)[0][5]))
+
     def test_a_short_curriculum_run_and_the_reading(self):
         model, info = er.train('Apr', 1, 6, batch=4, curriculum=[4, 8, 16], log=lambda *_: None)
         self.assertEqual(info['curriculum'], [4, 8, 16])

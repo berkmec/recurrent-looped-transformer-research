@@ -80,6 +80,40 @@ def ceiling(x, apos, tgt):
     return float(np.mean(best))
 
 
+class Positional(torch.nn.Module):
+    """E-RM0R2: the token embedding plus fixed sinusoidal positions (no parameters). Windowed arms encode each 32-token window
+    on its own, so positions count from 0 inside a window; the full-context arm `Apr` encodes all 128 tokens, so its positions
+    are absolute. Stage 0's encoder had none: causal attention without positions cannot easily find 'the token before me',
+    which associative recall (query key -> its earlier occurrence -> the next token, the value) needs."""
+
+    def __init__(self, embedding, max_len=et.N_WINDOWS * et.WINDOW):
+        super().__init__()
+        self.tok = embedding
+        d = embedding.embedding_dim
+        pos = torch.arange(max_len, dtype=torch.float32)[:, None]
+        freq = torch.exp(-math.log(10000.0) * torch.arange(0, d, 2, dtype=torch.float32) / d)
+        pe = torch.zeros(max_len, d)
+        pe[:, 0::2], pe[:, 1::2] = torch.sin(pos * freq), torch.cos(pos * freq)
+        self.register_buffer('pe', pe, persistent=False)
+
+    @property
+    def embedding_dim(self):
+        return self.tok.embedding_dim
+
+    def forward(self, x):
+        return self.tok(x) + self.pe[:x.shape[1]]
+
+
+def make(arm, seed=1, positions=False):
+    """An arm from erm_models, with sinusoidal positions in its encoder if `positions` (E-RM0R2)."""
+    model = em.make_arm(arm, seed=seed)
+    if positions:
+        if not hasattr(model, 'enc'):
+            raise ValueError('arm %s has no encoder to give positions to' % arm)
+        model.enc.embedding = Positional(model.enc.embedding)
+    return model
+
+
 def answers(logits, apos):
     """Logits at the answer positions: (batch, queries, vocab); every arm returns (batch, windows, window, vocab)."""
     b = logits.shape[0]
@@ -87,10 +121,10 @@ def answers(logits, apos):
     return flat[torch.arange(b)[:, None], apos]
 
 
-def train(arm, seed, steps, batch=32, lr=3e-3, wd=0.01, queries=QUERIES, curriculum=None, log_every=500, log=print):
+def train(arm, seed, steps, batch=32, lr=3e-3, wd=0.01, queries=QUERIES, curriculum=None, log_every=500, log=print, positions=False):
     torch.set_num_threads(1)
     torch.manual_seed(seed)
-    model = em.make_arm(arm, seed=seed)
+    model = make(arm, seed=seed, positions=positions)
     gate = list(model.gate_parameters()) if hasattr(model, 'gate_parameters') else []
     taken = {id(p) for p in gate}
     rest = [p for p in model.parameters() if id(p) not in taken]
@@ -121,7 +155,7 @@ def train(arm, seed, steps, batch=32, lr=3e-3, wd=0.01, queries=QUERIES, curricu
                                                                     history[-1]['train_acc'], time.perf_counter() - t0))
     return model, dict(arm=arm, seed=seed, steps=steps, batch=batch, lr=lr, weight_decay=wd, queries=queries,
                        curriculum=stages, advanced=advanced, final_facts=stages[stage], history=history,
-                       train_seconds=time.perf_counter() - t0)
+                       train_seconds=time.perf_counter() - t0, positions='sinusoidal' if positions else None)
 
 
 def evaluate(model, n=600, seed=777, queries=QUERIES, batch=50):
@@ -167,6 +201,7 @@ def main():
     p.add_argument('--lr', type=float, default=3e-3)
     p.add_argument('--queries', type=int, default=QUERIES)
     p.add_argument('--curriculum', default=None, help='facts per stage, e.g. 4,8,16')
+    p.add_argument('--positions', action='store_true', help='sinusoidal positions in the encoder (E-RM0R2)')
     p.add_argument('--out')
     p.add_argument('--reading', nargs='+', default=None)
     a = p.parse_args()
@@ -175,7 +210,7 @@ def main():
         print(json.dumps(reading(rs), indent=1))
         return
     cur = [int(v) for v in a.curriculum.split(',')] if a.curriculum else None
-    model, info = train(a.arm, a.seed, a.steps, lr=a.lr, queries=a.queries, curriculum=cur)
+    model, info = train(a.arm, a.seed, a.steps, lr=a.lr, queries=a.queries, curriculum=cur, positions=a.positions)
     info['eval'] = evaluate(model, queries=a.queries)
     out = Path(a.out)
     out.parent.mkdir(parents=True, exist_ok=True)

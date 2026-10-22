@@ -1504,6 +1504,26 @@ Eşik gerekçesi: 2.000 güncellemelik ince ayar için E-A0'nun 0,020'sinin yar�
 - **Öngörü (kâğıt).** F1 tekrarı ≈ %85, F2 DESTEKLENİR ≈ %55, F3 PASS ≈ %70 → hiçbiri sınanamadı (VACUOUS).
 - **Ders.** Yoğun nötr dolguyla eğitimde müfredat ilerleme ölçütü yalnız bilgi taşıyan adımlarda sayılmalı. Ya da model önce nötrsüz eğitilip sonra nötr koşularda ölçülmeli (E-N'nin yolu).
 
+### 5.49 E-RM0R2 ön-kaydı: aynı onarılmış görev, kodlayıcıda konum kodlamasıyla (kod `horizon/erm_r.py --positions`, 6 test; koşudan ÖNCE yazıldı 2026-10-22 13:05)
+**Neden.** E-RM0R'de tam-bağlam kontrolü Apr bile öğrenmedi; 4 olguluk müfredat basamağında 24.000 güncellemeden sonra doğruluk 0,41'de kaldı (§5.46.1). Sonucu gördükten sonra koddan bulunan neden: oyuncak kodlayıcıda konum kodlaması yok. İlişkisel hatırlama "benden önceki belirteç" bilgisini ister; konumsuz nedensel dikkat bunu güvenilir biçimde kuramaz. L1'in Core'u RoPE kullanıyor; kusur yalnız oyuncak modelde.
+**Değişiklik.** Yalnız kodlayıcının girdisine sabit sinüzoidal konum eklenir (parametresiz). Pencereli kollarda konum pencere içindedir, Apr'de mutlaktır. Görev, tarif, bütçe ve kurallar §5.46'daki gibi: tekil anahtarlar, 8 sorgu, 12.000 güncelleme, lr 3×10⁻³, tohum 1.
+**Basamaklar ve kurallar** (§5.46 ile aynı):
+- **R1:** Apr+PE ve A+PE. LEARNABLE ⇔ Apr ≥ 0,90; CONTROL OK ⇔ A ≤ 0,30.
+- **R2** (ikisi de tutarsa): B+PE ve B_comp+PE. MEMORY WORKS ≥ 0,90 / NOT LEARNED ≤ 0,30 / aksi PARTIAL.
+- **R1b** (Apr öğrenmezse): müfredat 4 → 8 → 16, 24.000 güncelleme.
+
+**Öngörüler [H].**
+- Apr+PE LEARNABLE ≈ %75; A CONTROL OK ≈ %95.
+- LEARNABLE koşuluyla B için WORKS ≈ %35, NOT LEARNED ≈ %30, PARTIAL ≈ %35; B_comp WORKS ≈ %40.
+
+**Kullanım.**
+- *LEARNABLE ∧ (B ya da B_comp) WORKS:* bellek mekanizması oyuncakta işliyor. E-RM Aşama 1'in (gerçek ölçek) ön koşulu sağlanır; ardından onarılmış G0.2 ölçümü ve G0.4.
+- *LEARNABLE ∧ NOT LEARNED:* yazma / okuma tasarımı tartışılır (F1'in QK-normu ve hedef-CE önerileri; yuva rekabeti).
+- *NOT LEARNABLE, müfredatla da:* oyuncak model ve tarif yeniden ele alınır.
+
+**Kaynak.** CPU; E-S-B2X'in iki kopyası bitince başlar (`scripts/run_erm_r2.sh`); iki süreç.
+- *Sınır:* tek tohum; tek lr; konum kodlamasının türü tek seçim (sinüzoidal). Nedenin sınanması bu koşunun kendisidir: eksik konum gerçek neden değilse Apr+PE de öğrenmez.
+
 ## 6. Gerçek model yolu
 
 1. **Ne iddia edilir:** "küçük, bayt-düzeyi bir RLT, durum-izleme/çok-adımlı görevlerde eşit-parametre ve eşit-token bir transformer'a yapısal bir üstünlük gösteriyor mu". LM kaybında üstünlük iddia edilmez (bağımsız değerlendirme bulamadı).
