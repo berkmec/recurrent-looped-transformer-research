@@ -109,13 +109,20 @@ class Positional(torch.nn.Module):
         return self.tok(x) + self.pe[:x.shape[-1]]      # positions run along the last axis: (b, T) or B_rmt's (b, windows, w)
 
 
-def make(arm, seed=1, positions=False):
-    """An arm from erm_models, with sinusoidal positions in its encoder if `positions` (E-RM0R2)."""
+def make(arm, seed=1, positions=False, gamma_init=None):
+    """An arm from erm_models, with sinusoidal positions in its encoder if `positions` (E-RM0R2), and its memory read gate gamma
+    started at `gamma_init` instead of 0 (E-RM0R4). gamma = 0 still closes the read path exactly (K3), so closability is kept;
+    only where training starts changes: at gamma = 0 every read parameter has zero gradient."""
     model = em.make_arm(arm, seed=seed)
     if positions:
         if not hasattr(model, 'enc'):
             raise ValueError('arm %s has no encoder to give positions to' % arm)
         model.enc.embedding = Positional(model.enc.embedding)
+    if gamma_init is not None:
+        if not hasattr(model, 'read') or not hasattr(model.read, 'gamma'):
+            raise ValueError('arm %s has no read gate gamma' % arm)
+        with torch.no_grad():
+            model.read.gamma.fill_(float(gamma_init))
     return model
 
 
@@ -126,10 +133,11 @@ def answers(logits, apos):
     return flat[torch.arange(b)[:, None], apos]
 
 
-def train(arm, seed, steps, batch=32, lr=3e-3, wd=0.01, queries=QUERIES, curriculum=None, log_every=500, log=print, positions=False):
+def train(arm, seed, steps, batch=32, lr=3e-3, wd=0.01, queries=QUERIES, curriculum=None, log_every=500, log=print, positions=False,
+          gamma_init=None):
     torch.set_num_threads(1)
     torch.manual_seed(seed)
-    model = make(arm, seed=seed, positions=positions)
+    model = make(arm, seed=seed, positions=positions, gamma_init=gamma_init)
     gate = list(model.gate_parameters()) if hasattr(model, 'gate_parameters') else []
     taken = {id(p) for p in gate}
     rest = [p for p in model.parameters() if id(p) not in taken]
@@ -162,7 +170,7 @@ def train(arm, seed, steps, batch=32, lr=3e-3, wd=0.01, queries=QUERIES, curricu
                                                                     history[-1]['train_acc'], time.perf_counter() - t0))
     return model, dict(arm=arm, seed=seed, steps=steps, batch=batch, lr=lr, weight_decay=wd, queries=queries,
                        curriculum=stages, advanced=advanced, final_facts=stages[stage], history=history,
-                       train_seconds=time.perf_counter() - t0, positions='sinusoidal' if positions else None)
+                       train_seconds=time.perf_counter() - t0, positions='sinusoidal' if positions else None, gamma_init=gamma_init)
 
 
 def evaluate(model, n=600, seed=777, queries=QUERIES, batch=50, arm=None):
@@ -210,6 +218,7 @@ def main():
     p.add_argument('--queries', type=int, default=QUERIES)
     p.add_argument('--curriculum', default=None, help='facts per stage, e.g. 4,8,16')
     p.add_argument('--positions', action='store_true', help='sinusoidal positions in the encoder (E-RM0R2)')
+    p.add_argument('--gamma-init', type=float, default=None, help='start the memory read gate here instead of 0 (E-RM0R4)')
     p.add_argument('--out')
     p.add_argument('--reading', nargs='+', default=None)
     a = p.parse_args()
@@ -218,7 +227,7 @@ def main():
         print(json.dumps(reading(rs), indent=1))
         return
     cur = [int(v) for v in a.curriculum.split(',')] if a.curriculum else None
-    model, info = train(a.arm, a.seed, a.steps, lr=a.lr, queries=a.queries, curriculum=cur, positions=a.positions)
+    model, info = train(a.arm, a.seed, a.steps, lr=a.lr, queries=a.queries, curriculum=cur, positions=a.positions, gamma_init=a.gamma_init)
     info['eval'] = evaluate(model, queries=a.queries, arm=a.arm)
     out = Path(a.out)
     out.parent.mkdir(parents=True, exist_ok=True)

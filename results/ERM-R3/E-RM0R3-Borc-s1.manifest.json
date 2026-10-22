@@ -1,0 +1,32 @@
+{
+ "schema": "run-manifest/v1",
+ "run_id": "E-RM0R3-Borc-s1",
+ "campaign": "ERM-R3",
+ "agent": "claude-4797b78c",
+ "created_utc": "2026-10-22T18:12:57Z",
+ "command": "python -B -m horizon.erm_r train --arm B_orc --steps 12000 --seed 1 --positions --out results/ERM-R3/Borc-s1.json",
+ "prereg": {
+  "paper": "notes/RLT_SORUN_ESLEME_VE_PROGRAM_2026-10-02.md 5.51"
+ },
+ "code": {
+  "head": "85b3615",
+  "dirty": false,
+  "porcelain": [
+   " M results/L1-scratch-w928-s401/probe.json",
+   " M results/L1-scratch-w928-s401/probe.jsonl",
+   " M results/L1-scratch-w928-s401/train.log",
+   " M results/M1-finetune-distance/queue.log",
+   "?? results/L1-scratch-w928-s401/E-L1C-L1-scratch-w928-s401.manifest.json"
+  ]
+ },
+ "config": {
+  "source": "scripts/run_erm_r3.sh",
+  "summary": {},
+  "sha256": "59fc7e99b73dc0e69d01b1ba26424d8052c7b823d1b86dbc9df173c346c2c70b"
+ },
+ "seeds": {
+  "seed": 1
+ },
+ "telemetry_schema": "I1-a/v1",
+ "status": "started"
+}

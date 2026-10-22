@@ -1699,6 +1699,40 @@ Kayıtlı yorum:
 **Kaynak.** CPU; iki süreç paralel, ≈ 30-40 dk.
 - *Sınır:* tek tohum; B_rmt'nin bellek belirteci sayısı Aşama 0'daki gibi 4; oyuncak ölçek.
 
+### 5.51.1 E-RM0R3 SONUCU (kayıtlı kural §5.51; koşular 2026-10-22 21:13-21:38): B_orc **NOT LEARNED** (0,269, şansın iki katı), B_rmt **NOT LEARNED** (0,128); kahin yazmayla bile okuma yolu öğrenmiyor
+- **B_orc** (olgular kendi yuvalarına kahinden yazılır): d = 3'te 0,269 (d = 1 / 2 / 3: 0,264 / 0,263 / 0,269); kayıp 2,061 → 1,789; γ en fazla 0,61. **B_rmt:** 0,128, kayıp ≈ 2,08 (ln 8). Pozitif kontrol ve kontrol E-RM0R2'den: Apr 0,9994, A 0,128.
+- **Kayıtlı yorum.** B_orc NOT LEARNED ⇒ darboğaz okumada ya da yuva içeriğinde; yazma tek başına sorun değil. Doğru yazılmış bir bellekten bile okuma ancak şansın iki katına çıkıyor. RMT-tarzı taşınan belirteçler (4 tane) de öğrenmiyor.
+- **Öngörü kalibrasyonu.** B_orc WORKS ≈ %60 → **yanlış**; B_rmt WORKS ≈ %40 → **yanlış**.
+- **Matematiksel aday neden [H].** Okuma çıktısı γ ⊙ Wo(·) ile ekleniyor ve γ = 0 ile ilkleniyor (K3 / ReZero). İlklemede okuma dikkatinin (Wq, Wk, Wv, Wo) gradyanı tam sıfır; γ'nın gradyanı da rastgele okuma özelliklerinin hedefle zayıf ilişkisinden geliyor. Kahin yazmada γ ancak 0,61'e çıktı ve doğruluk 0,27'de kaldı. Sıradaki adım, en ucuz sınama olarak γ'yı açık başlatmak (E-RM0R4, §5.53). K3 korunur, çünkü γ := 0 yolu yine kapatır.
+- *Sınır:* tek tohum; tek lr; 12.000 güncelleme; B_rmt'de 4 bellek belirteci.
+
+### 5.52 E-S-PE ön-kaydı: sk4 üstünlüğü konumlu bir transformere karşı da geçerli mi? (kod `horizon/sk_pe.py`, 2 test; koşudan ÖNCE yazıldı 2026-10-22 21:41)
+**Neden.** E-S'in transformer tabanı kayıtlı tasarım gereği konumsuz (NoPE). E-RM oyuncağında konumsuz bir kodlayıcının bitişikliğe dayalı getirmede baştan dezavantajlı olduğu görüldü: konum eklenince tam-bağlam kontrolü 0,265'ten 0,9994'e çıktı.
+**Kol.** `tfm_pe`, E-S transformer'ının aynısıdır: aynı tohum, aynı ağırlıklar (testli), belirteç gömmesine sabit sinüzoidal mutlak konum eklenmiş (parametresiz). Görev sk4; tepe lr 10⁻³ ve 3×10⁻³; tohum 1 ve 2; 15.000 güncelleme, son %30'da azaltma; eğitim, değerlendirme ve okuma `sk_run`'ınki, değişmeden. Çıktı `results/ES-pe/`.
+**Kural** (iki tohum ortalaması; Core_ext = 0,979, aşama B):
+- **TRANSFORMER LEARNS** ⇔ en az bir lr'de in_range ≥ 0,95. Bu durumda:
+  - dış değer ≥ Core_ext − 0,15 ⇒ **NO ADVANTAGE OVER A POSITIONAL TRANSFORMER**;
+  - aksi ⇒ **EXTRAPOLATION ADVANTAGE ONLY**.
+- **ADVANTAGE HOLDS** ⇔ hiçbir lr'de öğrenmiyor.
+
+**Öngörüler [H].** TRANSFORMER LEARNS ≈ %50; öğrenirse EXTRAPOLATION ADVANTAGE ONLY ≈ %80 (mutlak konumlar eğitim uzunluğunun ötesine genellemez).
+**Kullanım.**
+- *ADVANTAGE HOLDS:* E-S'in transformer'a karşı çekincesi kalkar.
+- *EXTRAPOLATION ADVANTAGE ONLY:* üstünlük bundan sonra "uzunluk genellemesi" diye anılır.
+- *NO ADVANTAGE:* üstünlük yalnız GRU / LSTM'e karşı geçerli kalır.
+
+- *Sınır:* tek konum kodlaması türü (sinüzoidal mutlak); 4 katman; iki lr; iki tohum.
+
+### 5.53 E-RM0R4 ön-kaydı: okuma kapısı γ açık başlarsa (γ₀ = 1) bellek öğreniyor mu? (kod `horizon/erm_r.py --gamma-init`, testli; koşudan ÖNCE yazıldı 2026-10-22 21:41)
+**Neden.** E-RM0R3'te kahin yazmayla bile okuma 0,269'da kaldı. Aday neden γ = 0 ilklemesi; gerekçe §5.51.1'de.
+**Kollar.** B_orc ve B, konumlu, γ başlangıcı 1,0. K3 korunur: γ := 0 okuma yolunu tam kapatır, B'nin çıktısı kendi belleksiz ileri hesabıyla 10⁻⁶ içinde aynıdır (test). Tarif E-RM0R2 / 3 ile aynı; tohum 1. Çıktı `results/ERM-R4/`.
+**Kural** (§5.46 eşikleri; kol başına): WORKS ≥ 0,90 / NOT LEARNED ≤ 0,30 / aksi PARTIAL.
+- *B_orc(γ₁) WORKS ⇒* okumanın darboğazı γ = 0 başlangıcıymış (E-RM0R3'te γ₀ = 0 ile 0,269). Bu durumda B(γ₁) yazmayı da sınar: B(γ₁) WORKS ⇒ RLT-M oyuncakta çalışıyor ve Aşama 1 tasarımına "γ açık başlar, K3 kapatma anahtarı olarak kalır" girer.
+- *B_orc(γ₁) de NOT LEARNED ⇒* darboğaz okuma mimarisinin kendisinde. Sıradaki adım QK-normu ya da anahtarlı yuvalar.
+
+**Öngörüler [H].** B_orc(γ₁) WORKS ≈ %55; B(γ₁) WORKS ≈ %25.
+- *Sınır:* tek tohum; tek γ₀ değeri; oyuncak ölçek.
+
 ## 6. Gerçek model yolu
 
 1. **Ne iddia edilir:** "küçük, bayt-düzeyi bir RLT, durum-izleme/çok-adımlı görevlerde eşit-parametre ve eşit-token bir transformer'a yapısal bir üstünlük gösteriyor mu". LM kaybında üstünlük iddia edilmez (bağımsız değerlendirme bulamadı).

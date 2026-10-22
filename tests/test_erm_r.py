@@ -72,6 +72,19 @@ class TaskTests(unittest.TestCase):
         model, info = er.train('B_orc', 1, 3, batch=4, positions=True, log=lambda *_: None)
         self.assertEqual(set(er.evaluate(model, n=10, arm='B_orc')), {'all', '1', '2', '3'})
 
+    def test_gamma_init_opens_the_read_and_zero_still_closes_it(self):
+        x, apos, tgt, dist, cells = er.generate(3, seed=2, with_facts=True)
+        xw = x.reshape(3, et.N_WINDOWS, et.WINDOW)
+        b0 = er.make('B', seed=1, positions=True)                       # gamma = 0: the read path is closed (K3)
+        b1 = er.make('B', seed=1, positions=True, gamma_init=1.0)       # same weights, gate open
+        self.assertTrue(bool((b1.read.gamma == 1.0).all()))
+        with torch.no_grad():
+            no_memory = b0.head(b0.enc.forward_windows(xw))             # B's own forward without the read
+            self.assertLess(float((b0(xw) - no_memory).abs().max()), 1e-6)
+            self.assertGreater(float((b1(xw) - no_memory).abs().max()), 1e-3)
+        with self.assertRaises(ValueError):
+            er.make('A', seed=1, gamma_init=1.0)
+
     def test_a_short_curriculum_run_and_the_reading(self):
         model, info = er.train('Apr', 1, 6, batch=4, curriculum=[4, 8, 16], log=lambda *_: None)
         self.assertEqual(info['curriculum'], [4, 8, 16])
