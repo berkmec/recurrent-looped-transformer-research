@@ -1,0 +1,188 @@
+"""E-RM0R (notes/RLT_SORUN_ESLEME_VE_PROGRAM_2026-10-02.md section 5.46): the toy E-RM task repaired so that it CAN be learned,
+then the positive control first.
+
+Stage 0 (erm_run / erm_tasks, sealed) could not have shown anything about memory: (1) every fact's key is drawn WITH replacement,
+so the queried key is unique in only 38 % of sequences and a perfect memory reaches only 0.70 (the G0.3 threshold was 0.95);
+(2) one supervised answer per 128-token sequence; (3) even the full-context arm `Apr` (one causal encoder over all four windows,
+which can look straight from the query to the fact) stayed at chance in 6,000 updates. Here, with everything else as in stage 0
+(arms from erm_models, AdamW lr 3e-3 with the memory modules decay-free, clip 1.0, batch 32):
+  * keys are distinct inside a sequence (a permutation): the ceiling is 1.0 (tested);
+  * the query window holds `queries` queries about distinct facts, every answer supervised;
+  * an optional curriculum on the number of facts (e.g. 4,8,16), advancing when the last 200 updates reach 0.9.
+erm_tasks.generate and erm_run are unchanged.
+
+  python -B -m horizon.erm_r train --arm Apr --steps 12000 --seed 1 --out results/ERM-R/Apr-s1.json
+  python -B -m horizon.erm_r --reading results/ERM-R/Apr-s1.json results/ERM-R/A-s1.json [results/ERM-R/B-s1.json ...]
+"""
+import argparse
+import json
+import math
+import time
+from pathlib import Path
+
+import numpy as np
+import torch
+from torch.nn import functional as F
+
+from . import erm_models as em
+from . import erm_tasks as et
+
+QUERIES = 8
+ADVANCE_AT = 0.9
+ADVANCE_WINDOW = 200
+
+
+def generate(n, facts=et.N_FACTS, queries=QUERIES, seed=0, windows=et.N_WINDOWS, window=et.WINDOW):
+    """x (n, windows*window); answer_pos and target (n, queries); d (n, queries) = query window - fact window.
+    Facts (distinct keys, values with replacement) only in windows 0..windows-2; the queries, about distinct facts, in the last."""
+    qw = windows - 1
+    if queries > facts or 2 * queries > window:
+        raise ValueError('too many queries')
+    rng = np.random.default_rng(seed)
+    quota = [facts // qw + (1 if i < facts % qw else 0) for i in range(qw)]
+    if not all(2 * c <= window - 4 for c in quota):
+        raise ValueError('facts do not fit the windows')
+    x = np.empty((n, windows * window), dtype=np.int64)
+    apos = np.empty((n, queries), dtype=np.int64)
+    tgt = np.empty((n, queries), dtype=np.int64)
+    dist = np.empty((n, queries), dtype=np.int64)
+    for s in range(n):
+        seq = rng.choice(et.FILLERS, size=windows * window).astype(np.int64)
+        taken = [set() for _ in range(windows)]
+        where = list(rng.permutation([i for i, c in enumerate(quota) for _ in range(c)]))
+        keys = rng.permutation(et.N_KEYS)[:facts]
+        pairs = []
+        for f in range(facts):
+            w = where[f]
+            v = et.VALS[int(rng.integers(0, et.N_VALS))]
+            at, taken[w] = et._place(rng, taken[w], w * window, (w + 1) * window, 2)
+            seq[at], seq[at + 1] = et.KEYS[int(keys[f])], v
+            pairs.append((w, et.KEYS[int(keys[f])], v))
+        for j, f in enumerate(rng.permutation(facts)[:queries]):
+            w, k, v = pairs[int(f)]
+            at, taken[qw] = et._place(rng, taken[qw], qw * window, (qw + 1) * window, 2)
+            seq[at], seq[at + 1] = et.QMARK, k
+            apos[s, j], tgt[s, j], dist[s, j] = at + 1, v, qw - w
+        x[s] = seq
+    return torch.from_numpy(x), torch.from_numpy(apos), torch.from_numpy(tgt), torch.from_numpy(dist)
+
+
+def ceiling(x, apos, tgt):
+    """Accuracy of a perfect memory: the most frequent value among the facts whose key is the queried key."""
+    xs, ap, tg = x.numpy(), apos.numpy(), tgt.numpy()
+    best = []
+    for s in range(xs.shape[0]):
+        for j in range(ap.shape[1]):
+            k = xs[s, ap[s, j]]
+            fact_part = xs[s, :(et.N_WINDOWS - 1) * et.WINDOW]
+            vals = [int(fact_part[i + 1]) for i in range(len(fact_part) - 1) if fact_part[i] == k]
+            best.append(max(vals.count(v) for v in set(vals)) / len(vals))
+    return float(np.mean(best))
+
+
+def answers(logits, apos):
+    """Logits at the answer positions: (batch, queries, vocab); every arm returns (batch, windows, window, vocab)."""
+    b = logits.shape[0]
+    flat = logits.reshape(b, -1, logits.shape[-1])
+    return flat[torch.arange(b)[:, None], apos]
+
+
+def train(arm, seed, steps, batch=32, lr=3e-3, wd=0.01, queries=QUERIES, curriculum=None, log_every=500, log=print):
+    torch.set_num_threads(1)
+    torch.manual_seed(seed)
+    model = em.make_arm(arm, seed=seed)
+    gate = list(model.gate_parameters()) if hasattr(model, 'gate_parameters') else []
+    taken = {id(p) for p in gate}
+    rest = [p for p in model.parameters() if id(p) not in taken]
+    opt = torch.optim.AdamW(([dict(params=rest)] if rest else []) + ([dict(params=gate, weight_decay=0.0)] if gate else []),
+                            lr=lr, weight_decay=wd)
+    stages = list(curriculum) if curriculum else [et.N_FACTS]
+    stage, recent, history, advanced = 0, [], [], []
+    t0 = time.perf_counter()
+    for step in range(1, steps + 1):
+        facts = stages[stage]
+        x, apos, tgt, _ = generate(batch, facts=facts, queries=min(queries, facts), seed=(seed * 1_000_003 + step) % 2 ** 31)
+        model.train()
+        sel = answers(model(x.reshape(batch, et.N_WINDOWS, et.WINDOW)), apos)
+        loss = F.cross_entropy(sel.reshape(-1, sel.shape[-1]), tgt.reshape(-1))
+        opt.zero_grad()
+        loss.backward()
+        torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0)
+        opt.step()
+        recent.append(float((sel.argmax(-1) == tgt).float().mean()))
+        recent = recent[-ADVANCE_WINDOW:]
+        if stage + 1 < len(stages) and len(recent) == ADVANCE_WINDOW and np.mean(recent) >= ADVANCE_AT:
+            stage += 1
+            advanced.append(dict(step=step, facts=stages[stage]))
+            recent = []
+        if step % log_every == 0 or step == steps:
+            history.append(dict(step=step, loss=float(loss.detach()), train_acc=float(np.mean(recent)) if recent else None, facts=facts))
+            log('%s s%d step %d facts %d loss %.4f acc %s (%.0fs)' % (arm, seed, step, facts, float(loss.detach()),
+                                                                    history[-1]['train_acc'], time.perf_counter() - t0))
+    return model, dict(arm=arm, seed=seed, steps=steps, batch=batch, lr=lr, weight_decay=wd, queries=queries,
+                       curriculum=stages, advanced=advanced, final_facts=stages[stage], history=history,
+                       train_seconds=time.perf_counter() - t0)
+
+
+def evaluate(model, n=600, seed=777, queries=QUERIES, batch=50):
+    """Accuracy per fact distance d (over every query) and overall, at the full 16 facts."""
+    torch.set_num_threads(1)
+    model.eval()
+    x, apos, tgt, dist = generate(n, facts=et.N_FACTS, queries=queries, seed=seed)
+    hits = []
+    with torch.no_grad():
+        for at in range(0, n, batch):
+            sel = answers(model(x[at:at + batch].reshape(-1, et.N_WINDOWS, et.WINDOW)), apos[at:at + batch])
+            hits.append(sel.argmax(-1) == tgt[at:at + batch])
+    hit = torch.cat(hits)
+    out = dict(all=dict(n=int(hit.numel()), acc=float(hit.float().mean())))
+    for d in (1, 2, 3):
+        m = dist == d
+        out[str(d)] = dict(n=int(m.sum()), acc=float(hit[m].float().mean()) if bool(m.any()) else None)
+    return out
+
+
+def reading(results):
+    """The registered 5.46 verdicts from finished runs ({arm: result}); arms that did not run are simply absent."""
+    acc = {arm: r['eval']['3']['acc'] for arm, r in results.items()}
+    out = dict(acc_d3=acc)
+    if 'Apr' in acc:
+        out['positive_control'] = 'LEARNABLE' if acc['Apr'] >= 0.90 else 'NOT LEARNABLE'
+    if 'A' in acc:
+        out['control'] = 'CONTROL OK' if acc['A'] <= 0.30 else 'CONTROL BROKEN'
+    for arm in ('B', 'B_comp'):
+        if arm in acc and out.get('positive_control') == 'LEARNABLE' and out.get('control') == 'CONTROL OK':
+            out[arm] = 'MEMORY WORKS (toy)' if acc[arm] >= 0.90 else ('NOT LEARNED' if acc[arm] <= 0.30 else 'PARTIAL')
+        elif arm in acc:
+            out[arm] = 'VACUOUS (the positive control or the control failed)'
+    return out
+
+
+def main():
+    p = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    p.add_argument('cmd', nargs='?', choices=('train',))
+    p.add_argument('--arm', choices=em.ARMS)
+    p.add_argument('--seed', type=int, default=1)
+    p.add_argument('--steps', type=int, default=12000)
+    p.add_argument('--lr', type=float, default=3e-3)
+    p.add_argument('--queries', type=int, default=QUERIES)
+    p.add_argument('--curriculum', default=None, help='facts per stage, e.g. 4,8,16')
+    p.add_argument('--out')
+    p.add_argument('--reading', nargs='+', default=None)
+    a = p.parse_args()
+    if a.reading:
+        rs = {json.loads(Path(f).read_bytes().decode('utf8'))['arm']: json.loads(Path(f).read_bytes().decode('utf8')) for f in a.reading}
+        print(json.dumps(reading(rs), indent=1))
+        return
+    cur = [int(v) for v in a.curriculum.split(',')] if a.curriculum else None
+    model, info = train(a.arm, a.seed, a.steps, lr=a.lr, queries=a.queries, curriculum=cur)
+    info['eval'] = evaluate(model, queries=a.queries)
+    out = Path(a.out)
+    out.parent.mkdir(parents=True, exist_ok=True)
+    torch.save(dict(state_dict=model.state_dict(), meta=dict(arm=a.arm, seed=a.seed)), out.with_suffix('.pt'))
+    out.write_bytes((json.dumps(info, indent=1) + '\n').encode('utf8'))
+    print(json.dumps(info['eval']))
+
+
+if __name__ == '__main__':
+    main()

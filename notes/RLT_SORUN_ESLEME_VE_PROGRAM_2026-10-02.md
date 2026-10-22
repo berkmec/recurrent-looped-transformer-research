@@ -1378,6 +1378,30 @@ Dikkat koşulluluğu ortalaması 0,118 / 0,165. Getirmede geri beslemenin üstü
 **Kullanım.** Gerçek model tarifi için: dilde K1'in değeri geniş ve kelime seçimine yönelik görünüyor. Bu, onu durum izleme görevlerindeki (E-S) özel bir mekanizmadan çok, kelime düzeyinde ek bir hesap kaynağı gibi gösteriyor. Maliyet kararı (E-J1) bu kazancın hesap başına değerini belirleyecek.
 - *Sınır:* tek adım (8.000) ve tek tohum çifti; bölmeler betimleyici, çoklu karşılaştırma düzeltmesi yok; zorluk bölmesinin adil biçimi sonradan eklendi.
 
+### 5.46 E-RM0R ön-kaydı: Aşama 0'ın oyuncak görevini öğrenilebilir kılmak ve bellekten ÖNCE pozitif kontrol (kod `horizon/erm_r.py`, 5 test; koşudan ÖNCE yazıldı 2026-10-22 08:08)
+**Neden.** Aşama 0 (hive, 14-15 Ekim; madde 72) bellek hakkında hiçbir şey gösteremezdi. Üç nedenini bugün ham kaynaktan buldum:
+1. Üreteç her olgunun anahtarını **yerine koyarak** çekiyor; sorgulanan anahtar dizilerin yalnız %38,1'inde tekil. Kusursuz belleğin Bayes-optimal doğruluğu **0,700** (d = 3: 0,699; üreteçle 20.000 dizide hesaplandı). G0.3 ise ≥ 0,95 istiyordu: **ulaşılamaz eşik.**
+2. Denetim seyrek: 128 belirteçlik dizide tek cevap.
+3. Adı "taşınan durum" olan `Apr` kolu aslında **tam-bağlam koludur** (tek nedensel kodlayıcı dört pencerenin hepsinde; sorgudan olguya doğrudan bakabilir). R7'nin istediği pozitif kontrol veride vardı ve o da şansta kaldı (d = 1 / 2: 0,138 / 0,127; kayıp 1,984, ln 8 = 2,079).
+
+Eğitilmiş B'de γ'nın sıfırda kalmadığını da gördüm (bazı kanallarda 0,91'e çıkmış); "ReZero eyeri" açıklaması bu yüzden yetmiyor. Bellek yolu açılıyor, ama görev bu tarifle hiçbir kola öğretilemiyor.
+**Onarım (v2 üreteci; mühürlü üreteç ve koşucu DEĞİŞMEDİ).** Anahtarlar dizi içinde tekil (permütasyon; tavan 1,0, test). Sorgu penceresinde 8 sorgu, her biri ayrı bir olgu hakkında ve her cevap denetimli (8× yoğun sinyal). Geri kalan her şey Aşama 0'daki gibi: 4 pencere × 32, 16 olgu × 8 değer, olgular 0-2. pencerelerde, kollar `erm_models`'tan, AdamW lr 3×10⁻³ (bellek modülleri sönümsüz), kırpma 1,0, parti 32. Bütçe **12.000 güncelleme** (2×). Değerlendirme: 600 dizi × 8 sorgu, d'ye göre ve toplam; tohum 1.
+**Basamaklar ve kurallar.**
+- **R1 (önce):** Apr (tam-bağlam pozitif kontrol) ve A (belleksiz kontrol).
+  - **LEARNABLE** ⇔ Apr acc(d = 3) ≥ 0,90; aksi hâlde **NOT LEARNABLE**.
+  - **CONTROL OK** ⇔ A acc(d = 3) ≤ 0,30 (şans 0,125); aksi hâlde **CONTROL BROKEN**.
+- **R2 (yalnız LEARNABLE ∧ CONTROL OK ise):** B (RLT-M) ve B_comp (yuva-rekabetli yazma), aynı tarif. Kol başına hüküm:
+  - **MEMORY WORKS (toy)** ⇔ acc(d = 3) ≥ 0,90;
+  - **NOT LEARNED** ⇔ ≤ 0,30;
+  - **PARTIAL** aksi hâlde.
+  - R1 tutmazsa bellek kolları **VACUOUS**.
+- **R1b (yalnız NOT LEARNABLE ise):** Apr olgu sayısı müfredatıyla (4 → 8 → 16; son 200 güncellemede doğruluk ≥ 0,9 olunca ilerler), 24.000 güncelleme, aynı LEARNABLE kuralı. LEARNABLE olursa **R2b:** A, B ve B_comp aynı müfredatla, R1 / R2 kurallarıyla.
+
+**Öngörüler [H].** Apr LEARNABLE ≈ %65; A CONTROL OK ≈ %95. LEARNABLE koşuluyla B MEMORY WORKS ≈ %35, NOT LEARNED ≈ %35, PARTIAL ≈ %30; B_comp WORKS ≈ %40. NOT LEARNABLE çıkarsa müfredatla LEARNABLE ≈ %70.
+**Kullanım.** Bu, E-RM Aşama 1'in (≈ 95 GPU-saat) ön koşulunun onarımıdır. Bellek ancak öğrenen bir pozitif kontrolün yanında sınanabilir. MEMORY WORKS (toy) çıkarsa Aşama 0'ın kalan kapıları (G0.2 onarılmış, G0.4) bu tarifle yeniden okunur; NOT LEARNED çıkarsa yazma / okuma tasarımı tartışılır (F1'in QK-normu ve hedef-CE önerileri).
+**Kaynak.** CPU, iki süreç, süreç başına tek iş parçacığı. Koşucu (`scripts/run_erm_r.sh`), iki kuyruk kopyası ve I3-f ölçümü bitince başlar. Koşu başına ≈ 20-30 dakika.
+- *Sınır:* tek tohum; tek lr; oyuncak ölçek (w64, 2 katman); 8 sorgu tasarımı MQAR'a yaklaşır ve Aşama 0'ın tek-sorgu sorusu değildir; d dağılımı kotalara bağlı.
+
 ## 6. Gerçek model yolu
 
 1. **Ne iddia edilir:** "küçük, bayt-düzeyi bir RLT, durum-izleme/çok-adımlı görevlerde eşit-parametre ve eşit-token bir transformer'a yapısal bir üstünlük gösteriyor mu". LM kaybında üstünlük iddia edilmez (bağımsız değerlendirme bulamadı).
