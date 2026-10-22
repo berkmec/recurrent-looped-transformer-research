@@ -1567,6 +1567,19 @@ Eğitilmiş B'de γ'nın sıfırda kalmadığını da gördüm (bazı kanallarda
 **Kullanım.** ROBUST TO BUDGET → §5.16'nın kayıtlı kullanımı ("durum-anahtarlı getirme ailesi gerçek model görev karışımına girer; RLT'nin yapısal değeri kanıtlı sayılır") üç denetimle (tohum, lr, bütçe) uygulanır. BUDGET-LIMITED → üstünlük hız üstünlüğü olarak kaydedilir.
 - *Sınır:* tek lr (10⁻³); 2× bütçe; ≈ 100k parametre; tek görev ailesi.
 
+### 5.47.1 E-S-B2X SONUCU (kayıtlı kural §5.47; koşular 2026-10-22 12:58-15:08; okuma 21:06): **ROBUST TO BUDGET**; iki kat bütçeyle de hiçbir taban kolu sk4'ü öğrenmedi
+| kol (tepe lr 10⁻³, 30.000 güncelleme) | aralık-içi, tohum 1 / 2 (ortalama) | dış değer (ortalama) |
+|---|---|---|
+| GRU w128 | 0,095 / 0,140 (0,118) | 0,121 |
+| LSTM w112 | 0,155 / 0,152 (0,154) | 0,124 |
+| transformer w64 | 0,142 / 0,175 (0,159) | 0,149 |
+
+**Hüküm.** Hiçbir kol in_range ≥ 0,95'e ulaşmadı → **ROBUST TO BUDGET** (2× bütçeyle). Öngörü ≈ %60 → tuttu.
+**Toplam tablo.** sk4'te geri beslemeli Core iki tohumda öğreniyor (1,000 / 0,979). Taban kollar öğrenmiyor: iki tohumda, iki lr değerinde (3×10⁻³, 10⁻³), iki bütçede (15.000, 30.000). Aynı Core'un geri beslemesiz ikizi de öğrenmiyor.
+**Kullanım (kayıtlı §5.16).** "ÜSTÜNLÜK → durum-anahtarlı getirme ailesi gerçek model görev karışımına (L2) girer; RLT'nin yapısal değeri, tek aşama ve tohum sınırıyla, kanıtlı sayılır" artık üç denetimle uygulanır.
+**Önemli çekince.** E-S'in transformer tabanı kayıtlı tasarım gereği konum kodlamasızdır (§5.16: "NoPE, 4 katman"; sınırlarda "konumlu transformer yok"). E-RM0R / E-RM0R2'de konumsuz bir kodlayıcının bitişikliğe dayalı getirmede baştan dezavantajlı olduğu görüldü (§5.46.1, §5.49.1). Bu yüzden sk4 üstünlüğü GRU / LSTM'e karşı sağlam; transformer'a karşı yalnız konumsuz transformer için geçerli.
+- *Sınır:* ≈ 100k parametre; tek görev ailesi; konumlu transformer yok; bütçe ≤ 30.000.
+
 ### 5.48 E-WS ön-kaydı: geri beslemeyi sonradan açmak (ılık başlangıç); RLT-1'in kazancı tam programla eğitilmiş geri beslemesiz modelin üstüne ucuza alınabilir mi? (kod `longrun --init-from --data-offset`, `mline/ews.py`, testler; koşudan ÖNCE yazıldı 2026-10-22 13:01)
 **Gerekçe.**
 - E-A0'ya göre geri besleme güncelleme başına kazandırıyor (+0,050 @ 8.000; E-J1'in birebir L1 devamında +0,056 @ 9.000), ama ≈ 10× pahalı.
@@ -1603,6 +1616,19 @@ Eşik gerekçesi: 2.000 güncellemelik ince ayar için E-A0'nun 0,020'sinin yar�
 - **Öngörü (kâğıt).** F1 tekrarı ≈ %85, F2 DESTEKLENİR ≈ %55, F3 PASS ≈ %70 → hiçbiri sınanamadı (VACUOUS).
 - **Ders.** Yoğun nötr dolguyla eğitimde müfredat ilerleme ölçütü yalnız bilgi taşıyan adımlarda sayılmalı. Ya da model önce nötrsüz eğitilip sonra nötr koşularda ölçülmeli (E-N'nin yolu).
 
+### 5.48.1 E-WS SONUCU (kayıtlı kural `mline.ews.reading`; koşular 2026-10-22 13:02-16:10; okuma 16:10, kayıt 21:10): **NO DIFFERENCE**; geri beslemeyi sonradan açmak +0,002 bit/bayt veriyor
+| pil (güncelleme) | 500 | 1.000 | 1.500 | 2.000 |
+|---|---|---|---|---|
+| a0-cont (geri besleme kapalı) | 1,4481 | 1,4475 | 1,4434 | 1,4370 |
+| fb-ft (geri besleme açık, RLT-1) | 1,4464 | 1,4457 | 1,4415 | 1,4349 |
+| Δ = cont − fb | +0,0017 | +0,0018 | +0,0019 | +0,0021 |
+
+Başlangıç (A0F'nin sonu) 1,4408. **Hüküm:** |Δ_2000| = 0,0021 < 0,010 → **NO DIFFERENCE**. Getirme (2.000): held_k4_first 0,848 / 0,841, natural_first 0,986 / 1,000, tek olgu @448 1,000 / 1,000. Süre: kontrol 23 dk, geri beslemeli 165 dk (≈ 7,2×).
+**Okuma.** Fark dört noktanın dördünde pozitif ve yavaşça büyüyor (+0,0017 → +0,0021), ama sıfırdan eğitimdeki +0,050'nin (8.000) yalnız ≈ %4'ü. Tam eğitilmiş geri beslemesiz bir modele geri besleme sonradan eklenince kazanç gelmiyor. Dil kazancı, temsillerin baştan bu kanalla birlikte eğitilmesine bağlı görünüyor [H]. Bu, E-J0'daki güçlü bağla (hata konum başına ≈ 0,7-0,8) uyumlu.
+**Öngörü kalibrasyonu.** HELPS ≈ %50 → **yanlış**; NO DIFFERENCE ≈ %35 → oldu; "fb-ft ilk pilde kontrolden kötü" ≈ %40 → yanlış (500'de +0,0017 iyi).
+**Kullanım (kayıtlı).** "NO DIFFERENCE / HURTS → RLT-1'in kazancı ya baştan geri beslemeli eğitimle ya da hiç." Bu yüzden E-L1C başlatıldı: L1 geri beslemeyle programın sonuna (§5.50).
+- *Sınır:* tek tohum; 2.000 güncelleme, tek program (tepe 2×10⁻⁴); daha uzun bir ince ayarın birikimi sınanmadı.
+
 ### 5.49 E-RM0R2 ön-kaydı: aynı onarılmış görev, kodlayıcıda konum kodlamasıyla (kod `horizon/erm_r.py --positions`, 6 test; koşudan ÖNCE yazıldı 2026-10-22 13:05)
 **Neden.** E-RM0R'de tam-bağlam kontrolü Apr bile öğrenmedi; 4 olguluk müfredat basamağında 24.000 güncellemeden sonra doğruluk 0,41'de kaldı (§5.46.1). Sonucu gördükten sonra koddan bulunan neden: oyuncak kodlayıcıda konum kodlaması yok. İlişkisel hatırlama "benden önceki belirteç" bilgisini ister; konumsuz nedensel dikkat bunu güvenilir biçimde kuramaz. L1'in Core'u RoPE kullanıyor; kusur yalnız oyuncak modelde.
 **Değişiklik.** Yalnız kodlayıcının girdisine sabit sinüzoidal konum eklenir (parametresiz). Pencereli kollarda konum pencere içindedir, Apr'de mutlaktır. Görev, tarif, bütçe ve kurallar §5.46'daki gibi: tekil anahtarlar, 8 sorgu, 12.000 güncelleme, lr 3×10⁻³, tohum 1.
@@ -1622,6 +1648,14 @@ Eşik gerekçesi: 2.000 güncellemelik ince ayar için E-A0'nun 0,020'sinin yar�
 
 **Kaynak.** CPU; E-S-B2X'in iki kopyası bitince başlar (`scripts/run_erm_r2.sh`); iki süreç.
 - *Sınır:* tek tohum; tek lr; konum kodlamasının türü tek seçim (sinüzoidal). Nedenin sınanması bu koşunun kendisidir: eksik konum gerçek neden değilse Apr+PE de öğrenmez.
+
+### 5.49.1 E-RM0R2 SONUCU (kayıtlı kural §5.46 / §5.49; koşular 2026-10-22 15:08-16:01; okuma 16:01, kayıt 21:10): R1 **LEARNABLE** + CONTROL OK; R2: B ve B_comp **NOT LEARNED**
+- **Konum teşhisi doğrulandı.** Konum kodlamasıyla tam-bağlam kontrolü Apr d = 3'te **0,9994** (E-RM0R'de konumsuz: 0,265); eğitim kaybı 1,897 → 0,0001. A 0,128 (şans 0,125) → CONTROL OK.
+- **Bellek öğrenmiyor.** B 0,128, B_comp 0,128; ikisi de A ile son basamağa kadar aynı (1.808 sorguda 232 doğru), yani üçü de aynı sabit tahminciye çöktü. Eğitim kayıpları 12.000 güncelleme boyunca ≈ 2,08 (ln 8 = 2,079) ve A'nınkiyle bit-bit aynı değil: bellek yolu çıktıyı etkiliyor ama yararlı bir sinyal taşımıyor. Eğitilmiş B'de γ en fazla 1,62, Wo 1,84; yazma geçidinin önyargısı −2,00'dan −2,14'e indi (model yazmayı kıstı).
+- **Öngörü kalibrasyonu.** Apr+PE LEARNABLE ≈ %75 → tuttu; CONTROL OK ≈ %95 → tuttu; B için WORKS %35 / NOT LEARNED %30 → **NOT LEARNED**; B_comp WORKS ≈ %40 → yanlış.
+- **Okuma.** Görev artık öğrenilebilir (tam dikkat %99,9), ama oyuncak RLT-M'in pencereler arası belleği bunu öğrenemiyor. Belleğin parçaları: pencere başına 16 yuvaya boş-anahtarlı dikkatle toplama yazması, çok-zaman-ölçekli sönüm, konumsuz okuma dikkati. E-RM Aşama 1'in (gerçek ölçek, ≈ 95 GPU-saat) mekanizma ön koşulu sağlanmadı.
+- **Kullanım (kayıtlı).** "LEARNABLE ∧ NOT LEARNED → yazma / okuma tasarımı tartışılır." Sıradaki ayrıştırıcı adım (ayrı ön-kayıt): yazma kahinden verilince okuma öğrenilebiliyor mu (B_orc), ve RMT-tarzı taşınan yuva belirteçleri (B_rmt) aynı tarifle öğreniyor mu; ikisi de konum kodlamalı.
+- *Sınır:* tek tohum; tek lr; 12.000 güncelleme; oyuncak ölçek.
 
 ### 5.50 E-L1C ön-kaydı: L1 programın sonuna (geri beslemeli RLT-1, CUDA graph ile) ve eşleşmiş A0F ile programın sonunda karşılaştırma (koşudan ÖNCE yazıldı 2026-10-22 21:07)
 **Gerekçe.** Gerçek RLT modeli için ucuz yollar kapandı:
