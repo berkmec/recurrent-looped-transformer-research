@@ -621,6 +621,8 @@ Yalnız-uzunluk kontrolü (eğitim dağılımı, derinlik ≤ 8): 64 / 256 / 1.0
 
 100. **E-RM0R4 ÖN-KAYDI (2026-10-22 21:41; ayrıntı not §5.53):** B_orc ve B, okuma kapısı γ = 1'den başlayarak (K3 korunur: γ := 0 yolu kapatır, testli). B_orc(γ₁) öğrenirse okumanın darboğazı γ = 0 başlangıcıymış; o zaman B(γ₁) yazmayı da sınar. Öngörü B_orc WORKS ≈ %55, B ≈ %25.
 
+101. **E-RM0R4 SONUCU: okuma kapısı açık başlayınca kahin-yazmalı bellek ÇALIŞIYOR (0,9994), öğrenilen yazmalı NOT LEARNED (0,165) (kayıtlı kural; 2026-10-22 21:42-22:28; ayrıntı not §5.53.1):** Tek değişiklik γ₀: 0 → 1; kahin yazmada okuma 0,269'dan 0,9994'e çıktı. Okumanın darboğazı γ = 0 başlangıcıymış: ilklemede okuma dikkatinin gradyanı tam sıfır. K3 korunuyor (γ := 0 yolu kapatır). Kalan darboğaz öğrenilen yazma: pencereyi 16 yuvaya toplayan yazma her yuvada bir karışım tutuyor. Aşama 1 tasarımına "okuma kapısı açık başlar" girer. Sıradaki: belirteç başına delta kuralıyla yazılan ilişkisel bellek (E-RM0R5).
+
 **Sınırlar.** Bu bölümde yeni ölçüm YOK; öngörüler sonuçlardan önce yazıldı. M4 karşılaştırması farklı genişlik, lr, bütçe ve müfredatla yapıldı. X1 doğrulanmadı. **Güncelleme (07:10):** "yeni ölçüm YOK" cümlesi yalnız 06:30 öncesi için doğruydu; 06:54'ten beri E-A ve E-B ölçümleri alındı (madde 7-8) ve yukarıdaki sınırlar onlar için ayrıca belirtilmiştir.
 
 ## 7. Düzeltmeler defteri

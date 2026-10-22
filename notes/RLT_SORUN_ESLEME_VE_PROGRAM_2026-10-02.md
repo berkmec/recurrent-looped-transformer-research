@@ -1733,6 +1733,15 @@ Kayıtlı yorum:
 **Öngörüler [H].** B_orc(γ₁) WORKS ≈ %55; B(γ₁) WORKS ≈ %25.
 - *Sınır:* tek tohum; tek γ₀ değeri; oyuncak ölçek.
 
+### 5.53.1 E-RM0R4 SONUCU (kayıtlı kural §5.53; koşular 2026-10-22 21:42-22:28): B_orc(γ₀ = 1) **MEMORY WORKS (toy)**, 0,9994; B(γ₀ = 1) **NOT LEARNED**, 0,165. Okumanın darboğazı γ = 0 başlangıcıydı; kalan darboğaz öğrenilen yazma
+- **B_orc, γ₀ = 1** (yazma kahinden): d = 3'te 0,9994, toplam 0,9998; kayıp 1,904 → 0,011 (≈ 2.000. güncellemede) → 0,000. Aynı kol γ₀ = 0 ile (E-RM0R3) 0,269'da kalmıştı. **Tek değişiklik okuma kapısının başlangıç değeri.**
+- **B, γ₀ = 1** (yazma öğreniliyor): d = 3'te 0,165 (şans 0,125); kayıp 2,091 → 2,030; γ en fazla 2,32, yazma geçidi önyargısı −2,00 → −1,26.
+- **Kayıtlı yorum.** "B_orc(γ₁) WORKS ⇒ okumanın darboğazı γ = 0 başlangıcıymış" → **doğrulandı**. B(γ₁) NOT LEARNED ⇒ RLT-M oyuncakta henüz uçtan uca çalışmıyor; kalan darboğaz öğrenilen yazma.
+- **Öngörü kalibrasyonu.** B_orc(γ₁) WORKS ≈ %55 → tuttu; B(γ₁) WORKS ≈ %25 → tutmadı.
+- **Matematik.** γ = 0'da okuma dikkatinin (Wq, Wk, Wv, Wo) gradyanı tam sıfır; γ'nın kendi gradyanı rastgele okuma özelliklerinin hedefle zayıf ilişkisinden geliyor. Bu yüzden yol, kahin yazmada bile açılamıyordu. γ₀ = 1'de okuma 2.000 güncellemede öğreniliyor. K3 (γ := 0 yolu kapatır) korunuyor; değişen yalnız başlangıç.
+- **Kullanım (kayıtlı).** Aşama 1 tasarımına "okuma kapısı açık başlar, K3 kapatma anahtarı olarak kalır" girer. Yazma için: mevcut yazma bir pencerenin 32 belirtecini boş-anahtarlı dikkatle 16 yuvaya toplayarak yazıyor, yani her yuva bir karışım tutuyor. Sıradaki adım belirteç başına delta kuralıyla yazılan ilişkisel bellek (E-RM0R5, §5.54).
+- *Sınır:* tek tohum; tek γ₀ değeri; oyuncak ölçek.
+
 ## 6. Gerçek model yolu
 
 1. **Ne iddia edilir:** "küçük, bayt-düzeyi bir RLT, durum-izleme/çok-adımlı görevlerde eşit-parametre ve eşit-token bir transformer'a yapısal bir üstünlük gösteriyor mu". LM kaybında üstünlük iddia edilmez (bağımsız değerlendirme bulamadı).
