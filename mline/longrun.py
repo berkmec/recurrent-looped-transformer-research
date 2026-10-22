@@ -157,11 +157,15 @@ def _atomic_save(path, state):
 def train(out, *, width, heads, steps, batch, length, lr, seed, needle_rate, phases, lm_batch, natural_keys=None, warmup=500,
           decay_fraction=.1, floor=.1, weight_decay=.01, clip=1., ckpt_every=250, snapshot_every=1000, eval_every=1000,
           eval_fn=None, device='cuda', arm='plain', window=4, alpha=.1, max_skips=50, verbose=True, telemetry='off', stop_at=None,
-          graphs=False):
+          graphs=False, init_from=None, data_offset=0):
     """`stop_at` ends the run early ON THE FULL SCHEDULE (the learning rate still follows `steps`), leaving `stopped.json`
     instead of `complete.json`: a twin can retrace the first `stop_at` updates of a longer run exactly (A0 twin of L1).
     `graphs` replays the training forward and backward as CUDA graphs (mline.graphed, E-J1): the same kernels on the same
-    inputs, captured at the first update of this process; the battery still runs eagerly."""
+    inputs, captured at the first update of this process; the battery still runs eagerly.
+    `init_from` (a checkpoint or a bare state dict) gives a NEW run its starting weights - fresh optimizer, fresh schedule over
+    `steps` (E-WS: feedback switched on after a no-feedback run; the Core's state dict is the same for every arm). A run that
+    has its own checkpoint resumes from it instead. `data_offset` shifts the phase, the language rows and the synthetic rows to
+    update `step + data_offset`, so a continuation draws new batches in the phase it continues; the schedule keeps `step`."""
     check_phases(phases)
     if telemetry not in ('off', 'std1'):
         raise SystemExit("telemetry 'off' veya 'std1' olmali (I1a:63/65; sessiz eksik-log yasak)")
@@ -177,9 +181,15 @@ def train(out, *, width, heads, steps, batch, length, lr, seed, needle_rate, pha
         role=ROLE, arm=arm, width=width, heads=heads, steps=steps, batch=batch, length=length, lr=lr, warmup=warmup,
         decay_fraction=decay_fraction, floor=floor, seed=seed, needle_rate=needle_rate, parameters=parameters,
         tokens_planned=steps * batch * length, phases=[[limit, specs] for limit, specs in phases], utc=time.time(),
-        note='bytes are tokens (vocabulary 256); the schedule depends on `steps`, so extending a run changes the decay'))
+        note='bytes are tokens (vocabulary 256); the schedule depends on `steps`, so extending a run changes the decay',
+        **(dict(init_from=str(init_from), data_offset=data_offset) if init_from or data_offset else {})))
     resume = ck.load_latest(out)
     start = 1
+    if (resume is None or resume['step'] is None) and init_from:
+        blob = torch.load(init_from, map_location='cpu', weights_only=False)
+        model.load_state_dict(blob['model'] if isinstance(blob, dict) and 'model' in blob else blob)
+        if verbose:
+            print('starting from the weights of %s' % init_from, flush=True)
     if resume is not None and resume['step'] is not None:
         model.load_state_dict(resume['model'])
         if resume['optimizer'] is not None:
@@ -199,9 +209,10 @@ def train(out, *, width, heads, steps, batch, length, lr, seed, needle_rate, pha
     t0 = time.perf_counter()
     last = steps if stop_at is None else min(steps, int(stop_at))
     for step in range(start, last + 1):
-        phase, specs = phase_at(phases, step)
-        lm_x, lm_y = lm_batch(step, n_lm) if n_lm else (torch.zeros(0, length, dtype=torch.long),) * 2
-        sx, sy, first, four = synthetic_batch(specs, n_synthetic, seed, step, length, natural_keys)
+        data_step = step + data_offset
+        phase, specs = phase_at(phases, data_step)
+        lm_x, lm_y = lm_batch(data_step, n_lm) if n_lm else (torch.zeros(0, length, dtype=torch.long),) * 2
+        sx, sy, first, four = synthetic_batch(specs, n_synthetic, seed, data_step, length, natural_keys)
         x = torch.cat([lm_x, sx]).to(device)
         y = torch.cat([lm_y, sy]).to(device)
         current_lr = lr_at(step, steps, lr, warmup, decay_fraction, floor)
@@ -351,6 +362,8 @@ def main():
     parser.add_argument('--stop-at', type=int, default=None, help='stop after this update, keeping the full schedule (see train)')
     parser.add_argument('--telemetry', default='off', choices=('off', 'std1'))
     parser.add_argument('--graphs', action='store_true', help='replay the training forward and backward as CUDA graphs (E-J1)')
+    parser.add_argument('--init-from', default=None, help='starting weights for a new run (fresh optimizer and schedule; E-WS)')
+    parser.add_argument('--data-offset', type=int, default=0, help='draw phase and batches at update step + offset (E-WS)')
     args = parser.parse_args()
     from mline import data as md
     from mline import mqar_eval as me
@@ -372,7 +385,7 @@ def main():
           needle_rate=args.needle_rate, phases=phases, lm_batch=lm_batch, natural_keys=natural_train, warmup=args.warmup,
           decay_fraction=args.decay_fraction, ckpt_every=args.ckpt_every, snapshot_every=args.snapshot_every,
           eval_every=args.eval_every, eval_fn=eval_fn, device=args.device, arm=args.arm, stop_at=args.stop_at,
-          telemetry=args.telemetry, graphs=args.graphs)
+          telemetry=args.telemetry, graphs=args.graphs, init_from=args.init_from, data_offset=args.data_offset)
 
 
 if __name__ == '__main__':

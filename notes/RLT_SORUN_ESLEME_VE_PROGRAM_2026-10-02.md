@@ -1413,6 +1413,35 @@ Eğitilmiş B'de γ'nın sıfırda kalmadığını da gördüm (bazı kanallarda
 **Kullanım.** ROBUST TO BUDGET → §5.16'nın kayıtlı kullanımı ("durum-anahtarlı getirme ailesi gerçek model görev karışımına girer; RLT'nin yapısal değeri kanıtlı sayılır") üç denetimle (tohum, lr, bütçe) uygulanır. BUDGET-LIMITED → üstünlük hız üstünlüğü olarak kaydedilir.
 - *Sınır:* tek lr (10⁻³); 2× bütçe; ≈ 100k parametre; tek görev ailesi.
 
+### 5.48 E-WS ön-kaydı: geri beslemeyi sonradan açmak (ılık başlangıç); RLT-1'in kazancı tam programla eğitilmiş geri beslemesiz modelin üstüne ucuza alınabilir mi? (kod `longrun --init-from --data-offset`, `mline/ews.py`, testler; koşudan ÖNCE yazıldı 2026-10-22 13:01)
+**Gerekçe.**
+- E-A0'ya göre geri besleme güncelleme başına kazandırıyor (+0,050 @ 8.000; E-J1'in birebir L1 devamında +0,056 @ 9.000), ama ≈ 10× pahalı.
+- E-J0 ve E-J1'e göre bu oran hesabı değiştirmeden düşmüyor: Jacobi 48 geçiş istiyor, CUDA graph yalnız 1,24× kazandırıyor.
+- A0 ise tam programla 5,6 saatte 1,4408'e ulaştı.
+
+Buradan, RLT'nin mantığına dokunmayan bir eğitim sırası denenebilir: önce geri beslemesiz (paralel, ucuz) eğitim, sonra geri besleme açık (RLT-1) kısa bir ince ayar. Sonuçta çıkan model tam RLT-1'dir (K1 açık). A0'da kapı, W_s, norm ve başlangıç durumu ayrılmış ama eğitilmemişti; ince ayarda eğitilir.
+**Tasarım.**
+- *Başlangıç:* A0F'nin son ağırlıkları (30.518. güncelleme; `results/L1-a0-w928-s401/latest.pt`).
+- *Ortak program (iki kol):* 2.000 güncelleme; ısınma 100; tepe lr 2×10⁻⁴; son %10'da 2×10⁻⁵'e azaltma; yeni iyileştirici. Veri aynı: `--data-offset 30518`, yani A0'ın son evresi ve yeni örnekler.
+- *Kollar:*
+  - (a) `a0-cont`: geri besleme kapalı (A0'ın devamı; kontrol).
+  - (b) `fb-ft`: aynı ağırlıklar, geri besleme açık (RLT-1; `--graphs`).
+- *Ölçüm:* pil her 500 güncellemede; çıktı `results/EWS/`.
+
+**Kural** (`mline.ews.reading`). Δ_k = bpb_cont(k) − bpb_fb(k), k = 500 / 1.000 / 1.500 / 2.000.
+- **WARM START HELPS** ⇔ Δ_2000 ≥ +0,010 ve Δ_1500 > 0;
+- **WARM START HURTS** simetrik;
+- **NO DIFFERENCE** ⇔ |Δ_2000| < 0,010;
+- **MIXED** aksi hâlde.
+
+Eşik gerekçesi: 2.000 güncellemelik ince ayar için E-A0'nun 0,020'sinin yarısı. Betimleyici: getirme metrikleri; güncelleme başına süre.
+**Öngörüler [H].** HELPS ≈ %50, NO DIFFERENCE ≈ %35, HURTS ≈ %15. fb-ft'nin ilk pilinde (500) kontrolden kötü olması ≈ %40; eğitilmemiş birleştirme yolu başta bozabilir.
+**Kullanım.**
+- **HELPS:** gerçek RLT modeli için "önce paralel, sonra geri besleme" tarifi aday olur. RLT-1'in kazancının bir kısmı ≈ A0'ın maliyeti artı küçük bir ince ayarla alınır. L1 programın sonuna sürülürse onun değeriyle de karşılaştırılır.
+- **NO DIFFERENCE / HURTS:** ince ayar geri beslemenin kazancını vermiyor; RLT-1'in kazancı ya baştan geri beslemeli eğitimle alınır ya hiç alınmaz.
+
+- *Sınır:* tek tohum; tek program ve lr; 2.000 güncelleme; A0'ın son evresinin veri karışımı. Kontrol kolu da yeniden ısınmadan etkilenir, ama etki iki kolda aynı.
+
 ## 6. Gerçek model yolu
 
 1. **Ne iddia edilir:** "küçük, bayt-düzeyi bir RLT, durum-izleme/çok-adımlı görevlerde eşit-parametre ve eşit-token bir transformer'a yapısal bir üstünlük gösteriyor mu". LM kaybında üstünlük iddia edilmez (bağımsız değerlendirme bulamadı).
