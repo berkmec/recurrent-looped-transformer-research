@@ -1,0 +1,44 @@
+{
+ "schema": "run-manifest/v1",
+ "run_id": "F2-I3f-F1-perm4-core-w64-s1-np09",
+ "campaign": "F2-I3f",
+ "agent": "claude-4797b78c",
+ "created_utc": "2026-10-21T21:26:59Z",
+ "command": "python -B -m horizon.depth_run --task perm4 --arm core --width 64 --seed 1 --curriculum 1,2,3,4,6,8,12,16 --neutral-p 0.9 --hold-tmax 16 --steps 15000 --log-every 1000 --out results/F2-I3f-F1-perm4-core-w64-s1-np09.json",
+ "prereg": {
+  "paper": "notes/_hive_F2_ONKAYIT_I3-f.md"
+ },
+ "code": {
+  "head": "5dfcddf",
+  "dirty": false,
+  "porcelain": [
+   " M results/ES-pilot/sk3-core-w64-s2.log",
+   " M results/M1-finetune-distance/queue.log",
+   "?? results/ES-pilot/sk3-core-w64-s2.manifest.json",
+   "?? results/F2-I3f-dryrun/",
+   "?? results/L1-a0-w928-s401/",
+   "?? results/Z1-pilot/P6-drift-profile-s3.manifest.json",
+   "?? results/Z1-pilot/P6-margin-profile-s5-seeds.manifest.json",
+   "?? results/Z1-pilot/a3-r4-perm5-hold-w128-s1-np05-30k-reading.json",
+   "?? results/Z1-pilot/a3-r4-perm5-hold-w128-s1-np05-30k-reading.log",
+   "?? results/Z1-pilot/a3-r4-perm5-hold-w128-s1-np05-30k.json",
+   "?? results/Z1-pilot/a3-r4-perm5-hold-w128-s1-np05-30k.log",
+   "?? results/Z1-pilot/a3-r4-perm5-hold-w128-s1-np05-30k.manifest.json",
+   "?? results/Z1-pilot/a3-r4-perm5-hold-w128-s1-np05-30k.tel.jsonl",
+   "?? results/Z1-pilot/drift-profile-s3.json",
+   "?? results/Z1-pilot/drift-profile-s3.txt",
+   "?? results/Z1-pilot/margin-profile-s5-seeds.json",
+   "?? results/Z1-pilot/margin-profile-s5-seeds.txt"
+  ]
+ },
+ "config": {
+  "source": "scripts/run_lane1_2026-10-22.sh",
+  "summary": {},
+  "sha256": "65cc4390334005d7f5fae4ecbe14f8d839ffa6d399e75d0107fc6643ac3d7763"
+ },
+ "seeds": {
+  "seed": 1
+ },
+ "telemetry_schema": "I1-a/v1",
+ "status": "started"
+}

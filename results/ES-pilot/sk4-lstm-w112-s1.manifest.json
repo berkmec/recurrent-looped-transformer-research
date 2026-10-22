@@ -1,0 +1,50 @@
+{
+ "schema": "run-manifest/v1",
+ "run_id": "sk4-lstm-w112-s1",
+ "campaign": "ES-pilot",
+ "agent": "claude-4797b78c",
+ "created_utc": "2026-10-21T22:01:58Z",
+ "command": "python -B -m horizon.sk_run --task sk4 --arm lstm --width 112 --seed 1 --steps 15000 --out results/ES-pilot/sk4-lstm-w112-s1.json --log-every 1000",
+ "prereg": {
+  "paper": "notes/RLT_SORUN_ESLEME_VE_PROGRAM_2026-10-02.md 5.16"
+ },
+ "code": {
+  "head": "5dfcddf",
+  "dirty": false,
+  "porcelain": [
+   " M results/ES-pilot/sk3-core-w64-s2.log",
+   " M results/M1-finetune-distance/queue.log",
+   "?? results/ES-pilot/sk3-core-w64-s2.json",
+   "?? results/ES-pilot/sk3-core-w64-s2.manifest.json",
+   "?? results/ES-pilot/sk4-lstm-w112-s1.log",
+   "?? results/F2-I3f-F1-perm4-core-w64-s1-np09.json",
+   "?? results/F2-I3f-F1-perm4-core-w64-s1-np09.log",
+   "?? results/F2-I3f-F2-perm4-hold-w64-s1-np09.log",
+   "?? results/F2-I3f-dryrun/",
+   "?? results/F2-I3f/",
+   "?? results/L1-a0-w928-s401/",
+   "?? results/Z1-pilot/P6-drift-profile-s3.manifest.json",
+   "?? results/Z1-pilot/P6-margin-profile-s5-seeds.manifest.json",
+   "?? results/Z1-pilot/a3-r4-perm5-hold-w128-s1-np05-30k-reading.json",
+   "?? results/Z1-pilot/a3-r4-perm5-hold-w128-s1-np05-30k-reading.log",
+   "?? results/Z1-pilot/a3-r4-perm5-hold-w128-s1-np05-30k.json",
+   "?? results/Z1-pilot/a3-r4-perm5-hold-w128-s1-np05-30k.log",
+   "?? results/Z1-pilot/a3-r4-perm5-hold-w128-s1-np05-30k.manifest.json",
+   "?? results/Z1-pilot/a3-r4-perm5-hold-w128-s1-np05-30k.tel.jsonl",
+   "?? results/Z1-pilot/drift-profile-s3.json",
+   "?? results/Z1-pilot/drift-profile-s3.txt",
+   "?? results/Z1-pilot/margin-profile-s5-seeds.json",
+   "?? results/Z1-pilot/margin-profile-s5-seeds.txt"
+  ]
+ },
+ "config": {
+  "source": "scripts/run_es_b.sh",
+  "summary": {},
+  "sha256": "36b6532193b8ce97c970394db70c7d32b1e087ddbeafca6f6237e82221b55c6e"
+ },
+ "seeds": {
+  "seed": 1
+ },
+ "telemetry_schema": "I1-a/v1",
+ "status": "started"
+}

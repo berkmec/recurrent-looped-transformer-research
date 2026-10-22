@@ -13,3 +13,32 @@ sk3 core w64 s2 step 3000 walk 16 loss 0.0001257134135812521 value acc 1.0 (648s
 sk3 core w64 s2 step 4000 walk 16 loss 3.652825117111206 value acc 0.2869140625 (897s)
 sk3 core w64 s2 step 5000 walk 16 loss 0.24723820388317108 value acc 0.89125 (1149s)
 sk3 core w64 s2 step 6000 walk 16 loss 0.042462483048439026 value acc 0.9940625 (1402s)
+--- start 2026-10-22 00:11:22
+sk3 core w64 s2 step 200 curriculum advance walk 0 -> 1 (17s)
+sk3 core w64 s2 step 400 curriculum advance walk 1 -> 2 (36s)
+sk3 core w64 s2 step 686 curriculum advance walk 2 -> 3 (66s)
+sk3 core w64 s2 step 886 curriculum advance walk 3 -> 4 (90s)
+sk3 core w64 s2 step 1000 walk 4 loss 0.009346049278974533 value acc 0.9960546875 (105s)
+sk3 core w64 s2 step 1086 curriculum advance walk 4 -> 6 (117s)
+sk3 core w64 s2 step 1286 curriculum advance walk 6 -> 8 (147s)
+sk3 core w64 s2 step 1486 curriculum advance walk 8 -> 12 (179s)
+sk3 core w64 s2 step 1686 curriculum advance walk 12 -> 16 (217s)
+sk3 core w64 s2 step 2000 walk 16 loss 0.00037574366433545947 value acc 1.0 (285s)
+sk3 core w64 s2 step 3000 walk 16 loss 0.0001257134135812521 value acc 1.0 (496s)
+sk3 core w64 s2 step 4000 walk 16 loss 3.652825117111206 value acc 0.2869140625 (709s)
+sk3 core w64 s2 step 5000 walk 16 loss 0.24723820388317108 value acc 0.89125 (929s)
+sk3 core w64 s2 step 6000 walk 16 loss 0.042462483048439026 value acc 0.9940625 (1138s)
+sk3 core w64 s2 step 7000 walk 16 loss 0.0013901303755119443 value acc 0.99765625 (1347s)
+sk3 core w64 s2 step 8000 walk 16 loss 0.003066356759518385 value acc 0.9965625 (1557s)
+sk3 core w64 s2 step 9000 walk 16 loss 0.0014780747005715966 value acc 0.99859375 (1766s)
+sk3 core w64 s2 step 10000 walk 16 loss 0.00010032335558207706 value acc 1.0 (1976s)
+sk3 core w64 s2 step 11000 walk 16 loss 0.0008325866656377912 value acc 0.9988671875 (2186s)
+sk3 core w64 s2 step 12000 walk 16 loss 7.482661749236286e-05 value acc 1.0 (2396s)
+sk3 core w64 s2 step 13000 walk 16 loss 4.4858214096166193e-05 value acc 1.0 (2608s)
+sk3 core w64 s2 step 14000 walk 16 loss 3.162524080835283e-05 value acc 1.0 (2817s)
+sk3 core w64 s2 step 15000 walk 16 loss 2.5871408070088364e-05 value acc 1.0 (3027s)
+{"task": "sk3", "arm": "core", "width": 64, "seed": 2, "in_range": 1.0, "state_in_range": 1.0, "extrapolation": 0.9120833333333334, "state_extrapolation": 1.0, "extrapolation_queries": 2400, "wall_seconds": 3032.7515837999526}
+8 length 22 queries 200 value accuracy 1.0 state accuracy 1.0 {'4-15': 1.0}
+16 length 32 queries 400 value accuracy 1.0 state accuracy 1.0 {'4-15': 1.0, '16-31': 1.0}
+64 length 92 queries 1600 value accuracy 0.998 state accuracy 1.0 {'4-15': 1.0, '16-31': 1.0, '32-63': 0.996, '64-127': 0.99}
+512 length 652 queries 12800 value accuracy 0.643 state accuracy 1.0 {'4-15': 1.0, '16-31': 1.0, '32-63': 0.995, '64-127': 0.871, '128-255': 0.668, '256-511': 0.496, '512+': 0.33}

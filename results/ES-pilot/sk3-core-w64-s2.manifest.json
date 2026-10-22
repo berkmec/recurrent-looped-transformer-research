@@ -1,0 +1,33 @@
+{
+ "schema": "run-manifest/v1",
+ "run_id": "sk3-core-w64-s2",
+ "campaign": "ES-pilot",
+ "agent": "claude-4797b78c",
+ "created_utc": "2026-10-21T21:11:22Z",
+ "command": "python -B -m horizon.sk_run --task sk3 --arm core --width 64 --seed 2 --steps 15000 --out results/ES-pilot/sk3-core-w64-s2.json --log-every 1000",
+ "prereg": {
+  "paper": "notes/RLT_SORUN_ESLEME_VE_PROGRAM_2026-10-02.md 5.16"
+ },
+ "code": {
+  "head": "2eb7db3",
+  "dirty": false,
+  "porcelain": [
+   " M results/ES-pilot/sk3-core-w64-s2.log",
+   " M results/M1-finetune-distance/queue.log",
+   "?? results/L1-a0-w928-s401/",
+   "?? results/Z1-pilot/a3-r4-perm5-hold-w128-s1-np05-30k.log",
+   "?? results/Z1-pilot/a3-r4-perm5-hold-w128-s1-np05-30k.manifest.json",
+   "?? results/Z1-pilot/a3-r4-perm5-hold-w128-s1-np05-30k.tel.jsonl"
+  ]
+ },
+ "config": {
+  "source": "scripts/run_es_b.sh",
+  "summary": {},
+  "sha256": "36b6532193b8ce97c970394db70c7d32b1e087ddbeafca6f6237e82221b55c6e"
+ },
+ "seeds": {
+  "seed": 2
+ },
+ "telemetry_schema": "I1-a/v1",
+ "status": "started"
+}

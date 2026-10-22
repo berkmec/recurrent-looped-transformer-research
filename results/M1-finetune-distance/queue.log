@@ -478,3 +478,232 @@
 [17:48:41] BITTI Z1 perm4-lstm-w64-s4-cur
 [17:48:41] BASLA Z1 perm4-gru-w64-s5-cur (CPU, 1 parcacik, 15000 adim, lr 0.003, mufredat 1,2,3,4,6,8,12,16, lr azaltma kesri 0)
 [17:51:56] ZINCIR-DEGISIKLIGI 35: KULLANICI bilgisayara ihtiyac duydu (gecici): TUM deney surecleri DONDURULDU (NtSuspendProcess; oldurulmedi, durum korunuyor, kilit dizinleri bozulmadi): L1 (run_longrun.sh 12144/17344, mline.longrun 10572/19212; adim 8527 bellekte, latest.pt adim 8500), E-F5 (run_ef5.sh 5436/15184, depth_run 17536/19024), E-P4 (run_ep4.sh 2372/13048, depth_run 18600/19076 = perm4 gru s5), bekleyiciler 10132/11084. Devam: ayni PID listesine NtResumeProcess (paused_pids.txt, is dizini tmp). 17:46da kullanici python sureclerini elle oldurmustu: bekciler L1'i (deneme 4, latest.pt adim 8500'den) ve Z1 zincirini geri baslatti. 33 sizan l1watch.sh izleyicisi kapatildi. A0 ikizi plani beklemede (kod ve not degismedi).
+[17:04:53] BASLA EG perm4-hold-w64-s1-cur-egnp05 (CPU, 1 parcacik, 15000 adim, mufredat 1,2,3,4,6,8,12,16, notr-p 0.5, hold-tmax 16, kapida sonum yok)
+[17:29:02] BITTI EG perm4-hold-w64-s1-cur-egnp05
+[17:29:02] BASLA EG perm4-hold-w64-s2-cur-egnp05 (CPU, 1 parcacik, 15000 adim, mufredat 1,2,3,4,6,8,12,16, notr-p 0.5, hold-tmax 16, kapida sonum yok)
+[17:52:43] BITTI EG perm4-hold-w64-s2-cur-egnp05
+[17:52:43] BASLA EG perm4-hold-w64-s3-cur-egnp05 (CPU, 1 parcacik, 15000 adim, mufredat 1,2,3,4,6,8,12,16, notr-p 0.5, hold-tmax 16, kapida sonum yok)
+[18:02:09] BASLA ERM erm-g01 (CPU, hizli kapi)
+[18:02:09] HATA ERM erm-g01 (bkz results/ERM-S0/erm-g01.log)
+[18:02:09] BASLA ERM erm-g02 (CPU, hizli kapi)
+[18:02:09] HATA ERM erm-g02 (bkz results/ERM-S0/erm-g02.log)
+[18:02:09] BASLA ERM erm-g05 (CPU, hizli kapi)
+[18:02:09] HATA ERM erm-g05 (bkz results/ERM-S0/erm-g05.log)
+[18:02:09] BASLA ERM erm-B-s1 (CPU, 1 parcacik, 6000 adim, batch 32, lr 0.003, ~22 dk)
+[18:02:09] HATA ERM erm-B-s1 (bkz results/ERM-S0/erm-B-s1.log)
+[18:02:09] BASLA ERM erm-A-s1 (CPU, 1 parcacik, 6000 adim, batch 32, lr 0.003, ~22 dk)
+[18:02:09] HATA ERM erm-A-s1 (bkz results/ERM-S0/erm-A-s1.log)
+[18:02:09] BASLA ERM erm-Apr-s1 (CPU, 1 parcacik, 6000 adim, batch 32, lr 0.003, ~22 dk)
+[18:02:09] HATA ERM erm-Apr-s1 (bkz results/ERM-S0/erm-Apr-s1.log)
+[18:02:09] BASLA ERM erm-B-s1 degerlendirme (CPU, n=200/hucre)
+[18:02:09] HATA ERM erm-B-s1 degerlendirme (bkz results/ERM-S0/erm-B-s1-eval.log)
+[18:02:09] BASLA ERM erm-A-s1 degerlendirme (CPU, n=200/hucre)
+[18:02:09] HATA ERM erm-A-s1 degerlendirme (bkz results/ERM-S0/erm-A-s1-eval.log)
+[18:02:09] BASLA ERM erm-Apr-s1 degerlendirme (CPU, n=200/hucre)
+[18:02:09] HATA ERM erm-Apr-s1 degerlendirme (bkz results/ERM-S0/erm-Apr-s1-eval.log)
+[18:02:09] ERM S0 kuyruk BITTI (G0.4 GPU haric; yedek merdiven KALDI hukumunde ayrica)
+[18:02:46] BASLA ERM erm-g01 (CPU, hizli kapi)
+[18:02:50] BITTI ERM erm-g01
+[18:02:50] BASLA ERM erm-g02 (CPU, hizli kapi)
+[18:02:55] BITTI ERM erm-g02
+[18:02:55] BASLA ERM erm-g05 (CPU, hizli kapi)
+[18:02:59] BITTI ERM erm-g05
+[18:02:59] BASLA ERM erm-B-s1 (CPU, 1 parcacik, 6000 adim, batch 32, lr 0.003, ~22 dk)
+[18:17:44] BITTI ERM erm-B-s1
+[18:17:44] BASLA ERM erm-A-s1 (CPU, 1 parcacik, 6000 adim, batch 32, lr 0.003, ~22 dk)
+[18:22:19] BITTI EG perm4-hold-w64-s3-cur-egnp05
+[18:22:19] BASLA EG perm4-hold_nc-w64-s1-cur-egnp05 (CPU, 1 parcacik, 15000 adim, mufredat 1,2,3,4,6,8,12,16, notr-p 0.5, hold-tmax 16, kapida sonum yok)
+[18:28:29] BITTI ERM erm-A-s1
+[18:28:29] BASLA ERM erm-Apr-s1 (CPU, 1 parcacik, 6000 adim, batch 32, lr 0.003, ~22 dk)
+[18:39:44] BITTI ERM erm-Apr-s1
+[18:39:44] BASLA ERM erm-B-s1 degerlendirme (CPU, n=200/hucre)
+[18:39:48] BITTI ERM erm-B-s1 degerlendirme
+[18:39:48] BASLA ERM erm-A-s1 degerlendirme (CPU, n=200/hucre)
+[18:39:51] BITTI ERM erm-A-s1 degerlendirme
+[18:39:51] BASLA ERM erm-Apr-s1 degerlendirme (CPU, n=200/hucre)
+[18:39:54] BITTI ERM erm-Apr-s1 degerlendirme
+[18:39:57] ERM G0.3 hukum: 
+[18:39:57] ERM S0 kuyruk BITTI (G0.4 GPU haric; yedek merdiven KALDI hukumunde ayrica)
+[18:50:46] BITTI EG perm4-hold_nc-w64-s1-cur-egnp05
+[18:50:47] BASLA EG perm5-hold-w128-s1-cur-egnp05 (CPU, 1 parcacik, 30000 adim, mufredat 1,2,3,4,6,8,12,16, notr-p 0.5, hold-tmax 16, kapida sonum yok)
+[19:08:19] BITTI EG perm5-hold-w128-s1-cur-egnp05
+[19:08:19] BASLA EG perm5-hold-w128-s2-cur-egnp05 (CPU, 1 parcacik, 30000 adim, mufredat 1,2,3,4,6,8,12,16, notr-p 0.5, hold-tmax 16, kapida sonum yok)
+[19:26:41] BITTI EG perm5-hold-w128-s2-cur-egnp05
+[19:26:41] EG kuyruk BITTI
+[19:42:01] BASLA ERM erm-B_comp-s1 (merdiven-1 B_comp, CPU, 1 parcacik, 6000 adim, ~25 dk)
+[19:57:36] BITTI ERM erm-B_comp-s1
+[19:57:37] BASLA ERM erm-B_comp-s1 degerlendirme (CPU, n=200/hucre)
+[19:57:41] BITTI ERM erm-B_comp-s1 degerlendirme
+[19:57:44] ERM B_comp hukum: KALDI
+[19:57:44] ERM merdiven-1 kuyruk BITTI
+[21:00:23] BASLA ERM erm-B_rmt-s1 (merdiven-3 B_rmt, CPU, 1 parcacik, 6000 adim, ~25 dk)
+[21:00:29] HATA ERM erm-B_rmt-s1 (bkz results/ERM-S0/erm-B_rmt-s1.log)
+[21:00:30] ERM merdiven-3 kuyruk BITTI
+[21:01:25] BASLA ERM erm-B_rmt-s1 (merdiven-3 B_rmt, CPU, 1 parcacik, 6000 adim, ~25 dk)
+[21:12:43] BITTI ERM erm-B_rmt-s1
+[21:12:43] BASLA ERM erm-B_rmt-s1 degerlendirme (CPU, n=200/hucre)
+[21:12:49] BITTI ERM erm-B_rmt-s1 degerlendirme
+[21:12:52] ERM B_rmt hukum: KALDI
+[21:12:52] ERM merdiven-3 kuyruk BITTI
+[21:41:41] BASLA M3b perm4-gru-w64-w1d101 (CPU, 1 parcacik, 15000 adim, mufredat 1,2,3,4,6,8,12,16, wseed 1, dseed 101, eval 999)
+[21:44:17] BITTI M3b perm4-gru-w64-w1d101
+[21:44:17] BASLA M3b perm4-gru-w64-w1d102 (CPU, 1 parcacik, 15000 adim, mufredat 1,2,3,4,6,8,12,16, wseed 1, dseed 102, eval 999)
+[21:46:44] BITTI M3b perm4-gru-w64-w1d102
+[21:46:44] BASLA M3b perm4-gru-w64-w1d103 (CPU, 1 parcacik, 15000 adim, mufredat 1,2,3,4,6,8,12,16, wseed 1, dseed 103, eval 999)
+[21:49:02] BITTI M3b perm4-gru-w64-w1d103
+[21:49:03] BASLA M3b perm4-gru-w64-w2d101 (CPU, 1 parcacik, 15000 adim, mufredat 1,2,3,4,6,8,12,16, wseed 2, dseed 101, eval 999)
+[21:51:27] BITTI M3b perm4-gru-w64-w2d101
+[21:51:27] BASLA M3b perm4-gru-w64-w2d102 (CPU, 1 parcacik, 15000 adim, mufredat 1,2,3,4,6,8,12,16, wseed 2, dseed 102, eval 999)
+[21:53:51] BITTI M3b perm4-gru-w64-w2d102
+[21:53:51] BASLA M3b perm4-gru-w64-w2d103 (CPU, 1 parcacik, 15000 adim, mufredat 1,2,3,4,6,8,12,16, wseed 2, dseed 103, eval 999)
+[21:56:12] BITTI M3b perm4-gru-w64-w2d103
+[21:56:12] BASLA M3b perm4-gru-w64-w3d101 (CPU, 1 parcacik, 15000 adim, mufredat 1,2,3,4,6,8,12,16, wseed 3, dseed 101, eval 999)
+[21:58:37] BITTI M3b perm4-gru-w64-w3d101
+[21:58:37] BASLA M3b perm4-gru-w64-w3d102 (CPU, 1 parcacik, 15000 adim, mufredat 1,2,3,4,6,8,12,16, wseed 3, dseed 102, eval 999)
+[22:01:07] BITTI M3b perm4-gru-w64-w3d102
+[22:01:07] BASLA M3b perm4-gru-w64-w3d103 (CPU, 1 parcacik, 15000 adim, mufredat 1,2,3,4,6,8,12,16, wseed 3, dseed 103, eval 999)
+[22:03:33] BITTI M3b perm4-gru-w64-w3d103
+[22:03:33] M3b kuyruk BITTI
+[03:20:49] BASLA ERM erm-B_aux-s1 (prob P1 yardimli-yazma, CPU, 1 parcacik, 6000 adim, ~17 dk)
+[03:37:28] BITTI ERM erm-B_aux-s1
+[03:37:28] BASLA ERM erm-B_aux-s1 degerlendirme (CPU, n=200/hucre)
+[03:37:31] BITTI ERM erm-B_aux-s1 degerlendirme
+[03:37:34] ERM P1 hukum: INCOMPLETE
+[03:37:34] ERM prob-P1 kuyruk BITTI
+[04:02:00] BASLA ERM erm-B_aux03-s1 (prob P1b aux-0.3, CPU, 1 parcacik, 6000 adim, ~17 dk)
+[04:17:44] BITTI ERM erm-B_aux03-s1
+[04:17:44] BASLA ERM erm-B_aux03-s1 degerlendirme (CPU, n=200/hucre)
+[04:17:47] BITTI ERM erm-B_aux03-s1 degerlendirme
+[04:17:50] ERM P1b hukum: YARDIM_UYGULANMADI
+[04:17:50] ERM prob-P1b kuyruk BITTI
+[05:01:26] BASLA ERM erm-B_orc-s1 (prob P2 muafiyet, CPU, 1 parcacik, 6000 adim, ~14 dk)
+[05:31:43] HATA ERM erm-B_orc-s1 (bkz results/ERM-S0/erm-B_orc-s1.log)
+[05:31:43] ERM prob-P2 kuyruk BITTI
+[06:57:55] BASLA ERM erm-B_32-s1 (merdiven-2 B_32, CPU, 1 parcacik, 6000 adim, ~25 dk)
+[08:01:20] BITTI ERM erm-B_32-s1
+[08:01:20] BASLA ERM erm-B_32-s1 degerlendirme (CPU, n=200/hucre)
+[08:01:34] BITTI ERM erm-B_32-s1 degerlendirme
+[08:01:41] ERM B_32 hukum: KALDI
+[08:01:42] ERM merdiven-2 kuyruk BITTI
+[12:25:48] BASLA ERM erm-B_orc-s1 (prob P2 muafiyet TEKRAR, vektorize, CPU, 1 parcacik, 6000 adim)
+[12:39:28] BITTI ERM erm-B_orc-s1
+[12:39:28] BASLA ERM erm-B_orc-s1 degerlendirme (CPU, n=200/hucre)
+[12:39:33] BITTI ERM erm-B_orc-s1 degerlendirme
+[12:39:36] ERM P2 hukum: KALDI
+[12:39:36] ERM prob-P2 kuyruk BITTI (muafiyet TEKRAR)
+[03:20:01] --- FAZ-1 kuyrugu BASLADI (Jim): S3 muhur notu 826099ce; L12-E -> A3 (R0 notrluk kapisi) -> okumalar -> (K4) R1-s2
+results\Z1-pilot\l12-e-session-e1.manifest.json
+[03:20:02] BASLA L12-E l12-e-session-e1 (eval-only, 1 parcacik, BelowNormal)
+[03:40:05] --- FAZ-1 kuyrugu BASLADI (Jim): S3 muhur notu 826099ce; L12-E -> A3 (R0 notrluk kapisi) -> okumalar -> (K4) R1-s2
+manifest exists: results\Z1-pilot\l12-e-session-e1.manifest.json exists: a run manifest is written once (baslangic beyani)
+[03:40:05] BASLA L12-E l12-e-session-e1 (eval-only, 1 parcacik, BelowNormal)
+[03:58:57] BITTI L12-E l12-e-session-e1 (genel: INCOMPLETE)
+results\Z1-pilot\l12-e-session-e1-blocks.manifest.json
+[03:58:57] BASLA L12-E l12-e-session-e1-blocks (eval-only, 1 parcacik, BelowNormal)
+[04:01:40] BITTI L12-E l12-e-session-e1-blocks (genel: INCOMPLETE)
+results\Z1-pilot\a3-r0-a.manifest.json
+[04:01:41] BASLA A3 a3-r0-a
+[04:02:22] BITTI A3 a3-r0-a
+results\Z1-pilot\a3-r0-b.manifest.json
+[04:02:22] BASLA A3 a3-r0-b
+[04:02:59] BITTI A3 a3-r0-b
+[04:03:03] [A3] R0 notrluk (bit-ozdeslik): EQUAL
+[04:03:07] [A3] R0-a JSONL sema-kontrolu yazildi (a3-r0-a.schema.log)
+results\Z1-pilot\a3-r1-perm5-hold-w128-s1-np0.manifest.json
+[04:03:07] BASLA A3 a3-r1-perm5-hold-w128-s1-np0
+[04:07:26] BITTI A3 a3-r1-perm5-hold-w128-s1-np0
+results\Z1-pilot\a3-r2-perm4-hold-w64-s1-np0.manifest.json
+[04:07:27] BASLA A3 a3-r2-perm4-hold-w64-s1-np0
+[04:17:39] BITTI A3 a3-r2-perm4-hold-w64-s1-np0
+results\Z1-pilot\a3-r3-perm5-core-w128-s1.manifest.json
+[04:17:39] BASLA A3 a3-r3-perm5-core-w128-s1
+[04:21:39] BITTI A3 a3-r3-perm5-core-w128-s1
+[04:21:40] [A3] R3 (duz Core) son kayip: 0.22896689176559448 (K5c esigi <= 0,5)
+[04:21:43] [A3] R2 okuma yazildi: AÃ‡ILMA
+[04:21:43] [A3] R2 canli mi (K5b, G_ratio >= 0,10): YES
+[04:21:47] [A3] R1 okuma yazildi: ?
+[04:21:47] [A3] R1 etiket: BILINMIYOR | K4 bant (needs_seed2): NO
+[04:21:47] [A3] SONUC: R1=BILINMIYOR (K4 bant disi; R1-s2 kosulmadi)
+[04:21:47] --- FAZ-1 kuyrugu BITTI (Jim): L12-E + A3; I3-e (Meredith) siraya HAZIR (kilit/kuyruk bos)
+[04:30:58] --- FAZ-1 kuyrugu BASLADI (Jim): S3 muhur notu 826099ce; L12-E -> A3 (R0 notrluk kapisi) -> okumalar -> (K4) R1-s2
+[04:30:58] ATLA L12-E l12-e-session-e1 (json var)
+[04:30:58] ATLA L12-E l12-e-session-e1-blocks (json var)
+[04:30:58] ATLA A3 a3-r0-a (json var)
+[04:30:58] ATLA A3 a3-r0-b (json var)
+[04:31:03] [A3] R0 notrluk (bit-ozdeslik): EQUAL
+[04:31:07] [A3] R0-a JSONL sema-kontrolu yazildi (a3-r0-a.schema.log)
+[04:31:07] ATLA A3 a3-r1-perm5-hold-w128-s1-np0 (json var)
+[04:31:07] ATLA A3 a3-r2-perm4-hold-w64-s1-np0 (json var)
+[04:31:07] ATLA A3 a3-r3-perm5-core-w128-s1 (json var)
+[04:31:07] [A3] R3 (duz Core) son kayip: 0.22896689176559448 (K5c esigi <= 0,5)
+[04:31:07] [A3] R2 canli mi (K5b, G_ratio >= 0,10): YES
+[04:31:07] [A3] R1 etiket: KARIŞIK | K4 bant (needs_seed2): YES
+results\Z1-pilot\a3-r1-s2-perm5-hold-w128-s2-np0.manifest.json
+[04:31:07] BASLA A3 a3-r1-s2-perm5-hold-w128-s2-np0
+[04:35:37] BITTI A3 a3-r1-s2-perm5-hold-w128-s2-np0
+[04:35:40] [A3] R1-s2 okuma yazildi
+[04:35:40] [A3] SONUC: KARISIK (tohum-ayrimi): R1=KARIŞIK vs R1-s2=AÇILMA — god'a rapor
+[04:35:40] --- FAZ-1 kuyrugu BITTI (Jim): L12-E + A3; I3-e (Meredith) siraya HAZIR (kilit/kuyruk bos)
+[06:11:55] BASLA P0 p0-parity-k3-s128-b742
+[06:14:49] BITTI P0 p0-parity-k3-s128-b742
+[00:04:14] --- A3 R4 BASLIYOR (Jim): muhurlu E-G hucre replikasyonu (perm5 hold w128 np0.5 30k); god fab781; tek serit
+[00:04:14] [A3-R4] on-kosul OK: R3LOSS=0.22896689176559448 R2LIVE=YES
+results\Z1-pilot\a3-r4-perm5-hold-w128-s1-np05-30k.manifest.json
+[00:04:14] BASLA A3 R4 a3-r4-perm5-hold-w128-s1-np05-30k (30k adim, BelowNormal)
+results\L1-a0-w928-s401\E-A0-L1-a0-w928-s401.manifest.json
+[00:11:09] BASLA E-A0 L1-a0-w928-s401 (GPU; geri beslemesiz ikiz; 8.000 guncelleme, program 30.518 uzerinden)
+results\ES-pilot\sk3-core-w64-s2.manifest.json
+[00:11:22] BASLA ES sk3-core-w64-s2 (CPU, 1 parcacik, 15000 adim, lr 0.003 son %30'da ~0'a, mufredat 0..16)
+[00:13:35] LANE1 kuyrugu bekliyor: A3 R4 bitisi
+[00:21:53] BITTI A3 R4 a3-r4-perm5-hold-w128-s1-np05-30k
+[00:21:56] [A3-R4] okuma yazildi: KARIŞIK
+[00:21:57] --- A3 R4 BITTI (Jim): etiket: KARIŞIK; cikti=a3-r4-perm5-hold-w128-s1-np05-30k.json; manifest+okuma hazir — I3-c karari god'a
+[00:22:06] LANE1 kuyrugu basliyor (P6 -> I3-f -> E-F5)
+results\Z1-pilot\P6-drift-profile-s3.manifest.json
+[00:24:39] BITTI P6 drift-profile-s3
+results\Z1-pilot\P6-margin-profile-s5-seeds.manifest.json
+[00:25:16] BITTI P6 margin-profile-s5-seeds
+[00:26:59] I3-f kuru deneme (10 adim) 5/5 hucre tamam
+results\F2-I3f\F2-I3f-F1-perm4-core-w64-s1-np09.manifest.json
+[00:26:59] BASLA I3-f F2-I3f-F1-perm4-core-w64-s1-np09 (CPU, 1 parcacik, 15000 adim, notr-p 0.9, hold-tmax 16)
+[00:46:25] BITTI I3-f F2-I3f-F1-perm4-core-w64-s1-np09
+results\F2-I3f\F2-I3f-F2-perm4-hold-w64-s1-np09.manifest.json
+[00:46:25] BASLA I3-f F2-I3f-F2-perm4-hold-w64-s1-np09 (CPU, 1 parcacik, 15000 adim, notr-p 0.9, hold-tmax 16)
+[01:01:58] BITTI ES sk3-core-w64-s2
+results\ES-pilot\sk4-lstm-w112-s1.manifest.json
+[01:01:59] BASLA ES sk4-lstm-w112-s1 (CPU, 1 parcacik, 15000 adim, lr 0.003 son %30'da ~0'a, mufredat 0..16)
+[01:10:15] BITTI I3-f F2-I3f-F2-perm4-hold-w64-s1-np09
+results\F2-I3f\F2-I3f-F3-perm4-hold_nc-w64-s1-np09.manifest.json
+[01:10:16] BASLA I3-f F2-I3f-F3-perm4-hold_nc-w64-s1-np09 (CPU, 1 parcacik, 15000 adim, notr-p 0.9, hold-tmax 16)
+[01:12:49] BITTI ES sk4-lstm-w112-s1
+results\ES-pilot\sk4-gru-w128-s1.manifest.json
+[01:12:50] BASLA ES sk4-gru-w128-s1 (CPU, 1 parcacik, 15000 adim, lr 0.003 son %30'da ~0'a, mufredat 0..16)
+[01:26:07] BITTI ES sk4-gru-w128-s1
+results\ES-pilot\sk4-core_nofb-w64-s1.manifest.json
+[01:26:07] BASLA ES sk4-core_nofb-w64-s1 (CPU, 1 parcacik, 15000 adim, lr 0.003 son %30'da ~0'a, mufredat 0..16)
+[01:34:46] BITTI I3-f F2-I3f-F3-perm4-hold_nc-w64-s1-np09
+results\F2-I3f\F2-I3f-F4-perm5-core-w128-s1-np09.manifest.json
+[01:34:47] BASLA I3-f F2-I3f-F4-perm5-core-w128-s1-np09 (CPU, 1 parcacik, 15000 adim, notr-p 0.9, hold-tmax 16)
+[01:39:37] BITTI E-A0 (bkz results/L1-a0-w928-s401/probe.jsonl)
+[01:49:43] BITTI ES sk4-core_nofb-w64-s1
+results\ES-pilot\sk4-tfm-w64-s1.manifest.json
+[01:49:43] BASLA ES sk4-tfm-w64-s1 (CPU, 1 parcacik, 15000 adim, lr 0.003 son %30'da ~0'a, mufredat 0..16)
+[01:53:50] BITTI I3-f F2-I3f-F4-perm5-core-w128-s1-np09
+results\F2-I3f\F2-I3f-F5-perm5-hold-w128-s1-np09.manifest.json
+[01:53:50] BASLA I3-f F2-I3f-F5-perm5-hold-w128-s1-np09 (CPU, 1 parcacik, 15000 adim, notr-p 0.9, hold-tmax 16)
+[02:14:45] BITTI I3-f F2-I3f-F5-perm5-hold-w128-s1-np09
+results\Z1-pilot\perm5-core-w128-s1-cur-lrdecay0.3-alpha1.0.manifest.json
+[02:14:45] BASLA Z1 perm5-core-w128-s1-cur-lrdecay0.3-alpha1.0 (E-F5; CPU, 1 parcacik, 30000 adim, tepe lr 0.003, alfa 1.0, lr son %30'da ~0'a, mufredat 1,2,3,4,6,8,12,16)
+[02:21:27] BITTI ES sk4-tfm-w64-s1
+results\ES-pilot\sk4-core-w64-s1.manifest.json
+[02:21:27] BASLA ES sk4-core-w64-s1 (CPU, 1 parcacik, 15000 adim, lr 0.003 son %30'da ~0'a, mufredat 0..16)
+[03:12:47] BITTI Z1 perm5-core-w128-s1-cur-lrdecay0.3-alpha1.0
+results\Z1-pilot\perm5-core-w128-s1-cur-lrdecay0.3-lr0.001.manifest.json
+[03:12:47] BASLA Z1 perm5-core-w128-s1-cur-lrdecay0.3-lr0.001 (E-F5; CPU, 1 parcacik, 30000 adim, tepe lr 0.001, alfa 0.1, lr son %30'da ~0'a, mufredat 1,2,3,4,6,8,12,16)
+[04:06:26] BITTI Z1 perm5-core-w128-s1-cur-lrdecay0.3-lr0.001
+results\Z1-pilot\perm5-core-w128-s1-cur-lrdecay0.3-alpha0.3.manifest.json
+[04:06:26] BASLA Z1 perm5-core-w128-s1-cur-lrdecay0.3-alpha0.3 (E-F5; CPU, 1 parcacik, 30000 adim, tepe lr 0.003, alfa 0.3, lr son %30'da ~0'a, mufredat 1,2,3,4,6,8,12,16)
+[04:16:07] BITTI ES sk4-core-w64-s1
+[04:16:08] ES kuyruk B BITTI
+[05:08:38] BITTI Z1 perm5-core-w128-s1-cur-lrdecay0.3-alpha0.3
+[05:08:38] LANE1 kuyrugu BITTI

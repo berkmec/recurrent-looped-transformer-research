@@ -1,0 +1,29 @@
+{
+ "schema": "run-manifest/v1",
+ "run_id": "a3-r4-perm5-hold-w128-s1-np05-30k",
+ "campaign": "Z1-pilot",
+ "agent": "jim-mv8403zi",
+ "created_utc": "2026-10-21T21:04:14Z",
+ "command": "python -B -m horizon.depth_run  --task perm5 --arm hold --width 128 --seed 1 --steps 30000 --curriculum 1,2,3,4,6,8,12,16 --neutral-p 0.5 --log-every 1000 --gate-telemetry results/Z1-pilot/a3-r4-perm5-hold-w128-s1-np05-30k.tel.jsonl --out results/Z1-pilot/a3-r4-perm5-hold-w128-s1-np05-30k.json",
+ "prereg": {
+  "paper": "notes/_hive_A3_ONKAYIT.md"
+ },
+ "code": {
+  "head": "ae15d94",
+  "dirty": false,
+  "porcelain": [
+   " M results/M1-finetune-distance/queue.log"
+  ]
+ },
+ "config": {
+  "source": "scripts/run_a3_r4_jim.sh",
+  "summary": {},
+  "sha256": "b3e018d0dd2ab659ede505f66699b95c2255f9c234197adb900ee0367dfe3279"
+ },
+ "seeds": {
+  "init": 1,
+  "data_split": 1
+ },
+ "telemetry_schema": "I1-a/v1",
+ "status": "started"
+}

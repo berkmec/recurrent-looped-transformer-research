@@ -1,0 +1,73 @@
+{
+ "schema": "run-manifest/v1",
+ "run_id": "perm5-core-w128-s1-cur-lrdecay0.3-lr0.001",
+ "campaign": "Z1-pilot",
+ "agent": "claude-4797b78c",
+ "created_utc": "2026-10-22T00:12:47Z",
+ "command": "python -B -m horizon.depth_run --task perm5 --arm core --width 128 --seed 1 --steps 30000 --lr 0.001 --alpha 0.1 --curriculum 1,2,3,4,6,8,12,16 --lr-decay-fraction 0.3 --out results/Z1-pilot/perm5-core-w128-s1-cur-lrdecay0.3-lr0.001.json",
+ "prereg": {
+  "paper": "notes/RLT_SORUN_ESLEME_VE_PROGRAM_2026-10-02.md 5.24"
+ },
+ "code": {
+  "head": "5dfcddf",
+  "dirty": false,
+  "porcelain": [
+   " M results/ES-pilot/sk3-core-w64-s2.log",
+   " M results/M1-finetune-distance/queue.log",
+   " M results/Z1-pilot/perm5-core-w128-s1-cur-lrdecay0.3-alpha1.0.log",
+   "?? results/ES-pilot/sk3-core-w64-s2.json",
+   "?? results/ES-pilot/sk3-core-w64-s2.manifest.json",
+   "?? results/ES-pilot/sk4-core-w64-s1.log",
+   "?? results/ES-pilot/sk4-core-w64-s1.manifest.json",
+   "?? results/ES-pilot/sk4-core_nofb-w64-s1.json",
+   "?? results/ES-pilot/sk4-core_nofb-w64-s1.log",
+   "?? results/ES-pilot/sk4-core_nofb-w64-s1.manifest.json",
+   "?? results/ES-pilot/sk4-gru-w128-s1.json",
+   "?? results/ES-pilot/sk4-gru-w128-s1.log",
+   "?? results/ES-pilot/sk4-gru-w128-s1.manifest.json",
+   "?? results/ES-pilot/sk4-lstm-w112-s1.json",
+   "?? results/ES-pilot/sk4-lstm-w112-s1.log",
+   "?? results/ES-pilot/sk4-lstm-w112-s1.manifest.json",
+   "?? results/ES-pilot/sk4-tfm-w64-s1.json",
+   "?? results/ES-pilot/sk4-tfm-w64-s1.log",
+   "?? results/ES-pilot/sk4-tfm-w64-s1.manifest.json",
+   "?? results/F2-I3f-F1-perm4-core-w64-s1-np09.json",
+   "?? results/F2-I3f-F1-perm4-core-w64-s1-np09.log",
+   "?? results/F2-I3f-F2-perm4-hold-w64-s1-np09.json",
+   "?? results/F2-I3f-F2-perm4-hold-w64-s1-np09.log",
+   "?? results/F2-I3f-F3-perm4-hold_nc-w64-s1-np09.json",
+   "?? results/F2-I3f-F3-perm4-hold_nc-w64-s1-np09.log",
+   "?? results/F2-I3f-F4-perm5-core-w128-s1-np09.json",
+   "?? results/F2-I3f-F4-perm5-core-w128-s1-np09.log",
+   "?? results/F2-I3f-F5-perm5-hold-w128-s1-np09.json",
+   "?? results/F2-I3f-F5-perm5-hold-w128-s1-np09.log",
+   "?? results/F2-I3f-dryrun/",
+   "?? results/F2-I3f/",
+   "?? results/L1-a0-w928-s401/",
+   "?? results/Z1-pilot/P6-drift-profile-s3.manifest.json",
+   "?? results/Z1-pilot/P6-margin-profile-s5-seeds.manifest.json",
+   "?? results/Z1-pilot/a3-r4-perm5-hold-w128-s1-np05-30k-reading.json",
+   "?? results/Z1-pilot/a3-r4-perm5-hold-w128-s1-np05-30k-reading.log",
+   "?? results/Z1-pilot/a3-r4-perm5-hold-w128-s1-np05-30k.json",
+   "?? results/Z1-pilot/a3-r4-perm5-hold-w128-s1-np05-30k.log",
+   "?? results/Z1-pilot/a3-r4-perm5-hold-w128-s1-np05-30k.manifest.json",
+   "?? results/Z1-pilot/a3-r4-perm5-hold-w128-s1-np05-30k.tel.jsonl",
+   "?? results/Z1-pilot/drift-profile-s3.json",
+   "?? results/Z1-pilot/drift-profile-s3.txt",
+   "?? results/Z1-pilot/margin-profile-s5-seeds.json",
+   "?? results/Z1-pilot/margin-profile-s5-seeds.txt",
+   "?? results/Z1-pilot/perm5-core-w128-s1-cur-lrdecay0.3-alpha1.0.json",
+   "?? results/Z1-pilot/perm5-core-w128-s1-cur-lrdecay0.3-alpha1.0.manifest.json"
+  ]
+ },
+ "config": {
+  "source": "scripts/run_lane1_2026-10-22.sh",
+  "summary": {},
+  "sha256": "65cc4390334005d7f5fae4ecbe14f8d839ffa6d399e75d0107fc6643ac3d7763"
+ },
+ "seeds": {
+  "seed": 1
+ },
+ "telemetry_schema": "I1-a/v1",
+ "status": "started"
+}

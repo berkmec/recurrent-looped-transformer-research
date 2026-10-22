@@ -69,7 +69,7 @@ def main():
     text = json.dumps(r, indent=1, ensure_ascii=False)
     print(text)
     if a.out:
-        Path(a.out).write_text(text + '\n', encoding='utf8')
+        Path(a.out).write_bytes((text + '\n').encode('utf8'))        # LF on every platform (the repository is LF)
 
 
 if __name__ == '__main__':
