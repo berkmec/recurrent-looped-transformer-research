@@ -1,0 +1,130 @@
+{
+ "rows": 4,
+ "length": 512,
+ "floor_logits": 2.574920654296875e-05,
+ "floor_grad": {
+  "relative": 1.6644483302393576e-06,
+  "cosine": 0.9999999999986524
+ },
+ "loop_forward_seconds": 1.7579834000207484,
+ "exact_logit_scale": 18.33595085144043,
+ "jacobi_forward_seconds_64": 2.684860200039111,
+ "forward": {
+  "1": {
+   "max": 12.067288398742676,
+   "mean": 0.8682904839515686,
+   "first_inexact_position": 1
+  },
+  "2": {
+   "max": 8.695929527282715,
+   "mean": 0.5555936098098755,
+   "first_inexact_position": 2,
+   "step_change": 51.360633850097656
+  },
+  "3": {
+   "max": 6.140923023223877,
+   "mean": 0.3688853979110718,
+   "first_inexact_position": 3,
+   "step_change": 22.795265197753906
+  },
+  "4": {
+   "max": 4.45808744430542,
+   "mean": 0.24401767551898956,
+   "first_inexact_position": 4,
+   "step_change": 23.10004425048828
+  },
+  "6": {
+   "max": 3.253354072570801,
+   "mean": 0.10348249971866608,
+   "first_inexact_position": 6,
+   "step_change": 23.275022506713867
+  },
+  "8": {
+   "max": 2.0914018154144287,
+   "mean": 0.04476805776357651,
+   "first_inexact_position": 8,
+   "step_change": 5.639617919921875
+  },
+  "12": {
+   "max": 0.507817268371582,
+   "mean": 0.008712716400623322,
+   "first_inexact_position": 13,
+   "step_change": 2.4545516967773438
+  },
+  "16": {
+   "max": 0.1782245635986328,
+   "mean": 0.0017434945330023766,
+   "first_inexact_position": 20,
+   "step_change": 0.4851055145263672
+  },
+  "24": {
+   "max": 0.0220947265625,
+   "mean": 9.529831004329026e-05,
+   "first_inexact_position": 52,
+   "step_change": 0.02686309814453125
+  },
+  "32": {
+   "max": 0.0007426738739013672,
+   "mean": 6.1523032854893245e-06,
+   "first_inexact_position": 171,
+   "step_change": 0.00141143798828125
+  },
+  "48": {
+   "max": 2.288818359375e-05,
+   "mean": 2.507845692889532e-06,
+   "first_inexact_position": null,
+   "step_change": 3.814697265625e-05
+  },
+  "64": {
+   "max": 2.193450927734375e-05,
+   "mean": 2.5125186766672414e-06,
+   "first_inexact_position": null,
+   "step_change": 6.103515625e-05
+  }
+ },
+ "loss_loop": 1.1836879253387451,
+ "gradient": {
+  "2": {
+   "relative": 0.8685453350071787,
+   "cosine": 0.6793856046825849,
+   "loss": 1.312256097793579,
+   "loss_error": 0.12856817245483398
+  },
+  "4": {
+   "relative": 0.4498524731111473,
+   "cosine": 0.9013240237385327,
+   "loss": 1.2140445709228516,
+   "loss_error": 0.030356645584106445
+  },
+  "8": {
+   "relative": 0.13357526900235958,
+   "cosine": 0.9910774422254133,
+   "loss": 1.1849396228790283,
+   "loss_error": 0.0012516975402832031
+  },
+  "16": {
+   "relative": 0.010326855791217554,
+   "cosine": 0.9999466909927981,
+   "loss": 1.1837773323059082,
+   "loss_error": 8.940696716308594e-05
+  }
+ },
+ "weights": "results/L1-scratch-w928-s401/latest.pt",
+ "step": 8500,
+ "device": "cuda",
+ "reading": {
+  "verdict": "SLOW CONVERGENCE",
+  "tol_logits": 0.0002574920654296875,
+  "tol_grad": 0.0001,
+  "passes_forward": 48,
+  "passes_gradient": null,
+  "contraction": [
+   0.7206200133734078,
+   0.7061836234938739,
+   0.7259637398882427,
+   0.7297645264285929,
+   0.6428448206874091,
+   0.242811909518666
+  ]
+ }
+}

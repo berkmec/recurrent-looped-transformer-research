@@ -1257,6 +1257,30 @@ Dikkat koşulluluğu ortalaması 0,118 / 0,165. Getirmede geri beslemenin üstü
 
 - *Sınır:* tek kontrol noktası (adım 8.500; büzülme eğitimle değişebilir); tek parti (4 satır); GPU paylaşımlı; yalnız `plain` kol (GatedCore'un kapı yolu ayrı).
 
+### 5.43.1 E-J0 SONUCU (kayıtlı kural `mline.jacobi.reading`; koşu 2026-10-22 07:32:53-07:33:18, eğitimsiz; `results/EJ0-jacobi/exactness.json`): **SLOW CONVERGENCE**; ileri hesap 48 geçişte toleransa iniyor, gradyan 16 geçişte inmiyor; büzülme geçiş başına ≈ 0,7-0,8
+**Tabanlar (geri besleme kapalı, aynı ağırlıklar):** logit 2,57×10⁻⁵ → tol_y = 2,57×10⁻⁴; gradyan bağıl 1,7×10⁻⁶ → tol_g = 10⁻⁴. Döngünün logit ölçeği 18,3; kayıp 1,184.
+
+| geçiş K | en büyük logit hatası | ortalama | ilk kesin olmayan konum | gradyan bağıl hatası (kosinüs) |
+|---|---|---|---|---|
+| 1 | 12,1 | 0,87 | 1 | — |
+| 2 | 8,70 | 0,56 | 2 | 0,87 (0,679) |
+| 4 | 4,46 | 0,24 | 4 | 0,45 (0,901) |
+| 8 | 2,09 | 4,5×10⁻² | 8 | 0,134 (0,991) |
+| 16 | 0,178 | 1,7×10⁻³ | 20 | 1,03×10⁻² (0,99995); kayıp hatası 8,9×10⁻⁵ |
+| 24 | 2,2×10⁻² | 9,5×10⁻⁵ | 52 | — |
+| 32 | 7,4×10⁻⁴ | 6,2×10⁻⁶ | 171 | — |
+| 48 | 2,3×10⁻⁵ (tabanda) | 2,5×10⁻⁶ | yok | — |
+
+**Hüküm.** K_y = 48 > 16 → **SLOW CONVERGENCE**; K_g yok (16 geçişte 1,03×10⁻² > 10⁻⁴).
+**Okuma.**
+(1) Büzülme zayıf. En büyük hata geçiş başına ≈ 0,72 / 0,71 / 0,73 (K = 1 → 4) ve ileride ≈ 0,65-0,8 katına iniyor; nedensel cephenin (k geçişte ilk k konum) ötesindeki hata ancak ≈ 48 geçişte float tabanına varıyor. Yani z[t − 1]'deki bir hata z[t]'ye yalnız ≈ %25-30 sönümle geçiyor: geri besleme zayıf bir pertürbasyon değil, onlarca konum taşınan güçlü bir bağ. Bu E-L1P (kanal kesilince +1,28 bit/bayt) ve E-A0 (güncelleme başına +0,050) ile tutarlı: kanal gerçekten kullanılıyor.
+(2) Hız: paylaşımlı GPU'da 4 satırlık döngü ileri hesabı 1,76 s; 64 Jacobi geçişi 2,68 s (≈ 42 ms / geçiş). Kesinlik için gereken 48 geçiş ≈ 2,0 s ediyor, döngüyle aynı süre; geri yayılımdan önce bile kazanç yok. Betimleyici: süreler A0F ile paylaşımlı GPU'da ölçüldü.
+(3) Yaklaşık yol: 16 geçiş gradyanda %1 bağıl hata (kosinüs 0,99995) veriyor. Bu yol eğitimin hesabını değiştirir; "mantığını ve tekniğini bozmadan" şartı altında **benimsenmedi**. Ancak kullanıcı onayı ve ayrı ön-kayıtla denenebilir.
+
+**Öngörü kalibrasyonu (ölçümden önce).** EXACT-FAST ≈ %55 → **yanlış**; SLOW CONVERGENCE ≈ %20 → oldu; "büzülme ≤ 0,3" ≈ %60 → **yanlış** (≈ 0,7-0,8). α = 0,1 ve RMS normunun bağı zayıflatacağını sanmıştım. Öğrenilen geçit ve birleştirme bunu telafi ediyor.
+**Sonucun kullanımı (kayıtlı).** Bu yolla maliyet ≈ 10× kalır. Sıradaki adım, döngünün kendisini yaklaşıklıksız hızlandırmak (CUDA graph / derleme; E-J1). Döngü adımı başına süre (4 satırda 3,4 ms) çekirdek süresinden çok çağrı ve dağıtım yüküne benziyor; aynı çekirdeklerin bir grafikte yeniden oynatılması hesabı değiştirmez.
+- *Sınır:* tek kontrol noktası (adım 8.500); tek parti (4 satır; gradyan 2 satır); float32; GPU paylaşımlı; yalnız `plain` kol.
+
 ## 6. Gerçek model yolu
 
 1. **Ne iddia edilir:** "küçük, bayt-düzeyi bir RLT, durum-izleme/çok-adımlı görevlerde eşit-parametre ve eşit-token bir transformer'a yapısal bir üstünlük gösteriyor mu". LM kaybında üstünlük iddia edilmez (bağımsız değerlendirme bulamadı).

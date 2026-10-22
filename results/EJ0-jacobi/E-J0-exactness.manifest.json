@@ -1,0 +1,37 @@
+{
+ "schema": "run-manifest/v1",
+ "run_id": "E-J0-exactness",
+ "campaign": "EJ0-jacobi",
+ "agent": "claude-4797b78c",
+ "created_utc": "2026-10-22T04:32:52Z",
+ "command": "python -B -m mline.jacobi --weights results/L1-scratch-w928-s401/latest.pt --out results/EJ0-jacobi/exactness.json (GPU memory fraction 0.4)",
+ "prereg": {
+  "paper": "notes/RLT_SORUN_ESLEME_VE_PROGRAM_2026-10-02.md 5.43"
+ },
+ "code": {
+  "head": "090a742",
+  "dirty": false,
+  "porcelain": [
+   " M results/L1-a0-w928-s401/probe.json",
+   " M results/L1-a0-w928-s401/probe.jsonl",
+   " M results/L1-a0-w928-s401/train.log",
+   " M results/M1-finetune-distance/queue.log",
+   "?? results/ES-pilot/sk4-core-w64-s2.log",
+   "?? results/ES-pilot/sk4-core-w64-s2.manifest.json",
+   "?? results/L1-a0-w928-s401/E-A0F-L1-a0-w928-s401.manifest.json",
+   "?? results/Z1-pilot/a3-r4-perm5-hold-w128-s2-np05-30k.log",
+   "?? results/Z1-pilot/a3-r4-perm5-hold-w128-s2-np05-30k.manifest.json",
+   "?? results/Z1-pilot/a3-r4-perm5-hold-w128-s2-np05-30k.tel.jsonl"
+  ]
+ },
+ "config": {
+  "source": "scripts/run_ej0.sh",
+  "summary": {},
+  "sha256": "7b44f6b273dde95396e0992d155f3310d2bbae62f4184b437af3ec2d39e5772b"
+ },
+ "seeds": {
+  "seed": 401
+ },
+ "telemetry_schema": "I1-a/v1",
+ "status": "started"
+}
