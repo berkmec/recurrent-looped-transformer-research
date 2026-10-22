@@ -1742,6 +1742,27 @@ Kayıtlı yorum:
 - **Kullanım (kayıtlı).** Aşama 1 tasarımına "okuma kapısı açık başlar, K3 kapatma anahtarı olarak kalır" girer. Yazma için: mevcut yazma bir pencerenin 32 belirtecini boş-anahtarlı dikkatle 16 yuvaya toplayarak yazıyor, yani her yuva bir karışım tutuyor. Sıradaki adım belirteç başına delta kuralıyla yazılan ilişkisel bellek (E-RM0R5, §5.54).
 - *Sınır:* tek tohum; tek γ₀ değeri; oyuncak ölçek.
 
+### 5.54 E-RM0R5 ön-kaydı: belirteç başına delta kuralıyla yazılan ilişkisel bellek (RLT-M'in yazması yeniden) (kod `horizon/erm_r.py` `B_delta`, 2 test; koşudan ÖNCE yazıldı 2026-10-22 22:29)
+**Neden.** E-RM0R4: okuma kapısı açık başlayınca kahin yazmalı bellek çalışıyor (0,9994), Aşama 0'ın öğrenilen yazmasıyla çalışmıyor (0,165). O yazma bir pencerenin 32 belirtecini boş-anahtarlı dikkatle 16 yuvaya topluyor; her yuva bir karışım tutuyor ve olguların yuvalara ayrışması kendiliğinden öğrenilmek zorunda.
+**Tasarım (`B_delta`).**
+- *Kodlayıcı:* aynı pencere kodlayıcısı, konumlu.
+- *Bellek:* M (d_v × d_k = 64 × 64), sıfırdan başlar ve pencereler boyunca taşınır.
+- *Yazma:* her pencerenin her konumunda delta kuralı, M ← M + β (v − M k) kᵀ; k = birim(Wk e), v = Wv e, β = σ(w·e). Model hangi belirteci yazacağını β ile öğrenir; aynı anahtara ikinci yazma eskisinin üstüne eklemez, onu değiştirir (test).
+- *Okuma:* her pencere önce önceki pencerelerin yazdığını okur, o = M birim(Wq e), ve z = e + γ ⊙ Wo(o) ekler; γ₀ = 1 (E-RM0R4).
+
+Sabit boyutlu bellek adım başına O(1) çalışır (K4); γ := 0 yolu tam kapatır (K3, test). Tarif E-RM0R2-4 ile aynı: tekil anahtarlar, 8 sorgu, 12.000 güncelleme, lr 3×10⁻³, bellek parametreleri sönümsüz. **Tohum 1 ve 2.** Pozitif kontrol ve kontrol E-RM0R2'den (Apr 0,9994, A 0,128).
+**Kural** (§5.46 eşikleri; tohum başına): WORKS ≥ 0,90 / NOT LEARNED ≤ 0,30 / aksi PARTIAL.
+- **MEMORY WORKS (toy)**, iki tohumda da WORKS ise.
+- **SEED-DEPENDENT**, biri WORKS diğeri değilse.
+- **NOT LEARNED**, ikisi de ≤ 0,30 ise.
+
+**Öngörüler [H].** Tohum başına WORKS ≈ %60; iki tohumda birden ≈ %45.
+**Kullanım.**
+- *MEMORY WORKS:* RLT-M'in mesafe (pencereler arası getirme) sorununu oyuncakta çözen ilk tasarım. Aşama 1 (gerçek ölçek, L1 sıcak başlangıç) bu yazma ve açık okuma kapısıyla yeniden ön-kayda girer.
+- *NOT LEARNED:* yazma tasarımında bir sonraki seçenek denenir (yazmayı yalnız değer konumlarında yapmak, β için önyargı).
+
+- *Sınır:* oyuncak ölçek (w64, 2 katman, 4 pencere × 32); tek lr; d_k = d_v = 64; okuma yalnız pencereler arası, pencere içi bellek yok.
+
 ## 6. Gerçek model yolu
 
 1. **Ne iddia edilir:** "küçük, bayt-düzeyi bir RLT, durum-izleme/çok-adımlı görevlerde eşit-parametre ve eşit-token bir transformer'a yapısal bir üstünlük gösteriyor mu". LM kaybında üstünlük iddia edilmez (bağımsız değerlendirme bulamadı).

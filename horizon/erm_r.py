@@ -109,16 +109,66 @@ class Positional(torch.nn.Module):
         return self.tok(x) + self.pe[:x.shape[-1]]      # positions run along the last axis: (b, T) or B_rmt's (b, windows, w)
 
 
+def delta_write(M, k, v, beta):
+    """One delta-rule write of a batch: M (b, d_v, d_k) <- M + beta (v - M k) k^T, k (b, d_k) unit-norm, v (b, d_v), beta (b, 1).
+    With beta = 1 and a unit k, reading M k afterwards returns v exactly (the old content along k is replaced, not added to)."""
+    return M + torch.einsum('bv,bk->bvk', beta * (v - torch.einsum('bvk,bk->bv', M, k)), k)
+
+
+class ArmDelta(torch.nn.Module):
+    """E-RM0R5 (note 5.54): RLT-M with a delta-rule associative memory written token by token (fast weights) instead of stage 0's
+    slot write, which pools a whole window into 16 slots and leaves each slot a mixture (E-RM0R4: with an oracle write the read
+    works, 0.9994; with the learned pooled write it does not, 0.165). The toy window encoder (positions as in E-RM0R2) feeds a memory
+    M (d_v x d_k), zero at the start and carried across windows. Every position of every window writes with the delta rule
+    (k = unit(Wk e), v = Wv e, beta = sigmoid(wb . e): the model learns which tokens to write); each window first READS what the
+    earlier windows wrote, o = M unit(Wq e), and adds z = e + gamma * Wo(o), gamma started open (E-RM0R4). Fixed-size memory:
+    O(1) per step (K4); gamma = 0 closes the path exactly (K3)."""
+
+    def __init__(self, vocab=et.VOCAB, width=64, d_k=64, d_v=64, seed=0, gamma_init=1.0):
+        super().__init__()
+        with torch.random.fork_rng(devices=[]):
+            torch.manual_seed(seed)
+            self.enc = em.Encoder(vocab, width)
+            self.Wq, self.Wk = torch.nn.Linear(width, d_k), torch.nn.Linear(width, d_k)
+            self.Wv, self.wb = torch.nn.Linear(width, d_v), torch.nn.Linear(width, 1)
+            self.Wo = torch.nn.Linear(d_v, width)
+            self.gamma = torch.nn.Parameter(torch.full((width,), float(gamma_init)))
+            self.head = torch.nn.Sequential(torch.nn.LayerNorm(width), torch.nn.Linear(width, vocab))
+        self.d_k, self.d_v = d_k, d_v
+
+    def gate_parameters(self):
+        """The memory's parameters: decay-free, as erm_run treats stage 0's write / read modules."""
+        return [p for m in (self.Wq, self.Wk, self.Wv, self.wb, self.Wo) for p in m.parameters()] + [self.gamma]
+
+    def forward(self, xw):
+        b, nw, w = xw.shape
+        e = self.enc.forward_windows(xw)
+        M = torch.zeros(b, self.d_v, self.d_k, device=xw.device)
+        outs = []
+        for t in range(nw):
+            et_ = e[:, t]
+            o = torch.einsum('bvk,bwk->bwv', M, F.normalize(self.Wq(et_), dim=-1))
+            outs.append(self.head(et_ + self.gamma * self.Wo(o)))
+            k, v, beta = F.normalize(self.Wk(et_), dim=-1), self.Wv(et_), torch.sigmoid(self.wb(et_))
+            for i in range(w):
+                M = delta_write(M, k[:, i], v[:, i], beta[:, i])
+        return torch.stack(outs, 1)
+
+
 def make(arm, seed=1, positions=False, gamma_init=None):
     """An arm from erm_models, with sinusoidal positions in its encoder if `positions` (E-RM0R2), and its memory read gate gamma
     started at `gamma_init` instead of 0 (E-RM0R4). gamma = 0 still closes the read path exactly (K3), so closability is kept;
-    only where training starts changes: at gamma = 0 every read parameter has zero gradient."""
-    model = em.make_arm(arm, seed=seed)
+    only where training starts changes: at gamma = 0 every read parameter has zero gradient. `B_delta` is E-RM0R5's arm (its
+    gate starts at gamma_init, 1 if not given)."""
+    if arm == 'B_delta':
+        model = ArmDelta(seed=seed, gamma_init=1.0 if gamma_init is None else gamma_init)
+    else:
+        model = em.make_arm(arm, seed=seed)
     if positions:
         if not hasattr(model, 'enc'):
             raise ValueError('arm %s has no encoder to give positions to' % arm)
         model.enc.embedding = Positional(model.enc.embedding)
-    if gamma_init is not None:
+    if gamma_init is not None and arm != 'B_delta':
         if not hasattr(model, 'read') or not hasattr(model.read, 'gamma'):
             raise ValueError('arm %s has no read gate gamma' % arm)
         with torch.no_grad():
@@ -200,7 +250,7 @@ def reading(results):
         out['positive_control'] = 'LEARNABLE' if acc['Apr'] >= 0.90 else 'NOT LEARNABLE'
     if 'A' in acc:
         out['control'] = 'CONTROL OK' if acc['A'] <= 0.30 else 'CONTROL BROKEN'
-    for arm in ('B', 'B_comp', 'B_orc', 'B_rmt'):
+    for arm in ('B', 'B_comp', 'B_orc', 'B_rmt', 'B_delta'):
         if arm in acc and out.get('positive_control') == 'LEARNABLE' and out.get('control') == 'CONTROL OK':
             out[arm] = 'MEMORY WORKS (toy)' if acc[arm] >= 0.90 else ('NOT LEARNED' if acc[arm] <= 0.30 else 'PARTIAL')
         elif arm in acc:
@@ -211,7 +261,7 @@ def reading(results):
 def main():
     p = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     p.add_argument('cmd', nargs='?', choices=('train',))
-    p.add_argument('--arm', choices=em.ARMS)
+    p.add_argument('--arm', choices=em.ARMS + ('B_delta',))
     p.add_argument('--seed', type=int, default=1)
     p.add_argument('--steps', type=int, default=12000)
     p.add_argument('--lr', type=float, default=3e-3)

@@ -85,6 +85,29 @@ class TaskTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             er.make('A', seed=1, gamma_init=1.0)
 
+    def test_the_delta_rule_stores_and_replaces(self):
+        k = torch.nn.functional.normalize(torch.randn(2, 8), dim=-1)
+        v1, v2 = torch.randn(2, 6), torch.randn(2, 6)
+        M = er.delta_write(torch.zeros(2, 6, 8), k, v1, torch.ones(2, 1))
+        self.assertTrue(torch.allclose(torch.einsum('bvk,bk->bv', M, k), v1, atol=1e-6))       # stored
+        M = er.delta_write(M, k, v2, torch.ones(2, 1))
+        self.assertTrue(torch.allclose(torch.einsum('bvk,bk->bv', M, k), v2, atol=1e-6))       # replaced, not added
+        M0 = er.delta_write(M, k, v1, torch.zeros(2, 1))
+        self.assertTrue(torch.equal(M0, M))                                                     # beta = 0 writes nothing
+
+    def test_the_delta_arm_runs_and_gamma_zero_closes_it(self):
+        x, apos, tgt, dist = er.generate(3, seed=2)
+        xw = x.reshape(3, et.N_WINDOWS, et.WINDOW)
+        m = er.make('B_delta', seed=1, positions=True)
+        self.assertTrue(bool((m.gamma == 1.0).all()))
+        self.assertEqual(tuple(er.answers(m(xw), apos).shape), (3, er.QUERIES, et.VOCAB))
+        closed = er.make('B_delta', seed=1, positions=True, gamma_init=0.0)
+        with torch.no_grad():
+            no_memory = closed.head(closed.enc.forward_windows(xw))
+            self.assertLess(float((closed(xw) - no_memory).abs().max()), 1e-6)                  # K3
+        model, info = er.train('B_delta', 1, 3, batch=4, positions=True, log=lambda *_: None)
+        self.assertEqual(set(er.evaluate(model, n=10)), {'all', '1', '2', '3'})
+
     def test_a_short_curriculum_run_and_the_reading(self):
         model, info = er.train('Apr', 1, 6, batch=4, curriculum=[4, 8, 16], log=lambda *_: None)
         self.assertEqual(info['curriculum'], [4, 8, 16])
