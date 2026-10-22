@@ -18,6 +18,9 @@ from pathlib import Path
 POINTS = tuple(range(1000, 8001, 1000))
 EFFECT = 0.020
 MAJORITY = 6
+# E-L1C (note 5.50): the same rule at the end of the schedule, L1 continued to 30,518 against A0F; 5 of these 6 points.
+END_POINTS = (12000, 16000, 20000, 24000, 28000, 30518)
+END_MAJORITY = 5
 VALID_IN_RANGE = 0.95
 TOL = 1e-9
 RETRIEVAL = ('train_k4_first', 'held_k4_first', 'natural_first', 'single_fact_exact@64', 'single_fact_exact@128',
@@ -35,7 +38,7 @@ def battery(run_dir):
     return rows
 
 
-def reading(a0, l1, points=POINTS):
+def reading(a0, l1, points=POINTS, majority=MAJORITY):
     missing = [k for k in points if k not in a0 or k not in l1 or a0[k].get('bits_per_byte') is None or l1[k].get('bits_per_byte') is None]
     if missing:
         return dict(verdict='INCOMPLETE', missing=missing)
@@ -43,9 +46,9 @@ def reading(a0, l1, points=POINTS):
     last = deltas[points[-1]]
     positive = sum(d > 0 for d in deltas.values())
     negative = sum(d < 0 for d in deltas.values())
-    if last >= EFFECT - TOL and positive >= MAJORITY:
+    if last >= EFFECT - TOL and positive >= majority:
         verdict = 'FEEDBACK HELPS'
-    elif last <= -EFFECT + TOL and negative >= MAJORITY:
+    elif last <= -EFFECT + TOL and negative >= majority:
         verdict = 'FEEDBACK HURTS'
     elif abs(last) < EFFECT - TOL:
         verdict = 'NO MEANINGFUL DIFFERENCE'
@@ -64,8 +67,9 @@ def main():
     p.add_argument('--a0', default='results/L1-a0-w928-s401')
     p.add_argument('--l1', default='results/L1-scratch-w928-s401')
     p.add_argument('--out', default=None)
+    p.add_argument('--end', action='store_true', help='E-L1C: the rule at 12,000 ... 30,518 (5 of 6 points), note 5.50')
     a = p.parse_args()
-    r = reading(battery(a.a0), battery(a.l1))
+    r = reading(battery(a.a0), battery(a.l1), *((END_POINTS, END_MAJORITY) if a.end else ()))
     text = json.dumps(r, indent=1, ensure_ascii=False)
     print(text)
     if a.out:

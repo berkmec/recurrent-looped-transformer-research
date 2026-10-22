@@ -33,6 +33,15 @@ class A0ReadingTests(unittest.TestCase):
         self.assertEqual(r['verdict'], 'INCOMPLETE')
         self.assertEqual(r['missing'], [5000])
 
+    def test_the_end_of_schedule_rule_needs_five_of_six_points(self):
+        def end(deltas):
+            a0 = {k: dict(bits_per_byte=1.5 + d, train_k4_first=0.99) for k, d in zip(ar.END_POINTS, deltas)}
+            l1 = {k: dict(bits_per_byte=1.5, train_k4_first=0.99) for k in ar.END_POINTS}
+            return ar.reading(a0, l1, ar.END_POINTS, ar.END_MAJORITY)['verdict']
+        self.assertEqual(end([-0.01, 0.01, 0.01, 0.01, 0.01, 0.03]), 'FEEDBACK HELPS')
+        self.assertEqual(end([-0.01, -0.01, 0.01, 0.01, 0.01, 0.03]), 'MIXED')
+        self.assertEqual(end([0.05] * 5 + [0.01]), 'NO MEANINGFUL DIFFERENCE')
+
     def test_retrieval_is_vacuous_when_a_run_did_not_learn_the_range(self):
         r = ar.reading(*runs([0.0] * 8, k4=(0.5, 0.99)))
         self.assertFalse(r['retrieval_valid'])

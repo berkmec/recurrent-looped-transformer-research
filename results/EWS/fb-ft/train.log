@@ -1,0 +1,27 @@
+starting from the weights of results/L1-a0-w928-s401/latest.pt
+__PY_ENV_DIR__\.venv\Lib\site-packages\torch\autograd\graph.py:882: UserWarning: The AccumulateGrad node's stream does not match the stream of the node that produced the incoming gradient. This may incur unnecessary synchronization and break CUDA graph capture if the AccumulateGrad node's stream is the default stream. This mismatch is caused by an AccumulateGrad node created prior to the current iteration being kept alive. This can happen if the autograd graph is still being kept alive by tensors such as the loss, or if you are using DDP, which will stash a reference to the node. To resolve the mismatch, delete all references to the autograd graph or ensure that DDP initialization is performed under the same stream as subsequent forwards. If the mismatch is intentional, you can use torch.autograd.graph.set_warn_on_accumulate_grad_stream_mismatch(False) to suppress this warning. (Triggered internally at C:\actions-runner\_work\pytorch\pytorch\torch\csrc\autograd\input_buffer.cpp:250.)
+  return Variable._execution_engine.run_backward(  # Calls into the C++ engine to run the backward pass
+step    100  loss 0.774  answer_loss 0.0002634533157106489  first-digit 1.0  lr 2.00e-04  9.2 min
+step    200  loss 0.809  answer_loss 0.001652745297178626  first-digit 1.0  lr 2.00e-04  17.1 min
+step    300  loss 0.784  answer_loss 0.00014215467672329396  first-digit 1.0  lr 2.00e-04  25.0 min
+step    400  loss 0.789  answer_loss 0.0022839170414954424  first-digit 1.0  lr 2.00e-04  33.0 min
+step    500  {"bits_per_byte": 1.4463840472521394, "train_k4_first": 1.0, "train_k4_exact": 1.0, "held_k4_first": 0.8414634146341463, "held_k4_exact": 0.823170731707317, "natural_first": 1.0, "natural_exact": 1.0, "single_fact_exact@0": 1.0, "single_fact_exact@64": 1.0, "single_fact_exact@128": 1.0, "single_fact_exact@256": 1.0, "single_fact_exact@384": 1.0, "single_fact_exact@448": 1.0, "attention_conditional
+step    500  loss 0.821  answer_loss 0.0002989868517033756  first-digit 1.0  lr 2.00e-04  41.6 min
+step    600  loss 0.797  answer_loss 0.00015863197040744126  first-digit 1.0  lr 2.00e-04  49.2 min
+step    700  loss 0.772  answer_loss 0.0001970384328160435  first-digit 1.0  lr 2.00e-04  56.9 min
+step    800  loss 0.814  answer_loss 0.0001785382628440857  first-digit 1.0  lr 2.00e-04  65.3 min
+step    900  loss 0.810  answer_loss 0.04310150817036629  first-digit 0.90625  lr 2.00e-04  73.7 min
+step   1000  {"bits_per_byte": 1.4456737159084132, "train_k4_first": 0.9939024390243902, "train_k4_exact": 0.9939024390243902, "held_k4_first": 0.8292682926829268, "held_k4_exact": 0.8109756097560976, "natural_first": 0.9857142857142858, "natural_exact": 0.9857142857142858, "single_fact_exact@0": 0.9930555555555556, "single_fact_exact@64": 1.0, "single_fact_exact@128": 1.0, "single_fact_exact@256": 1.0, "singl
+step   1000  loss 0.776  answer_loss 0.0005107620381750166  first-digit 1.0  lr 2.00e-04  82.8 min
+step   1100  loss 0.810  answer_loss 0.0003609757113736123  first-digit 1.0  lr 2.00e-04  89.8 min
+step   1200  loss 0.787  answer_loss 0.00023270594829227775  first-digit 1.0  lr 2.00e-04  97.4 min
+step   1300  loss 0.790  answer_loss 0.00014389923308044672  first-digit 1.0  lr 2.00e-04  105.7 min
+step   1400  loss 0.808  answer_loss 0.00024132155522238463  first-digit 1.0  lr 2.00e-04  113.3 min
+step   1500  {"bits_per_byte": 1.4414784463656756, "train_k4_first": 1.0, "train_k4_exact": 1.0, "held_k4_first": 0.8597560975609756, "held_k4_exact": 0.823170731707317, "natural_first": 0.9928571428571429, "natural_exact": 0.9928571428571429, "single_fact_exact@0": 0.9930555555555556, "single_fact_exact@64": 1.0, "single_fact_exact@128": 1.0, "single_fact_exact@256": 1.0, "single_fact_exact@384": 1.0, "single
+step   1500  loss 0.812  answer_loss 0.0001320568408118561  first-digit 1.0  lr 2.00e-04  121.5 min
+step   1600  loss 0.812  answer_loss 6.893053068779409e-05  first-digit 1.0  lr 2.00e-04  129.4 min
+step   1700  loss 0.832  answer_loss 0.05868423730134964  first-digit 0.9393939971923828  lr 2.00e-04  138.1 min
+step   1800  loss 0.801  answer_loss 0.0001642540009925142  first-digit 1.0  lr 2.00e-04  147.0 min
+step   1900  loss 0.797  answer_loss 0.0001625396398594603  first-digit 1.0  lr 1.10e-04  156.1 min
+step   2000  {"bits_per_byte": 1.4348537498968499, "train_k4_first": 1.0, "train_k4_exact": 1.0, "held_k4_first": 0.8414634146341463, "held_k4_exact": 0.8170731707317073, "natural_first": 1.0, "natural_exact": 1.0, "single_fact_exact@0": 0.9930555555555556, "single_fact_exact@64": 1.0, "single_fact_exact@128": 0.984375, "single_fact_exact@256": 1.0, "single_fact_exact@384": 1.0, "single_fact_exact@448": 1.0, "
+step   2000  loss 0.804  answer_loss 0.0006338602979667485  first-digit 1.0  lr 2.00e-05  165.3 min

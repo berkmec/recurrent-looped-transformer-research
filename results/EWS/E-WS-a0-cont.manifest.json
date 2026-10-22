@@ -1,0 +1,29 @@
+{
+ "schema": "run-manifest/v1",
+ "run_id": "E-WS-a0-cont",
+ "campaign": "EWS",
+ "agent": "claude-4797b78c",
+ "created_utc": "2026-10-22T10:02:15Z",
+ "command": "python -B -m mline.longrun --out results/EWS/a0-cont --arm a0 --recipe m2-draft --tokens 32768000 --lr 2e-4 --warmup 100 --decay-fraction 0.1 --eval-every 500 --init-from results/L1-a0-w928-s401/latest.pt --data-offset 30518 ",
+ "prereg": {
+  "paper": "notes/RLT_SORUN_ESLEME_VE_PROGRAM_2026-10-02.md 5.48"
+ },
+ "code": {
+  "head": "b48f7fe",
+  "dirty": false,
+  "porcelain": [
+   " M results/M1-finetune-distance/queue.log",
+   "?? results/ES-b2x/"
+  ]
+ },
+ "config": {
+  "source": "scripts/run_ews.sh",
+  "summary": {},
+  "sha256": "9c2bdddc9992c9d0e724049f0a60b2b8157061661c92e56f617a39b76f242eee"
+ },
+ "seeds": {
+  "seed": 401
+ },
+ "telemetry_schema": "I1-a/v1",
+ "status": "started"
+}

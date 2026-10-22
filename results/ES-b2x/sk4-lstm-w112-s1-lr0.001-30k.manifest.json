@@ -1,0 +1,30 @@
+{
+ "schema": "run-manifest/v1",
+ "run_id": "sk4-lstm-w112-s1-lr0.001-30k",
+ "campaign": "ES-b2x",
+ "agent": "claude-4797b78c",
+ "created_utc": "2026-10-22T10:28:20Z",
+ "command": "python -B -m horizon.sk_run --task sk4 --arm lstm --width 112 --seed 1 --lr 0.001 --steps 30000 --out results/ES-b2x/sk4-lstm-w112-s1-lr0.001-30k.json --log-every 1000",
+ "prereg": {
+  "paper": "notes/RLT_SORUN_ESLEME_VE_PROGRAM_2026-10-02.md 5.47"
+ },
+ "code": {
+  "head": "e92e6a0",
+  "dirty": false,
+  "porcelain": [
+   " M results/M1-finetune-distance/queue.log",
+   "?? results/ES-b2x/",
+   "?? results/EWS/"
+  ]
+ },
+ "config": {
+  "source": "scripts/run_es_b2x.sh",
+  "summary": {},
+  "sha256": "f48bb17cf82e74a56a37c300a75afcb45d6a03e8d92a7672c7ff237be00c583c"
+ },
+ "seeds": {
+  "seed": 1
+ },
+ "telemetry_schema": "I1-a/v1",
+ "status": "started"
+}

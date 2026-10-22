@@ -1623,6 +1623,28 @@ Eşik gerekçesi: 2.000 güncellemelik ince ayar için E-A0'nun 0,020'sinin yar�
 **Kaynak.** CPU; E-S-B2X'in iki kopyası bitince başlar (`scripts/run_erm_r2.sh`); iki süreç.
 - *Sınır:* tek tohum; tek lr; konum kodlamasının türü tek seçim (sinüzoidal). Nedenin sınanması bu koşunun kendisidir: eksik konum gerçek neden değilse Apr+PE de öğrenmez.
 
+### 5.50 E-L1C ön-kaydı: L1 programın sonuna (geri beslemeli RLT-1, CUDA graph ile) ve eşleşmiş A0F ile programın sonunda karşılaştırma (koşudan ÖNCE yazıldı 2026-10-22 21:07)
+**Gerekçe.** Gerçek RLT modeli için ucuz yollar kapandı:
+- Geri besleme güncelleme başına kazandırıyor: 8.000'de +0,050, 9.000'de +0,056 (madde 59, 84).
+- Hesabı değiştirmeden ucuzlatılamıyor: Jacobi 48 geçiş istiyor, CUDA graph 1,24× (madde 65, 85).
+- Sonradan açmak kazancı vermiyor: E-WS NO DIFFERENCE, +0,002.
+
+Geriye tek yol kalıyor: RLT-1'i baştan geri beslemeyle programın sonuna kadar eğitmek. Bu tam RLT modelidir (K1-K4 açık). Eşleşmiş tabanı hazır: A0F, aynı veri, sıra, başlangıç ağırlıkları ve programla 1,4408.
+**Koşu.** `results/L1-scratch-w928-s401` kendi 8.500 kontrol noktasından aynı programla 30.518'e kadar sürer, `--graphs` ile (E-J1: eşdeğer, 1,24×). Başka değişiklik yok; yapılandırma A0F ile birebir aynı (`probe.json` karşılaştırıldı; tek fark kol). Pil her 1.000 güncellemede, L1 ile aynı. Süre ≈ 22.018 × 4,7-5,3 s ≈ 29-32 GPU-saat, artı piller.
+**Kural** (`python -B -m mline.a0_reading --end`; E-A0'ın kodu, noktalar ve çoğunluk parametreli, varsayılanı değişmedi, test edildi). Δ_k = bpb_A0(k) − bpb_L1(k), k = 12.000, 16.000, 20.000, 24.000, 28.000, 30.518.
+- **FEEDBACK HELPS (AT END)** ⇔ Δ_30518 ≥ +0,020 ve altı noktanın ≥ 5'inde Δ > 0;
+- **FEEDBACK HURTS** simetrik;
+- **NO MEANINGFUL DIFFERENCE** ⇔ |Δ_30518| < 0,020;
+- **MIXED** aksi hâlde.
+
+Betimleyici: Δ'nın seyri, eşit hesap (her kolun GPU süresi), getirme metrikleri.
+**Öngörüler [H].** HELPS ≈ %50, NO MEANINGFUL DIFFERENCE ≈ %40, MIXED ≈ %7, HURTS ≈ %3; Δ_30518 ∈ [0,02; 0,06] ≈ %55.
+**Kullanım.**
+- **HELPS:** gerçek RLT modeli L1'dir. Maliyeti graph'larla ≈ 7-8×, dildeki kazancı programın sonunda ölçülmüş olur. Sıradaki aşama L2: görev karışımı, içinde durum-anahtarlı getirme (E-S; madde 83, 96).
+- **NO MEANINGFUL DIFFERENCE:** K1'in dilde programın sonunda değeri yok. RLT-1'in değeri durum izleme gerektiren görevlerde kalır (E-S); gerçek model tarifi K1'i dil için taşımanın maliyetini gerekçelendirmek zorunda olur.
+
+- *Sınır:* tek tohum çifti; tek korpus; L1 iki kez kontrol noktasından sürdü (750, 8.500; veri sırası adımın fonksiyonu); 8.500'den sonrası graph'larla (eşdeğerlik testli).
+
 ## 6. Gerçek model yolu
 
 1. **Ne iddia edilir:** "küçük, bayt-düzeyi bir RLT, durum-izleme/çok-adımlı görevlerde eşit-parametre ve eşit-token bir transformer'a yapısal bir üstünlük gösteriyor mu". LM kaybında üstünlük iddia edilmez (bağımsız değerlendirme bulamadı).

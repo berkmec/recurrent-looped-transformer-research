@@ -784,3 +784,44 @@ results\EJ1-graphs\E-J1-graphs.manifest.json
 [11:38:50] [ej1] BASLA E-J1 graphed -> 9000 --graphs
 [12:21:15] [ej1] BITTI E-J1 graphed -> 9000
 [12:21:19] [ej1] BITTI E-J1 okuma: NO-GO (not fast) hiz 1.2383495654667522
+results\ES-b2x\sk4-gru-w128-s1-lr0.001-30k.manifest.json
+[12:58:24] [b2x] BASLA ES sk4-gru-w128-s1-lr0.001-30k (CPU, 1 parcacik, 30000 adim, tepe lr 0.001)
+results\ES-b2x\sk4-gru-w128-s2-lr0.001-30k.manifest.json
+[12:58:36] [b2x] BASLA ES sk4-gru-w128-s2-lr0.001-30k (CPU, 1 parcacik, 30000 adim, tepe lr 0.001)
+results\EWS\E-WS-a0-cont.manifest.json
+[13:02:15] [ews] BASLA E-WS a0-cont (arm a0 ; 2.000 guncelleme, A0F agirliklarindan)
+[13:06:44] [ermr2] E-RM0R2 bekliyor: iki b2x kopyasi
+[13:25:25] [ews] BITTI E-WS a0-cont
+results\EWS\E-WS-fb-ft.manifest.json
+[13:25:26] [ews] BASLA E-WS fb-ft (arm plain --graphs; 2.000 guncelleme, A0F agirliklarindan)
+[13:28:19] [b2x] BITTI ES sk4-gru-w128-s1-lr0.001-30k
+results\ES-b2x\sk4-lstm-w112-s1-lr0.001-30k.manifest.json
+[13:28:20] [b2x] BASLA ES sk4-lstm-w112-s1-lr0.001-30k (CPU, 1 parcacik, 30000 adim, tepe lr 0.001)
+[13:28:31] [b2x] BITTI ES sk4-gru-w128-s2-lr0.001-30k
+results\ES-b2x\sk4-lstm-w112-s2-lr0.001-30k.manifest.json
+[13:28:32] [b2x] BASLA ES sk4-lstm-w112-s2-lr0.001-30k (CPU, 1 parcacik, 30000 adim, tepe lr 0.001)
+[13:51:31] [b2x] BITTI ES sk4-lstm-w112-s1-lr0.001-30k
+results\ES-b2x\sk4-tfm-w64-s1-lr0.001-30k.manifest.json
+[13:51:31] [b2x] BASLA ES sk4-tfm-w64-s1-lr0.001-30k (CPU, 1 parcacik, 30000 adim, tepe lr 0.001)
+[13:51:52] [b2x] BITTI ES sk4-lstm-w112-s2-lr0.001-30k
+results\ES-b2x\sk4-tfm-w64-s2-lr0.001-30k.manifest.json
+[13:51:53] [b2x] BASLA ES sk4-tfm-w64-s2-lr0.001-30k (CPU, 1 parcacik, 30000 adim, tepe lr 0.001)
+[15:06:01] [b2x] BITTI ES sk4-tfm-w64-s2-lr0.001-30k
+[15:06:01] [b2x] kopya 6705 listeyi bitirdi (b2x)
+[15:08:40] [b2x] BITTI ES sk4-tfm-w64-s1-lr0.001-30k
+[15:08:40] [b2x] kopya 6691 listeyi bitirdi (b2x)
+results\ERM-R2\E-RM0R2-Apr-s1.manifest.json
+[15:08:52] [ermr2] BASLA E-RM0R2 A-s1 (A, 12000 guncelleme)
+[15:08:52] [ermr2] BASLA E-RM0R2 Apr-s1 (Apr, 12000 guncelleme)
+[15:26:24] [ermr2] BITTI E-RM0R2 A-s1
+[15:29:39] [ermr2] BITTI E-RM0R2 Apr-s1
+[15:29:42] [ermr2] E-RM0R2 R1 okuma: {"acc_d3":{"Apr":0.9994469285011292,"A":0.12831857800483704},"positive_control":"LEARNABLE","control":"CONTROLOK"}
+results\ERM-R2\E-RM0R2-Bcomp-s1.manifest.json
+[15:29:43] [ermr2] BASLA E-RM0R2 B-s1 (B, 12000 guncelleme)
+[15:29:43] [ermr2] BASLA E-RM0R2 Bcomp-s1 (B_comp, 12000 guncelleme)
+[16:01:21] [ermr2] BITTI E-RM0R2 B-s1
+[16:01:51] [ermr2] BITTI E-RM0R2 Bcomp-s1
+[16:01:54] [ermr2] E-RM0R2 R2 okuma: {"acc_d3":{"Apr":0.9994469285011292,"A":0.12831857800483704,"B":0.12831857800483704,"B_comp":0.12831857800483704},"positive_control":"LEARNABLE","control":"CONTROLOK","B":"NOTLEARNED","B_comp":"NOTLEARNED"}
+[16:01:54] [ermr2] E-RM0R2 kuyrugu BITTI
+[16:10:53] [ews] BITTI E-WS fb-ft
+[16:10:54] [ews] BITTI E-WS okuma: NO DIFFERENCE delta2000 0.0021255980755077175

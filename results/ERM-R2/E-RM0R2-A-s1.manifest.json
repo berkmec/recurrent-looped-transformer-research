@@ -1,0 +1,30 @@
+{
+ "schema": "run-manifest/v1",
+ "run_id": "E-RM0R2-A-s1",
+ "campaign": "ERM-R2",
+ "agent": "claude-4797b78c",
+ "created_utc": "2026-10-22T12:08:52Z",
+ "command": "python -B -m horizon.erm_r train --arm A --steps 12000 --seed 1 --positions  --out results/ERM-R2/A-s1.json",
+ "prereg": {
+  "paper": "notes/RLT_SORUN_ESLEME_VE_PROGRAM_2026-10-02.md 5.49"
+ },
+ "code": {
+  "head": "e92e6a0",
+  "dirty": false,
+  "porcelain": [
+   " M results/M1-finetune-distance/queue.log",
+   "?? results/ES-b2x/",
+   "?? results/EWS/"
+  ]
+ },
+ "config": {
+  "source": "scripts/run_erm_r2.sh",
+  "summary": {},
+  "sha256": "0f1ec6446d1339688f5182d1063940ce43614d0b227e2841c20f011b4e38c6a1"
+ },
+ "seeds": {
+  "seed": 1
+ },
+ "telemetry_schema": "I1-a/v1",
+ "status": "started"
+}
