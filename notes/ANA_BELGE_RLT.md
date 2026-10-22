@@ -625,6 +625,8 @@ Yalnız-uzunluk kontrolü (eğitim dağılımı, derinlik ≤ 8): 64 / 256 / 1.0
 
 102. **E-RM0R5 ÖN-KAYDI (2026-10-22 22:29; ayrıntı not §5.54):** RLT-M'in yazması yeniden: belirteç başına delta kuralıyla yazılan sabit boyutlu ilişkisel bellek (M ← M + β(v − Mk)kᵀ; okuma o = Mq; okuma kapısı açık başlar). K4 (O(1)) ve K3 (γ := 0 kapatır) korunuyor. İki tohum. MEMORY WORKS ⇔ iki tohumda d = 3 ≥ 0,90. Öngörü tohum başına ≈ %60.
 
+103. **E-S tohum 3 ÖN-KAYDI (2026-10-22 22:33; ayrıntı not §5.55):** sk4 üstünlüğünün dayandığı iki kol (Core ve geri beslemesiz ikizi) üçüncü tohumla, aşama B ayarlarıyla. Core her tohumda öğreniyor mu? Öngörü Core ≈ %75, ikiz başarısız ≈ %90.
+
 **Sınırlar.** Bu bölümde yeni ölçüm YOK; öngörüler sonuçlardan önce yazıldı. M4 karşılaştırması farklı genişlik, lr, bütçe ve müfredatla yapıldı. X1 doğrulanmadı. **Güncelleme (07:10):** "yeni ölçüm YOK" cümlesi yalnız 06:30 öncesi için doğruydu; 06:54'ten beri E-A ve E-B ölçümleri alındı (madde 7-8) ve yukarıdaki sınırlar onlar için ayrıca belirtilmiştir.
 
 ## 7. Düzeltmeler defteri
