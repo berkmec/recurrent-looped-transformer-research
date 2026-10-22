@@ -50,6 +50,28 @@ class TaskTests(unittest.TestCase):
         self.assertGreater(float((e[1] - e[0]).abs().max()), 0.1)    # the same token at two positions now differs
         self.assertTrue(torch.equal(er.make('Apr', seed=1).enc.embedding(x)[0][0], er.make('Apr', seed=1).enc.embedding(x)[0][5]))
 
+    def test_fact_cells_point_at_the_values_and_the_old_outputs_are_unchanged(self):
+        a = er.generate(20, seed=4)
+        x, apos, tgt, dist, cells = er.generate(20, seed=4, with_facts=True)
+        for u, v in zip(a, (x, apos, tgt, dist)):
+            self.assertTrue(torch.equal(u, v))                                  # with_facts adds, changes nothing
+        for s in range(20):
+            for w, p in cells[s].tolist():
+                self.assertIn(int(x[s, w * et.WINDOW + p]), et.VALS)
+                self.assertIn(int(x[s, w * et.WINDOW + p - 1]), et.KEYS)
+
+    def test_the_oracle_and_rmt_arms_run_with_positions(self):
+        x, apos, tgt, dist, cells = er.generate(3, seed=2, with_facts=True)
+        xw = x.reshape(3, et.N_WINDOWS, et.WINDOW)
+        orc = er.make('B_orc', seed=1, positions=True)
+        self.assertEqual(tuple(er.answers(orc(xw, cells), apos).shape), (3, er.QUERIES, et.VOCAB))
+        rmt = er.make('B_rmt', seed=1, positions=True)
+        self.assertEqual(tuple(er.answers(rmt(xw), apos).shape), (3, er.QUERIES, et.VOCAB))
+        emb = rmt.enc.embedding(xw)                                             # (b, windows, w, d): positions inside a window
+        self.assertTrue(torch.allclose(emb[0, 0, 5] - rmt.enc.embedding.tok(xw)[0, 0, 5], rmt.enc.embedding.pe[5], atol=1e-6))
+        model, info = er.train('B_orc', 1, 3, batch=4, positions=True, log=lambda *_: None)
+        self.assertEqual(set(er.evaluate(model, n=10, arm='B_orc')), {'all', '1', '2', '3'})
+
     def test_a_short_curriculum_run_and_the_reading(self):
         model, info = er.train('Apr', 1, 6, batch=4, curriculum=[4, 8, 16], log=lambda *_: None)
         self.assertEqual(info['curriculum'], [4, 8, 16])

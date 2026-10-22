@@ -1679,6 +1679,26 @@ Betimleyici: Δ'nın seyri, eşit hesap (her kolun GPU süresi), getirme metrikl
 
 - *Sınır:* tek tohum çifti; tek korpus; L1 iki kez kontrol noktasından sürdü (750, 8.500; veri sırası adımın fonksiyonu); 8.500'den sonrası graph'larla (eşdeğerlik testli).
 
+### 5.51 E-RM0R3 ön-kaydı: bellek neden öğrenmiyor, yazmada mı okumada mı? Kahin-yazmalı kol (B_orc) ve RMT-tarzı taşınan bellek belirteçleri (B_rmt), konum kodlamalı (kod `horizon/erm_r.py`, 8 test; koşudan ÖNCE yazıldı 2026-10-22 21:11)
+**Neden.** E-RM0R2'de görev öğrenilebilir çıktı (Apr+PE 0,9994), ama bellekli kollar B ve B_comp, belleksiz A ile aynı sabit tahminciye çöktü (§5.49.1). İki kol bu başarısızlığı ayrıştırır:
+- **B_orc:** yazma öğrenilmez. Her olgunun değer konumundaki kodlayıcı çıktısı kahinden kendi yuvasına (f mod 16) yazılır; eğitilen yalnız kodlayıcı, okuma ve başlık. B_orc öğreniyorsa okuma yolu öğrenilebilir ve B'nin sorunu öğrenilen yazmadadır. Öğrenmiyorsa sorun okumada ya da yuva içeriğindedir.
+- **B_rmt:** RMT-sadık bellek. 4 bellek belirteci her pencerede kodlayıcıdan geçer ve bir sonrakine taşınır; kapı yok. Aşama 1 planındaki B_rmt kolunun oyuncağıdır.
+
+**Tarif.** E-RM0R2 ile aynı: tekil anahtarlar, 8 sorgu, 12.000 güncelleme, lr 3×10⁻³, tohum 1, sinüzoidal konum. Pozitif kontrol ve kontrol E-RM0R2'den alınır (Apr+PE 0,9994; A+PE 0,128; aynı kod, aynı tohum, deterministik).
+**Kural** (§5.46 ile aynı eşikler; kol başına):
+- **MEMORY WORKS (toy)** ⇔ acc(d = 3) ≥ 0,90;
+- **NOT LEARNED** ⇔ ≤ 0,30;
+- **PARTIAL** aksi hâlde.
+
+Kayıtlı yorum:
+- *B_orc WORKS ∧ B NOT LEARNED ⇒* darboğaz öğrenilen yazmadadır. Sıradaki adım yazmayı denetimli ya da rekabetçi yapmak (F1'in hedef-CE önerisi).
+- *B_orc NOT LEARNED ⇒* darboğaz okumada ya da yuva içeriğindedir. Sıradaki adım QK-normu ya da anahtarlı yuvalar.
+- *B_rmt WORKS ⇒* RMT-tarzı bellek oyuncakta çalışıyor; Aşama 1 tasarımı bu kola ağırlık verir.
+
+**Öngörüler [H].** B_orc WORKS ≈ %60; B_rmt WORKS ≈ %40 (4 bellek belirteci 16 olgu için dar olabilir).
+**Kaynak.** CPU; iki süreç paralel, ≈ 30-40 dk.
+- *Sınır:* tek tohum; B_rmt'nin bellek belirteci sayısı Aşama 0'daki gibi 4; oyuncak ölçek.
+
 ## 6. Gerçek model yolu
 
 1. **Ne iddia edilir:** "küçük, bayt-düzeyi bir RLT, durum-izleme/çok-adımlı görevlerde eşit-parametre ve eşit-token bir transformer'a yapısal bir üstünlük gösteriyor mu". LM kaybında üstünlük iddia edilmez (bağımsız değerlendirme bulamadı).

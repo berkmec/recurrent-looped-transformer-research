@@ -32,9 +32,11 @@ ADVANCE_AT = 0.9
 ADVANCE_WINDOW = 200
 
 
-def generate(n, facts=et.N_FACTS, queries=QUERIES, seed=0, windows=et.N_WINDOWS, window=et.WINDOW):
+def generate(n, facts=et.N_FACTS, queries=QUERIES, seed=0, windows=et.N_WINDOWS, window=et.WINDOW, with_facts=False):
     """x (n, windows*window); answer_pos and target (n, queries); d (n, queries) = query window - fact window.
-    Facts (distinct keys, values with replacement) only in windows 0..windows-2; the queries, about distinct facts, in the last."""
+    Facts (distinct keys, values with replacement) only in windows 0..windows-2; the queries, about distinct facts, in the last.
+    with_facts: also (n, facts, 2) = (window, in-window position of the VALUE) in generation order, the cells the oracle-write
+    arm B_orc writes (fact f into slot f mod 16, as erm_tasks.fact_cells_tensor gives stage 0)."""
     qw = windows - 1
     if queries > facts or 2 * queries > window:
         raise ValueError('too many queries')
@@ -46,6 +48,7 @@ def generate(n, facts=et.N_FACTS, queries=QUERIES, seed=0, windows=et.N_WINDOWS,
     apos = np.empty((n, queries), dtype=np.int64)
     tgt = np.empty((n, queries), dtype=np.int64)
     dist = np.empty((n, queries), dtype=np.int64)
+    cells = np.empty((n, facts, 2), dtype=np.int64)
     for s in range(n):
         seq = rng.choice(et.FILLERS, size=windows * window).astype(np.int64)
         taken = [set() for _ in range(windows)]
@@ -58,13 +61,15 @@ def generate(n, facts=et.N_FACTS, queries=QUERIES, seed=0, windows=et.N_WINDOWS,
             at, taken[w] = et._place(rng, taken[w], w * window, (w + 1) * window, 2)
             seq[at], seq[at + 1] = et.KEYS[int(keys[f])], v
             pairs.append((w, et.KEYS[int(keys[f])], v))
+            cells[s, f] = (w, at + 1 - w * window)
         for j, f in enumerate(rng.permutation(facts)[:queries]):
             w, k, v = pairs[int(f)]
             at, taken[qw] = et._place(rng, taken[qw], qw * window, (qw + 1) * window, 2)
             seq[at], seq[at + 1] = et.QMARK, k
             apos[s, j], tgt[s, j], dist[s, j] = at + 1, v, qw - w
         x[s] = seq
-    return torch.from_numpy(x), torch.from_numpy(apos), torch.from_numpy(tgt), torch.from_numpy(dist)
+    out = (torch.from_numpy(x), torch.from_numpy(apos), torch.from_numpy(tgt), torch.from_numpy(dist))
+    return out + (torch.from_numpy(cells),) if with_facts else out
 
 
 def ceiling(x, apos, tgt):
@@ -101,7 +106,7 @@ class Positional(torch.nn.Module):
         return self.tok.embedding_dim
 
     def forward(self, x):
-        return self.tok(x) + self.pe[:x.shape[1]]
+        return self.tok(x) + self.pe[:x.shape[-1]]      # positions run along the last axis: (b, T) or B_rmt's (b, windows, w)
 
 
 def make(arm, seed=1, positions=False):
@@ -135,9 +140,11 @@ def train(arm, seed, steps, batch=32, lr=3e-3, wd=0.01, queries=QUERIES, curricu
     t0 = time.perf_counter()
     for step in range(1, steps + 1):
         facts = stages[stage]
-        x, apos, tgt, _ = generate(batch, facts=facts, queries=min(queries, facts), seed=(seed * 1_000_003 + step) % 2 ** 31)
+        x, apos, tgt, _, cells = generate(batch, facts=facts, queries=min(queries, facts), seed=(seed * 1_000_003 + step) % 2 ** 31,
+                                          with_facts=True)
         model.train()
-        sel = answers(model(x.reshape(batch, et.N_WINDOWS, et.WINDOW)), apos)
+        xw = x.reshape(batch, et.N_WINDOWS, et.WINDOW)
+        sel = answers(model(xw, cells) if arm == 'B_orc' else model(xw), apos)
         loss = F.cross_entropy(sel.reshape(-1, sel.shape[-1]), tgt.reshape(-1))
         opt.zero_grad()
         loss.backward()
@@ -158,15 +165,16 @@ def train(arm, seed, steps, batch=32, lr=3e-3, wd=0.01, queries=QUERIES, curricu
                        train_seconds=time.perf_counter() - t0, positions='sinusoidal' if positions else None)
 
 
-def evaluate(model, n=600, seed=777, queries=QUERIES, batch=50):
+def evaluate(model, n=600, seed=777, queries=QUERIES, batch=50, arm=None):
     """Accuracy per fact distance d (over every query) and overall, at the full 16 facts."""
     torch.set_num_threads(1)
     model.eval()
-    x, apos, tgt, dist = generate(n, facts=et.N_FACTS, queries=queries, seed=seed)
+    x, apos, tgt, dist, cells = generate(n, facts=et.N_FACTS, queries=queries, seed=seed, with_facts=True)
     hits = []
     with torch.no_grad():
         for at in range(0, n, batch):
-            sel = answers(model(x[at:at + batch].reshape(-1, et.N_WINDOWS, et.WINDOW)), apos[at:at + batch])
+            xw = x[at:at + batch].reshape(-1, et.N_WINDOWS, et.WINDOW)
+            sel = answers(model(xw, cells[at:at + batch]) if arm == 'B_orc' else model(xw), apos[at:at + batch])
             hits.append(sel.argmax(-1) == tgt[at:at + batch])
     hit = torch.cat(hits)
     out = dict(all=dict(n=int(hit.numel()), acc=float(hit.float().mean())))
@@ -184,7 +192,7 @@ def reading(results):
         out['positive_control'] = 'LEARNABLE' if acc['Apr'] >= 0.90 else 'NOT LEARNABLE'
     if 'A' in acc:
         out['control'] = 'CONTROL OK' if acc['A'] <= 0.30 else 'CONTROL BROKEN'
-    for arm in ('B', 'B_comp'):
+    for arm in ('B', 'B_comp', 'B_orc', 'B_rmt'):
         if arm in acc and out.get('positive_control') == 'LEARNABLE' and out.get('control') == 'CONTROL OK':
             out[arm] = 'MEMORY WORKS (toy)' if acc[arm] >= 0.90 else ('NOT LEARNED' if acc[arm] <= 0.30 else 'PARTIAL')
         elif arm in acc:
@@ -211,7 +219,7 @@ def main():
         return
     cur = [int(v) for v in a.curriculum.split(',')] if a.curriculum else None
     model, info = train(a.arm, a.seed, a.steps, lr=a.lr, queries=a.queries, curriculum=cur, positions=a.positions)
-    info['eval'] = evaluate(model, queries=a.queries)
+    info['eval'] = evaluate(model, queries=a.queries, arm=a.arm)
     out = Path(a.out)
     out.parent.mkdir(parents=True, exist_ok=True)
     torch.save(dict(state_dict=model.state_dict(), meta=dict(arm=a.arm, seed=a.seed)), out.with_suffix('.pt'))
