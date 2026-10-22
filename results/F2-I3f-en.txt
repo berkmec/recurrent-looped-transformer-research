@@ -1,0 +1,30 @@
+core perm4 w64 (98328 parameters), 100 dev sequences of length 512
+  p_id 0.0: final 0.04 | late (>= 128) first errors 0 | per step n/a per update n/a
+  p_id 0.5: final 0.02 | late (>= 128) first errors 0 | per step n/a per update n/a
+  p_id 0.9: final 0.06 | late (>= 128) first errors 0 | per step n/a per update n/a
+  p_id 0.99: final 0.09 | late (>= 128) first errors 70 | per step 4.21e-03 per update 4.79e-01
+  reading: {"verdict": "NO BASELINE ERRORS", "per_p": {}}
+hold perm4 w64 (106584 parameters), 100 dev sequences of length 512
+  p_id 0.0: final 0.03 | late (>= 128) first errors 0 | per step n/a per update n/a
+  p_id 0.5: final 0.07 | late (>= 128) first errors 0 | per step n/a per update n/a
+  p_id 0.9: final 0.02 | late (>= 128) first errors 0 | per step n/a per update n/a
+  p_id 0.99: final 0.28 | late (>= 128) first errors 71 | per step 2.37e-03 per update 2.59e-01
+  reading: {"verdict": "NO BASELINE ERRORS", "per_p": {}}
+hold_nc perm4 w64 (106584 parameters), 100 dev sequences of length 512
+  p_id 0.0: final 0.07 | late (>= 128) first errors 0 | per step n/a per update n/a
+  p_id 0.5: final 0.03 | late (>= 128) first errors 0 | per step n/a per update n/a
+  p_id 0.9: final 0.02 | late (>= 128) first errors 0 | per step n/a per update n/a
+  p_id 0.99: final 0.26 | late (>= 128) first errors 74 | per step 2.69e-03 per update 2.90e-01
+  reading: {"verdict": "NO BASELINE ERRORS", "per_p": {}}
+core perm5 w128 (409720 parameters), 100 dev sequences of length 512
+  p_id 0.0: final 0.00 | late (>= 128) first errors 0 | per step n/a per update n/a
+  p_id 0.5: final 0.00 | late (>= 128) first errors 0 | per step n/a per update n/a
+  p_id 0.9: final 0.01 | late (>= 128) first errors 0 | per step n/a per update n/a
+  p_id 0.99: final 0.01 | late (>= 128) first errors 55 | per step 5.12e-03 per update 5.45e-01
+  reading: {"verdict": "NO BASELINE ERRORS", "per_p": {}}
+hold perm5 w128 (442616 parameters), 100 dev sequences of length 512
+  p_id 0.0: final 0.01 | late (>= 128) first errors 0 | per step n/a per update n/a
+  p_id 0.5: final 0.02 | late (>= 128) first errors 0 | per step n/a per update n/a
+  p_id 0.9: final 0.03 | late (>= 128) first errors 0 | per step n/a per update n/a
+  p_id 0.99: final 0.01 | late (>= 128) first errors 50 | per step 4.82e-03 per update 5.00e-01
+  reading: {"verdict": "NO BASELINE ERRORS", "per_p": {}}

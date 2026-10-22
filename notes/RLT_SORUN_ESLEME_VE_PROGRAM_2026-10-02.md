@@ -1402,6 +1402,17 @@ Eğitilmiş B'de γ'nın sıfırda kalmadığını da gördüm (bazı kanallarda
 **Kaynak.** CPU, iki süreç, süreç başına tek iş parçacığı. Koşucu (`scripts/run_erm_r.sh`), iki kuyruk kopyası ve I3-f ölçümü bitince başlar. Koşu başına ≈ 20-30 dakika.
 - *Sınır:* tek tohum; tek lr; oyuncak ölçek (w64, 2 katman); 8 sorgu tasarımı MQAR'a yaklaşır ve Aşama 0'ın tek-sorgu sorusu değildir; d dağılımı kotalara bağlı.
 
+### 5.47 E-S-B2X ön-kaydı: sk4 öğrenebilirlik üstünlüğü bütçeye karşı da sağlam mı? (koşudan ÖNCE yazıldı 2026-10-22 12:57; aşama B tohum 2 ve E-S-LR sonuçları görüldükten sonra)
+**Bağlam.** Aşama B iki tohumla kesin: ADVANTAGE (LEARNABILITY). Core sk4'ü öğreniyor (1,000 / 0,979); GRU, LSTM, transformer ve A0 öğrenmiyor. E-S-LR: ROBUST TO LR; tabanlar kendi tepe lr'leriyle (10⁻³) de öğrenmiyor. Kalan çekince bütçe: sk3'te GRU son aşamaya ancak 10-12 bininci güncellemede varıyordu, sk4 için 15.000 az olabilir.
+**Koşu.** sk4; GRU w128, LSTM w112 ve transformer w64; tepe lr 10⁻³ (son %30'da ~0'a azaltma aynı); **30.000 güncelleme** (2×); tohum 1 ve 2. Diğer her şey aşama B'deki gibi. Çıktı `results/ES-b2x/` (ayrı dizin, aşama B okumasına karışmaz). İki CPU süreci, tek iş parçacığı.
+**Kural** (kol başına iki tohum ortalaması):
+- **BUDGET-LIMITED** ⇔ en az bir taban kolu in_range ≥ 0,95. Üstünlük "öğrenebilirlik" değil "daha hızlı öğrenme" diye anılır; dış değer Core'unkiyle betimleyici karşılaştırılır.
+- **ROBUST TO BUDGET** ⇔ hiçbiri öğrenmez. Hüküm 2× bütçeyle sınırlıdır.
+
+**Öngörü [H].** ROBUST TO BUDGET ≈ %60; BUDGET-LIMITED olursa en olası kol GRU.
+**Kullanım.** ROBUST TO BUDGET → §5.16'nın kayıtlı kullanımı ("durum-anahtarlı getirme ailesi gerçek model görev karışımına girer; RLT'nin yapısal değeri kanıtlı sayılır") üç denetimle (tohum, lr, bütçe) uygulanır. BUDGET-LIMITED → üstünlük hız üstünlüğü olarak kaydedilir.
+- *Sınır:* tek lr (10⁻³); 2× bütçe; ≈ 100k parametre; tek görev ailesi.
+
 ## 6. Gerçek model yolu
 
 1. **Ne iddia edilir:** "küçük, bayt-düzeyi bir RLT, durum-izleme/çok-adımlı görevlerde eşit-parametre ve eşit-token bir transformer'a yapısal bir üstünlük gösteriyor mu". LM kaybında üstünlük iddia edilmez (bağımsız değerlendirme bulamadı).

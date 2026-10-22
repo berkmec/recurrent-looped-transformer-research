@@ -1,0 +1,65 @@
+results/F2-I3f-F2-perm4-hold-w64-s1-np09.pt: hold_neutral=0.660 neutral_loss=-4.0pts sign_ok=True -> DESTEKLENİR
+results/F2-I3f-F3-perm4-hold_nc-w64-s1-np09.pt: hold_neutral=0.582 neutral_loss=3.5pts sign_ok=True -> KISMEN [CHRONO_UNNECESSARY,SINIRDA]
+results/F2-I3f-F5-perm5-hold-w128-s1-np09.pt: hold_neutral=0.489 neutral_loss=2.0pts sign_ok=True -> MANIPULATION_NOT_APPLIED
+[
+ {
+  "verdict": "DESTEKLEN\u0130R",
+  "hold_neutral": 0.6604766249656677,
+  "neutral_loss_points": -3.999999910593033,
+  "sign_ok": true,
+  "flags": [],
+  "acc0_ci": [
+   0.0078044264163494685,
+   0.050287086905826436
+  ],
+  "acc9_ci": [
+   0.03465219425433187,
+   0.1019316929576627
+  ],
+  "loss_ci": [
+   -7.8206730462498655,
+   -0.17932677493620042
+  ]
+ },
+ {
+  "verdict": "KISMEN",
+  "hold_neutral": 0.5821278691291809,
+  "neutral_loss_points": 3.500000014901161,
+  "sign_ok": true,
+  "flags": [
+   "CHRONO_UNNECESSARY",
+   "SINIRDA"
+  ],
+  "acc0_ci": [
+   0.03098534170345884,
+   0.0957869987723084
+  ],
+  "acc9_ci": [
+   0.0078044264163494685,
+   0.050287086905826436
+  ],
+  "loss_ci": [
+   -0.20777837939167723,
+   7.207778409193999
+  ]
+ },
+ {
+  "verdict": "MANIPULATION_NOT_APPLIED",
+  "hold_neutral": 0.4885176718235016,
+  "neutral_loss_points": 2.000000048428774,
+  "sign_ok": true,
+  "flags": [],
+  "acc0_ci": [
+   0.010724719651761264,
+   0.05717834040664198
+  ],
+  "acc9_ci": [
+   0.0008831687156009814,
+   0.02777370439789293
+  ],
+  "loss_ci": [
+   -0.37430845429208615,
+   4.374308551149634
+  ]
+ }
+]

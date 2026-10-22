@@ -1,0 +1,48 @@
+{
+ "schema": "run-manifest/v1",
+ "run_id": "F2-I3f-measure",
+ "campaign": "F2-I3f",
+ "agent": "claude-4797b78c",
+ "created_utc": "2026-10-22T07:23:00Z",
+ "command": "python -B -m horizon.neutral_runs results/F2-I3f-F1-perm4-core-w64-s1-np09.pt results/F2-I3f-F2-perm4-hold-w64-s1-np09.pt results/F2-I3f-F3-perm4-hold_nc-w64-s1-np09.pt results/F2-I3f-F4-perm5-core-w128-s1-np09.pt results/F2-I3f-F5-perm5-hold-w128-s1-np09.pt --out results/F2-I3f-en.json; python -B -m horizon.hold results/F2-I3f-F2-perm4-hold-w64-s1-np09.pt results/F2-I3f-F3-perm4-hold_nc-w64-s1-np09.pt results/F2-I3f-F5-perm5-hold-w128-s1-np09.pt --out results/F2-I3f-eg.json",
+ "prereg": {
+  "paper": "notes/_hive_F2_ONKAYIT_I3-f.md 5"
+ },
+ "code": {
+  "head": "ec78513",
+  "dirty": false,
+  "porcelain": [
+   " M results/L1-a0-w928-s401/probe.json",
+   " M results/L1-a0-w928-s401/probe.jsonl",
+   " M results/L1-a0-w928-s401/train.log",
+   " M results/M1-finetune-distance/queue.log",
+   "?? results/ES-lr/",
+   "?? results/ES-pilot/sk4-core-w64-s2.json",
+   "?? results/ES-pilot/sk4-core-w64-s2.log",
+   "?? results/ES-pilot/sk4-core-w64-s2.manifest.json",
+   "?? results/ES-pilot/sk4-core_nofb-w64-s2.json",
+   "?? results/ES-pilot/sk4-core_nofb-w64-s2.log",
+   "?? results/ES-pilot/sk4-core_nofb-w64-s2.manifest.json",
+   "?? results/ES-pilot/sk4-gru-w128-s2.json",
+   "?? results/ES-pilot/sk4-gru-w128-s2.log",
+   "?? results/ES-pilot/sk4-gru-w128-s2.manifest.json",
+   "?? results/ES-pilot/sk4-lstm-w112-s2.json",
+   "?? results/ES-pilot/sk4-lstm-w112-s2.log",
+   "?? results/ES-pilot/sk4-lstm-w112-s2.manifest.json",
+   "?? results/ES-pilot/sk4-tfm-w64-s2.json",
+   "?? results/ES-pilot/sk4-tfm-w64-s2.log",
+   "?? results/ES-pilot/sk4-tfm-w64-s2.manifest.json",
+   "?? results/L1-a0-w928-s401/E-A0F-L1-a0-w928-s401.manifest.json"
+  ]
+ },
+ "config": {
+  "source": "scripts/run_i3f_measure.sh",
+  "summary": {},
+  "sha256": "5e1ac0889d0b1d0968299eb97f6ab486cd7270d068cac5a1cf10e793bd4d7fd7"
+ },
+ "seeds": {
+  "seed": 1
+ },
+ "telemetry_schema": "I1-a/v1",
+ "status": "started"
+}

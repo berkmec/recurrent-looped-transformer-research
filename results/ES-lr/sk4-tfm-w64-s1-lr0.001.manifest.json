@@ -1,0 +1,48 @@
+{
+ "schema": "run-manifest/v1",
+ "run_id": "sk4-tfm-w64-s1-lr0.001",
+ "campaign": "ES-lr",
+ "agent": "claude-4797b78c",
+ "created_utc": "2026-10-22T06:47:11Z",
+ "command": "python -B -m horizon.sk_run --task sk4 --arm tfm --width 64 --seed 1 --lr 0.001 --steps 15000 --out results/ES-lr/sk4-tfm-w64-s1-lr0.001.json --log-every 1000",
+ "prereg": {
+  "paper": "notes/RLT_SORUN_ESLEME_VE_PROGRAM_2026-10-02.md 5.42 c"
+ },
+ "code": {
+  "head": "ec78513",
+  "dirty": false,
+  "porcelain": [
+   " M results/L1-a0-w928-s401/probe.json",
+   " M results/L1-a0-w928-s401/probe.jsonl",
+   " M results/L1-a0-w928-s401/train.log",
+   " M results/M1-finetune-distance/queue.log",
+   "?? results/ES-lr/",
+   "?? results/ES-pilot/sk4-core-w64-s2.json",
+   "?? results/ES-pilot/sk4-core-w64-s2.log",
+   "?? results/ES-pilot/sk4-core-w64-s2.manifest.json",
+   "?? results/ES-pilot/sk4-core_nofb-w64-s2.json",
+   "?? results/ES-pilot/sk4-core_nofb-w64-s2.log",
+   "?? results/ES-pilot/sk4-core_nofb-w64-s2.manifest.json",
+   "?? results/ES-pilot/sk4-gru-w128-s2.json",
+   "?? results/ES-pilot/sk4-gru-w128-s2.log",
+   "?? results/ES-pilot/sk4-gru-w128-s2.manifest.json",
+   "?? results/ES-pilot/sk4-lstm-w112-s2.json",
+   "?? results/ES-pilot/sk4-lstm-w112-s2.log",
+   "?? results/ES-pilot/sk4-lstm-w112-s2.manifest.json",
+   "?? results/ES-pilot/sk4-tfm-w64-s2.json",
+   "?? results/ES-pilot/sk4-tfm-w64-s2.log",
+   "?? results/ES-pilot/sk4-tfm-w64-s2.manifest.json",
+   "?? results/L1-a0-w928-s401/E-A0F-L1-a0-w928-s401.manifest.json"
+  ]
+ },
+ "config": {
+  "source": "scripts/run_queue_2026-10-22b.sh",
+  "summary": {},
+  "sha256": "335c4fa141158c287ea42dfeb0a0d82b859f3a4c11a8bf2a207cf77105dcf284"
+ },
+ "seeds": {
+  "seed": 1
+ },
+ "telemetry_schema": "I1-a/v1",
+ "status": "started"
+}

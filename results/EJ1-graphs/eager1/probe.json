@@ -1,0 +1,189 @@
+{
+ "arm": "plain",
+ "batch": 32,
+ "decay_fraction": 0.1,
+ "floor": 0.1,
+ "heads": 8,
+ "length": 512,
+ "lr": 0.0006,
+ "needle_rate": 0.25,
+ "note": "bytes are tokens (vocabulary 256); the schedule depends on `steps`, so extending a run changes the decay",
+ "parameters": 20297472,
+ "phases": [
+  [
+   2000,
+   [
+    {
+     "facts": 1,
+     "filler": [
+      0,
+      64
+     ],
+     "key_alphabet": "broad",
+     "key_length": [
+      4,
+      4
+     ],
+     "name": "single-fact",
+     "natural_share": 0.0,
+     "queries": 1,
+     "share": 0.5,
+     "with_replacement": true
+    },
+    {
+     "facts": 4,
+     "filler": [
+      0,
+      64
+     ],
+     "key_alphabet": "broad",
+     "key_length": [
+      4,
+      4
+     ],
+     "name": "mqar4-random",
+     "natural_share": 0.0,
+     "queries": 4,
+     "share": 0.5,
+     "with_replacement": true
+    }
+   ]
+  ],
+  [
+   8000,
+   [
+    {
+     "facts": 1,
+     "filler": [
+      0,
+      384
+     ],
+     "key_alphabet": "broad",
+     "key_length": [
+      4,
+      4
+     ],
+     "name": "single-fact-far",
+     "natural_share": 0.0,
+     "queries": 1,
+     "share": 0.2,
+     "with_replacement": true
+    },
+    {
+     "facts": 4,
+     "filler": [
+      0,
+      64
+     ],
+     "key_alphabet": "broad",
+     "key_length": [
+      1,
+      4
+     ],
+     "name": "mqar4-random",
+     "natural_share": 0.0,
+     "queries": 4,
+     "share": 0.4,
+     "with_replacement": true
+    },
+    {
+     "facts": 4,
+     "filler": [
+      0,
+      64
+     ],
+     "key_alphabet": "broad",
+     "key_length": [
+      4,
+      4
+     ],
+     "name": "mqar4-natural",
+     "natural_share": 1.0,
+     "queries": 4,
+     "share": 0.4,
+     "with_replacement": true
+    }
+   ]
+  ],
+  [
+   null,
+   [
+    {
+     "facts": 1,
+     "filler": [
+      0,
+      448
+     ],
+     "key_alphabet": "broad",
+     "key_length": [
+      4,
+      4
+     ],
+     "name": "single-fact-far",
+     "natural_share": 0.0,
+     "queries": 1,
+     "share": 0.15,
+     "with_replacement": true
+    },
+    {
+     "facts": 2,
+     "filler": [
+      0,
+      300
+     ],
+     "key_alphabet": "broad",
+     "key_length": [
+      4,
+      4
+     ],
+     "name": "mqar2-far",
+     "natural_share": 0.0,
+     "queries": 2,
+     "share": 0.15,
+     "with_replacement": true
+    },
+    {
+     "facts": 4,
+     "filler": [
+      0,
+      128
+     ],
+     "key_alphabet": "broad",
+     "key_length": [
+      1,
+      4
+     ],
+     "name": "mqar4-random",
+     "natural_share": 0.0,
+     "queries": 4,
+     "share": 0.3,
+     "with_replacement": true
+    },
+    {
+     "facts": 4,
+     "filler": [
+      0,
+      128
+     ],
+     "key_alphabet": "broad",
+     "key_length": [
+      4,
+      4
+     ],
+     "name": "mqar4-natural",
+     "natural_share": 1.0,
+     "queries": 4,
+     "share": 0.4,
+     "with_replacement": true
+    }
+   ]
+  ]
+ ],
+ "role": "the long run: one from-scratch training, not stopped for a plateau",
+ "seed": 401,
+ "steps": 30518,
+ "tokens_planned": 500006912,
+ "utc": 1792657966.4231484,
+ "warmup": 500,
+ "width": 928
+}

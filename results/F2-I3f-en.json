@@ -1,0 +1,762 @@
+[
+ {
+  "weights": "results/F2-I3f-F1-perm4-core-w64-s1-np09.pt",
+  "arm": "core",
+  "task": "perm4",
+  "width": 64,
+  "parameters": 98328,
+  "length": 512,
+  "n": 100,
+  "seed": 1,
+  "results": {
+   "0.0": {
+    "windows": {
+     "0-16": [
+      100,
+      1600,
+      1523
+     ],
+     "16-64": [
+      0,
+      0,
+      0
+     ],
+     "64-128": [
+      0,
+      0,
+      0
+     ],
+     "128-256": [
+      0,
+      0,
+      0
+     ],
+     "256-512": [
+      0,
+      0,
+      0
+     ]
+    },
+    "final": 0.03999999910593033,
+    "late_events": 0,
+    "late_step_exposure": 0,
+    "late_update_exposure": 0,
+    "rate_per_step": null,
+    "rate_per_update": null
+   },
+   "0.5": {
+    "windows": {
+     "0-16": [
+      97,
+      1600,
+      748
+     ],
+     "16-64": [
+      3,
+      144,
+      67
+     ],
+     "64-128": [
+      0,
+      0,
+      0
+     ],
+     "128-256": [
+      0,
+      0,
+      0
+     ],
+     "256-512": [
+      0,
+      0,
+      0
+     ]
+    },
+    "final": 0.019999999552965164,
+    "late_events": 0,
+    "late_step_exposure": 0,
+    "late_update_exposure": 0,
+    "rate_per_step": null,
+    "rate_per_update": null
+   },
+   "0.9": {
+    "windows": {
+     "0-16": [
+      9,
+      1600,
+      124
+     ],
+     "16-64": [
+      85,
+      4368,
+      422
+     ],
+     "64-128": [
+      6,
+      384,
+      39
+     ],
+     "128-256": [
+      0,
+      0,
+      0
+     ],
+     "256-512": [
+      0,
+      0,
+      0
+     ]
+    },
+    "final": 0.05999999865889549,
+    "late_events": 0,
+    "late_step_exposure": 0,
+    "late_update_exposure": 0,
+    "rate_per_step": null,
+    "rate_per_update": null
+   },
+   "0.99": {
+    "windows": {
+     "0-16": [
+      0,
+      1600,
+      10
+     ],
+     "16-64": [
+      4,
+      4800,
+      43
+     ],
+     "64-128": [
+      24,
+      6144,
+      60
+     ],
+     "128-256": [
+      43,
+      9216,
+      82
+     ],
+     "256-512": [
+      27,
+      7424,
+      64
+     ]
+    },
+    "final": 0.09000000357627869,
+    "late_events": 70,
+    "late_step_exposure": 16640,
+    "late_update_exposure": 146,
+    "rate_per_step": 0.004206730769230769,
+    "rate_per_update": 0.4794520547945205
+   }
+  }
+ },
+ {
+  "weights": "results/F2-I3f-F2-perm4-hold-w64-s1-np09.pt",
+  "arm": "hold",
+  "task": "perm4",
+  "width": 64,
+  "parameters": 106584,
+  "length": 512,
+  "n": 100,
+  "seed": 1,
+  "results": {
+   "0.0": {
+    "windows": {
+     "0-16": [
+      100,
+      1600,
+      1523
+     ],
+     "16-64": [
+      0,
+      0,
+      0
+     ],
+     "64-128": [
+      0,
+      0,
+      0
+     ],
+     "128-256": [
+      0,
+      0,
+      0
+     ],
+     "256-512": [
+      0,
+      0,
+      0
+     ]
+    },
+    "final": 0.029999999329447746,
+    "late_events": 0,
+    "late_step_exposure": 0,
+    "late_update_exposure": 0,
+    "rate_per_step": null,
+    "rate_per_update": null
+   },
+   "0.5": {
+    "windows": {
+     "0-16": [
+      97,
+      1600,
+      748
+     ],
+     "16-64": [
+      3,
+      144,
+      67
+     ],
+     "64-128": [
+      0,
+      0,
+      0
+     ],
+     "128-256": [
+      0,
+      0,
+      0
+     ],
+     "256-512": [
+      0,
+      0,
+      0
+     ]
+    },
+    "final": 0.07000000029802322,
+    "late_events": 0,
+    "late_step_exposure": 0,
+    "late_update_exposure": 0,
+    "rate_per_step": null,
+    "rate_per_update": null
+   },
+   "0.9": {
+    "windows": {
+     "0-16": [
+      9,
+      1600,
+      124
+     ],
+     "16-64": [
+      82,
+      4368,
+      423
+     ],
+     "64-128": [
+      9,
+      576,
+      62
+     ],
+     "128-256": [
+      0,
+      0,
+      0
+     ],
+     "256-512": [
+      0,
+      0,
+      0
+     ]
+    },
+    "final": 0.019999999552965164,
+    "late_events": 0,
+    "late_step_exposure": 0,
+    "late_update_exposure": 0,
+    "rate_per_step": null,
+    "rate_per_update": null
+   },
+   "0.99": {
+    "windows": {
+     "0-16": [
+      0,
+      1600,
+      10
+     ],
+     "16-64": [
+      2,
+      4800,
+      43
+     ],
+     "64-128": [
+      6,
+      6272,
+      63
+     ],
+     "128-256": [
+      21,
+      11776,
+      115
+     ],
+     "256-512": [
+      50,
+      18176,
+      159
+     ]
+    },
+    "final": 0.2800000011920929,
+    "late_events": 71,
+    "late_step_exposure": 29952,
+    "late_update_exposure": 274,
+    "rate_per_step": 0.0023704594017094015,
+    "rate_per_update": 0.2591240875912409
+   }
+  }
+ },
+ {
+  "weights": "results/F2-I3f-F3-perm4-hold_nc-w64-s1-np09.pt",
+  "arm": "hold_nc",
+  "task": "perm4",
+  "width": 64,
+  "parameters": 106584,
+  "length": 512,
+  "n": 100,
+  "seed": 1,
+  "results": {
+   "0.0": {
+    "windows": {
+     "0-16": [
+      100,
+      1600,
+      1523
+     ],
+     "16-64": [
+      0,
+      0,
+      0
+     ],
+     "64-128": [
+      0,
+      0,
+      0
+     ],
+     "128-256": [
+      0,
+      0,
+      0
+     ],
+     "256-512": [
+      0,
+      0,
+      0
+     ]
+    },
+    "final": 0.07000000029802322,
+    "late_events": 0,
+    "late_step_exposure": 0,
+    "late_update_exposure": 0,
+    "rate_per_step": null,
+    "rate_per_update": null
+   },
+   "0.5": {
+    "windows": {
+     "0-16": [
+      97,
+      1600,
+      748
+     ],
+     "16-64": [
+      3,
+      144,
+      67
+     ],
+     "64-128": [
+      0,
+      0,
+      0
+     ],
+     "128-256": [
+      0,
+      0,
+      0
+     ],
+     "256-512": [
+      0,
+      0,
+      0
+     ]
+    },
+    "final": 0.029999999329447746,
+    "late_events": 0,
+    "late_step_exposure": 0,
+    "late_update_exposure": 0,
+    "rate_per_step": null,
+    "rate_per_update": null
+   },
+   "0.9": {
+    "windows": {
+     "0-16": [
+      6,
+      1600,
+      124
+     ],
+     "16-64": [
+      87,
+      4512,
+      441
+     ],
+     "64-128": [
+      7,
+      448,
+      44
+     ],
+     "128-256": [
+      0,
+      0,
+      0
+     ],
+     "256-512": [
+      0,
+      0,
+      0
+     ]
+    },
+    "final": 0.019999999552965164,
+    "late_events": 0,
+    "late_step_exposure": 0,
+    "late_update_exposure": 0,
+    "rate_per_step": null,
+    "rate_per_update": null
+   },
+   "0.99": {
+    "windows": {
+     "0-16": [
+      0,
+      1600,
+      10
+     ],
+     "16-64": [
+      3,
+      4800,
+      43
+     ],
+     "64-128": [
+      8,
+      6208,
+      61
+     ],
+     "128-256": [
+      26,
+      11392,
+      108
+     ],
+     "256-512": [
+      48,
+      16128,
+      147
+     ]
+    },
+    "final": 0.25999999046325684,
+    "late_events": 74,
+    "late_step_exposure": 27520,
+    "late_update_exposure": 255,
+    "rate_per_step": 0.002688953488372093,
+    "rate_per_update": 0.2901960784313726
+   }
+  }
+ },
+ {
+  "weights": "results/F2-I3f-F4-perm5-core-w128-s1-np09.pt",
+  "arm": "core",
+  "task": "perm5",
+  "width": 128,
+  "parameters": 409720,
+  "length": 512,
+  "n": 100,
+  "seed": 1,
+  "results": {
+   "0.0": {
+    "windows": {
+     "0-16": [
+      100,
+      1600,
+      1584
+     ],
+     "16-64": [
+      0,
+      0,
+      0
+     ],
+     "64-128": [
+      0,
+      0,
+      0
+     ],
+     "128-256": [
+      0,
+      0,
+      0
+     ],
+     "256-512": [
+      0,
+      0,
+      0
+     ]
+    },
+    "final": 0.0,
+    "late_events": 0,
+    "late_step_exposure": 0,
+    "late_update_exposure": 0,
+    "rate_per_step": null,
+    "rate_per_update": null
+   },
+   "0.5": {
+    "windows": {
+     "0-16": [
+      100,
+      1600,
+      782
+     ],
+     "16-64": [
+      0,
+      0,
+      0
+     ],
+     "64-128": [
+      0,
+      0,
+      0
+     ],
+     "128-256": [
+      0,
+      0,
+      0
+     ],
+     "256-512": [
+      0,
+      0,
+      0
+     ]
+    },
+    "final": 0.0,
+    "late_events": 0,
+    "late_step_exposure": 0,
+    "late_update_exposure": 0,
+    "rate_per_step": null,
+    "rate_per_update": null
+   },
+   "0.9": {
+    "windows": {
+     "0-16": [
+      48,
+      1600,
+      168
+     ],
+     "16-64": [
+      50,
+      2496,
+      250
+     ],
+     "64-128": [
+      2,
+      128,
+      14
+     ],
+     "128-256": [
+      0,
+      0,
+      0
+     ],
+     "256-512": [
+      0,
+      0,
+      0
+     ]
+    },
+    "final": 0.009999999776482582,
+    "late_events": 0,
+    "late_step_exposure": 0,
+    "late_update_exposure": 0,
+    "rate_per_step": null,
+    "rate_per_update": null
+   },
+   "0.99": {
+    "windows": {
+     "0-16": [
+      0,
+      1600,
+      10
+     ],
+     "16-64": [
+      16,
+      4800,
+      50
+     ],
+     "64-128": [
+      28,
+      5376,
+      50
+     ],
+     "128-256": [
+      42,
+      7168,
+      59
+     ],
+     "256-512": [
+      13,
+      3584,
+      42
+     ]
+    },
+    "final": 0.009999999776482582,
+    "late_events": 55,
+    "late_step_exposure": 10752,
+    "late_update_exposure": 101,
+    "rate_per_step": 0.005115327380952381,
+    "rate_per_update": 0.5445544554455446
+   }
+  }
+ },
+ {
+  "weights": "results/F2-I3f-F5-perm5-hold-w128-s1-np09.pt",
+  "arm": "hold",
+  "task": "perm5",
+  "width": 128,
+  "parameters": 442616,
+  "length": 512,
+  "n": 100,
+  "seed": 1,
+  "results": {
+   "0.0": {
+    "windows": {
+     "0-16": [
+      100,
+      1600,
+      1584
+     ],
+     "16-64": [
+      0,
+      0,
+      0
+     ],
+     "64-128": [
+      0,
+      0,
+      0
+     ],
+     "128-256": [
+      0,
+      0,
+      0
+     ],
+     "256-512": [
+      0,
+      0,
+      0
+     ]
+    },
+    "final": 0.009999999776482582,
+    "late_events": 0,
+    "late_step_exposure": 0,
+    "late_update_exposure": 0,
+    "rate_per_step": null,
+    "rate_per_update": null
+   },
+   "0.5": {
+    "windows": {
+     "0-16": [
+      100,
+      1600,
+      782
+     ],
+     "16-64": [
+      0,
+      0,
+      0
+     ],
+     "64-128": [
+      0,
+      0,
+      0
+     ],
+     "128-256": [
+      0,
+      0,
+      0
+     ],
+     "256-512": [
+      0,
+      0,
+      0
+     ]
+    },
+    "final": 0.019999999552965164,
+    "late_events": 0,
+    "late_step_exposure": 0,
+    "late_update_exposure": 0,
+    "rate_per_step": null,
+    "rate_per_update": null
+   },
+   "0.9": {
+    "windows": {
+     "0-16": [
+      48,
+      1600,
+      168
+     ],
+     "16-64": [
+      50,
+      2496,
+      250
+     ],
+     "64-128": [
+      2,
+      128,
+      14
+     ],
+     "128-256": [
+      0,
+      0,
+      0
+     ],
+     "256-512": [
+      0,
+      0,
+      0
+     ]
+    },
+    "final": 0.029999999329447746,
+    "late_events": 0,
+    "late_step_exposure": 0,
+    "late_update_exposure": 0,
+    "rate_per_step": null,
+    "rate_per_update": null
+   },
+   "0.99": {
+    "windows": {
+     "0-16": [
+      0,
+      1600,
+      10
+     ],
+     "16-64": [
+      17,
+      4800,
+      50
+     ],
+     "64-128": [
+      32,
+      5312,
+      48
+     ],
+     "128-256": [
+      36,
+      6528,
+      56
+     ],
+     "256-512": [
+      14,
+      3840,
+      44
+     ]
+    },
+    "final": 0.009999999776482582,
+    "late_events": 50,
+    "late_step_exposure": 10368,
+    "late_update_exposure": 100,
+    "rate_per_step": 0.004822530864197531,
+    "rate_per_update": 0.5
+   }
+  }
+ }
+]

@@ -1,0 +1,47 @@
+{
+ "schema": "run-manifest/v1",
+ "run_id": "sk4-gru-w128-s2",
+ "campaign": "ES-pilot",
+ "agent": "claude-4797b78c",
+ "created_utc": "2026-10-22T04:53:33Z",
+ "command": "python -B -m horizon.sk_run --task sk4 --arm gru --width 128 --seed 2  --steps 15000 --out results/ES-pilot/sk4-gru-w128-s2.json --log-every 1000",
+ "prereg": {
+  "paper": "notes/RLT_SORUN_ESLEME_VE_PROGRAM_2026-10-02.md 5.16 + 5.42 b"
+ },
+ "code": {
+  "head": "ab5b2c8",
+  "dirty": true,
+  "porcelain": [
+   " M mline/longrun.py",
+   " M results/L1-a0-w928-s401/probe.json",
+   " M results/L1-a0-w928-s401/probe.jsonl",
+   " M results/L1-a0-w928-s401/train.log",
+   " M results/M1-finetune-distance/queue.log",
+   "?? mline/graphed.py",
+   "?? results/ES-pilot/sk4-core-w64-s2.log",
+   "?? results/ES-pilot/sk4-core-w64-s2.manifest.json",
+   "?? results/ES-pilot/sk4-lstm-w112-s2.json",
+   "?? results/ES-pilot/sk4-lstm-w112-s2.log",
+   "?? results/ES-pilot/sk4-lstm-w112-s2.manifest.json",
+   "?? results/L1-a0-w928-s401/E-A0F-L1-a0-w928-s401.manifest.json",
+   "?? results/Z1-pilot/a3-r4-perm5-hold-w128-s2-np05-30k-reading.json",
+   "?? results/Z1-pilot/a3-r4-perm5-hold-w128-s2-np05-30k-reading.log",
+   "?? results/Z1-pilot/a3-r4-perm5-hold-w128-s2-np05-30k.json",
+   "?? results/Z1-pilot/a3-r4-perm5-hold-w128-s2-np05-30k.log",
+   "?? results/Z1-pilot/a3-r4-perm5-hold-w128-s2-np05-30k.manifest.json",
+   "?? results/Z1-pilot/a3-r4-perm5-hold-w128-s2-np05-30k.tel.jsonl",
+   "?? scripts/run_ej1.sh",
+   "?? tests/test_graphed.py"
+  ]
+ },
+ "config": {
+  "source": "scripts/run_queue_2026-10-22b.sh",
+  "summary": {},
+  "sha256": "335c4fa141158c287ea42dfeb0a0d82b859f3a4c11a8bf2a207cf77105dcf284"
+ },
+ "seeds": {
+  "seed": 2
+ },
+ "telemetry_schema": "I1-a/v1",
+ "status": "started"
+}

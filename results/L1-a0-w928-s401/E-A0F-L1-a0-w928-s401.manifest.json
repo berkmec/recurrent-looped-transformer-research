@@ -1,0 +1,26 @@
+{
+ "schema": "run-manifest/v1",
+ "run_id": "E-A0F-L1-a0-w928-s401",
+ "campaign": "L1-a0-w928-s401",
+ "agent": "claude-4797b78c",
+ "created_utc": "2026-10-22T04:21:34Z",
+ "command": "python -B -m mline.longrun --out results/L1-a0-w928-s401 --recipe m2-draft --tokens 500000000 --arm a0",
+ "prereg": {
+  "paper": "notes/RLT_SORUN_ESLEME_VE_PROGRAM_2026-10-02.md 5.42 a"
+ },
+ "code": {
+  "head": "d4136a6",
+  "dirty": false,
+  "porcelain": []
+ },
+ "config": {
+  "source": "scripts/run_l1_a0_full.sh",
+  "summary": {},
+  "sha256": "a35efe95c7aef1e718ac978fc46ea1f0219530cdc4c96624ed168a2960b9686b"
+ },
+ "seeds": {
+  "seed": 401
+ },
+ "telemetry_schema": "I1-a/v1",
+ "status": "started"
+}

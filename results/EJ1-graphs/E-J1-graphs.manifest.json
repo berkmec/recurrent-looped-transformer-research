@@ -1,0 +1,55 @@
+{
+ "schema": "run-manifest/v1",
+ "run_id": "E-J1-graphs",
+ "campaign": "EJ1-graphs",
+ "agent": "claude-4797b78c",
+ "created_utc": "2026-10-22T08:32:40Z",
+ "command": "python -B -m mline.longrun --out results/EJ1-graphs/{eager1,eager2,graphed} --recipe m2-draft --tokens 500000000 --telemetry std1 --stop-at 8520 [--graphs]; graphed again --stop-at 9000 --graphs",
+ "prereg": {
+  "paper": "notes/RLT_SORUN_ESLEME_VE_PROGRAM_2026-10-02.md 5.44"
+ },
+ "code": {
+  "head": "ec78513",
+  "dirty": false,
+  "porcelain": [
+   " M results/L1-a0-w928-s401/probe.json",
+   " M results/L1-a0-w928-s401/probe.jsonl",
+   " M results/L1-a0-w928-s401/train.log",
+   " M results/M1-finetune-distance/queue.log",
+   "?? results/ERM-R/",
+   "?? results/ES-lr/",
+   "?? results/ES-pilot/sk4-core-w64-s2.json",
+   "?? results/ES-pilot/sk4-core-w64-s2.log",
+   "?? results/ES-pilot/sk4-core-w64-s2.manifest.json",
+   "?? results/ES-pilot/sk4-core_nofb-w64-s2.json",
+   "?? results/ES-pilot/sk4-core_nofb-w64-s2.log",
+   "?? results/ES-pilot/sk4-core_nofb-w64-s2.manifest.json",
+   "?? results/ES-pilot/sk4-gru-w128-s2.json",
+   "?? results/ES-pilot/sk4-gru-w128-s2.log",
+   "?? results/ES-pilot/sk4-gru-w128-s2.manifest.json",
+   "?? results/ES-pilot/sk4-lstm-w112-s2.json",
+   "?? results/ES-pilot/sk4-lstm-w112-s2.log",
+   "?? results/ES-pilot/sk4-lstm-w112-s2.manifest.json",
+   "?? results/ES-pilot/sk4-tfm-w64-s2.json",
+   "?? results/ES-pilot/sk4-tfm-w64-s2.log",
+   "?? results/ES-pilot/sk4-tfm-w64-s2.manifest.json",
+   "?? results/F2-I3f-eg.json",
+   "?? results/F2-I3f-eg.txt",
+   "?? results/F2-I3f-en.json",
+   "?? results/F2-I3f-en.txt",
+   "?? results/F2-I3f/F2-I3f-measure.manifest.json",
+   "?? results/L1-a0-w928-s401/E-A0F-L1-a0-w928-s401.manifest.json",
+   "?? results/L1-a0-w928-s401/complete.json"
+  ]
+ },
+ "config": {
+  "source": "scripts/run_ej1.sh",
+  "summary": {},
+  "sha256": "db97ed3be55e7e594a0ae0424dd86cfdfced5c555e8373d73fa3ada8a77bc806"
+ },
+ "seeds": {
+  "seed": 401
+ },
+ "telemetry_schema": "I1-a/v1",
+ "status": "started"
+}

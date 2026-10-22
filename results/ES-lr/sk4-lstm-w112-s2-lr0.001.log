@@ -1,0 +1,22 @@
+--- start 2026-10-22 09:41:20
+sk4 lstm w112 s2 step 484 curriculum advance walk 0 -> 1 (20s)
+sk4 lstm w112 s2 step 1000 walk 1 loss 2.082489013671875 value acc 0.16375 (43s)
+sk4 lstm w112 s2 step 2000 walk 1 loss 1.9154467582702637 value acc 0.23390625 (85s)
+sk4 lstm w112 s2 step 3000 walk 1 loss 2.0127322673797607 value acc 0.251875 (129s)
+sk4 lstm w112 s2 step 4000 walk 1 loss 1.888407826423645 value acc 0.25109375 (172s)
+sk4 lstm w112 s2 step 5000 walk 1 loss 1.7540974617004395 value acc 0.26515625 (215s)
+sk4 lstm w112 s2 step 6000 walk 1 loss 1.8287094831466675 value acc 0.27015625 (258s)
+sk4 lstm w112 s2 step 7000 walk 1 loss 1.749099850654602 value acc 0.26984375 (301s)
+sk4 lstm w112 s2 step 8000 walk 1 loss 1.80953049659729 value acc 0.28296875 (344s)
+sk4 lstm w112 s2 step 9000 walk 1 loss 1.9513938426971436 value acc 0.29578125 (388s)
+sk4 lstm w112 s2 step 10000 walk 1 loss 1.7373647689819336 value acc 0.32578125 (432s)
+sk4 lstm w112 s2 step 11000 walk 1 loss 1.7816885709762573 value acc 0.34421875 (477s)
+sk4 lstm w112 s2 step 12000 walk 1 loss 1.5939536094665527 value acc 0.3490625 (522s)
+sk4 lstm w112 s2 step 13000 walk 1 loss 1.4896680116653442 value acc 0.35734375 (566s)
+sk4 lstm w112 s2 step 14000 walk 1 loss 1.8162212371826172 value acc 0.37828125 (611s)
+sk4 lstm w112 s2 step 15000 walk 1 loss 1.6099997758865356 value acc 0.37296875 (655s)
+{"task": "sk4", "arm": "lstm", "width": 112, "seed": 2, "in_range": 0.1575, "state_in_range": 0.0805, "extrapolation": 0.12041666666666667, "state_extrapolation": 0.04075, "extrapolation_queries": 2400, "wall_seconds": 657.7823784999782}
+8 length 58 queries 200 value accuracy 0.12 state accuracy 0.128 {'4-15': 0.12}
+16 length 68 queries 400 value accuracy 0.158 state accuracy 0.081 {'4-15': 0.163, '16-31': 0.14}
+64 length 128 queries 1600 value accuracy 0.115 state accuracy 0.054 {'4-15': 0.117, '16-31': 0.098, '32-63': 0.128, '64-127': 0.08}
+512 length 688 queries 12800 value accuracy 0.118 state accuracy 0.044 {'4-15': 0.147, '16-31': 0.098, '32-63': 0.134, '64-127': 0.114, '128-255': 0.117, '256-511': 0.118, '512+': 0.11}
