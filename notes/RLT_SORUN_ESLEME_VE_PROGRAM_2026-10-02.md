@@ -1235,6 +1235,28 @@ Dikkat koşulluluğu ortalaması 0,118 / 0,165. Getirmede geri beslemenin üstü
   - *K4:* H_final ±%20 bandında → tohum 2 (§5.42 d) koşuyor; iki etiket birleşince I3-c kararı hive planına göre verilir.
 - **I3-f** (`notes/_hive_F2_ONKAYIT_I3-f.md`): F1-F5'in 10 adımlık kuru denemesi 5 / 5 geçti; beş hücre eğitildi (`results/F2-I3f-*.json`; kuru deneme 00:25'ten sonra, son hücre 02:14'te bitti). Etiketler eğitimsiz E-N ölçümünden sonra verilecek (`scripts/run_i3f_measure.sh`; CPU hattı boşalınca).
 
+### 5.43 E-J0 ön-kaydı: geri besleme döngüsünün paralel sabit-nokta (Jacobi) çözümü kesin mi ve kaç geçişte? (eğitimsiz kapı; kod `mline/jacobi.py`, 5 test; ölçümden ÖNCE yazıldı 2026-10-22 07:31)
+**Soru.** E-A0, geri beslemenin dilde güncelleme başına kazandırdığını (§5.41.1) ama bunu ≈ 10× hesapla aldığını gösterdi. Maliyetin kaynağı K1: konum t, t − 1'in son kod çözücü durumunu girdisine katıyor, bu yüzden kod çözücü 512 konumu sırayla yürüyor. Döngü, modelin hesapladığını değiştirmeden paralel yürütülebilir mi?
+**Matematik.** Birleştirme z_pre[t] = e[t] + α·σ(gate([e[t], pn(z[t−1])]))·merge(pn(z[t−1])). Ondan sonraki her şey (pencere-4 öz-dikkat, kodlayıcı belleğine çapraz dikkat, FFN, okuma) geri beslemesiz paralel yolun aynısı. Bütün son durumlar için bir tahmin Z verilirse tek paralel geçiş F(Z)'yi hesaplar; ardışık sonuç sabit nokta Z* = F(Z*)'dır. Bağımlılık nedensel olduğundan k geçişten sonra ilk k konum, tahmin ne olursa olsun kesindir (test). Birleştirme büzülüyorsa (α = 0,1 ve RMS normu ardında) hata geometrik düşer ve birkaç geçiş döngüyü yeniden üretir. Gradyan: geçişler boyunca geri yayılım, sabit noktaya yakınsadıkça döngünün BPTT gradyanına yakınsar. Model, ağırlıkları ve hesapladığı şey aynı kalır; değişen yalnız hesap sırası. Testler (float64, birleştirme ağırlığı bilerek 8× büyütülmüş): T geçiş döngüyü 10⁻¹⁰ içinde üretiyor; k geçişte ilk k konum kesin; gradyanlar 10⁻⁹ içinde eşit.
+**Ölçüm.** L1'in son kontrol noktası (adım 8.500; `results/L1-scratch-w928-s401/latest.pt`); doğrulama bölümünden 4 satır × 512 bayt (`md.batch`, tohum 401, adım 0); float32, GPU (A0F ile paylaşımlı; süreler yalnız betimleyici). Çıktı `results/EJ0-jacobi/exactness.json`.
+**Kural (kayıtlı; `mline.jacobi.reading`).**
+- *Tabanlar:* aynı ağırlıklarda geri besleme kapalıyken paralel yol ile döngü arasındaki fark ölçülür: floor_y (logit, en büyük mutlak fark) ve floor_g (gradyanda bağıl fark, 2 satır). Toleranslar tol_y = max(10·floor_y, 10⁻⁵) ve tol_g = max(10·floor_g, 10⁻⁴).
+- *Geçiş sayıları:* K_y, {1, 2, 3, 4, 6, 8, 12, 16, 24, 32, 48, 64} içinde en büyük logit farkı ≤ tol_y olan en küçük geçiş sayısı; K_g, {2, 4, 8, 16} içinde gradyan bağıl farkı ≤ tol_g olan en küçüğü.
+- *Hükümler:*
+  - **EXACT-FAST** ⇔ K_y ≤ 16 ve K_g ≤ 16. Sıradaki adım E-J1: boş GPU'da eğitim adımı süresi; ardından eğitimde eşdeğerlik.
+  - **SLOW CONVERGENCE** ⇔ 16 < K_y ≤ 64.
+  - **NO CONVERGENCE** ⇔ hiçbir K ≤ 64 tol_y'ye inmiyor.
+  - **GRADIENT MISMATCH** ⇔ K_y ≤ 16 ama K_g > 16 ya da yok. İleri hesap tamam, geri hesap için örtük / eşlenik gradyan gerekir.
+
+  Betimleyici: geçiş başına hata oranı (büzülme katsayısı), ilk kesin olmayan konum.
+
+**Öngörüler [H].** EXACT-FAST ≈ %55, SLOW CONVERGENCE ≈ %20, GRADIENT MISMATCH ≈ %15, NO CONVERGENCE ≈ %10; büzülme katsayısı ≤ 0,3 ≈ %60.
+**Sonucun kullanımı.**
+- *EXACT-FAST:* geri beslemeli eğitimin bedeli ≈ (K + 1) paralel kod çözücü geçişine iner. Sonra E-J1 ölçülür (süre; eşdeğer eğitim adımı), L1'in sürdürülmesi ve gerçek model bu yolla yapılır.
+- *Diğer hükümler:* maliyet ≈ 10× kalır; hız için CUDA graph / derleme denenir ve geri beslemenin dildeki yeri maliyet karşılaştırmasıyla yeniden düşünülür.
+
+- *Sınır:* tek kontrol noktası (adım 8.500; büzülme eğitimle değişebilir); tek parti (4 satır); GPU paylaşımlı; yalnız `plain` kol (GatedCore'un kapı yolu ayrı).
+
 ## 6. Gerçek model yolu
 
 1. **Ne iddia edilir:** "küçük, bayt-düzeyi bir RLT, durum-izleme/çok-adımlı görevlerde eşit-parametre ve eşit-token bir transformer'a yapısal bir üstünlük gösteriyor mu". LM kaybında üstünlük iddia edilmez (bağımsız değerlendirme bulamadı).
