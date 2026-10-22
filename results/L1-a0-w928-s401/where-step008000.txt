@@ -1,0 +1,145 @@
+{
+ "bytes": 65536,
+ "a0_bits_per_byte": 1.6768323535216763,
+ "l1_bits_per_byte": 1.627868048084911,
+ "gain_bits_per_byte": 0.048964305436765415,
+ "gain_positive_fraction": 0.5532073974609375,
+ "by_position": {
+  "0-4": {
+   "bytes": 512,
+   "gain_bits_per_byte": 0.2757409873431267,
+   "a0_bits_per_byte": 3.2389376305893327,
+   "share_of_gain": 0.04399585462108182
+  },
+  "4-16": {
+   "bytes": 1536,
+   "gain_bits_per_byte": 0.019930801055927403,
+   "a0_bits_per_byte": 1.872564967271848,
+   "share_of_gain": 0.009540177187881643
+  },
+  "16-64": {
+   "bytes": 6144,
+   "gain_bits_per_byte": 0.04811927446646256,
+   "a0_bits_per_byte": 1.7005707388851465,
+   "share_of_gain": 0.09213205295144639
+  },
+  "64-256": {
+   "bytes": 24576,
+   "gain_bits_per_byte": 0.051067034439020186,
+   "a0_bits_per_byte": 1.67668919831205,
+   "share_of_gain": 0.39110404495298867
+  },
+  "256-512": {
+   "bytes": 32768,
+   "gain_bits_per_byte": 0.045363261855070995,
+   "a0_bits_per_byte": 1.638905911449524,
+   "share_of_gain": 0.46322787028660134
+  }
+ },
+ "by_target_class": {
+  "space": {
+   "bytes": 11065,
+   "gain_bits_per_byte": 0.003176407112508919,
+   "a0_bits_per_byte": 0.42958022152289627,
+   "share_of_gain": 0.010952872926174712
+  },
+  "newline": {
+   "bytes": 104,
+   "gain_bits_per_byte": -0.026638258750622333,
+   "a0_bits_per_byte": 0.8589819643515401,
+   "share_of_gain": -0.0008633355877266334
+  },
+  "letter": {
+   "bytes": 51628,
+   "gain_bits_per_byte": 0.0524010505853946,
+   "a0_bits_per_byte": 1.8598270157704184,
+   "share_of_gain": 0.8430741369003253
+  },
+  "digit": {
+   "bytes": 424,
+   "gain_bits_per_byte": 0.12667330972532603,
+   "a0_bits_per_byte": 4.158822290307725,
+   "share_of_gain": 0.016737532971811936
+  },
+  "punctuation": {
+   "bytes": 2279,
+   "gain_bits_per_byte": 0.16287862507135578,
+   "a0_bits_per_byte": 3.117637701511155,
+   "share_of_gain": 0.11567749910005001
+  },
+  "utf8-lead": {
+   "bytes": 17,
+   "gain_bits_per_byte": 2.615513987960151,
+   "a0_bits_per_byte": 9.22863805023718,
+   "share_of_gain": 0.013856273256552807
+  },
+  "utf8-continuation": {
+   "bytes": 19,
+   "gain_bits_per_byte": 0.09542673867257064,
+   "a0_bits_per_byte": 0.3038344773461615,
+   "share_of_gain": 0.0005650204328118796
+  }
+ },
+ "by_word_offset_of_letters": {
+  "0 (word start)": {
+   "bytes": 11138,
+   "gain_bits_per_byte": 0.07134166206095763,
+   "a0_bits_per_byte": 3.931716902364918,
+   "share_of_gain": 0.24762295818569574
+  },
+  "1": {
+   "bytes": 10617,
+   "gain_bits_per_byte": 0.07000460377920148,
+   "a0_bits_per_byte": 1.8824742339890983,
+   "share_of_gain": 0.2316161776671753
+  },
+  "2": {
+   "bytes": 8937,
+   "gain_bits_per_byte": 0.05131008865348707,
+   "a0_bits_per_byte": 1.6461994320783524,
+   "share_of_gain": 0.1429009098532145
+  },
+  "3": {
+   "bytes": 6686,
+   "gain_bits_per_byte": 0.03827872086850207,
+   "a0_bits_per_byte": 1.1595657946041815,
+   "share_of_gain": 0.07975616443839958
+  },
+  "4+": {
+   "bytes": 14250,
+   "gain_bits_per_byte": 0.03179153257831614,
+   "a0_bits_per_byte": 0.6860713082234844,
+   "share_of_gain": 0.14117792675584007
+  }
+ },
+ "by_a0_difficulty_quartile": {
+  "easiest 25 %": {
+   "bytes": 16384,
+   "gain_bits_per_byte": -0.01720673520073516,
+   "a0_bits_per_byte": 0.016621067609999166,
+   "share_of_gain": -0.08785346308525027
+  },
+  "25-50 %": {
+   "bytes": 16384,
+   "gain_bits_per_byte": -0.05955423382943298,
+   "a0_bits_per_byte": 0.27593655216944,
+   "share_of_gain": -0.30406963449294633
+  },
+  "50-75 %": {
+   "bytes": 16384,
+   "gain_bits_per_byte": 0.006570247403225201,
+   "a0_bits_per_byte": 1.6616205467227616,
+   "share_of_gain": 0.033546107437949356
+  },
+  "hardest 25 %": {
+   "bytes": 16384,
+   "gain_bits_per_byte": 0.2660479433740046,
+   "a0_bits_per_byte": 4.753151247584505,
+   "share_of_gain": 1.3583769901402474
+  }
+ },
+ "l1": "results/L1-scratch-w928-s401/snapshots/step008000.pt",
+ "a0": "results/L1-a0-w928-s401/snapshots/step008000.pt",
+ "rows": 128,
+ "length": 512
+}

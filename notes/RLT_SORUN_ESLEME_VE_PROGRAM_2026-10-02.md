@@ -1333,6 +1333,51 @@ Dikkat koşulluluğu ortalaması 0,118 / 0,165. Getirmede geri beslemenin üstü
 **Kullanım.** Geri beslemenin dildeki işlevinin betimi (derinlik mi, bağlam mı). Gerçek model tarifinde K1'in nerede gerekli olduğu ve maliyet tartışması için girdi. Hüküm üretmez.
 - *Sınır:* tek adım (8.000); tek tohum çifti; 65.536 bayt; bölmeler betimleyici, çoklu karşılaştırma düzeltmesi yok.
 
+### 5.45.1 E-A0W SONUCU (betimleyici; koşu 2026-10-22 07:57-07:58, eğitimsiz; `results/L1-a0-w928-s401/where-step008000.{json,txt}`): kazanç geniş, harflerde ve kelime başında; öngördüğüm "kelime içi derinlik" deseni YOK
+**Toplam.** 65.536 doğrulama baytında A0 1,6768, L1 1,6279 bit/bayt: kazanç **+0,0490** (pildeki +0,0502 ile tutarlı); baytların %55,3'ünde L1 daha iyi.
+
+| bölme | kazanç (bit/bayt) | toplam kazançtaki pay |
+|---|---|---|
+| konum 0-4 | +0,276 | %4,4 |
+| konum 4-16 | +0,020 | %1,0 |
+| konum 16-64 | +0,048 | %9,2 |
+| konum 64-256 | +0,051 | %39,1 |
+| konum 256-512 | +0,045 | %46,3 |
+| hedef harf (51.628 bayt) | +0,052 | %84,3 |
+| hedef boşluk | +0,003 | %1,1 |
+| hedef noktalama | +0,163 | %11,6 |
+| hedef rakam | +0,127 | %1,7 |
+| harf, kelime başı (ofset 0) | +0,071 | %24,8 |
+| harf, ofset 1 | +0,070 | %23,2 |
+| harf, ofset 2 | +0,051 | %14,3 |
+| harf, ofset 3 | +0,038 | %8,0 |
+| harf, ofset 4+ | +0,032 | %14,1 |
+
+**Zorluk bölmesi.**
+- *Kayıtlı bölme:* A0'nun kendi kaybının çeyrekleri. Sonuç: en zor çeyrek +0,266 (pay %136), kolay yarı negatif (−0,017 / −0,060). Ama bir modelin kendi kaybına göre bölmek ortalamaya dönüş yüzünden o modelin aleyhine çarpık.
+- *Bu yüzden SONRADAN eklenen (ön-kayıtsız) kontrol* (`scripts/posthoc/a0w_difficulty_split_2026-10-22.py`, `where-step008000-posthoc.json`):
+
+| ölçüt | en kolay | 25-50 % | 50-75 % | en zor |
+|---|---|---|---|---|
+| L1'in çeyrekleri | +0,029 | +0,130 | +0,142 | −0,104 |
+| ortalama kaybın çeyrekleri (adil bölme) | +0,004 | +0,035 | +0,077 | +0,080 |
+
+  L1'in çeyreklerinde işaret tersine dönüyor. Adil bölmede kazanç her çeyrekte pozitif ve ≈ %80'i zor yarıda. "L1 kolay baytlarda kötü" okuması bir yapaydı.
+
+**Okuma.**
+(1) Kazanç konumla büyümüyor. 16. konumdan sonra kabaca düz (≈ 0,045-0,051); uzun menzilli, birikerek büyüyen bir etki değil. İlk 4 konumdaki büyük kazanç (+0,276; az bayt), öğrenilen başlangıç durumunun ilk konuma katılmasından geliyor; A0'da bu yok.
+(2) Kazanç harflerde, en çok kelime başında ve kelimenin ilk harflerinde; kelimenin içine doğru azalıyor (0,071 → 0,032). Boşlukta neredeyse sıfır. Geri besleme en çok "sıradaki kelime hangisi" kararında yardım ediyor, kelime içi birleştirmede değil. Öngördüğüm desen (kelime içi derinlik) **yok**. Kazancın bir sonraki kelimeyi seçmeye yarayan üst düzey bir öngörü durumu taşıdığı yorumu verilerle uyumlu, ama kanıtlanmış değil [H].
+(3) Kazanç zor baytlarda (adil bölmede) toplanıyor; kolay baytlarda ne kazanç ne kayıp var.
+
+**Öngörü kalibrasyonu (ölçümden önce).**
+- toplam [0,04; 0,06] ≈ %80 → **tuttu**;
+- 64-512 konumunda 0-4'tekinden büyük ≈ %65 → **yanlış**;
+- ofset ≥ 2 harfler yarıdan fazla ≈ %50 → **yanlış** (%36,4);
+- en zor çeyrek en büyük pay ≈ %70 → kayıtlı bölmede tuttu, ama o bölme çarpık. Adil bölmede en zor iki çeyrek birlikte ≈ %80.
+
+**Kullanım.** Gerçek model tarifi için: dilde K1'in değeri geniş ve kelime seçimine yönelik görünüyor. Bu, onu durum izleme görevlerindeki (E-S) özel bir mekanizmadan çok, kelime düzeyinde ek bir hesap kaynağı gibi gösteriyor. Maliyet kararı (E-J1) bu kazancın hesap başına değerini belirleyecek.
+- *Sınır:* tek adım (8.000) ve tek tohum çifti; bölmeler betimleyici, çoklu karşılaştırma düzeltmesi yok; zorluk bölmesinin adil biçimi sonradan eklendi.
+
 ## 6. Gerçek model yolu
 
 1. **Ne iddia edilir:** "küçük, bayt-düzeyi bir RLT, durum-izleme/çok-adımlı görevlerde eşit-parametre ve eşit-token bir transformer'a yapısal bir üstünlük gösteriyor mu". LM kaybında üstünlük iddia edilmez (bağımsız değerlendirme bulamadı).

@@ -1,0 +1,82 @@
+{
+ "note": "POST-HOC, not pre-registered",
+ "gain_bits_per_byte": 0.048964305436765415,
+ "by_a0_quartile": {
+  "easiest 25 %": {
+   "bytes": 16384,
+   "gain_bits_per_byte": -0.01720673520073516,
+   "a0_bits_per_byte": 0.016621067609999166,
+   "share_of_gain": -0.08785346308525027
+  },
+  "25-50 %": {
+   "bytes": 16384,
+   "gain_bits_per_byte": -0.05955423382943298,
+   "a0_bits_per_byte": 0.27593655216944,
+   "share_of_gain": -0.30406963449294633
+  },
+  "50-75 %": {
+   "bytes": 16384,
+   "gain_bits_per_byte": 0.006570247403225201,
+   "a0_bits_per_byte": 1.6616205467227616,
+   "share_of_gain": 0.033546107437949356
+  },
+  "hardest 25 %": {
+   "bytes": 16384,
+   "gain_bits_per_byte": 0.2660479433740046,
+   "a0_bits_per_byte": 4.753151247584505,
+   "share_of_gain": 1.3583769901402474
+  }
+ },
+ "by_l1_quartile": {
+  "easiest 25 %": {
+   "bytes": 16384,
+   "gain_bits_per_byte": 0.02926653523419307,
+   "a0_bits_per_byte": 0.04131051384849633,
+   "share_of_gain": 0.1494279096432253
+  },
+  "25-50 %": {
+   "bytes": 16384,
+   "gain_bits_per_byte": 0.12945068352764688,
+   "a0_bits_per_byte": 0.36968977886285526,
+   "share_of_gain": 0.6609441427430488
+  },
+  "50-75 %": {
+   "bytes": 16384,
+   "gain_bits_per_byte": 0.14156319844747628,
+   "a0_bits_per_byte": 1.7273577902321917,
+   "share_of_gain": 0.7227877388677402
+  },
+  "hardest 25 %": {
+   "bytes": 16384,
+   "gain_bits_per_byte": -0.10442319546225459,
+   "a0_bits_per_byte": 4.568971331143162,
+   "share_of_gain": -0.5331597912540144
+  }
+ },
+ "by_mean_quartile": {
+  "easiest 25 %": {
+   "bytes": 16384,
+   "gain_bits_per_byte": 0.004058419390990466,
+   "a0_bits_per_byte": 0.01973583683545125,
+   "share_of_gain": 0.02072131604231414
+  },
+  "25-50 %": {
+   "bytes": 16384,
+   "gain_bits_per_byte": 0.034981086315689594,
+   "a0_bits_per_byte": 0.2995448539500175,
+   "share_of_gain": 0.17860503689195414
+  },
+  "50-75 %": {
+   "bytes": 16384,
+   "gain_bits_per_byte": 0.07726628718278382,
+   "a0_bits_per_byte": 1.6826227860780225,
+   "share_of_gain": 0.39450313087034794
+  },
+  "hardest 25 %": {
+   "bytes": 16384,
+   "gain_bits_per_byte": 0.07955142885759776,
+   "a0_bits_per_byte": 4.705425937223215,
+   "share_of_gain": 0.4061705161953837
+  }
+ }
+}

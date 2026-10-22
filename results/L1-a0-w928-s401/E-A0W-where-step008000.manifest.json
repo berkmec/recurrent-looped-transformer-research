@@ -1,0 +1,39 @@
+{
+ "schema": "run-manifest/v1",
+ "run_id": "E-A0W-where-step008000",
+ "campaign": "L1-a0-w928-s401",
+ "agent": "claude-4797b78c",
+ "created_utc": "2026-10-22T04:57:24Z",
+ "command": "python -B -m mline.a0_where --l1 results/L1-scratch-w928-s401/snapshots/step008000.pt --a0 results/L1-a0-w928-s401/snapshots/step008000.pt --out results/L1-a0-w928-s401/where-step008000.json (GPU memory fraction 0.25)",
+ "prereg": {
+  "paper": "notes/RLT_SORUN_ESLEME_VE_PROGRAM_2026-10-02.md 5.45"
+ },
+ "code": {
+  "head": "cfff7f7",
+  "dirty": false,
+  "porcelain": [
+   " M results/L1-a0-w928-s401/probe.json",
+   " M results/L1-a0-w928-s401/probe.jsonl",
+   " M results/L1-a0-w928-s401/train.log",
+   " M results/M1-finetune-distance/queue.log",
+   "?? results/ES-pilot/sk4-core-w64-s2.log",
+   "?? results/ES-pilot/sk4-core-w64-s2.manifest.json",
+   "?? results/ES-pilot/sk4-gru-w128-s2.log",
+   "?? results/ES-pilot/sk4-gru-w128-s2.manifest.json",
+   "?? results/ES-pilot/sk4-lstm-w112-s2.json",
+   "?? results/ES-pilot/sk4-lstm-w112-s2.log",
+   "?? results/ES-pilot/sk4-lstm-w112-s2.manifest.json",
+   "?? results/L1-a0-w928-s401/E-A0F-L1-a0-w928-s401.manifest.json"
+  ]
+ },
+ "config": {
+  "source": "manual",
+  "summary": {},
+  "sha256": null
+ },
+ "seeds": {
+  "seed": 401
+ },
+ "telemetry_schema": "I1-a/v1",
+ "status": "started"
+}
