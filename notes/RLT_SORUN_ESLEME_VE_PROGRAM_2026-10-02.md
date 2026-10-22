@@ -406,6 +406,43 @@ Taze dev dizileri, uzunluk 2.048 / 8.192 / 32.768 (eğitim uzunluğunun 128 / 51
 **Okuma:** (i) sabit lr'li tüm GRU/LSTM'ler TABAN (öngörüm tuttu); (ii) lr azaltma tabanı ≈ 60-80× düşürüyor ama **TEMİZ yapmıyor** (öngörüm TEMİZ ≈ %50 / %45 ve §4.7-P3 ≈ %60 **yanlıştı**): kalan taban ≈ 6-8×10⁻⁶ ve konumla hafifçe düşüyor (1,6×10⁻⁵ → 4,2×10⁻⁶); 2.048× uzunlukta ≈ %81-82 dizi hatasız (sabit-hazard modeli exp(−7×10⁻⁶ × 32.768) ≈ %79 ile uyumlu); (iii) **Core w64, sabit lr'de, 30 dizide 32.768 konumun hepsinde hatasız (TEMİZ): 1,2×10⁶ dizi-adımda 0 hata, hazard < 3×10⁻⁶; annealed GRU w64'ün 7,6×10⁻⁶'sında bu sonucun olasılığı exp(−9,1) ≈ 10⁻⁴.** Yani lr azaltma GRU/LSTM tabanını ≈ 80× indiriyor ama Core'un seviyesine (≥ 3× aşağıda) ulaşmıyor. **Düzeltme (08:20):** §5.10.1'deki ve ana belge §1 madde 10(b)'deki "Core ile fark ortadan kalkıyor / RLT'ye özgü üstünlük yok" ifadesi **abartıydı**: fark ≈ 80× (sabit lr) → ≥ 3× (lr azaltmalı), tek tohum; ayrıca karşılaştırma **parametre-eşit değil** (GRU w64 28k, LSTM w64 36k, Core 98k; parametre-eşit kollar yalnız sabit lr'de koşulmuştu): E-P5 bunu sınıyor.
 **Sınır:** tek eğitim tohumu; Core n = 30 (hazard sınırı 3×10⁻⁶); S₄; dev.
 
+### 5.16.2 E-S AŞAMA A KESİN OKUMASI (10 / 10) ve AŞAMA B TOHUM 1 (kayıtlı kural `sk_run.reading`; onuncu koşu ve aşama B 2026-10-22 00:11-04:16, okuma 07:16): aşama A **NO ADVANTAGE** (kesin); aşama B **ADVANTAGE (LEARNABILITY)**, ama kol başına tek tohumla geçici
+**Aşama A (sk3; iki tohum ortalaması; onuncu koşu Core tohum 2, 2 Ekim'de kesilmişti).** Kural: Core öğrendi, ama ÜSTÜNLÜK için dış değer ≥ en iyi diğer kol + 0,15 gerekiyordu (0,993 + 0,15) → **NO ADVANTAGE**. §5.16.1'deki geçici okuma doğrulandı.
+
+| kol | aralık-içi | dış değer (tohum 1 / 2) | durum dış değer | öğrendi | son aşamaya giriş (güncelleme) |
+|---|---|---|---|---|---|
+| Core w64 | 1,000 | 0,889 (0,866 / 0,912) | 1,000 | evet | 3.244 / 1.686 |
+| Core-A0 w64 | 0,251 | 0,246 | 0,169 | hayır | (yürüyüş 2 / 3'te durdu) |
+| GRU w128 | 1,000 | 0,993 (0,998 / 0,987) | 1,000 | evet | 10.422 / 12.249 |
+| LSTM w112 | 0,999 | 0,808 | 1,000 | evet | 8.334 / 9.139 |
+| transformer w64 | 0,609 | 0,169 | 0,167 | hayır (bütçe sınırlı) | (yürüyüş 6 / 8'de durdu) |
+
+**Aşama B (sk4: 24 olgu / 72 bit; tohum 1).** Kural: Core öğrendi, hiçbir diğer kol öğrenmedi → **ADVANTAGE (LEARNABILITY)**. Kod bunu geçici sayıyor ("fewer than 2 seeds for some arm").
+
+| kol | aralık-içi | dış değer | durum dış değer | durduğu yürüyüş |
+|---|---|---|---|---|
+| Core w64 | 1,000 | 0,985 | 1,000 | 16 (son aşamaya 6.225'te girdi) |
+| Core-A0 w64 | 0,190 | 0,176 | 0,042 | 2 |
+| GRU w128 | 0,125 | 0,145 | 0,043 | 1 |
+| LSTM w112 | 0,105 | 0,121 | 0,042 | 1 |
+| transformer w64 | 0,168 | 0,192 | 0,039 | 3 |
+
+**Okuma.**
+(1) sk3'te (18 bit) üstünlük yok. GRU durum-anahtarlı getirmeyi Core kadar öğreniyor, dış değeri biraz daha iyi. Betimleyici olarak Core 3-7× hızlı öğreniyor: son aşamaya 1.686-3.244'te giriyor, GRU 10.422-12.249'da.
+(2) sk4'te (72 bit) tablo tersine dönüyor. Core tek tohumda öğrendi ve 0,985 dış değer verdi. GRU ve LSTM müfredatın ilk yürüyüşünü geçemedi, A0 ikizi yürüyüş 2'de kaldı. Geri beslemesiz ikizin başarısızlığı, geri beslemenin bu ailede Core için gerekli olduğunu sk3'teki gibi yine gösteriyor.
+(3) **İki çekince.**
+- (a) Kol başına tek tohum; kodun kendisi geçici diyor.
+- (b) Bütün kollar Core'un tepe lr'siyle (3×10⁻³) eğitildi. GRU / LSTM'in E-P'deki değeri 10⁻³'tü ve sk3'te GRU zaten yavaş öğreniyordu.
+
+Bu yüzden §5.42 (b) tohum 2'yi, (c) lr denetimini (E-S-LR) ön-kayıtla başlattı. İkisi bitmeden "yapısal üstünlük" denmez.
+**Öngörü kalibrasyonu (§5.16, koşudan önce).**
+- sk3: ÜSTÜNLÜK YOK ≈ %50 → tuttu. "GRU / LSTM aralığı öğrenir ve iyi yürür" ≈ %55 → GRU evet, LSTM kısmen. "`core_nofb` öğrenir" ≈ %60 → hayır. "`tfm` öğrenemez" ≈ %75 → tuttu.
+- sk4: ÜSTÜNLÜK ≈ %35 → geçici olarak tuttu.
+- R5'in öngörülerinden "A0 ≤ 0,3" ve "GRU ≤ 0,5" tuttu. Core'un N = 8 değeri ayrıca okunmadı.
+
+**Sonucun kullanımı (kayıtlı §5.16).** Aşama A, ÜSTÜNLÜK YOK ⇒ "gerçek model iddiası dil / hız / maliyet karşılaştırmasına dayanmalı". Bunun ilk ölçümü E-A0 (§5.41.1). Aşama B ÜSTÜNLÜK kesinleşirse ⇒ "gerçek model görev karışımına (L2) durum-anahtarlı getirme ailesi girer, RLT'nin yapısal değeri (tek aşama / tohum sınırıyla) kanıtlı sayılır". Kesinleşme şartı: tohum 2 ve lr denetimi.
+- *Sınır:* aşama B tek tohum; ≈ 100k parametre; tek görev ailesi; bütün kollar aynı lr ile; konumlu transformer yok.
+
 ### 5.17 E-P5 okuma kuralı: Core'un E-X'teki TEMİZ sonucu parametre-eşit lr azaltmalı GRU/LSTM ile eşleşiyor mu? (eğitimli + uzun değerlendirme; betik `scripts/run_ep5.sh` [E-P4'ün ardından]; kod `long_eval.reading`; koşudan ÖNCE yazıldı 08:22)
 **Neden:** E-X Core'u TEMİZ buldu; lr azaltmalı GRU/LSTM (w64: 28k / 36k parametre) ≈ 6-8×10⁻⁶ ile TABAN kaldı, ama Core 98k parametre. Parametre-eşit kollar (GRU w128 105k, LSTM w112 107k) yalnız sabit lr'de koşuldu (8,8×10⁻⁵ / 3,3×10⁻⁴).
 **Tasarım:** GRU w128 ve LSTM w112, tohum 1, 15.000 güncelleme, müfredat 1…16, lr 3×10⁻³ son %30'da ≈ 0'a azaltılır (Core koşusuyla aynı veri akışı, bütçe, tohum); ardından E-X uzunlukları (2.048 / 8.192 / 32.768; n = 100).
@@ -553,6 +590,20 @@ Son pencerede 51.200 konum (100 dizi × 512) üç genişlikte de hayatta; hiçbi
 **Öngörü [H]:** α için SUPPORTED ≈ %20, MIXED ≈ %25, REFUTED ≈ %55; tepe lr için SUPPORTED ≈ %15, MIXED ≈ %25, REFUTED ≈ %60.
 **Sonucun kullanımı:** SUPPORTED (α ya da lr) ⇒ S₅ Core'un kopuşu bir ayar/optimizasyon-ailesi sorunuydu, mimariyi değiştirmeyen düzeltme tarife girer (K1-K4 kendiliğinden), E-L1P / L1'in α = 0,1'i yeniden düşünülür; REFUTED ⇒ ayar farkı açıklamıyor, E-K5 (genişlik), E-D5 (durum gürültüsü), E-R / E-G öncelik kazanır.
 - *Sınır:* tek tohum; her ayar için en çok iki değer; α ve lr birlikte taranmadı (etkileşim sınanmadı); α'nın etkisi parametrizasyon + Adam adım boyutu etkisi olabilir (geri besleme kanalı başlangıç ölçeği ve etkin öğrenme hızı birlikte değişir).
+
+### 5.24.1 E-F5 SONUCU (kayıtlı kural `readings.py ef5`; α = 1,0 koşusu 2026-10-22 02:14-03:12, tepe lr 10⁻³ 03:12-04:06, α = 0,3 04:06-05:08; üçü de 2 Ekim'de ya da 15 Ekim yeniden başlatmasında kesilmişti, aynı komutla yeniden koşuldu; okuma 07:17): **α: REFUTED; tepe lr: REFUTED**
+
+| ayar (S₅ Core w128, tohum 1, 30.000 güncelleme, lr son %30'da ~0'a) | aralık-içi | hazard (ilk hata / maruziyet) |
+|---|---|---|
+| ikiz: α = 0,1, tepe lr 3×10⁻³ (E-P2) | 1,000 | 1,65×10⁻³ (221 / 134.080) |
+| α = 1,0 | 1,000 | 1,05×10⁻³ (168 / 160.432) |
+| α = 0,3 | 1,000 | 4,13×10⁻³ (351 / 85.056) |
+| tepe lr 10⁻³ | 1,000 | 4,24×10⁻³ (360 / 84.832) |
+
+**Hüküm.** Taban sabit-lr w128'in hazard'ı, 1,41×10⁻³. SUPPORTED, iki ayardan en az birinde hazard ≤ taban/5 = 2,8×10⁻⁴ ister. REFUTED, ikisinde de hazard ≥ taban/2 = 7,0×10⁻⁴ (ya da aralık-içi < 0,95) olduğunda verilir. α için 1,05×10⁻³ ve 4,13×10⁻³ değerlerinin ikisi de ≥ 7,0×10⁻⁴ → **REFUTED**. Tepe lr için 4,24×10⁻³ → **REFUTED**.
+**Okuma.** S₅ Core'un uzun-konum kopuşunu ne geri besleme kazancı ne tepe lr belirliyor. α = 1,0 hazard'ı biraz düşürüyor (1,65 → 1,05×10⁻³, ≈ 1,6×) ama temizlik eşiğinden ≈ 4× uzakta kalıyor. α = 0,3 ve lr 10⁻³ kopuşu ≈ 2,5× kötüleştiriyor. E-R5 (SEED-DEPENDENT, §5.31.2) ve P6 (§5.31.3) ile birlikte: kopuş tarifin bu iki ayarından gelmiyor; tohuma bağlı bir çözüm ailesinin özelliği. Düzeltme çözüm ailesinin kendisinde (E-A9 yakalaması) aranmaya devam ediyor.
+**Öngörü kalibrasyonu (koşudan önce).** α için REFUTED ≈ %55 → tuttu; tepe lr için REFUTED ≈ %60 → tuttu.
+- *Sınır:* tek tohum (tohum 1; E-R5'e göre tohum 2 zaten yapışkan); iki α ve bir lr değeri; S₅ dev bölümü.
 
 ### 5.25 İkinci bağımsız kör kod incelemesi (Opus alt-ajanı; 10:20 başladı, 10:48 teslim; 10:50-10:59 işlendi): bulgular, kendi yeniden üretimim, eylemler
 **Düzen:** alt ajan `mline/feedback_kick.py`, `horizon/margin_profile.py`, `horizon/sk_task.py` + `sk_run.py`, `horizon/weight_noise.py`, `horizon/readings.py` (`ed_arm`, `ek5`, `ek4`, `ep3_arm`, `ep4`, `rate_ratio_p`, CLI), `horizon/depth_run.py` (α seçeneği) ve `horizon/long_eval.py` kodunu ve testlerini inceledi; `results/` JSON/metin/günlük dosyalarını ve `notes/`u **açmadı** (yalnız `.pt` ağırlıklarını koddan yükledi); körlük `git log` konu satırlarıyla ve üç betik başlığıyla kısmen bozuldu (ajan kendisi bildirdi: E-P3 okunduğunu ve bir tutarlılık kontrolünü görmüş; yalnız R2-2'nin şiddeti sabit-lr tabanlarının sayılarını kullandı). Ajan rapor dosyasını yazamadı (ortam kısıtı), raporu mesaj olarak verdi, betikleri `C:\tmp\review2\`'de bıraktı. **Ben her bulguyu yeniden ürettim:** 10 betiğin hepsini yeniden koşturdum, çıktılar **satır satır aynı (0 farklı satır;** tek fark `alpha_checks`te dosya sayısı 68 → 69, E-K4'ün yeni modeli). 22 bulgu: **2 S1, 7 S2, 13 S3.** Düzeltmelerden sonra dokunulan 7 test dosyasında **108 test geçiyor**; ayrıca kayıtlı okumalar (`ep5`, `epseeds`, `ep3`, `ed`, `ep`) yeni kodla yeniden koşturuldu ve **hiçbir kayıtlı hüküm değişmedi** (aşağıdaki R2-9 nüansı hariç).
@@ -926,6 +977,23 @@ Tohum 3'ün hazard'ı tohum 1'inkinin 2,06×'u (kesin koşullu-binom p = 5×10�
 **Öngörü kalibrasyonu (kayıt 12:19'dan önce):** SAME PHENOMENON ≈ %55 → **tutmadı**; SEED-DEPENDENT ≈ %25 (temiz tohum ≈ %20) → **gerçekleşti**; NOT LEARNED ≈ %10 ve MIXED ≈ %10 → gerçekleşmedi; "tohumlardan en az birinin aralığı öğrenmemesi ≈ %20" → gerçekleşmedi (ikisi 1,000).
 - *Sınır:* n = 3 tohum (1 yapışkan); sabit-lr tarifi (lr azaltmalı tekrar yok); tohum 1 eski kodla, tohum 2-3 sonraki sürümle eğitildi (varsayılan yolun bit-bit aynılığı testli, §5.31.1); tohum içi (aynı tohum, farklı veri akışı) varyans ölçülmedi; ext okumaları betimleyici; tohum 3 enjeksiyon sonuçları n = 200 dizi.
 
+### 5.31.3 P6: kopuşlu ve yapışkan tohumların geometrisi (betimleyici; E-R5'in kayıtlı kullanımı; eğitimsiz; koşu 2026-10-22 00:22-00:25): kopmayan tohumda marj düz, kopan iki tohumda aşınıyor; yakalama tohum 3'te de durumları merkezde tutuyor
+**Marj profili** (`results/Z1-pilot/margin-profile-s5-seeds.{json,txt}`; n = 100 dizi, uzunluk 1.024):
+
+| tohum | aşınma | ortalama marj, son kutu / [16-64) | 2 natın altı yakın ıska ([16-64) → son kutu) | ilk hatası olmayan dizi |
+|---|---|---|---|---|
+| 1 | EROSION | 0,42 (son kutu [512-1.024)) | 0 → 5,9×10⁻² | 2 / 100 |
+| 2 | FLAT | 0,99 (son kutu [512-1.024)) | 0 → 3,9×10⁻⁵ | 99 / 100 |
+| 3 | EROSION | 0,68 (son kutu [256-512)) | 2,1×10⁻³ → 4,9×10⁻² | 0 / 100 |
+
+Tohum 2'nin marjı her konumda ≈ 13 nat; tohum 3'ün ortalama marjı 12,5'ten (ilk 16 konum) 6,7 nata ([512-1.024)) iniyor.
+**Sapma profili, tohum 3** (`results/Z1-pilot/drift-profile-s3.{json,txt}`; n = 2.000; sınıf merkezinden sapma / M, yaşa göre):
+- *Yakalanmış durumlar:* her yaşta ≈ 0,36-0,48 sapmada, sistematik bileşen 0,03-0,04; son yaş kutusunda canlı oranı 0,75-0,82.
+- *Dokunulmamış durumlar:* t₀ = 128'den sonra sapma ≈ 0,51, sistematik bileşen 0,13-0,14; son kutuda canlı oranı t₀ = 128'de 0,34, t₀ = 256'da 0,13.
+
+**Okuma.** Tohum 3'teki kopuş, tohum 1'deki (E-A5x) gibi durum yaşıyla büyüyen sistematik bir sapma ve buna eşlik eden marj aşınması. Yapışkan tohumda (2) aşınma yok. Mekanizma tohumlar arasında aynı; fark bulunan çözümde: kimi tohum sapmayı kendiliğinden düzelten bir çözüm buluyor, kimi bulmuyor. Yakalama (E-A9) kopan iki tohumda da durumu merkezde ve canlı tutuyor.
+- *Sınır:* üç tohum; tek görev (S₅, w128); betimleyici, kural yok.
+
 ### 5.32 E-A9c okuma kuralı: aynı yapışma düz GRU / LSTM'e de yarıyor mu? (E-A9'un adalet kontrolü; eğitimsiz, CPU; kod `horizon/snap_recurrent.py`, 6 test; betik `scripts/run_ea9c.sh`; koşudan ÖNCE yazıldı 12:22; E-A9'un ilk iki S₅ modelini görerek yazıldı)
 **[DEĞİŞİKLİK 12:50, §5.34 F10: aralık-içi kontrol kalibrasyon satırlarının DIŞINDAKİ taze 200 dev satırıyla yapılır (`fresh_in_range`). Kural DEĞİŞMEDİ. Koşudan önce.]**
 **Neden.** E-A9 (§5.27) S₅ Core'u 1.024 konumda (ve E-A9'un betimleyici 8.192 kısmında) hatasız yaptı: ilk iki modelde (sabit lr ve lr azaltmalı) yakalama koşullarının hepsi 0 / 201.600; 8.192 konumda sabit-lr modelinde 40 / 40 dizi hatasız (yakalamasız 0 / 40). Ama lr azaltmalı S₅ GRU w256 ve LSTM w208 yakalamasız zaten Core'dan 7-18× iyi (E-P2: hazard 1,4×10⁻⁴ ve 9×10⁻⁵, 1.024'te doğruluk 0,90-0,92). "Yakalama yalnız Core'un açığını kapatıyor" ile "yalnız Core'a özgü bir kazanç" farklı iddialar; RLT'ye özgülük sorusu için aynı yakalama düz GRU / LSTM'e de uygulanmalı. Taşınan durum: GRU'da h, LSTM'de (h, c) birleşimi; sınıf tahmini bir önceki gizli durumun okumasının argmax'ı (`class`) ya da durum uzayında en yakın merkez (`nearest`); merkezler E-A9'daki gibi aralık-içi 8-15. konumlarda sınıf ortalaması (kalibrasyon).
@@ -1113,6 +1181,38 @@ Ek (kapsam dışı notlar): §2 M3 ve §3 N1 satırları bayat: doğru; güncell
 **Sonucun kullanımı.** HELPS: geri besleme dilde maliyetinin bir kısmını kazanıyor; L1'i sürdürmek ve A0'ı tam programla koşturmak gerçek modelin eşleşmiş tabanı olur. NO MEANINGFUL DIFFERENCE: bu ölçekte ve aşamada dilde ≈ 9× hesap karşılığında ölçülebilir kazanç yok; gerçek model tarifinde geri besleme yalnız durum izleme gereken yerde savunulabilir. HURTS: geri besleme dilde zararlı; tarif yeniden düşünülür.
 - *Sınır:* tek tohum çifti (L1'in ikinci tohumu ≈ 38 GPU-saat); L1 iki kez kontrol noktasından devam etti (750 ve 8.500; veri sırası adımın fonksiyonu olduğundan aynı kalır); erken aşama (8.000 / 30.518); tek korpus; A2 G2-G4 durum-izleme hücreleri için yazıldı, burada uygulanmaz (çoğaltma yok, hold kolu yok).
 
+### 5.41.1 E-A0 SONUCU (kayıtlı kural `mline.a0_reading`, koşudan önce commit'li [5dfcddf]; koşu 2026-10-22 00:11-01:39, okuma 07:15): **FEEDBACK HELPS**; Δ_8000 = +0,0502 bit/bayt ve sekiz noktanın sekizinde pozitif. Ama fark daralıyor ve eşit hesapta geri beslemesiz ikiz çok önde
+**Ham veri.** Pil satırları `results/L1-a0-w928-s401/probe.jsonl` (A0) ile `results/L1-scratch-w928-s401/probe.jsonl` (L1) dosyalarından; okuma `results/L1-a0-w928-s401/reading.json`.
+
+| güncelleme | bpb A0 (geri beslemesiz) | bpb L1 (geri beslemeli) | Δ = A0 − L1 |
+|---|---|---|---|
+| 1.000 | 2,0793 | 2,0013 | +0,0780 |
+| 2.000 | 1,9292 | 1,8464 | +0,0828 |
+| 3.000 | 1,8540 | 1,7735 | +0,0805 |
+| 4.000 | 1,8001 | 1,7298 | +0,0703 |
+| 5.000 | 1,7566 | 1,6943 | +0,0623 |
+| 6.000 | 1,7209 | 1,6665 | +0,0544 |
+| 7.000 | 1,6921 | 1,6391 | +0,0530 |
+| 8.000 | 1,6672 | 1,6170 | +0,0502 |
+
+**Hüküm (kayıtlı kural).** Δ_8000 = +0,0502 ≥ +0,020 ve sekiz noktanın sekizinde Δ > 0 → **FEEDBACK HELPS**. Geçerlilik: 8.000'de train_k4_first A0'da 0,994, L1'de 0,988 (ikisi de ≥ 0,95), yani getirme karşılaştırması geçerli.
+**Getirme (betimleyici, 8.000; A0 / L1).** held_k4_first 0,634 / 0,537; natural_first 0,979 / 0,971. Tek olgu tam eşleşme:
+
+| mesafe | 64 | 128 | 256 | 384 | 448 |
+|---|---|---|---|---|---|
+| A0 | 0,992 | 1,000 | 1,000 | 1,000 | 1,000 |
+| L1 | 0,977 | 0,953 | 1,000 | 0,969 | 0,875 |
+
+Dikkat koşulluluğu ortalaması 0,118 / 0,165. Getirmede geri beslemenin üstünlüğü yok; A0 eşit ya da biraz iyi.
+**Okuma.**
+(1) Aynı güncelleme sayısında geri besleme dilde ölçülebilir kazanç veriyor. 8.000'deki +0,050 bit/bayt, L1'in 6.000 → 8.000 arasındaki iyileşmesine (1,6665 → 1,6170) eşit, yani ≈ 2.000 güncellemelik eğitim.
+(2) **Fark daralıyor.** En yükseği 2.000'de (+0,083); 4.000 → 8.000 arasında 1.000 güncelleme başına ortalama −0,005 (0,0703 → 0,0502). Doğrusal sürerse ≈ 18.000'de sıfıra iner. Bu bir dış değer [H], ölçüm değil; programın sonundaki farkı bilmiyoruz.
+(3) **Maliyet (kayıtlı: "rapor et").** Pil dahil güncelleme başına süre L1'de 6,68 s (2.000-8.000 arası, `train.log` toplam süre sütunundan), A0'da 0,663 s; oran **≈ 10,1×**. Eşit GPU zamanında: A0 1,6672'ye 88,4 dakikada ulaştı; L1 aynı düzeye (1,6665) 6.000. güncellemede, ≈ 6.000 × 6,68 s ≈ 11,1 saatte vardı (≈ 7,5× uzun; L1'in ilk 750 güncellemesinin süresi bu günlükte yok, aynı hızla sayıldı). 88,4 dakikada L1 ancak ≈ 800 güncelleme yapabilirdi (bpb > 2,00). **Güncelleme başına kazanç var; hesap başına kayıp çok büyük.**
+(4) Bağımsız değerlendirmelerle (α = 1, kısa koşu: "dilde kazanç yok, ≈ 20× maliyet" [ajan okuması]) karşılaştırma: α = 0,1 ve 8.000 güncellemede güncelleme başına kazanç var; maliyet tarafını biz de doğruluyoruz (≈ 10×).
+**Öngörü kalibrasyonu (koşudan önce).** HELPS ≈ %35 → **tuttu**. En olası saydığım NO MEANINGFUL DIFFERENCE (≈ %45) tutmadı. "Getirme metrikleri iki koşuda 0,1 içinde" (≈ %70) → çoğunda evet; held_k4_first 0,097 ile sınırda, @448 0,125 ile dışarıda.
+**Sonucun kullanımı (kayıtlı).** HELPS → "L1'i sürdürmek ve A0'ı tam programla koşturmak gerçek modelin eşleşmiş tabanı olur." A0'ın tam programı başladı (§5.42 a). L1'in sürdürülmesi (≈ 22.000 güncelleme × 6,68 s ≈ 41 GPU-saat) bir adım geri alındı. Önce geri beslemenin eğitim maliyetini anlamı bozmadan düşürmenin yolu aranacak (ana belge §11): sonuç, güncelleme başına kazancın ≈ 10× hesapla alındığını gösteriyor ve gerçek model kararını bu oran belirliyor.
+- *Sınır:* tek tohum çifti; erken aşama (8.000 / 30.518 ve lr hâlâ tepe değerde); tek korpus; L1 iki kez kontrol noktasından sürdü (veri sırası adımın fonksiyonu); getirme satırları betimleyici; süreler aynı GPU'da ama farklı tarihlerde ölçüldü.
+
 ### 5.42 Koşu ön-kaydı, 2026-10-22 sabahı: A0'ın tam programı, E-S aşama B tohum 2 ve lr denetimi, A3 R4 tohum 2 (gece sonuçları GÖRÜLDÜKTEN sonra, bu koşulardan ÖNCE yazıldı 2026-10-22 07:20)
 **Bağlam.** 21-22 Ekim gecesi koşuları bitti: E-A0 (§5.41) → FEEDBACK HELPS; E-S aşama A → NO ADVANTAGE (10 / 10 koşu); E-S aşama B → ADVANTAGE (LEARNABILITY) **geçici** (kol başına tek tohum); E-F5 → α ve tepe lr ikisi de REFUTED; A3 R4 → KARIŞIK, H_final K4 bandında; I3-f'nin beş hücresi eğitildi. Okumalar ve sonuç kayıtları ayrı alt bölümlerde. Bu bölüm yalnız yeni koşuları ve kurallarını sabitler.
 **(a) E-A0F: A0 programın sonuna kadar (§5.41'in HELPS için kayıtlı kullanımı).** `results/L1-a0-w928-s401` kendi 8.000. güncelleme kontrol noktasından aynı programla 30.518. güncellemeye devam eder; başka değişiklik yok (veri sırası adımın fonksiyonu; `longrun` kontrol noktasından sürer). §5.41 hükmü 8.000'de verildi ve değişmez. **Rol:** gerçek modelin eşleşmiş, geri beslemesiz tabanı. Programın sonundaki geri besleme karşılaştırması L1 de programın sonuna ulaşırsa ayrı ön-kayıtla okunur. Bu koşu kendi başına hüküm üretmez. **Öngörü [H]:** bpb_A0(30.518) ∈ [1,38; 1,50] ≈ %65; > 1,50 ≈ %25; < 1,38 ≈ %10. Gerekçe: 1.000 → 8.000 arası her ikiye katlamada ≈ 0,13 iyileşme; son %10'daki azaltma ≈ 0,03 ek. Maliyet: ≈ 4,2 GPU-saat (ölçülen 0,663 s / güncelleme, pil dahil).
@@ -1126,6 +1226,14 @@ Ek (kapsam dışı notlar): §2 M3 ve §3 N1 satırları bayat: doğru; güncell
   **Öngörü [H]:** ROBUST TO LR ≈ %55, LR-DEPENDENT ≈ %30, EXTRAPOLATION ADVANTAGE ONLY ≈ %15. *Sınır:* yalnız iki lr değeri; bütçe sorusu (×2) ayrı ve açık.
 **(d) A3 R4 tohum 2 (`notes/_hive_A3_ONKAYIT.md` K4; mekanik).** R4'ün H_final'i 0,413, K4 bandında ([0,40; 0,60]); K4 bu durumda tohum 2 ister. Komut R4'le aynı, tek fark `--seed 2`; okuma aynı (`gate_telemetry --reading`, K5 bayrakları R4'tekiyle aynı zincir kanıtlarından). İki etiket aynıysa o etiket geçer, farklıysa KARIŞIK. **Öngörü [H]:** tohum 2 de PRESSURE-DEAD, birleşik etiket KARIŞIK ≈ %75.
 **Kaynak planı (OOM).** GPU: (a), ≈ 3,6 GB VRAM ve 1,3 GB RAM (gece ölçümü). CPU: iki süreç; aynı iş listesini yürüyen iki kopya (`scripts/run_queue_2026-10-22b.sh`). Her kopya sonucu ve kilidi olmayan ilk işi atomik `mkdir` kilidiyle alır. Sıra: (b) Core tohum 2 (≈ 1,9 sa), (d), (b)'nin kalan dört kolu, (c)'nin altı koşusu. Süreç başına ≈ 0,6 GB RAM, tek iş parçacığı, BelowNormal; her koşu RUNMAN manifestli. Süreçler tek tek açılır ve her açılıştan sonra bellek ölçülür. Toplam ≈ 6,7 CPU-saat (iki hatta ≈ 3,4 saat).
+
+### 5.42.1 Hive hattının gece koşuları: A3 R4 sonucu ve I3-f eğitimi (kurallar hive notlarında; burada yalnız kayıt)
+- **A3 R4** (`notes/_hive_A3_ONKAYIT.md`, mühürlü E-G hücresinin kopyası: perm5 hold w128, nötr p 0,5, 30.000 güncelleme, tohum 1; koşu 00:04-00:21; okuma `results/Z1-pilot/a3-r4-perm5-hold-w128-s1-np05-30k-reading.json`): **KARIŞIK**. Gerekçe: "PRESSURE-DEAD (dead ratio 0.98 > 0.50); H_final 0.413".
+  - *Kapı:* G0 0,200 → G_end 0,025 (G_ratio 0,125); H_init 0,148 → H_final 0,413; F = 1,0; canlı pencere 2 / 120.
+  - *K5 zinciri geçti:* R0 bit-eşit, R2 canlı, R3 kaybı 0,229.
+  - *Eğitim:* aralığı öğrenmedi (learned_in_range false); 168 gradyan kırpması, en büyük norm 69,1.
+  - *K4:* H_final ±%20 bandında → tohum 2 (§5.42 d) koşuyor; iki etiket birleşince I3-c kararı hive planına göre verilir.
+- **I3-f** (`notes/_hive_F2_ONKAYIT_I3-f.md`): F1-F5'in 10 adımlık kuru denemesi 5 / 5 geçti; beş hücre eğitildi (`results/F2-I3f-*.json`; kuru deneme 00:25'ten sonra, son hücre 02:14'te bitti). Etiketler eğitimsiz E-N ölçümünden sonra verilecek (`scripts/run_i3f_measure.sh`; CPU hattı boşalınca).
 
 ## 6. Gerçek model yolu
 
