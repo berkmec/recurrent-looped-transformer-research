@@ -1310,6 +1310,29 @@ Dikkat koşulluluğu ortalaması 0,118 / 0,165. Getirmede geri beslemenin üstü
 
 - *Sınır:* tek kontrol noktası; karşılaştırma 20 güncellemelik, uzun vadede yalnız float düzeyinde sapma beklenir; tek GPU modeli (RTX 2060 SUPER, 8 GB); süreler pil hariç.
 
+### 5.45 E-A0W ön-kaydı (betimleyici, hüküm yok): geri beslemenin dildeki +0,050 bit/baytı nereden geliyor? (kod `mline/a0_where.py`, 3 test; ölçümden ÖNCE yazıldı 2026-10-22 07:56)
+**Matematik.** Pencere-4 kod çözücü öz-dikkati son konumların **dikkat-öncesi** durumlarını görür. t − 1'in **son** durumu (çapraz dikkat ve FFN'den sonraki hâli) t'ye yalnız geri besleme yoluyla ulaşır; onun üzerinden de bütün önceki son durumlar. Kodlayıcı zaten bütün öneki görüyor. Bu yüzden geri besleme bağlam değil **derinlik** ekler: tek katmanlı kodlayıcı ve kod çözücünün üstüne, dizi boyunca yinelenen bir hesap. Derinlik baytların birleştirilmesi gereken yerde (kelime içi) önemli olmalı, kelime başında daha az. E-J0'daki güçlü bağ (hata konum başına ancak ≈ 0,7-0,8 katına iniyor) bununla uyumlu.
+**Ölçüm.**
+- *Modeller:* L1 (geri beslemeli) ve A0'ın (geri beslemesiz) 8.000. güncelleme anlık görüntüleri.
+- *Veri:* doğrulama bölümünden 128 satır × 512 bayt (`md.batch`, tohum 401, adım 0-15; 65.536 tahmin edilen bayt). Ölçülen şey bayt başına kayıp (bit).
+- *Bölmeler:*
+  - konum (0-4, 4-16, 16-64, 64-256, 256-512);
+  - tahmin edilen baytın sınıfı (boşluk, satır sonu, harf, rakam, noktalama, UTF-8 başı ve devamı);
+  - harflerde kelime içi konum (0 = kelime başı, 1, 2, 3, 4+);
+  - A0'a göre zorluk çeyrekleri.
+
+  Her bölmede ortalama kazanç ve toplam kazançtaki pay raporlanır.
+- *Koşul:* GPU A0F ile paylaşımlı, %25 bellek tavanıyla, eğitimsiz. Çıktı `results/L1-a0-w928-s401/where-step008000.json`.
+
+**Öngörüler [H].**
+1. Toplam kazanç bu örneklemde [0,04; 0,06] bit/bayt içinde ≈ %80 (pil +0,050; aynı bölüm, başka satırlar).
+2. Bayt başına kazanç 64-512 konumlarında 0-4'tekinden büyük ≈ %65.
+3. Kelime içi harfler (ofset ≥ 2) toplam kazancın yarısından fazlasını taşır ≈ %50.
+4. Kazancın en büyük payı A0'nun en zor çeyreğinde ≈ %70.
+
+**Kullanım.** Geri beslemenin dildeki işlevinin betimi (derinlik mi, bağlam mı). Gerçek model tarifinde K1'in nerede gerekli olduğu ve maliyet tartışması için girdi. Hüküm üretmez.
+- *Sınır:* tek adım (8.000); tek tohum çifti; 65.536 bayt; bölmeler betimleyici, çoklu karşılaştırma düzeltmesi yok.
+
 ## 6. Gerçek model yolu
 
 1. **Ne iddia edilir:** "küçük, bayt-düzeyi bir RLT, durum-izleme/çok-adımlı görevlerde eşit-parametre ve eşit-token bir transformer'a yapısal bir üstünlük gösteriyor mu". LM kaybında üstünlük iddia edilmez (bağımsız değerlendirme bulamadı).
