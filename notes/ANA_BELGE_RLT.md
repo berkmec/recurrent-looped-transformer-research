@@ -735,6 +735,15 @@ Her koşu dizininde (çoğunda): `README.txt` (ön-kayıtlı okuma ve tarif), `t
 
 Hiçbir kol öğrenmezse görev / tarif yeniden tasarlanır. Bir kol öğrenince B ve yedekler aynı tarifle tekrarlanır; G0.3, P1-(iii) ve P2 ancak ondan sonra okunur. Sonraki HOLD ön-kayıtları manipülasyonu ilk değere göre değişimle tanımlamalı (madde 70).
 
+**Güncelleme (2026-10-22 13:06; 22 Ekim gün içi sonuçları işlendi, madde 59-88; önceki paragraflar yerinde; önem sırasıyla):**
+1. **Gerçek model yolu: geri beslemenin bedeli.** E-A0'ya göre geri besleme dilde güncelleme başına kazandırıyor (+0,050 @ 8.000, +0,056 @ 9.000). E-J0 / E-J1'e göre bedeli (≈ 8-10×) hesabı değiştirmeden düşmüyor: Jacobi 48 geçiş istiyor, CUDA graph yalnız 1,24× (madde 65, 85). A0 tam programla 1,4408'e ulaştı (≈ 5,6 GPU-saat; madde 84).
+   - **Şimdi koşan: E-WS** (madde 82), "önce paralel, sonra geri besleme". RLT'nin hesabına dokunmayan, yalnız eğitim sırasını değiştiren ucuz bir tarif.
+   - **Karar E-WS'ye bağlı.** HELPS çıkarsa gerçek model tarifi buradan kurulur. Çıkmazsa L1, graph'larla 9.000'den programın sonuna sürer (≈ 28 GPU-saat; E-J1'in birebir kopyası 9.000'de hazır); sonu A0F'nin sonuyla karşılaştırılır, kuralı ayrı ön-kayıtla yazılır.
+2. **RLT'nin yapısal değeri.** sk4'te (durum-anahtarlı getirme, 72 bit) yalnız geri beslemeli Core öğreniyor; tohum ve lr denetimlerinden geçti (madde 83). Bütçe denetimi E-S-B2X koşuyor (madde 81). ROBUST TO BUDGET çıkarsa §5.16'nın kullanımı uygulanır: aile gerçek model görev karışımına (L2) girer.
+3. **Mesafe sorunu (E-RM).** Aşama 0'ın görevi öğrenilemezdi (madde 72 düzeltmesi). Onarılmış görevde de tam-bağlam kontrolü öğrenmedi; neden konumsuz oyuncak kodlayıcı (madde 86). E-RM0R2 (madde 88), E-S-B2X'ten sonra CPU'da kendiliğinden başlıyor. Bellek kolları ancak öğrenen bir pozitif kontrolün yanında okunur; Aşama 1 (≈ 95 GPU-saat) yalnız oyuncakta MEMORY WORKS çıkarsa açılır.
+4. **Hive hattı.** I3-f VACUOUS (madde 87): nötr yoğun eğitim + doğruluk ölçütlü müfredat. Yeniden tasarım, model önce nötrsüz eğitilip sonra nötr koşularda ölçülecek biçimde (E-N'nin yolu). R4 birleşik KARIŞIK (madde 66). I3-d'nin sıfırlama ailesi S₅'te yaş duvarını sınayamıyor (madde 79).
+5. **Kayıt borcu:** E-A9k, E-A9d, E-L1X 8.192 ve ext (görev 76); taslak hazırlanıyor.
+
 ## 12. Kaynaklar ve ilgili ayrı proje
 
 - RLT fikri ve resmî kodu: <https://github.com/yifanzhang-pro/recurrent-looped-tranformer> (Faz 1'de sabitli commit `cc05cfe0b24bc5eb353c6f3c14990ea4e7be0a39`; 2026-10-15 U1 taraması: master `b1515d9` — 2026-10-11, 13 commit ileri; makale `Recurrent_Looped_Transformer.pdf` 57 s., arXiv **2610.07591**, gönderim 2026-10-06; eğitim kodu hâlâ kamuya açık değil). Bu depo onun yeniden üretimi değildir.
