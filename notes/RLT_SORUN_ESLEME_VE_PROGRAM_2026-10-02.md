@@ -443,6 +443,28 @@ Bu yüzden §5.42 (b) tohum 2'yi, (c) lr denetimini (E-S-LR) ön-kayıtla başla
 **Sonucun kullanımı (kayıtlı §5.16).** Aşama A, ÜSTÜNLÜK YOK ⇒ "gerçek model iddiası dil / hız / maliyet karşılaştırmasına dayanmalı". Bunun ilk ölçümü E-A0 (§5.41.1). Aşama B ÜSTÜNLÜK kesinleşirse ⇒ "gerçek model görev karışımına (L2) durum-anahtarlı getirme ailesi girer, RLT'nin yapısal değeri (tek aşama / tohum sınırıyla) kanıtlı sayılır". Kesinleşme şartı: tohum 2 ve lr denetimi.
 - *Sınır:* aşama B tek tohum; ≈ 100k parametre; tek görev ailesi; bütün kollar aynı lr ile; konumlu transformer yok.
 
+### 5.16.3 E-S AŞAMA B KESİN OKUMASI (iki tohum) ve E-S-LR SONUCU (kayıtlı kurallar §5.16 ve §5.42 c; koşular 2026-10-22 07:22-10:26, okuma 12:56): **ADVANTAGE (LEARNABILITY)**, kesin; lr denetimi **ROBUST TO LR**
+**Aşama B (sk4, iki tohum ortalaması; `sk_run.reading`).**
+
+| kol | aralık-içi | dış değer | öğrendi | durduğu yürüyüş |
+|---|---|---|---|---|
+| Core w64 | 1,000 | 0,979 | evet | 16 / 16 |
+| Core-A0 w64 | 0,182 | 0,172 | hayır | 2 / 3 |
+| GRU w128 | 0,131 | 0,141 | hayır | 1 / 1 |
+| LSTM w112 | 0,115 | 0,124 | hayır | 1 / 1 |
+| transformer w64 | 0,184 | 0,173 | hayır | 3 / 1 |
+
+**E-S-LR (tepe lr 10⁻³, tohum 1 / 2; aralık-içi).** GRU 0,133 / 0,122; LSTM 0,120 / 0,158; transformer 0,172 / 0,172. Hiçbiri öğrenmedi → **ROBUST TO LR** (bu iki lr değeriyle).
+**Okuma.** sk4'te (24 olgu / 72 bit, durum-anahtarlı getirme) yalnız geri beslemeli Core öğreniyor. GRU, LSTM ve transformer iki lr değerinde de, aynı Core'un geri beslemesiz ikizi de 15.000 güncellemede öğrenmiyor. sk3'te üstünlük yoktu (§5.16.2); sk4'teki görev zorlaşınca tablo tersine dönüyor.
+**Öngörü kalibrasyonu (§5.42 b, c).**
+- Core tohum 2'de öğrenir ≈ %70 → tuttu;
+- diğer dört kol öğrenmez ≈ %75 → tuttu;
+- kesin ADVANTAGE ≈ %55 → tuttu;
+- ROBUST TO LR ≈ %55 → tuttu.
+
+**Kullanım.** Kalan tek çekince bütçe; E-S-B2X (2× bütçe, §5.47) koşuyor. ROBUST TO BUDGET çıkarsa §5.16'nın kayıtlı kullanımı uygulanır: durum-anahtarlı getirme ailesi gerçek model görev karışımına girer.
+- *Sınır:* iki tohum; ≈ 100k parametre; tek görev ailesi; 15.000 güncelleme; konumlu transformer yok.
+
 ### 5.17 E-P5 okuma kuralı: Core'un E-X'teki TEMİZ sonucu parametre-eşit lr azaltmalı GRU/LSTM ile eşleşiyor mu? (eğitimli + uzun değerlendirme; betik `scripts/run_ep5.sh` [E-P4'ün ardından]; kod `long_eval.reading`; koşudan ÖNCE yazıldı 08:22)
 **Neden:** E-X Core'u TEMİZ buldu; lr azaltmalı GRU/LSTM (w64: 28k / 36k parametre) ≈ 6-8×10⁻⁶ ile TABAN kaldı, ama Core 98k parametre. Parametre-eşit kollar (GRU w128 105k, LSTM w112 107k) yalnız sabit lr'de koşuldu (8,8×10⁻⁵ / 3,3×10⁻⁴).
 **Tasarım:** GRU w128 ve LSTM w112, tohum 1, 15.000 güncelleme, müfredat 1…16, lr 3×10⁻³ son %30'da ≈ 0'a azaltılır (Core koşusuyla aynı veri akışı, bütçe, tohum); ardından E-X uzunlukları (2.048 / 8.192 / 32.768; n = 100).
@@ -1213,6 +1235,19 @@ Dikkat koşulluluğu ortalaması 0,118 / 0,165. Getirmede geri beslemenin üstü
 **Sonucun kullanımı (kayıtlı).** HELPS → "L1'i sürdürmek ve A0'ı tam programla koşturmak gerçek modelin eşleşmiş tabanı olur." A0'ın tam programı başladı (§5.42 a). L1'in sürdürülmesi (≈ 22.000 güncelleme × 6,68 s ≈ 41 GPU-saat) bir adım geri alındı. Önce geri beslemenin eğitim maliyetini anlamı bozmadan düşürmenin yolu aranacak (ana belge §11): sonuç, güncelleme başına kazancın ≈ 10× hesapla alındığını gösteriyor ve gerçek model kararını bu oran belirliyor.
 - *Sınır:* tek tohum çifti; erken aşama (8.000 / 30.518 ve lr hâlâ tepe değerde); tek korpus; L1 iki kez kontrol noktasından sürdü (veri sırası adımın fonksiyonu); getirme satırları betimleyici; süreler aynı GPU'da ama farklı tarihlerde ölçüldü.
 
+### 5.41.2 E-A0F SONUCU (§5.42 a; A0 programın sonuna kadar; koşu 2026-10-22 07:21-11:32): bpb_A0(30.518) = **1,4408**; ek nokta: L1'in birebir devamında (E-J1) 9.000'deki fark +0,056
+**A0'ın eğrisi (pil, `results/L1-a0-w928-s401/probe.jsonl`).**
+
+| güncelleme | 8.000 | 10.000 | 12.000 | 16.000 | 20.000 | 24.000 | 28.000 | 30.000 | 30.518 |
+|---|---|---|---|---|---|---|---|---|---|
+| bpb | 1,6672 | 1,6317 | 1,6017 | 1,5636 | 1,5386 | 1,5184 | 1,4908 | 1,4498 | **1,4408** |
+
+Son ölçümde getirme: held_k4_first 0,848, train_k4_first 1,000, tek olgu @448 1,000. Toplam süre ≈ 5,6 GPU-saat (88 dk + 4 sa 11 dk).
+**Öngörü kalibrasyonu.** bpb ∈ [1,38; 1,50] ≈ %65 → **tuttu** (1,4408).
+**Ek nokta (betimleyici).** E-J1'in graph'lı kopyası L1'in 8.500 kontrol noktasından aynı programla sürdü; eager'la eşdeğerliği kanıtlı (§5.44.1). Bu kopyanın 9.000'deki pili L1 = 1,5881 veriyor, aynı noktada A0 1,6443: Δ_9000 = **+0,0562**. 8.000'deki +0,0502'den büyük. "Fark daralıyor" eğilimi (2.000'de +0,083 → 8.000'de +0,050) 9.000'de sürmüyor; tek nokta.
+**Eşit hesap.** A0'ın programın sonundaki değeri (1,4408, ≈ 5,6 GPU-saat), L1'in 9.000'deki değerinden (1,5881, ≈ 17 GPU-saat) 0,147 bit/bayt iyi.
+- *Sınır:* tek tohum; A0 programın sonunda, L1 değil.
+
 ### 5.42 Koşu ön-kaydı, 2026-10-22 sabahı: A0'ın tam programı, E-S aşama B tohum 2 ve lr denetimi, A3 R4 tohum 2 (gece sonuçları GÖRÜLDÜKTEN sonra, bu koşulardan ÖNCE yazıldı 2026-10-22 07:20)
 **Bağlam.** 21-22 Ekim gecesi koşuları bitti: E-A0 (§5.41) → FEEDBACK HELPS; E-S aşama A → NO ADVANTAGE (10 / 10 koşu); E-S aşama B → ADVANTAGE (LEARNABILITY) **geçici** (kol başına tek tohum); E-F5 → α ve tepe lr ikisi de REFUTED; A3 R4 → KARIŞIK, H_final K4 bandında; I3-f'nin beş hücresi eğitildi. Okumalar ve sonuç kayıtları ayrı alt bölümlerde. Bu bölüm yalnız yeni koşuları ve kurallarını sabitler.
 **(a) E-A0F: A0 programın sonuna kadar (§5.41'in HELPS için kayıtlı kullanımı).** `results/L1-a0-w928-s401` kendi 8.000. güncelleme kontrol noktasından aynı programla 30.518. güncellemeye devam eder; başka değişiklik yok (veri sırası adımın fonksiyonu; `longrun` kontrol noktasından sürer). §5.41 hükmü 8.000'de verildi ve değişmez. **Rol:** gerçek modelin eşleşmiş, geri beslemesiz tabanı. Programın sonundaki geri besleme karşılaştırması L1 de programın sonuna ulaşırsa ayrı ön-kayıtla okunur. Bu koşu kendi başına hüküm üretmez. **Öngörü [H]:** bpb_A0(30.518) ∈ [1,38; 1,50] ≈ %65; > 1,50 ≈ %25; < 1,38 ≈ %10. Gerekçe: 1.000 → 8.000 arası her ikiye katlamada ≈ 0,13 iyileşme; son %10'daki azaltma ≈ 0,03 ek. Maliyet: ≈ 4,2 GPU-saat (ölçülen 0,663 s / güncelleme, pil dahil).
@@ -1310,6 +1345,18 @@ Dikkat koşulluluğu ortalaması 0,118 / 0,165. Getirmede geri beslemenin üstü
 
 - *Sınır:* tek kontrol noktası; karşılaştırma 20 güncellemelik, uzun vadede yalnız float düzeyinde sapma beklenir; tek GPU modeli (RTX 2060 SUPER, 8 GB); süreler pil hariç.
 
+### 5.44.1 E-J1 SONUCU (kayıtlı kural `mline.graphed.reading`; koşu 2026-10-22 11:32-12:21, boş GPU; `results/EJ1-graphs/reading.json`): **NO-GO (not fast)**; graph'lı eğitim eşdeğer ve sığıyor, ama yalnız 1,24× hızlı
+- **EQUIVALENT ✓:**
+  - kayıp farkı 6,0×10⁻⁸ = eager-eager tabanı (tolerans 10⁻⁵);
+  - ağırlık farkı (8.520) 4,8×10⁻⁷, taban 2,4×10⁻⁷, tolerans 2,4×10⁻⁶.
+- **FITS ✓:** graph havuzu ayrılmışken 9.000'deki pil hatasız koştu (bpb 1,5881); tepe GPU belleği 6.941 MiB.
+- **FAST ✗:** medyan güncelleme süresi eager 5,79 s, graph'lı 4,67 s → **1,24×**. 9.000'e uzun koşuda graph'lı medyan 5,34 s; std1 kopyası ve pil komşuluğu dahil, betimleyici.
+
+**Okuma.** L1 ölçeğinde döngünün maliyeti Python dağıtımından değil çekirdeklerin kendisinden geliyor: konum başına onlarca küçük çekirdek (parti 32 × genişlik 928), GPU'yu doyurmuyor. Graph'lar hesabı değiştirmeden ≈ %19 kazandırıyor. Bundan sonraki geri beslemeli GPU eğitimlerinde kullanılabilirler.
+**Öngörü kalibrasyonu.** EQUIVALENT ≈ %90 → tuttu; FAST ≈ %70 → **yanlış** (3-5× beklemiştim); FITS ≈ %65 → tuttu; GO ≈ %45 → hayır.
+**Kullanım (kayıtlı: NO-GO (not fast)).** Maliyet ≈ 8-10× kalıyor; geri beslemenin dildeki yeri maliyet karşılaştırmasıyla yeniden düşünülür. Bu yüzden RLT'nin hesabına dokunmayan bir eğitim sırası sınanıyor: önce geri beslemesiz, sonra geri beslemeli (E-WS, §5.48).
+- *Sınır:* tek GPU (RTX 2060 SUPER); tek parti boyutu (32); çekirdek kaynaştırma (Triton) bu ortamda yok.
+
 ### 5.45 E-A0W ön-kaydı (betimleyici, hüküm yok): geri beslemenin dildeki +0,050 bit/baytı nereden geliyor? (kod `mline/a0_where.py`, 3 test; ölçümden ÖNCE yazıldı 2026-10-22 07:56)
 **Matematik.** Pencere-4 kod çözücü öz-dikkati son konumların **dikkat-öncesi** durumlarını görür. t − 1'in **son** durumu (çapraz dikkat ve FFN'den sonraki hâli) t'ye yalnız geri besleme yoluyla ulaşır; onun üzerinden de bütün önceki son durumlar. Kodlayıcı zaten bütün öneki görüyor. Bu yüzden geri besleme bağlam değil **derinlik** ekler: tek katmanlı kodlayıcı ve kod çözücünün üstüne, dizi boyunca yinelenen bir hesap. Derinlik baytların birleştirilmesi gereken yerde (kelime içi) önemli olmalı, kelime başında daha az. E-J0'daki güçlü bağ (hata konum başına ancak ≈ 0,7-0,8 katına iniyor) bununla uyumlu.
 **Ölçüm.**
@@ -1402,6 +1449,14 @@ Eğitilmiş B'de γ'nın sıfırda kalmadığını da gördüm (bazı kanallarda
 **Kaynak.** CPU, iki süreç, süreç başına tek iş parçacığı. Koşucu (`scripts/run_erm_r.sh`), iki kuyruk kopyası ve I3-f ölçümü bitince başlar. Koşu başına ≈ 20-30 dakika.
 - *Sınır:* tek tohum; tek lr; oyuncak ölçek (w64, 2 katman); 8 sorgu tasarımı MQAR'a yaklaşır ve Aşama 0'ın tek-sorgu sorusu değildir; d dağılımı kotalara bağlı.
 
+### 5.46.1 E-RM0R SONUCU (kayıtlı kural `horizon.erm_r.reading`; koşular 2026-10-22 10:26-11:34): R1 **NOT LEARNABLE** + CONTROL OK; R1b (müfredat) **NOT LEARNABLE**; bellek kolları koşmadı. Neden (koddan, sonradan): oyuncak kodlayıcıda konum kodlaması YOK
+- **R1 (12.000 güncelleme).** Apr (tam bağlam) d = 3'te 0,265 → NOT LEARNABLE; A 0,128 → CONTROL OK.
+- **R1b (müfredat 4 → 8 → 16, 24.000 güncelleme).** Apr 4 olgudan **hiç ilerlemedi**. 24.000. güncellemede 4 olgulu eğitim doğruluğu 0,41, kayıp 1,21. 16 olguda değerlendirme: 0,258 → NOT LEARNABLE.
+- **Neden (sonradan, koddan okundu; ön-kayıtlı değil).** `erm_models.Encoder` = bayt gömmesi + `nn.TransformerEncoder` (nedensel maske), **konum kodlaması yok**. İlişkisel hatırlama (sorgu anahtarından önceki geçişine, oradan bir sonraki belirtece, yani değere) "bir önceki belirteç" bilgisi ister. Konumsuz nedensel dikkat bunu ancak dolaylı ve zayıf kurabiliyor; 4 olguda bile 0,41'de kalması bununla tutarlı. L1 ölçeğindeki Core RoPE kullanıyor; kusur oyuncak modelde. Aşama 0'ın bütün kolları (A, B, B_comp, B_rmt, Apr) aynı kodlayıcıyı paylaşıyordu.
+- **Öngörü kalibrasyonu.** LEARNABLE ≈ %65 → **yanlış**; müfredatla LEARNABLE ≈ %70 → **yanlış**; CONTROL OK ≈ %95 → tuttu.
+- **Kullanım.** Kayıtlı kurala göre bellek kolları VACUOUS kalır. Sıradaki adım (ayrı ön-kayıt): kodlayıcıya konum kodlaması (pencere içi konum; Apr'de mutlak konum), sonra aynı R1.
+- *Sınır:* tek tohum; tek lr; neden açıklaması sonradan ve henüz sınanmadı [H].
+
 ### 5.47 E-S-B2X ön-kaydı: sk4 öğrenebilirlik üstünlüğü bütçeye karşı da sağlam mı? (koşudan ÖNCE yazıldı 2026-10-22 12:57; aşama B tohum 2 ve E-S-LR sonuçları görüldükten sonra)
 **Bağlam.** Aşama B iki tohumla kesin: ADVANTAGE (LEARNABILITY). Core sk4'ü öğreniyor (1,000 / 0,979); GRU, LSTM, transformer ve A0 öğrenmiyor. E-S-LR: ROBUST TO LR; tabanlar kendi tepe lr'leriyle (10⁻³) de öğrenmiyor. Kalan çekince bütçe: sk3'te GRU son aşamaya ancak 10-12 bininci güncellemede varıyordu, sk4 için 15.000 az olabilir.
 **Koşu.** sk4; GRU w128, LSTM w112 ve transformer w64; tepe lr 10⁻³ (son %30'da ~0'a azaltma aynı); **30.000 güncelleme** (2×); tohum 1 ve 2. Diğer her şey aşama B'deki gibi. Çıktı `results/ES-b2x/` (ayrı dizin, aşama B okumasına karışmaz). İki CPU süreci, tek iş parçacığı.
@@ -1441,6 +1496,13 @@ Eşik gerekçesi: 2.000 güncellemelik ince ayar için E-A0'nun 0,020'sinin yar�
 - **NO DIFFERENCE / HURTS:** ince ayar geri beslemenin kazancını vermiyor; RLT-1'in kazancı ya baştan geri beslemeli eğitimle alınır ya hiç alınmaz.
 
 - *Sınır:* tek tohum; tek program ve lr; 2.000 güncelleme; A0'ın son evresinin veri karışımı. Kontrol kolu da yeniden ısınmadan etkilenir, ama etki iki kolda aynı.
+
+### 5.42.3 I3-f SONUCU (hive kâğıdı `notes/_hive_F2_ONKAYIT_I3-f.md`; eğitim 2026-10-22 00:25-02:14, E-N ölçümü 10:2x; `results/F2-I3f-{en,eg}.{json,txt}`): beş hücre de **VACUOUS**; nötr payı 0,9 ile eğitilen hiçbir model görevi öğrenmedi
+- **Aralık-içi doğruluk (eğitim sonu):** F1 core perm4 0,22; F2 hold perm4 0,05; F3 hold_nc perm4 0,03; F4 core perm5 0,02; F5 hold perm5 0,04. Geçerlilik kuralına göre (A2 G1: ≥ 0,95) beşi de VACUOUS.
+- **E-N ölçümü:** her hücrede ve her p_id'de son doğruluk ≤ 0,07; 128'den sonra ilk hata 0 (diziler daha önce çöküyor). Ölçüm "NO BASELINE ERRORS" diyor; m hesaplanamıyor.
+- **Neden.** perm4 hücrelerinde müfredat sonuna (16) kadar ilerledi, ama model bileşimi öğrenmedi. %90'ı özdeşlik olan dizilerde bir önceki etiketi kopyalamak eğitim doğruluğunu ilerleme eşiğinin üstüne çıkarıyor. perm5'te müfredat 6'da kaldı. Kâğıdın F1 için beklediği E-N imzası (S₄ Core, 33 hata) aslında farklı bir koşuldaydı: E-N'nin modeli nötrsüz eğitilip yalnız p_id = 0,9'da ölçülmüştü, I3-f ise 0,9'da eğitiyor.
+- **Öngörü (kâğıt).** F1 tekrarı ≈ %85, F2 DESTEKLENİR ≈ %55, F3 PASS ≈ %70 → hiçbiri sınanamadı (VACUOUS).
+- **Ders.** Yoğun nötr dolguyla eğitimde müfredat ilerleme ölçütü yalnız bilgi taşıyan adımlarda sayılmalı. Ya da model önce nötrsüz eğitilip sonra nötr koşularda ölçülmeli (E-N'nin yolu).
 
 ## 6. Gerçek model yolu
 
