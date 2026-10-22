@@ -156,9 +156,12 @@ def _atomic_save(path, state):
 
 def train(out, *, width, heads, steps, batch, length, lr, seed, needle_rate, phases, lm_batch, natural_keys=None, warmup=500,
           decay_fraction=.1, floor=.1, weight_decay=.01, clip=1., ckpt_every=250, snapshot_every=1000, eval_every=1000,
-          eval_fn=None, device='cuda', arm='plain', window=4, alpha=.1, max_skips=50, verbose=True, telemetry='off', stop_at=None):
+          eval_fn=None, device='cuda', arm='plain', window=4, alpha=.1, max_skips=50, verbose=True, telemetry='off', stop_at=None,
+          graphs=False):
     """`stop_at` ends the run early ON THE FULL SCHEDULE (the learning rate still follows `steps`), leaving `stopped.json`
-    instead of `complete.json`: a twin can retrace the first `stop_at` updates of a longer run exactly (A0 twin of L1)."""
+    instead of `complete.json`: a twin can retrace the first `stop_at` updates of a longer run exactly (A0 twin of L1).
+    `graphs` replays the training forward and backward as CUDA graphs (mline.graphed, E-J1): the same kernels on the same
+    inputs, captured at the first update of this process; the battery still runs eagerly."""
     check_phases(phases)
     if telemetry not in ('off', 'std1'):
         raise SystemExit("telemetry 'off' veya 'std1' olmali (I1a:63/65; sessiz eksik-log yasak)")
@@ -186,7 +189,7 @@ def train(out, *, width, heads, steps, batch, length, lr, seed, needle_rate, pha
         if log.exists():
             kept = [line for line in log.read_text(encoding='utf8').splitlines()
                     if line.strip() and json.loads(line)['step'] <= resume['step']]
-            log.write_text((chr(10).join(kept) + chr(10)) if kept else '', encoding='utf8')
+            log.write_bytes(((chr(10).join(kept) + chr(10)) if kept else '').encode('utf8'))     # LF on every platform
         if verbose:
             print('resuming from step %d' % resume['step'], flush=True)
     counter = gu.GuardCounter()
@@ -205,6 +208,12 @@ def train(out, *, width, heads, steps, batch, length, lr, seed, needle_rate, pha
         for group in opt.param_groups:
             group['lr'] = current_lr
         model.train()
+        if graphs and getattr(model, '_graphed_shape', None) is None:
+            from mline import graphed as mg
+            mg.capture(model, x)
+            model._graphed_shape = tuple(x.shape)
+        elif graphs and tuple(x.shape) != model._graphed_shape:
+            raise ValueError('graphed run: batch shape %s differs from the captured %s' % (tuple(x.shape), model._graphed_shape))
         logits = ml.forward_logits(model, x)
         ce = F.cross_entropy(logits.flatten(0, 1), y.flatten(), reduction='none').view(y.shape)
         telemetry_on = telemetry == 'std1'
@@ -341,6 +350,7 @@ def main():
     parser.add_argument('--arm', default='plain', choices=ml.ARMS, help="'a0' = the same Core with feedback off (the A0 twin)")
     parser.add_argument('--stop-at', type=int, default=None, help='stop after this update, keeping the full schedule (see train)')
     parser.add_argument('--telemetry', default='off', choices=('off', 'std1'))
+    parser.add_argument('--graphs', action='store_true', help='replay the training forward and backward as CUDA graphs (E-J1)')
     args = parser.parse_args()
     from mline import data as md
     from mline import mqar_eval as me
@@ -362,7 +372,7 @@ def main():
           needle_rate=args.needle_rate, phases=phases, lm_batch=lm_batch, natural_keys=natural_train, warmup=args.warmup,
           decay_fraction=args.decay_fraction, ckpt_every=args.ckpt_every, snapshot_every=args.snapshot_every,
           eval_every=args.eval_every, eval_fn=eval_fn, device=args.device, arm=args.arm, stop_at=args.stop_at,
-          telemetry=args.telemetry)
+          telemetry=args.telemetry, graphs=args.graphs)
 
 
 if __name__ == '__main__':

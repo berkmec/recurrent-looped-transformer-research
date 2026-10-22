@@ -1,0 +1,34 @@
+{
+ "schema": "run-manifest/v1",
+ "run_id": "a3-r4-perm5-hold-w128-s2-np05-30k",
+ "campaign": "Z1-pilot",
+ "agent": "claude-4797b78c",
+ "created_utc": "2026-10-22T04:22:03Z",
+ "command": "python -B -m horizon.depth_run --task perm5 --arm hold --width 128 --seed 2 --steps 30000 --curriculum 1,2,3,4,6,8,12,16 --neutral-p 0.5 --log-every 1000 --gate-telemetry results/Z1-pilot/a3-r4-perm5-hold-w128-s2-np05-30k.tel.jsonl --out results/Z1-pilot/a3-r4-perm5-hold-w128-s2-np05-30k.json",
+ "prereg": {
+  "paper": "notes/_hive_A3_ONKAYIT.md K4; notes/RLT_SORUN_ESLEME_VE_PROGRAM_2026-10-02.md 5.42 d"
+ },
+ "code": {
+  "head": "d4136a6",
+  "dirty": false,
+  "porcelain": [
+   " M results/L1-a0-w928-s401/probe.json",
+   " M results/L1-a0-w928-s401/probe.jsonl",
+   " M results/L1-a0-w928-s401/train.log",
+   " M results/M1-finetune-distance/queue.log",
+   "?? results/ES-pilot/sk4-core-w64-s2.log",
+   "?? results/ES-pilot/sk4-core-w64-s2.manifest.json",
+   "?? results/L1-a0-w928-s401/E-A0F-L1-a0-w928-s401.manifest.json"
+  ]
+ },
+ "config": {
+  "source": "scripts/run_queue_2026-10-22b.sh",
+  "summary": {},
+  "sha256": "335c4fa141158c287ea42dfeb0a0d82b859f3a4c11a8bf2a207cf77105dcf284"
+ },
+ "seeds": {
+  "seed": 2
+ },
+ "telemetry_schema": "I1-a/v1",
+ "status": "started"
+}

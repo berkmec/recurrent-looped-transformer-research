@@ -1,0 +1,39 @@
+perm5 hold w128 s2 step 200 curriculum advance 1 -> 2 (5s)
+perm5 hold w128 s2 step 1000 len 2 loss 0.6223816275596619 (30s)
+perm5 hold w128 s2 step 2000 len 2 loss 0.7917184233665466 (62s)
+perm5 hold w128 s2 step 3000 len 2 loss 0.6421879529953003 (94s)
+perm5 hold w128 s2 step 4000 len 2 loss 0.7436653971672058 (126s)
+perm5 hold w128 s2 step 5000 len 2 loss 0.6017549633979797 (162s)
+perm5 hold w128 s2 step 6000 len 2 loss 0.682181179523468 (199s)
+perm5 hold w128 s2 step 7000 len 2 loss 0.7136416435241699 (238s)
+perm5 hold w128 s2 step 8000 len 2 loss 0.6893737316131592 (276s)
+perm5 hold w128 s2 step 9000 len 2 loss 0.635229229927063 (314s)
+perm5 hold w128 s2 step 10000 len 2 loss 0.6489124894142151 (352s)
+perm5 hold w128 s2 step 11000 len 2 loss 0.41292741894721985 (390s)
+perm5 hold w128 s2 step 12000 len 2 loss 0.6452117562294006 (428s)
+perm5 hold w128 s2 step 13000 len 2 loss 0.491202712059021 (466s)
+perm5 hold w128 s2 step 14000 len 2 loss 0.47901540994644165 (503s)
+perm5 hold w128 s2 step 15000 len 2 loss 0.5210806727409363 (540s)
+perm5 hold w128 s2 step 16000 len 2 loss 0.3913457989692688 (577s)
+perm5 hold w128 s2 step 17000 len 2 loss 0.4951346218585968 (614s)
+perm5 hold w128 s2 step 18000 len 2 loss 0.46046847105026245 (651s)
+perm5 hold w128 s2 step 19000 len 2 loss 0.48195481300354004 (691s)
+perm5 hold w128 s2 step 20000 len 2 loss 0.5491524934768677 (728s)
+perm5 hold w128 s2 step 21000 len 2 loss 0.32951170206069946 (765s)
+perm5 hold w128 s2 step 22000 len 2 loss 0.4775252640247345 (802s)
+perm5 hold w128 s2 step 23000 len 2 loss 0.5257160067558289 (840s)
+perm5 hold w128 s2 step 24000 len 2 loss 0.6056509613990784 (881s)
+perm5 hold w128 s2 step 25000 len 2 loss 0.44955408573150635 (921s)
+perm5 hold w128 s2 step 26000 len 2 loss 0.5692623853683472 (959s)
+perm5 hold w128 s2 step 27000 len 2 loss 0.5831804871559143 (995s)
+perm5 hold w128 s2 step 28000 len 2 loss 0.4165039360523224 (1030s)
+perm5 hold w128 s2 step 29000 len 2 loss 0.5161191821098328 (1066s)
+perm5 hold w128 s2 step 30000 len 2 loss 0.671719491481781 (1101s)
+{"task": "perm5", "arm": "hold", "width": 128, "seed": 2, "wseed": 2, "dseed": 2, "eval_seed": 2, "learned_in_range": false, "effective_horizon": 0, "horizon_metric": "final", "wall_seconds": 1124.0169812999666}
+16 {'length': 16, 'final': 0.0, 'prefix': 0.071, 'beyond_horizon': None, 'hazard': [{'start': 0, 'stop': 16, 'at_risk': 100, 'first_errors': 100, 'rate': 0.0625}]}
+32 {'length': 32, 'final': 0.0, 'prefix': 0.041, 'beyond_horizon': 0.007, 'hazard': [{'start': 0, 'stop': 16, 'at_risk': 100, 'first_errors': 100, 'rate': 0.0625}, {'start': 16, 'stop': 32, 'at_risk': 0, 'first_errors': 0, 'rate': None}]}
+64 {'length': 64, 'final': 0.01, 'prefix': 0.024, 'beyond_horizon': 0.009, 'hazard': [{'start': 0, 'stop': 16, 'at_risk': 100, 'first_errors': 100, 'rate': 0.0625}, {'start': 16, 'stop': 32, 'at_risk': 0, 'first_errors': 0, 'rate': None}, {'start': 32, 'stop': 64, 'at_risk': 0, 'first_errors': 0, 'rate': None}]}
+128 {'length': 128, 'final': 0.0, 'prefix': 0.017, 'beyond_horizon': 0.009, 'hazard': [{'start': 0, 'stop': 16, 'at_risk': 100, 'first_errors': 100, 'rate': 0.0625}, {'start': 16, 'stop': 32, 'at_risk': 0, 'first_errors': 0, 'rate': None}, {'start': 32, 'stop': 64, 'at_risk': 0, 'first_errors': 0, 'rate': None}, {'start': 64, 'stop': 128, 'at_risk': 0, 'first_errors': 0, 'rate': None}]}
+256 {'length': 256, 'final': 0.0, 'prefix': 0.012, 'beyond_horizon': 0.008, 'hazard': [{'start': 0, 'stop': 16, 'at_risk': 100, 'first_errors': 100, 'rate': 0.0625}, {'start': 16, 'stop': 32, 'at_risk': 0, 'first_errors': 0, 'rate': None}, {'start': 32, 'stop': 64, 'at_risk': 0, 'first_errors': 0, 'rate': None}, {'start': 64, 'stop': 128, 'at_risk': 0, 'first_errors': 0, 'rate': None}, {'start': 128, 'stop': 256, 'at_risk': 0, 'first_errors': 0, 'rate': None}]}
+512 {'length': 512, 'final': 0.02, 'prefix': 0.011, 'beyond_horizon': 0.009, 'hazard': [{'start': 0, 'stop': 16, 'at_risk': 100, 'first_errors': 100, 'rate': 0.0625}, {'start': 16, 'stop': 32, 'at_risk': 0, 'first_errors': 0, 'rate': None}, {'start': 32, 'stop': 64, 'at_risk': 0, 'first_errors': 0, 'rate': None}, {'start': 64, 'stop': 128, 'at_risk': 0, 'first_errors': 0, 'rate': None}, {'start': 128, 'stop': 256, 'at_risk': 0, 'first_errors': 0, 'rate': None}, {'start': 256, 'stop': 512, 'at_risk': 0, 'first_errors': 0, 'rate': None}]}
+1024 {'length': 1024, 'final': 0.01, 'prefix': 0.01, 'beyond_horizon': 0.009, 'hazard': [{'start': 0, 'stop': 16, 'at_risk': 100, 'first_errors': 100, 'rate': 0.0625}, {'start': 16, 'stop': 32, 'at_risk': 0, 'first_errors': 0, 'rate': None}, {'start': 32, 'stop': 64, 'at_risk': 0, 'first_errors': 0, 'rate': None}, {'start': 64, 'stop': 128, 'at_risk': 0, 'first_errors': 0, 'rate': None}, {'start': 128, 'stop': 256, 'at_risk': 0, 'first_errors': 0, 'rate': None}, {'start': 256, 'stop': 512, 'at_risk': 0, 'first_errors': 0, 'rate': None}, {'start': 512, 'stop': 1024, 'at_risk': 0, 'first_errors': 0, 'rate': None}]}

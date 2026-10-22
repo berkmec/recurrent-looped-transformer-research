@@ -1281,6 +1281,35 @@ Dikkat koşulluluğu ortalaması 0,118 / 0,165. Getirmede geri beslemenin üstü
 **Sonucun kullanımı (kayıtlı).** Bu yolla maliyet ≈ 10× kalır. Sıradaki adım, döngünün kendisini yaklaşıklıksız hızlandırmak (CUDA graph / derleme; E-J1). Döngü adımı başına süre (4 satırda 3,4 ms) çekirdek süresinden çok çağrı ve dağıtım yüküne benziyor; aynı çekirdeklerin bir grafikte yeniden oynatılması hesabı değiştirmez.
 - *Sınır:* tek kontrol noktası (adım 8.500); tek parti (4 satır; gradyan 2 satır); float32; GPU paylaşımlı; yalnız `plain` kol.
 
+### 5.42.2 A3 R4 tohum 2 ve birleşik etiket (K4; koşu 07:22-07:40, okuma 07:40; `results/Z1-pilot/a3-r4-perm5-hold-w128-s2-np05-30k-reading.json`): tohum 2 **SÖNÜM**, birleşik etiket **KARIŞIK**
+- Tohum 2: G_ratio 0,077 < 0,10, yani kapı gradyanı sönüyor (G0 0,214 → G_end 0,016). Tohum 1 KARIŞIK'tı (G_ratio 0,125). K4'e göre etiketler farklıysa birleşik etiket KARIŞIK.
+- İki tohumda ortak: kapı baskısı pencerelerin %98'inde ölü (PRESSURE-DEAD); H_final 0,413 / 0,469, ikisi de K4 bandında; kol aralığı öğrenmedi. Gradyan kırpması 168 / 155 kez; en büyük norm 69 / 269. Kapı gradyan oranı iki tohumda 0,10 eşiğinin iki yanına düşüyor: kapı eşikte.
+- Öngörü (§5.42 d): birleşik KARIŞIK ≈ %75 → tuttu.
+- A3 etiket tablosunda KARIŞIK'ın önerisi "tohum 2 / uzatma / ek telemetri"; tohum 2 yapıldı. Hücre iki tohumda da aralığı öğrenmediği için (A2 G1: VACUOUS) kapı yorumu bu hücrede sınırlı. Hive planındaki I3-c kararı açık; önce öğrenen bir zemin gerekir.
+
+### 5.44 E-J1 ön-kaydı: geri beslemeli eğitim adımının CUDA graph ile yeniden oynatılması; aynı hesap mı, ne kadar hızlı, belleğe sığıyor mu? (kod `mline/graphed.py` + `longrun --graphs`, 6 test; koşudan ÖNCE yazıldı 2026-10-22 07:53)
+**Gerekçe.** E-J0'a göre döngü paralel çözümle hızlanmıyor, çünkü bağ güçlü. Döngü adımı başına 3,4 ms (4 satır) çekirdek süresinden çok Python dağıtım yüküne benziyor. CUDA graph aynı çekirdekleri aynı sırada, aynı girdilerle yeniden oynatır: hesap aynı kalır, dağıtım yükü kalkar.
+- *Testler:* küçük modelde graph'lı logit ve gradyanlar eager'ın bit-bit aynısı. `train()` 6 güncellemede graph'lı ve eager olarak aynı koşuyu üretiyor (kayıp ve ağırlıklar 10⁻⁶ içinde). Eval kipi (pil) eager çalışıyor. Aynı süreçte birden çok yakalama için `gc.collect()` gerekiyordu: başvurulmayan eski bir graph yakalamanın ortasında yok edilince yakalama bozuluyordu; düzeltildi ve testli.
+- *Geliştirme denemesi (w64, 2 × 64, paylaşımlı GPU):* adım süresi 4,8× kısaldı.
+- *Bellek:* ısınma ayrı akışta yapılıyor, sonra önbellek boşaltılıp yakalanıyor. L1 ölçeğinde %40 tavanla bu yapılmadan iki kat bellek gerekiyordu.
+
+**Ölçüm** (boş GPU; A0F bitince kendiliğinden başlar, `scripts/run_ej1.sh`). L1'in son kontrol noktasından (adım 8.500; kopyası alınır, L1'in dizinine dokunulmaz) üç kopya 8.501-8.520 güncellemelerini tam programla koşar: eager1, eager2 (determinizm tabanı) ve graph'lı kopya. Graph'lı kopya 9.000'e kadar sürer; böylece 9.000'deki pil, graph havuzu ayrılmışken koşar. Hepsinde telemetri std1 açık (güncelleme başına süre için; ek bellek her kopyada aynı). GPU belleği 5 saniyede bir örneklenir.
+**Kural** (`mline.graphed.reading`):
+- *Tabanlar:* floor_loss = en büyük |kayıp_eager1 − kayıp_eager2| (8.501-8.520); floor_param = 8.520'de en büyük |θ_eager1 − θ_eager2|. Toleranslar max(10·floor_loss, 10⁻⁵) ve max(10·floor_param, 10⁻⁶).
+- **EQUIVALENT** ⇔ graph'lı kopyanın kaybı her adımda, ağırlıkları 8.520'de eager1'den tolerans içinde.
+- **FAST** ⇔ medyan güncelleme süresi (8.506-8.520) graph'lıda ≤ eager1'in yarısı.
+- **FITS** ⇔ graph'lı kopya 9.000'e ulaştı ve oradaki pil hatasız koştu.
+- **GO** ⇔ üçü birden; aksi hâlde NO-GO, eksik parçanın adıyla. **INCOMPLETE** ⇔ bir adım eksik.
+
+**Öngörüler [H].** EQUIVALENT ≈ %90; FAST ≈ %70 (beklenen hızlanma 3-5×); FITS ≈ %65; GO ≈ %45.
+**Sonucun kullanımı.**
+- **GO:** L1, `--graphs` ile 8.500'den programın sonuna sürer. A0F'nin sonuyla karşılaştırma kuralı ayrı ön-kayıtla yazılır. Gerçek modelin geri beslemeli eğitimi bu yolla yapılır ve geri beslemenin maliyet oranı (E-A0'daki ≈ 10×) yeniden ölçülür.
+- **NO-GO (does not fit):** mikro-parti (2 × 16) çeşidi yazılır ve ayrı sınanır.
+- **NO-GO (not fast):** maliyet ≈ 10× kalır; geri beslemenin dildeki yeri maliyet karşılaştırmasıyla yeniden düşünülür.
+- **NO-GO (not equivalent):** yol kullanılmaz, neden aranır.
+
+- *Sınır:* tek kontrol noktası; karşılaştırma 20 güncellemelik, uzun vadede yalnız float düzeyinde sapma beklenir; tek GPU modeli (RTX 2060 SUPER, 8 GB); süreler pil hariç.
+
 ## 6. Gerçek model yolu
 
 1. **Ne iddia edilir:** "küçük, bayt-düzeyi bir RLT, durum-izleme/çok-adımlı görevlerde eşit-parametre ve eşit-token bir transformer'a yapısal bir üstünlük gösteriyor mu". LM kaybında üstünlük iddia edilmez (bağımsız değerlendirme bulamadı).
