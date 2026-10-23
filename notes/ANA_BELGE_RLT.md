@@ -651,6 +651,8 @@ Yalnız-uzunluk kontrolü (eğitim dağılımı, derinlik ≤ 8): 64 / 256 / 1.0
 
 115. **E-S-W ARA SONUCU: ADVANTAGE HOLDS AT 4x (kayıtlı kural; 2026-10-23 07:02-09:35; ayrıntı not §5.57.1):** GRU w256 (4,1× parametre) ve LSTM w224 (4,2×) iki tohumda da sk4'ü öğrenmedi (aralık-içi ortalama 0,136 ve 0,164). Kapasite açıklaması 4×'te reddedildi. 16× GRU / LSTM ve 8× konumlu transformer koşuyor.
 
+116. **E-RM0R7 SONUCU: G0.3 GEÇTİ (kayıtlı kural; 2026-10-23 08:50-10:36; ayrıntı not §5.60.1):** Gerçek ölçekte kullanılacak RLT-M modülü kilitli Core'la (geri besleme açık) oyuncak mesafe görevini iki tohumda da çözdü: d = 1, 2, 3'te 1,000, 500. güncellemede öğrendi. Belleksiz aynı pencereler şansta (0,121). Öngörüler (%75, %95) tuttu. Aşama 1'in Aşama 0 kapılarından G0.1, G0.2, G0.3 ve G0.5 tamam; G0.3b koşuyor, G0.4 GPU'da.
+
 **Sınırlar.** Bu bölümde yeni ölçüm YOK; öngörüler sonuçlardan önce yazıldı. M4 karşılaştırması farklı genişlik, lr, bütçe ve müfredatla yapıldı. X1 doğrulanmadı. **Güncelleme (07:10):** "yeni ölçüm YOK" cümlesi yalnız 06:30 öncesi için doğruydu; 06:54'ten beri E-A ve E-B ölçümleri alındı (madde 7-8) ve yukarıdaki sınırlar onlar için ayrıca belirtilmiştir.
 
 ## 7. Düzeltmeler defteri

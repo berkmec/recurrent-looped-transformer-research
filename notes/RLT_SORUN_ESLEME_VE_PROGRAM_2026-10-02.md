@@ -1955,6 +1955,21 @@ Kontroller (E-RM0R2): Apr 0,9994 (LEARNABLE), A 0,128 (CONTROL OK).
 **Okuma.** 4 kat parametre, GRU ve LSTM'nin sk4'teki başarısızlığını değiştirmedi; sonuçlar parametre-eşit hücrelerle aynı yerde (≈ 0,13-0,18, şansa yakın). Kapasite açıklaması 4×'te reddedildi; 16×'ta sınav sürüyor.
 - *Sınır:* tek görev; tek lr (aşama B); geniş hücreler bitmedi.
 
+### 5.60.1 E-RM0R7 SONUCU (G0.3′; kayıtlı kural `erm_r.core_gate`, §5.60; koşular 2026-10-23 08:50-10:36): **G0.3 GEÇTİ**; kilitli Core + RLT-M belleği iki tohumda 1,000, belleksiz pencereler şansta
+| kol | d = 1 | d = 2 | d = 3 | kapı | eğitim doğruluğu ≥ 0,99'un ilk görüldüğü günlük | süre |
+|---|---|---|---|---|---|---|
+| C_ds tohum 1 | 1,000 | 1,000 | 1,000 | GATE PASSED | 500. güncelleme | 6.356 s |
+| C_ds tohum 2 | 1,000 | 1,000 | 1,000 | GATE PASSED | 500. güncelleme | 6.363 s |
+| C_none tohum 1 | 0,112 | 0,127 | 0,121 | (kontrol: şans 0,125) | — | 4.341 s |
+
+**Hüküm (kayıtlı).** İki tohumda GATE PASSED (C_ds ≥ 0,95 ve C_none ≤ 0,30) → **G0.3 GEÇTİ**. Pozitif kontrol (C_full) kurala göre gerekmedi ve koşulmadı. Öngörüler: C_ds tohum başına geçer ≈ %75 → tuttu; C_none ≤ 0,30 ≈ %95 → tuttu.
+**Okuma.**
+(1) Gerçek ölçekte kullanılacak modülün kendisi (`mline.rltm.RLTM`) kilitli Core'la çalışıyor. Core'un tek katmanlı kodlayıcısı, geri beslemeli pencereli kod çözücüsü ve çapraz dikkati okunan belleği kullanabiliyor. Öğrenme hızı oyuncak kodlayıcıyla aynı: 500. güncellemede.
+(2) Belleksiz aynı pencereler şansta (0,121). Görev pencere sınırını gerçekten geçmeyi istiyor ve bunu yalnız bellek yapıyor.
+(3) Aşama 1'in Aşama 0 kapıları: G0.1 (K3) ve G0.2 (gradyan) testli, G0.3 geçti, G0.5 K3 testinde. Sırada G0.3b (sıfır çıkış başlangıcı; koşuyor) ve GPU'daki G0.4 (hız / VRAM) var.
+
+- *Sınır:* oyuncak sözlük ve uzunluk (4 pencere × 32); genişlik 64; tek lr; C_none tek tohum.
+
 ## 6. Gerçek model yolu
 
 1. **Ne iddia edilir:** "küçük, bayt-düzeyi bir RLT, durum-izleme/çok-adımlı görevlerde eşit-parametre ve eşit-token bir transformer'a yapısal bir üstünlük gösteriyor mu". LM kaybında üstünlük iddia edilmez (bağımsız değerlendirme bulamadı).
