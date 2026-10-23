@@ -643,6 +643,8 @@ Yalnız-uzunluk kontrolü (eğitim dağılımı, derinlik ≤ 8): 64 / 256 / 1.0
 
 111. **E-X1 ÖN-KAYDI (2026-10-23 07:20; ayrıntı not §5.59):** Bağımsız değerlendirmenin sorusu (X1) bizim ortamımızda: L1'e parametre-eşit standart transformer (6 × 528, 20,37M; L1 20,30M), aynı tarif, veri, tohum ve 30.518 güncelleme. GPU, E-L1C biter bitmez bunu koşar (koşucu bekliyor). Kural E-A0'nınki (δ = 0,020). Öngörü: TRANSFORMER BEATS RLT ≈ %45, NO DIFFERENCE ≈ %35, RLT BEATS ≈ %20. `mline/lm.py` M1'in dondurulmuş protokolüne ait olduğu için değiştirilmedi; kol `mline/tfm.py`'de.
 
+112. **E-RM0R7 ÖN-KAYDI (G0.3′; 2026-10-23 07:36; ayrıntı not §5.60):** Oyuncak görevde kilitli Core'un kendisi (geri besleme açık) ile gerçek ölçekte kullanılacak RLT-M modülü (`mline/rltm.py`): kaydırmalı anahtarlı delta yazması, yalnız kodlayıcıdan yazma, γ₀ = 1, pencereler paralel kod çözülüyor. C_ds iki tohum, C_none şans kontrolü, 6.000 güncelleme; GATE PASSED ⇔ C_ds ≥ 0,95 ve C_none ≤ 0,30 (d = 3). Öngörü: tohum başına geçer ≈ %75. Geçerse Aşama 1'in bellek kolu bu modülle yeniden ön-kayda girer.
+
 **Sınırlar.** Bu bölümde yeni ölçüm YOK; öngörüler sonuçlardan önce yazıldı. M4 karşılaştırması farklı genişlik, lr, bütçe ve müfredatla yapıldı. X1 doğrulanmadı. **Güncelleme (07:10):** "yeni ölçüm YOK" cümlesi yalnız 06:30 öncesi için doğruydu; 06:54'ten beri E-A ve E-B ölçümleri alındı (madde 7-8) ve yukarıdaki sınırlar onlar için ayrıca belirtilmiştir.
 
 ## 7. Düzeltmeler defteri

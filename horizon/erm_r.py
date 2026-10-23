@@ -28,6 +28,8 @@ from . import erm_models as em
 from . import erm_tasks as et
 
 QUERIES = 8
+CORE_ARMS = ('C_ds', 'C_none', 'C_full')        # E-RM0R7 (G0.3'): the sealed Core with the RLT-M memory, without it, over the full row
+GATE_PASS, CHANCE_MAX, FULL_MIN = 0.95, 0.30, 0.90
 ADVANCE_AT = 0.9
 ADVANCE_WINDOW = 200
 
@@ -168,6 +170,16 @@ def make(arm, seed=1, positions=False, gamma_init=None):
     started at `gamma_init` instead of 0 (E-RM0R4). gamma = 0 still closes the read path exactly (K3), so closability is kept;
     only where training starts changes: at gamma = 0 every read parameter has zero gradient. `B_delta` is E-RM0R5's arm (its
     gate starts at gamma_init, 1 if not given)."""
+    if arm in CORE_ARMS:
+        # E-RM0R7 (G0.3'): the sealed Core itself (feedback on, rotary positions) instead of the toy encoder; C_ds = mline.rltm.RLTM
+        # with the shifted-key delta memory, C_none = the same windows without the memory (chance control), C_full = the Core over
+        # the whole row (positive control). `positions` does not apply: the Core has its own rotary embedding.
+        from mline import rltm
+        core = rltm.small_core(et.VOCAB, seed=seed)
+        if arm == 'C_full':
+            return rltm.FullRow(core)
+        return rltm.RLTM(core, d_k=64, d_v=64, gamma_init=1.0 if gamma_init is None else gamma_init, seed=seed + 7,
+                         memory=(arm == 'C_ds'))
     if arm in ('B_delta', 'B_delta_shift'):
         model = ArmDelta(seed=seed, gamma_init=1.0 if gamma_init is None else gamma_init, shift_keys=(arm == 'B_delta_shift'))
     else:
@@ -263,13 +275,27 @@ def reading(results):
             out[arm] = 'MEMORY WORKS (toy)' if acc[arm] >= 0.90 else ('NOT LEARNED' if acc[arm] <= 0.30 else 'PARTIAL')
         elif arm in acc:
             out[arm] = 'VACUOUS (the positive control or the control failed)'
+    if 'C_ds' in acc:
+        out['core_gate'] = core_gate(acc)
     return out
+
+
+def core_gate(acc):
+    """G0.3' (note 5.60): the Core with the RLT-M memory at d = 3 against its own controls. A pass needs C_ds >= 0.95 with the
+    no-memory windows at chance; a miss is read only if the full-row Core shows the task is learnable by this Core."""
+    if 'C_none' in acc and acc['C_none'] > CHANCE_MAX:
+        return 'CONTROL BROKEN (the windows without memory are above chance: the task leaks)'
+    if acc['C_ds'] >= GATE_PASS:
+        return 'GATE PASSED' if 'C_none' in acc else 'PASSED, CONTROL NOT RUN'
+    if 'C_full' not in acc:
+        return 'NOT PASSED (positive control not run)'
+    return 'NOT PASSED (memory)' if acc['C_full'] >= FULL_MIN else 'VACUOUS (the full-row Core does not learn the task)'
 
 
 def main():
     p = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     p.add_argument('cmd', nargs='?', choices=('train',))
-    p.add_argument('--arm', choices=em.ARMS + ('B_delta', 'B_delta_shift'))
+    p.add_argument('--arm', choices=em.ARMS + ('B_delta', 'B_delta_shift') + CORE_ARMS)
     p.add_argument('--seed', type=int, default=1)
     p.add_argument('--steps', type=int, default=12000)
     p.add_argument('--lr', type=float, default=3e-3)

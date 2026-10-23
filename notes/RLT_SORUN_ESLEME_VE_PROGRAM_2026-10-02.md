@@ -1879,6 +1879,33 @@ Betimleyici olarak raporlanacaklar: transformer ile A0F (geri beslemesiz RLT) ay
 
 *Sınır:* tek tohum; tek ölçek (≈ 20M); tek veri karışımı (m2-draft: dil + sentetik getirme); tek transformer şekli (6 × 528).
 
+### 5.60 E-RM0R7 ön-kaydı (G0.3′): oyuncak görevde kilitli Core'un kendisi + RLT-M belleği (kaydırmalı anahtarlı delta yazması), gerçek ölçekte kullanılacak modülle (kod `mline/rltm.py`, 7 test; `horizon/erm_r.py` C_ds / C_none / C_full + `core_gate`; betik `scripts/run_erm_r7.sh`; koşudan ÖNCE yazıldı 2026-10-23 07:36)
+**Neden.** E-RM0R6'nın eğitim günlükleri (hüküm değil; kayıtlı okuma 12.000'de) kaydırmalı delta yazmasının oyuncak kodlayıcıyla neredeyse hemen öğrendiğini gösteriyor: 500. güncellemede iki tohumda eğitim doğruluğu 1,0, kayıp 0,0006; kaydırmasız delta 3.000'de 0,25. Gerçek ölçekte okuyucu kilitli Core olacak: tek dikkat katmanlı kodlayıcı, geri beslemeli pencereli kod çözücü, çapraz dikkat. §5.40'ın G0.3 kapısı tam bunu istiyor: bellek gerçek Core'la çalışmadan GPU koşusu açılmaz. Bu koşu, gerçek ölçekte kullanılacak modülün kendisini (`mline.rltm.RLTM`) oyuncak görevde sınar.
+**Modül (yalnız yeni kod; Core'un kendi encode / decode / rope / split'i kullanılıyor, dosya değişmedi).**
+- *Yazma* (pencere j'den sonra, yalnız kodlayıcı çıktılarından): i = 1 … w−1 için M ← M + β_i (v_i − M k_i) k_iᵀ; k_i = birim(Wk e[i−1]), v_i = Wv e[i], β_i = σ(wb·e[i]).
+- *Okuma* (pencere j, M_j ile, yani pencere < j'nin yazdıkları): e′_t = e_t + γ · Wo(M_j birim(Wq e_t)). Çapraz-dikkat belleği ve kod çözücü e′ üzerinde koşar.
+- *Paralellik:* yazma kod çözücüye bağlı olmadığı için M_0 … M_{n−1} kod çözücüden önce hesaplanır ve tüm pencereler paralel kod çözülür.
+- *K kuralları:* K3 testli (γ = 0 ya da bellek yokken her pencere Core'un kendisi, 10⁻⁵); K4 (M sabit boyutlu); K1 (geri besleme kod çözücü içinde); K2 (Core'un kendi kodlayıcı belleği ve pencereli kod çözücüsü).
+- *Diğer testler:* yazma, elle kurulan kaydırmalı döngüye eşit; sonraki pencere öncekini görüyor, önceki sonrakini hiç görmüyor; G0.2 (sonraki pencerenin kaybından önceki pencerenin yazmasına ve kodlayıcıya gradyan).
+
+**Tasarım.** Core: genişlik 64, 2 baş, kod çözücü penceresi 4, geri besleme açık (α = 0,1). Bellek: d_k = d_v = 64, γ₀ = 1.
+- *Görev ve tarif* E-RM0R2-6 ile aynı: 4 pencere × 32, 16 olgu, 8 sorgu, d ∈ {1, 2, 3}, lr 3×10⁻³, müfredat yok.
+- *Bütçe:* **6.000 güncelleme.** Yükte ölçülen hız (güncelleme başına): C_ds 1,50 s, C_none 0,73 s, C_full 2,22 s. Oyuncak sürüm 500'de öğrenmişti, yani 12× pay.
+
+**Kollar.** C_ds tohum 1 ve 2; C_none tohum 1 (aynı pencereler, bellek yok: şans kontrolü). C_full (Core tüm satırda; pozitif kontrol) yalnız bir C_ds tohumu kapıyı geçemezse koşulur.
+**Kural** (`erm_r.core_gate`; d = 3; tohum başına). **GATE PASSED** ⇔ C_ds ≥ 0,95 ve C_none ≤ 0,30.
+- C_none > 0,30 → CONTROL BROKEN.
+- C_ds < 0,95 → C_full koşulur. C_full ≥ 0,90 ise NOT PASSED (memory), değilse VACUOUS.
+- **G0.3 GEÇTİ** ⇔ iki tohumda da GATE PASSED.
+
+**Öngörüler [H].** C_ds tohum başına geçer ≈ %75; C_none ≤ 0,30 ≈ %95.
+**Kullanım.**
+- G0.3 geçerse: bayt düzeyinde pencereler-arası olgu satırları (NAW) ve Aşama 1 eğiticisi yazılır. Aşama 1'in (§5.40) bellek kolu B, bu modülle (B_ds) yeniden ön-kayda girer ve GPU'da E-X1'den sonra koşar.
+- Geçmezse: C_full sonucuna göre tanı; ardından §5.40'taki yedek: yazmayı z'den, yani kod çözücü çıktısından yapmak (B_z).
+
+**İşletme.** CPU hatları önce bu kapıya verildi; bekleyen E-S-C koşucusu durduruldu (hiçbir işi başlamamıştı) ve bu kuyruk bitince başlayacak şekilde yeniden kuruldu.
+*Sınır:* oyuncak sözlük ve uzunluk; bütçe 6.000; tek lr; C_none tek tohum.
+
 ## 6. Gerçek model yolu
 
 1. **Ne iddia edilir:** "küçük, bayt-düzeyi bir RLT, durum-izleme/çok-adımlı görevlerde eşit-parametre ve eşit-token bir transformer'a yapısal bir üstünlük gösteriyor mu". LM kaybında üstünlük iddia edilmez (bağımsız değerlendirme bulamadı).

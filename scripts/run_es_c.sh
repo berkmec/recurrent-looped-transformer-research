@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 # E-S-C (notes/RLT_SORUN_ESLEME_VE_PROGRAM_2026-10-02.md section 5.58): the sk4 arms that failed at 15,000 updates, given about the
 # Core's CPU wall-clock instead: GRU w128 at 150,000 updates, LSTM w112 at 165,000, the no-feedback twin at 75,000, the positional transformer
-# at 60,000 (seed 1; a cell that learns gets seed 2 before the verdict). Waits until E-RM0R6's three 12,000-update runs have ended so
-# the CPU is not oversubscribed; three lanes, one thread each, BelowNormal, RUNMAN manifest per run.
+# at 60,000 (seed 1; a cell that learns gets seed 2 before the verdict). Waits until E-RM0R7 (G0.3', note 5.60, on the critical path of
+# the GPU's stage 1) has ended so the CPU is not oversubscribed; three lanes, one thread each, BelowNormal, RUNMAN manifest per run.
 # Usage: nohup bash scripts/run_es_c.sh > /dev/null 2>&1 &     (progress: results/M1-finetune-distance/queue.log)
 set -u
 cd "$(dirname "$0")/.."
@@ -18,10 +18,8 @@ P="notes/RLT_SORUN_ESLEME_VE_PROGRAM_2026-10-02.md 5.58"
 mkdir -p "$OUT"
 log() { echo "[$(date +%H:%M:%S)] [esc] $*" >> "$LOG"; }
 
-log "E-S-C bekliyor: E-RM0R6 Bshift-s1, Bshift-s2, Borc-g1-s2 bitince baslar"
-for id in Bshift-s1 Bshift-s2 Borc-g1-s2; do
-  until grep -q -E "\[ermr6\] (BITTI|HATA) E-RM0R6 $id" "$LOG"; do sleep 60; done
-done
+log "E-S-C bekliyor: E-RM0R7 kuyrugu bitince baslar"
+until grep -q -F "[ermr7] E-RM0R7 kuyrugu BITTI" "$LOG"; do sleep 60; done
 
 job() {   # module arm width seed updates lr
   local mod="$1" arm="$2" w="$3" s="$4" u="$5" lr="$6" args
