@@ -62,6 +62,20 @@ class RLTMTests(unittest.TestCase):
                         ('encoder', m.core.eq.weight)):
             self.assertGreater(float(p.grad.abs().max()), 0.0, name)
 
+    def test_the_chunked_write_gives_the_same_output_and_gradients(self):
+        xw = _rows(n=3, w=11)
+        grads = []
+        for chunk in (0, 4):
+            m = _model()
+            m.write_chunk = chunk
+            m.train()
+            out = m(xw)
+            out.square().mean().backward()
+            grads.append((out.detach(), [p.grad.clone() for p in (m.Wk.weight, m.Wv.weight, m.wb.weight, m.core.eq.weight)]))
+        self.assertTrue(torch.allclose(grads[0][0], grads[1][0], atol=1e-6))
+        for a, b in zip(grads[0][1], grads[1][1]):
+            self.assertTrue(torch.allclose(a, b, atol=1e-6, rtol=1e-5))
+
     def test_the_full_row_control_is_the_core_over_the_row(self):
         core, xw = rltm.small_core(et.VOCAB, width=32, heads=2), _rows()
         with torch.no_grad():

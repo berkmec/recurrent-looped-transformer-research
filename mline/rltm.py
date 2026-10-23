@@ -19,6 +19,7 @@ and the windowed decoder are the Core's own (K2).
 import torch
 from torch import nn
 from torch.nn import functional as F
+from torch.utils import checkpoint as tc
 
 from core.model import Core
 
@@ -26,6 +27,12 @@ from core.model import Core
 def delta_write(M, k, v, beta):
     """M (b, d_v, d_k) <- M + beta (v - M k) k^T, k (b, d_k) unit, v (b, d_v), beta (b, 1); horizon.erm_r.delta_write."""
     return M + torch.einsum('bv,bk->bvk', beta * (v - torch.einsum('bvk,bk->bv', M, k)), k)
+
+
+def _write_chunk(M, k, v, beta):
+    for i in range(k.shape[1]):
+        M = delta_write(M, k[:, i], v[:, i], beta[:, i])
+    return M
 
 
 def decode_windows(core, e):
@@ -40,11 +47,13 @@ def decode_windows(core, e):
 
 
 class RLTM(nn.Module):
-    def __init__(self, core, d_k=256, d_v=256, gamma_init=1.0, seed=0, memory=True):
+    def __init__(self, core, d_k=256, d_v=256, gamma_init=1.0, seed=0, memory=True, write_chunk=0):
+        """`write_chunk` > 0 recomputes the write loop in chunks of that many steps during the backward pass instead of keeping
+        every intermediate M (at language scale 4 windows x 511 writes x 2 MB would not fit next to L1); the result is the same."""
         super().__init__()
         if not isinstance(core, Core):
             raise TypeError('RLT-M wraps the sealed core.model.Core')
-        self.core, self.d_k, self.d_v, self.memory = core, d_k, d_v, memory
+        self.core, self.d_k, self.d_v, self.memory, self.write_chunk = core, d_k, d_v, memory, write_chunk
         with torch.random.fork_rng(devices=[]):
             torch.manual_seed(seed)
             self.Wq, self.Wk = nn.Linear(core.width, d_k), nn.Linear(core.width, d_k)
@@ -64,8 +73,12 @@ class RLTM(nn.Module):
         M, out = e.new_zeros(b, self.d_v, self.d_k), []
         for j in range(n):
             out.append(M)
-            for i in range(w - 1):
-                M = delta_write(M, k[:, j, i], v[:, j, i], beta[:, j, i])
+            if self.write_chunk and torch.is_grad_enabled():
+                for c in range(0, w - 1, self.write_chunk):
+                    s = slice(c, c + self.write_chunk)
+                    M = tc.checkpoint(_write_chunk, M, k[:, j, s], v[:, j, s], beta[:, j, s], use_reentrant=False)
+            else:
+                M = _write_chunk(M, k[:, j], v[:, j], beta[:, j])
         return torch.stack(out, 1)
 
     def forward(self, xw, read=True):
