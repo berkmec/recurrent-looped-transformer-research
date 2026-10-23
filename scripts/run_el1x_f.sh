@@ -2,7 +2,9 @@
 # E-L1X-F (notes/RLT_SORUN_ESLEME_VE_PROGRAM_2026-10-02.md section 5.66): does the trained L1's carried state bring context from beyond the 512-position
 # attention window? mline.state_reach on the final weights (30,518 updates, latest.pt: the registered verdict), then the 24k / 18k / 12k / 6k snapshots
 # (the curve), then the final weights on 16 articles x 8,192 bytes (descriptive). Evaluation only, CPU, one process, BelowNormal; starts once G0.4b has
-# been measured (so the stage-1 gate sees the CPU load of the first measurement); idempotent.
+# been measured (so the stage-1 gate sees the CPU load of the first measurement); idempotent. Batch 4: at batch 8 the process held 2.2 GB and free
+# memory fell to 2.3 GB (watch limit 2.5) next to Chrome; the first start (23:52) was stopped after 7 minutes, nothing finished. The articles are
+# computed independently, so the batch size does not change any number beyond floating-point rounding.
 # Usage: nohup bash scripts/run_el1x_f.sh > /dev/null 2>&1 &        (progress: results/M1-finetune-distance/queue.log)
 set -u
 cd "$(dirname "$0")/.."
@@ -31,7 +33,7 @@ one() {  # weights, output name, length, articles
   [ -f "$OUT/$name-state-reach$suffix.json" ] && return 0
   if [ ! -f "$path" ]; then log "HATA E-L1X-F $name: $path yok"; return 0; fi
   log "BASLA E-L1X-F $name ($length bayt, $n makale; win512 / winreset512 / chunk512; CPU)"
-  "$PY" -B -m mline.state_reach "$path" --length "$length" --n "$n" --out "$OUT" > "$OUT/$name-state-reach$suffix.txt" 2>&1
+  "$PY" -B -m mline.state_reach "$path" --length "$length" --n "$n" --batch 4 --out "$OUT" > "$OUT/$name-state-reach$suffix.txt" 2>&1
   if [ -f "$OUT/$name-state-reach$suffix.json" ]; then
     log "BITTI E-L1X-F $name$suffix reading: $("$PY" -B -c "import json, sys; r = json.load(open(sys.argv[1], encoding='utf8')); print(r['reading']['verdict'], {k: [round(x, 4) for x in v] for k, v in r['reading'].get('s', {}).items()})" "$OUT/$name-state-reach$suffix.json" 2>/dev/null)"
   else
