@@ -220,6 +220,7 @@ def main():
     p.add_argument('--device', default='cuda')
     p.add_argument('--items', type=int, default=64)
     p.add_argument('--reading', nargs='+', default=None)
+    p.add_argument('--smoke', type=int, default=0, help='G0.4: this many updates, no battery; writes smoke.json (s / update, peak VRAM)')
     a = p.parse_args()
     if a.reading:
         finals = {str(Path(f).parent.name): json.loads(Path(f).read_bytes().decode('utf8')) for f in a.reading}
@@ -231,8 +232,28 @@ def main():
     protocol = mt.protocol()
     corpus, corpus_val = md.load(protocol['data'], 'train'), md.load(protocol['data'], 'validation')
     natural_train, natural_val = me.natural_key_sets(corpus, corpus_val, n_train=2000, n_val=300, seed=7)
+    if a.smoke:
+        sw.write_json(Path(a.out) / 'smoke.json', smoke(a.out, a.smoke, arm=a.arm, init=a.init, seed=a.seed, steps=a.steps, corpus=corpus,
+                                                       corpus_val=corpus_val, natural_train=natural_train, natural_val=natural_val,
+                                                       items=a.items, device=a.device))
+        return
     train(a.out, arm=a.arm, init=a.init, seed=a.seed, steps=a.steps, corpus=corpus, corpus_val=corpus_val, natural_train=natural_train,
           natural_val=natural_val, items=a.items, device=a.device)
+
+
+def smoke(out, updates, **kw):
+    """G0.4: `updates` training updates of the real run's shape (no battery; they stop on the full schedule), seconds per update
+    after the first three (allocator and kernel warm-up) and the peak memory."""
+    cuda = kw.get('device') == 'cuda'
+    if cuda:
+        torch.cuda.reset_peak_memory_stats()
+    train(out, stop_at=updates, log=lambda *_: None, **kw)
+    rows = [json.loads(l) for l in (Path(out) / 'train.jsonl').read_text(encoding='utf8').splitlines()]
+    warm = min(3, len(rows) - 1)
+    per = (rows[-1]['seconds'] - rows[warm - 1]['seconds']) / (len(rows) - warm) if warm else rows[-1]['seconds'] / len(rows)
+    return dict(arm=kw['arm'], updates=len(rows), seconds_per_update=per,
+                peak_allocated_gib=torch.cuda.max_memory_allocated() / 2 ** 30 if cuda else None,
+                peak_reserved_gib=torch.cuda.max_memory_reserved() / 2 ** 30 if cuda else None)
 
 
 if __name__ == '__main__':

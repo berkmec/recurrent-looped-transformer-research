@@ -57,6 +57,18 @@ class Stage1Tests(unittest.TestCase):
             fa = json.loads((a / 'final.json').read_text(encoding='utf8'))
             self.assertNotIn('naw_read_off', fa['eval'])
 
+    def test_the_smoke_test_reports_speed_without_a_battery(self):
+        with tempfile.TemporaryDirectory() as d:
+            init = Path(d, 'l1.pt')
+            ck.save(init, ml.build('plain', width=32, heads=2, seed=401), None, 0)
+            r = rt.smoke(Path(d, 'S'), 5, arm='B_ds', init=init, seed=1, steps=4000, corpus=CORPUS, corpus_val=CORPUS, natural_train=KEYS,
+                         natural_val=KEYS, rows=4, windows=3, window=160, d=8, write_chunk=4, items=4, device='cpu', within_specs=TINY,
+                         width=32, heads=2)
+            self.assertEqual((r['arm'], r['updates']), ('B_ds', 5))
+            self.assertGreater(r['seconds_per_update'], 0.0)
+            self.assertFalse(Path(d, 'S', 'probe.jsonl').exists())
+            self.assertFalse(Path(d, 'S', 'final.json').exists())
+
     def test_the_warm_start_is_l1_and_closed_memory_is_l1(self):
         with tempfile.TemporaryDirectory() as d:
             core = ml.build('plain', width=32, heads=2, seed=5)
