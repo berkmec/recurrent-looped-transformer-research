@@ -960,3 +960,12 @@ results\Z1-pilot\E-C-ROT-count8_32-core_rot-w64-s1.manifest.json
 results\L1-tfm6-w528-s401\E-X1-L1-tfm6-w528-s401.manifest.json
 [23:35:07] [x1] BASLA E-X1 tfm6 w528 (GPU, 30.518 guncelleme, L1 tarifi)
 [23:38:08] [x1] E-X1 VRAM 3 dk sonra: 5177 MiB, 8192 MiB
+[23:46:46] [x1] DURDURULDU E-X1 (son kayitli adim 1000, kontrol noktasi 1000): Asama 1 onceligi, yeni kuyruk [erm1b] bitince surer (not 5.61.1)
+[23:46:46] [erm1b] E-RM Asama 1 (paralel yazma, not 5.61.1) bekliyor: GPU'da baska uzun kosu kalmayinca baslar
+[23:46:46] [x1] E-X1 bekliyor: yeni E-RM Asama 1 kuyrugu ([erm1b]) bitince (ya da durunca) ve GPU'da baska uzun kosu kalmayinca kontrol noktasindan surer
+[23:46:46] [l1xf] E-L1X-F bekliyor: G0.4b olculunce baslar (CPU)
+[23:51:48] [erm1b] G0.4b (ut_chunk 64, d = 256): PASS A 7.03 s, B_ds 6.82 s (0.97x), peak reserved A 3.87 / B_ds 4.42 GiB
+results\ERM-stage1-ut\E-RM1-ut-B_ds-s1.manifest.json
+[23:51:48] [erm1b] BASLA E-RM Asama 1 B_ds-s1 (4000 guncelleme, GPU, --ut-chunk 64 --d 256)
+results\L1-long-doc\E-L1X-F-L1-scratch-w928-s401.manifest.json
+[23:52:47] [l1xf] BASLA E-L1X-F step030518 (4096 bayt, 32 makale; win512 / winreset512 / chunk512; CPU)

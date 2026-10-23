@@ -2223,6 +2223,30 @@ Eşikler E-L1X'teki 10⁻⁹ toleransıyla dahildir. 0,010 bit, geri beslemenin 
 **Kaynak.** CPU, tek süreç (OMP 1, BelowNormal); G0.4b ölçüldükten sonra başlar. Anlık görüntü başına ≈ 15-25 dk, toplam ≈ 2-3 saat.
 - *Sınırlar:* tek tohum (401); haber metni; 32 makale. S, sıfırlanan durumun gördüğü o adımın ötesini ölçer; bunun bir kısmı dikkat penceresinin içinde kalır, ofset bandı bunu ayırır. 6.000'de winreset512 yoktu, bu yüzden 6.000 de yeniden koşar (aynı makaleler).
 
+### 5.61.2 G0.4b SONUCU: GEÇTİ (kayıtlı kural §5.61.1; duman testleri 2026-10-23 23:47-23:51; işlendi 2026-10-23 23:52)
+A 7,03 s/güncelleme, B_ds (ut_chunk 64, d = 256) 6,82 s: 0,97× (eşik 1,15×). En yüksek ayrılmış bellek A 3,87, B_ds 4,42 GiB. ⇒ **G0.4b GEÇTİ**; yedek (G0.4c, d = 128) gerekmedi. Öngörü (GEÇER ≈ %75) tuttu.
+- *Anlamı:* parça-paralel yazmayla bellekli kol belleksiz kol kadar hızlı; yazma güncelleme süresinden neredeyse tamamen çıktı. A'nın 6,81 → 7,03 s farkı aynı koşullarda iki ölçüm arasındaki gürültü.
+- *Koşu:* Aşama 1'in ilk koşusu B_ds tohum 1 (gerçek model: L1 + bellek) 23:51'de başladı; 4.000 güncelleme ≈ 7,6 saat (≈ 07:30). Sonra A tohum 1 ve B_ds tohum 2.
+
+### 5.67 E-BLIMP ön-kaydı: ilk standart benchmark, BLiMP; L1'e karşı geri beslemesiz eşi A0F (kod `mline/blimp.py`, 6 test; betik `scripts/run_blimp.sh`; veri `nyu-mll/blimp`, sürüm 877fba0801ff; koşudan ÖNCE yazıldı 2026-10-23 23:52)
+**Neden (kullanıcı, 2026-10-23 ≈ 23:20):** "modeli henüz gerçek benchmark testine almadık, tam kapasite ölçülmedi." Şimdiye kadarki dil ölçümleri kendi doğrulama bit/baytımız ve kendi getirme sondalarımızdı.
+- *BLiMP* (Warstadt ve ark. 2020, TACL) küçük dil modelleri için standart dilbilgisi ölçütü: 67 olgu (biçimbilim, sözdizimi, anlambilim, sözdizimi-anlambilim) × 1.000 minimal çift. BabyLM yarışması da (100 milyon sözcük) bunu kullanıyor.
+- *Ölçek:* L1 ≈ 500 milyon bayt gördü; bunun ≈ %75'i doğal metin (`needle_rate` 0,25), yani ≈ 70 milyon sözcük [H: ≈ 5,5 bayt/sözcük].
+
+**Kollar.** L1 (geri besleme açık, 30.518) ve A0F (aynı Core, geri besleme kapalı; aynı veri, sıra, tohum ve program; 30.518). Tek fark K1.
+**Skor.** Her cümle yeni bir belgenin başı sayılır: model eğitim ayırıcısını (`\n\n<|doc|>\n\n`), ardından cümlenin UTF-8 baytlarını okur. Skor, cümle baytlarının toplam log-olasılığıdır (bit; ilk bayt ayırıcıya koşullu). Dilbilgisel cümle daha olasıysa çift doğrudur; eşitlik yanlış sayılır ve raporlanır. Toplu ve sağdan dolgulu skor, tek tek skorla aynı (testli, iki kolda).
+**Kural** (`blimp.reading`; 67 olgunun ortalama doğruluğu, BLiMP'in olağan skoru):
+- Δ = acc_L1 − acc_A0F (yüzde puan). %95 aralık: çiftler üzerinde, her olgunun içinde eşleşmiş bootstrap (2.000 çekiliş, tohum 0).
+- **FEEDBACK HELPS GRAMMAR** ⇔ Δ ≥ +1,0 ve aralık 0'ı dışlıyor.
+- **FEEDBACK HURTS GRAMMAR** ⇔ Δ ≤ −1,0 ve aralık 0'ı dışlıyor.
+- **NO DIFFERENCE** ⇔ aralık (−1,0; +1,0) içinde.
+- **INCONCLUSIVE** ⇔ geri kalan.
+
+**Betimleyici.** İki modelin şansa (%50) göre düzeyi; alan ve olgu dökümü; eşitlik sayısı. Yayımlanmış sayılar yalnız yön içindir (başka veri, başka belirteçleme); sonuç kaydında kaynağından doğrulanarak eklenecek.
+**Öngörüler [H].** L1'in ortalaması %60-72 aralığında ≈ %70. NO DIFFERENCE ≈ %45, HELPS ≈ %30, INCONCLUSIVE ≈ %20, HURTS ≈ %5.
+**Kaynak.** CPU, tek süreç, 2 iş parçacığı, BelowNormal. Süre L1 ≈ 1 saat, A0F ≈ 0,7 saat; yapay cümlelerle ölçüldü, BLiMP verisine bakılmadı.
+- *Sınırlar:* tek tohum çifti. Bayt düzeyi modelde toplam log-olasılık uzun cümleyi cezalandırır; bu BLiMP'in olağan yöntemi ve iki kol için aynı. L1'in eğitim verisinin dörtte biri yapay getirme görevi (iki kolda aynı). Transformer (E-X1) aynı kodla, E-X1 bitince ölçülür.
+
 ## 6. Gerçek model yolu
 
 1. **Ne iddia edilir:** "küçük, bayt-düzeyi bir RLT, durum-izleme/çok-adımlı görevlerde eşit-parametre ve eşit-token bir transformer'a yapısal bir üstünlük gösteriyor mu". LM kaybında üstünlük iddia edilmez (bağımsız değerlendirme bulamadı).
