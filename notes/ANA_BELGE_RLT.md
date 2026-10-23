@@ -649,6 +649,8 @@ Yalnız-uzunluk kontrolü (eğitim dağılımı, derinlik ≤ 8): 64 / 256 / 1.0
 
 114. **E-RM0R7b ÖN-KAYDI (G0.3b; 2026-10-23 08:55; ayrıntı not §5.62):** Aynı gerçek-Core kapısı, okumanın çıkış izdüşümü sıfırdan başlayarak. Eğitilmiş L1'e eklenecek bellek ilk adımda L1'i bozmasın diye; LoRA ve adaptörlerdeki başlangıç. Model ilk adımda Core'un tam kendisi, okuma yine öğreniyor (testli). Tohum 1, 6.000 güncelleme; geçer ≈ %80. Geçerse Aşama 1'in B_ds kolu bu başlangıçla koşar.
 
+115. **E-S-W ARA SONUCU: ADVANTAGE HOLDS AT 4x (kayıtlı kural; 2026-10-23 07:02-09:35; ayrıntı not §5.57.1):** GRU w256 (4,1× parametre) ve LSTM w224 (4,2×) iki tohumda da sk4'ü öğrenmedi (aralık-içi ortalama 0,136 ve 0,164). Kapasite açıklaması 4×'te reddedildi. 16× GRU / LSTM ve 8× konumlu transformer koşuyor.
+
 **Sınırlar.** Bu bölümde yeni ölçüm YOK; öngörüler sonuçlardan önce yazıldı. M4 karşılaştırması farklı genişlik, lr, bütçe ve müfredatla yapıldı. X1 doğrulanmadı. **Güncelleme (07:10):** "yeni ölçüm YOK" cümlesi yalnız 06:30 öncesi için doğruydu; 06:54'ten beri E-A ve E-B ölçümleri alındı (madde 7-8) ve yukarıdaki sınırlar onlar için ayrıca belirtilmiştir.
 
 ## 7. Düzeltmeler defteri

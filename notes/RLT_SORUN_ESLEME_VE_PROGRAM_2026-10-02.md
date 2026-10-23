@@ -1945,6 +1945,16 @@ Kontroller (E-RM0R2): Apr 0,9994 (LEARNABLE), A 0,128 (CONTROL OK).
 
 *Sınır:* tek tohum; oyuncak, sıfırdan eğitim. Sıcak başlangıçtaki etkiyi değil, bu başlangıçla öğrenilebilirliği sınar.
 
+### 5.57.1 E-S-W ARA SONUCU: 4× hücreler (kayıtlı kural §5.57, `sk_width.reading`; koşular 2026-10-23 07:02-09:35): **ADVANTAGE HOLDS AT 4x**; geniş hücreler (16× GRU / LSTM, 8× konumlu transformer) koşuyor
+| hücre | parametre (Core'a oranı) | aralık-içi, tohum 1 / 2 (ortalama) | dış değer, tohum 1 / 2 |
+|---|---|---|---|
+| GRU w256, lr 3×10⁻³ | 417.568 (4,1×) | 0,133 / 0,140 (0,136) | 0,150 / 0,128 |
+| LSTM w224, lr 3×10⁻³ | 423.168 (4,2×) | 0,150 / 0,178 (0,164) | 0,123 / 0,113 |
+
+**Ara hüküm (kayıtlı).** 4× hücrelerin ikisi de öğrenmedi; tohum ortalamaları 0,95'in çok altında, PARTIAL bandının (0,50) da altında. Bu yüzden ara hüküm **ADVANTAGE HOLDS AT 4x**. 4× öngörüsü (hiçbiri öğrenmez ≈ %80) tuttu.
+**Okuma.** 4 kat parametre, GRU ve LSTM'nin sk4'teki başarısızlığını değiştirmedi; sonuçlar parametre-eşit hücrelerle aynı yerde (≈ 0,13-0,18, şansa yakın). Kapasite açıklaması 4×'te reddedildi; 16×'ta sınav sürüyor.
+- *Sınır:* tek görev; tek lr (aşama B); geniş hücreler bitmedi.
+
 ## 6. Gerçek model yolu
 
 1. **Ne iddia edilir:** "küçük, bayt-düzeyi bir RLT, durum-izleme/çok-adımlı görevlerde eşit-parametre ve eşit-token bir transformer'a yapısal bir üstünlük gösteriyor mu". LM kaybında üstünlük iddia edilmez (bağımsız değerlendirme bulamadı).

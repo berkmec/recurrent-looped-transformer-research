@@ -1,0 +1,39 @@
+{
+ "schema": "run-manifest/v1",
+ "run_id": "sk4-lstm-w448-s1-lr0.001",
+ "campaign": "ES-width",
+ "agent": "claude-4797b78c",
+ "created_utc": "2026-10-23T05:55:02Z",
+ "command": "python -B -m horizon.sk_run --task sk4 --arm lstm --width 448 --seed 1 --lr 0.001 --steps 15000 --log-every 1000 --out results/ES-width/sk4-lstm-w448-s1-lr0.001.json",
+ "prereg": {
+  "paper": "notes/RLT_SORUN_ESLEME_VE_PROGRAM_2026-10-02.md 5.57"
+ },
+ "code": {
+  "head": "905a4b4",
+  "dirty": true,
+  "porcelain": [
+   " M horizon/erm_r.py",
+   " M mline/rltm.py",
+   " M results/L1-scratch-w928-s401/probe.json",
+   " M results/L1-scratch-w928-s401/probe.jsonl",
+   " M results/L1-scratch-w928-s401/train.log",
+   " M results/M1-finetune-distance/queue.log",
+   " M tests/test_rltm.py",
+   "?? results/ERM-R6/Bdelta-s1-36k.log",
+   "?? results/ERM-R7/",
+   "?? results/ES-width/",
+   "?? results/L1-scratch-w928-s401/E-L1C-L1-scratch-w928-s401.manifest.json",
+   "?? scripts/run_erm_stage1.sh"
+  ]
+ },
+ "config": {
+  "source": "scripts/run_es_w.sh",
+  "summary": {},
+  "sha256": "e013441d6415d3f900bfee47916108c42da9feadc02a1dcfcf294230c68b38e0"
+ },
+ "seeds": {
+  "seed": 1
+ },
+ "telemetry_schema": "I1-a/v1",
+ "status": "started"
+}
