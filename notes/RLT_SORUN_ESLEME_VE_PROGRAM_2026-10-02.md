@@ -1832,6 +1832,30 @@ Geniş hücrelerde lr 10⁻³ seçildi, geniş ağa en iyi şansı vermek için.
 
 *Sınır:* tek görev ailesi; geniş hücrelerde tek tohum ve tek lr; bütçe sabit (15.000 güncelleme).
 
+### 5.58 E-S-C ön-kaydı: sk4'te eşit duvar saati: öğrenemeyen kollar Core'un CPU süresi kadar güncellemeyle öğreniyor mu? (kod `horizon/sk_compute.py`, 5 test; betik `scripts/run_es_c.sh`; koşudan ÖNCE yazıldı 2026-10-23 07:09)
+**Neden.** Makale sorunu M7 (karşılaştırma hesabı eşitlemiyor) bizde de açık. Core güncelleme başına pahalı. Aşama B tohum 1'de 15.000 güncelleme şu kadar sürdü (betimleyici; kuyruk yükleri farklıydı): Core 6.877 s, ikiz 1.412 s, GRU w128 794 s, LSTM w112 647 s, konumlu transformer w64 3.043 s. Soru: üstünlük yalnız "eşit güncellemede öğrenilebilirlik" mi, eşit hesapta da sürüyor mu? En önemli hücre ikiz: Core'un duvar saatinde öğrenirse geri beslemenin sk4'teki değeri öğrenilebilirlik değil, örnek verimliliğidir.
+**Koşular** (sk4; son %30'da lr azaltma; tohum 1; CPU, üç sıra; E-RM0R6'nın üç kısa koşusu bitince başlar):
+
+| kol | güncelleme (Core'a oranı) | ölçülen duvar saati oranı | tepe lr |
+|---|---|---|---|
+| GRU w128 | 150.000 (10×) | 8,7× | 3×10⁻³ |
+| LSTM w112 | 165.000 (11×) | 10,6× | 3×10⁻³ |
+| geri beslemesiz ikiz w64 | 75.000 (5×) | 4,9× | 3×10⁻³ |
+| konumlu transformer w64 | 60.000 (4×) | 2,3× | 10⁻³ |
+
+Bütçeler oranı yukarı yuvarlıyor. Bu, testte denetleniyor; ilk yazımdaki LSTM bütçesi (150.000 = 10× < 10,6×) bu testte yakalanıp 165.000'e çıkarıldı.
+**Kural** (`sk_compute.reading`; aşama B eşiği): hücre öğrenir ⇔ in_range ≥ 0,95.
+- Bir hücre öğrenirse o hücrenin tohum 2'si koşulur. İki tohum ortalaması ≥ 0,95 ise o kol için **COMPUTE EXPLAINS IT**.
+- Hiçbiri öğrenmezse → **ADVANTAGE HOLDS AT EQUAL WALL-CLOCK**.
+- 0,50-0,95 arası PARTIAL diye ayrıca raporlanır.
+
+**Öngörüler [H].** İkiz öğrenir ≈ %15; GRU ≈ %10; LSTM ≈ %10; konumlu transformer ≈ %20; hiçbiri öğrenmez ≈ %55.
+**Kullanım.**
+- ADVANTAGE HOLDS → M7'nin hesap çekincesi sk4 için kalkar (CPU duvar saatiyle).
+- İkiz için COMPUTE EXPLAINS IT → geri beslemenin sk4'teki değeri "örnek verimliliği" diye yazılır.
+
+*Sınır:* duvar saati CPU'da ölçüldü (GPU'da döngünün payı farklı); öğrenen hücre dışında tek tohum; tek lr.
+
 ## 6. Gerçek model yolu
 
 1. **Ne iddia edilir:** "küçük, bayt-düzeyi bir RLT, durum-izleme/çok-adımlı görevlerde eşit-parametre ve eşit-token bir transformer'a yapısal bir üstünlük gösteriyor mu". LM kaybında üstünlük iddia edilmez (bağımsız değerlendirme bulamadı).

@@ -637,6 +637,10 @@ Yalnız-uzunluk kontrolü (eğitim dağılımı, derinlik ≤ 8): 64 / 256 / 1.0
 
 108. **E-S-W ÖN-KAYDI (2026-10-23 07:01; ayrıntı not §5.57):** sk4'te öğrenemeyen taban kollar kapasite yüzünden mi öğrenemiyor? GRU ve LSTM 4× ve 16× parametreyle, konumlu transformer 8× parametreyle. Öngörü: 4× hücrelerde hiçbiri öğrenmez ≈ %80, geniş hücrelerde ≈ %65.
 
+109. **E-S-C ÖN-KAYDI (2026-10-23 07:09; ayrıntı not §5.58):** Makale sorunu M7'nin hesap çekincesi sk4'te. Öğrenemeyen kollara (GRU, LSTM, geri beslemesiz ikiz, konumlu transformer) Core'un CPU duvar saati kadar güncelleme (4-11×) veriliyor. İkiz öğrenirse geri beslemenin sk4'teki değeri öğrenilebilirlik değil, örnek verimliliği olur. Öngörü: hiçbiri öğrenmez ≈ %55.
+
+110. **E-L1C ARA GÖZLEM (hüküm değil; kayıtlı kural 30.518'de okunur; 2026-10-23 07:09):** L1'in A0F'ye farkı 8k'da +0,050, 10k'da +0,056, 12k'da +0,058, 14k'da +0,057, 16k'da +0,060 (bit/bayt). E-A0'da 2k-8k arasında görülen daralma 8k'dan sonra sürmüyor. Hız CUDA graph'la 4,62 s/güncelleme. GPU saati 1200 MHz'de takılı (azami 2100; P2, kısma nedeni GpuIdle, 73 W): döngünün küçük çekirdekleri sürücüyü düşük saatte tutuyor olabilir [H]. Saati kilitlemek yönetici izni ister.
+
 **Sınırlar.** Bu bölümde yeni ölçüm YOK; öngörüler sonuçlardan önce yazıldı. M4 karşılaştırması farklı genişlik, lr, bütçe ve müfredatla yapıldı. X1 doğrulanmadı. **Güncelleme (07:10):** "yeni ölçüm YOK" cümlesi yalnız 06:30 öncesi için doğruydu; 06:54'ten beri E-A ve E-B ölçümleri alındı (madde 7-8) ve yukarıdaki sınırlar onlar için ayrıca belirtilmiştir.
 
 ## 7. Düzeltmeler defteri
