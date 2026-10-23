@@ -647,6 +647,8 @@ Yalnız-uzunluk kontrolü (eğitim dağılımı, derinlik ≤ 8): 64 / 256 / 1.0
 
 113. **E-RM0R6 SONUCU: kaydırmalı anahtarlı delta belleği MEMORY WORKS (kayıtlı kural; 2026-10-23 06:56-08:49; ayrıntı not §5.56.1):** B_delta_shift iki tohumda d = 1, 2, 3'te 1,000. Eğitim doğruluğu 500. güncellemede ≥ 0,99'du. Kahin yazma γ₀ = 1 tohum 2'de de 1,000 (tohum 1'in tekrarı). Kaydırmasız delta ile tek fark anahtarın önceki belirteçten alınması: 0,25 → 1,00. RLT-M'in mesafe sorununda öğrenilen yazmayla çalışan ilk tasarım (oyuncak; K1-K4 korunuyor). Öngörüler (%60, %85) tuttu. Sıradaki kapı kilitli Core'la (E-RM0R7, koşuyor). B_delta 36k bekleniyor.
 
+114. **E-RM0R7b ÖN-KAYDI (G0.3b; 2026-10-23 08:55; ayrıntı not §5.62):** Aynı gerçek-Core kapısı, okumanın çıkış izdüşümü sıfırdan başlayarak. Eğitilmiş L1'e eklenecek bellek ilk adımda L1'i bozmasın diye; LoRA ve adaptörlerdeki başlangıç. Model ilk adımda Core'un tam kendisi, okuma yine öğreniyor (testli). Tohum 1, 6.000 güncelleme; geçer ≈ %80. Geçerse Aşama 1'in B_ds kolu bu başlangıçla koşar.
+
 **Sınırlar.** Bu bölümde yeni ölçüm YOK; öngörüler sonuçlardan önce yazıldı. M4 karşılaştırması farklı genişlik, lr, bütçe ve müfredatla yapıldı. X1 doğrulanmadı. **Güncelleme (07:10):** "yeni ölçüm YOK" cümlesi yalnız 06:30 öncesi için doğruydu; 06:54'ten beri E-A ve E-B ölçümleri alındı (madde 7-8) ve yukarıdaki sınırlar onlar için ayrıca belirtilmiştir.
 
 ## 7. Düzeltmeler defteri

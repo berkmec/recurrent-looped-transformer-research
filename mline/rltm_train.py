@@ -41,14 +41,16 @@ def phase_at(step):
             return shares, distances
 
 
-def build(arm, init, seed, d=256, write_chunk=32, width=928, heads=8):
+def build(arm, init, seed, d=256, write_chunk=32, width=928, heads=8, zero_out=True):
+    """L1 from `init` wrapped by RLT-M; `zero_out` starts the read's output at zero so the warm start is L1 itself (note 5.62)."""
     if arm not in ARMS:
         raise ValueError('arm must be one of ' + ', '.join(ARMS))
     core = ml.build('plain', width=width, heads=heads, seed=401)
     if init:
         blob = torch.load(init, map_location='cpu', weights_only=False)
         core.load_state_dict(blob['model'] if isinstance(blob, dict) and 'model' in blob else blob)
-    return rltm.RLTM(core, d_k=d, d_v=d, gamma_init=1.0, seed=seed, memory=(arm == 'B_ds'), write_chunk=write_chunk)
+    return rltm.RLTM(core, d_k=d, d_v=d, gamma_init=1.0, seed=seed, memory=(arm == 'B_ds'), write_chunk=write_chunk,
+                     zero_out=zero_out)
 
 
 def batch(step, rows, windows, seed, corpus, natural_train, window=512, within_specs=None):

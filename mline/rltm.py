@@ -47,9 +47,12 @@ def decode_windows(core, e):
 
 
 class RLTM(nn.Module):
-    def __init__(self, core, d_k=256, d_v=256, gamma_init=1.0, seed=0, memory=True, write_chunk=0):
+    def __init__(self, core, d_k=256, d_v=256, gamma_init=1.0, seed=0, memory=True, write_chunk=0, zero_out=False):
         """`write_chunk` > 0 recomputes the write loop in chunks of that many steps during the backward pass instead of keeping
-        every intermediate M (at language scale 4 windows x 511 writes x 2 MB would not fit next to L1); the result is the same."""
+        every intermediate M (at language scale 4 windows x 511 writes x 2 MB would not fit next to L1); the result is the same.
+        `zero_out` starts the read's output projection Wo at zero (the usual start for a branch added to a trained model): the
+        model is then exactly its Core at the first update although gamma = 1, Wo gets a gradient from the first update and the
+        write path from the second. The toy runs used the default start; the warm start from L1 is where this matters."""
         super().__init__()
         if not isinstance(core, Core):
             raise TypeError('RLT-M wraps the sealed core.model.Core')
@@ -59,6 +62,9 @@ class RLTM(nn.Module):
             self.Wq, self.Wk = nn.Linear(core.width, d_k), nn.Linear(core.width, d_k)
             self.Wv, self.wb = nn.Linear(core.width, d_v), nn.Linear(core.width, 1)
             self.Wo = nn.Linear(d_v, core.width)
+        if zero_out:
+            nn.init.zeros_(self.Wo.weight)
+            nn.init.zeros_(self.Wo.bias)
         self.gamma = nn.Parameter(torch.full((core.width,), float(gamma_init)))
 
     def gate_parameters(self):

@@ -76,6 +76,22 @@ class RLTMTests(unittest.TestCase):
         for a, b in zip(grads[0][1], grads[1][1]):
             self.assertTrue(torch.allclose(a, b, atol=1e-6, rtol=1e-5))
 
+    def test_a_zero_output_start_is_the_core_and_still_learns_the_read(self):
+        xw = _rows()
+        m = rltm.RLTM(rltm.small_core(et.VOCAB, width=32, heads=2, seed=3), d_k=16, d_v=16, gamma_init=1.0, seed=10, zero_out=True)
+        with torch.no_grad():
+            m.eval()
+            for j in range(xw.shape[1]):
+                self.assertLess(float((m(xw)[:, j] - m.core(xw[:, j])).abs().max()), 1e-5)        # exactly the Core at the start
+        m.train()
+        opt = torch.optim.SGD(m.parameters(), lr=0.1)
+        F.cross_entropy(m(xw)[:, 1].reshape(-1, et.VOCAB), xw[:, 1].reshape(-1)).backward()
+        self.assertGreater(float(m.Wo.weight.grad.abs().max()), 0.0)                              # the output learns at once
+        self.assertEqual(float(m.Wk.weight.grad.abs().max()), 0.0)                                # the write waits one update
+        opt.step(); opt.zero_grad()
+        F.cross_entropy(m(xw)[:, 1].reshape(-1, et.VOCAB), xw[:, 1].reshape(-1)).backward()
+        self.assertGreater(float(m.Wk.weight.grad.abs().max()), 0.0)
+
     def test_the_full_row_control_is_the_core_over_the_row(self):
         core, xw = rltm.small_core(et.VOCAB, width=32, heads=2), _rows()
         with torch.no_grad():

@@ -1927,6 +1927,24 @@ Kontroller (E-RM0R2): Apr 0,9994 (LEARNABLE), A 0,128 (CONTROL OK).
 
 - *Sınır:* oyuncak ölçek (4 pencere × 32, 16 olgu, oyuncak kodlayıcı); kaydırma pencere içi; tek lr; B_delta 36k henüz bitmedi.
 
+### 5.62 E-RM0R7b ön-kaydı (G0.3b): aynı kapı, okumanın çıkış izdüşümü sıfırdan başlayarak (kod `mline/rltm.py` `zero_out`, testli; `horizon/erm_r.py` C_ds0; betik `scripts/run_erm_r7b.sh`; koşudan ÖNCE yazıldı 2026-10-23 08:55)
+**Neden.** Gerçek ölçekte bellek eğitilmiş L1'e eklenecek. γ₀ = 1 ve rastgele Wo, okumayı ilk adımda her konumda gürültü olarak ekler: kabaca |Wo r| ≈ 10, |e| ≈ 30, yani e'nin normunun ≈ %30'u [H, ilkleme ölçeklerinden hesap].
+- *Risk:* bu gürültü, bellek işe yaramaya başlamadan L1'in ağırlıklarını bozabilir. O zaman Aşama 1'in "gerileme yok" ölçütü belleğin değil ilklemenin yüzünden düşer.
+- *Önceden eğitilmiş modele eklenen dallarda standart çare* (LoRA, adaptörler): çıkış izdüşümünü sıfırdan başlatmak. O zaman:
+  - model ilk adımda Core'un tam kendisidir (testli; γ = 1 iken bile);
+  - Wo ilk adımda gradyan alır (∂L/∂Wo = r ⊗ ∂L/∂e′);
+  - yazma yolu ikinci adımda gradyan alır (testli).
+- Oyuncak koşularında (E-RM0R5-7) bu başlangıç sınanmadı. Gerçek ölçek tarifine girmeden önce aynı kapıda sınanıyor.
+
+**Koşu.** C_ds0 = C_ds + Wo = 0 başlangıcı (`RLTM(zero_out=True)`). Tohum 1, 6.000 güncelleme, tarif E-RM0R7 ile aynı; kontrol E-RM0R7'nin C_none'u. E-RM0R7 kuyruğu bitince tek CPU hattında başlar.
+**Kural** (`erm_r.core_gate(acc, 'C_ds0')`, d = 3): **GATE PASSED** ⇔ C_ds0 ≥ 0,95 ve C_none ≤ 0,30.
+**Öngörü [H].** Geçer ≈ %80. Gerekçe: yalnız başlangıç farklı ve Wo'nun gradyanı ilk adımdan var.
+**Kullanım.**
+- Geçerse Aşama 1 v2'de B_ds sıfır çıkışla başlar (`rltm_train.build(zero_out=True)`; varsayılan bu).
+- Geçmezse varsayılan ilkleme kullanılır ve ilk güncellemelerdeki pencere-1 bit/bayt sapması ayrıca raporlanır.
+
+*Sınır:* tek tohum; oyuncak, sıfırdan eğitim. Sıcak başlangıçtaki etkiyi değil, bu başlangıçla öğrenilebilirliği sınar.
+
 ## 6. Gerçek model yolu
 
 1. **Ne iddia edilir:** "küçük, bayt-düzeyi bir RLT, durum-izleme/çok-adımlı görevlerde eşit-parametre ve eşit-token bir transformer'a yapısal bir üstünlük gösteriyor mu". LM kaybında üstünlük iddia edilmez (bağımsız değerlendirme bulamadı).

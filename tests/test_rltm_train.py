@@ -73,11 +73,16 @@ class Stage1Tests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as d:
             core = ml.build('plain', width=32, heads=2, seed=5)
             ck.save(Path(d, 'l1.pt'), core, None, 0)
-            m = rt.build('B_ds', Path(d, 'l1.pt'), 1, d=8, width=32, heads=2).eval()
-            m.gamma.data.zero_()
             x = torch.from_numpy(CORPUS[:192].astype(np.int64)).view(1, 2, 96)
+            m = rt.build('B_ds', Path(d, 'l1.pt'), 1, d=8, width=32, heads=2).eval()      # zero output start: L1 itself, gamma = 1
+            self.assertEqual(float(m.gamma.min()), 1.0)
             with torch.no_grad():
                 self.assertLess(float((m(x)[0, 1] - core.eval()(x[:, 1])[0]).abs().max()), 1e-5)
+            m = rt.build('B_ds', Path(d, 'l1.pt'), 1, d=8, width=32, heads=2, zero_out=False).eval()
+            with torch.no_grad():
+                self.assertGreater(float((m(x)[0, 1] - core(x[:, 1])[0]).abs().max()), 1e-3)  # the default start perturbs L1
+                m.gamma.data.zero_()
+                self.assertLess(float((m(x)[0, 1] - core(x[:, 1])[0]).abs().max()), 1e-5)
 
     def test_the_reading(self):
         def final(arm, d2, d2_off, d16, d64, bpb):

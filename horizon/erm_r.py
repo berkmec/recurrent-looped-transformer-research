@@ -28,7 +28,8 @@ from . import erm_models as em
 from . import erm_tasks as et
 
 QUERIES = 8
-CORE_ARMS = ('C_ds', 'C_none', 'C_full')        # E-RM0R7 (G0.3'): the sealed Core with the RLT-M memory, without it, over the full row
+CORE_ARMS = ('C_ds', 'C_none', 'C_full', 'C_ds0')   # E-RM0R7 (G0.3'): the sealed Core with the RLT-M memory, without it, over the full
+                                                 # row; C_ds0 (G0.3b, note 5.62) = C_ds with the read's output projection started at zero
 GATE_PASS, CHANCE_MAX, FULL_MIN = 0.95, 0.30, 0.90
 ADVANCE_AT = 0.9
 ADVANCE_WINDOW = 200
@@ -179,7 +180,7 @@ def make(arm, seed=1, positions=False, gamma_init=None):
         if arm == 'C_full':
             return rltm.FullRow(core)
         return rltm.RLTM(core, d_k=64, d_v=64, gamma_init=1.0 if gamma_init is None else gamma_init, seed=seed + 7,
-                         memory=(arm == 'C_ds'))
+                         memory=(arm in ('C_ds', 'C_ds0')), zero_out=(arm == 'C_ds0'))
     if arm in ('B_delta', 'B_delta_shift'):
         model = ArmDelta(seed=seed, gamma_init=1.0 if gamma_init is None else gamma_init, shift_keys=(arm == 'B_delta_shift'))
     else:
@@ -277,15 +278,17 @@ def reading(results):
             out[arm] = 'VACUOUS (the positive control or the control failed)'
     if 'C_ds' in acc:
         out['core_gate'] = core_gate(acc)
+    if 'C_ds0' in acc:
+        out['core_gate_zero_out'] = core_gate(acc, 'C_ds0')
     return out
 
 
-def core_gate(acc):
-    """G0.3' (note 5.60): the Core with the RLT-M memory at d = 3 against its own controls. A pass needs C_ds >= 0.95 with the
-    no-memory windows at chance; a miss is read only if the full-row Core shows the task is learnable by this Core."""
+def core_gate(acc, arm='C_ds'):
+    """G0.3' (note 5.60) and G0.3b (note 5.62): the Core with the RLT-M memory at d = 3 against its own controls. A pass needs the
+    memory arm >= 0.95 with the no-memory windows at chance; a miss is read only if the full-row Core shows the task is learnable."""
     if 'C_none' in acc and acc['C_none'] > CHANCE_MAX:
         return 'CONTROL BROKEN (the windows without memory are above chance: the task leaks)'
-    if acc['C_ds'] >= GATE_PASS:
+    if acc[arm] >= GATE_PASS:
         return 'GATE PASSED' if 'C_none' in acc else 'PASSED, CONTROL NOT RUN'
     if 'C_full' not in acc:
         return 'NOT PASSED (positive control not run)'
