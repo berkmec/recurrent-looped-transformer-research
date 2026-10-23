@@ -2104,6 +2104,19 @@ Mesafe sorununda işe yarayan yol buydu: yeni bilgi yerine doğru yapısal önse
 - Konumlu transformer w128 (8,0×, lr 10⁻³): 0,230 / 0,174.
 - İkisi de öğrenmedi.
 
+### 5.57.2 E-S-W SONUCU (kayıtlı kural §5.57, `sk_width.reading`; koşular 2026-10-23 07:02-13:07): **ADVANTAGE HOLDS AT 16x PARAMETERS**
+| hücre | parametre oranı | tohum | aralık-içi | dış değer |
+|---|---|---|---|---|
+| GRU w256 | 4.1× | 2 | 0,136 | 0,139 |
+| LSTM w224 | 4.2× | 2 | 0,164 | 0,118 |
+| GRU w512 | 16.1× | 1 | 0,150 | 0,133 |
+| LSTM w448 | 16.3× | 1 | 0,122 | 0,120 |
+| konumlu transformer w128 | 8.0× | 1 | 0,230 | 0,174 |
+
+**Hüküm (kayıtlı).** Hiçbir hücre öğrenmedi; hepsi 0,95'in çok altında ve PARTIAL bandının (0,50) da altında → **ADVANTAGE HOLDS AT 16x PARAMETERS**. Öngörüler (4×'te hiçbiri öğrenmez ≈ %80; geniş hücrelerde ≈ %65) tuttu.
+**Okuma.** sk4'te geri beslemeli Core 100.960 parametreyle öğreniyor. Öğrenemeyenler: geri beslemesiz ikizi; 4-16 kat parametreli GRU ve LSTM; 2 ve 8 kat parametreli transformerler (konumsuz ve konumlu). Kapasite açıklaması 16×'e kadar reddedildi; sk4 üstünlüğü geri beslemenin yapısına ait. Eşit duvar saati denetimi (E-S-C) kullanıcı önceliğiyle durduruldu (§5.64), bu yüzden M7'nin hesap çekincesi açık kalıyor.
+- *Sınır:* tek görev; geniş hücrelerde tek tohum ve tek lr; bütçe 15.000 güncelleme.
+
 ## 6. Gerçek model yolu
 
 1. **Ne iddia edilir:** "küçük, bayt-düzeyi bir RLT, durum-izleme/çok-adımlı görevlerde eşit-parametre ve eşit-token bir transformer'a yapısal bir üstünlük gösteriyor mu". LM kaybında üstünlük iddia edilmez (bağımsız değerlendirme bulamadı).

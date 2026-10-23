@@ -661,6 +661,8 @@ Yalnız-uzunluk kontrolü (eğitim dağılımı, derinlik ≤ 8): 64 / 256 / 1.0
 
 120. **Kullanıcı önceliği (2026-10-23 ≈ 13:00; ayrıntı not §5.64): "RLT'yi çöz, diğerleri pek önemli değil; şu an bir model eğitebiliriz."** Yalnız taban kollarla ilgili E-S-C ve E-C durduruldu (hükümsüz); CPU RLT'nin dönel sayaç deneyine verildi. GPU sırası değişti: Aşama 1 v2 E-L1C'nin hemen ardından başlar, ilk koşu B_ds tohum 1 (gerçek model: L1 + bellek); E-X1 sonra. Ayrıca E-RM0R6'nın son koşusu B_delta 36k NOT LEARNED (0,266; üç kat bütçe yetmedi). E-S-W geniş hücreleri (16× LSTM 0,123, 8× konumlu transformer 0,230) öğrenmedi; son hüküm 16× GRU ile.
 
+121. **E-S-W SONUCU: ADVANTAGE HOLDS AT 16x PARAMETERS (kayıtlı kural; 2026-10-23 07:02-13:07; ayrıntı not §5.57.2):** sk4'ü 4-16 kat parametreli GRU ve LSTM de, 8 kat parametreli konumlu transformer de öğrenemedi (aralık-içi 0,12-0,23). Geri beslemeli Core 100 bin parametreyle öğreniyor. Kapasite açıklaması 16×'e kadar reddedildi. Eşit duvar saati denetimi kullanıcı önceliğiyle durduruldu (madde 120).
+
 **Sınırlar.** Bu bölümde yeni ölçüm YOK; öngörüler sonuçlardan önce yazıldı. M4 karşılaştırması farklı genişlik, lr, bütçe ve müfredatla yapıldı. X1 doğrulanmadı. **Güncelleme (07:10):** "yeni ölçüm YOK" cümlesi yalnız 06:30 öncesi için doğruydu; 06:54'ten beri E-A ve E-B ölçümleri alındı (madde 7-8) ve yukarıdaki sınırlar onlar için ayrıca belirtilmiştir.
 
 ## 7. Düzeltmeler defteri

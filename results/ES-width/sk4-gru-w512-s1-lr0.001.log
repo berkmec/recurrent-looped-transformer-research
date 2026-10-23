@@ -1,0 +1,21 @@
+sk4 gru w512 s1 step 200 curriculum advance walk 0 -> 1 (175s)
+sk4 gru w512 s1 step 1000 walk 1 loss 1.889138102531433 value acc 0.2315625 (885s)
+sk4 gru w512 s1 step 2000 walk 1 loss 1.8689326047897339 value acc 0.234375 (1761s)
+sk4 gru w512 s1 step 3000 walk 1 loss 1.9192397594451904 value acc 0.2571875 (2554s)
+sk4 gru w512 s1 step 4000 walk 1 loss 1.9238474369049072 value acc 0.245625 (3262s)
+sk4 gru w512 s1 step 5000 walk 1 loss 1.8118245601654053 value acc 0.2596875 (4068s)
+sk4 gru w512 s1 step 6000 walk 1 loss 1.837326169013977 value acc 0.2846875 (4958s)
+sk4 gru w512 s1 step 7000 walk 1 loss 1.7997279167175293 value acc 0.2928125 (5841s)
+sk4 gru w512 s1 step 8000 walk 1 loss 1.6662359237670898 value acc 0.31453125 (6725s)
+sk4 gru w512 s1 step 9000 walk 1 loss 1.6555331945419312 value acc 0.36515625 (7612s)
+sk4 gru w512 s1 step 10000 walk 1 loss 1.4589709043502808 value acc 0.41953125 (8517s)
+sk4 gru w512 s1 step 11000 walk 1 loss 1.338517427444458 value acc 0.464375 (9486s)
+sk4 gru w512 s1 step 12000 walk 1 loss 1.2944297790527344 value acc 0.53984375 (10313s)
+sk4 gru w512 s1 step 13000 walk 1 loss 0.969356119632721 value acc 0.595 (11214s)
+sk4 gru w512 s1 step 14000 walk 1 loss 1.0192103385925293 value acc 0.640625 (12154s)
+sk4 gru w512 s1 step 15000 walk 1 loss 0.9526376724243164 value acc 0.6621875 (12739s)
+{"task": "sk4", "arm": "gru", "width": 512, "seed": 1, "in_range": 0.15, "state_in_range": 0.0925, "extrapolation": 0.13291666666666666, "state_extrapolation": 0.041833333333333333, "extrapolation_queries": 2400, "wall_seconds": 12748.85698479996}
+8 length 58 queries 200 value accuracy 0.105 state accuracy 0.137 {'4-15': 0.105}
+16 length 68 queries 400 value accuracy 0.15 state accuracy 0.092 {'4-15': 0.16, '16-31': 0.12}
+64 length 128 queries 1600 value accuracy 0.125 state accuracy 0.054 {'4-15': 0.12, '16-31': 0.117, '32-63': 0.124, '64-127': 0.18}
+512 length 688 queries 12800 value accuracy 0.136 state accuracy 0.043 {'4-15': 0.153, '16-31': 0.125, '32-63': 0.13, '64-127': 0.134, '128-255': 0.133, '256-511': 0.137, '512+': 0.16}
