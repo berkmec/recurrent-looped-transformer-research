@@ -1,0 +1,33 @@
+{
+ "schema": "run-manifest/v1",
+ "run_id": "sk4-tfm_pe-w64-s1-lr0.001",
+ "campaign": "ES-pe",
+ "agent": "claude-4797b78c",
+ "created_utc": "2026-10-22T18:42:33Z",
+ "command": "python -B -m horizon.sk_pe --task sk4 --width 64 --seed 1 --lr 0.001 --steps 15000 --out results/ES-pe/sk4-tfm_pe-w64-s1-lr0.001.json",
+ "prereg": {
+  "paper": "notes/RLT_SORUN_ESLEME_VE_PROGRAM_2026-10-02.md 5.52"
+ },
+ "code": {
+  "head": "52b08fd",
+  "dirty": false,
+  "porcelain": [
+   " M results/L1-scratch-w928-s401/probe.json",
+   " M results/L1-scratch-w928-s401/probe.jsonl",
+   " M results/L1-scratch-w928-s401/train.log",
+   " M results/M1-finetune-distance/queue.log",
+   "?? results/ERM-R4/",
+   "?? results/L1-scratch-w928-s401/E-L1C-L1-scratch-w928-s401.manifest.json"
+  ]
+ },
+ "config": {
+  "source": "scripts/run_cpu4_2026-10-22c.sh",
+  "summary": {},
+  "sha256": "7a3cc568d7c97d9c1f0b72c56afb4c920a36427fea0b4a4b8b06fde8d54f283e"
+ },
+ "seeds": {
+  "seed": 1
+ },
+ "telemetry_schema": "I1-a/v1",
+ "status": "started"
+}

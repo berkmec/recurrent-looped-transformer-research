@@ -108,6 +108,26 @@ class TaskTests(unittest.TestCase):
         model, info = er.train('B_delta', 1, 3, batch=4, positions=True, log=lambda *_: None)
         self.assertEqual(set(er.evaluate(model, n=10)), {'all', '1', '2', '3'})
 
+    def test_the_shifted_write_binds_the_previous_position_to_this_one(self):
+        x, apos, tgt, dist = er.generate(2, seed=3)
+        xw = x.reshape(2, et.N_WINDOWS, et.WINDOW)
+        m = er.make('B_delta_shift', seed=1, positions=True)
+        self.assertTrue(m.shift_keys)
+        self.assertEqual(tuple(er.answers(m(xw), apos).shape), (2, er.QUERIES, et.VOCAB))
+        with torch.no_grad():                                  # a hand-built check of one window: M must equal the shifted writes
+            e = m.enc.forward_windows(xw)[:, 0]
+            k = torch.nn.functional.normalize(m.Wk(e[:, :-1]), dim=-1)
+            v, beta = m.Wv(e[:, 1:]), torch.sigmoid(m.wb(e[:, 1:]))
+            M = torch.zeros(2, m.d_v, m.d_k)
+            for i in range(et.WINDOW - 1):
+                M = er.delta_write(M, k[:, i], v[:, i], beta[:, i])
+            q = torch.nn.functional.normalize(m.Wq(m.enc.forward_windows(xw)[:, 1]), dim=-1)
+            expected = m.head(m.enc.forward_windows(xw)[:, 1] + m.gamma * m.Wo(torch.einsum('bvk,bwk->bwv', M, q)))
+            self.assertTrue(torch.allclose(m(xw)[:, 1], expected, atol=1e-5))
+        closed = er.make('B_delta_shift', seed=1, positions=True, gamma_init=0.0)
+        with torch.no_grad():
+            self.assertLess(float((closed(xw) - closed.head(closed.enc.forward_windows(xw))).abs().max()), 1e-6)   # K3
+
     def test_a_short_curriculum_run_and_the_reading(self):
         model, info = er.train('Apr', 1, 6, batch=4, curriculum=[4, 8, 16], log=lambda *_: None)
         self.assertEqual(info['curriculum'], [4, 8, 16])

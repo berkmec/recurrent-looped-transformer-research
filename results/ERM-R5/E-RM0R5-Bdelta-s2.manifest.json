@@ -1,0 +1,33 @@
+{
+ "schema": "run-manifest/v1",
+ "run_id": "E-RM0R5-Bdelta-s2",
+ "campaign": "ERM-R5",
+ "agent": "claude-4797b78c",
+ "created_utc": "2026-10-22T19:30:47Z",
+ "command": "python -B -m horizon.erm_r train --arm B_delta --steps 12000 --seed 2 --positions --out results/ERM-R5/Bdelta-s2.json",
+ "prereg": {
+  "paper": "notes/RLT_SORUN_ESLEME_VE_PROGRAM_2026-10-02.md 5.54"
+ },
+ "code": {
+  "head": "c640c0b",
+  "dirty": false,
+  "porcelain": [
+   " M results/L1-scratch-w928-s401/probe.json",
+   " M results/L1-scratch-w928-s401/probe.jsonl",
+   " M results/L1-scratch-w928-s401/train.log",
+   " M results/M1-finetune-distance/queue.log",
+   "?? results/ES-pe/",
+   "?? results/L1-scratch-w928-s401/E-L1C-L1-scratch-w928-s401.manifest.json"
+  ]
+ },
+ "config": {
+  "source": "scripts/run_erm_r5.sh",
+  "summary": {},
+  "sha256": "a705cf981337db6aba79c4fe6ca4e0b861ff29f7c5368e966ec34193f33ce101"
+ },
+ "seeds": {
+  "seed": 2
+ },
+ "telemetry_schema": "I1-a/v1",
+ "status": "started"
+}

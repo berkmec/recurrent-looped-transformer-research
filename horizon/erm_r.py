@@ -124,8 +124,9 @@ class ArmDelta(torch.nn.Module):
     earlier windows wrote, o = M unit(Wq e), and adds z = e + gamma * Wo(o), gamma started open (E-RM0R4). Fixed-size memory:
     O(1) per step (K4); gamma = 0 closes the path exactly (K3)."""
 
-    def __init__(self, vocab=et.VOCAB, width=64, d_k=64, d_v=64, seed=0, gamma_init=1.0):
+    def __init__(self, vocab=et.VOCAB, width=64, d_k=64, d_v=64, seed=0, gamma_init=1.0, shift_keys=False):
         super().__init__()
+        self.shift_keys = shift_keys            # E-RM0R6: key from the PREVIOUS position, value from this one (see forward)
         with torch.random.fork_rng(devices=[]):
             torch.manual_seed(seed)
             self.enc = em.Encoder(vocab, width)
@@ -149,9 +150,16 @@ class ArmDelta(torch.nn.Module):
             et_ = e[:, t]
             o = torch.einsum('bvk,bwk->bwv', M, F.normalize(self.Wq(et_), dim=-1))
             outs.append(self.head(et_ + self.gamma * self.Wo(o)))
-            k, v, beta = F.normalize(self.Wk(et_), dim=-1), self.Wv(et_), torch.sigmoid(self.wb(et_))
-            for i in range(w):
-                M = delta_write(M, k[:, i], v[:, i], beta[:, i])
+            if self.shift_keys:
+                # E-RM0R6: position i writes key = unit(Wk e[i-1]) -> value = Wv e[i] (an explicit one-step shift, the shape of an
+                # induction head built into the write); position 0 of a window has no previous token and writes nothing.
+                k, v, beta = F.normalize(self.Wk(et_[:, :-1]), dim=-1), self.Wv(et_[:, 1:]), torch.sigmoid(self.wb(et_[:, 1:]))
+                for i in range(w - 1):
+                    M = delta_write(M, k[:, i], v[:, i], beta[:, i])
+            else:
+                k, v, beta = F.normalize(self.Wk(et_), dim=-1), self.Wv(et_), torch.sigmoid(self.wb(et_))
+                for i in range(w):
+                    M = delta_write(M, k[:, i], v[:, i], beta[:, i])
         return torch.stack(outs, 1)
 
 
@@ -160,15 +168,15 @@ def make(arm, seed=1, positions=False, gamma_init=None):
     started at `gamma_init` instead of 0 (E-RM0R4). gamma = 0 still closes the read path exactly (K3), so closability is kept;
     only where training starts changes: at gamma = 0 every read parameter has zero gradient. `B_delta` is E-RM0R5's arm (its
     gate starts at gamma_init, 1 if not given)."""
-    if arm == 'B_delta':
-        model = ArmDelta(seed=seed, gamma_init=1.0 if gamma_init is None else gamma_init)
+    if arm in ('B_delta', 'B_delta_shift'):
+        model = ArmDelta(seed=seed, gamma_init=1.0 if gamma_init is None else gamma_init, shift_keys=(arm == 'B_delta_shift'))
     else:
         model = em.make_arm(arm, seed=seed)
     if positions:
         if not hasattr(model, 'enc'):
             raise ValueError('arm %s has no encoder to give positions to' % arm)
         model.enc.embedding = Positional(model.enc.embedding)
-    if gamma_init is not None and arm != 'B_delta':
+    if gamma_init is not None and arm not in ('B_delta', 'B_delta_shift'):
         if not hasattr(model, 'read') or not hasattr(model.read, 'gamma'):
             raise ValueError('arm %s has no read gate gamma' % arm)
         with torch.no_grad():
@@ -250,7 +258,7 @@ def reading(results):
         out['positive_control'] = 'LEARNABLE' if acc['Apr'] >= 0.90 else 'NOT LEARNABLE'
     if 'A' in acc:
         out['control'] = 'CONTROL OK' if acc['A'] <= 0.30 else 'CONTROL BROKEN'
-    for arm in ('B', 'B_comp', 'B_orc', 'B_rmt', 'B_delta'):
+    for arm in ('B', 'B_comp', 'B_orc', 'B_rmt', 'B_delta', 'B_delta_shift'):
         if arm in acc and out.get('positive_control') == 'LEARNABLE' and out.get('control') == 'CONTROL OK':
             out[arm] = 'MEMORY WORKS (toy)' if acc[arm] >= 0.90 else ('NOT LEARNED' if acc[arm] <= 0.30 else 'PARTIAL')
         elif arm in acc:
@@ -261,7 +269,7 @@ def reading(results):
 def main():
     p = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     p.add_argument('cmd', nargs='?', choices=('train',))
-    p.add_argument('--arm', choices=em.ARMS + ('B_delta',))
+    p.add_argument('--arm', choices=em.ARMS + ('B_delta', 'B_delta_shift'))
     p.add_argument('--seed', type=int, default=1)
     p.add_argument('--steps', type=int, default=12000)
     p.add_argument('--lr', type=float, default=3e-3)

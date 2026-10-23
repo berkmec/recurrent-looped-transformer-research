@@ -1,0 +1,23 @@
+sk4 core_nofb w64 s3 step 210 curriculum advance walk 0 -> 1 (43s)
+sk4 core_nofb w64 s3 step 849 curriculum advance walk 1 -> 2 (176s)
+sk4 core_nofb w64 s3 step 1000 walk 2 loss 2.6734070777893066 value acc 0.585390625 (211s)
+sk4 core_nofb w64 s3 step 2000 walk 2 loss 2.611611843109131 value acc 0.60640625 (430s)
+sk4 core_nofb w64 s3 step 3000 walk 2 loss 2.427125930786133 value acc 0.609609375 (643s)
+sk4 core_nofb w64 s3 step 4000 walk 2 loss 2.46406888961792 value acc 0.609609375 (848s)
+sk4 core_nofb w64 s3 step 5000 walk 2 loss 2.409909963607788 value acc 0.613359375 (1053s)
+sk4 core_nofb w64 s3 step 6000 walk 2 loss 2.456594944000244 value acc 0.6146875 (1258s)
+sk4 core_nofb w64 s3 step 7000 walk 2 loss 1.543769121170044 value acc 0.684921875 (1463s)
+sk4 core_nofb w64 s3 step 8000 walk 2 loss 0.21443556249141693 value acc 0.912421875 (1670s)
+sk4 core_nofb w64 s3 step 8841 curriculum advance walk 2 -> 3 (1864s)
+sk4 core_nofb w64 s3 step 9000 walk 3 loss 1.9801294803619385 value acc 0.717239578962326 (1900s)
+sk4 core_nofb w64 s3 step 10000 walk 3 loss 1.4089853763580322 value acc 0.7573437505960464 (2162s)
+sk4 core_nofb w64 s3 step 11000 walk 3 loss 1.1367526054382324 value acc 0.7730729174613953 (2394s)
+sk4 core_nofb w64 s3 step 12000 walk 3 loss 1.0449905395507812 value acc 0.7791666650772094 (2635s)
+sk4 core_nofb w64 s3 step 13000 walk 3 loss 1.012860655784607 value acc 0.7858333361148834 (2868s)
+sk4 core_nofb w64 s3 step 14000 walk 3 loss 0.9726159572601318 value acc 0.7931770801544189 (3070s)
+sk4 core_nofb w64 s3 step 15000 walk 3 loss 0.7977561354637146 value acc 0.7982291692495346 (3249s)
+{"task": "sk4", "arm": "core_nofb", "width": 64, "seed": 3, "in_range": 0.17, "state_in_range": 0.1315, "extrapolation": 0.16541666666666666, "state_extrapolation": 0.04075, "extrapolation_queries": 2400, "wall_seconds": 3254.415828700061}
+8 length 58 queries 200 value accuracy 0.23 state accuracy 0.227 {'4-15': 0.23}
+16 length 68 queries 400 value accuracy 0.17 state accuracy 0.132 {'4-15': 0.177, '16-31': 0.15}
+64 length 128 queries 1600 value accuracy 0.16 state accuracy 0.062 {'4-15': 0.18, '16-31': 0.158, '32-63': 0.154, '64-127': 0.16}
+512 length 688 queries 12800 value accuracy 0.168 state accuracy 0.044 {'4-15': 0.147, '16-31': 0.177, '32-63': 0.163, '64-127': 0.167, '128-255': 0.18, '256-511': 0.162, '512+': 0.2}

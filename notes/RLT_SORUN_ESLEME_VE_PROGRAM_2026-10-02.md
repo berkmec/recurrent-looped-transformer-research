@@ -1766,6 +1766,47 @@ Sabit boyutlu bellek adım başına O(1) çalışır (K4); γ := 0 yolu tam kapa
 ### 5.55 E-S aşama B tohum 3 ön-kaydı: üstünlüğün dayandığı iki kol, Core ve geri beslemesiz ikizi (koşudan ÖNCE yazıldı 2026-10-22 22:33; aşama B, E-S-LR ve E-S-B2X sonuçları görüldükten sonra)
 **Neden.** sk4 üstünlüğü Core'un iki tohumda öğrenmesine ve geri beslemesiz ikizinin öğrenmemesine dayanıyor. S₅'teki kopuş tohuma bağlı çıkmıştı (E-R5); burada da öyle olabilir. Taban kollar (GRU, LSTM, transformer) dört koşulda tutarlı biçimde başarısız; onlara üçüncü tohum bilgi katmaz. **Koşu:** sk4, Core w64 ve core_nofb w64, tohum 3, aşama B ayarları değişmeden (15.000 güncelleme, lr 3×10⁻³, son %30'da azaltma). **Kural:** aşama B'nin kuralı (§5.16, `sk_run.reading`) bu iki kol için üç tohum ortalamasıyla; ayrıca tohum başına raporlanır. Üstünlük üç tohumla sürer ⇔ Core'un üç tohum ortalaması in_range ≥ 0,95 ve core_nofb öğrenmez. **Öngörü [H]:** Core tohum 3'te öğrenir ≈ %75; core_nofb öğrenmez ≈ %90. **Kullanım:** Core tohum 3'te öğrenmezse üstünlük "tohuma bağlı" diye anılır (E-R5'teki gibi). *Sınır:* yalnız iki kol; tek görev.
 
+### 5.52.1 E-S-PE SONUCU (kayıtlı kural §5.52; koşular 2026-10-22 21:42-23:33): **ADVANTAGE HOLDS**; konumlu transformer da sk4'ü öğrenmedi
+| tepe lr | aralık-içi, tohum 1 / 2 (ortalama) | dış değer, tohum 1 / 2 (ortalama) |
+|---|---|---|
+| 10⁻³ | 0,278 / 0,140 (0,209) | 0,168 / 0,200 (0,184) |
+| 3×10⁻³ | 0,163 / 0,158 (0,160) | 0,164 / 0,181 (0,173) |
+
+**Hüküm.** Hiçbir lr'de in_range ≥ 0,95 yok → **ADVANTAGE HOLDS**: sk4 üstünlüğü konumlu bir transformere karşı da geçerli. E-S'in "transformer tabanı konumsuz" çekincesi (§5.47.1) kalktı. Öngörü: TRANSFORMER LEARNS ≈ %50 → olmadı.
+- *Sınır:* tek konum kodlaması türü (sinüzoidal mutlak); 4 katman, w64; iki lr; iki tohum.
+
+### 5.55.1 E-S tohum 3 SONUCU (§5.55; koşular 2026-10-22 22:34-00:55): Core tohum 3'te de **öğrendi**; geri beslemesiz ikiz yine **öğrenmedi**
+- *Core w64, tohum 3:* aralık-içi 1,000, dış değer 0,995, durum dış değeri 0,997.
+- *Geri beslemesiz ikiz, tohum 3:* aralık-içi 0,170, dış değer 0,165.
+- *Üç tohumla (`sk_run.reading`):* Core 1,000 / 0,984, ikiz 0,178 / 0,170 → **ADVANTAGE (LEARNABILITY)**.
+
+Öngörüler (Core tohum 3'te öğrenir ≈ %75, ikiz başarısız ≈ %90) tuttu.
+**Toplam tablo (sk4, durum-anahtarlı getirme, 72 bit).** Geri beslemeli Core üç tohumun üçünde öğreniyor. Öğrenmeyenler:
+- geri beslemesiz ikizi (üç tohum);
+- GRU ve LSTM (iki tohum; iki lr; iki bütçe);
+- konumsuz transformer (iki tohum; iki lr; iki bütçe);
+- konumlu transformer (iki tohum, iki lr).
+
+RLT'nin geri beslemesinin yapısal değerinin şimdiye kadarki en sağlam kanıtı. Sınırlar: ≈ 100k parametre, tek görev ailesi.
+
+### 5.54.1 E-RM0R5 SONUCU (kayıtlı kural §5.54; koşular 2026-10-22 22:30-23:56): **NOT LEARNED**; delta belleği iki tohumda ≈ 0,25'te
+- Tohum 1: d = 3'te 0,254 (toplam 0,255); kayıp 1,883 → 1,771. Tohum 2: 0,259 (0,261); kayıp 1,893 → 1,836. İkisi de şansın (0,125) iki katında ve 0,90'dan çok uzakta; kayıp yavaşça düşüyor.
+- **Öngörü.** Tohum başına WORKS ≈ %60 → **yanlış**.
+- **Okuma [H].** Delta kuralının kendisi doğru çalışıyor (testli: yazdığını okuyor, aynı anahtara ikinci yazma eskisini değiştiriyor). Bağlama ise zor: anahtar, olgunun değer konumundaki kodlamadan ("önceki belirteç") çıkarılmalı; sorguda anahtar o konumdaki belirtecin kendisi. Bağlamayı kodlayıcının öğrenmesi gerekiyor ve bunun gradyanı yalnız bellek yolundan geliyor. Kahin yazmada (E-RM0R4) bu yük yoktu.
+- *Sınır:* 12.000 güncelleme, kayıp hâlâ düşüyordu; tek lr; d_k = 64.
+
+### 5.56 E-RM0R6 ön-kaydı: kaydırmalı anahtarlı delta belleği ve iki sağlamlık koşusu (kod `horizon/erm_r.py` `B_delta_shift`, testli; koşudan ÖNCE yazıldı 2026-10-23 06:55)
+**Tasarım.** Konum i'de anahtar = birim(Wk e[i−1]), değer = Wv e[i]. Kaydırma bellekte açıkça yapılır; yazma kuralı indüksiyon başı biçimindedir. Konum 0 yazmaz. Okuma (o = M q) ve γ₀ = 1 E-RM0R5'teki gibi. K3 ve K4 korunur (test; elle kurulan kontrol, belleğin tam olarak kaydırmalı yazmaları tuttuğunu gösteriyor).
+**Koşular** (4 CPU süreci; tarif E-RM0R2-5 ile aynı):
+- (a) B_delta_shift, tohum 1 ve 2, 12.000 güncelleme;
+- (b) B_delta, tohum 1, **36.000** güncelleme (bütçe sorusu: kayıp hâlâ düşüyordu);
+- (c) B_orc(γ₀ = 1), tohum 2: E-RM0R4'ün tek tohumluk WORKS sonucunun tekrarı.
+
+**Kural** (§5.46 eşikleri; koşu başına): WORKS ≥ 0,90 / NOT LEARNED ≤ 0,30 / aksi PARTIAL. B_delta_shift için MEMORY WORKS ⇔ iki tohumda da WORKS.
+**Öngörüler [H].** B_delta_shift tohum başına WORKS ≈ %60; B_delta 36.000'de WORKS ≈ %25; B_orc(γ₀ = 1) tohum 2'de WORKS ≈ %85.
+**Kullanım.** B_delta_shift MEMORY WORKS çıkarsa bu, RLT-M'in mesafe sorununu oyuncakta öğrenilen yazmayla çözen ilk tasarım olur; Aşama 1 bu yazma ve açık okuma kapısıyla yeniden ön-kayda girer. Kaydırmalı bağlama dilde de doğal: sonraki baytı, önceki bağlama bağlar.
+- *Sınır:* oyuncak ölçek; kaydırma yalnız pencere içi (olgular pencere içinde bitişik); tek lr.
+
 ## 6. Gerçek model yolu
 
 1. **Ne iddia edilir:** "küçük, bayt-düzeyi bir RLT, durum-izleme/çok-adımlı görevlerde eşit-parametre ve eşit-token bir transformer'a yapısal bir üstünlük gösteriyor mu". LM kaybında üstünlük iddia edilmez (bağımsız değerlendirme bulamadı).

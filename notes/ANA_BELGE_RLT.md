@@ -627,6 +627,14 @@ Yalnız-uzunluk kontrolü (eğitim dağılımı, derinlik ≤ 8): 64 / 256 / 1.0
 
 103. **E-S tohum 3 ÖN-KAYDI (2026-10-22 22:33; ayrıntı not §5.55):** sk4 üstünlüğünün dayandığı iki kol (Core ve geri beslemesiz ikizi) üçüncü tohumla, aşama B ayarlarıyla. Core her tohumda öğreniyor mu? Öngörü Core ≈ %75, ikiz başarısız ≈ %90.
 
+104. **E-S-PE SONUCU: ADVANTAGE HOLDS (kayıtlı kural; 2026-10-22 21:42-23:33; ayrıntı not §5.52.1):** Konumlu transformer da sk4'ü öğrenmedi (aralık-içi: lr 10⁻³'te 0,209, 3×10⁻³'te 0,160; iki tohum). E-S'in "transformer tabanı konumsuz" çekincesi kalktı. Öngörü (öğrenir ≈ %50) tutmadı.
+
+105. **E-S tohum 3 SONUCU: Core öğrendi, ikiz öğrenmedi (§5.55.1; 2026-10-22 22:34-00:55):** Core tohum 3'te 1,000 / 0,995. Geri beslemesiz ikiz 0,170. Üç tohumla Core 1,000 / 0,984, ikiz 0,178. sk4'te yalnız geri beslemeli Core öğreniyor; öğrenemeyenler GRU, LSTM, konumsuz ve konumlu transformer ile aynı Core'un geri beslemesiz ikizi (tohum, lr ve bütçe denetimleriyle). RLT'nin geri beslemesinin yapısal değerinin şimdiye kadarki en sağlam kanıtı.
+
+106. **E-RM0R5 SONUCU: NOT LEARNED (kayıtlı kural; 2026-10-22 22:30-23:56; ayrıntı not §5.54.1):** Delta kurallı bellek iki tohumda ≈ 0,25'te kaldı (şansın iki katı, kayıp yavaşça düşüyor). Anahtarın değer konumunun kodlamasından ("önceki belirteç") çıkarılması zor; bağlamayı kodlayıcının öğrenmesi gerekiyor. Öngörü (≈ %60) yanlış.
+
+107. **E-RM0R6 ÖN-KAYDI (2026-10-23 06:55; ayrıntı not §5.56):** Kaydırmalı anahtarlı delta belleği: anahtar önceki konumdan, değer bu konumdan; indüksiyon başı yapısı yazma kuralında. Yanında iki sağlamlık koşusu: delta belleği 3× bütçeyle, kahin yazma γ₀ = 1 ile tohum 2. Öngörü: kaydırmalı bellek tohum başına WORKS ≈ %60.
+
 **Sınırlar.** Bu bölümde yeni ölçüm YOK; öngörüler sonuçlardan önce yazıldı. M4 karşılaştırması farklı genişlik, lr, bütçe ve müfredatla yapıldı. X1 doğrulanmadı. **Güncelleme (07:10):** "yeni ölçüm YOK" cümlesi yalnız 06:30 öncesi için doğruydu; 06:54'ten beri E-A ve E-B ölçümleri alındı (madde 7-8) ve yukarıdaki sınırlar onlar için ayrıca belirtilmiştir.
 
 ## 7. Düzeltmeler defteri

@@ -1,0 +1,34 @@
+{
+ "schema": "run-manifest/v1",
+ "run_id": "sk4-core_nofb-w64-s3",
+ "campaign": "ES-pilot",
+ "agent": "claude-4797b78c",
+ "created_utc": "2026-10-22T19:34:02Z",
+ "command": "python -B -m horizon.sk_run --task sk4 --arm core_nofb --width 64 --seed 3 --steps 15000 --out results/ES-pilot/sk4-core_nofb-w64-s3.json --log-every 1000",
+ "prereg": {
+  "paper": "notes/RLT_SORUN_ESLEME_VE_PROGRAM_2026-10-02.md 5.55"
+ },
+ "code": {
+  "head": "b695067",
+  "dirty": false,
+  "porcelain": [
+   " M results/L1-scratch-w928-s401/probe.json",
+   " M results/L1-scratch-w928-s401/probe.jsonl",
+   " M results/L1-scratch-w928-s401/train.log",
+   " M results/M1-finetune-distance/queue.log",
+   "?? results/ERM-R5/",
+   "?? results/ES-pe/",
+   "?? results/L1-scratch-w928-s401/E-L1C-L1-scratch-w928-s401.manifest.json"
+  ]
+ },
+ "config": {
+  "source": "scripts/run_es_b_s3.sh",
+  "summary": {},
+  "sha256": "f6656640aa1a597eb18649e29c3d662f15dd0817a2522877fc693fe94e1b77b8"
+ },
+ "seeds": {
+  "seed": 3
+ },
+ "telemetry_schema": "I1-a/v1",
+ "status": "started"
+}
