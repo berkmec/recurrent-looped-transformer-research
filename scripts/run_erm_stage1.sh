@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # E-RM stage 1 v2 (notes/RLT_SORUN_ESLEME_VE_PROGRAM_2026-10-02.md section 5.61): L1's final weights (30,518 updates) with the
-# shifted-key delta memory (B_ds, seeds 1-2) and without it (A, seed 1), 4,000 updates of note 5.40's mixture, on the GPU after E-X1.
+# shifted-key delta memory (B_ds, seeds 1-2) and without it (A, seed 1), 4,000 updates of note 5.40's mixture, on the GPU right after
+# E-L1C (user priority 2026-10-23 13:0x, "RLT first": this queue moved ahead of E-X1, and B_ds seed 1, the L1 + memory model, runs first).
 # Gate G0.4 first: 20-update smoke tests of A and B_ds; B_ds must stay within 1.15x of A's seconds per update and under 7.8 GiB of
 # reserved memory, or nothing runs. One extension rule (note 5.40): at 4,000, if the B_ds seeds' median exact accuracy at d = 2
 # (held-out real words) is in [0.2, 0.8) and rose by >= 0.1 since 3,000, every run continues to 8,000.
@@ -30,8 +31,8 @@ for s in (1, 2):
 print(statistics.median(vals) if len(vals) == 2 else 'NA')" "$1" 2>/dev/null
 }
 
-log "E-RM Asama 1 bekliyor: E-X1 bitince ve GPU'da baska uzun kosu kalmayinca baslar"
-until grep -q -E "\[x1\] (BITTI|HATA) E-X1 okuma|\[x1\] HATA E-X1 \(" "$LOG"; do sleep 120; done
+log "E-RM Asama 1 bekliyor: E-L1C egitimi bitince (okuma satiri) ve GPU'da baska uzun kosu kalmayinca baslar (E-X1'in onune alindi)"
+until grep -q -E "\[l1c\] (BITTI|HATA) E-L1C okuma" "$LOG"; do sleep 120; done
 until [ "$(busy)" = "0" ]; do sleep 60; done
 step=$("$PY" -B -c "import torch; b = torch.load('$INIT', map_location='cpu', weights_only=False); print(b.get('step'))" 2>/dev/null)
 if [ "$step" != "30518" ]; then log "HATA Asama 1: baslangic agirligi adim '$step', 30518 bekleniyordu"; exit 1; fi
@@ -62,13 +63,13 @@ run() {  # arm seed steps
   if [ -f "$OUT/$id/final.json" ]; then log "BITTI E-RM Asama 1 $id"; else log "HATA E-RM Asama 1 $id (bkz $OUT/$id.log)"; fi
 }
 
-run A 1 4000; run B_ds 1 4000; run B_ds 2 4000
+run B_ds 1 4000; run A 1 4000; run B_ds 2 4000
 now=$(d2 4000); before=$(d2 3000)
 extend=$("$PY" -B -c "import sys; n, b = sys.argv[1], sys.argv[2]; print('YES' if n != 'NA' and b != 'NA' and 0.2 <= float(n) < 0.8 and float(n) - float(b) >= 0.1 else 'NO')" "$now" "$before" 2>/dev/null)
 log "Asama 1 uzatma kurali: d=2 ortanca 3000 $before -> 4000 $now: ${extend:-NO}"
 if [ "$extend" = "YES" ]; then
   for id in A-s1 B_ds-s1 B_ds-s2; do mv "$OUT/$id/final.json" "$OUT/$id/final-4000.json"; done
-  run A 1 8000; run B_ds 1 8000; run B_ds 2 8000
+  run B_ds 1 8000; run A 1 8000; run B_ds 2 8000
 fi
 log "Asama 1 okuma: $("$PY" -B -m mline.rltm_train --reading $OUT/A-s1/final.json $OUT/B_ds-s1/final.json $OUT/B_ds-s2/final.json 2>/dev/null | "$PY" -B -c "import json, sys; r = json.load(sys.stdin); print(r['label'], {k: r[k] for k in ('R1', 'R2', 'R3', 'R6', 'no_regression', 'a_at_chance')})" 2>/dev/null)"
 log "E-RM Asama 1 kuyrugu BITTI"

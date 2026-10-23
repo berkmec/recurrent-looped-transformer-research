@@ -659,6 +659,8 @@ Yalnız-uzunluk kontrolü (eğitim dağılımı, derinlik ≤ 8): 64 / 256 / 1.0
 
 119. **E-C-ROT ÖN-KAYDI (2026-10-23 12:37; ayrıntı not §5.63) ve E-C'nin ilk koşusu:** N2 (sayaçta derinlik dışdeğerlemesi) için §4.4'ün yapısal çaresi sınanıyor: Core'a dönel sayaç kanalı. Sayım normu koruyan açılarda taşınıyor; yuvarlanmış adımla itme-çekme iptali tam. Kollar: dönel (yuvarlanmış ve sürekli adım) ve düz Core, count8_32, 12.000 güncelleme. ROTARY EXTRAPOLATES ≈ %40. Ayrıca 2 Ekim'de ön-kaydı yazılıp hiç koşmamış E-C (GRU/LSTM ölçek-çeşitli gezinti, §5.3) 12:28'de ilk kez başladı. 12:27'deki manifestsiz başlangıç dakikalar içinde durduruldu, kilitleri silindi.
 
+120. **Kullanıcı önceliği (2026-10-23 ≈ 13:00; ayrıntı not §5.64): "RLT'yi çöz, diğerleri pek önemli değil; şu an bir model eğitebiliriz."** Yalnız taban kollarla ilgili E-S-C ve E-C durduruldu (hükümsüz); CPU RLT'nin dönel sayaç deneyine verildi. GPU sırası değişti: Aşama 1 v2 E-L1C'nin hemen ardından başlar, ilk koşu B_ds tohum 1 (gerçek model: L1 + bellek); E-X1 sonra. Ayrıca E-RM0R6'nın son koşusu B_delta 36k NOT LEARNED (0,266; üç kat bütçe yetmedi). E-S-W geniş hücreleri (16× LSTM 0,123, 8× konumlu transformer 0,230) öğrenmedi; son hüküm 16× GRU ile.
+
 **Sınırlar.** Bu bölümde yeni ölçüm YOK; öngörüler sonuçlardan önce yazıldı. M4 karşılaştırması farklı genişlik, lr, bütçe ve müfredatla yapıldı. X1 doğrulanmadı. **Güncelleme (07:10):** "yeni ölçüm YOK" cümlesi yalnız 06:30 öncesi için doğruydu; 06:54'ten beri E-A ve E-B ölçümleri alındı (madde 7-8) ve yukarıdaki sınırlar onlar için ayrıca belirtilmiştir.
 
 ## 7. Düzeltmeler defteri

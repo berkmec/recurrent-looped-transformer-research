@@ -2087,6 +2087,23 @@ Mesafe sorununda işe yarayan yol buydu: yeni bilgi yerine doğru yapısal önse
 
 *Sınır:* tek tohum; tek görev (count8_32); E-C'nin GRU/LSTM sonuçlarıyla aynı ölçü, ama Core yalnız bu koşuda.
 
+### 5.64 Kullanıcı önceliği (2026-10-23 ≈ 13:00) ve kapanışlar: "RLT'yi çöz, diğerleri pek önemli değil; şu an bir model eğitebiliriz"
+**Karar ve uygulama.**
+- *Durduruldu (hüküm yok; kısmi koşular kayıt dışı):* E-S-C (§5.58; GRU 150k, LSTM 165k, konumlu transformer 60k yarıda kesildi, ikiz hiç başlamadı) ve E-C (§5.3; count8_32 LSTM / GRU yarıda kesildi, count8_64 başlamadı). İkisi de yalnız taban kollarla ilgiliydi. CPU, RLT'nin kendi deneyine (E-C-ROT, §5.63) verildi.
+- *Bırakıldı:* E-S-W'nin son hücresi (16× GRU). sk4 kapasite hükmünü kapatıyor, ≈ 2 saati kaldı.
+- *GPU sırası değişti (kural değişmedi):* Aşama 1 v2 (§5.61) E-L1C'nin hemen ardından başlar. İlk koşu B_ds tohum 1, yani gerçek model: L1 + bellek. E-X1 (§5.59) Aşama 1'den sonraya kaldı. Bekleyen iki koşucu da hiçbir işi başlamadan durduruldu ve yeni sırayla yeniden kuruldu.
+
+**E-RM0R6'nın son koşusu: B_delta 36k (kayıtlı kural §5.56; koşu 06:56-12:59): NOT LEARNED.**
+- d = 1 / 2 / 3'te 0,267 / 0,262 / 0,266; 21.733 s.
+- Üç kat bütçe kaydırmasız delta belleğini öğretmedi (12k'da 0,25).
+- Öngörü (WORKS ≈ %25) tutmadı.
+- Sonuç, tek farkın anahtarın kaynağı olduğunu güçlendiriyor: kaydırmalı sürüm 500. güncellemede öğreniyordu.
+
+**E-S-W'nin geniş hücreleri (ara; kayıtlı kural §5.57; son hüküm 16× GRU ile):**
+- LSTM w448 (16,3×, lr 10⁻³): aralık-içi 0,123, dış değer 0,120.
+- Konumlu transformer w128 (8,0×, lr 10⁻³): 0,230 / 0,174.
+- İkisi de öğrenmedi.
+
 ## 6. Gerçek model yolu
 
 1. **Ne iddia edilir:** "küçük, bayt-düzeyi bir RLT, durum-izleme/çok-adımlı görevlerde eşit-parametre ve eşit-token bir transformer'a yapısal bir üstünlük gösteriyor mu". LM kaybında üstünlük iddia edilmez (bağımsız değerlendirme bulamadı).
