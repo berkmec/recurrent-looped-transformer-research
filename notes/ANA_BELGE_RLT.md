@@ -635,6 +635,8 @@ Yalnız-uzunluk kontrolü (eğitim dağılımı, derinlik ≤ 8): 64 / 256 / 1.0
 
 107. **E-RM0R6 ÖN-KAYDI (2026-10-23 06:55; ayrıntı not §5.56):** Kaydırmalı anahtarlı delta belleği: anahtar önceki konumdan, değer bu konumdan; indüksiyon başı yapısı yazma kuralında. Yanında iki sağlamlık koşusu: delta belleği 3× bütçeyle, kahin yazma γ₀ = 1 ile tohum 2. Öngörü: kaydırmalı bellek tohum başına WORKS ≈ %60.
 
+108. **E-S-W ÖN-KAYDI (2026-10-23 07:01; ayrıntı not §5.57):** sk4'te öğrenemeyen taban kollar kapasite yüzünden mi öğrenemiyor? GRU ve LSTM 4× ve 16× parametreyle, konumlu transformer 8× parametreyle. Öngörü: 4× hücrelerde hiçbiri öğrenmez ≈ %80, geniş hücrelerde ≈ %65.
+
 **Sınırlar.** Bu bölümde yeni ölçüm YOK; öngörüler sonuçlardan önce yazıldı. M4 karşılaştırması farklı genişlik, lr, bütçe ve müfredatla yapıldı. X1 doğrulanmadı. **Güncelleme (07:10):** "yeni ölçüm YOK" cümlesi yalnız 06:30 öncesi için doğruydu; 06:54'ten beri E-A ve E-B ölçümleri alındı (madde 7-8) ve yukarıdaki sınırlar onlar için ayrıca belirtilmiştir.
 
 ## 7. Düzeltmeler defteri

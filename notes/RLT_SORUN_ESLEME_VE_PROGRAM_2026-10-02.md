@@ -1807,6 +1807,31 @@ RLT'nin geri beslemesinin yapısal değerinin şimdiye kadarki en sağlam kanıt
 **Kullanım.** B_delta_shift MEMORY WORKS çıkarsa bu, RLT-M'in mesafe sorununu oyuncakta öğrenilen yazmayla çözen ilk tasarım olur; Aşama 1 bu yazma ve açık okuma kapısıyla yeniden ön-kayda girer. Kaydırmalı bağlama dilde de doğal: sonraki baytı, önceki bağlama bağlar.
 - *Sınır:* oyuncak ölçek; kaydırma yalnız pencere içi (olgular pencere içinde bitişik); tek lr.
 
+### 5.57 E-S-W ön-kaydı: sk4'te taban kollar 4×-16× parametreyle öğreniyor mu? (kod `horizon/sk_width.py`, 6 test; betik `scripts/run_es_w.sh`; koşudan ÖNCE yazıldı 2026-10-23 07:01)
+**Neden.** sk4 üstünlüğüne (§5.55.1) en güçlü itiraz şudur: taban kollar küçüktü. Parametre sayıları `sk_run.make_arm` ile sayıldı ve testte sabitlendi: Core w64 ile ikizi 100.960; GRU w128 110.496; LSTM w112 111.248; transformer w64 205.792 (zaten 2×).
+**Koşular** (sk4; 15.000 güncelleme, son %30'da lr azaltma; CPU, üç sıra, süreç başına tek iş parçacığı):
+
+| hücre | parametre (Core'a oranı) | tepe lr | tohum |
+|---|---|---|---|
+| GRU w256 | 417.568 (4,1×) | 3×10⁻³ | 1, 2 |
+| LSTM w224 | 423.168 (4,2×) | 3×10⁻³ | 1, 2 |
+| GRU w512 | 1.621.536 (16,1×) | 10⁻³ | 1 |
+| LSTM w448 | 1.649.120 (16,3×) | 10⁻³ | 1 |
+| konumlu transformer w128 | 804.768 (8,0×) | 10⁻³ | 1 |
+
+Geniş hücrelerde lr 10⁻³ seçildi, geniş ağa en iyi şansı vermek için. E-S-LR, w128'de lr 10⁻³'ün sonucu değiştirmediğini gösterdi. Konumlu transformer'ın en iyi aralık-içi değeri de lr 10⁻³'teydi (§5.52.1).
+**Kural** (aşama B eşiği; `sk_width.reading`): hücre öğrenir ⇔ tohum ortalaması in_range ≥ 0,95; 0,50-0,95 arası PARTIAL diye ayrıca raporlanır.
+- 4× hücrelerden biri öğrenirse → **CAPACITY EXPLAINS IT AT 4x**.
+- Yalnız geniş hücrelerden biri öğrenirse → **CAPACITY EXPLAINS IT AT 8-16x**. O hücre tek tohumluysa hükümden önce tohum 2 koşulur.
+- Hiçbiri öğrenmezse → **ADVANTAGE HOLDS AT 16x PARAMETERS**.
+
+**Öngörüler [H].** 4× hücrelerde hiçbiri öğrenmez ≈ %80; geniş hücrelerde hiçbiri öğrenmez ≈ %65.
+**Kullanım.**
+- ADVANTAGE HOLDS → sk4 iddiası "16× parametreli GRU/LSTM'ye ve 8× parametreli konumlu transformere karşı" diye yazılır.
+- CAPACITY → üstünlük "parametre verimliliği" diye daraltılır.
+
+*Sınır:* tek görev ailesi; geniş hücrelerde tek tohum ve tek lr; bütçe sabit (15.000 güncelleme).
+
 ## 6. Gerçek model yolu
 
 1. **Ne iddia edilir:** "küçük, bayt-düzeyi bir RLT, durum-izleme/çok-adımlı görevlerde eşit-parametre ve eşit-token bir transformer'a yapısal bir üstünlük gösteriyor mu". LM kaybında üstünlük iddia edilmez (bağımsız değerlendirme bulamadı).
