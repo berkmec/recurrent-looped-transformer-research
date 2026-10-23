@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 # E-RM0R7b (G0.3b, notes/RLT_SORUN_ESLEME_VE_PROGRAM_2026-10-02.md section 5.62): E-RM0R7's gate with the read's output projection
 # started at zero (C_ds0, the start the language-scale warm start will use), seed 1, 6,000 updates; E-RM0R7's C_none is the control.
-# Waits for E-RM0R7's queue to end; one thread, BelowNormal, unbuffered log, a RUNMAN manifest.
+# Waits only for its control (E-RM0R7's C_none result; the first version waited for E-RM0R7's whole queue, see the queue log
+# 10:2x); one thread, BelowNormal, unbuffered log, a RUNMAN manifest.
 # Usage: nohup bash scripts/run_erm_r7b.sh > /dev/null 2>&1 &     (progress: results/M1-finetune-distance/queue.log)
 set -u
 cd "$(dirname "$0")/.."
@@ -16,8 +17,7 @@ LOG=results/M1-finetune-distance/queue.log
 P="notes/RLT_SORUN_ESLEME_VE_PROGRAM_2026-10-02.md 5.62"
 log() { echo "[$(date +%H:%M:%S)] [ermr7b] $*" >> "$LOG"; }
 
-log "E-RM0R7b bekliyor: E-RM0R7 kuyrugu bitince baslar"
-until grep -q -F "[ermr7] E-RM0R7 kuyrugu BITTI" "$LOG"; do sleep 60; done
+until [ -f "$OUT/Cnone-s1.json" ]; do sleep 60; done
 id=Cds0-s1
 if [ ! -f "$OUT/$id.json" ]; then
   "$PY" -B -c "from horizon.run_manifest import quick; import sys; print(quick(*sys.argv[1:]))" \
