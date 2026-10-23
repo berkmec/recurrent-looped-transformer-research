@@ -2247,6 +2247,78 @@ A 7,03 s/güncelleme, B_ds (ut_chunk 64, d = 256) 6,82 s: 0,97× (eşik 1,15×).
 **Kaynak.** CPU, tek süreç, 2 iş parçacığı, BelowNormal. Süre L1 ≈ 1 saat, A0F ≈ 0,7 saat; yapay cümlelerle ölçüldü, BLiMP verisine bakılmadı.
 - *Sınırlar:* tek tohum çifti. Bayt düzeyi modelde toplam log-olasılık uzun cümleyi cezalandırır; bu BLiMP'in olağan yöntemi ve iki kol için aynı. L1'in eğitim verisinin dörtte biri yapay getirme görevi (iki kolda aynı). Transformer (E-X1) aynı kodla, E-X1 bitince ölçülür.
 
+### 5.68 E-RL0 ön-kaydı: RLT dil modelinin ilk SFT'si ve RL'i, makalenin kendi toplama görevinde; L1'e karşı geri beslemesiz eşi A0F (kod `mline/rl0.py`, 10 test; betik `scripts/run_rl0.sh`; koşudan ÖNCE yazıldı 2026-10-24 00:27)
+**Neden.**
+- *Kullanıcı (2026-10-24 ≈ 00:15):* 20M modele SFT ve RL deneme önerisini kabul etti ("kabul").
+- *Çekince 9 (§5.65):* RL hiç sınanmadı. Makale RL için yeniden oynatma kuralını veriyor (§2.7, Ek D.3 ve F.5), ama sonucu ölçmüyor: "RL performance is not measured" (satır 511).
+- *Makalenin itiraf ettiği sınır:* toplama, eğitilen 1-8 basamağın ötesinde düşüyor. 9 basamakta RLT-1 7+1'in öğretmen zorlamalı belirteç doğruluğu %68,05 ± 3,64.
+
+**Görev (makalenin düzeni).** Basamaklar en az anlamlıdan başlar: ayırıcı + ters(a) "+" ters(b) "=" → ters(a + b) + satır sonu (baytlar, baştaki sıfır yok).
+**Kollar.** L1 (geri besleme açık, 30.518) ve A0F (geri besleme kapalı; aynı veri, sıra, tohum ve program). Tek fark K1. Tohum 1.
+**SFT.** 2.000 güncelleme. Satırlar: 24 problem (her işlenen 1-8 basamak, düzgün dağılımlı) + eğitim korpusundan 8 adet 64 baytlık parça (unutmayı azaltmak için). Kayıp = 0,75 × yanıt baytlarının ortalama çapraz entropisi + 0,25 × parçalarınki. AdamW, lr 10⁻⁴ (100 güncelleme ısınma), ağırlık sönümü 0,01, kırpma 1.
+**RL (GRPO, makalenin yeniden oynatma kuralıyla).**
+- 500 adım; adım başına 8 problem (işlenenler 1-10 basamak) × 8 örnek, sıcaklık 1.
+- *Ödül:* yanıt (satır sonu dahil) tam doğruysa 1, değilse 0. *Avantaj:* (r − grup ortalaması) / (grup std + 10⁻⁶).
+- *Güncelleme:* partide bir kez, politikaya göre (oran 1). Kayıp = −ortalama_i A_i × ortalama log p(örneklenen bayt) + 0,02 × k3 KL tahmini (donmuş SFT modeline karşı). AdamW, lr 3×10⁻⁵, kırpma 1.
+- *Yeniden oynatma:* her örnek güncel parametrelerle baştan oynatılır (makalenin kuralı). İstem baytları duruma gradyan taşır; eylem terimi yalnız örneklenen baytlarda. Üretim de bu hesapla yapılır (her yeni bayt için tam ileri geçiş), yani örnekleme ile yeniden oynatma ayrışamaz.
+
+**Değerlendirme.** Genişlik başına 200 sabit problem (iki işlenen de w basamak), w ∈ {1, 4, 8, 9, 10, 12, 16}:
+- açgözlü tam eşleşme;
+- makalenin ölçüsü: öğretmen zorlamalı yanıt-basamağı doğruluğu;
+- unutma için doğrulama bit/baytı (64 × 512 bayt).
+
+Üç zamanda ölçülür: SFT öncesi, SFT sonrası, RL sonrası.
+**Kural** (`rl0.reading`). E = bir genişlik kümesi üzerinde ortalama tam eşleşme. Aralıklar: her genişliğin içinde problemler üzerinde eşleşmiş bootstrap (2.000 çekiliş, tohum 0).
+- **SFT LEARNED** (kol başına) ⇔ SFT sonrası E{1, 4, 8} ≥ 0,5. Değilse o kolun RL soruları VACUOUS.
+- **S1, RL** (L1 için kayıtlı, A0F için betimleyici): Δ = E_RL − E_SFT, RL aralığında {1, 4, 8, 9, 10}.
+  - RL HELPS ⇔ Δ ≥ +0,05 ve aralık > 0;
+  - RL HURTS ⇔ Δ ≤ −0,05 ve aralık < 0;
+  - NO EFFECT ⇔ aralık (−0,05; +0,05) içinde;
+  - INCONCLUSIVE ⇔ geri kalan.
+- **S2, geri besleme ve uzunluk:** D = E_L1 − E_A0F, RL sonrası, {9, 10, 12} üzerinde. Bunlar SFT aralığının ötesinde; 12 RL aralığının da ötesinde.
+  - FEEDBACK HELPS LENGTH ⇔ D ≥ +0,10 ve aralık > 0;
+  - FEEDBACK HURTS LENGTH ⇔ D ≤ −0,10 ve aralık < 0;
+  - NO DIFFERENCE ⇔ aralık (−0,10; +0,10) içinde;
+  - INCONCLUSIVE ⇔ geri kalan;
+  - VACUOUS ⇔ iki kol birden SFT LEARNED değilse.
+
+**Betimleyici.** Makaleyle karşılaştırma için belirteç doğruluğu (özellikle 9 basamak); 16 basamak; SFT sonrası D (fark RL'den mi, SFT'den mi geliyor); unutma (bit/bayt); ödül eğrisi.
+**Öngörüler [H].**
+- SFT LEARNED: L1 ≈ %85, A0F ≈ %85.
+- S1 (L1): RL HELPS ≈ %40, NO EFFECT ≈ %25, INCONCLUSIVE ≈ %30, HURTS ≈ %5.
+- S2: FEEDBACK HELPS LENGTH ≈ %25, NO DIFFERENCE ≈ %40, INCONCLUSIVE ≈ %30, HURTS ≈ %5.
+
+**Kaynak ve zamanlama.** CPU, kol başına tek süreç (2 iş parçacığı, BelowNormal); GPU Aşama 1'de kalır. Bellek yüzünden kollar sırayla açılır: L1, BLiMP kuyruğu bitince (≈ 04:15); A0F, E-C-ROT kuyruğu bitince (≈ 07:00).
+- *Duman testi:* her kolun başında süreyi ölçen kısa bir koşu. Kayıt dışı hücrelerde yapılır (1-2 basamak, 5 problem); kayıtlı hiçbir sayıya bakılmaz.
+- *Duraklatma:* her aşama kontrol noktasından sürer. Kullanıcının 18:00 duraklaması kesip yeniden başlatmadır.
+- *Sınırlar:* tek tohum; 20M bayt modeli; tek görev; 500 RL adımı küçük bir bütçe; A0F'de geri besleme yok ama dikkat yolları aynı; sonuç ölçeğe genellenmez.
+
+### 5.66.1 E-L1X-F SONUCU, son ağırlıklar (kayıtlı kural §5.66; koşu 2026-10-24 00:00-00:26; işlendi 2026-10-24 00:27): **NO STATE CONTEXT**; eğitilmiş L1'de taşınan durum ≈ 6 adımlık bir sürede unutuyor
+**Hüküm.** S = kayıp_winreset512 − kayıp_win512 (ofset ≥ 256). Değerler `results/L1-long-doc/step030518-state-reach.json`'dan yeniden hesaplandı:
+
+| kutu | win512 | winreset512 | chunk512 | S | G = chunk − win |
+|---|---|---|---|---|---|
+| [0, 512) | 1,3966 | 1,3966 | 1,3966 | 0 | 0 (denetim) |
+| [512, 1.024) | 1,3789 | 1,3789 | 1,3840 | −1,9×10⁻⁹ | +0,0051 ± 0,0032 |
+| [1.024, 2.048) | 1,3856 | 1,3856 | 1,3981 | −3,7×10⁻⁹ | +0,0125 ± 0,0026 |
+| [2.048, 4.096) | 1,3491 | 1,3491 | 1,3541 | −3,4×10⁻⁸ | +0,0050 ± 0,0012 |
+
+Denetim 1,1×10⁻⁵ (< 10⁻³). ≥ 1.024'teki her kutuda |S| ≤ 0,003; gerçekte ≤ 4×10⁻⁸, float duyarlılığı düzeyinde ⇒ **NO STATE CONTEXT**. Ofset bantlarında da S ≈ 0; [448, 512) bandında −1,4×10⁻⁸.
+**Betimleyici.**
+- *Unutma profili* (ilk 4 makale; 512'deki sıfırlamadan k adım sonra |s_taşınan − s_sıfırlanan| / |s_taşınan|): k = 1'de 0,72; 2'de 0,48; 4'te 0,30; 8'de 0,13; 16'da 0,040; 32'de 8,0×10⁻⁴; 64'te 1,9×10⁻⁵; 128 ve sonrasında ≈ 3-5×10⁻⁷ (float32 tabanı). Fark ≈ 6 adımda e kat küçülüyor (4 → 16 ve 16 → 64 arasında τ ≈ 6 adım); ≈ 100 adımda iz kalmıyor.
+- *Genel ortalamalar* (32 × 4.096 baytın hepsi): win512 1,3736, winreset512 1,3810, chunk512 1,4157. winreset512'nin +0,0074'lük farkı yalnız sıfırlamadan sonraki ilk konumlardan (ofset < 256, kural dışı) geliyor: durum yerelde iş görüyor.
+- *G > 0:* pencereli yapılandırma bağımsız parçalardan 0,005-0,013 bit iyi. Durumun katkısı sıfır olduğuna göre bu fark dikkat bağlamından geliyor (512 konuma karşı 256-511).
+- *Koşu notu:* ilk başlangıç (23:52, parti 8) belleği yüzünden 7 dakikada durduruldu, hiçbir koşul bitmemişti; sonuç parti 4'le alındı. Makaleler bağımsız hesaplandığından parti hiçbir sayıyı değiştirmez.
+
+**Öngörüler.** NO STATE CONTEXT ≈ %50: tuttu. Kullanıcının hipotezi ("bağlam penceresi düşündüğün kadar dar olmayabilir") bu modelde taşınan durum için desteklenmedi: etkin bağlam 512 baytlık dikkat penceresi; durum bunun ötesine bir şey taşımıyor.
+**Okuma [H].**
+- Eğitimde her bağımlılık 512 baytlık dikkat penceresinin içinde; durumu uzak bilgi taşımaya iten hiçbir baskı yok. Durum yalnız dikkatin veremediğini öğrenir. L1'de bu, son birkaç baytlık yerel bir hesap; geri beslemenin +0,066 kazancı da buradan geliyor olmalı.
+- Durumun uzun bağlam taşıması için eğitimde dikkat penceresinin ötesine uzanan bağımlılıklar gerekir. İki yol var: dizi uzunluğundan kısa bir kodlayıcı penceresiyle eğitmek, ya da açık bir bellek modülü (Aşama 1, koşuyor).
+- Bu, RLT'nin gerçek-model tarifi için bir tasarım kuralı önerisi; kendisi ayrıca sınanmalı.
+
+**Kullanım (kayıtlı, §5.66).** NO STATE CONTEXT ⇒ L1'in etkin bağlamı pencereyle (512 bayt) sınırlı. Uzun bağlam ya daha uzun eğitim uzunluğu (donanım) ya da bellek modülü ister. Eğri (24k / 18k / 12k / 6k) ve 8.192 baytlık koşu sürüyor; ayrıca eklenecek.
+- *Sınırlar:* tek tohum; haber metni; 32 makale; profil 4 makaleden. S, o ≥ 256 adımın ötesini ölçer. Daha kısa geçmişe dair durum katkısı S'yle ölçülmedi, ama profil bu katkının ≈ 30 adımda söndüğünü gösteriyor.
+
 ## 6. Gerçek model yolu
 
 1. **Ne iddia edilir:** "küçük, bayt-düzeyi bir RLT, durum-izleme/çok-adımlı görevlerde eşit-parametre ve eşit-token bir transformer'a yapısal bir üstünlük gösteriyor mu". LM kaybında üstünlük iddia edilmez (bağımsız değerlendirme bulamadı).
