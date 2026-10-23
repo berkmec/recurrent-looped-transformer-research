@@ -645,6 +645,8 @@ Yalnız-uzunluk kontrolü (eğitim dağılımı, derinlik ≤ 8): 64 / 256 / 1.0
 
 112. **E-RM0R7 ÖN-KAYDI (G0.3′; 2026-10-23 07:36; ayrıntı not §5.60):** Oyuncak görevde kilitli Core'un kendisi (geri besleme açık) ile gerçek ölçekte kullanılacak RLT-M modülü (`mline/rltm.py`): kaydırmalı anahtarlı delta yazması, yalnız kodlayıcıdan yazma, γ₀ = 1, pencereler paralel kod çözülüyor. C_ds iki tohum, C_none şans kontrolü, 6.000 güncelleme; GATE PASSED ⇔ C_ds ≥ 0,95 ve C_none ≤ 0,30 (d = 3). Öngörü: tohum başına geçer ≈ %75. Geçerse Aşama 1'in bellek kolu bu modülle yeniden ön-kayda girer.
 
+113. **E-RM0R6 SONUCU: kaydırmalı anahtarlı delta belleği MEMORY WORKS (kayıtlı kural; 2026-10-23 06:56-08:49; ayrıntı not §5.56.1):** B_delta_shift iki tohumda d = 1, 2, 3'te 1,000. Eğitim doğruluğu 500. güncellemede ≥ 0,99'du. Kahin yazma γ₀ = 1 tohum 2'de de 1,000 (tohum 1'in tekrarı). Kaydırmasız delta ile tek fark anahtarın önceki belirteçten alınması: 0,25 → 1,00. RLT-M'in mesafe sorununda öğrenilen yazmayla çalışan ilk tasarım (oyuncak; K1-K4 korunuyor). Öngörüler (%60, %85) tuttu. Sıradaki kapı kilitli Core'la (E-RM0R7, koşuyor). B_delta 36k bekleniyor.
+
 **Sınırlar.** Bu bölümde yeni ölçüm YOK; öngörüler sonuçlardan önce yazıldı. M4 karşılaştırması farklı genişlik, lr, bütçe ve müfredatla yapıldı. X1 doğrulanmadı. **Güncelleme (07:10):** "yeni ölçüm YOK" cümlesi yalnız 06:30 öncesi için doğruydu; 06:54'ten beri E-A ve E-B ölçümleri alındı (madde 7-8) ve yukarıdaki sınırlar onlar için ayrıca belirtilmiştir.
 
 ## 7. Düzeltmeler defteri

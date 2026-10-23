@@ -1906,6 +1906,27 @@ Betimleyici olarak raporlanacaklar: transformer ile A0F (geri beslemesiz RLT) ay
 **İşletme.** CPU hatları önce bu kapıya verildi; bekleyen E-S-C koşucusu durduruldu (hiçbir işi başlamamıştı) ve bu kuyruk bitince başlayacak şekilde yeniden kuruldu.
 *Sınır:* oyuncak sözlük ve uzunluk; bütçe 6.000; tek lr; C_none tek tohum.
 
+### 5.56.1 E-RM0R6 SONUCU (kayıtlı kural §5.56; koşular 2026-10-23 06:56-08:49; okuma `erm_r.reading`, E-RM0R2'nin Apr / A kontrolleriyle): kaydırmalı anahtarlı delta belleği **MEMORY WORKS** (iki tohumda 1,000); kahin yazma γ₀ = 1 tohum 2'de de **WORKS** (1,000); B_delta 36k koşuyor
+| koşu | d = 1 | d = 2 | d = 3 | hüküm | eğitim doğruluğu ≥ 0,99'un ilk görüldüğü günlük | süre |
+|---|---|---|---|---|---|---|
+| B_delta_shift tohum 1 | 1,000 | 1,000 | 1,000 | MEMORY WORKS (toy) | 500. güncelleme | 6.724 s |
+| B_delta_shift tohum 2 | 1,000 | 1,000 | 1,000 | MEMORY WORKS (toy) | 500. güncelleme | 6.743 s |
+| B_orc(γ₀ = 1) tohum 2 | 1,000 | 1,000 | 1,000 | MEMORY WORKS (toy) | 1.500. güncelleme | 3.347 s |
+
+Kontroller (E-RM0R2): Apr 0,9994 (LEARNABLE), A 0,128 (CONTROL OK).
+**Hüküm (kayıtlı).** B_delta_shift iki tohumda da WORKS → **MEMORY WORKS**. Kahin yazma γ₀ = 1 tohum 2'de de WORKS; tohum 1'in 0,9994'ü tekrarlandı.
+**Öngörü kalibrasyonu.** B_delta_shift tohum başına WORKS ≈ %60 → oldu (iki tohum). B_orc tohum 2 ≈ %85 → oldu. B_delta 36k (≈ %25) bekleniyor.
+**Okuma.**
+(1) **Tek değişkenli sonuç.** B_delta ile B_delta_shift arasındaki tek fark anahtarın kaynağı: aynı belirteç yerine bir önceki belirteç. Bu, 0,25'i (iki tohum, E-RM0R5) 1,00'a çıkardı ve öğrenme ≈ 500 güncellemede oldu. Kahin yazma bile 1.500 istemişti.
+(2) **Mekanizma [H].** Kaydırma, bağlamayı (önceki belirteç → bu belirteç) yazma kuralının içine koyuyor. Kaydırma yokken bunu kodlayıcının öğrenmesi gerekir: anahtarın kimliğini değer konumunun kodlamasına taşıyan bir "önceki-belirteç başı". Bunun gradyanı yalnız bellek yolundan gelir.
+(3) **Literatürle ilişki** [literatür; benim bilgim, bu oturumda kaynaktan doğrulanmadı]:
+- indüksiyon başları = önceki-belirteç başı + kopyalama başı;
+- ilişkisel hatırlamada kısa evrişim / "shift" bileşeni belirleyici: H3'ün shift SSM'i; Mamba, GLA ve DeltaNet'teki kısa evrişim; Zoology'nin MQAR bulguları.
+
+(4) **RLT için anlamı.** Mesafe sorununun oyuncakta öğrenilen yazmayla çalışan ilk çözümü. K1-K4 korunuyor: geri besleme dokunulmuyor; kapanabilir (γ = 0); sabit boyutlu bellek; pencereli kod çözücü. Sıradaki kapı, aynı yazmanın kilitli Core'la çalışması (E-RM0R7 / G0.3′, §5.60; koşuyor).
+
+- *Sınır:* oyuncak ölçek (4 pencere × 32, 16 olgu, oyuncak kodlayıcı); kaydırma pencere içi; tek lr; B_delta 36k henüz bitmedi.
+
 ## 6. Gerçek model yolu
 
 1. **Ne iddia edilir:** "küçük, bayt-düzeyi bir RLT, durum-izleme/çok-adımlı görevlerde eşit-parametre ve eşit-token bir transformer'a yapısal bir üstünlük gösteriyor mu". LM kaybında üstünlük iddia edilmez (bağımsız değerlendirme bulamadı).
