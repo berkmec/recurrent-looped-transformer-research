@@ -1,0 +1,43 @@
+{
+ "schema": "run-manifest/v1",
+ "run_id": "E-BLIMP-L1-A0F",
+ "campaign": "BLIMP",
+ "agent": "claude-4797b78c",
+ "created_utc": "2026-10-23T20:53:19Z",
+ "command": "python -B -m mline.blimp score <L1 | A0F latest.pt> --data __RLT_ROOT__/datasets/nyu-mll__blimp --out results/BLIMP/<name>-30518.json; python -B -m mline.blimp reading",
+ "prereg": {
+  "paper": "notes/RLT_SORUN_ESLEME_VE_PROGRAM_2026-10-02.md 5.67"
+ },
+ "code": {
+  "head": "005f855",
+  "dirty": false,
+  "porcelain": [
+   "?? results/ERM-stage1-ut/B_ds-s1.log",
+   "?? results/ERM-stage1-ut/B_ds-s1/",
+   "?? results/ERM-stage1-ut/E-RM1-ut-B_ds-s1.manifest.json",
+   "?? results/ES-compute/",
+   "?? results/L1-long-doc/E-L1X-F-L1-scratch-w928-s401.manifest.json",
+   "?? results/L1-long-doc/step030518-state-reach.txt",
+   "?? results/L1-tfm6-w528-s401/probe.json",
+   "?? results/L1-tfm6-w528-s401/probe.jsonl",
+   "?? results/L1-tfm6-w528-s401/train.log",
+   "?? results/Z1-pilot/E-C-count8_32-gru-w64-s1.manifest.json",
+   "?? results/Z1-pilot/E-C-count8_32-lstm-w64-s1.manifest.json",
+   "?? results/Z1-pilot/count8_32-core-w64-s1.log",
+   "?? results/Z1-pilot/count8_32-core_rot-w64-s1.log",
+   "?? results/Z1-pilot/count8_32-core_rotq-w64-s1.log",
+   "?? results/Z1-pilot/count8_32-gru-w64-s1.log",
+   "?? results/Z1-pilot/count8_32-lstm-w64-s1.log"
+  ]
+ },
+ "config": {
+  "source": "scripts/run_blimp.sh",
+  "summary": {},
+  "sha256": "e0db329c774426d115fb8cfa762132e10cedbeee2047f25eded72d35755e3a95"
+ },
+ "seeds": {
+  "seed": 401
+ },
+ "telemetry_schema": "I1-a/v1",
+ "status": "started"
+}

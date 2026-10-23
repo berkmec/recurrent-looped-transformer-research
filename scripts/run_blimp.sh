@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 # E-BLIMP (notes/RLT_SORUN_ESLEME_VE_PROGRAM_2026-10-02.md section 5.67): BLiMP (nyu-mll/blimp at revision 877fba0801ff, 67 x 1,000 minimal pairs)
 # on L1 (feedback on) and A0F (feedback off), both at 30,518 updates, then the registered reading. Evaluation only, CPU, one process with two
-# threads, BelowNormal (the GPU belongs to stage 1); idempotent.
+# threads, BelowNormal (the GPU belongs to stage 1); idempotent. Started at 23:53 next to E-L1X-F, free memory fell to 2.4 GB (the watch limit is 2.5),
+# so it was stopped within a minute and now waits for E-L1X-F's queue to end.
 # Usage: nohup bash scripts/run_blimp.sh > /dev/null 2>&1 &        (progress: results/M1-finetune-distance/queue.log)
 set -u
 cd "$(dirname "$0")/.."
@@ -18,6 +19,8 @@ P="notes/RLT_SORUN_ESLEME_VE_PROGRAM_2026-10-02.md 5.67"
 log() { echo "[$(date +%H:%M:%S)] [blimp] $*" >> "$LOG"; }
 mkdir -p "$OUT"
 
+log "E-BLIMP bekliyor: E-L1X-F kuyrugu bitince baslar (bellek: ikisi birlikte bos RAM'i 2,5 GB'nin altina indirdi)"
+until grep -q -E "\[l1xf\] E-L1X-F kuyruk BITTI" "$LOG"; do sleep 120; done
 "$PY" -B -c "from horizon.run_manifest import quick; import sys; print(quick(*sys.argv[1:]))" \
   E-BLIMP-L1-A0F BLIMP claude-4797b78c "python -B -m mline.blimp score <L1 | A0F latest.pt> --data $DATA --out $OUT/<name>-30518.json; python -B -m mline.blimp reading" "$P" '{"seed": 401}' "$0" >> "$LOG" 2>&1 \
   || log "MANIFEST HATA E-BLIMP"
