@@ -2051,6 +2051,42 @@ NAW satırları (`mline.naw`): L1'in kendi olgu / soru biçimi. Olgular pencere 
 
 *Sınır:* tek korpus; L1 tek tohum; A tek tohum; pencereli çıkarım; d ≤ 64.
 
+### 5.63 E-C-ROT ön-kaydı: sayaçta derinlik dışdeğerlemesi için Core'a dönel sayaç kanalı (N2; kod `horizon/depth_rot.py`, 7 test; betik `scripts/run_ec_rot.sh`; koşudan ÖNCE yazıldı 2026-10-23 12:37)
+**Neden.** N2 (sayaçta derinlik dışdeğerlemesi) ÇÖZÜLMEDİ; Core, GRU ve LSTM eğitim derinliğinin ötesinde aynı biçimde doyuyor. §4.4'ün kuramsal tanısı:
+- *Kod kapanışı:* eğitim derinliği P'yi hiç aşmadığından model sonlu bir kod öğrenir.
+- *Core'a özgü engel:* durum RMSNorm'dan geçer, sayı büyüklük olarak taşınamaz, yalnız **yön** olarak taşınabilir.
+- *Önerilen yapısal çare:* **dönel sayaç**, normu koruyan ve itme-çekmeyi tam iptal eden açı bankası.
+
+Mesafe sorununda işe yarayan yol buydu: yeni bilgi yerine doğru yapısal önsel (E-RM0R6: anahtarın önceki belirteçten alınması).
+**Kanal** (`RotaryCounterCore`; yalnız yeni modül, Core ve `depth_models` dokunulmadı).
+- *Açılar:* θ_t = ω · Σ_{s ≤ t} adım(x_s); adım = tanh(c[x]), belirteç ve frekans başına öğrenilen değer.
+- *Frekanslar:* K = 10, ω_k = 2π / 2^{k+2}; periyotlar 4 … 2.048. En yavaş açı bütün test derinliklerinde (≤ 512) tekdüze kalır.
+- *Okuma:* e′_t = e_t + γ · W[cos θ_t, sin θ_t], ardından Core'un kendi kod çözücüsü (geri besleme açık).
+- *K kuralları:* K3 testli (γ = 0 ⇒ tam Core); açılar önek toplamı (zamanda paralel); eklenen durum K açı (K4).
+
+İki kol:
+- **core_rotq:** adım ileri geçişte {−1, 0, +1}'e yuvarlanır (düz-geçişli tanh gradyanı). İtme-çekme iptali yapı gereği tam (testli, asimetrik ağırlıklarla bile).
+- **core_rot:** sürekli tanh adımı. İptal öğrenilmeli; küçük asimetri derin gezintide birikir (testli).
+
+**Koşular.** E-C'nin görevi (count8_32: eğitimde 8 … 32 log-tekdüze gezinti, uzunluk 256). Genişlik 64, tohum 1, 12.000 güncelleme, lr 3×10⁻³; değerlendirme D ∈ {8, 16, 32, 64, 128, 256, 512}. Kollar core_rotq, düz **core** (kontrol; E-C CPU maliyeti yüzünden Core'u dışarıda bırakmıştı) ve core_rot. Her kol boş bir CPU hattı açılınca başlar.
+- *Ölçülen hız:* yükte ≈ 8 s/güncelleme, yani ≈ 26 sa/koşu. CPU boşalınca kısalır.
+
+**Kural** (`depth_rot.reading`; E-C'nin ölçüleri `readings.ec_run`).
+- *Geçerlilik:* D = 8'de aralık-içi doğruluk ≥ 0,95.
+- *ρ:* 16'dan başlayıp ilk inişin ≥ 0,95 olduğu ardışık en derin değerlendirme derinliği, bölü 32.
+- *Hükümler:*
+  - **ROTARY EXTRAPOLATES** ⇔ geçerli bir dönel kolda ρ ≥ 4 (D ≥ 128) ve ρ ≥ 2·ρ_core. Düz Core geçersizse ρ_core = 0 sayılır ve bu ayrıca not edilir.
+  - **NO EXTRAPOLATION GAIN** ⇔ en büyük dönel ρ ≤ ρ_core.
+  - **PARTIAL:** geri kalan durumlar.
+  - **VACUOUS:** hiçbir dönel kol aralığı öğrenmedi.
+
+**Öngörüler [H].** Düz Core geçerli ≈ %60; düz Core ρ ≤ 2 ≈ %85 (doyan kod); core_rotq ρ ≥ 4 ≈ %40; core_rot ρ ≥ 4 ≈ %25 (sapma); ROTARY EXTRAPOLATES ≈ %40.
+**Kullanım.**
+- ROTARY EXTRAPOLATES → dönel kanal RLT'nin tarifine kapanabilir bir sayma modülü olarak girer (bellek modülü gibi; K1-K4 korunur). Ardından iki tohum ve count8_64 gelir.
+- NO GAIN → dışdeğerlemeyi sınırlayan temsil değil okuma demektir. Okumanın tanısı: açı ilk inişte doğru mu (açıların kendisi kaydedilir).
+
+*Sınır:* tek tohum; tek görev (count8_32); E-C'nin GRU/LSTM sonuçlarıyla aynı ölçü, ama Core yalnız bu koşuda.
+
 ## 6. Gerçek model yolu
 
 1. **Ne iddia edilir:** "küçük, bayt-düzeyi bir RLT, durum-izleme/çok-adımlı görevlerde eşit-parametre ve eşit-token bir transformer'a yapısal bir üstünlük gösteriyor mu". LM kaybında üstünlük iddia edilmez (bağımsız değerlendirme bulamadı).
