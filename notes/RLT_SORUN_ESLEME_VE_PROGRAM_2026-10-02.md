@@ -1970,6 +1970,87 @@ Kontroller (E-RM0R2): Apr 0,9994 (LEARNABLE), A 0,128 (CONTROL OK).
 
 - *Sınır:* oyuncak sözlük ve uzunluk (4 pencere × 32); genişlik 64; tek lr; C_none tek tohum.
 
+### 5.62.1 E-RM0R7b SONUCU (G0.3b; kayıtlı kural §5.62; koşu 2026-10-23 10:30-12:24): **GATE PASSED**; okumanın çıkışı sıfırdan başlayınca da 1,000
+- *C_ds0 tohum 1:* d = 1 / 2 / 3'te 1,000 / 1,000 / 1,000; eğitim doğruluğu ≥ 0,99 ilk kez 500. güncellemenin günlüğünde (varsayılan başlangıçla aynı); 6.835 s.
+- *Kontrol (E-RM0R7'nin C_none'u):* 0,121.
+
+**Hüküm (kayıtlı).** C_ds0 ≥ 0,95 ve C_none ≤ 0,30 → **GATE PASSED**. Öngörü (≈ %80) tuttu.
+**Kullanım (kayıtlı).** Aşama 1 v2'de B_ds sıfır çıkışla başlar (`rltm_train.build(zero_out=True)`). Sıcak başlangıçta model ilk adımda L1'in tam kendisi olur, okuma yine öğrenir.
+- *Sınır:* tek tohum; oyuncak, sıfırdan eğitim.
+
+**İşletme notu (2026-10-23 ≈ 11:50; ölçüm, hüküm değil).** Kullanıcı GPU saatini kilitledi (`nvidia-smi -lgc`).
+
+| | kilitten önce | kilitten sonra |
+|---|---|---|
+| saat | 1200 MHz | 1800 MHz |
+| güç | 73 W | 139 W |
+| sıcaklık | — | 77 °C |
+| L1, güncelleme başına | 4,56-4,62 s | 3,66 s (20.000 → 20.100); 3,90 s (20.100 → 20.200, Chrome açılırken) |
+
+≈ 1,2× hızlandı. Saat 1,5× arttı; kazancın daha küçük kalması, adım süresinin bir kısmının GPU saatine değil çekirdek başlatma yüküne bağlı olmasıyla tutarlı [H]. E-L1C bitişi ≈ 03:00'ten ≈ 23:30'a çekildi.
+### 5.61 E-RM Aşama 1 v2 ön-kaydı: L1'in son ağırlıkları + kaydırmalı anahtarlı delta belleği (B_ds), gerçek ölçekte pencereler-arası mesafe (kod `mline/rltm.py`, `mline/naw.py`, `mline/rltm_train.py`; betik `scripts/run_erm_stage1.sh`; koşudan ÖNCE yazıldı 2026-10-23 12:24)
+**Neden.** Oyuncak zinciri öğrenilen yazmayla çalışan bir bellek buldu (E-RM0R6 MEMORY WORKS, §5.56.1). Aynı modül kilitli Core'la da kapıyı geçti: G0.3′ GEÇTİ (E-RM0R7, iki tohumda d = 1-3 1,000, belleksiz pencereler 0,121; §5.60.1); sıfır çıkış başlangıcıyla G0.3b GEÇTİ (E-RM0R7b, C_ds0 d = 1-3 1,000; §5.62.1), bu yüzden B_ds Wo = 0 ile başlar. §5.40'ın Aşama 0 kapılarından G0.1 (K3) ve G0.2 (gradyan) testli; G0.5 (pencereli çıkarım = Core) K3 testinin kendisi. G0.4 (hız / VRAM) koşucunun ilk adımı.
+**Model.** L1'in son ağırlıkları (E-L1C, 30.518 güncelleme; koşucu adımı denetler) `mline.rltm.RLTM` ile sarılır:
+- d_k = d_v = 256;
+- γ₀ = 1, Wo = 0 başlangıcı (G0.3b'ye bağlı);
+- yazma yalnız kodlayıcıdan; pencereler paralel kod çözülür;
+- yazma döngüsü 32'lik parçalarla yeniden hesaplanır (bellek).
+
+Kollar:
+- **A:** aynı L1, pencereler bağımsız, bellek yok; aynı veri. Çok-pencereli eğitimin tek başına etkisi ve şans tabanı. Tohum 1.
+- **B_ds:** L1 + bellek, tohum 1 ve 2.
+
+**Veri** (satır = 4 pencere × 512 bayt; güncelleme başına 8 satır = 16.384 bayt, L1 ile aynı). §5.40'ın karışımı:
+
+| güncelleme | NAW | dil (aynı makalenin ardışık pencereleri) | pencere içi sentetik (L1 tarifinin son aşaması) | NAW mesafesi |
+|---|---|---|---|---|
+| 1-300 | %100 | — | — | d ∈ {1, 2} |
+| 301-1.000 | %50 | %50 | — | d ≤ 3 |
+| 1.001-son | %35 | %50 | %15 | d ≤ 3 |
+
+NAW satırları (`mline.naw`): L1'in kendi olgu / soru biçimi. Olgular pencere 0'da, soru d pencere sonra, ikisi de doğal metnin içinde rastgele yerde; değer satırda başka yerde yok. Yarısı tek olgu (%30'unda bir harf uzaklıkta yem; "broad" harfli anahtarlar), yarısı MQAR-4 (doğal eğitim anahtarları).
+**Eğitim.** AdamW, wd 0,01 (bellek parametreleri 0). lr çekirdekte 3×10⁻⁴, bellekte 9×10⁻⁴; ısınma 100, sonra sabit. Korumalı adım, kırpma 1,0. **Bütçe 4.000 güncelleme.**
+**Tek uzatma kuralı (§5.40):** 4.000'de B_ds tohumlarının d = 2 tam-4 ortancası [0,2; 0,8) içindeyse ve 3.000'den beri ≥ +0,1 arttıysa, tüm koşular 8.000'e uzar.
+**Pil** (her 500 güncellemede; son pil sonda):
+- *Tek olgu NAW:* dışarıda tutulan doğal kelimeler (**birincil**) ve T-Z harfleri (betimleyici). d ∈ {1, 2, 3, 4, 8, 16}, sonda ayrıca 32 ve 64. İlk hane ve tam 4 hane; hücre başına n = 64.
+- *Manipülasyon denetimi (B_ds):* bellek okuması kapalıyken d ∈ {1, 2}.
+- *Dil:* pencere sırasına göre bit/bayt (32 satır × 4 pencere; okuma açık / kapalı).
+- *Telemetri:* |γ|.
+
+**G0.4 (koşucuda; geçmezse hiçbir koşu açılmaz).** 20 güncellemelik duman testlerinde B_ds ≤ 1,15 × A s/güncelleme ve ayrılmış VRAM tepesi ≤ 7,8 GiB.
+- *Önceden bildirilen yedek:* d = 128 ya da yazma parçası 16; ayrı karar.
+
+**Kayıtlı hükümler** (`rltm_train.reading`; birincil hücre doğal kelimeler; acc = tam-4). Tavan: L1'in pencere içi doğal-anahtar tam doğruluğu 16.000'de 0,964 (harflerde 0,659, bu yüzden betimleyici).
+- **R1 BELLEK KULLANILIYOR** (B_ds tohumu başına) ⇔ acc(2) ≥ 0,8 ve acc(2) − acc_kapalı(2) ≥ 0,5.
+- **R2 MESAFE ÇÖZÜLDÜ** ⇔ iki B_ds tohumunda R1 ve acc(16) ≥ 0,8; ayrıca A'da acc(2) ≤ 0,2.
+- **R3 DIŞDEĞERLER** ⇔ R1 tohumlarının ortancasında acc(64) ≥ 0,6. Eğitim d ≤ 3, yani 21× dış değer.
+- **R6 DİLDE FAYDA** ⇔ her A-B_ds çiftinde, pencere 2-4 ortalamasında bpb_A − bpb_B ≥ 0,02.
+- **GERİLEME YOK** ⇔ pencere 1'de bpb_B − bpb_A ≤ 0,01 (her çift).
+- **Etiketler:**
+  - **WORKS** ⇔ R2 ∧ GERİLEME YOK; R3 tutarsa "+EXTRAPOLATES", R6 tutarsa "+LM" eklenir.
+  - **NOT LEARNED** ⇔ hiçbir B_ds tohumunda R1 yok.
+  - **PARTIAL:** geri kalan her durum.
+
+**Öngörüler [H].** WORKS ≈ %45; R1 tohum başına ≈ %70; +EXTRAPOLATES | WORKS ≈ %50 (d = 64'te 32k yazma 256 boyutta, seçici β gerekir); +LM | WORKS ≈ %20; NOT LEARNED ≈ %15; A'da acc(2) ≤ 0,2 ≈ %97; G0.4 geçer ≈ %70 (VRAM sınırda).
+**Kullanım.**
+- *WORKS:* RLT-M gerçek model tarifine girer (RLT-1 + kaydırmalı delta belleği; K1-K4 korunur). Sıradaki GPU işi Aşama 2: sıfırdan RLT-M, C = geri beslemesiz + bellek, D = parametre-eşit bellekli transformer.
+- *PARTIAL:* telemetriyle tanı (β, γ); uzatma kuralı.
+- *NOT LEARNED:* oyuncak sonucu dile taşınmadı. Yedekler: kod çözücüden yazma (B_z), d = 512, β sapması.
+
+**Maliyet.** G0.4 ≈ 15 dk; 3 koşu × ≈ 6-8 sa ≈ 18-24 GPU-saat (1800 MHz kilitli saatle; uzatılırsa iki katı). E-X1'den sonra kendiliğinden başlar (≈ 24 Ekim 06:00).
+**§5.40'tan sapmalar (bilinçli, sonuç görülmeden).**
+- Bellek modülü 16 yuvalı havuz yazması yerine kaydırmalı delta: havuz yazması oyuncakta öğrenmedi (E-RM0R2-4).
+- Kollar azaltıldı:
+  - B_rmt oyuncakta NOT LEARNED;
+  - A′ (sıralı taşınan durum) ≈ 25-30 GPU-sa, ayrı karar;
+  - E (XL önbelleği) ertelendi.
+
+  R4 ve R5 bu yüzden yok.
+- Sıcak başlangıç 8.000 yerine L1'in son ağırlıkları (gerçek model).
+- Birincil hücre harfler yerine doğal kelimeler (tavan).
+
+*Sınır:* tek korpus; L1 tek tohum; A tek tohum; pencereli çıkarım; d ≤ 64.
+
 ## 6. Gerçek model yolu
 
 1. **Ne iddia edilir:** "küçük, bayt-düzeyi bir RLT, durum-izleme/çok-adımlı görevlerde eşit-parametre ve eşit-token bir transformer'a yapısal bir üstünlük gösteriyor mu". LM kaybında üstünlük iddia edilmez (bağımsız değerlendirme bulamadı).

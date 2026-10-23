@@ -653,6 +653,10 @@ Yalnız-uzunluk kontrolü (eğitim dağılımı, derinlik ≤ 8): 64 / 256 / 1.0
 
 116. **E-RM0R7 SONUCU: G0.3 GEÇTİ (kayıtlı kural; 2026-10-23 08:50-10:36; ayrıntı not §5.60.1):** Gerçek ölçekte kullanılacak RLT-M modülü kilitli Core'la (geri besleme açık) oyuncak mesafe görevini iki tohumda da çözdü: d = 1, 2, 3'te 1,000, 500. güncellemede öğrendi. Belleksiz aynı pencereler şansta (0,121). Öngörüler (%75, %95) tuttu. Aşama 1'in Aşama 0 kapılarından G0.1, G0.2, G0.3 ve G0.5 tamam; G0.3b koşuyor, G0.4 GPU'da.
 
+117. **E-RM0R7b SONUCU: G0.3b GATE PASSED (kayıtlı kural; 2026-10-23 10:30-12:24; ayrıntı not §5.62.1):** Okumanın çıkış izdüşümü sıfırdan başlayınca da gerçek Core + bellek oyuncak görevi çözdü: d = 1-3'te 1,000, 500. güncellemede. Öngörü (≈ %80) tuttu. Aşama 1'de B_ds bu başlangıçla koşar; sıcak başlangıçta model ilk adımda L1'in tam kendisi. **İşletme:** kullanıcı GPU saatini 1800 MHz'e kilitledi. L1 4,56-4,62 s'den 3,66-3,90 s / güncellemeye indi (≈ 1,2×); E-L1C bitişi ≈ 23:30'a çekildi.
+
+118. **E-RM AŞAMA 1 v2 ÖN-KAYDI (2026-10-23 12:24; ayrıntı not §5.61):** L1'in son ağırlıkları (30.518) + kaydırmalı anahtarlı delta belleği (B_ds, iki tohum, Wo = 0 başlangıcı) ile belleksiz A, gerçek ölçekte pencereler-arası olgular ve dil. 4.000 güncelleme, §5.40'ın karışımı ve tek uzatma kuralı. Birincil hücre dışarıda tutulan doğal kelimeler (pencere içi tavan 0,964). Kayıtlı hükümler R1/R2/R3/R6 + gerileme yok; WORKS ≈ %45. GPU'da E-X1'den sonra kendiliğinden başlar; önce G0.4 (hız ≤ 1,15× A, VRAM ≤ 7,8 GiB), geçmezse hiçbir koşu açılmaz. §5.40'tan sapmalar sonuç görülmeden yazıldı.
+
 **Sınırlar.** Bu bölümde yeni ölçüm YOK; öngörüler sonuçlardan önce yazıldı. M4 karşılaştırması farklı genişlik, lr, bütçe ve müfredatla yapıldı. X1 doğrulanmadı. **Güncelleme (07:10):** "yeni ölçüm YOK" cümlesi yalnız 06:30 öncesi için doğruydu; 06:54'ten beri E-A ve E-B ölçümleri alındı (madde 7-8) ve yukarıdaki sınırlar onlar için ayrıca belirtilmiştir.
 
 ## 7. Düzeltmeler defteri
