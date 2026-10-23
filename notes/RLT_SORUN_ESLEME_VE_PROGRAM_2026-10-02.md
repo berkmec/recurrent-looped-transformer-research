@@ -2117,6 +2117,27 @@ Mesafe sorununda işe yarayan yol buydu: yeni bilgi yerine doğru yapısal önse
 **Okuma.** sk4'te geri beslemeli Core 100.960 parametreyle öğreniyor. Öğrenemeyenler: geri beslemesiz ikizi; 4-16 kat parametreli GRU ve LSTM; 2 ve 8 kat parametreli transformerler (konumsuz ve konumlu). Kapasite açıklaması 16×'e kadar reddedildi; sk4 üstünlüğü geri beslemenin yapısına ait. Eşit duvar saati denetimi (E-S-C) kullanıcı önceliğiyle durduruldu (§5.64), bu yüzden M7'nin hesap çekincesi açık kalıyor.
 - *Sınır:* tek görev; geniş hücrelerde tek tohum ve tek lr; bütçe 15.000 güncelleme.
 
+### 5.65 Çekinceler dökümü (2026-10-23 13:53; kullanıcı isteği: "çekincelerini bir yere yaz"): şimdiye kadarki RLT iddialarının sınırları, önem sırasıyla
+Kaynak: sonuç dosyaları (aşağıdaki sayılar ham JSON'dan, bu oturumda yeniden okundu). Her yeni sonuç bu listeyi güncelleyebilir; eski metin silinmez.
+
+1. **Uzun uzunlukta bozulma (sk4).** Geri beslemeli Core'un sk4 doğruluğu (tohum 1 / 2 / 3; eğitimde en uzun yürüyüş 16 adım = 68 belirteç):
+
+   | yürüyüş | dizi uzunluğu | doğruluk |
+   |---|---|---|
+   | 16 | 68 | 1,000 / 1,000 / 1,000 |
+   | 64 | 128 | 1,000 / 0,998 / 1,000 |
+   | 512 | 688 | 0,625 / 0,476 / 0,544 |
+
+   Sorgudan önceki yürüyüşe göre: 256-511 adımda 0,40 / 0,24 / 0,21; 512+ adımda 0,34 / 0,13 / 0,15 (şans 0,125). Kayıtlı "dış değer 0,98" yalnız eğitim uzunluğunun 2-8 katı için geçerli; 30 katında açıkça bozuluyor. Nedeni ölçülmedi.
+2. **Ölçek.** sk4 üstünlüğü ≈ 100 bin parametreli oyuncak bir görevde. Dilde L1'in kazancı geri beslemesiz ikizine göre +0,06 bit/bayt (eşit güncellemede). Standart transformerle karşılaştırma (E-X1) henüz yok.
+3. **Tohum.** sk4: 3 tohum, tutarlı. S₅: temizlemesiz kopuş tohuma bağlı (3 tohumun 2'sinde; adım başına hata 1,4×10⁻³ ve 2,9×10⁻³, tohum 2'de 1,5×10⁻⁵). L1 tek tohum (401). Bellek gerçek ölçekte henüz ölçülmedi.
+4. **Bellek.** Kaydırmalı delta belleği yalnız oyuncakta ve eğitildiği mesafede (≤ 3 pencere × 32 belirteç) ölçüldü: 2 tohum + sıfır başlangıçla 1 tohum, hepsi 1,000. Uzun mesafe ve dil ölçeği Aşama 1 v2'de (§5.61).
+5. **Maliyet (M1).** Geri besleme güncelleme başına ≈ 6× pahalı (CUDA graph ve saat kilidiyle bile). Kesin hesabı koruyan hızlandırmalar en çok 1,24× verdi. Ötesi hesabı değiştirmeyi gerektiriyor (kesik geri besleme); kullanıcı onayı bekliyor.
+6. **Derinlik dışdeğerlemesi (N2).** Sayaçta Core, GRU ve LSTM eğitim derinliğinin ötesinde doyuyor. Dönel sayaç sınanıyor (§5.63).
+7. **Uzun belge (L1).** Pencerelemeden 4 KB'lık belgede bit/bayt +0,23-0,49 kötü. Çıkarımda belleği 512'ye sınırlamak bunu %99,96 düzeltiyor, ama bu bir çare değil, bir sınır.
+8. **Eşit hesap (M7).** sk4'te tabanlara Core'un duvar saati kadar bütçe verme denetimi (E-S-C) kullanıcı önceliğiyle durduruldu. Eşit güncellemede ve 16 kat parametreye kadar üstünlük var; eşit hesapta ölçülmedi.
+9. **Karar modeli / RL.** Hiç sınanmadı; RLT makalesi de RL'i ölçmemiş.
+
 ## 6. Gerçek model yolu
 
 1. **Ne iddia edilir:** "küçük, bayt-düzeyi bir RLT, durum-izleme/çok-adımlı görevlerde eşit-parametre ve eşit-token bir transformer'a yapısal bir üstünlük gösteriyor mu". LM kaybında üstünlük iddia edilmez (bağımsız değerlendirme bulamadı).

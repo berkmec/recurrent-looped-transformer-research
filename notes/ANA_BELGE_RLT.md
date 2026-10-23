@@ -663,6 +663,8 @@ Yalnız-uzunluk kontrolü (eğitim dağılımı, derinlik ≤ 8): 64 / 256 / 1.0
 
 121. **E-S-W SONUCU: ADVANTAGE HOLDS AT 16x PARAMETERS (kayıtlı kural; 2026-10-23 07:02-13:07; ayrıntı not §5.57.2):** sk4'ü 4-16 kat parametreli GRU ve LSTM de, 8 kat parametreli konumlu transformer de öğrenemedi (aralık-içi 0,12-0,23). Geri beslemeli Core 100 bin parametreyle öğreniyor. Kapasite açıklaması 16×'e kadar reddedildi. Eşit duvar saati denetimi kullanıcı önceliğiyle durduruldu (madde 120).
 
+122. **ÇEKİNCELER DÖKÜMÜ (2026-10-23 13:53; kullanıcı isteği; ayrıntı not §5.65):** Önem sırasıyla: (1) sk4'te uzun uzunlukta bozulma: 32× uzunlukta 0,48-0,63, ~500 adımda 0,21-0,40; "dış değer 0,98" yalnız 2-8× için geçerli. (2) Ölçek: oyuncak görev; dilde +0,06 bit/bayt, transformer karşılaştırması yok. (3) Tohum: S₅ kopuşu tohuma bağlı, L1 tek tohum. (4) Bellek yalnız oyuncakta ve eğitim mesafesinde ölçüldü. (5) Maliyet ≈ 6×. (6) Sayaç derinliği doyuyor. (7) Uzun belge yalnız pencerelemeyle düzeliyor. (8) Eşit hesap ölçülmedi. (9) Karar modeli / RL sınanmadı.
+
 **Sınırlar.** Bu bölümde yeni ölçüm YOK; öngörüler sonuçlardan önce yazıldı. M4 karşılaştırması farklı genişlik, lr, bütçe ve müfredatla yapıldı. X1 doğrulanmadı. **Güncelleme (07:10):** "yeni ölçüm YOK" cümlesi yalnız 06:30 öncesi için doğruydu; 06:54'ten beri E-A ve E-B ölçümleri alındı (madde 7-8) ve yukarıdaki sınırlar onlar için ayrıca belirtilmiştir.
 
 ## 7. Düzeltmeler defteri
