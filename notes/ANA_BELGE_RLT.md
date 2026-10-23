@@ -641,6 +641,8 @@ Yalnız-uzunluk kontrolü (eğitim dağılımı, derinlik ≤ 8): 64 / 256 / 1.0
 
 110. **E-L1C ARA GÖZLEM (hüküm değil; kayıtlı kural 30.518'de okunur; 2026-10-23 07:09):** L1'in A0F'ye farkı 8k'da +0,050, 10k'da +0,056, 12k'da +0,058, 14k'da +0,057, 16k'da +0,060 (bit/bayt). E-A0'da 2k-8k arasında görülen daralma 8k'dan sonra sürmüyor. Hız CUDA graph'la 4,62 s/güncelleme. GPU saati 1200 MHz'de takılı (azami 2100; P2, kısma nedeni GpuIdle, 73 W): döngünün küçük çekirdekleri sürücüyü düşük saatte tutuyor olabilir [H]. Saati kilitlemek yönetici izni ister.
 
+111. **E-X1 ÖN-KAYDI (2026-10-23 07:20; ayrıntı not §5.59):** Bağımsız değerlendirmenin sorusu (X1) bizim ortamımızda: L1'e parametre-eşit standart transformer (6 × 528, 20,37M; L1 20,30M), aynı tarif, veri, tohum ve 30.518 güncelleme. GPU, E-L1C biter bitmez bunu koşar (koşucu bekliyor). Kural E-A0'nınki (δ = 0,020). Öngörü: TRANSFORMER BEATS RLT ≈ %45, NO DIFFERENCE ≈ %35, RLT BEATS ≈ %20. `mline/lm.py` M1'in dondurulmuş protokolüne ait olduğu için değiştirilmedi; kol `mline/tfm.py`'de.
+
 **Sınırlar.** Bu bölümde yeni ölçüm YOK; öngörüler sonuçlardan önce yazıldı. M4 karşılaştırması farklı genişlik, lr, bütçe ve müfredatla yapıldı. X1 doğrulanmadı. **Güncelleme (07:10):** "yeni ölçüm YOK" cümlesi yalnız 06:30 öncesi için doğruydu; 06:54'ten beri E-A ve E-B ölçümleri alındı (madde 7-8) ve yukarıdaki sınırlar onlar için ayrıca belirtilmiştir.
 
 ## 7. Düzeltmeler defteri

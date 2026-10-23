@@ -33,6 +33,7 @@ from horizon import telemetry_std1 as ts
 from mline import checkpoint as ck
 from mline import decoy_train as dt
 from mline import lm as ml
+from mline import tfm as tf
 
 ROLE = 'the long run: one from-scratch training, not stopped for a plateau'
 NATURAL_KEY_BYTES = 24                    # the longest natural key the generator draws, for the row-fit check
@@ -169,12 +170,14 @@ def train(out, *, width, heads, steps, batch, length, lr, seed, needle_rate, pha
     check_phases(phases)
     if telemetry not in ('off', 'std1'):
         raise SystemExit("telemetry 'off' veya 'std1' olmali (I1a:63/65; sessiz eksik-log yasak)")
+    if telemetry == 'std1' and arm in tf.ARMS:
+        raise SystemExit("std1 telemetrisi Core'un baslangic durumunu (initial) okur; transformer kolu (X1) telemetri kapali kosar")
     out = Path(out)
     out.mkdir(parents=True, exist_ok=True)
     done = out / 'complete.json'
     if done.exists() and json.loads(done.read_text(encoding='utf8')).get('steps', 0) >= steps:
         return out                                          # finished already: starting it again is a no-op
-    model = ml.build(arm, width=width, heads=heads, window=window, alpha=alpha, seed=seed).to(device)
+    model = (tf.build if arm in tf.ARMS else ml.build)(arm, width=width, heads=heads, window=window, alpha=alpha, seed=seed).to(device)
     opt = torch.optim.AdamW(model.parameters(), lr=lr, weight_decay=weight_decay)
     parameters = sum(p.numel() for p in model.parameters())
     sw.write_json(out / 'probe.json', dict(
@@ -328,11 +331,12 @@ def make_eval_fn(protocol, alphabet, natural_val_keys, device='cuda', items=32, 
         for n in distances:
             r = me.mqar_accuracy(model, alphabet, (4, 4), 1, 1, (n, n), length, items, device=device)
             out['single_fact_exact@%d' % n] = float(r['exact_all'])
-        probe = ap.probe(model, [(0, 0), (15, 15)], alphabet='TRAIN_KEYS', key_length=4, items=16, device=device)
-        cond = [c for c in ap.conditionality(probe) if c['mean'] is not None]
-        if cond:
-            out['attention_conditionality_mean'] = float(sum(c['mean'] for c in cond) / len(cond))
-            out['attention_conditionality_best'] = float(max(c['best'] for c in cond))
+        if not isinstance(model, tf.TransformerLM):     # the probe reads the Core's own cross-attention call; the X1 arm has none
+            probe = ap.probe(model, [(0, 0), (15, 15)], alphabet='TRAIN_KEYS', key_length=4, items=16, device=device)
+            cond = [c for c in ap.conditionality(probe) if c['mean'] is not None]
+            if cond:
+                out['attention_conditionality_mean'] = float(sum(c['mean'] for c in cond) / len(cond))
+                out['attention_conditionality_best'] = float(max(c['best'] for c in cond))
         return out
 
     return fn
@@ -358,7 +362,8 @@ def main():
     parser.add_argument('--eval-every', type=int, default=1000)
     parser.add_argument('--eval-items', type=int, default=32, help='rows per cell of the battery')
     parser.add_argument('--device', default='cuda')
-    parser.add_argument('--arm', default='plain', choices=ml.ARMS, help="'a0' = the same Core with feedback off (the A0 twin)")
+    parser.add_argument('--arm', default='plain', choices=ml.ARMS + tf.ARMS,
+                        help="'a0' = the same Core with feedback off (the A0 twin); 'tfm6' = the X1 transformer baseline (mline.tfm)")
     parser.add_argument('--stop-at', type=int, default=None, help='stop after this update, keeping the full schedule (see train)')
     parser.add_argument('--telemetry', default='off', choices=('off', 'std1'))
     parser.add_argument('--graphs', action='store_true', help='replay the training forward and backward as CUDA graphs (E-J1)')

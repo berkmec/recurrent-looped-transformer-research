@@ -1856,6 +1856,29 @@ Bütçeler oranı yukarı yuvarlıyor. Bu, testte denetleniyor; ilk yazımdaki L
 
 *Sınır:* duvar saati CPU'da ölçüldü (GPU'da döngünün payı farklı); öğrenen hücre dışında tek tohum; tek lr.
 
+### 5.59 E-X1 ön-kaydı: L1'e parametre-eşit standart transformer; bağımsız değerlendirmenin sorusu (X1) bizim ortamımızda (kod `mline/tfm.py` 6 test, `mline/x1_reading.py` 3 test, `longrun --arm tfm6`; betik `scripts/run_x1.sh`; koşudan ÖNCE yazıldı 2026-10-23 07:20)
+**Neden.** Bağımsız değerlendirme (X1, §2) şunu buldu: RLT, 50M'de transformerle aynı yerde (kayıp 3,8845 / 3,8841), 140M'de daha kötü ve ≈ 15-19× yavaş. Bizim E-A0, geri beslemenin aynı mimaride yardım ettiğini gösteriyor (tek-faktör: L1 ile A0 ikizi). Ama RLT dil modelinin standart bir transformere karşı nerede durduğunu söylemiyor. "RLT ile gerçek model" iddiasının önkoşulu bu.
+**Kol.** `tfm6`: 6 katman, genişlik 528, 8 baş; FFN 4× (GELU); pre-norm RMS; Core'un rotary kodlaması (testte birebir); GPT-2 ilklemesi (normal 0,02; artık izdüşümleri 1/√(2·6) ölçekli). Tabana bilinen en iyi başlangıcı vermek için seçildi.
+- *Parametre:* 20.365.744; L1 20.297.472 (+%0,3; testte sabit).
+- *L1 ve A0F ile birebir aynı:* tarif m2-draft, veri, tohum 401, parti 32 × 512, lr 6×10⁻⁴ (500 ısınma, son %10 azaltma, taban 0,1), 30.518 güncelleme, ölçüm pili.
+- *Pilde eksik:* yalnız dikkat koşulluluğu sondası. Core'un kendi çapraz-dikkat çağrısını okuyor, transformerde yok. Pilin geri kalanı (bits_per_byte, MQAR, tek-olgu mesafe) aynı.
+- *Kod notu:* `mline/lm.py` M1'in dondurulmuş protokolüne ait (`mline.train.SOURCES`). Değiştirilseydi eski M1 dizinlerinin doğrulaması "source drift" verirdi. Bu yüzden kol ayrı modülde; `longrun` onu üç korumalı satırla alıyor. Core yolu değişmedi (longrun, graph ve std1 testleri geçti).
+
+**Bellek (ölçüldü):** geri yayılım için saklanan tensörler parti 2'de 321 MB, parti 32'ye ölçekle ≈ 5,0 GB üst sınır. CPU'da dikkat matrisi açıkça saklanıyor; CUDA'nın bellek-verimli dikkati bunu saklamıyor. Ağırlık, gradyan ve AdamW durumu 0,30 GB. 8 GB'a sığıyor. Koşucu, başladıktan 3 dk sonra VRAM'i kuyruğa yazar.
+**Zamanlama.** Koşucu E-L1C'nin okuma satırını ve GPU'da başka uzun koşu kalmamasını bekler, sonra başlar (E-L1C bitişi ≈ 24 Ekim 03:00).
+**Kural** (E-A0 kuralı, `a0_reading` noktaları 12k-30.518; 6 noktanın 5'i; δ = 0,020 bit/bayt, eşik kapsayıcı; `x1_reading.reading`). Δ_k = bpb_T(k) − bpb_L1(k).
+- Δ_end ≥ +0,020 ve ≥ 5/6 noktada Δ > 0 → **RLT BEATS TRANSFORMER**.
+- Δ_end ≤ −0,020 ve ≥ 5/6 noktada Δ < 0 → **TRANSFORMER BEATS RLT**.
+- |Δ_end| < 0,020 → **NO MEANINGFUL DIFFERENCE**; aksi **MIXED**.
+
+Betimleyici olarak raporlanacaklar: transformer ile A0F (geri beslemesiz RLT) aynı kuralla; getirme ölçüleri yan yana; güncelleme başına süre.
+**Öngörüler [H].** TRANSFORMER BEATS RLT ≈ %45; NO MEANINGFUL DIFFERENCE ≈ %35; RLT BEATS TRANSFORMER ≈ %20. Transformer A0F'yi geçer ≈ %75; gerekçe derinlik (6 katmana karşı 1+1).
+**Kullanım.**
+- RLT BEATS ya da NO DIFF → RLT dil modeli bu ölçekte transformer düzeyinde. "Gerçek model" yolu RLT'yle sürer; maliyet (≈ 7×) ayrı bir sorun olarak kalır.
+- TRANSFORMER BEATS → geri beslemenin kazancı (E-A0) mimari açığı kapatmıyor demektir. Sıradaki soru: RLT'nin geri beslemesi (K1-K4 korunarak) daha derin bir kod çözücüye taşınabilir mi?
+
+*Sınır:* tek tohum; tek ölçek (≈ 20M); tek veri karışımı (m2-draft: dil + sentetik getirme); tek transformer şekli (6 × 528).
+
 ## 6. Gerçek model yolu
 
 1. **Ne iddia edilir:** "küçük, bayt-düzeyi bir RLT, durum-izleme/çok-adımlı görevlerde eşit-parametre ve eşit-token bir transformer'a yapısal bir üstünlük gösteriyor mu". LM kaybında üstünlük iddia edilmez (bağımsız değerlendirme bulamadı).
