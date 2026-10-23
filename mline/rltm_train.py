@@ -41,7 +41,7 @@ def phase_at(step):
             return shares, distances
 
 
-def build(arm, init, seed, d=256, write_chunk=32, width=928, heads=8, zero_out=True):
+def build(arm, init, seed, d=256, write_chunk=32, width=928, heads=8, zero_out=True, ut_chunk=0):
     """L1 from `init` wrapped by RLT-M; `zero_out` starts the read's output at zero so the warm start is L1 itself (note 5.62)."""
     if arm not in ARMS:
         raise ValueError('arm must be one of ' + ', '.join(ARMS))
@@ -50,7 +50,7 @@ def build(arm, init, seed, d=256, write_chunk=32, width=928, heads=8, zero_out=T
         blob = torch.load(init, map_location='cpu', weights_only=False)
         core.load_state_dict(blob['model'] if isinstance(blob, dict) and 'model' in blob else blob)
     return rltm.RLTM(core, d_k=d, d_v=d, gamma_init=1.0, seed=seed, memory=(arm == 'B_ds'), write_chunk=write_chunk,
-                     zero_out=zero_out)
+                     zero_out=zero_out, ut_chunk=ut_chunk)
 
 
 def batch(step, rows, windows, seed, corpus, natural_train, window=512, within_specs=None):
@@ -131,13 +131,13 @@ def battery(model, corpus_val, natural_val, windows, distances, items, device, w
 
 def train(out, *, arm, init, seed, steps, corpus, corpus_val, natural_train, natural_val, rows=8, windows=4, window=512, lr_core=3e-4,
           lr_new=9e-4, warmup=100, d=256, write_chunk=32, eval_every=500, ckpt_every=250, items=64, device='cuda', within_specs=None,
-          width=928, heads=8, log=print, stop_at=None):
+          width=928, heads=8, log=print, stop_at=None, ut_chunk=0):
     """`stop_at` ends the process early (a checkpoint, no final battery); a later call with the same `steps` resumes the run."""
     out = Path(out)
     out.mkdir(parents=True, exist_ok=True)
     if (out / 'final.json').exists():
         return out
-    model = build(arm, init, seed, d, write_chunk, width, heads).to(device)
+    model = build(arm, init, seed, d, write_chunk, width, heads, ut_chunk=ut_chunk).to(device)
     new = list(model.gate_parameters())
     taken = {id(p) for p in new}
     groups = [dict(params=[p for p in model.parameters() if id(p) not in taken], lr=lr_core, base=lr_core)]
@@ -151,7 +151,7 @@ def train(out, *, arm, init, seed, steps, corpus, corpus_val, natural_train, nat
             opt.load_state_dict(resume['optimizer'])
         start = int(resume['step']) + 1
     sw.write_json(out / 'config.json', dict(arm=arm, init=str(init), seed=seed, steps=steps, rows=rows, windows=windows, window=window,
-                                           lr_core=lr_core, lr_new=lr_new, warmup=warmup, d=d, write_chunk=write_chunk, items=items,
+                                           lr_core=lr_core, lr_new=lr_new, warmup=warmup, d=d, write_chunk=write_chunk, ut_chunk=ut_chunk, items=items,
                                            parameters=sum(p.numel() for p in model.parameters()), phases=[list(p) for p in PHASES]))
     t0 = time.perf_counter()
     for step in range(start, steps + 1):
@@ -223,6 +223,8 @@ def main():
     p.add_argument('--items', type=int, default=64)
     p.add_argument('--reading', nargs='+', default=None)
     p.add_argument('--smoke', type=int, default=0, help='G0.4: this many updates, no battery; writes smoke.json (s / update, peak VRAM)')
+    p.add_argument('--ut-chunk', type=int, default=0, help='the chunkwise-parallel write (chunks of this many writes); 0 = the loop')
+    p.add_argument('--d', type=int, default=256, help='memory key / value size (note 5.61: 256; registered fallback 128)')
     a = p.parse_args()
     if a.reading:
         finals = {str(Path(f).parent.name): json.loads(Path(f).read_bytes().decode('utf8')) for f in a.reading}
@@ -237,10 +239,10 @@ def main():
     if a.smoke:
         sw.write_json(Path(a.out) / 'smoke.json', smoke(a.out, a.smoke, arm=a.arm, init=a.init, seed=a.seed, steps=a.steps, corpus=corpus,
                                                        corpus_val=corpus_val, natural_train=natural_train, natural_val=natural_val,
-                                                       items=a.items, device=a.device))
+                                                       items=a.items, device=a.device, ut_chunk=a.ut_chunk, d=a.d))
         return
     train(a.out, arm=a.arm, init=a.init, seed=a.seed, steps=a.steps, corpus=corpus, corpus_val=corpus_val, natural_train=natural_train,
-          natural_val=natural_val, items=a.items, device=a.device)
+          natural_val=natural_val, items=a.items, device=a.device, ut_chunk=a.ut_chunk, d=a.d)
 
 
 def smoke(out, updates, **kw):

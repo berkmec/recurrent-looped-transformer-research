@@ -1,0 +1,40 @@
+{
+ "schema": "run-manifest/v1",
+ "run_id": "E-C-ROT-count8_32-core-w64-s1",
+ "campaign": "Z1-pilot",
+ "agent": "claude-4797b78c",
+ "created_utc": "2026-10-23T10:01:55Z",
+ "command": "python -B -m horizon.depth_run --task count8_32 --arm core --width 64 --seed 1 --steps 12000 --lr 0.003 --points 8,16,32,64,128,256,512 --out results/Z1-pilot/count8_32-core-w64-s1.json --log-every 1000",
+ "prereg": {
+  "paper": "notes/RLT_SORUN_ESLEME_VE_PROGRAM_2026-10-02.md 5.63"
+ },
+ "code": {
+  "head": "a028976",
+  "dirty": false,
+  "porcelain": [
+   " M results/L1-scratch-w928-s401/probe.json",
+   " M results/L1-scratch-w928-s401/probe.jsonl",
+   " M results/L1-scratch-w928-s401/train.log",
+   " M results/M1-finetune-distance/queue.log",
+   "?? results/ES-compute/",
+   "?? results/ES-width/sk4-gru-w512-s1-lr0.001.log",
+   "?? results/L1-scratch-w928-s401/E-L1C-L1-scratch-w928-s401.manifest.json",
+   "?? results/Z1-pilot/E-C-ROT-count8_32-core_rotq-w64-s1.manifest.json",
+   "?? results/Z1-pilot/E-C-count8_32-gru-w64-s1.manifest.json",
+   "?? results/Z1-pilot/E-C-count8_32-lstm-w64-s1.manifest.json",
+   "?? results/Z1-pilot/count8_32-core_rotq-w64-s1.log",
+   "?? results/Z1-pilot/count8_32-gru-w64-s1.log",
+   "?? results/Z1-pilot/count8_32-lstm-w64-s1.log"
+  ]
+ },
+ "config": {
+  "source": "scripts/run_ec_rot.sh",
+  "summary": {},
+  "sha256": "035da2f9822c0f939a0dbba82b5dbec1e88a77717e722d91f42f9fdba7c0e853"
+ },
+ "seeds": {
+  "seed": 1
+ },
+ "telemetry_schema": "I1-a/v1",
+ "status": "started"
+}

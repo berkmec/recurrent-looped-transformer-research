@@ -76,6 +76,43 @@ class RLTMTests(unittest.TestCase):
         for a, b in zip(grads[0][1], grads[1][1]):
             self.assertTrue(torch.allclose(a, b, atol=1e-6, rtol=1e-5))
 
+    def test_the_chunkwise_parallel_write_is_the_loop(self):
+        """chunked_write against the loop: values and gradients in float64 (chunks that do not divide the length, a nonzero start, a
+        long chunk), and at the language shape in float32 (511 writes, d = 256, the trainer's chunk of 64)."""
+        g = torch.Generator().manual_seed(11)
+        for steps, d, chunk in ((23, 8, 5), (23, 8, 64), (40, 16, 16)):
+            k = F.normalize(torch.randn(3, steps, d, generator=g, dtype=torch.float64), dim=-1).requires_grad_()
+            v = torch.randn(3, steps, d, generator=g, dtype=torch.float64).requires_grad_()
+            beta = torch.rand(3, steps, 1, generator=g, dtype=torch.float64).requires_grad_()
+            M0 = torch.randn(3, d, d, generator=g, dtype=torch.float64).requires_grad_()
+            w = torch.randn(3, d, d, generator=g, dtype=torch.float64)
+            out = []
+            for f in (lambda: rltm._write_chunk(M0, k, v, beta), lambda: rltm.chunked_write(M0, k, v, beta, chunk)):
+                M = f()
+                grads = torch.autograd.grad((M * w).sum(), (M0, k, v, beta))
+                out.append((M.detach(), grads))
+            self.assertLess(float((out[0][0] - out[1][0]).abs().max()), 1e-10, (steps, d, chunk))
+            for a, b in zip(out[0][1], out[1][1]):
+                self.assertLess(float((a - b).abs().max()), 1e-9, (steps, d, chunk))
+        k = F.normalize(torch.randn(2, 511, 256, generator=g), dim=-1)
+        v, beta = torch.randn(2, 511, 256, generator=g), torch.rand(2, 511, 1, generator=g)
+        loop, ut = rltm._write_chunk(torch.zeros(2, 256, 256), k, v, beta), rltm.chunked_write(torch.zeros(2, 256, 256), k, v, beta, 64)
+        self.assertLess(float((loop - ut).abs().max() / loop.abs().max()), 1e-4)
+
+    def test_the_parallel_write_option_gives_the_same_model(self):
+        xw = _rows(n=3, w=11)
+        runs = []
+        for ut in (0, 4):
+            m = _model()
+            m.ut_chunk = ut
+            m.train()
+            out = m(xw)
+            out.square().mean().backward()
+            runs.append((out.detach(), [p.grad.clone() for p in (m.Wk.weight, m.Wv.weight, m.wb.weight, m.Wq.weight, m.core.eq.weight)]))
+        self.assertTrue(torch.allclose(runs[0][0], runs[1][0], atol=1e-6))
+        for a, b in zip(runs[0][1], runs[1][1]):
+            self.assertTrue(torch.allclose(a, b, atol=1e-6, rtol=1e-5))
+
     def test_a_zero_output_start_is_the_core_and_still_learns_the_read(self):
         xw = _rows()
         m = rltm.RLTM(rltm.small_core(et.VOCAB, width=32, heads=2, seed=3), d_k=16, d_v=16, gamma_init=1.0, seed=10, zero_out=True)

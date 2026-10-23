@@ -193,3 +193,249 @@ step   8300  loss 0.896  answer_loss 0.044865790754556656  first-digit 1.0  lr 6
 step   8400  loss 0.906  answer_loss 0.012733809649944305  first-digit 1.0  lr 6.00e-04  869.6 min
 step   8500  loss 0.895  answer_loss 0.038446493446826935  first-digit 0.949999988079071  lr 6.00e-04  878.9 min
 resuming from step 8500
+resuming from step 8500
+__PY_ENV_DIR__\.venv\Lib\site-packages\torch\autograd\graph.py:882: UserWarning: The AccumulateGrad node's stream does not match the stream of the node that produced the incoming gradient. This may incur unnecessary synchronization and break CUDA graph capture if the AccumulateGrad node's stream is the default stream. This mismatch is caused by an AccumulateGrad node created prior to the current iteration being kept alive. This can happen if the autograd graph is still being kept alive by tensors such as the loss, or if you are using DDP, which will stash a reference to the node. To resolve the mismatch, delete all references to the autograd graph or ensure that DDP initialization is performed under the same stream as subsequent forwards. If the mismatch is intentional, you can use torch.autograd.graph.set_warn_on_accumulate_grad_stream_mismatch(False) to suppress this warning. (Triggered internally at C:\actions-runner\_work\pytorch\pytorch\torch\csrc\autograd\input_buffer.cpp:250.)
+  return Variable._execution_engine.run_backward(  # Calls into the C++ engine to run the backward pass
+step   8600  loss 0.836  answer_loss 0.0367141030728817  first-digit 1.0  lr 6.00e-04  8.8 min
+step   8700  loss 0.955  answer_loss 0.04179077968001366  first-digit 0.9756097197532654  lr 6.00e-04  17.3 min
+step   8800  loss 0.872  answer_loss 0.04632731154561043  first-digit 1.0  lr 6.00e-04  25.4 min
+step   8900  loss 0.904  answer_loss 0.0398443229496479  first-digit 1.0  lr 6.00e-04  33.2 min
+step   9000  {"bits_per_byte": 1.5885029211906951, "train_k4_first": 0.9878048780487805, "train_k4_exact": 0.9634146341463414, "held_k4_first": 0.6524390243902439, "held_k4_exact": 0.6036585365853658, "natural_first": 0.9571428571428572, "natural_exact": 0.95, "single_fact_exact@0": 0.2673611111111111, "single_fact_exact@64": 0.9765625, "single_fact_exact@128": 0.984375, "single_fact_exact@256": 1.0, "single_f
+step   9000  loss 0.891  answer_loss 0.014264248311519623  first-digit 1.0  lr 6.00e-04  42.1 min
+step   9100  loss 0.876  answer_loss 0.03238245099782944  first-digit 1.0  lr 6.00e-04  49.8 min
+step   9200  loss 0.860  answer_loss 0.02367856167256832  first-digit 0.9729729890823364  lr 6.00e-04  57.4 min
+step   9300  loss 0.872  answer_loss 0.06347449868917465  first-digit 0.9259259104728699  lr 6.00e-04  65.0 min
+step   9400  loss 0.912  answer_loss 0.03873046860098839  first-digit 1.0  lr 6.00e-04  72.7 min
+step   9500  loss 0.840  answer_loss 0.012727159075438976  first-digit 1.0  lr 6.00e-04  80.7 min
+step   9600  loss 0.909  answer_loss 0.045756321400403976  first-digit 1.0  lr 6.00e-04  88.7 min
+step   9700  loss 0.847  answer_loss 0.04555688053369522  first-digit 0.9032257795333862  lr 6.00e-04  96.7 min
+step   9800  loss 0.895  answer_loss 0.045519161969423294  first-digit 0.9714285731315613  lr 6.00e-04  104.3 min
+step   9900  loss 0.876  answer_loss 0.07975644618272781  first-digit 0.9729729890823364  lr 6.00e-04  111.7 min
+step  10000  {"bits_per_byte": 1.5755743188925657, "train_k4_first": 1.0, "train_k4_exact": 0.9878048780487805, "held_k4_first": 0.6341463414634146, "held_k4_exact": 0.5548780487804879, "natural_first": 0.95, "natural_exact": 0.9428571428571428, "single_fact_exact@0": 0.2743055555555556, "single_fact_exact@64": 1.0, "single_fact_exact@128": 1.0, "single_fact_exact@256": 1.0, "single_fact_exact@384": 1.0, "sing
+step  10000  loss 0.837  answer_loss 0.0018826737068593502  first-digit 1.0  lr 6.00e-04  121.1 min
+step  10100  loss 0.880  answer_loss 0.0021698842756450176  first-digit 1.0  lr 6.00e-04  129.5 min
+step  10200  loss 0.906  answer_loss 0.008744634687900543  first-digit 0.96875  lr 6.00e-04  137.7 min
+step  10300  loss 0.928  answer_loss 0.034701958298683167  first-digit 0.9487179517745972  lr 6.00e-04  145.3 min
+step  10400  loss 0.848  answer_loss 0.024867314845323563  first-digit 0.9696969985961914  lr 6.00e-04  152.9 min
+step  10500  loss 0.886  answer_loss 0.004098682664334774  first-digit 1.0  lr 6.00e-04  160.5 min
+step  10600  loss 0.878  answer_loss 0.019375046715140343  first-digit 0.9722222089767456  lr 6.00e-04  168.1 min
+step  10700  loss 0.875  answer_loss 0.07166959345340729  first-digit 0.9743589758872986  lr 6.00e-04  175.7 min
+step  10800  loss 0.896  answer_loss 0.01340531650930643  first-digit 1.0  lr 6.00e-04  183.3 min
+step  10900  loss 0.858  answer_loss 0.04829614982008934  first-digit 1.0  lr 6.00e-04  190.8 min
+step  11000  {"bits_per_byte": 1.5601889229290296, "train_k4_first": 1.0, "train_k4_exact": 1.0, "held_k4_first": 0.6402439024390244, "held_k4_exact": 0.5853658536585366, "natural_first": 0.9428571428571428, "natural_exact": 0.9428571428571428, "single_fact_exact@0": 0.2986111111111111, "single_fact_exact@64": 0.984375, "single_fact_exact@128": 1.0, "single_fact_exact@256": 1.0, "single_fact_exact@384": 1.0, "
+step  11000  loss 0.867  answer_loss 0.017065953463315964  first-digit 0.9736841917037964  lr 6.00e-04  199.1 min
+step  11100  loss 0.870  answer_loss 0.018551358953118324  first-digit 1.0  lr 6.00e-04  206.7 min
+step  11200  loss 0.881  answer_loss 0.027899930253624916  first-digit 0.9714285731315613  lr 6.00e-04  214.2 min
+step  11300  loss 0.875  answer_loss 0.020125828683376312  first-digit 0.9714285731315613  lr 6.00e-04  221.8 min
+step  11400  loss 0.908  answer_loss 0.025364220142364502  first-digit 0.9705882668495178  lr 6.00e-04  229.4 min
+step  11500  loss 0.870  answer_loss 0.003110045101493597  first-digit 1.0  lr 6.00e-04  237.0 min
+step  11600  loss 0.853  answer_loss 0.02257734350860119  first-digit 1.0  lr 6.00e-04  244.6 min
+step  11700  loss 0.919  answer_loss 0.004311251454055309  first-digit 1.0  lr 6.00e-04  252.2 min
+step  11800  loss 0.886  answer_loss 0.007750313729047775  first-digit 1.0  lr 6.00e-04  259.7 min
+step  11900  loss 0.871  answer_loss 0.0028732542414218187  first-digit 1.0  lr 6.00e-04  267.3 min
+step  12000  {"bits_per_byte": 1.5438918684311014, "train_k4_first": 0.9878048780487805, "train_k4_exact": 0.9817073170731707, "held_k4_first": 0.6585365853658537, "held_k4_exact": 0.6280487804878049, "natural_first": 0.9642857142857143, "natural_exact": 0.9642857142857143, "single_fact_exact@0": 0.2708333333333333, "single_fact_exact@64": 1.0, "single_fact_exact@128": 0.984375, "single_fact_exact@256": 1.0, "
+step  12000  loss 0.841  answer_loss 0.0010522359516471624  first-digit 1.0  lr 6.00e-04  275.4 min
+step  12100  loss 0.871  answer_loss 0.04606601223349571  first-digit 0.9736841917037964  lr 6.00e-04  283.0 min
+step  12200  loss 0.848  answer_loss 0.02073626220226288  first-digit 0.9677419066429138  lr 6.00e-04  290.6 min
+step  12300  loss 0.864  answer_loss 0.005009383894503117  first-digit 1.0  lr 6.00e-04  298.2 min
+step  12400  loss 0.877  answer_loss 0.004177638795226812  first-digit 0.9999999403953552  lr 6.00e-04  305.8 min
+step  12500  loss 0.883  answer_loss 0.0023314242716878653  first-digit 1.0  lr 6.00e-04  313.4 min
+step  12600  loss 0.881  answer_loss 0.0033807330764830112  first-digit 1.0  lr 6.00e-04  320.9 min
+step  12700  loss 0.848  answer_loss 0.0020749776158481836  first-digit 1.0  lr 6.00e-04  328.5 min
+step  12800  loss 0.794  answer_loss 0.0021570599637925625  first-digit 1.0  lr 6.00e-04  336.1 min
+step  12900  loss 0.846  answer_loss 0.20710262656211853  first-digit 0.9677419066429138  lr 6.00e-04  343.7 min
+step  13000  {"bits_per_byte": 1.5347919224086484, "train_k4_first": 1.0, "train_k4_exact": 0.9939024390243902, "held_k4_first": 0.7439024390243902, "held_k4_exact": 0.6890243902439024, "natural_first": 0.9785714285714285, "natural_exact": 0.9785714285714285, "single_fact_exact@0": 0.3368055555555556, "single_fact_exact@64": 0.9921875, "single_fact_exact@128": 0.96875, "single_fact_exact@256": 1.0, "single_fac
+step  13000  loss 0.907  answer_loss 0.0018027231562882662  first-digit 1.0  lr 6.00e-04  351.8 min
+step  13100  loss 0.861  answer_loss 0.0021332779433578253  first-digit 1.0  lr 6.00e-04  359.4 min
+step  13200  loss 0.859  answer_loss 0.04041275009512901  first-digit 0.9677419066429138  lr 6.00e-04  367.0 min
+step  13300  loss 0.850  answer_loss 0.0031929065007716417  first-digit 1.0  lr 6.00e-04  374.5 min
+step  13400  loss 0.862  answer_loss 0.06854838877916336  first-digit 0.9705882668495178  lr 6.00e-04  382.1 min
+step  13500  loss 0.819  answer_loss 0.003734375350177288  first-digit 1.0  lr 6.00e-04  389.7 min
+step  13600  loss 0.865  answer_loss 0.010538014583289623  first-digit 0.9655172228813171  lr 6.00e-04  397.3 min
+step  13700  loss 0.840  answer_loss 0.002279224107041955  first-digit 1.0  lr 6.00e-04  404.9 min
+step  13800  loss 0.889  answer_loss 0.1212606132030487  first-digit 0.9375  lr 6.00e-04  412.4 min
+step  13900  loss 0.835  answer_loss 0.0029382891952991486  first-digit 1.0  lr 6.00e-04  420.0 min
+step  14000  {"bits_per_byte": 1.5213660537733804, "train_k4_first": 0.9817073170731707, "train_k4_exact": 0.9817073170731707, "held_k4_first": 0.7317073170731707, "held_k4_exact": 0.6646341463414634, "natural_first": 0.9785714285714285, "natural_exact": 0.9571428571428572, "single_fact_exact@0": 0.4826388888888889, "single_fact_exact@64": 0.984375, "single_fact_exact@128": 0.984375, "single_fact_exact@256": 1
+step  14000  loss 0.859  answer_loss 0.05837317183613777  first-digit 0.9677419066429138  lr 6.00e-04  428.1 min
+step  14100  loss 0.851  answer_loss 0.0012436636025086045  first-digit 1.0  lr 6.00e-04  435.7 min
+step  14200  loss 0.874  answer_loss 0.0016123431269079447  first-digit 1.0  lr 6.00e-04  443.3 min
+step  14300  loss 0.876  answer_loss 0.0015469689387828112  first-digit 0.9999999403953552  lr 6.00e-04  450.9 min
+step  14400  loss 0.874  answer_loss 0.03330892324447632  first-digit 1.0  lr 6.00e-04  458.5 min
+step  14500  loss 0.873  answer_loss 0.0014666011556982994  first-digit 1.0  lr 6.00e-04  466.0 min
+step  14600  loss 0.880  answer_loss 0.0013422067277133465  first-digit 1.0  lr 6.00e-04  473.6 min
+step  14700  loss 0.847  answer_loss 0.006132663693279028  first-digit 1.0  lr 6.00e-04  481.2 min
+step  14800  loss 0.905  answer_loss 0.0025013855192810297  first-digit 1.0  lr 6.00e-04  488.8 min
+step  14900  loss 0.836  answer_loss 0.001626670127734542  first-digit 1.0  lr 6.00e-04  496.4 min
+step  15000  {"bits_per_byte": 1.5147836112920887, "train_k4_first": 0.9939024390243902, "train_k4_exact": 0.9939024390243902, "held_k4_first": 0.7012195121951219, "held_k4_exact": 0.6219512195121951, "natural_first": 0.9714285714285714, "natural_exact": 0.9714285714285714, "single_fact_exact@0": 0.7604166666666666, "single_fact_exact@64": 0.984375, "single_fact_exact@128": 0.984375, "single_fact_exact@256": 1
+step  15000  loss 0.886  answer_loss 0.001195378601551056  first-digit 1.0  lr 6.00e-04  504.5 min
+step  15100  loss 0.878  answer_loss 0.0015364923747256398  first-digit 1.0  lr 6.00e-04  512.1 min
+step  15200  loss 0.853  answer_loss 0.0025877980515360832  first-digit 1.0  lr 6.00e-04  519.7 min
+step  15300  loss 0.838  answer_loss 0.010104103945195675  first-digit 0.9722222089767456  lr 6.00e-04  527.2 min
+step  15400  loss 0.867  answer_loss 0.021992122754454613  first-digit 0.9705882668495178  lr 6.00e-04  534.8 min
+step  15500  loss 0.822  answer_loss 0.027684342116117477  first-digit 0.9428571462631226  lr 6.00e-04  542.4 min
+step  15600  loss 0.823  answer_loss 0.011324879713356495  first-digit 1.0  lr 6.00e-04  550.0 min
+step  15700  loss 0.855  answer_loss 0.027338434010744095  first-digit 1.0  lr 6.00e-04  557.6 min
+step  15800  loss 0.859  answer_loss 0.012192965485155582  first-digit 1.0  lr 6.00e-04  565.1 min
+step  15900  loss 0.865  answer_loss 0.02810787782073021  first-digit 0.96875  lr 6.00e-04  572.7 min
+step  16000  {"bits_per_byte": 1.5032159722037308, "train_k4_first": 0.9939024390243902, "train_k4_exact": 0.9878048780487805, "held_k4_first": 0.725609756097561, "held_k4_exact": 0.6585365853658537, "natural_first": 0.9642857142857143, "natural_exact": 0.9642857142857143, "single_fact_exact@0": 0.7604166666666666, "single_fact_exact@64": 0.9609375, "single_fact_exact@128": 0.984375, "single_fact_exact@256": 1
+step  16000  loss 0.845  answer_loss 0.0014019330265000463  first-digit 1.0  lr 6.00e-04  580.8 min
+step  16100  loss 0.843  answer_loss 0.06275223195552826  first-digit 1.0  lr 6.00e-04  588.5 min
+step  16200  loss 0.891  answer_loss 0.0008526121382601559  first-digit 1.0  lr 6.00e-04  596.2 min
+step  16300  loss 0.887  answer_loss 0.003158528357744217  first-digit 1.0  lr 6.00e-04  603.9 min
+step  16400  loss 0.867  answer_loss 0.0029647282790392637  first-digit 1.0  lr 6.00e-04  611.8 min
+step  16500  loss 0.846  answer_loss 0.004546518437564373  first-digit 1.0  lr 6.00e-04  619.4 min
+step  16600  loss 0.848  answer_loss 0.005068114027380943  first-digit 1.0  lr 6.00e-04  627.2 min
+step  16700  loss 0.881  answer_loss 0.005904880817979574  first-digit 1.0  lr 6.00e-04  634.9 min
+step  16800  loss 0.835  answer_loss 0.001655283384025097  first-digit 1.0  lr 6.00e-04  642.6 min
+step  16900  loss 0.858  answer_loss 0.0010125681292265654  first-digit 1.0  lr 6.00e-04  650.2 min
+step  17000  {"bits_per_byte": 1.4964863770667944, "train_k4_first": 0.9939024390243902, "train_k4_exact": 0.9939024390243902, "held_k4_first": 0.7073170731707317, "held_k4_exact": 0.6402439024390244, "natural_first": 0.9571428571428572, "natural_exact": 0.9571428571428572, "single_fact_exact@0": 0.7118055555555556, "single_fact_exact@64": 0.96875, "single_fact_exact@128": 0.96875, "single_fact_exact@256": 1.0
+step  17000  loss 0.827  answer_loss 0.0015528014628216624  first-digit 1.0  lr 6.00e-04  659.3 min
+step  17100  loss 0.856  answer_loss 0.03749898076057434  first-digit 1.0  lr 6.00e-04  667.0 min
+step  17200  loss 0.832  answer_loss 0.008589435368776321  first-digit 1.0  lr 6.00e-04  674.6 min
+step  17300  loss 0.832  answer_loss 0.001153061748482287  first-digit 1.0  lr 6.00e-04  682.2 min
+step  17400  loss 0.830  answer_loss 0.01359499804675579  first-digit 1.0  lr 6.00e-04  689.8 min
+step  17500  loss 0.820  answer_loss 0.000885642075445503  first-digit 1.0  lr 6.00e-04  697.5 min
+step  17600  loss 0.815  answer_loss 0.0021077755372971296  first-digit 1.0  lr 6.00e-04  705.2 min
+step  17700  loss 0.855  answer_loss 0.15904632210731506  first-digit 0.9714285731315613  lr 6.00e-04  712.8 min
+step  17800  loss 0.827  answer_loss 0.0016085334355011582  first-digit 1.0  lr 6.00e-04  720.5 min
+step  17900  loss 0.846  answer_loss 0.005646299105137587  first-digit 1.0  lr 6.00e-04  728.1 min
+step  18000  {"bits_per_byte": 1.4898500395222887, "train_k4_first": 1.0, "train_k4_exact": 1.0, "held_k4_first": 0.774390243902439, "held_k4_exact": 0.725609756097561, "natural_first": 0.9571428571428572, "natural_exact": 0.9571428571428572, "single_fact_exact@0": 0.78125, "single_fact_exact@64": 0.9765625, "single_fact_exact@128": 0.984375, "single_fact_exact@256": 1.0, "single_fact_exact@384": 1.0, "single_
+step  18000  loss 0.834  answer_loss 0.0012606204254552722  first-digit 1.0  lr 6.00e-04  737.2 min
+step  18100  loss 0.814  answer_loss 0.0062508173286914825  first-digit 1.0  lr 6.00e-04  744.9 min
+step  18200  loss 0.893  answer_loss 0.0033072077203541994  first-digit 1.0  lr 6.00e-04  752.5 min
+step  18300  loss 0.847  answer_loss 0.003765946254134178  first-digit 1.0  lr 6.00e-04  760.1 min
+step  18400  loss 0.795  answer_loss 0.0013405727222561836  first-digit 1.0  lr 6.00e-04  767.7 min
+step  18500  loss 0.835  answer_loss 0.008421838283538818  first-digit 1.0  lr 6.00e-04  775.4 min
+step  18600  loss 0.860  answer_loss 0.0026664123870432377  first-digit 1.0  lr 6.00e-04  783.0 min
+step  18700  loss 0.818  answer_loss 0.004115891642868519  first-digit 1.0  lr 6.00e-04  790.6 min
+step  18800  loss 0.826  answer_loss 0.015368652530014515  first-digit 1.0  lr 6.00e-04  798.2 min
+step  18900  loss 0.853  answer_loss 0.0013918840559199452  first-digit 1.0  lr 6.00e-04  805.9 min
+step  19000  {"bits_per_byte": 1.4791428941296914, "train_k4_first": 0.9878048780487805, "train_k4_exact": 0.9878048780487805, "held_k4_first": 0.6951219512195121, "held_k4_exact": 0.6463414634146342, "natural_first": 0.9714285714285714, "natural_exact": 0.9714285714285714, "single_fact_exact@0": 0.9201388888888888, "single_fact_exact@64": 0.9921875, "single_fact_exact@128": 0.984375, "single_fact_exact@256": 
+step  19000  loss 0.862  answer_loss 0.0006238570786081254  first-digit 1.0  lr 6.00e-04  815.1 min
+step  19100  loss 0.838  answer_loss 0.003760320832952857  first-digit 1.0  lr 6.00e-04  822.7 min
+step  19200  loss 0.811  answer_loss 0.009383291006088257  first-digit 1.0  lr 6.00e-04  830.3 min
+step  19300  loss 0.813  answer_loss 0.002278000582009554  first-digit 1.0  lr 6.00e-04  838.0 min
+step  19400  loss 0.807  answer_loss 0.0010965095134451985  first-digit 1.0  lr 6.00e-04  845.6 min
+step  19500  loss 0.800  answer_loss 0.0019273340003564954  first-digit 1.0  lr 6.00e-04  853.2 min
+step  19600  loss 0.821  answer_loss 0.00303938752040267  first-digit 1.0  lr 6.00e-04  860.8 min
+step  19700  loss 0.805  answer_loss 0.004084148444235325  first-digit 1.0  lr 6.00e-04  868.5 min
+step  19800  loss 0.835  answer_loss 0.0008392485906369984  first-digit 1.0  lr 6.00e-04  876.1 min
+step  19900  loss 0.822  answer_loss 0.0033393835183233023  first-digit 1.0  lr 6.00e-04  883.1 min
+step  20000  {"bits_per_byte": 1.4758212319598427, "train_k4_first": 0.9939024390243902, "train_k4_exact": 0.9939024390243902, "held_k4_first": 0.8048780487804879, "held_k4_exact": 0.7682926829268293, "natural_first": 1.0, "natural_exact": 0.9857142857142858, "single_fact_exact@0": 0.9131944444444444, "single_fact_exact@64": 0.9921875, "single_fact_exact@128": 1.0, "single_fact_exact@256": 1.0, "single_fact_ex
+step  20000  loss 0.816  answer_loss 0.0005718145985156298  first-digit 1.0  lr 6.00e-04  890.7 min
+step  20100  loss 0.828  answer_loss 0.0020767811220139265  first-digit 1.0  lr 6.00e-04  896.8 min
+step  20200  loss 0.805  answer_loss 0.0007804156048223376  first-digit 1.0  lr 6.00e-04  903.3 min
+step  20300  loss 0.841  answer_loss 0.011622526682913303  first-digit 0.9729729890823364  lr 6.00e-04  910.1 min
+step  20400  loss 0.823  answer_loss 0.0013333343667909503  first-digit 1.0  lr 6.00e-04  916.4 min
+step  20500  loss 0.830  answer_loss 0.0015049324138090014  first-digit 1.0  lr 6.00e-04  922.5 min
+step  20600  loss 0.821  answer_loss 0.006566170137375593  first-digit 0.9750000238418579  lr 6.00e-04  928.7 min
+step  20700  loss 0.835  answer_loss 0.025015639141201973  first-digit 0.9677419066429138  lr 6.00e-04  934.8 min
+step  20800  loss 0.832  answer_loss 0.0010017097229138017  first-digit 1.0  lr 6.00e-04  941.3 min
+step  20900  loss 0.852  answer_loss 0.0012409539194777608  first-digit 1.0  lr 6.00e-04  948.0 min
+step  21000  {"bits_per_byte": 1.4671083973866506, "train_k4_first": 0.9939024390243902, "train_k4_exact": 0.9939024390243902, "held_k4_first": 0.7621951219512195, "held_k4_exact": 0.7073170731707317, "natural_first": 0.9714285714285714, "natural_exact": 0.9714285714285714, "single_fact_exact@0": 0.6875, "single_fact_exact@64": 0.96875, "single_fact_exact@128": 1.0, "single_fact_exact@256": 1.0, "single_fact_e
+step  21000  loss 0.823  answer_loss 0.022721365094184875  first-digit 1.0  lr 6.00e-04  955.2 min
+step  21100  loss 0.850  answer_loss 0.004403573926538229  first-digit 1.0  lr 6.00e-04  961.2 min
+step  21200  loss 0.796  answer_loss 0.0010712911607697606  first-digit 1.0  lr 6.00e-04  967.3 min
+step  21300  loss 0.846  answer_loss 0.038133956491947174  first-digit 1.0  lr 6.00e-04  973.3 min
+step  21400  loss 0.800  answer_loss 0.024433201178908348  first-digit 1.0  lr 6.00e-04  979.4 min
+step  21500  loss 0.783  answer_loss 0.0011910664616152644  first-digit 1.0  lr 6.00e-04  985.4 min
+step  21600  loss 0.805  answer_loss 0.0026539918035268784  first-digit 1.0  lr 6.00e-04  991.5 min
+step  21700  loss 0.842  answer_loss 0.0017993156798183918  first-digit 1.0  lr 6.00e-04  997.7 min
+step  21800  loss 0.824  answer_loss 0.04914508014917374  first-digit 0.9428571462631226  lr 6.00e-04  1004.1 min
+step  21900  loss 0.765  answer_loss 0.011412164196372032  first-digit 1.0  lr 6.00e-04  1010.4 min
+step  22000  {"bits_per_byte": 1.4640714417463898, "train_k4_first": 1.0, "train_k4_exact": 1.0, "held_k4_first": 0.7134146341463414, "held_k4_exact": 0.676829268292683, "natural_first": 0.9785714285714285, "natural_exact": 0.9785714285714285, "single_fact_exact@0": 0.75, "single_fact_exact@64": 0.984375, "single_fact_exact@128": 1.0, "single_fact_exact@256": 1.0, "single_fact_exact@384": 1.0, "single_fact_exa
+step  22000  loss 0.842  answer_loss 0.0014214206021279097  first-digit 1.0  lr 6.00e-04  1017.9 min
+step  22100  loss 0.795  answer_loss 0.0015834823716431856  first-digit 1.0  lr 6.00e-04  1024.4 min
+step  22200  loss 0.847  answer_loss 0.0022304700687527657  first-digit 1.0  lr 6.00e-04  1030.6 min
+step  22300  loss 0.839  answer_loss 0.005882608704268932  first-digit 1.0  lr 6.00e-04  1036.7 min
+step  22400  loss 0.830  answer_loss 0.010308848693966866  first-digit 0.9756097197532654  lr 6.00e-04  1042.9 min
+step  22500  loss 0.830  answer_loss 0.045076772570610046  first-digit 0.9629629850387573  lr 6.00e-04  1049.3 min
+step  22600  loss 0.831  answer_loss 0.0012670957949012518  first-digit 1.0  lr 6.00e-04  1055.9 min
+step  22700  loss 0.814  answer_loss 0.047514766454696655  first-digit 0.925000011920929  lr 6.00e-04  1062.6 min
+step  22800  loss 0.782  answer_loss 0.007835367694497108  first-digit 0.9714285731315613  lr 6.00e-04  1069.7 min
+step  22900  loss 0.852  answer_loss 0.0006429594941437244  first-digit 1.0  lr 6.00e-04  1076.3 min
+step  23000  {"bits_per_byte": 1.4592601518460928, "train_k4_first": 1.0, "train_k4_exact": 0.9939024390243902, "held_k4_first": 0.7987804878048781, "held_k4_exact": 0.7439024390243902, "natural_first": 0.9857142857142858, "natural_exact": 0.9857142857142858, "single_fact_exact@0": 0.6006944444444444, "single_fact_exact@64": 0.9921875, "single_fact_exact@128": 0.984375, "single_fact_exact@256": 1.0, "single_fa
+step  23000  loss 0.804  answer_loss 0.000616029545199126  first-digit 1.0  lr 6.00e-04  1083.8 min
+step  23100  loss 0.790  answer_loss 0.006268381606787443  first-digit 1.0  lr 6.00e-04  1090.0 min
+step  23200  loss 0.836  answer_loss 0.009146506898105145  first-digit 1.0  lr 6.00e-04  1096.4 min
+step  23300  loss 0.822  answer_loss 0.058400385081768036  first-digit 0.9142857193946838  lr 6.00e-04  1102.9 min
+step  23400  loss 0.815  answer_loss 0.0013202147092670202  first-digit 1.0  lr 6.00e-04  1109.4 min
+step  23500  loss 0.789  answer_loss 0.012289626523852348  first-digit 1.0  lr 6.00e-04  1115.9 min
+step  23600  loss 0.802  answer_loss 0.00497883465141058  first-digit 1.0  lr 6.00e-04  1122.2 min
+step  23700  loss 0.797  answer_loss 0.0009193317964673042  first-digit 1.0  lr 6.00e-04  1128.6 min
+step  23800  loss 0.815  answer_loss 0.001037106616422534  first-digit 1.0  lr 6.00e-04  1134.7 min
+step  23900  loss 0.806  answer_loss 0.1036812886595726  first-digit 1.0  lr 6.00e-04  1141.0 min
+step  24000  {"bits_per_byte": 1.456508859388915, "train_k4_first": 0.9939024390243902, "train_k4_exact": 0.9878048780487805, "held_k4_first": 0.7926829268292683, "held_k4_exact": 0.75, "natural_first": 0.9571428571428572, "natural_exact": 0.9571428571428572, "single_fact_exact@0": 0.6458333333333334, "single_fact_exact@64": 0.9921875, "single_fact_exact@128": 0.984375, "single_fact_exact@256": 1.0, "single_fa
+step  24000  loss 0.840  answer_loss 0.0050118169747292995  first-digit 1.0  lr 6.00e-04  1148.0 min
+step  24100  loss 0.791  answer_loss 0.00629463093355298  first-digit 1.0  lr 6.00e-04  1154.3 min
+step  24200  loss 0.792  answer_loss 0.0008150548674166203  first-digit 1.0  lr 6.00e-04  1160.5 min
+step  24300  loss 0.817  answer_loss 0.0008093299111351371  first-digit 1.0  lr 6.00e-04  1166.6 min
+step  24400  loss 0.798  answer_loss 0.010443021543323994  first-digit 1.0  lr 6.00e-04  1172.7 min
+step  24500  loss 0.783  answer_loss 0.007774773053824902  first-digit 1.0  lr 6.00e-04  1178.8 min
+step  24600  loss 0.796  answer_loss 0.011796780861914158  first-digit 1.0  lr 6.00e-04  1184.8 min
+step  24700  loss 0.832  answer_loss 0.002340948209166527  first-digit 1.0  lr 6.00e-04  1192.0 min
+step  24800  loss 0.833  answer_loss 0.000746440258808434  first-digit 1.0  lr 6.00e-04  1198.9 min
+step  24900  loss 0.809  answer_loss 0.004719543270766735  first-digit 1.0  lr 6.00e-04  1205.4 min
+step  25000  {"bits_per_byte": 1.452344740203815, "train_k4_first": 1.0, "train_k4_exact": 1.0, "held_k4_first": 0.75, "held_k4_exact": 0.6707317073170732, "natural_first": 0.9857142857142858, "natural_exact": 0.9857142857142858, "single_fact_exact@0": 0.6666666666666666, "single_fact_exact@64": 0.9921875, "single_fact_exact@128": 1.0, "single_fact_exact@256": 1.0, "single_fact_exact@384": 1.0, "single_fact_ex
+step  25000  loss 0.832  answer_loss 0.001079352106899023  first-digit 1.0  lr 6.00e-04  1213.0 min
+step  25100  loss 0.852  answer_loss 0.002033707220107317  first-digit 1.0  lr 6.00e-04  1219.6 min
+step  25200  loss 0.834  answer_loss 0.0024234666489064693  first-digit 1.0  lr 6.00e-04  1226.0 min
+step  25300  loss 0.862  answer_loss 0.06098656356334686  first-digit 1.0  lr 6.00e-04  1232.6 min
+step  25400  loss 0.818  answer_loss 0.000997996423393488  first-digit 1.0  lr 6.00e-04  1238.9 min
+step  25500  loss 0.858  answer_loss 0.001431375159882009  first-digit 0.9999999403953552  lr 6.00e-04  1245.2 min
+step  25600  loss 0.844  answer_loss 0.005601209122687578  first-digit 1.0  lr 6.00e-04  1251.5 min
+step  25700  loss 0.774  answer_loss 0.00238827639259398  first-digit 1.0  lr 6.00e-04  1258.0 min
+step  25800  loss 0.795  answer_loss 0.0009402323048561811  first-digit 1.0  lr 6.00e-04  1264.5 min
+step  25900  loss 0.791  answer_loss 0.0013150229351595044  first-digit 1.0  lr 6.00e-04  1271.1 min
+step  26000  {"bits_per_byte": 1.4431193005908107, "train_k4_first": 0.9939024390243902, "train_k4_exact": 0.9878048780487805, "held_k4_first": 0.6829268292682927, "held_k4_exact": 0.5792682926829268, "natural_first": 1.0, "natural_exact": 1.0, "single_fact_exact@0": 0.9826388888888888, "single_fact_exact@64": 0.9765625, "single_fact_exact@128": 1.0, "single_fact_exact@256": 1.0, "single_fact_exact@384": 1.0, 
+step  26000  loss 0.812  answer_loss 0.0009812331991270185  first-digit 1.0  lr 6.00e-04  1278.8 min
+step  26100  loss 0.800  answer_loss 0.012714549899101257  first-digit 0.9729729890823364  lr 6.00e-04  1285.2 min
+step  26200  loss 0.788  answer_loss 0.0008407101267948747  first-digit 1.0  lr 6.00e-04  1291.9 min
+step  26300  loss 0.790  answer_loss 0.02068948559463024  first-digit 1.0  lr 6.00e-04  1298.7 min
+step  26400  loss 0.819  answer_loss 0.0319526232779026  first-digit 0.9696969985961914  lr 6.00e-04  1305.7 min
+step  26500  loss 0.826  answer_loss 0.00201820838265121  first-digit 0.9999999403953552  lr 6.00e-04  1312.1 min
+step  26600  loss 0.828  answer_loss 0.006653337273746729  first-digit 1.0  lr 6.00e-04  1318.2 min
+step  26700  loss 0.871  answer_loss 0.001195381861180067  first-digit 1.0  lr 6.00e-04  1324.5 min
+step  26800  loss 0.830  answer_loss 0.001507094711996615  first-digit 1.0  lr 6.00e-04  1330.8 min
+step  26900  loss 0.792  answer_loss 0.001642978866584599  first-digit 1.0  lr 6.00e-04  1337.2 min
+step  27000  {"bits_per_byte": 1.4387415897022546, "train_k4_first": 0.9939024390243902, "train_k4_exact": 0.9878048780487805, "held_k4_first": 0.75, "held_k4_exact": 0.6707317073170732, "natural_first": 0.9642857142857143, "natural_exact": 0.9642857142857143, "single_fact_exact@0": 0.9548611111111112, "single_fact_exact@64": 0.9921875, "single_fact_exact@128": 0.96875, "single_fact_exact@256": 1.0, "single_fa
+step  27000  loss 0.778  answer_loss 0.0031708097085356712  first-digit 1.0  lr 6.00e-04  1344.6 min
+step  27100  loss 0.795  answer_loss 0.061965346336364746  first-digit 1.0  lr 6.00e-04  1351.0 min
+step  27200  loss 0.792  answer_loss 0.0011462524998933077  first-digit 1.0  lr 6.00e-04  1357.5 min
+step  27300  loss 0.826  answer_loss 0.008028079755604267  first-digit 1.0  lr 6.00e-04  1363.9 min
+step  27400  loss 0.805  answer_loss 0.043977588415145874  first-digit 0.9629629850387573  lr 6.00e-04  1370.0 min
+step  27500  loss 0.789  answer_loss 0.060327183455228806  first-digit 1.0  lr 5.94e-04  1376.6 min
+step  27600  loss 0.800  answer_loss 0.007040184456855059  first-digit 1.0  lr 5.76e-04  1383.3 min
+step  27700  loss 0.801  answer_loss 0.007833079434931278  first-digit 1.0  lr 5.59e-04  1390.1 min
+step  27800  loss 0.785  answer_loss 0.0007326251361519098  first-digit 1.0  lr 5.41e-04  1396.7 min
+step  27900  loss 0.841  answer_loss 0.007660728879272938  first-digit 1.0  lr 5.23e-04  1403.2 min
+step  28000  {"bits_per_byte": 1.42863595363105, "train_k4_first": 1.0, "train_k4_exact": 1.0, "held_k4_first": 0.8292682926829268, "held_k4_exact": 0.7804878048780488, "natural_first": 0.9928571428571429, "natural_exact": 0.9928571428571429, "single_fact_exact@0": 0.9965277777777778, "single_fact_exact@64": 1.0, "single_fact_exact@128": 0.984375, "single_fact_exact@256": 1.0, "single_fact_exact@384": 1.0, "si
+step  28000  loss 0.791  answer_loss 0.005784329958260059  first-digit 1.0  lr 5.06e-04  1411.5 min
+step  28100  loss 0.793  answer_loss 0.005145426373928785  first-digit 1.0  lr 4.88e-04  1418.9 min
+step  28200  loss 0.803  answer_loss 0.03835811838507652  first-digit 1.0  lr 4.70e-04  1425.4 min
+step  28300  loss 0.801  answer_loss 0.0006126514635980129  first-digit 1.0  lr 4.53e-04  1431.9 min
+step  28400  loss 0.786  answer_loss 0.012052848003804684  first-digit 1.0  lr 4.35e-04  1438.4 min
+step  28500  loss 0.821  answer_loss 0.0008626624476164579  first-digit 1.0  lr 4.17e-04  1445.3 min
+step  28600  loss 0.781  answer_loss 0.002718463307246566  first-digit 1.0  lr 3.99e-04  1451.9 min
+step  28700  loss 0.781  answer_loss 0.0006041867309249938  first-digit 1.0  lr 3.82e-04  1458.5 min
+step  28800  loss 0.812  answer_loss 0.000678792130202055  first-digit 1.0  lr 3.64e-04  1464.7 min
+step  28900  loss 0.811  answer_loss 0.011319167912006378  first-digit 0.9714285731315613  lr 3.46e-04  1471.3 min
+step  29000  {"bits_per_byte": 1.4053042175224704, "train_k4_first": 0.9939024390243902, "train_k4_exact": 0.9939024390243902, "held_k4_first": 0.7195121951219512, "held_k4_exact": 0.6585365853658537, "natural_first": 0.9857142857142858, "natural_exact": 0.9857142857142858, "single_fact_exact@0": 0.9791666666666666, "single_fact_exact@64": 0.9921875, "single_fact_exact@128": 0.984375, "single_fact_exact@256": 
+step  29000  loss 0.796  answer_loss 0.026615167036652565  first-digit 1.0  lr 3.29e-04  1478.6 min
+step  29100  loss 0.775  answer_loss 0.028439974412322044  first-digit 0.9696969985961914  lr 3.11e-04  1485.1 min
+step  29200  loss 0.787  answer_loss 0.0010546064004302025  first-digit 1.0  lr 2.93e-04  1491.1 min
+step  29300  loss 0.804  answer_loss 0.01185066718608141  first-digit 0.9655172228813171  lr 2.76e-04  1497.2 min
+step  29400  loss 0.780  answer_loss 0.0004008241812698543  first-digit 1.0  lr 2.58e-04  1504.1 min
+step  29500  loss 0.778  answer_loss 0.0007578570512123406  first-digit 1.0  lr 2.40e-04  1510.6 min
+step  29600  loss 0.774  answer_loss 0.0015832120552659035  first-digit 1.0  lr 2.22e-04  1517.2 min
+step  29700  loss 0.826  answer_loss 0.0003739017993211746  first-digit 1.0  lr 2.05e-04  1523.6 min
+step  29800  loss 0.814  answer_loss 0.00043363505392335355  first-digit 1.0  lr 1.87e-04  1530.2 min
+step  29900  loss 0.797  answer_loss 0.014010868035256863  first-digit 0.9722222089767456  lr 1.69e-04  1536.5 min
+step  30000  {"bits_per_byte": 1.3837065502357935, "train_k4_first": 1.0, "train_k4_exact": 1.0, "held_k4_first": 0.7804878048780488, "held_k4_exact": 0.7378048780487805, "natural_first": 0.9857142857142858, "natural_exact": 0.9857142857142858, "single_fact_exact@0": 0.9930555555555556, "single_fact_exact@64": 1.0, "single_fact_exact@128": 1.0, "single_fact_exact@256": 1.0, "single_fact_exact@384": 1.0, "singl
+step  30000  loss 0.783  answer_loss 0.0010061697103083134  first-digit 1.0  lr 1.52e-04  1543.6 min
+step  30100  loss 0.794  answer_loss 0.0009380999254062772  first-digit 1.0  lr 1.34e-04  1549.8 min
+step  30200  loss 0.787  answer_loss 0.00028213721816428006  first-digit 0.9999999403953552  lr 1.16e-04  1555.9 min
+step  30300  loss 0.812  answer_loss 0.0009775003418326378  first-digit 1.0  lr 9.86e-05  1562.0 min
+step  30400  loss 0.776  answer_loss 0.0002521128044463694  first-digit 1.0  lr 8.09e-05  1568.4 min
+step  30500  loss 0.792  answer_loss 0.00029477127827703953  first-digit 1.0  lr 6.32e-05  1574.8 min
+step  30518  {"bits_per_byte": 1.3744900967162967, "train_k4_first": 1.0, "train_k4_exact": 1.0, "held_k4_first": 0.7987804878048781, "held_k4_exact": 0.7439024390243902, "natural_first": 0.9785714285714285, "natural_exact": 0.9785714285714285, "single_fact_exact@0": 0.9965277777777778, "single_fact_exact@64": 1.0, "single_fact_exact@128": 1.0, "single_fact_exact@256": 1.0, "single_fact_exact@384": 1.0, "singl

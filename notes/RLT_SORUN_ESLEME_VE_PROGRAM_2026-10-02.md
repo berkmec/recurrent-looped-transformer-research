@@ -2138,6 +2138,91 @@ Kaynak: sonuç dosyaları (aşağıdaki sayılar ham JSON'dan, bu oturumda yenid
 8. **Eşit hesap (M7).** sk4'te tabanlara Core'un duvar saati kadar bütçe verme denetimi (E-S-C) kullanıcı önceliğiyle durduruldu. Eşit güncellemede ve 16 kat parametreye kadar üstünlük var; eşit hesapta ölçülmedi.
 9. **Karar modeli / RL.** Hiç sınanmadı; RLT makalesi de RL'i ölçmemiş.
 
+**§5.65 güncellemesi (2026-10-23 23:43; eski metin yerinde):** madde 5'in maliyeti E-L1C'de toplam GPU süresiyle ölçüldü: ≈ 7,6× (graph'lı bölümde 6,4×; §5.50.1). Madde 7'nin ve "dar bağlam" yargısının tek dayanağı 6.000'deki anlık görüntüydü; son modelde E-L1X-F ile yeniden ölçülüyor (§5.66).
+
+### 5.50.1 E-L1C SONUCU (kayıtlı kural §5.50, `python -B -m mline.a0_reading --end`; koşu 2026-10-22 21:08 – 2026-10-23 23:26, okuma 23:26; işlendi 2026-10-23 23:43): **FEEDBACK HELPS (AT END)**; geri beslemeli L1 programın sonunda geri beslemesiz eşi A0F'den +0,066 bit/bayt iyi
+**Hüküm.** Δ_k = bpb_A0F(k) − bpb_L1(k), doğrulama pili. İki koşunun ham pil dosyalarından (`a0_reading.battery`) yeniden hesaplandı; `results/L1-scratch-w928-s401/reading-end.json` ile aynı.
+
+| k | A0F | L1 | Δ |
+|---|---|---|---|
+| 12.000 | 1,6017 | 1,5439 | +0,0578 |
+| 16.000 | 1,5636 | 1,5032 | +0,0604 |
+| 20.000 | 1,5386 | 1,4758 | +0,0628 |
+| 24.000 | 1,5184 | 1,4565 | +0,0619 |
+| 28.000 | 1,4908 | 1,4286 | +0,0621 |
+| 30.518 | 1,4408 | 1,3745 | **+0,0663** |
+
+Δ_30518 = +0,0663 ≥ +0,020 ve altı noktanın altısında Δ > 0 ⇒ **FEEDBACK HELPS (AT END)**.
+**Öngörüler.** HELPS ≈ %50: tuttu. Δ_30518 ∈ [0,02; 0,06] ≈ %55: tutmadı (0,066, aralığın üstünde).
+**Betimleyici.**
+- *Seyir:* 8.000'de +0,050, 9.000'de +0,056 (E-A0), 12.000-28.000 arasında +0,058 … +0,063, sonda +0,066. E-A0'da 2k-8k arasında görülen daralma 8k'dan sonra sürmedi; madde 110'daki ara gözlem programın sonuna kadar tuttu.
+- *Aynı değere daha az güncelleme:* L1, A0F'nin son değerinin (1,4408) altına ilk kez 27.000'de indi (1,4387): %11,5 daha az güncelleme.
+- *Eşit hesap (kural dışı; `train.log` dakika sayaçlarından, tekrarlanan bölümler hariç):* A0F ≈ 339 dk (≈ 5,7 GPU-saat; ≈ 0,67 s/güncelleme). L1 ≈ 2.573 dk (≈ 42,9 GPU-saat): 0 → 750 ≈ 118 dk (900'e giden bölümün 750/900'ü), 750 → 8.500 879 dk (graph'sız, ≈ 6,8 s/güncelleme), 8.500 → 30.500 1.575 dk (CUDA graph, ≈ 4,3 s/güncelleme; saat kilidi 23 Ekim'den beri). Oran ≈ 7,6×, graph'lı bölümde ≈ 6,4×; kayıttaki "≈ 7-8×" ile uyumlu. Koşullar iki kolda aynı değil (graph, saat kilidi, eşzamanlı CPU yükü). A0F, L1'in hesabıyla ≈ 7,6 kat daha çok güncelleme alabilirdi; eşit hesap karşılaştırması yapılmadı (çekince 8, §5.65).
+- *Getirme sondaları (`reading-end.json`, A0F / L1):* train_k4_first 1,000 / 1,000; held_k4_first 0,848 / 0,799; natural_first 0,993 / 0,979; single_fact_exact @64-448 hepsi 1,000 / 1,000; attention_conditionality_mean 0,132 / 0,187. Held ve natural'da L1 biraz geride (≈ 0,05 ve ≈ 0,014); örnek sayısı pil kaydında yok, anlamlılık sınanmadı.
+
+**Kullanım (kayıtlı, §5.50).** HELPS ⇒ gerçek RLT modeli L1'dir; dildeki kazanç programın sonunda, eşit güncellemede ölçüldü. Kayıttaki sıradaki aşama L2'ydi; kullanıcı önceliğiyle (§5.64) önce Aşama 1 v2 (L1 + bellek, §5.61) gelir. Aşama 1 okuma satırından sonra 23:27'de G0.4 duman testleriyle kendiliğinden başladı (sonucu §5.61.1).
+- *Sınırlar:* tek tohum çifti (401); tek korpus (haber metni); doğrulama pili (test bölünmesi açılmadı); eşit güncelleme, eşit hesap değil; standart transformerle karşılaştırma (E-X1, §5.59) henüz yok; L1 iki kez kontrol noktasından sürdü (750, 8.500).
+
+### 5.61.1 G0.4 SONUCU: GEÇMEDİ (kayıtlı kural §5.61; duman testleri 2026-10-23 23:27-23:33) ve G0.4b ön-kaydı: aynı fonksiyonun parça-paralel yazması (koşudan ÖNCE yazıldı 2026-10-23 23:43)
+**Ölçüm** (`results/ERM-stage1/smoke-{A,B_ds}/smoke.json`; 20 güncelleme, ilk üçü ısınma): A 6,81 s/güncelleme, B_ds 10,35 s (1,52×; eşik 1,15×). En yüksek ayrılmış bellek A 3,87, B_ds 4,43 GiB (eşik 7,8). Hız koşulu tutmadı ⇒ **G0.4 GEÇMEDİ**; Aşama 1 kuralıyla durdu, hiçbir koşu başlamadı. Bellek koşulu rahat tuttu.
+**Tanı.** A'nın kod çözücüsü pencereleri paralel koşuyor: 512 sıralı adım. B_ds'nin delta yazması pencereler boyunca sıralı: 4 × 511 = 2.044 küçük adım, `write_chunk = 32` ile geri yayılımda bir kez daha hesaplanıyor. Her adım birkaç küçük çekirdek; CPU yükü altında süreyi çekirdek başlatma belirliyor [H].
+*Ölçüm* (GPU, Aşama 1 boyutu: 8 satır × 4 pencere × 512, d = 256; yalnız `memories`, ileri + geri; E-X1 aynı anda GPU'daydı): döngü + yeniden hesap 2,81 s, parça-paralel biçim 0,095 s (≈ 30×). Duman testindeki fazlanın (3,54 s) büyük kısmı bu yol.
+**Değişiklik (yalnız uygulama; fonksiyon aynı).** `mline.rltm.chunked_write`, delta kuralının parça-paralel (UT/WY) biçimi (Yang ve ark. 2024, DeltaNet). C yazmalık bir parçada güncellemeler u_i = β_i (v_i − M_{i−1} k_i) birim alt-üçgen sistemi çözer:
+
+(I + diag(β) tril(K Kᵀ, −1)) U = diag(β)(V − K Mᵀ),  M ← M + Uᵀ K.
+
+Tam aritmetikte döngüyle aynıdır. Testler:
+- float64'te değerler 10⁻¹⁰, gradyanlar 10⁻⁹ içinde aynı (parça uzunluğunu bölmeyen uzunluk, sıfır olmayan başlangıç);
+- dil boyutunda float32 göreli fark < 10⁻⁴;
+- RLTM seçeneği (`ut_chunk`) aynı çıktı ve gradyanları veriyor.
+
+Varsayılan (`ut_chunk = 0`) eski döngüdür; oyuncak sonuçları aynı kodla yeniden üretilebilir. Aşama 1'in modeli, verisi, kuralı, kolları ve uzatma kuralı değişmiyor; yalnız B_ds `--ut-chunk 64` ile yazıyor (A'nın belleği yok).
+**G0.4b kuralı (§5.61'in G0.4'ü aynen).**
+- *Koşul:* B_ds (ut_chunk 64) ≤ 1,15 × A s/güncelleme ve ≤ 7,8 GiB ayrılmış.
+- *Ölçüm:* aynı duman protokolü (20 güncelleme, ilk üçü ısınma), A ve B_ds art arda, aynı yükte. E-C-ROT'un üç CPU süreci sürüyor; ilk ölçümde de vardı. E-L1X-F G0.4b'den sonra başlar.
+- *GEÇERSE:* Aşama 1 §5.61'deki gibi koşar (B_ds 1 → A 1 → B_ds 2, 4.000 güncelleme; uzatma kuralı aynı), `results/ERM-stage1-ut`.
+- *GEÇMEZSE:* §5.61'in kayıtlı yedeği d = 128 (ut_chunk 64 ile) aynı kapıdan geçer (G0.4c). O da geçmezse Aşama 1 durur ve karar yeniden açılır. Kapı en çok bu iki kez daha ölçülür.
+
+**Öngörü [H].** G0.4b GEÇER ≈ %75: yazma 30× hızlandı, kalan fark okuma ve izdüşümlerde.
+**GPU sırası.** E-X1 (§5.59) kayıtlı sırasıyla 23:35'te başlamıştı; Aşama 1'in DURDU satırı onun bekleme koşuluydu. Kullanıcı önceliği gereği (§5.64: önce Aşama 1) E-X1 G0.4b'den önce durdurulur. Aşama 1 kuyruğu bitince (ya da durunca) kendi son kontrol noktasından sürer: `mline.longrun`'ın kaldığı yerden sürme yolu, veri sırası adımın fonksiyonu; L1 de iki kez böyle sürmüştü. E-X1'in kuralı değişmez; kesinti not edilir.
+
+### 5.66 E-L1X-F ön-kaydı: eğitilmiş L1'de taşınan durum, 512'lik dikkat penceresinin gösterdiğinin ötesine bağlam taşıyor mu, bu erim eğitimle büyüyor mu (kod `mline/state_reach.py`, 7 test; betik `scripts/run_el1x_f.sh`; koşudan ÖNCE yazıldı 2026-10-23 23:43)
+**Neden (kullanıcı, 2026-10-23 ≈ 23:20):** "bağlam penceresi düşündüğün kadar dar olmayabilir; modeli henüz gerçek benchmark testine almadık, tam kapasite ölçülmedi."
+- "Dar" yargısının tek dayanağı E-L1X'ti (madde 52, 91). O ölçüm eğitimin beşte birindeki tek anlık görüntüdendi (6.000 / 30.518): durumu her 512 adımda sıfırlamak 256 adımın ötesinde hiçbir şeyi değiştirmiyordu (1,9×10⁻⁸ bit). Son model hiç ölçülmedi.
+- Geri besleme farkının 8k'dan sonra yeniden açılması (madde 110, 123), durumun eğitimin geç döneminde yeni bir kullanımını öğrenmesiyle tutarlı [H].
+- E-L1X'in koşulları durumu pencereli yapılandırmada yalıtmıyor: win512 ile chunk512 hem durumu (taşınan / yeniden başlayan) hem dikkat bağlamını (son 512 konum / parçanın 256-511'i) değiştiriyor.
+
+**Koşullar** (aynı baytlar: E-L1X'in 32 doğrulama makalesi × 4.096 bayt):
+- *win512:* kodlayıcı ve çapraz dikkat son 512 konumla sınırlı, durum bütün metin boyunca taşınıyor. E-L1X'in koşulu; modelin uzun metinde koşturulacağı yapılandırma.
+- *winreset512 (yeni):* aynı sınır; durum her 512 adımda öğrenilmiş başlangıç durumuna döner.
+- *chunk512:* bağımsız 512'lik parçalar (E-L1X'in referansı; denetim ve betimleyici G).
+
+win512 ile winreset512'de dikkat yolları özdeş; yalnız durumun hatırladığı değişiyor. Ofseti o = p mod 512 ≥ 256 olan bir konumda sıfırlanan durum son o adımı, taşınan durum bütün metni tutar. S = kayıp_winreset512 − kayıp_win512, durumun son o adımdan önceki metne dair belleğinin, 512'lik pencerenin gösterdiği her şeyin üstüne kattığı değerdir; o 511'e yaklaştıkça bu bellek neredeyse tamamen pencere-ötesidir.
+**Ölçü.** E-L1X'in kutuları ve ofset ≥ 256 kuralı; makale başına kutu ortalaması, makaleler arası eşleşmiş fark ve SE.
+**Kural** (`state_reach.reading`; son ağırlıklar, 30.518, `latest.pt`):
+- **CONTROL FAILED** ⇔ [0, 512)'de üç koşulun herhangi bir konumdaki farkı > 10⁻³ bit.
+- **STATE EXTENDS CONTEXT** ⇔ ≥ 1.024'teki bir kutuda S ≥ 0,010 bit ve S ≥ 3 SE.
+- **STATE HURTS** ⇔ aksi hâlde ≥ 1.024'teki bir kutuda S ≤ −0,010 ve S ≤ −3 SE.
+- **NO STATE CONTEXT** ⇔ aksi hâlde ≥ 1.024'teki her kutuda |S| ≤ 0,003.
+- **SMALL** ⇔ geri kalan.
+
+Eşikler E-L1X'teki 10⁻⁹ toleransıyla dahildir. 0,010 bit, geri beslemenin dildeki toplam kazancının (+0,066) ≈ %15'i.
+**Betimleyici.**
+- *Eğri:* aynı ölçü 6.000 / 12.000 / 18.000 / 24.000 anlık görüntülerinde.
+- *G = kayıp_chunk512 − kayıp_win512:* pencereli yapılandırmanın bağımsız parçalara üstünlüğü (durum ve fazla dikkat bağlamı birlikte).
+- *Ofset bandı:* S'nin [256, 320) … [448, 512) bantlarına dökümü, ≥ 1.024 kutuları birleşik.
+- *Durum farkı profili:* ilk 4 makalede, 512'deki sıfırlamadan k adım sonra |s_taşınan − s_sıfırlanan| / |s_taşınan| (durumun unutma hızı).
+- *Uzun koşu:* son ağırlıklarda 16 makale × 8.192 bayt.
+
+**Öngörüler [H].** Son ağırlıklarda NO STATE CONTEXT ≈ %50, SMALL ≈ %25, STATE EXTENDS CONTEXT ≈ %20, STATE HURTS ≈ %5. Eğri: S(30.518) > S(6.000) + 0,003 ≈ %35.
+**Kullanım.**
+- *EXTENDS:* L1'in kullandığı bağlam 512 baytla sınırlı değil; durum pencere-ötesi bağlam taşıyor. Bellek modülüyle (Aşama 1) birlikte durumun katkısı da ölçülür.
+- *NO STATE CONTEXT:* L1'in etkin bağlamı pencereyle (512 bayt) sınırlı. Uzun bağlam ya daha uzun eğitim uzunluğu (donanım) ya da bellek modülü (Aşama 1) ister.
+- *SMALL / HURTS:* betimleyici döküm (ofset bandı, profil) yönü gösterir.
+
+**Kaynak.** CPU, tek süreç (OMP 1, BelowNormal); G0.4b ölçüldükten sonra başlar. Anlık görüntü başına ≈ 15-25 dk, toplam ≈ 2-3 saat.
+- *Sınırlar:* tek tohum (401); haber metni; 32 makale. S, sıfırlanan durumun gördüğü o adımın ötesini ölçer; bunun bir kısmı dikkat penceresinin içinde kalır, ofset bandı bunu ayırır. 6.000'de winreset512 yoktu, bu yüzden 6.000 de yeniden koşar (aynı makaleler).
+
 ## 6. Gerçek model yolu
 
 1. **Ne iddia edilir:** "küçük, bayt-düzeyi bir RLT, durum-izleme/çok-adımlı görevlerde eşit-parametre ve eşit-token bir transformer'a yapısal bir üstünlük gösteriyor mu". LM kaybında üstünlük iddia edilmez (bağımsız değerlendirme bulamadı).

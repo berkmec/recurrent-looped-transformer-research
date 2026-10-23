@@ -1,0 +1,48 @@
+{
+ "schema": "run-manifest/v1",
+ "run_id": "E-X1-L1-tfm6-w528-s401",
+ "campaign": "L1-tfm6-w528-s401",
+ "agent": "claude-4797b78c",
+ "created_utc": "2026-10-23T20:35:07Z",
+ "command": "python -B -m mline.longrun --out results/L1-tfm6-w528-s401 --recipe m2-draft --tokens 500000000 --arm tfm6 --width 528 --heads 8",
+ "prereg": {
+  "paper": "notes/RLT_SORUN_ESLEME_VE_PROGRAM_2026-10-02.md 5.59"
+ },
+ "code": {
+  "head": "8da1988",
+  "dirty": true,
+  "porcelain": [
+   " M results/L1-scratch-w928-s401/probe.json",
+   " M results/L1-scratch-w928-s401/probe.jsonl",
+   " M results/L1-scratch-w928-s401/train.log",
+   " M results/M1-finetune-distance/queue.log",
+   "?? mline/state_reach.py",
+   "?? results/ERM-stage1/",
+   "?? results/ES-compute/",
+   "?? results/L1-scratch-w928-s401/E-L1C-L1-scratch-w928-s401.manifest.json",
+   "?? results/L1-scratch-w928-s401/complete.json",
+   "?? results/L1-scratch-w928-s401/reading-end.json",
+   "?? results/Z1-pilot/E-C-ROT-count8_32-core-w64-s1.manifest.json",
+   "?? results/Z1-pilot/E-C-ROT-count8_32-core_rot-w64-s1.manifest.json",
+   "?? results/Z1-pilot/E-C-ROT-count8_32-core_rotq-w64-s1.manifest.json",
+   "?? results/Z1-pilot/E-C-count8_32-gru-w64-s1.manifest.json",
+   "?? results/Z1-pilot/E-C-count8_32-lstm-w64-s1.manifest.json",
+   "?? results/Z1-pilot/count8_32-core-w64-s1.log",
+   "?? results/Z1-pilot/count8_32-core_rot-w64-s1.log",
+   "?? results/Z1-pilot/count8_32-core_rotq-w64-s1.log",
+   "?? results/Z1-pilot/count8_32-gru-w64-s1.log",
+   "?? results/Z1-pilot/count8_32-lstm-w64-s1.log",
+   "?? tests/test_state_reach.py"
+  ]
+ },
+ "config": {
+  "source": "scripts/run_x1.sh",
+  "summary": {},
+  "sha256": "269679ac9a01927756820dda168fbc0a29109fa12e60c72e51e5272c8147612b"
+ },
+ "seeds": {
+  "seed": 401
+ },
+ "telemetry_schema": "I1-a/v1",
+ "status": "started"
+}

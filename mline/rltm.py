@@ -35,6 +35,20 @@ def _write_chunk(M, k, v, beta):
     return M
 
 
+def chunked_write(M, k, v, beta, chunk=64):
+    """The same writes as _write_chunk in the chunkwise-parallel (UT / WY) form of the delta rule (Yang et al. 2024, DeltaNet):
+    in a chunk of C writes the updates u_i = beta_i (v_i - M_{i-1} k_i) solve the unit lower-triangular system
+    (I + diag(beta) tril(K K^T, -1)) U = diag(beta) (V - K M^T), and M <- M + U^T K. Equal in exact arithmetic (tested against the
+    loop, values and gradients); C sequential rank-one steps become one triangular solve and three matmuls."""
+    for c in range(0, k.shape[1], chunk):
+        K, V, B = k[:, c:c + chunk], v[:, c:c + chunk], beta[:, c:c + chunk]          # (b, C, d_k), (b, C, d_v), (b, C, 1)
+        A = torch.tril(B * (K @ K.transpose(1, 2)), -1)                                   # beta_i k_i . k_j for j < i; the unit diagonal is implied
+        R = B * (V - K @ M.transpose(1, 2))                                              # beta_i (v_i - M k_i) with M at the chunk's start
+        U = torch.linalg.solve_triangular(A, R, upper=False, unitriangular=True)
+        M = M + U.transpose(1, 2) @ K
+    return M
+
+
 def decode_windows(core, e):
     """The Core's own sequential decoder path (Core.forward without stream_encoder or tbptt) on encoder outputs e (rows, w, width)."""
     n = core.mn(e)
@@ -47,16 +61,18 @@ def decode_windows(core, e):
 
 
 class RLTM(nn.Module):
-    def __init__(self, core, d_k=256, d_v=256, gamma_init=1.0, seed=0, memory=True, write_chunk=0, zero_out=False):
+    def __init__(self, core, d_k=256, d_v=256, gamma_init=1.0, seed=0, memory=True, write_chunk=0, zero_out=False, ut_chunk=0):
         """`write_chunk` > 0 recomputes the write loop in chunks of that many steps during the backward pass instead of keeping
         every intermediate M (at language scale 4 windows x 511 writes x 2 MB would not fit next to L1); the result is the same.
+        `ut_chunk` > 0 replaces the write loop by its chunkwise-parallel form (chunked_write, chunks of that many writes; no
+        recomputation needed): the same function, a few kernels per chunk instead of a few per write (G0.4, note 5.61.1).
         `zero_out` starts the read's output projection Wo at zero (the usual start for a branch added to a trained model): the
         model is then exactly its Core at the first update although gamma = 1, Wo gets a gradient from the first update and the
         write path from the second. The toy runs used the default start; the warm start from L1 is where this matters."""
         super().__init__()
         if not isinstance(core, Core):
             raise TypeError('RLT-M wraps the sealed core.model.Core')
-        self.core, self.d_k, self.d_v, self.memory, self.write_chunk = core, d_k, d_v, memory, write_chunk
+        self.core, self.d_k, self.d_v, self.memory, self.write_chunk, self.ut_chunk = core, d_k, d_v, memory, write_chunk, ut_chunk
         with torch.random.fork_rng(devices=[]):
             torch.manual_seed(seed)
             self.Wq, self.Wk = nn.Linear(core.width, d_k), nn.Linear(core.width, d_k)
@@ -79,7 +95,9 @@ class RLTM(nn.Module):
         M, out = e.new_zeros(b, self.d_v, self.d_k), []
         for j in range(n):
             out.append(M)
-            if self.write_chunk and torch.is_grad_enabled():
+            if self.ut_chunk:
+                M = chunked_write(M, k[:, j], v[:, j], beta[:, j], self.ut_chunk)
+            elif self.write_chunk and torch.is_grad_enabled():
                 for c in range(0, w - 1, self.write_chunk):
                     s = slice(c, c + self.write_chunk)
                     M = tc.checkpoint(_write_chunk, M, k[:, j, s], v[:, j, s], beta[:, j, s], use_reentrant=False)

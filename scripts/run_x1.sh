@@ -2,7 +2,9 @@
 # E-X1 (notes/RLT_SORUN_ESLEME_VE_PROGRAM_2026-10-02.md section 5.59): the standard transformer baseline (mline.tfm, arm tfm6: 6 layers,
 # width 528, 8 heads, 20.37M parameters) on L1's recipe, data, seed and schedule (30,518 updates). Waits until E-RM stage 1 has ended
 # (any final line of its queue; user priority 2026-10-23 13:0x moved stage 1 ahead) and no other long run is on the GPU, logs the VRAM
-# three minutes in, writes the reading.
+# three minutes in, writes the reading. 2026-10-23: G0.4 failed and the stage-1 queue was relaunched with the parallel write
+# (scripts/run_erm_stage1_ut.sh, tag [erm1b], note 5.61.1); E-X1 had started at 23:35 on the old queue's halt line and was stopped
+# for stage 1 (user priority). It now waits for the new queue's final line and resumes from its own checkpoint (mline.longrun).
 # Usage: nohup bash scripts/run_x1.sh > /dev/null 2>&1 &     (progress: results/M1-finetune-distance/queue.log)
 set -u
 cd "$(dirname "$0")/.."
@@ -21,8 +23,8 @@ busy() {   # long-run processes (a venv run shows twice: the launcher and its in
 }
 
 if [ -f "$OUT/complete.json" ]; then log "ATLA E-X1 (complete.json var)"; exit 0; fi
-log "E-X1 bekliyor: E-RM Asama 1 kuyrugu bitince (ya da durunca) ve GPU'da baska uzun kosu kalmayinca baslar"
-until grep -q -E "\[erm1\] (E-RM Asama 1 kuyrugu BITTI|Asama 1 DURDU|HATA Asama 1)" "$LOG"; do sleep 120; done
+log "E-X1 bekliyor: yeni E-RM Asama 1 kuyrugu ([erm1b]) bitince (ya da durunca) ve GPU'da baska uzun kosu kalmayinca kontrol noktasindan surer"
+until grep -q -E "\[erm1b\] (E-RM Asama 1 kuyrugu BITTI|Asama 1 DURDU|HATA Asama 1)" "$LOG"; do sleep 120; done
 until [ "$(busy)" = "0" ]; do sleep 60; done
 mkdir -p "$OUT"
 "$PY" -B -c "from horizon.run_manifest import quick; import sys; print(quick(*sys.argv[1:]))" \
