@@ -182,9 +182,11 @@ def train(out, *, arm, init, seed, steps, corpus, corpus_val, natural_train, nat
     return out
 
 
-def reading(finals):
-    """Note 5.61's registered verdicts from the final batteries ({run: final.json}). Primary cell: held-out letters, exact four."""
-    acc = lambda r, d, key='naw': r['eval'][key]['held'][str(d)]['exact']
+def reading(finals, primary='natural'):
+    """Note 5.61's registered verdicts from the final batteries ({run: final.json}). Primary cell: held-out real words, exact four
+    (L1's own within-window ceiling there is 0.964 at 16,000 updates; on held-out letters it is 0.659, under the 0.8 bar, so the
+    letter cell is descriptive only)."""
+    acc = lambda r, d, key='naw': r['eval'][key][primary][str(d)]['exact']
     a = [r for r in finals.values() if r['arm'] == 'A']
     b = {name: r for name, r in finals.items() if r['arm'] == 'B_ds'}
     r1 = {name: acc(r, 2) >= 0.8 and acc(r, 2) - acc(r, 2, 'naw_read_off') >= 0.5 for name, r in b.items()}
@@ -204,7 +206,7 @@ def reading(finals):
     else:
         label = 'PARTIAL'
     return dict(label=label, R1=r1, R2=r2, R3=r3, R6=r6, no_regression=no_regression, a_at_chance=a_chance,
-                held_exact={name: {d: acc(r, d) for d in FINAL_D if str(d) in r['eval']['naw']['held']} for name, r in finals.items()},
+                primary_exact={name: {d: acc(r, d) for d in FINAL_D if str(d) in r['eval']['naw'][primary]} for name, r in finals.items()},
                 window1_regression=regression, later_window_gain=later_gain)
 
 

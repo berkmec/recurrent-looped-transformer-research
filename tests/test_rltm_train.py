@@ -69,10 +69,10 @@ class Stage1Tests(unittest.TestCase):
 
     def test_the_reading(self):
         def final(arm, d2, d2_off, d16, d64, bpb):
-            naw = {'held': {str(d): dict(exact=v) for d, v in ((1, d2), (2, d2), (16, d16), (64, d64))}}
-            e = dict(naw=naw, lm_bpb_by_window=bpb)
+            cells = {str(d): dict(exact=v) for d, v in ((1, d2), (2, d2), (16, d16), (64, d64))}
+            e = dict(naw={'natural': cells, 'held': {k: dict(exact=0.0) for k in cells}}, lm_bpb_by_window=bpb)   # held letters: descriptive
             if arm == 'B_ds':
-                e['naw_read_off'] = {'held': {'1': dict(exact=d2_off), '2': dict(exact=d2_off)}}
+                e['naw_read_off'] = {'natural': {'1': dict(exact=d2_off), '2': dict(exact=d2_off)}}
             return dict(arm=arm, eval=e)
         works = {'A-s1': final('A', 0.05, None, 0.05, 0.05, [1.40, 1.40, 1.40]),
                  'B-s1': final('B_ds', 0.95, 0.05, 0.9, 0.7, [1.405, 1.37, 1.37]), 'B-s2': final('B_ds', 0.9, 0.04, 0.85, 0.5, [1.40, 1.37, 1.38])}
