@@ -26,6 +26,10 @@ job() {   # task arm width seed steps lr points
   # an atomic lock directory: two queue chains may both call this script (07:55: one chain after the S4 seeds, one after E-P4), and each job must run once
   if ! mkdir "$OUT/$id.lock" 2>/dev/null; then return 0; fi
   echo "--- start $(date '+%Y-%m-%d %H:%M:%S')" >> "$OUT/$id.log"
+  # RUNMAN manifest (added 2026-10-23 before the first real run; the rule of 5.3 is unchanged)
+  $PY -B -c "from horizon.run_manifest import quick; import sys; print(quick(*sys.argv[1:]))" "E-C-$id" Z1-pilot claude-4797b78c \
+    "python -B -m horizon.depth_run --task $1 --arm $2 --width $3 --seed $4 --steps $5 --lr $6 --points $7 --out $OUT/$id.json" \
+    "notes/RLT_SORUN_ESLEME_VE_PROGRAM_2026-10-02.md 5.3" "{\"seed\": $4}" scripts/run_ec.sh >> "$LOG" 2>&1 || log "MANIFEST HATA $id"
   log "BASLA Z1 $id (CPU, 1 parcacik, $5 adim, lr $6, noktalar $7)"
   $PY -B -m horizon.depth_run --task "$1" --arm "$2" --width "$3" --seed "$4" --steps "$5" --lr "$6" --points "$7" --out "$OUT/$id.json" --log-every 1000 >> "$OUT/$id.log" 2>&1
   if [ -f "$OUT/$id.json" ]; then log "BITTI Z1 $id"; else log "HATA Z1 $id: sonuc dosyasi yok (bkz $OUT/$id.log)"; rmdir "$OUT/$id.lock" 2>/dev/null; fi
