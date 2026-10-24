@@ -161,7 +161,8 @@ def bar_chart(path, title, subtitle, desc, rows, xfmt, xmax, xlab, note=None):
     """Horizontal bars, one series: rows = [(label, value, value_text)]."""
     height = 146 + 34 * len(rows)
     svg = Svg(title, subtitle, desc, height)
-    left, right, top = 190, 90, 78
+    left = max(190, int(24 + max(text_width(lab, 12) for lab, _, _ in rows) + 12))     # the longest label must fit left of the axis
+    right, top = 90, 78
     def X(v):
         return left + v / xmax * (W - left - right)
     for t in nice_ticks(0, xmax):
@@ -242,13 +243,44 @@ def drift_rows(d):
 
 def es_reading(d):
     from horizon.sk_run import reading
-    files = sorted((d.root / 'results/ES-pilot').glob('sk3-*.json'))
+    files = [f for f in sorted((d.root / 'results/ES-pilot').glob('sk3-*.json')) if not f.name.endswith('.manifest.json')]   # RUNMAN manifests sit beside the results
     return reading([json.loads(f.read_text(encoding='utf8')) for f in files]), len(files)
 
 
-def l1_rows(d):
+# every sk4 run of E-S stage B (ES-pilot), E-S-LR, E-S-B2X (twice the updates), E-S-PE (positional transformer) and E-S-W (4-16x parameters)
+ES4_GROUPS = [
+    ('Core (RLT, w64)', [('ES-pilot', 'core', 64)]),
+    ('Core, geri beslemesiz (A0)', [('ES-pilot', 'core_nofb', 64)]),
+    ('GRU w128', [('ES-pilot', 'gru', 128), ('ES-lr', 'gru', 128), ('ES-b2x', 'gru', 128)]),
+    ('GRU w256 / w512 (4–16× parametre)', [('ES-width', 'gru', 256), ('ES-width', 'gru', 512)]),
+    ('LSTM w112', [('ES-pilot', 'lstm', 112), ('ES-lr', 'lstm', 112), ('ES-b2x', 'lstm', 112)]),
+    ('LSTM w224 / w448 (4–16× parametre)', [('ES-width', 'lstm', 224), ('ES-width', 'lstm', 448)]),
+    ('Transformer, NoPE, w64', [('ES-pilot', 'tfm', 64), ('ES-lr', 'tfm', 64), ('ES-b2x', 'tfm', 64)]),
+    ('Transformer, konumlu, w64', [('ES-pe', 'tfm_pe', 64)]),
+    ('Transformer, konumlu, w128', [('ES-width', 'tfm_pe', 128)]),
+]
+
+
+def es4_rows(d):
+    """One row per ES4_GROUPS entry (runs, mean in-range and extrapolation, best extrapolation, learned by sk_run's 0.95 rule) and the
+    registered reading of E-S stage B recomputed with horizon.sk_run.reading."""
+    from horizon.sk_run import LEARNED, reading
+    runs = {}
+    for directory in {k for _, keys in ES4_GROUPS for k, _, _ in keys}:
+        runs[directory] = [json.loads(f.read_text(encoding='utf8')) for f in sorted((d.root / 'results' / directory).glob('sk4-*.json'))
+                           if not f.name.endswith('.manifest.json')]
     rows = []
-    for line in (d.root / 'results/L1-scratch-w928-s401/probe.jsonl').read_text(encoding='utf8').splitlines():
+    for label, keys in ES4_GROUPS:
+        rs = [r for directory, arm, width in keys for r in runs[directory] if r['arm'] == arm and r['width'] == width]
+        ins, ext = [r['in_range'] for r in rs], [r['extrapolation'] for r in rs]
+        rows.append(dict(label=label, runs=len(rs), in_range=sum(ins) / len(ins), extrapolation=sum(ext) / len(ext), best=max(ext),
+                         learned=sum(ins) / len(ins) >= LEARNED - 1e-6))
+    return rows, reading(runs['ES-pilot'])
+
+
+def l1_rows(d, run='L1-scratch-w928-s401'):
+    rows = []
+    for line in (d.root / 'results' / run / 'probe.jsonl').read_text(encoding='utf8').splitlines():
         if '"eval"' in line:
             r = json.loads(line)
             if isinstance(r.get('eval'), dict) and 'bits_per_byte' in r['eval']:
@@ -279,8 +311,12 @@ RECORDED = [
     ('drift D seed 1 t0=8', lambda R: R['drift'][0]['D'][8], 9.48e-4, 0.01e-4),
     ('drift D seed 2 t0=128', lambda R: [x for x in R['drift'] if x['seed'] == 2][0]['D'][128], 3.7e-6, 0.1e-6),
     ('E-S GRU extrapolation', lambda R: R['es']['arms']['gru']['extrapolation'], 0.993, 0.0006),
-    ('E-S Core extrapolation', lambda R: R['es']['arms']['core']['extrapolation'], 0.866, 0.0006),
-    ('L1 bpb step 8000', lambda R: R['l1'][-1]['bits_per_byte'], 1.617, 0.0006),
+    ('E-S Core extrapolation', lambda R: R['es']['arms']['core']['extrapolation'], 0.889, 0.0006),       # two seeds, 0.866 / 0.912 (item 60)
+    ('L1 bpb step 8000', lambda R: [r for r in R['l1'] if r['step'] == 8000][0]['bits_per_byte'], 1.617, 0.0006),
+    ('L1 bpb end (E-L1C)', lambda R: R['l1'][-1]['bits_per_byte'], 1.3745, 0.0006),
+    ('A0F bpb end (E-L1C)', lambda R: R['a0f'][-1]['bits_per_byte'], 1.4408, 0.0006),
+    ('E-S sk4 Core extrapolation, 3 seeds', lambda R: R['es4'][0][0]['extrapolation'], 0.984, 0.0006),
+    ('E-S sk4 A0 in-range, 3 seeds', lambda R: R['es4'][0][1]['in_range'], 0.178, 0.0006),
     ('E-L1X D_full 2048-4096', lambda R: R['l1x'][3][-1][0], 0.494, 0.0006),
 ]
 
@@ -289,7 +325,10 @@ def compute(root):
     d = Data(root)
     es, n_es = es_reading(d)
     drift, ages = drift_rows(d)
-    R = dict(s5=s5_rows(d), drift=drift, ages=ages, es=es, n_es=n_es, l1=l1_rows(d), l1x=l1x(d))
+    R = dict(s5=s5_rows(d), drift=drift, ages=ages, es=es, n_es=n_es, es4=es4_rows(d), l1=l1_rows(d), a0f=l1_rows(d, 'L1-a0-w928-s401'),
+             l1x=l1x(d))
+    if [r['step'] for r in R['l1']] != [r['step'] for r in R['a0f']]:
+        raise SystemExit('ABORT: L1 and A0F were measured at different updates')
     bad = [(name, f(R), want) for name, f, want, tol in RECORDED if abs(f(R) - want) > tol]
     return R, bad
 
@@ -318,19 +357,25 @@ def figures(R, out):
                'sapma² (M²)', lambda v: dec(v, 2), xlab='enjeksiyondan beri geçen adım (yaş)',
                note='Kaynak: results/Z1-pilot/drift-profile.json, drift-profile-s2.json (E-A5x, E-R5).')
 
-    l1 = R['l1']
-    steps = ['%d' % (r['step'] // 1000) + 'K' for r in l1]
-    line_chart(out / 'l1-bits-per-byte.svg', 'L1 dil modeli (20M, bayt düzeyi): doğrulama kaybı',
-               'Doğrulama bit/bayt, her 1.000 güncellemede ölçüm pili (koşu 8.500. adımda duruyor)',
-               'Doğrulama bit/bayt 2,00’dan 1,62’ye iniyor.',
-               steps, [dict(slot=1, name='bit/bayt', short='', values=[r['bits_per_byte'] for r in l1])],
-               'bit / bayt', lambda v: dec(v, 2), xlab='güncelleme', end_labels=False,
-               note='Kaynak: results/L1-scratch-w928-s401/probe.jsonl.')
+    l1, a0f = R['l1'], R['a0f']
+    steps = [('%dK' % (r['step'] // 1000)) if r['step'] % 1000 == 0 else dec(r['step'] / 1000, 1) + 'K' for r in l1]
+    steps = [s if i == 0 or i == len(l1) - 1 or (l1[i]['step'] % 5000 == 0 and len(l1) - 1 - i >= 3) else ''
+             for i, s in enumerate(steps)]      # 31 points: label every 5K, the first and the last (no crowding)
+    line_chart(out / 'l1-bits-per-byte.svg', 'L1 dil modeli (20M, bayt düzeyi): geri beslemeli ve geri beslemesiz',
+               'Doğrulama bit/bayt, her 1.000 güncellemede ölçüm pili; iki koşu aynı veri, sıra ve programla 30.518 güncelleme',
+               'Geri beslemeli L1 her ölçümde geri beslemesiz ikizinden (A0F) iyi; sonda fark %s bit/bayt.'
+               % ('+' + dec(a0f[-1]['bits_per_byte'] - l1[-1]['bits_per_byte'], 3)),
+               steps, [dict(slot=1, name='L1 (geri beslemeli)', short='L1', values=[r['bits_per_byte'] for r in l1]),
+                       dict(slot=2, name='A0F (geri beslemesiz ikiz)', short='A0F', values=[r['bits_per_byte'] for r in a0f])],
+               'bit / bayt', lambda v: dec(v, 2), xlab='güncelleme', end_labels=True,
+               note='Kaynak: results/L1-scratch-w928-s401 ve results/L1-a0-w928-s401, probe.jsonl (E-L1C). İkisi de CNN haber metniyle eğitildi.')
     met = [(1, 'train_k4_first', 'eğitim anahtarları'), (2, 'held_k4_first', 'görülmemiş anahtarlar'),
            (3, 'natural_first', 'doğal anahtarlar'), (4, 'single_fact_exact@384', 'tek olgu @384')]
+    last = l1[-1]
     line_chart(out / 'l1-retrieval.svg', 'L1: dikkat belleğiyle getirme',
                'Anahtar eşleştirme (ilk hane doğruluğu) ve 384 bayt uzaktan tek olgu getirme (tam doğruluk)',
-               'Eğitim ve doğal anahtarlar 0,9’u, tek olgu @384 1,0’ı geçiyor; görülmemiş anahtarlar 0,6 eşiğinin altında.',
+               'Son ölçümde eğitim anahtarları %s, görülmemiş %s, doğal %s, tek olgu @384 %s.'
+               % tuple(dec(last[k], 2) for k in ('train_k4_first', 'held_k4_first', 'natural_first', 'single_fact_exact@384')),
                steps, [dict(slot=s, name=n, short=n, values=[r[k] for r in l1]) for s, k, n in met],
                'doğruluk', lambda v: dec(v, 1), ymin=0, ymax=1, xlab='güncelleme', end_labels=False,
                note='Eşikler: anahtar eşleştirme ≥ 0,8; genelleme (görülmemiş ve doğal) ≥ 0,6; uzaklık @384 ≥ 0,9.')
@@ -347,11 +392,17 @@ def figures(R, out):
 
     es = R['es']['arms']
     names = [('core', 'Core (RLT)'), ('gru', 'GRU'), ('lstm', 'LSTM'), ('core_nofb', 'Core, geri beslemesiz'), ('tfm', 'Transformer (NoPE)')]
-    bar_chart(out / 'es-extrapolation.svg', 'Durum-anahtarlı getirme (E-S, sk3, aşama A, geçici)',
+    bar_chart(out / 'es-extrapolation.svg', 'Durum-anahtarlı getirme, kolay sürüm (E-S, sk3: 6 olgu)',
               'Yürüyüş 32-127 derinliğinde sorgu doğruluğu (eğitim azami 16); şans 0,125',
               'GRU Core’a yetişiyor ve geçiyor; geri beslemesiz ikiz ve transformer öğrenemiyor.',
               [(n, es[k]['extrapolation'], dec(es[k]['extrapolation'], 3)) for k, n in names], lambda v: dec(v, 1), 1.0,
-              'dışdeğerleme doğruluğu', note='Core tek tohum (onuncu koşu kesildi); diğerleri 2 tohum ortalaması. Kaynak: results/ES-pilot/sk3-*.json.')
+              'dışdeğerleme doğruluğu', note='Her kol 2 tohum ortalaması. Kaynak: results/ES-pilot/sk3-*.json.')
+    rows4, _ = R['es4']
+    bar_chart(out / 'es-sk4.svg', 'Durum-anahtarlı getirme, zor sürüm (E-S, sk4: 24 olgu)',
+              'Yürüyüş 32-127 derinliğinde sorgu doğruluğu (eğitim azami 16); şans 0,125',
+              'Yalnız geri beslemeli Core öğreniyor; GRU, LSTM ve transformer 16 kata kadar büyütülse de şans civarında.',
+              [(r['label'], r['extrapolation'], dec(r['extrapolation'], 3)) for r in rows4], lambda v: dec(v, 1), 1.0,
+              'dışdeğerleme doğruluğu', note='Her satır o koldaki bütün koşuların ortalaması. Kaynak: results/ES-{pilot,lr,b2x,pe,width}/sk4-*.json.')
 
 
 def section(R):
@@ -385,7 +436,12 @@ def section(R):
         L.append('| %s | %s | %s → %s |' % (label.get(x['name'], x['name']), ' · '.join(sci(x['D'][t]) for t in (8, 128, 256)), dec(x['first']), dec(x['last'])))
     L += ['', 'D: yaş ≥ 4 kutularında toplam sapmanın karesinin yaşa doğrusal eğimi; M: en yakın diğer sınıf merkezine ortalama uzaklık.', '']
     es, n_es = R['es'], R['n_es']
-    L += ['### 3. Durum + bellek birleşimi: RLT’ye özgü üstünlük bu ölçekte görülmedi', '',
+    rows4, stage_b = R['es4']
+    L += ['### 3. Durum + bellek birleşimi: kolay sürümde fark yok, zor sürümde yalnız RLT öğreniyor', '',
+          'Görev (E-S, `horizon/sk_task.py`): dizinin başında her grup elemanı için bir "anahtar → değer" olgusu, ardından uzun bir yürüyüş. '
+          'Model yürüyüşün o anki durumunu hatasız izlemeli ve soru işaretinde o durumun anahtarına ait değeri söylemeli: hem durum (izleme) '
+          'hem bellek (geriye bakma) gerekiyor. GRU ve LSTM’in yalnız durumu, transformer’ın yalnız belleği var; RLT’de (Core) ikisi de var.', '',
+          '#### Kolay sürüm (sk3: 6 olgu, aşama A)', '',
           '![E-S dışdeğerleme](results/figures/es-extrapolation.svg)', '',
           '| kol | tohum | aralık-içi (yürüyüş 16) | dışdeğerleme (yürüyüş 32–127) | durum başı dışdeğerleme | öğrendi |', '|---|---|---|---|---|---|']
     names = {'core': 'Core (RLT, w64)', 'core_nofb': 'Core, geri beslemesiz (A0)', 'gru': 'GRU w128', 'lstm': 'LSTM w112', 'tfm': 'Transformer, NoPE, 4 katman'}
@@ -393,17 +449,36 @@ def section(R):
         a = es['arms'][k]
         L.append('| %s | %d | %s | %s | %s | %s |' % (names[k], a['seeds'], dec(a['in_range']), dec(a['extrapolation']), dec(a['state_extrapolation']),
                  'evet' if a['learned'] else 'hayır'))
-    L += ['', 'Kayıtlı hüküm: **%s** (%d / 10 koşu; Core’un ikinci tohumu kesildi). sk3’te yalnız 6 olgu var; durum + bellek birleşimini asıl sınayan sk4 (24 olgu) henüz koşmadı.'
-          % (es['verdict'].replace('provisional: fewer than 2 seeds for some arm', 'geçici: bir kolda < 2 tohum'), n_es), '']
-    l1 = R['l1']
-    L += ['### 4. L1 dil modeli (20M parametre, bayt düzeyi, sıfırdan)', '',
+    L += ['', 'Kayıtlı hüküm: **%s** (%d / 10 koşu, kesin; ana belge madde 60). 6 olgu GRU’nun tek durum vektörüne sığıyor; asıl sınav zor sürüm.'
+          % (es['verdict'].replace('provisional: fewer than 2 seeds for some arm', 'geçici: bir kolda < 2 tohum'), n_es), '',
+          '#### Zor sürüm (sk4: 24 olgu)', '',
+          '![E-S sk4](results/figures/es-sk4.svg)', '',
+          '| kol | koşu | aralık-içi (yürüyüş 16) | dışdeğerleme (yürüyüş 32–127) | en iyi koşunun dışdeğerlemesi | öğrendi |', '|---|---|---|---|---|---|']
+    for r in rows4:
+        L.append('| %s | %d | %s | %s | %s | %s |' % (r['label'], r['runs'], dec(r['in_range']), dec(r['extrapolation']), dec(r['best']),
+                 'evet' if r['learned'] else 'hayır'))
+    L += ['', 'Ortalamalar o koldaki bütün koşular üzerinden (tohumlar; lr 10⁻³ ve 3×10⁻³; iki kat bütçe); şans 0,125 (8 değer); “öğrendi”: aralık-içi ≥ 0,95. '
+          'Kayıtlı hükümler: aşama B **%s** (bu sayfada yeniden hesaplandı; ana belge madde 83 ve 105), lr denetimi **ROBUST TO LR** (madde 83), '
+          'iki kat bütçe **ROBUST TO BUDGET** (madde 96), konumlu transformer **ADVANTAGE HOLDS** (madde 104), 4-16 kat parametre '
+          '**ADVANTAGE HOLDS AT 16x PARAMETERS** (madde 121). Olgular çoğalınca durum ve belleği birlikte kullanan tek yapı geri beslemeli Core; '
+          'aynı Core’un geri beslemesiz ikizi de öğrenemiyor. Kampanyanın şimdiye kadarki en sağlam olumlu sonucu.' % stage_b['verdict'], '']
+    l1, a0f = R['l1'], R['a0f']
+    by_a0 = {r['step']: r for r in a0f}
+    pick = [r for r in l1 if r['step'] in (1000, 4000, 8000, 16000, 24000)] + [l1[-1]]
+    L += ['### 4. L1 dil modeli (20M parametre, bayt düzeyi, sıfırdan) ve geri beslemesiz ikizi', '',
           '![L1 bit/bayt](results/figures/l1-bits-per-byte.svg)', '', '![L1 getirme](results/figures/l1-retrieval.svg)', '',
-          '| adım | doğrulama bit/bayt | eğitim anahtarları | görülmemiş anahtarlar | doğal anahtarlar | tek olgu @384 |', '|---|---|---|---|---|---|']
-    for r in l1:
-        L.append('| %s | %s | %s | %s | %s | %s |' % (num(r['step']), dec(r['bits_per_byte']), dec(r['train_k4_first']), dec(r['held_k4_first']),
-                 dec(r['natural_first']), dec(r['single_fact_exact@384'])))
-    L += ['', 'Anahtar sütunları ilk hane doğruluğu (şans 0,1), tek olgu tam doğruluk. Koşu 500M bayt hedefinin 8.500. güncellemesinde (≈ %28) duruyor; '
-          'geri beslemesiz ikiz (A0) henüz koşmadı, bu yüzden geri beslemenin dildeki faydası ölçülmedi.', '']
+          '| adım | L1 bit/bayt | A0F bit/bayt | fark (A0F − L1) | eğitim anahtarları | görülmemiş anahtarlar | doğal anahtarlar | tek olgu @384 |',
+          '|---|---|---|---|---|---|---|---|']
+    for r in pick:
+        gap = by_a0[r['step']]['bits_per_byte'] - r['bits_per_byte']
+        L.append('| %s | %s | %s | %s | %s | %s | %s | %s |' % (num(r['step']), dec(r['bits_per_byte']), dec(by_a0[r['step']]['bits_per_byte']),
+                 ('+' if gap >= 0 else '−') + dec(abs(gap)), dec(r['train_k4_first']), dec(r['held_k4_first']), dec(r['natural_first']),
+                 dec(r['single_fact_exact@384'])))
+    L += ['', 'Anahtar sütunları L1’in ilk hane doğruluğu (şans 0,1), tek olgu tam doğruluk. L1 500M baytın tamamını okudu (%s güncelleme); '
+          'geri beslemesiz ikiz A0F aynı veri, sıra, başlangıç ağırlıkları ve programla eğitildi. Kayıtlı hüküm: **FEEDBACK HELPS (AT END)** (madde 123). '
+          'Doğrulamanın eğitimde de geçen belgeleri çıkarılınca fark +0,069 (madde 140); BLiMP dilbilgisi testinde L1 %%64,83, A0F %%61,90 (madde 135). '
+          'Bedeli: ekran kartı süresi ≈ 7,6 kat. İkisi de CNN haber metniyle eğitildi; kullanıcı kuralıyla (madde 138) yeni eğitimler FineWeb-Edu’da.'
+          % num(l1[-1]['step']), '']
     j, bins, mean, diff = R['l1x']
     L += ['### 5. L1, eğitim penceresinin ötesinde (E-L1X, adım 6.000)', '', '![L1 uzun belge](results/figures/l1-long-document.svg)', '',
           '| konum (bayt) | kesintisiz | bellek penceresi 512 | durum 512’de sıfırlanıyor | bağımsız 512’likler | kesintisiz − bağımsız (±SE) |', '|---|---|---|---|---|---|']
@@ -412,7 +487,11 @@ def section(R):
         L.append('| %s–%s | %s | %s | %s | %s | %s ± %s |' % (num(lo), num(hi), dec(mean['full'][i]), dec(mean['win512'][i]), dec(mean['reset512'][i]),
                  dec(mean['chunk512'][i]), ('+' if diff[i][0] >= 0 else '−') + dec(abs(diff[i][0])), dec(diff[i][1])))
     L += ['', 'Kayıtlı hüküm: **%s, %s**. Bozulma dikkat belleğinde; çıkarımda belleği eğitim uzunluğuyla sınırlamak ücretsiz ve tam bir düzeltme; '
-          'taşınan durum 256 adımdan öteye bilgi taşımıyor.' % (j['reading']['verdict'], j['reading']['attribution']), '', END]
+          'taşınan durum 256 adımdan öteye bilgi taşımıyor.' % (j['reading']['verdict'], j['reading']['attribution']), '',
+          'Sonraki ölçüm (E-L1X-F, madde 129 ve 132): eğitimin her noktasında taşınan durum ≈ 6 adımda unutuyor, etkin bağlam 512 bayt. '
+          'Hata avında nedeni bulundu (madde 139): L1’in eğitiminde her 512 baytlık satır aynı başlangıç durumuyla başlıyordu ve kodlayıcı satırın '
+          'tamamını görüyordu; durumun satırın ötesini taşıması eğitimde hiç istenmedi. Durumun pencereler arası tek kanal olduğu eğitim E-SC1’de '
+          'sınanıyor (madde 145).', '', END]
     return '\n'.join(L) + '\n'
 
 

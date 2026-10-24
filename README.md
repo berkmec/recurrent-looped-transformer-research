@@ -71,38 +71,58 @@ Okuma: aynı tarifle üç tohumun ikisi 1.024’ten önce kopuyor, biri kopmuyor
 
 D: yaş ≥ 4 kutularında toplam sapmanın karesinin yaşa doğrusal eğimi; M: en yakın diğer sınıf merkezine ortalama uzaklık.
 
-### 3. Durum + bellek birleşimi: RLT’ye özgü üstünlük bu ölçekte görülmedi
+### 3. Durum + bellek birleşimi: kolay sürümde fark yok, zor sürümde yalnız RLT öğreniyor
+
+Görev (E-S, `horizon/sk_task.py`): dizinin başında her grup elemanı için bir "anahtar → değer" olgusu, ardından uzun bir yürüyüş. Model yürüyüşün o anki durumunu hatasız izlemeli ve soru işaretinde o durumun anahtarına ait değeri söylemeli: hem durum (izleme) hem bellek (geriye bakma) gerekiyor. GRU ve LSTM’in yalnız durumu, transformer’ın yalnız belleği var; RLT’de (Core) ikisi de var.
+
+#### Kolay sürüm (sk3: 6 olgu, aşama A)
 
 ![E-S dışdeğerleme](results/figures/es-extrapolation.svg)
 
 | kol | tohum | aralık-içi (yürüyüş 16) | dışdeğerleme (yürüyüş 32–127) | durum başı dışdeğerleme | öğrendi |
 |---|---|---|---|---|---|
-| Core (RLT, w64) | 1 | 1,000 | 0,866 | 1,000 | evet |
+| Core (RLT, w64) | 2 | 1,000 | 0,889 | 1,000 | evet |
 | GRU w128 | 2 | 1,000 | 0,993 | 1,000 | evet |
 | LSTM w112 | 2 | 0,999 | 0,808 | 1,000 | evet |
 | Core, geri beslemesiz (A0) | 2 | 0,251 | 0,246 | 0,169 | hayır |
 | Transformer, NoPE, 4 katman | 2 | 0,609 | 0,169 | 0,167 | hayır |
 
-Kayıtlı hüküm: **NO ADVANTAGE (geçici: bir kolda < 2 tohum)** (9 / 10 koşu; Core’un ikinci tohumu kesildi). sk3’te yalnız 6 olgu var; durum + bellek birleşimini asıl sınayan sk4 (24 olgu) henüz koşmadı.
+Kayıtlı hüküm: **NO ADVANTAGE** (10 / 10 koşu, kesin; ana belge madde 60). 6 olgu GRU’nun tek durum vektörüne sığıyor; asıl sınav zor sürüm.
 
-### 4. L1 dil modeli (20M parametre, bayt düzeyi, sıfırdan)
+#### Zor sürüm (sk4: 24 olgu)
+
+![E-S sk4](results/figures/es-sk4.svg)
+
+| kol | koşu | aralık-içi (yürüyüş 16) | dışdeğerleme (yürüyüş 32–127) | en iyi koşunun dışdeğerlemesi | öğrendi |
+|---|---|---|---|---|---|
+| Core (RLT, w64) | 3 | 1,000 | 0,984 | 0,995 | evet |
+| Core, geri beslemesiz (A0) | 3 | 0,178 | 0,170 | 0,176 | hayır |
+| GRU w128 | 6 | 0,125 | 0,126 | 0,145 | hayır |
+| GRU w256 / w512 (4–16× parametre) | 3 | 0,141 | 0,137 | 0,150 | hayır |
+| LSTM w112 | 6 | 0,136 | 0,124 | 0,128 | hayır |
+| LSTM w224 / w448 (4–16× parametre) | 3 | 0,150 | 0,119 | 0,123 | hayır |
+| Transformer, NoPE, w64 | 6 | 0,172 | 0,156 | 0,192 | hayır |
+| Transformer, konumlu, w64 | 4 | 0,184 | 0,178 | 0,200 | hayır |
+| Transformer, konumlu, w128 | 1 | 0,230 | 0,174 | 0,174 | hayır |
+
+Ortalamalar o koldaki bütün koşular üzerinden (tohumlar; lr 10⁻³ ve 3×10⁻³; iki kat bütçe); şans 0,125 (8 değer); “öğrendi”: aralık-içi ≥ 0,95. Kayıtlı hükümler: aşama B **ADVANTAGE (LEARNABILITY)** (bu sayfada yeniden hesaplandı; ana belge madde 83 ve 105), lr denetimi **ROBUST TO LR** (madde 83), iki kat bütçe **ROBUST TO BUDGET** (madde 96), konumlu transformer **ADVANTAGE HOLDS** (madde 104), 4-16 kat parametre **ADVANTAGE HOLDS AT 16x PARAMETERS** (madde 121). Olgular çoğalınca durum ve belleği birlikte kullanan tek yapı geri beslemeli Core; aynı Core’un geri beslemesiz ikizi de öğrenemiyor. Kampanyanın şimdiye kadarki en sağlam olumlu sonucu.
+
+### 4. L1 dil modeli (20M parametre, bayt düzeyi, sıfırdan) ve geri beslemesiz ikizi
 
 ![L1 bit/bayt](results/figures/l1-bits-per-byte.svg)
 
 ![L1 getirme](results/figures/l1-retrieval.svg)
 
-| adım | doğrulama bit/bayt | eğitim anahtarları | görülmemiş anahtarlar | doğal anahtarlar | tek olgu @384 |
-|---|---|---|---|---|---|
-| 1.000 | 2,001 | 0,244 | 0,226 | 0,193 | 0,000 |
-| 2.000 | 1,846 | 0,341 | 0,348 | 0,243 | 0,000 |
-| 3.000 | 1,774 | 0,762 | 0,378 | 0,779 | 0,969 |
-| 4.000 | 1,730 | 0,890 | 0,396 | 0,836 | 1,000 |
-| 5.000 | 1,694 | 0,933 | 0,476 | 0,886 | 1,000 |
-| 6.000 | 1,667 | 0,963 | 0,482 | 0,950 | 1,000 |
-| 7.000 | 1,639 | 0,988 | 0,579 | 0,957 | 1,000 |
-| 8.000 | 1,617 | 0,988 | 0,537 | 0,971 | 0,969 |
+| adım | L1 bit/bayt | A0F bit/bayt | fark (A0F − L1) | eğitim anahtarları | görülmemiş anahtarlar | doğal anahtarlar | tek olgu @384 |
+|---|---|---|---|---|---|---|---|
+| 1.000 | 2,001 | 2,079 | +0,078 | 0,244 | 0,226 | 0,193 | 0,000 |
+| 4.000 | 1,730 | 1,800 | +0,070 | 0,890 | 0,396 | 0,836 | 1,000 |
+| 8.000 | 1,617 | 1,667 | +0,050 | 0,988 | 0,537 | 0,971 | 0,969 |
+| 16.000 | 1,503 | 1,564 | +0,060 | 0,994 | 0,726 | 0,964 | 1,000 |
+| 24.000 | 1,457 | 1,518 | +0,062 | 0,994 | 0,793 | 0,957 | 1,000 |
+| 30.518 | 1,374 | 1,441 | +0,066 | 1,000 | 0,799 | 0,979 | 1,000 |
 
-Anahtar sütunları ilk hane doğruluğu (şans 0,1), tek olgu tam doğruluk. Koşu 500M bayt hedefinin 8.500. güncellemesinde (≈ %28) duruyor; geri beslemesiz ikiz (A0) henüz koşmadı, bu yüzden geri beslemenin dildeki faydası ölçülmedi.
+Anahtar sütunları L1’in ilk hane doğruluğu (şans 0,1), tek olgu tam doğruluk. L1 500M baytın tamamını okudu (30.518 güncelleme); geri beslemesiz ikiz A0F aynı veri, sıra, başlangıç ağırlıkları ve programla eğitildi. Kayıtlı hüküm: **FEEDBACK HELPS (AT END)** (madde 123). Doğrulamanın eğitimde de geçen belgeleri çıkarılınca fark +0,069 (madde 140); BLiMP dilbilgisi testinde L1 %64,83, A0F %61,90 (madde 135). Bedeli: ekran kartı süresi ≈ 7,6 kat. İkisi de CNN haber metniyle eğitildi; kullanıcı kuralıyla (madde 138) yeni eğitimler FineWeb-Edu’da.
 
 ### 5. L1, eğitim penceresinin ötesinde (E-L1X, adım 6.000)
 
@@ -116,5 +136,7 @@ Anahtar sütunları ilk hane doğruluğu (şans 0,1), tek olgu tam doğruluk. Ko
 | 2.048–4.096 | 2,150 | 1,656 | 2,150 | 1,656 | +0,494 ± 0,014 |
 
 Kayıtlı hüküm: **CONTINUATION HURTS, MEMORY PATH**. Bozulma dikkat belleğinde; çıkarımda belleği eğitim uzunluğuyla sınırlamak ücretsiz ve tam bir düzeltme; taşınan durum 256 adımdan öteye bilgi taşımıyor.
+
+Sonraki ölçüm (E-L1X-F, madde 129 ve 132): eğitimin her noktasında taşınan durum ≈ 6 adımda unutuyor, etkin bağlam 512 bayt. Hata avında nedeni bulundu (madde 139): L1’in eğitiminde her 512 baytlık satır aynı başlangıç durumuyla başlıyordu ve kodlayıcı satırın tamamını görüyordu; durumun satırın ötesini taşıması eğitimde hiç istenmedi. Durumun pencereler arası tek kanal olduğu eğitim E-SC1’de sınanıyor (madde 145).
 
 <!-- TABLES:END -->

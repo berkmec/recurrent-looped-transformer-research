@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="452" viewBox="0 0 760 452" role="img" aria-labelledby="t d">
+<title id="t">Durum-anahtarlı getirme, zor sürüm (E-S, sk4: 24 olgu)</title><desc id="d">Yalnız geri beslemeli Core öğreniyor; GRU, LSTM ve transformer 16 kata kadar büyütülse de şans civarında.</desc>
+<style>
+.bg{fill:#fcfcfb}.t1{fill:#0b0b0b}.t2{fill:#52514e}.tm{fill:#898781}.grid{stroke:#e1e0d9}.axis{stroke:#c3c2b7}.ring{stroke:#fcfcfb}
+.l1{stroke:#2a78d6}.l2{stroke:#eb6834}.l3{stroke:#1baf7a}.l4{stroke:#eda100}
+.f1{fill:#2a78d6}.f2{fill:#eb6834}.f3{fill:#1baf7a}.f4{fill:#eda100}
+@media (prefers-color-scheme:dark){.bg{fill:#1a1a19}.t1{fill:#f0efec}.t2{fill:#c3c2b7}.grid{stroke:#2c2c2a}.axis{stroke:#383835}
+.ring{stroke:#1a1a19}.l1{stroke:#3987e5}.l2{stroke:#d95926}.l3{stroke:#199e70}.l4{stroke:#c98500}
+.f1{fill:#3987e5}.f2{fill:#d95926}.f3{fill:#199e70}.f4{fill:#c98500}}
+text{font-family:system-ui,-apple-system,'Segoe UI',sans-serif}
+</style>
+<rect class="bg" width="760" height="452" rx="8"/>
+<text class="t1" x="24.0" y="30.0" font-size="16" font-weight="600" text-anchor="start">Durum-anahtarlı getirme, zor sürüm (E-S, sk4: 24 olgu)</text>
+<text class="t2" x="24.0" y="50.0" font-size="12.5" font-weight="400" text-anchor="start">Yürüyüş 32-127 derinliğinde sorgu doğruluğu (eğitim azami 16); şans 0,125</text>
+<line class="grid" x1="264.0" y1="72.0" x2="264.0" y2="384.0" stroke-width="1"/>
+<text class="tm" x="264.0" y="400.0" font-size="11" font-weight="400" text-anchor="middle">0,0</text>
+<line class="grid" x1="345.2" y1="72.0" x2="345.2" y2="384.0" stroke-width="1"/>
+<text class="tm" x="345.2" y="400.0" font-size="11" font-weight="400" text-anchor="middle">0,2</text>
+<line class="grid" x1="426.4" y1="72.0" x2="426.4" y2="384.0" stroke-width="1"/>
+<text class="tm" x="426.4" y="400.0" font-size="11" font-weight="400" text-anchor="middle">0,4</text>
+<line class="grid" x1="507.6" y1="72.0" x2="507.6" y2="384.0" stroke-width="1"/>
+<text class="tm" x="507.6" y="400.0" font-size="11" font-weight="400" text-anchor="middle">0,6</text>
+<line class="grid" x1="588.8" y1="72.0" x2="588.8" y2="384.0" stroke-width="1"/>
+<text class="tm" x="588.8" y="400.0" font-size="11" font-weight="400" text-anchor="middle">0,8</text>
+<line class="grid" x1="670.0" y1="72.0" x2="670.0" y2="384.0" stroke-width="1"/>
+<text class="tm" x="670.0" y="400.0" font-size="11" font-weight="400" text-anchor="middle">1,0</text>
+<path class="f1" d="M264.0 83.0 H659.5 Q663.5 83.0 663.5 87.0 V101.0 Q663.5 105.0 659.5 105.0 H264.0 Z"/>
+<text class="t2" x="254.0" y="98.0" font-size="12" font-weight="400" text-anchor="end">Core (RLT, w64)</text>
+<text class="t1" x="671.5" y="98.0" font-size="12" font-weight="600" text-anchor="start">0,984</text>
+<path class="f1" d="M264.0 117.0 H328.9 Q332.9 117.0 332.9 121.0 V135.0 Q332.9 139.0 328.9 139.0 H264.0 Z"/>
+<text class="t2" x="254.0" y="132.0" font-size="12" font-weight="400" text-anchor="end">Core, geri beslemesiz (A0)</text>
+<text class="t1" x="340.9" y="132.0" font-size="12" font-weight="600" text-anchor="start">0,170</text>
+<path class="f1" d="M264.0 151.0 H311.3 Q315.3 151.0 315.3 155.0 V169.0 Q315.3 173.0 311.3 173.0 H264.0 Z"/>
+<text class="t2" x="254.0" y="166.0" font-size="12" font-weight="400" text-anchor="end">GRU w128</text>
+<text class="t1" x="323.3" y="166.0" font-size="12" font-weight="600" text-anchor="start">0,126</text>
+<path class="f1" d="M264.0 185.0 H315.5 Q319.5 185.0 319.5 189.0 V203.0 Q319.5 207.0 315.5 207.0 H264.0 Z"/>
+<text class="t2" x="254.0" y="200.0" font-size="12" font-weight="400" text-anchor="end">GRU w256 / w512 (4–16× parametre)</text>
+<text class="t1" x="327.5" y="200.0" font-size="12" font-weight="600" text-anchor="start">0,137</text>
+<path class="f1" d="M264.0 219.0 H310.5 Q314.5 219.0 314.5 223.0 V237.0 Q314.5 241.0 310.5 241.0 H264.0 Z"/>
+<text class="t2" x="254.0" y="234.0" font-size="12" font-weight="400" text-anchor="end">LSTM w112</text>
+<text class="t1" x="322.5" y="234.0" font-size="12" font-weight="600" text-anchor="start">0,124</text>
+<path class="f1" d="M264.0 253.0 H308.2 Q312.2 253.0 312.2 257.0 V271.0 Q312.2 275.0 308.2 275.0 H264.0 Z"/>
+<text class="t2" x="254.0" y="268.0" font-size="12" font-weight="400" text-anchor="end">LSTM w224 / w448 (4–16× parametre)</text>
+<text class="t1" x="320.2" y="268.0" font-size="12" font-weight="600" text-anchor="start">0,119</text>
+<path class="f1" d="M264.0 287.0 H323.2 Q327.2 287.0 327.2 291.0 V305.0 Q327.2 309.0 323.2 309.0 H264.0 Z"/>
+<text class="t2" x="254.0" y="302.0" font-size="12" font-weight="400" text-anchor="end">Transformer, NoPE, w64</text>
+<text class="t1" x="335.2" y="302.0" font-size="12" font-weight="600" text-anchor="start">0,156</text>
+<path class="f1" d="M264.0 321.0 H332.4 Q336.4 321.0 336.4 325.0 V339.0 Q336.4 343.0 332.4 343.0 H264.0 Z"/>
+<text class="t2" x="254.0" y="336.0" font-size="12" font-weight="400" text-anchor="end">Transformer, konumlu, w64</text>
+<text class="t1" x="344.4" y="336.0" font-size="12" font-weight="600" text-anchor="start">0,178</text>
+<path class="f1" d="M264.0 355.0 H330.7 Q334.7 355.0 334.7 359.0 V373.0 Q334.7 377.0 330.7 377.0 H264.0 Z"/>
+<text class="t2" x="254.0" y="370.0" font-size="12" font-weight="400" text-anchor="end">Transformer, konumlu, w128</text>
+<text class="t1" x="342.7" y="370.0" font-size="12" font-weight="600" text-anchor="start">0,174</text>
+<line class="axis" x1="264.0" y1="72.0" x2="264.0" y2="384.0" stroke-width="1"/>
+<text class="tm" x="467.0" y="420.0" font-size="11" font-weight="400" text-anchor="middle">dışdeğerleme doğruluğu</text>
+<text class="tm" x="24.0" y="440.0" font-size="11" font-weight="400" text-anchor="start">Her satır o koldaki bütün koşuların ortalaması. Kaynak: results/ES-{pilot,lr,b2x,pe,width}/sk4-*.json.</text>
+</svg>
