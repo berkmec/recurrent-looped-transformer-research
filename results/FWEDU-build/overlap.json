@@ -1,0 +1,25 @@
+{
+ "corpus": "__RLT_ROOT__\\mline-data\\fineweb-edu-bytes",
+ "train_documents": 448465,
+ "train_exact_duplicates": 445,
+ "validation_documents": 3454,
+ "validation_seen_in_train": 11,
+ "validation_prefix200_seen": 42,
+ "validation_seen_byte_share": 0.002358683833993955,
+ "train_length_quantiles": {
+  "0.1": 973,
+  "0.25": 1616,
+  "0.5": 2939,
+  "0.75": 5128,
+  "0.9": 9007,
+  "0.99": 35896
+ },
+ "train_mean_length": 4777.567990813107,
+ "train_share_at_least": {
+  "512": 0.9855997680978449,
+  "2048": 0.6582921744171786,
+  "4096": 0.34167437815660084,
+  "8192": 0.11725552718718295
+ },
+ "test_split": "not read"
+}

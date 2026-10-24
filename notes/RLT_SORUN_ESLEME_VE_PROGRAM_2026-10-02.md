@@ -2534,6 +2534,23 @@ BLiMP sonucu (§5.67.2) bu sızıntıdan etkilenmez (dış veri), ama "CNN ile e
 **DÜZELTME** (§5.71(a) ve madde 139'daki oran): "2.336 belgeden 323'ü (%14,68)" iki paydayı karıştırıyordu. 323, doğrulamanın 2.201 *farklı* belgesinden train'de olanların sayısı (%14,68). Her belge sayılınca 2.336'dan 325 (%13,91); baytların %13,02'si. Önek ölçüsü (≥ 200 baytlık train belgeleriyle) 343. Hüküm etkilenmez.
 **Sonuç:** kayıtlı +0,066 sızıntıdan gelmiyor; CNN'deki dil kazancı gerçek. İstenen ama alınamayan sonuçların (durumla uzun bağlam; Aşama 1'de pencereler arası olgu) açıklaması veri kalitesi değil, §5.71(b)'deki eğitim kurulumu ve Aşama 1'in kendi sorunu [H; sıradaki denetimler §5.71(c)].
 
+### 5.71.2 HATA AVI SONUCU 2 (§5.71(c)'nin denetimi; ölçümler 10:4x, CPU; işlendi 2026-10-24 10:42): **Aşama 1'in amacı cevaba kaybın ≈ %0,2'sini veriyordu, belleğin çalıştığı oyuncak ise yalnız cevapla eğitilmişti.** Aşama 1 başarısızlığının ölçülmüş birinci adayı bu; okuma/yazma hizası doğru
+**Hiza (kod okuması, `mline/rltm.py`):** pencere j yalnız 0..j−1 pencerelerinin yazdığını okuyor. Yazmanın anahtarı önceki bayttan, değeri bu bayttan geliyor. Sorgudaki "is " boşluğunda okunan değer olgudaki ilk rakamı taşıyabilir. Hiza hatası yok.
+**Amaç bileşimi:**
+- Cevap konumları `rltm_train.batch`'ten sayıldı (8 satır × 4 pencere × 512 = 16.384 konum): 1-300. güncellemede 32 (%0,195), 301-1.000'de 16 (%0,098), 1.001-4.000'de 12 (%0,073).
+- Eğitilmiş B_ds s1 (adım 4.000), iki aşama-3 yığını: cevap baytları 3,293 bit/bayt (şans log₂10 = 3,32), tüm konumlar 1,223 bit/bayt.
+- Cevapların kayıptaki payı %0,197. Bütün cevaplar kusursuz olsa ortalama kayıp yalnız 0,0024 bit/bayt düşerdi.
+**Karşılaştırma:** belleğin çalıştığı oyuncak (E-RM0R6, `horizon/erm_r.py` `train`) kaybı yalnız cevap konumlarında hesaplıyordu (%100). Oyuncaktan gerçek modele geçişte iki şey birden değişti: amaç bileşimi (%100 → %0,2) ve yazma yükü (N/d 0,48 → 1,98). Henüz koşulmamış E-RM0R8 tasarımı yalnız ikincisini değiştiriyordu, yani birincisini gözden kaçırıyordu.
+**Bu benim tasarım hatam:** "uzun koşudan önce kaybın hangi payı ölçtüğün şeye düşüyor, hesapla" kuralı Aşama 1'de uygulanmadı. Payın düşüklüğü tek başına öğrenememeyi kanıtlamaz; ayırt edici deney aşağıda.
+**E-RL0'da bu sorun yok:** SFT kaybı `answer_weight` 0,75 ile cevaplara ağırlık veriyor.
+**FineWeb-Edu temizlik denetimi** (`scripts/corpus_overlap.py`, `results/FWEDU-build/overlap.json`; test okunmadı):
+- *Kopyalar:* train 448.465 belge, 445 birebir kopya (%0,10; CNN'de %3,39).
+- *Sızıntı:* doğrulamanın 3.454 belgesinden 11'i train'de (%0,32; baytça %0,24); 200 baytlık önekle 42.
+- *Uzunluk:* belge uzunluğu medyan 2.939 bayt, ortalama 4.778. Belgelerin %66'sı ≥ 2.048, %34'ü ≥ 4.096, %12'si ≥ 8.192 bayt: satırlar arası durum taşıyan uzun-bağlam eğitimi için malzeme var (§5.71(b)).
+**Sonraki deneyler** (ön-kayıtları ayrı yazılacak):
+- (i) Oyuncakta 2 × 2: {N/d 0,48; 1,98} × {yalnız cevap; cevap payı ≈ %0,2}; iki etkeni ayırır.
+- (ii) Gerçek ölçekte Aşama 1, cevap ağırlıklı kayıpla (E-RL0 gibi) ve FineWeb-Edu dolgusuyla; taban model L1 (CNN ile eğitildi; eğitim verisi artık FineWeb-Edu).
+
 ## 6. Gerçek model yolu
 
 1. **Ne iddia edilir:** "küçük, bayt-düzeyi bir RLT, durum-izleme/çok-adımlı görevlerde eşit-parametre ve eşit-token bir transformer'a yapısal bir üstünlük gösteriyor mu". LM kaybında üstünlük iddia edilmez (bağımsız değerlendirme bulamadı).
