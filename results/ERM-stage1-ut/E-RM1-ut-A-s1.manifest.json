@@ -1,0 +1,43 @@
+{
+ "schema": "run-manifest/v1",
+ "run_id": "E-RM1-ut-A-s1",
+ "campaign": "ERM-stage1-ut",
+ "agent": "claude-4797b78c",
+ "created_utc": "2026-10-24T06:19:31Z",
+ "command": "python -B -m mline.rltm_train --arm A --init results/L1-scratch-w928-s401/latest.pt --seed 1 --steps 4000 --out results/ERM-stage1-ut/A-s1 ",
+ "prereg": {
+  "paper": "notes/RLT_SORUN_ESLEME_VE_PROGRAM_2026-10-02.md 5.61.1"
+ },
+ "code": {
+  "head": "44a914a",
+  "dirty": false,
+  "porcelain": [
+   " M results/M1-finetune-distance/queue.log",
+   "?? results/BLIMP/A0F-30518.txt",
+   "?? results/BLIMP/L1-30518.json",
+   "?? results/BLIMP/L1-30518.txt",
+   "?? results/ERM-stage1-ut/B_ds-s1.log",
+   "?? results/ERM-stage1-ut/B_ds-s1/",
+   "?? results/ERM-stage1-ut/E-RM1-ut-B_ds-s1.manifest.json",
+   "?? results/ES-compute/",
+   "?? results/L1-tfm6-w528-s401/probe.json",
+   "?? results/L1-tfm6-w528-s401/probe.jsonl",
+   "?? results/L1-tfm6-w528-s401/train.log",
+   "?? results/RL0/",
+   "?? results/Z1-pilot/E-C-count8_32-gru-w64-s1.manifest.json",
+   "?? results/Z1-pilot/E-C-count8_32-lstm-w64-s1.manifest.json",
+   "?? results/Z1-pilot/count8_32-gru-w64-s1.log",
+   "?? results/Z1-pilot/count8_32-lstm-w64-s1.log"
+  ]
+ },
+ "config": {
+  "source": "scripts/run_erm_stage1_ut.sh",
+  "summary": {},
+  "sha256": "5ac4c90c44b750cbfd4175d9c2926d8014f974daf050d727330938c1b91f7340"
+ },
+ "seeds": {
+  "seed": 1
+ },
+ "telemetry_schema": "I1-a/v1",
+ "status": "started"
+}

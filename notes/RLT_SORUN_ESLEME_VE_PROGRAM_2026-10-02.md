@@ -2392,6 +2392,19 @@ Her anlık görüntüde aynı ölçü; JSON'lardan yeniden hesaplandı (S ve G o
 - *Duraklatma:* 18:00 duraklaması bunu da durdurur; sürdürme betiği yeniden kuyruğa alır.
 - *Sınırlar:* E-RL0'ınkiler (tek tohum, 20M bayt modeli, tek görev).
 
+### 5.61.3 Aşama 1 ARA GÖZLEM (hüküm değil; kayıtlı hüküm üç koşudan sonra): ilk gerçek model (L1 + bellek, B_ds tohum 1) pencereler arası olguyu öğrenmedi; sıra değişikliği (işlendi 2026-10-24 09:22)
+**B_ds tohum 1** (4.000 güncelleme, 23 Ekim 23:51 – 24 Ekim 09:19; `results/ERM-stage1-ut/B_ds-s1/final.json` ve `probe.jsonl`'dan yeniden okundu):
+- *Getirme:* NAW tam eşleşmesi her mesafede 0,000 (d = 1-64; natural ve held). İlk bayt doğruluğu 0,03-0,17, yani şans. Belleği kapatınca (read_off) sonuç aynı.
+- *Seyir:* 500-4.000 pillerinde de, eğitim partilerinde de d = 1-3 ilk bayt doğruluğu 0,08-0,12'de kaldı; hiç yükselmedi. 426. adımda görülen 1,0 tek partilik bir rastlantıydı.
+- *Dil:* sonraki pencerelerde bit/bayt bellekle [1,4034; 1,3861; 1,3677], bellek kapalıyken [1,4094; 1,3937; 1,3728]: +0,006-0,008. R6'nın 0,02 eşiğinin altında. İlk pencere iki durumda da 1,3848.
+- *Kurala etkisi:* R1 bu tohumda tutmadı. Uzatma kuralı (d = 2 ortancası [0,2; 0,8) aralığında) tetiklenmeyecek. Hüküm A ve B_ds tohum 2'den sonra.
+
+**Olası neden [H]: yazma girişimi.** Oyuncakta pencereler kısaydı. Burada her pencere 511 yazma yapıyor, her bayt belleğe yazıyor; 256×256 matris ≈ 256 bağımsız ilişki taşıyabilir. Olgu öteki yazmaların gürültüsünde boğuluyor ve model seçici yazmayı (baytların çoğunda β ≈ 0) soğuk başlangıçtan öğrenemiyor. Sınanacak çare: yazma kapısını kapalı başlatmak (β'nın ön-gerilimi düşük) ve/veya seyrek yazmayı ödüllendirmek. Ayrı ön-kayıt gerekir.
+**Sıra değişikliği.**
+- A tohum 1 09:19'da başlamıştı; 13 güncellemede durduruldu, kontrol noktası yoktu. Klasörü `A-s1-aborted-0919` olarak saklandı.
+- E-RL1 (§5.69) araya alındı (`run_rl1.sh between`). Kullanıcı "en erken" istemişti; A'nın sonucu ise büyük ölçüde öngörülebilir.
+- E-RL1 bitince Aşama 1 `run_erm_stage1_ut_resume.sh` ile kayıtlı G0.4b kapısıyla sürer: önce A tohum 1 baştan, sonra B_ds tohum 2. Kural ve koşular değişmedi.
+
 ## 6. Gerçek model yolu
 
 1. **Ne iddia edilir:** "küçük, bayt-düzeyi bir RLT, durum-izleme/çok-adımlı görevlerde eşit-parametre ve eşit-token bir transformer'a yapısal bir üstünlük gösteriyor mu". LM kaybında üstünlük iddia edilmez (bağımsız değerlendirme bulamadı).

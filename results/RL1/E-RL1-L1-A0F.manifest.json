@@ -1,0 +1,46 @@
+{
+ "schema": "run-manifest/v1",
+ "run_id": "E-RL1-L1-A0F",
+ "campaign": "RL1",
+ "agent": "claude-4797b78c",
+ "created_utc": "2026-10-24T06:21:15Z",
+ "command": "python -B -m mline.rl0 run <L1 | A0F latest.pt> --out results/RL1/<arm> --seed 1 --config rl1 --device cuda; python -B -m mline.rl0 reading",
+ "prereg": {
+  "paper": "notes/RLT_SORUN_ESLEME_VE_PROGRAM_2026-10-02.md 5.69"
+ },
+ "code": {
+  "head": "44a914a",
+  "dirty": false,
+  "porcelain": [
+   " M results/M1-finetune-distance/queue.log",
+   "?? results/BLIMP/A0F-30518.txt",
+   "?? results/BLIMP/L1-30518.json",
+   "?? results/BLIMP/L1-30518.txt",
+   "?? results/ERM-stage1-ut/A-s1-aborted-0919.log",
+   "?? results/ERM-stage1-ut/A-s1-aborted-0919/",
+   "?? results/ERM-stage1-ut/B_ds-s1.log",
+   "?? results/ERM-stage1-ut/B_ds-s1/",
+   "?? results/ERM-stage1-ut/E-RM1-ut-A-s1.manifest.json",
+   "?? results/ERM-stage1-ut/E-RM1-ut-B_ds-s1.manifest.json",
+   "?? results/ES-compute/",
+   "?? results/L1-tfm6-w528-s401/probe.json",
+   "?? results/L1-tfm6-w528-s401/probe.jsonl",
+   "?? results/L1-tfm6-w528-s401/train.log",
+   "?? results/RL0/",
+   "?? results/Z1-pilot/E-C-count8_32-gru-w64-s1.manifest.json",
+   "?? results/Z1-pilot/E-C-count8_32-lstm-w64-s1.manifest.json",
+   "?? results/Z1-pilot/count8_32-gru-w64-s1.log",
+   "?? results/Z1-pilot/count8_32-lstm-w64-s1.log"
+  ]
+ },
+ "config": {
+  "source": "scripts/run_rl1.sh",
+  "summary": {},
+  "sha256": "10e83e73f258269123d36a541674cf7d0ab4bcf2f95410a9596675c62f1f44e5"
+ },
+ "seeds": {
+  "seed": 1
+ },
+ "telemetry_schema": "I1-a/v1",
+ "status": "started"
+}

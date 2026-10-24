@@ -1011,3 +1011,16 @@ manifest exists: results\BLIMP\E-BLIMP-L1-A0F.manifest.json exists: a run manife
 manifest exists: results\BLIMP\E-BLIMP-L1-A0F.manifest.json exists: a run manifest is written once (baslangic beyani)
 [07:20:35] [blimp] BASLA E-BLIMP L1 (67 x 1.000 cift; CPU, 2 is parcacigi)
 [07:25:45] [pause] kullanici icin duraklatma 18:00'de kurulu (deneyler kontrol noktasindan surer; surdurme: bash scripts/resume_after_user.sh)
+[07:49:48] [x1] E-X1 bekliyor: E-RM Asama 1 ([erm1b]) ve E-RL1 ([rl1], not 5.69) kuyruklari bitince ve GPU bosalinca kontrol noktasindan surer
+[07:49:48] [rl1] E-RL1 bekliyor: Asama 1 kuyrugu bitince ([erm1b] son satiri)
+[08:41:43] [blimp] BITTI E-BLIMP L1: {"weights": "results/L1-scratch-w928-s401/latest.pt", "step": 30518, "arm": "plain", "morphology": 71.21666666666667, "semantics": 58.044444444444444, "syntax": 60.91153846153847, "syntax/semantics": 92.0, "syntax_semant
+[08:41:43] [blimp] BASLA E-BLIMP A0F (67 x 1.000 cift; CPU, 2 is parcacigi)
+[08:58:30] [rl0] BITTI E-RL0 L1
+[09:19:31] [erm1b] BITTI E-RM Asama 1 B_ds-s1
+results\ERM-stage1-ut\E-RM1-ut-A-s1.manifest.json
+[09:19:31] [erm1b] BASLA E-RM Asama 1 A-s1 (4000 guncelleme, GPU)
+[09:21:14] [erm1b] DURDURULDU E-RM Asama 1 A-s1 (09:19'da basladi, {"step": 13, "loss":, kontrol noktasi yok; klasor A-s1-aborted-0919 olarak saklandi): B_ds-s1 NAW'i ogrenmedi, E-RL1 araya alindi (kullanici 'en erken'); Asama 1 E-RL1'den sonra kayitli kapiyla surer
+[09:21:15] [rl1] E-RL1 bekliyor (araya): Asama 1'in ilk kosusu (B_ds tohum 1) bitince
+results\RL1\E-RL1-L1-A0F.manifest.json
+[09:22:11] [rl1] E-RL1 L1 duman testi (kayit disi hucreler): SFT 3.65 s/guncelleme, RL 3.60 s/adim -> egitim ~2.5 sa (degerlendirmeler haric); VRAM 676 MiB
+[09:22:11] [rl1] BASLA E-RL1 L1 (GPU; SFT 2.000 x 512 problem + RL 500 x 32 x 8)
