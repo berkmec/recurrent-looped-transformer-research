@@ -1,4 +1,4 @@
-"""Build the natural-language byte corpus from FineWeb-Edu (program note 5.71; user rule 2026-10-24: no model is trained on the CNN corpus again,
+"""Build the natural-language byte corpus from FineWeb-Edu (program note 5.70; user rule 2026-10-24: no model is trained on the CNN corpus again,
 datasets are chosen by purpose). One parquet file of HuggingFaceFW/fineweb-edu sample-10BT (ODC-By 1.0) at a pinned revision becomes uint8 byte
 files in mline.data's format (documents joined by the separator), taken as disjoint prefixes of the file's row order:
   validation.bin  the first ~16 MB of documents   (monitoring during training)

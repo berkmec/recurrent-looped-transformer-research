@@ -1,0 +1,56 @@
+{
+ "answer_weight": 0.0,
+ "arm": "B_ds",
+ "ckpt_every": 250,
+ "d": 256,
+ "init": "results/L1-scratch-w928-s401/latest.pt",
+ "items": 64,
+ "lr_core": 0.0003,
+ "lr_new": 0.0009,
+ "parameters": 21251297,
+ "phases": [
+  [
+   300,
+   {
+    "naw": 1.0
+   },
+   [
+    1,
+    2
+   ]
+  ],
+  [
+   1000,
+   {
+    "lm": 0.5,
+    "naw": 0.5
+   },
+   [
+    1,
+    2,
+    3
+   ]
+  ],
+  [
+   null,
+   {
+    "lm": 0.5,
+    "naw": 0.35,
+    "within": 0.15
+   },
+   [
+    1,
+    2,
+    3
+   ]
+  ]
+ ],
+ "rows": 8,
+ "seed": 1,
+ "steps": 4000,
+ "ut_chunk": 64,
+ "warmup": 100,
+ "window": 512,
+ "windows": 4,
+ "write_chunk": 32
+}

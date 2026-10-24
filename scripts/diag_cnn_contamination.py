@@ -1,4 +1,4 @@
-"""Bug hunt (note 5.72; user request 2026-10-24 ~10:25: "maybe we did not get the results because of low-quality data; hunt for bugs
+"""Bug hunt (note 5.71; user request 2026-10-24 ~10:25: "maybe we did not get the results because of low-quality data; hunt for bugs
 too"). The CNN validation split shares documents with train: 323 of its 2,336 documents (14.7 %) occur byte for byte in train.bin, and
 L1 / A0F read train about 2.4 times (500M bytes over 210 MB). This script
   1. measures the corpus: exact and 200-byte-prefix duplicates within train and between validation and train, and boilerplate
@@ -10,7 +10,7 @@ L1 / A0F read train about 2.4 times (500M bytes over 210 MB). This script
   3. decomposes the recorded end-of-run number: the first 8 batches of the original stream are the rows the battery used
      (mline.longrun eval_fn -> validate(batches=8)); each is labelled by the share of its bytes that lie in a seen document. The
      recorded L1 value (1.37449) must be reproduced, otherwise the measurement is invalid.
-Evaluation only, nothing is trained: the CNN rule (note 5.71) closes training on that corpus, not measurement.
+Evaluation only, nothing is trained: the CNN rule (note 5.70) closes training on that corpus, not measurement.
 
   python -B scripts/diag_cnn_contamination.py --out results/DIAG-cnn-contamination --device cuda
 """

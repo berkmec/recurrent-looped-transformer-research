@@ -2551,6 +2551,42 @@ BLiMP sonucu (§5.67.2) bu sızıntıdan etkilenmez (dış veri), ama "CNN ile e
 - (i) Oyuncakta 2 × 2: {N/d 0,48; 1,98} × {yalnız cevap; cevap payı ≈ %0,2}; iki etkeni ayırır.
 - (ii) Gerçek ölçekte Aşama 1, cevap ağırlıklı kayıpla (E-RL0 gibi) ve FineWeb-Edu dolgusuyla; taban model L1 (CNN ile eğitildi; eğitim verisi artık FineWeb-Edu).
 
+### 5.72 E-RM0R8 ön-kaydı (koşudan ÖNCE yazıldı 2026-10-24 10:51): oyuncakta yazma yükü; her bayt yazınca bellek girişimden mi çöküyor
+**Soru:** Aşama 1'in gerçek ölçekte öğrenmemesinin ikinci adayı (§5.71.2): her pencerede 511 yazma 256 boyutlu belleğe gidiyor (N/d ≈ 2,0); oyuncakta çalışan kurulumda N/d 0,48'di. Bu deney amaç bileşimini oyuncaktaki gibi tutuyor (kayıp yalnız cevaplarda) ve yalnız yazma yükünü değiştiriyor.
+**Matematik:** delta kuralında k₀ anahtarıyla saklanan bir ilişki, N ilgisiz birim anahtarın yazmasından sonra kendisinin yaklaşık exp(−βN/d) kadarını korur; diğerlerinin karışması N/d ile büyür. N/d = 2 ve β ≈ 0,5'te her olgunun kabaca üçte biri bir pencereyi atlatır, gürültü ise onun iki katıdır.
+**Kollar** (E-RM0R6'nın tarifi: 16 olgu 0-2. pencerelerde, 8 soru 3. pencerede, d_k = d_v = 64, 6.000 güncelleme, yığın 32, lr 3e-3; yazma parça-paralel biçimde, döngüye eşit test edildi; kod `horizon/erm_r8.py`, 5 test):
+- *ds32:* pencere 32, varsayılan yazma kapısı (E-RM0R6'nın öğrenen kontrolü).
+- *ds128:* pencere 128 (N/d 1,98), varsayılan kapı.
+- *ds128c:* pencere 128, yazma kapısı kapalı başlıyor (sapma −4, β ≈ 0,018).
+Tohum 1 ve 2. İkinci tohum kodun ilk yazımından sonra eklendi: oyuncak ucuz (ds32 0,17 s, ds128 0,60 s / güncelleme ölçüldü).
+**Kural:** kol başına d = 3'te doğruluk ≥ 0,90 ise MEMORY WORKS (toy), ≤ 0,30 ise NOT LEARNED, arası PARTIAL. Sonra:
+- *INTERFERENCE REPRODUCED:* ds32 WORKS ve ds128 NOT LEARNED.
+- *CLOSED WRITE FIXES IT:* INTERFERENCE REPRODUCED ve ds128c WORKS.
+- *NO INTERFERENCE AT 2.0:* ds32 WORKS ve ds128 WORKS. Varsayım düşer; gerçek ölçekteki başarısızlığın başka nedeni var.
+- *INCONCLUSIVE:* diğerleri.
+Hüküm tohum başına okunur. İki tohum aynı hükmü verirse genel hüküm odur; vermezse genel hüküm INCONCLUSIVE, tohum hükümleri ayrıca raporlanır. Betimleyici: d = 1, 2, 3'te doğruluk; olgu-değer konumlarında ve diğer konumlarda ortalama yazma kapısı (seçicilik).
+**Öngörüler [H]:** ds32 WORKS (%90), ds128 NOT LEARNED (%55), ds128c WORKS (%55); en olası genel hüküm CLOSED WRITE FIXES IT (%35).
+**Koşu:** `scripts/run_erm_r8.sh`: aynı anda en çok iki CPU işi (kullanıcı bilgisayarda), tek iş parçacığı, BelowNormal; ≈ 3 sa.
+
+### 5.73 E-RM1W ön-kaydı (koşudan ÖNCE yazıldı 2026-10-24 10:51): Aşama 1, tek değişiklikle; pencereler arası cevaplar kayıpta 0,5 ağırlıkla
+**Soru:** Aşama 1'in B_ds s1 koşusu pencereler arası olguyu öğrenmedi; cevaplar kaybın %0,2'siydi (§5.71.2). Cevaba kayıpta pay verilince aynı model öğreniyor mu?
+**Değişiklikler:**
+- *Tek bilinçli değişiklik:* kayıp = 0,5 × diğer baytların ortalama çapraz entropisi + 0,5 × cevap baytlarının ortalaması (`mline.rltm_train.objective`, `--answer-weight 0.5`; test edildi). E-RL0'ın SFT'si 0,75 kullanıyordu.
+- *Kullanıcı kuralının zorunlu kıldığı:* dil satırları, dolgular ve doğal anahtarlar artık FineWeb-Edu'dan (`MLINE_DATA`, §5.70). Taban ağırlık yine L1 (adım 30.518, CNN ile eğitildi; kaydı düşüldü); bu eğitim CNN verisi görmüyor.
+- *Aynı kalanlar (B_ds s1 ile):* d = 256, parça-paralel yazma (64), Wo sıfırdan, lr çekirdek 3e-4 / yeni 9e-4, ısınma 100, 8 satır × 4 pencere × 512, karışım aşamaları (300 / 1.000 / sonrası), tohum 1, her 500 güncellemede değerlendirme, son pil d = 1 ... 64.
+- *Uzunluk:* 2.000 güncelleme (B_ds s1: 4.000). Kontrol noktası her 100 güncellemede; 18:00 duraklaması süreci öldürür, yeniden başlatma `latest.pt`'den sürer.
+**Duman testi** (20 güncelleme, kayıtlı sayı görülmedi): 5,76 s / güncelleme, en yüksek ayrılmış bellek 4,42 GiB.
+**Kural** (birincil hücre: doğrulamanın tutulmuş gerçek kelimeleri; `rltm_train.reading_objective`, test edildi):
+- *OBJECTIVE FIX WORKS:* d = 2'de tam dört ≥ 0,8 ve okuma kapalı denetimden ≥ 0,5 yüksek (Aşama 1'in R1'i).
+- *OBJECTIVE FIX PARTIAL:* WORKS değil, d = 1'de ilk rakam ≥ 0,5.
+- *OBJECTIVE FIX FAILS:* d = 1'de ilk rakam ≤ 0,2 (şans 0,1).
+- *INCONCLUSIVE:* diğerleri.
+**Karşılaştırma:** B_ds s1 (ağırlıksız, CNN): her mesafede tam 0, ilk rakam şansta.
+**Betimleyici:** her mesafede ilk rakam ve tam dört (doğal kelimeler ve tutulmuş harfler); pencere başına dil bit/baytı, okuma açık ve kapalı; `train.jsonl`'deki `answer_bits`.
+**Öngörüler [H]:** d = 1'de ilk rakam ≥ 0,5 (%65); WORKS (%30); FAILS (%25).
+**Risk:** N/d ≈ 2'de girişim; E-RM0R8 bunu aynı anda sınıyor. FAILS çıkar ve E-RM0R8 INTERFERENCE REPRODUCED / CLOSED WRITE FIXES IT derse, sonraki gerçek ölçek koşusu kapalı yazma kapısıyla yapılır.
+**Bu deney L2 değildir:** sıfırdan FineWeb-Edu eğitimi (durumun satırlar arası taşınması dahil, §5.71(b)) ayrı ön-kayıtla gelecek.
+
 ## 6. Gerçek model yolu
 
 1. **Ne iddia edilir:** "küçük, bayt-düzeyi bir RLT, durum-izleme/çok-adımlı görevlerde eşit-parametre ve eşit-token bir transformer'a yapısal bir üstünlük gösteriyor mu". LM kaybında üstünlük iddia edilmez (bağımsız değerlendirme bulamadı).

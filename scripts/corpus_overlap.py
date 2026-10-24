@@ -1,4 +1,4 @@
-"""Corpus hygiene check (note 5.71; written after bug hunt 1 found 13.9 % of the CNN validation documents in train): for a byte corpus in
+"""Corpus hygiene check (note 5.71.2; written after bug hunt 1 found 13.9 % of the CNN validation documents in train): for a byte corpus in
 mline.data's format, the exact duplicates inside train, the validation documents that occur in train byte for byte or by their first
 200 bytes, and the document length quantiles. The test split is never read. Streams train.bin in blocks, so a 2 GB corpus fits.
 

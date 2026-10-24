@@ -100,6 +100,34 @@ class Stage1Tests(unittest.TestCase):
         regress = dict(works, **{'B-s1': final('B_ds', 0.95, 0.05, 0.9, 0.7, [1.43, 1.37, 1.37])})
         self.assertEqual(rt.reading(regress)['label'], 'PARTIAL')
 
+    def test_the_answer_weighted_objective(self):
+        """Weight 0 is the old mean over every byte; weight w mixes the answer mean and the other bytes' mean; no answers -> plain mean."""
+        g = torch.Generator().manual_seed(0)
+        logits, y = torch.randn(2, 6, 5, generator=g), torch.randint(0, 5, (2, 6), generator=g)
+        four = torch.zeros(2, 6, dtype=torch.bool)
+        four[0, 2:4] = True
+        ce = torch.nn.functional.cross_entropy(logits.flatten(0, 1), y.flatten(), reduction='none').view(2, 6)
+        loss0, a0 = rt.objective(logits, y, four, 0.0)
+        self.assertTrue(torch.equal(loss0, torch.nn.functional.cross_entropy(logits.flatten(0, 1), y.flatten())))
+        self.assertAlmostEqual(float(a0), float(ce[four].mean()), places=6)
+        loss, a = rt.objective(logits, y, four, 0.5)
+        self.assertAlmostEqual(float(loss), float(0.5 * ce[~four].mean() + 0.5 * ce[four].mean()), places=6)
+        self.assertAlmostEqual(float(rt.objective(logits, y, four, 1.0)[0]), float(ce[four].mean()), places=6)
+        none = torch.zeros_like(four)
+        self.assertAlmostEqual(float(rt.objective(logits, y, none, 0.5)[0]), float(ce.mean()), places=6)
+        self.assertIsNone(rt.objective(logits, y, none, 0.5)[1])
+
+    def test_the_objective_reading(self):
+        def final(first1, exact2, off2):
+            cells = {'1': dict(first=first1, exact=exact2), '2': dict(first=first1, exact=exact2)}
+            return dict(eval=dict(naw={'natural': cells, 'held': cells}, naw_read_off={'natural': {'2': dict(exact=off2)}},
+                                  lm_bpb_by_window=[1.2, 1.2]))
+        self.assertEqual(rt.reading_objective(final(1.0, 0.9, 0.1))['label'], 'OBJECTIVE FIX WORKS')
+        self.assertEqual(rt.reading_objective(final(1.0, 0.9, 0.5))['label'], 'OBJECTIVE FIX PARTIAL')      # not 0.5 above the read-off
+        self.assertEqual(rt.reading_objective(final(0.6, 0.3, 0.0))['label'], 'OBJECTIVE FIX PARTIAL')
+        self.assertEqual(rt.reading_objective(final(0.12, 0.0, 0.0))['label'], 'OBJECTIVE FIX FAILS')
+        self.assertEqual(rt.reading_objective(final(0.35, 0.0, 0.0))['label'], 'INCONCLUSIVE')
+
 
 if __name__ == '__main__':
     unittest.main()

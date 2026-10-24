@@ -84,6 +84,23 @@ def _logits(model, x, windows, window, read=True):
     return model(x.reshape(x.shape[0], windows, window), read=read).reshape(x.shape[0], windows * window, -1)
 
 
+def objective(logits, y, four, answer_weight=0.0):
+    """(loss, the cross-window answers' mean cross-entropy or None). answer_weight 0: the mean over every byte, as note 5.61 trained
+    stage 1. w > 0 with answers in the batch: (1 - w) x the mean over the other bytes + w x the mean over the answer bytes. In stage 1
+    the answers were 12-32 of 16,384 bytes and 0.2 % of the loss, while the toy where the memory worked trained on them alone (bug
+    hunt, note 5.71.2); E-RL0's SFT weights its answers 0.75 the same way."""
+    if answer_weight <= 0:
+        loss = F.cross_entropy(logits.flatten(0, 1), y.flatten())
+        with torch.no_grad():
+            a = F.cross_entropy(logits[four], y[four]) if bool(four.any()) else None
+        return loss, a
+    ce = F.cross_entropy(logits.flatten(0, 1), y.flatten(), reduction='none').view_as(y)
+    if not bool(four.any()):
+        return ce.mean(), None
+    a = ce[four].mean()
+    return (1 - answer_weight) * ce[~four].mean() + answer_weight * a, a
+
+
 @torch.no_grad()
 def eval_naw(model, d, n, kind, corpus, natural_val, seed=4242, window=512, chunk=8, device='cpu', read=True):
     """First-digit and exact-four accuracy on n single-fact rows (decoy share 0.3) with the fact d windows back."""
@@ -131,7 +148,7 @@ def battery(model, corpus_val, natural_val, windows, distances, items, device, w
 
 def train(out, *, arm, init, seed, steps, corpus, corpus_val, natural_train, natural_val, rows=8, windows=4, window=512, lr_core=3e-4,
           lr_new=9e-4, warmup=100, d=256, write_chunk=32, eval_every=500, ckpt_every=250, items=64, device='cuda', within_specs=None,
-          width=928, heads=8, log=print, stop_at=None, ut_chunk=0):
+          width=928, heads=8, log=print, stop_at=None, ut_chunk=0, answer_weight=0.0):
     """`stop_at` ends the process early (a checkpoint, no final battery); a later call with the same `steps` resumes the run."""
     out = Path(out)
     out.mkdir(parents=True, exist_ok=True)
@@ -152,6 +169,7 @@ def train(out, *, arm, init, seed, steps, corpus, corpus_val, natural_train, nat
         start = int(resume['step']) + 1
     sw.write_json(out / 'config.json', dict(arm=arm, init=str(init), seed=seed, steps=steps, rows=rows, windows=windows, window=window,
                                            lr_core=lr_core, lr_new=lr_new, warmup=warmup, d=d, write_chunk=write_chunk, ut_chunk=ut_chunk, items=items,
+                                           answer_weight=answer_weight, ckpt_every=ckpt_every,
                                            parameters=sum(p.numel() for p in model.parameters()), phases=[list(p) for p in PHASES]))
     t0 = time.perf_counter()
     for step in range(start, steps + 1):
@@ -160,12 +178,14 @@ def train(out, *, arm, init, seed, steps, corpus, corpus_val, natural_train, nat
         model.train()
         x, y, first, four, dist = (t.to(device) for t in batch(step, rows, windows, seed, corpus, natural_train, window, within_specs))
         logits = _logits(model, x, windows, window)
-        loss = F.cross_entropy(logits.flatten(0, 1), y.flatten())
+        loss, answer_ce = objective(logits, y, four, answer_weight)
         report = gu.guarded_step(opt, model.parameters(), loss, clip_norm=1.0)
         with torch.no_grad():
             hit = logits.argmax(-1) == y
             row = dict(step=step, loss=float(report['loss']), applied=bool(report['applied']), grad_norm=float(report['grad_norm_before_clip']),
                        seconds=round(time.perf_counter() - t0, 3))
+            if answer_ce is not None:
+                row['answer_bits'] = float(answer_ce) / LN2
             for dd in sorted(set(dist[dist > 0].tolist())):
                 m = (dist == dd)[:, None] & first
                 row['naw_first_d%d' % dd] = float(hit[m].float().mean())
@@ -212,6 +232,29 @@ def reading(finals, primary='natural'):
                 window1_regression=regression, later_window_gain=later_gain)
 
 
+def reading_objective(final, primary='natural'):
+    """E-RM1W's registered verdict (note 5.73) from one B_ds final battery, primary cell held-out real words:
+    OBJECTIVE FIX WORKS    exact four at d = 2 >= 0.8 and >= 0.5 above the read-off control (stage 1's R1)
+    OBJECTIVE FIX PARTIAL  not WORKS, first digit at d = 1 >= 0.5
+    OBJECTIVE FIX FAILS    first digit at d = 1 <= 0.2 (chance 0.1)
+    INCONCLUSIVE           otherwise"""
+    e = final['eval']
+    naw_cells = e['naw'][primary]
+    exact2, off2, first1 = naw_cells['2']['exact'], e['naw_read_off'][primary]['2']['exact'], naw_cells['1']['first']
+    if exact2 >= 0.8 and exact2 - off2 >= 0.5:
+        label = 'OBJECTIVE FIX WORKS'
+    elif first1 >= 0.5:
+        label = 'OBJECTIVE FIX PARTIAL'
+    elif first1 <= 0.2:
+        label = 'OBJECTIVE FIX FAILS'
+    else:
+        label = 'INCONCLUSIVE'
+    return dict(label=label, exact_d2=exact2, exact_d2_read_off=off2, first_d1=first1,
+                exact={d: c['exact'] for d, c in naw_cells.items()}, first={d: c['first'] for d, c in naw_cells.items()},
+                held_exact={d: c['exact'] for d, c in e['naw']['held'].items()},
+                lm_bpb_by_window=e['lm_bpb_by_window'], lm_bpb_by_window_read_off=e.get('lm_bpb_by_window_read_off'))
+
+
 def main():
     p = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     p.add_argument('--arm', choices=ARMS)
@@ -225,7 +268,13 @@ def main():
     p.add_argument('--smoke', type=int, default=0, help='G0.4: this many updates, no battery; writes smoke.json (s / update, peak VRAM)')
     p.add_argument('--ut-chunk', type=int, default=0, help='the chunkwise-parallel write (chunks of this many writes); 0 = the loop')
     p.add_argument('--d', type=int, default=256, help='memory key / value size (note 5.61: 256; registered fallback 128)')
+    p.add_argument('--answer-weight', type=float, default=0.0, help='weight of the cross-window answer bytes in the loss (objective; E-RM1W)')
+    p.add_argument('--ckpt-every', type=int, default=250)
+    p.add_argument('--reading-objective', default=None, help="one B_ds final.json -> E-RM1W's verdict (note 5.73)")
     a = p.parse_args()
+    if a.reading_objective:
+        print(json.dumps(reading_objective(json.loads(Path(a.reading_objective).read_bytes().decode('utf8'))), indent=1, default=float))
+        return
     if a.reading:
         finals = {str(Path(f).parent.name): json.loads(Path(f).read_bytes().decode('utf8')) for f in a.reading}
         print(json.dumps(reading(finals), indent=1, default=float))
@@ -235,7 +284,7 @@ def main():
     from mline import train as mt
     protocol = mt.protocol()
     from mline import corpus_rule
-    corpus_rule.check_trainable(protocol['data'])          # user rule 2026-10-24: no training on the CNN corpus (note 5.71)
+    corpus_rule.check_trainable(protocol['data'])          # user rule 2026-10-24: no training on the CNN corpus (note 5.70)
     corpus, corpus_val = md.load(protocol['data'], 'train'), md.load(protocol['data'], 'validation')
     natural_train, natural_val = me.natural_key_sets(corpus, corpus_val, n_train=2000, n_val=300, seed=7)
     if a.smoke:
@@ -244,7 +293,8 @@ def main():
                                                        items=a.items, device=a.device, ut_chunk=a.ut_chunk, d=a.d))
         return
     train(a.out, arm=a.arm, init=a.init, seed=a.seed, steps=a.steps, corpus=corpus, corpus_val=corpus_val, natural_train=natural_train,
-          natural_val=natural_val, items=a.items, device=a.device, ut_chunk=a.ut_chunk, d=a.d)
+          natural_val=natural_val, items=a.items, device=a.device, ut_chunk=a.ut_chunk, d=a.d, answer_weight=a.answer_weight,
+          ckpt_every=a.ckpt_every)
 
 
 def smoke(out, updates, **kw):
