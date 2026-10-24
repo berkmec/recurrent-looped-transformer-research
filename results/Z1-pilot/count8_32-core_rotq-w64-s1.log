@@ -1,0 +1,23 @@
+count8_32 core_rotq w64 s1 step 1000 len 256 loss 0.04017874225974083 (4512s)
+count8_32 core_rotq w64 s1 step 2000 len 256 loss 0.17160001397132874 (9301s)
+count8_32 core_rotq w64 s1 step 3000 len 256 loss 0.0007509763818234205 (13853s)
+count8_32 core_rotq w64 s1 step 4000 len 256 loss 0.006348212715238333 (18714s)
+count8_32 core_rotq w64 s1 step 5000 len 256 loss 0.0001810117537388578 (23583s)
+count8_32 core_rotq w64 s1 step 6000 len 256 loss 0.23916691541671753 (28652s)
+count8_32 core_rotq w64 s1 step 7000 len 256 loss 0.00029932570760138333 (33478s)
+count8_32 core_rotq w64 s1 step 8000 len 256 loss 0.00024971915991045535 (38347s)
+count8_32 core_rotq w64 s1 step 9000 len 256 loss 0.0005506544257514179 (44274s)
+count8_32 core_rotq w64 s1 step 10000 len 256 loss 0.0010755531257018447 (50151s)
+count8_32 core_rotq w64 s1 step 11000 len 256 loss 0.00026040346710942686 (56918s)
+count8_32 core_rotq w64 s1 step 12000 len 256 loss 0.02598993107676506 (63585s)
+{"task": "count8_32", "arm": "core_rotq", "width": 64, "seed": 1, "wseed": 1, "dseed": 1, "eval_seed": 1, "learned_in_range": true, "effective_horizon": 16, "horizon_metric": "reentry", "wall_seconds": 63690.09838879993}
+8 {'length': 256, 'final': 1.0, 'prefix': 1.0, 'deep': None, 'reentry': None, 'reentry_positions': 0, 'resync': None, 'resync_positions': 0}
+16 {'length': 256, 'final': 1.0, 'prefix': 0.999, 'deep': 0.998, 'reentry': 0.989, 'reentry_positions': 1582, 'resync': 1.0, 'resync_positions': 19572}
+32 {'length': 256, 'final': 1.0, 'prefix': 0.99, 'deep': 0.999, 'reentry': 0.888, 'reentry_positions': 1694, 'resync': 0.996, 'resync_positions': 12936}
+64 {'length': 384, 'final': 1.0, 'prefix': 0.967, 'deep': 0.991, 'reentry': 0.398, 'reentry_positions': 1713, 'resync': 0.998, 'resync_positions': 13220}
+128 {'length': 768, 'final': 1.0, 'prefix': 0.911, 'deep': 0.889, 'reentry': 0.106, 'reentry_positions': 1619, 'resync': 0.997, 'resync_positions': 25812}
+256 {'length': 1536, 'final': 1.0, 'prefix': 0.888, 'deep': 0.843, 'reentry': 0.111, 'reentry_positions': 1816, 'resync': 0.999, 'resync_positions': 50826}
+512 {'length': 3072, 'final': 1.0, 'prefix': 0.767, 'deep': 0.651, 'reentry': 0.127, 'reentry_positions': 1735, 'resync': 0.999, 'resync_positions': 103105}
+length control 256 {'final': 1.0, 'prefix': 0.999}
+length control 1024 {'final': 1.0, 'prefix': 0.998}
+length control 4096 {'final': 1.0, 'prefix': 0.998}

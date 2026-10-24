@@ -2326,6 +2326,44 @@ Denetim 1,1×10⁻⁵ (< 10⁻³). ≥ 1.024'teki her kutuda |S| ≤ 0,003; ger�
 - *Etkisi:* hiçbir cümle skorlanmamıştı; kural, skor ve veri aynı kalıyor.
 - *Not:* veri kümesinin kendisinde sözdizimi-anlambilim alanı iki yazımla geçiyor (`syntax/semantics`, `syntax_semantics`). Alan dökümü betimleyici; hüküm 67 olgunun ortalamasında.
 
+### 5.63.1 E-C-ROT SONUCU (kayıtlı kural §5.63, `depth_rot.reading`; koşular 2026-10-23 13:00 – 2026-10-24 06:47; işlendi 2026-10-24 07:23): **NO EXTRAPOLATION GAIN**
+**Hüküm.** Üç kol da geçerli (D = 8'de aralık-içi doğruluk 1,000 / 1,000 / 0,9999). İlk-iniş doğruluğu, sonuç dosyalarından (`results/Z1-pilot/count8_32-*-w64-s1.json`) yeniden hesaplandı; eğitimde en derin gezinti 32, şans ≈ 0,10-0,13:
+
+| kol | D = 16 | 32 | 64 | 128 | 256 | 512 | ρ |
+|---|---|---|---|---|---|---|---|
+| düz Core | 1,000 | 0,985 | 0,282 | 0,103 | 0,276 | 0,130 | 1,0 |
+| core_rotq (yuvarlanmış adım) | 0,989 | 0,888 | 0,398 | 0,106 | 0,111 | 0,127 | 0,5 |
+| core_rot (sürekli adım) | 1,000 | 1,000 | 0,106 | 0,103 | 0,116 | 0,127 | 1,0 |
+
+En büyük dönel ρ (1,0) ≤ ρ_core (1,0) ⇒ **NO EXTRAPOLATION GAIN**. Hiçbir kol eğitim derinliğinin ötesine genelleyemedi.
+**Öngörüler.** Düz Core geçerli ≈ %60 ve düz Core ρ ≤ 2 ≈ %85: tuttu. core_rotq ρ ≥ 4 ≈ %40, core_rot ρ ≥ 4 ≈ %25, ROTARY EXTRAPOLATES ≈ %40: tutmadı.
+**Betimleyici.**
+- Yuvarlanmış adımlı kol D = 32'de bile düz Core'dan geride (0,888'e karşı 0,985). Tasarım gereği tam iptal, öğrenmeyi zorlaştırmış olabilir [H].
+- Eğitim kayıplarındaki sıçramalar (düz Core 7.000'de 0,94) kolların sonunda aralığı öğrenmesini engellemedi.
+
+**Kullanım (kayıtlı).** NO GAIN ⇒ dışdeğerlemeyi sınırlayan temsil değil, okuma. N2 açık kalıyor.
+**DÜZELTME (ön-kayıtla uygulama arasındaki fark):** ön-kayıt "açıların kendisi kaydedilir" diyordu, ama sonuç dosyalarında açı verisi yok. Eğitilmiş modeller kaydedilmiş (`count8_32-*-w64-s1.pt`); tanı (açı ilk inişte doğru mu, okuma mı bozuluyor) bu modellerle sonradan yapılabilir. Bu bir borçtur.
+- *Sınırlar:* tek tohum; tek görev; genişlik 64.
+
+### 5.66.2 E-L1X-F eğrisi ve 8.192 baytlık koşu (betimleyici; kayıtlı kural §5.66; koşular 2026-10-24 00:26-02:31; işlendi 2026-10-24 07:23)
+Her anlık görüntüde aynı ölçü; JSON'lardan yeniden hesaplandı (S ve G ofset ≥ 256 konumlarda, makaleler üzerinde ortalama):
+
+| ağırlık | okuma kuralı | S [1.024, 2.048) | S [2.048, 4.096) | G [1.024, 2.048) | G [2.048, 4.096) | profil k = 1 / 8 / 16 / 32 / 64 |
+|---|---|---|---|---|---|---|
+| 6.000 | NO STATE CONTEXT | +1,1×10⁻⁸ | +5,6×10⁻⁸ | +0,0010 | −0,0002 | 0,73 / 0,092 / 0,015 / 4,3×10⁻⁵ / 2,0×10⁻⁷ |
+| 12.000 | NO STATE CONTEXT | −7,5×10⁻⁹ | −4,5×10⁻⁸ | +0,0084 | +0,0030 | 0,70 / 0,11 / 0,048 / 2,9×10⁻⁴ / 6,4×10⁻⁷ |
+| 18.000 | NO STATE CONTEXT | −7,5×10⁻⁹ | +2,6×10⁻⁸ | +0,0100 | +0,0036 | 0,68 / 0,12 / 0,058 / 4,3×10⁻⁴ / 1,7×10⁻⁶ |
+| 24.000 | NO STATE CONTEXT | +1,9×10⁻⁸ | +1,5×10⁻⁸ | +0,0121 | +0,0044 | 0,70 / 0,16 / 0,067 / 5,2×10⁻⁴ / 3,1×10⁻⁶ |
+| 30.518 | NO STATE CONTEXT | −3,7×10⁻⁹ | −3,4×10⁻⁸ | +0,0125 | +0,0050 | 0,72 / 0,13 / 0,040 / 8,0×10⁻⁴ / 1,9×10⁻⁵ |
+| 30.518, 8.192 bayt (16 makale) | NO STATE CONTEXT | −7,5×10⁻⁹ | +5,2×10⁻⁸ | +0,0075 | +0,0059 | 0,98 / 0,27 / 0,064 / 0,014 / 7,0×10⁻⁵ |
+
+8.192 baytlık koşuda [4.096, 8.192) kutusunda da S = 0.
+**Okuma.**
+- Taşınan durum eğitimin hiçbir noktasında 256 adımın ötesine işlevsel bilgi taşımıyor. Kullanıcının "son model daha geniş olabilir" itirazı ölçüldü; desteklenmedi.
+- Unutma eğitimle biraz yavaşlıyor: 32 adım sonraki fark 4,3×10⁻⁵'ten 8,0×10⁻⁴'e çıkıyor (k = 8 → 16 arasında e-katlanma süresi ≈ 4,4'ten ≈ 6,8 adıma). Yani yön kullanıcının dediği yönde, ama büyüklük işlevsel bir fark yaratmaktan çok uzak.
+- G eğitimle büyüyor (6k'da +0,001, son modelde +0,0125): model pencerenin içindeki ek dikkat bağlamını giderek daha iyi kullanıyor.
+- §5.66.1'in okuması [H] eğriyle tutarlı: durum yalnız dikkatin veremediğini öğrenir ve eğitimde dikkatin veremediği uzak bilgi yoktu.
+
 ## 6. Gerçek model yolu
 
 1. **Ne iddia edilir:** "küçük, bayt-düzeyi bir RLT, durum-izleme/çok-adımlı görevlerde eşit-parametre ve eşit-token bir transformer'a yapısal bir üstünlük gösteriyor mu". LM kaybında üstünlük iddia edilmez (bağımsız değerlendirme bulamadı).

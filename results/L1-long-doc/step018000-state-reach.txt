@@ -1,0 +1,10 @@
+results/L1-scratch-w928-s401/snapshots/step018000.pt
+  win512      mean 1.4901 bits/byte on 32 x 4096 bytes  (582 s)
+  winreset512 mean 1.4969 bits/byte on 32 x 4096 bytes  (580 s)
+  chunk512    mean 1.5288 bits/byte on 32 x 4096 bytes  (153 s)
+results/L1-scratch-w928-s401/snapshots/step018000.pt (step 18000): 32 articles x 4096 bytes, control 1.5e-05
+  S = winreset512 - win512  [0-512] +0.0000±0.0000  [512-1024] +0.0000±0.0000  [1024-2048] -0.0000±0.0000  [2048-4096] +0.0000±0.0000
+  G = chunk512 - win512     [0-512] -0.0000±0.0000  [512-1024] +0.0050±0.0030  [1024-2048] +0.0100±0.0025  [2048-4096] +0.0036±0.0012
+  S by offset band (bins >= 2 x training length): [256-320] -0.0000  [320-384] -0.0000  [384-448] +0.0000  [448-512] +0.0000
+  state difference k steps after the reset: 1: 6.79e-01  2: 4.87e-01  4: 2.99e-01  8: 1.18e-01  16: 5.79e-02  32: 4.29e-04  64: 1.68e-06  128: 2.80e-07  256: 2.89e-07  384: 3.20e-07  511: 3.08e-07
+  reading: {"verdict": "NO STATE CONTEXT", "s": {"1024-2048": [-7.450580596923828e-09, 3.1182374632088286e-08], "2048-4096": [2.60770320892334e-08, 3.416251143548658e-08]}}
