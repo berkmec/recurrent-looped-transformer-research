@@ -2453,6 +2453,32 @@ Açı kaydı yerine öğrenilen adım ağırlıkları okundu (`count8_32-core_ro
 
 N2 açık; bu, ayrı ön-kayıt isteyen bir sonraki adım.
 
+### 5.68.1 E-RL0 SONUCU (kayıtlı kural §5.68, `rl0.reading`; koşular 2026-10-24 02:40-09:48; işlendi 2026-10-24 09:48): **S1 L1 VACUOUS, S2 VACUOUS**; aynı küçük bütçede geri beslemesiz eş toplamayı çok daha iyi öğrendi, RL iki kolda da yardım etmedi
+**Hüküm** (`results/RL0/{L1,A0F}/final.json`'dan yeniden hesaplandı):
+- *SFT LEARNED:* L1 **hayır** (E{1, 4, 8} = 0,175), A0F **evet** (0,573).
+- *S1 (L1, kayıtlı):* **VACUOUS**. Betimleyici Δ = −0,043 [−0,056; −0,029].
+- *S1 (A0F, betimleyici):* **NO EFFECT**. Δ = −0,028 [−0,045; −0,011]; aralık ±0,05 içinde ama 0'ın altında.
+- *S2:* **VACUOUS** (iki kolun da SFT LEARNED olması gerekiyordu).
+
+**Öngörüler.** SFT LEARNED L1 ≈ %85: tutmadı. A0F ≈ %85: tuttu. VACUOUS hükümleri öngörülmemişti.
+**Betimleyici (tam eşleşme; SFT sonrası → RL sonrası):**
+
+| kol | 1 basamak | 4 | 8 | 9-16 | bit/bayt (taban → SFT → RL) |
+|---|---|---|---|---|---|
+| L1 | 0,525 → 0,310 | 0 → 0 | 0 → 0 | 0 → 0 | 1,3800 → 1,4011 → 1,4014 |
+| A0F | 1,000 → 1,000 | 0,720 → 0,580 | 0 → 0 | 0 → 0 | 1,4440 → 1,4628 → 1,4637 |
+
+- *Öğretmen zorlamalı basamak doğruluğu, SFT sonrası (L1 / A0F):* 4 basamakta 0,29 / 0,93; 8'de 0,18 / 0,54; 9'da 0,10 / 0,38; 12'de 0,08 / 0,15. Makale 9 basamakta RLT-1 7+1 için %68 veriyor; o modeller sıfırdan ve tam bütçeyle eğitilmişti.
+- *RL ödülü (100 adımlık ortalamalar):* L1 0,054 / 0,057 / 0,061 / 0,066 / 0,049; A0F 0,309 / 0,357 / 0,346 / 0,364 / 0,353. Ödül yükselmedi; RL değerlendirmede iki kolu da hafifçe geriletti.
+- *Unutma:* SFT bit/baytı L1'de +0,021, A0F'de +0,019 kötüleştirdi; RL'in ek etkisi yok.
+
+**Okuma [H].**
+- Aynı veri, aynı bütçe ve aynı adımda geri beslemeli L1, toplamayı geri beslemesiz eşinden çok daha yavaş öğrendi. İki aday açıklama var: (a) geri besleme yolunda zaman içinde geri yayılım ince ayarı yavaşlatıyor; (b) L1'in dile göre ayarlanmış, ≈ 6 adımda unutan durumu (§5.66.1) bir elde bitini taşıyacak biçime kolay dönmüyor.
+- RL bu ayarda (8 problem × 8 örnek, lr 3×10⁻⁵, β 0,02, seyrek ödül) yardım etmedi.
+- Hangisinin doğru olduğunu E-RL1 (makalenin bütçesi, §5.69) ayırır: bütçe 21 kat büyükken L1 yetişirse (a)'nın bir kısmı yalnız hız sorunudur.
+
+- *Sınırlar:* tek tohum; SFT bütçesi makalenin 21'de biri (tasarım hatası, §5.69); CPU.
+
 ## 6. Gerçek model yolu
 
 1. **Ne iddia edilir:** "küçük, bayt-düzeyi bir RLT, durum-izleme/çok-adımlı görevlerde eşit-parametre ve eşit-token bir transformer'a yapısal bir üstünlük gösteriyor mu". LM kaybında üstünlük iddia edilmez (bağımsız değerlendirme bulamadı).

@@ -1,0 +1,42 @@
+{
+ "schema": "run-manifest/v1",
+ "run_id": "E-RL0-L1-A0F",
+ "campaign": "RL0",
+ "agent": "claude-4797b78c",
+ "created_utc": "2026-10-23T21:29:09Z",
+ "command": "python -B -m mline.rl0 run <L1 | A0F latest.pt> --out results/RL0/<arm> --seed 1 --threads 2; python -B -m mline.rl0 reading",
+ "prereg": {
+  "paper": "notes/RLT_SORUN_ESLEME_VE_PROGRAM_2026-10-02.md 5.68"
+ },
+ "code": {
+  "head": "55ab3f4",
+  "dirty": false,
+  "porcelain": [
+   "?? results/ERM-stage1-ut/B_ds-s1.log",
+   "?? results/ERM-stage1-ut/B_ds-s1/",
+   "?? results/ERM-stage1-ut/E-RM1-ut-B_ds-s1.manifest.json",
+   "?? results/ES-compute/",
+   "?? results/L1-long-doc/step024000-state-reach.txt",
+   "?? results/L1-tfm6-w528-s401/probe.json",
+   "?? results/L1-tfm6-w528-s401/probe.jsonl",
+   "?? results/L1-tfm6-w528-s401/train.log",
+   "?? results/Z1-pilot/E-C-count8_32-gru-w64-s1.manifest.json",
+   "?? results/Z1-pilot/E-C-count8_32-lstm-w64-s1.manifest.json",
+   "?? results/Z1-pilot/count8_32-core-w64-s1.log",
+   "?? results/Z1-pilot/count8_32-core_rot-w64-s1.log",
+   "?? results/Z1-pilot/count8_32-core_rotq-w64-s1.log",
+   "?? results/Z1-pilot/count8_32-gru-w64-s1.log",
+   "?? results/Z1-pilot/count8_32-lstm-w64-s1.log"
+  ]
+ },
+ "config": {
+  "source": "scripts/run_rl0.sh",
+  "summary": {},
+  "sha256": "fc6ce44f541d57722c62da68aeca2f9f233a59a20a4504c2f7d55adf77cecc0d"
+ },
+ "seeds": {
+  "seed": 1
+ },
+ "telemetry_schema": "I1-a/v1",
+ "status": "started"
+}
