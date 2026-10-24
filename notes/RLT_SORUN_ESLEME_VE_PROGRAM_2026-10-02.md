@@ -2405,6 +2405,33 @@ Her anlık görüntüde aynı ölçü; JSON'lardan yeniden hesaplandı (S ve G o
 - E-RL1 (§5.69) araya alındı (`run_rl1.sh between`). Kullanıcı "en erken" istemişti; A'nın sonucu ise büyük ölçüde öngörülebilir.
 - E-RL1 bitince Aşama 1 `run_erm_stage1_ut_resume.sh` ile kayıtlı G0.4b kapısıyla sürer: önce A tohum 1 baştan, sonra B_ds tohum 2. Kural ve koşular değişmedi.
 
+### 5.67.2 E-BLIMP SONUCU (kayıtlı kural §5.67, `blimp.reading`; koşular 2026-10-24 07:20-09:28; işlendi 2026-10-24 09:28): **FEEDBACK HELPS GRAMMAR**; ilk standart benchmark'ta geri besleme +2,9 puan
+**Hüküm** (67 olgunun ortalaması; çift başına ham skorlardan yeniden hesaplandı):
+- L1 **%64,83**, A0F **%61,90**; Δ = **+2,93 puan**.
+- %95 aralık [2,56; 3,30]: kayıtlı bootstrap (2.000 çekiliş, tohum 0) ve bağımsız yeniden hesap (4.000 çekiliş, tohum 12.345) aynı aralığı verdi.
+- Δ ≥ +1,0 ve aralık 0'ı dışlıyor ⇒ **FEEDBACK HELPS GRAMMAR**.
+
+**Öngörüler.** L1 %60-72 aralığında: tuttu (64,8). HELPS ≈ %30: tuttu. NO DIFFERENCE ≈ %45: tutmadı.
+**Betimleyici.**
+- *Olgu dağılımı:* 67 olgunun 44'ünde L1, 22'sinde A0F önde, 1'i eşit. Her modelde 7 çiftte skorlar eşit (yanlış sayıldı).
+- *Alanlar (L1 / A0F):*
+
+| alan | olgu | L1 | A0F |
+|---|---|---|---|
+| biçimbilim | 18 | 71,2 | 65,5 |
+| sözdizimi | 26 | 60,9 | 58,4 |
+| sözdizimi-anlambilim | 13 | 66,4 | 61,9 |
+| sözdizimi/anlambilim (ayrı yazım) | 1 | 92,0 | 73,7 |
+| anlambilim | 9 | 58,0 | 63,4 |
+
+- *Anlambilim:* A0F'nin buradaki üstünlüğü büyük ölçüde tek olgudan geliyor: `existential_there_quantifiers_2`'de −59,8 puan.
+- *En büyük farklar:* L1'in lehine `superlative_quantifiers_2` +25,2, `coordinate_structure_constraint_object_extraction` +24,4, `principle_A_reconstruction` +20,9, `irregular_past_participle_adjectives` +20,1. A0F'nin lehine `existential_there_quantifiers_2` −59,8, `adjunct_island` −18,9, `principle_A_c_command` −14,0.
+- *Şansın altındaki olgular:* üç olguda L1 şansın belirgin altında (`matrix_question_npi_licensor_present` %5,6; `wh_vs_that_with_gap_long_distance` %12,8; `wh_vs_that_with_gap` %22,2).
+
+**Yön için yayımlanmış sayılar** (BLiMP makalesi Tablo 3, kaynağından doğrulandı; başka veri, başka belirteçleme): 5-gram %61,2 (3,1 milyar belirteç), LSTM %69,8 (83 milyon belirteç), Transformer-XL %69,6 (103 milyon), GPT-2 large %83,0, insan (tek tek) %88,6. L1 5-gram ile LSTM arasında; A0F 5-gram düzeyinde.
+**Anlamı.** Geri beslemenin dil kazancı (+0,066 bit/bayt, §5.50.1) bağımsız ve standart bir ölçüte de taşınıyor: aynı veri ve aynı adımda dilbilgisi yargısında +2,9 puan. Çekince 2'ye (§5.65) ilk dış kanıt; eşit hesap ve transformer karşılaştırması (E-X1) hâlâ yok.
+- *Sınırlar:* tek tohum çifti; bayt düzeyi modelde toplam log-olasılık; L1 eğitim verisinin dörtte biri yapay getirme görevi (iki kolda aynı); eşit güncellemede, eşit hesapta değil.
+
 ## 6. Gerçek model yolu
 
 1. **Ne iddia edilir:** "küçük, bayt-düzeyi bir RLT, durum-izleme/çok-adımlı görevlerde eşit-parametre ve eşit-token bir transformer'a yapısal bir üstünlük gösteriyor mu". LM kaybında üstünlük iddia edilmez (bağımsız değerlendirme bulamadı).
