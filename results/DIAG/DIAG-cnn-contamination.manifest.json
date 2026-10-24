@@ -1,0 +1,45 @@
+{
+ "schema": "run-manifest/v1",
+ "run_id": "DIAG-cnn-contamination",
+ "campaign": "DIAG",
+ "agent": "claude-4797b78c",
+ "created_utc": "2026-10-24T07:35:02Z",
+ "command": "python -B scripts/diag_cnn_contamination.py --out results/DIAG-cnn-contamination --device cuda",
+ "prereg": {
+  "paper": "notes/RLT_SORUN_ESLEME_VE_PROGRAM_2026-10-02.md 5.71"
+ },
+ "code": {
+  "head": "869092c",
+  "dirty": true,
+  "porcelain": [
+   "?? horizon/erm_r8.py",
+   "?? results/BLIMP/reading.err",
+   "?? results/ES-compute/",
+   "?? results/L1-tfm6-w528-s401/probe.json",
+   "?? results/L1-tfm6-w528-s401/probe.jsonl",
+   "?? results/L1-tfm6-w528-s401/train.log",
+   "?? results/RL0/reading.err",
+   "?? results/RL0/smoke-A0F/",
+   "?? results/RL0/smoke-L1/",
+   "?? results/RL1/L1.txt",
+   "?? results/RL1/L1/",
+   "?? results/RL1/smoke-L1.txt",
+   "?? results/RL1/smoke-L1/",
+   "?? results/Z1-pilot/E-C-count8_32-gru-w64-s1.manifest.json",
+   "?? results/Z1-pilot/E-C-count8_32-lstm-w64-s1.manifest.json",
+   "?? results/Z1-pilot/count8_32-gru-w64-s1.log",
+   "?? results/Z1-pilot/count8_32-lstm-w64-s1.log",
+   "?? tests/test_erm_r8.py"
+  ]
+ },
+ "config": {
+  "source": "scripts/diag_cnn_contamination.py",
+  "summary": {},
+  "sha256": "ee7aad45e89df765f5428f5f67a3aa18def2ee7d5581eea9c02efbda57b7766e"
+ },
+ "seeds": {
+  "seed": 991
+ },
+ "telemetry_schema": "I1-a/v1",
+ "status": "started"
+}

@@ -1,0 +1,129 @@
+{
+ "corpus": {
+  "train_documents": 55552,
+  "validation_documents": 2336,
+  "train_exact_duplicates": 1883,
+  "train_exact_duplicate_share": 0.03389616935483871,
+  "validation_seen_in_train": 325,
+  "validation_seen_share": 0.1391267123287671,
+  "validation_prefix200_seen": 343,
+  "validation_seen_byte_share": 0.13015685016986342,
+  "mean_document_bytes": {
+   "train": 3764.2080933179723,
+   "validation": 3580.384417808219
+  },
+  "markers": {
+   "daily_mail_published": {
+    "train": 0.0,
+    "validation": 0.0
+   },
+   "daily_mail_updated": {
+    "train": 0.0,
+    "validation": 0.0
+   },
+   "byline_dot": {
+    "train": 0.0,
+    "validation": 0.0
+   },
+   "cnn_dateline": {
+    "train": 0.8910030241935484,
+    "validation": 0.7825342465753424
+   },
+   "last_updated_at": {
+    "train": 0.0,
+    "validation": 0.0
+   }
+  },
+  "epochs_of_the_runs": 2.3841271300507016,
+  "stream_bytes": {
+   "original": 8389474,
+   "clean": 7297296,
+   "seen": 1092178
+  }
+ },
+ "models": {
+  "L1": {
+   "path": "results/L1-scratch-w928-s401/latest.pt",
+   "step": 30518,
+   "arm": "plain"
+  },
+  "A0F": {
+   "path": "results/L1-a0-w928-s401/latest.pt",
+   "step": 30518,
+   "arm": "a0"
+  }
+ },
+ "streams": {
+  "original": {
+   "rows": 768,
+   "bits_per_byte": {
+    "L1": 1.3849137121190627,
+    "A0F": 1.4518179510099192
+   },
+   "delta_a0f_minus_l1": 0.0669042388908565,
+   "delta_interval": [
+    0.06445909924611139,
+    0.06939462513934509
+   ],
+   "battery": {
+    "rows": 256,
+    "bits_per_byte": {
+     "L1": 1.3744896627031267,
+     "A0F": 1.4407734454143792
+    },
+    "delta": 0.06628378271125257,
+    "rows_mostly_seen": 29
+   },
+   "rows_mostly_seen": {
+    "rows": 103,
+    "bits_per_byte": {
+     "L1": 1.353992173972639,
+     "A0F": 1.4130220957172728
+    },
+    "delta": 0.059029921744633645,
+    "delta_interval": [
+     0.05243975965722093,
+     0.0652846052808669
+    ]
+   },
+   "rows_mostly_clean": {
+    "rows": 665,
+    "bits_per_byte": {
+     "L1": 1.389703063140238,
+     "A0F": 1.4578269331078781
+    },
+    "delta": 0.06812386996763989,
+    "delta_interval": [
+     0.06545923451507898,
+     0.07077835474695478
+    ]
+   }
+  },
+  "clean": {
+   "rows": 768,
+   "bits_per_byte": {
+    "L1": 1.370474002091214,
+    "A0F": 1.439391512889415
+   },
+   "delta_a0f_minus_l1": 0.06891751079820096,
+   "delta_interval": [
+    0.06653939281047011,
+    0.07132961402918833
+   ]
+  },
+  "seen": {
+   "rows": 768,
+   "bits_per_byte": {
+    "L1": 1.3859565178863704,
+    "A0F": 1.4516547446449597
+   },
+   "delta_a0f_minus_l1": 0.06569822675858934,
+   "delta_interval": [
+    0.06329648685641587,
+    0.06812681270724472
+   ]
+  }
+ },
+ "seconds": 123.20218629995361,
+ "utc": 1792827426.3104327
+}

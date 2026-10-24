@@ -2519,6 +2519,21 @@ N2 açık; bu, ayrı ön-kayıt isteyen bir sonraki adım.
 - Ö3: |Δ_görülmüş − Δ_temiz| ≤ 0,02 (%60).
 BLiMP sonucu (§5.67.2) bu sızıntıdan etkilenmez (dış veri), ama "CNN ile eğitildi" kaydını taşır.
 
+### 5.71.1 HATA AVI SONUCU 1 (kayıtlı kural §5.71; ölçüm `results/DIAG-cnn-contamination/diag.json`, GPU 2,0 dk; işlendi 2026-10-24 10:37): **GAIN HOLDS ON CLEAN**, geri besleme kazancı ezber değil
+**Kapı geçti:** L1 pil satırlarında 1,374490 (kayıtlı 1,3744901; fark < 10⁻⁶); A0F 1,440773 (kayıtlı 1,4408).
+**Akışlar** (24 × 32 satır, Δ = A0F − L1 bit/bayt, %95 önyükleme aralığı):
+- *Özgün:* L1 1,38491, A0F 1,45182, Δ +0,0669 [0,0645; 0,0694].
+- *Temiz* (train'de olmayan belgeler): L1 1,37047, A0F 1,43939, Δ **+0,0689** [0,0665; 0,0713]. Δ_temiz / Δ_özgün = 1,03 ≥ 0,75 → **GAIN HOLDS ON CLEAN**.
+- *Görülmüş* (train'de olan belgeler): L1 1,38596, A0F 1,45165, Δ +0,0657 [0,0633; 0,0681].
+- *Özgün satırların ayrışması:* baytlarının çoğu görülmüş belgelerden gelen 103 satırda Δ +0,0590 [0,0524; 0,0653]; çoğu temiz 665 satırda Δ +0,0681 [0,0655; 0,0708]. Pilin 256 satırının 29'u çoğunlukla görülmüş belgelerden.
+**Öngörüler:**
+- Ö1 TUTMADI: görülmüş belgeler daha düşük değil, biraz daha yüksek bit/bayt veriyor (L1 +0,0155, A0F +0,0123). 2,4 turluk eğitimde ezber izi yok; görülmüş belgeler biraz daha zor bir alt küme.
+- Ö2 tuttu.
+- Ö3 tuttu: |Δ_görülmüş − Δ_temiz| = 0,0032.
+**Korpus:** Daily Mail işaretlerinin hiçbiri yok. "(CNN) --" satırı train belgelerinin %89'unda, doğrulamanın %78'inde: korpus yalnız CNN haberi (cnn_dailymail akışının ilk 210 MB'ı CNN bölümü). Sorun çöp değil, darlık: tek kaynak, tek tür.
+**DÜZELTME** (§5.71(a) ve madde 139'daki oran): "2.336 belgeden 323'ü (%14,68)" iki paydayı karıştırıyordu. 323, doğrulamanın 2.201 *farklı* belgesinden train'de olanların sayısı (%14,68). Her belge sayılınca 2.336'dan 325 (%13,91); baytların %13,02'si. Önek ölçüsü (≥ 200 baytlık train belgeleriyle) 343. Hüküm etkilenmez.
+**Sonuç:** kayıtlı +0,066 sızıntıdan gelmiyor; CNN'deki dil kazancı gerçek. İstenen ama alınamayan sonuçların (durumla uzun bağlam; Aşama 1'de pencereler arası olgu) açıklaması veri kalitesi değil, §5.71(b)'deki eğitim kurulumu ve Aşama 1'in kendi sorunu [H; sıradaki denetimler §5.71(c)].
+
 ## 6. Gerçek model yolu
 
 1. **Ne iddia edilir:** "küçük, bayt-düzeyi bir RLT, durum-izleme/çok-adımlı görevlerde eşit-parametre ve eşit-token bir transformer'a yapısal bir üstünlük gösteriyor mu". LM kaybında üstünlük iddia edilmez (bağımsız değerlendirme bulamadı).
