@@ -24,19 +24,24 @@ from mline import decoy_train as dt
 from mline import lm as ml
 from mline import longrun as lr
 from mline import naw
+from mline import carry
 from mline import rltm
 
-ARMS = ('A', 'B_ds')
+ARMS = ('A', 'B_ds', 'C')                       # C: no memory, the RLT state carried between the windows (mline.carry, note 5.74)
 LN2 = math.log(2)
 # (last update of the phase or None, shares, cross-window distances): note 5.40's mixture, the cross-window rows first
 PHASES = ((300, dict(naw=1.0), (1, 2)), (1000, dict(naw=0.5, lm=0.5), (1, 2, 3)),
           (None, dict(lm=0.5, within=0.15, naw=0.35), (1, 2, 3)))
+# the same mixture on rows of two windows, every cross-window fact one window back (E-SC1: the carried state is sequential, so a
+# row costs its number of windows times one window's decoder loop)
+PHASES_D1 = ((300, dict(naw=1.0), (1,)), (1000, dict(naw=0.5, lm=0.5), (1,)), (None, dict(lm=0.5, within=0.15, naw=0.35), (1,)))
+PHASE_SETS = dict(stage1=PHASES, d1=PHASES_D1)
 EVAL_D, FINAL_D = (1, 2, 3, 4, 8, 16), (1, 2, 3, 4, 8, 16, 32, 64)
 KINDS = ('held', 'natural')                     # held-out letters T-Z and held-out real words; never trained on
 
 
-def phase_at(step):
-    for limit, shares, distances in PHASES:
+def phase_at(step, phases=None):
+    for limit, shares, distances in (phases or PHASES):
         if limit is None or step <= limit:
             return shares, distances
 
@@ -49,13 +54,15 @@ def build(arm, init, seed, d=256, write_chunk=32, width=928, heads=8, zero_out=T
     if init:
         blob = torch.load(init, map_location='cpu', weights_only=False)
         core.load_state_dict(blob['model'] if isinstance(blob, dict) and 'model' in blob else blob)
+    if arm == 'C':
+        return carry.CarryLM(core)
     return rltm.RLTM(core, d_k=d, d_v=d, gamma_init=1.0, seed=seed, memory=(arm == 'B_ds'), write_chunk=write_chunk,
                      zero_out=zero_out, ut_chunk=ut_chunk)
 
 
-def batch(step, rows, windows, seed, corpus, natural_train, window=512, within_specs=None):
+def batch(step, rows, windows, seed, corpus, natural_train, window=512, within_specs=None, phases=None):
     """(x, y) of (rows, windows * window) bytes and, for the cross-window rows, the answer masks and the distance (0 elsewhere)."""
-    shares, distances = phase_at(step)
+    shares, distances = phase_at(step, phases)
     n_lm, n_within, n_naw = lr.allocate(rows, [shares.get(k, 0.0) for k in ('lm', 'within', 'naw')])
     length = windows * window
     xs, ys, firsts, fours, ds = [], [], [], [], []
@@ -137,10 +144,11 @@ def battery(model, corpus_val, natural_val, windows, distances, items, device, w
     out = dict(naw={kind: {str(d): eval_naw(model, d, items, kind, corpus_val, natural_val, window=window, device=device)
                            for d in distances} for kind in KINDS},
                lm_bpb_by_window=eval_lm(model, corpus_val, windows, window=window, device=device))
-    if model.memory:
+    if model.memory or getattr(model, 'carry', False):          # the memory read, or the carried state, switched off
         out['naw_read_off'] = {kind: {str(d): eval_naw(model, d, items, kind, corpus_val, natural_val, window=window, device=device,
                                                        read=False) for d in (1, 2)} for kind in KINDS}
         out['lm_bpb_by_window_read_off'] = eval_lm(model, corpus_val, windows, window=window, device=device, read=False)
+    if model.memory:
         with torch.no_grad():
             out['gamma_abs_mean'] = float(model.gamma.abs().mean())
     return out
@@ -148,7 +156,7 @@ def battery(model, corpus_val, natural_val, windows, distances, items, device, w
 
 def train(out, *, arm, init, seed, steps, corpus, corpus_val, natural_train, natural_val, rows=8, windows=4, window=512, lr_core=3e-4,
           lr_new=9e-4, warmup=100, d=256, write_chunk=32, eval_every=500, ckpt_every=250, items=64, device='cuda', within_specs=None,
-          width=928, heads=8, log=print, stop_at=None, ut_chunk=0, answer_weight=0.0):
+          width=928, heads=8, log=print, stop_at=None, ut_chunk=0, answer_weight=0.0, phases=None, eval_d=EVAL_D, final_d=FINAL_D):
     """`stop_at` ends the process early (a checkpoint, no final battery); a later call with the same `steps` resumes the run."""
     out = Path(out)
     out.mkdir(parents=True, exist_ok=True)
@@ -170,13 +178,15 @@ def train(out, *, arm, init, seed, steps, corpus, corpus_val, natural_train, nat
     sw.write_json(out / 'config.json', dict(arm=arm, init=str(init), seed=seed, steps=steps, rows=rows, windows=windows, window=window,
                                            lr_core=lr_core, lr_new=lr_new, warmup=warmup, d=d, write_chunk=write_chunk, ut_chunk=ut_chunk, items=items,
                                            answer_weight=answer_weight, ckpt_every=ckpt_every,
-                                           parameters=sum(p.numel() for p in model.parameters()), phases=[list(p) for p in PHASES]))
+                                           parameters=sum(p.numel() for p in model.parameters()),
+                                           phases=[list(p) for p in (phases or PHASES)], eval_d=list(eval_d), final_d=list(final_d)))
     t0 = time.perf_counter()
     for step in range(start, steps + 1):
         for g in opt.param_groups:
             g['lr'] = g['base'] * min(1.0, step / warmup)
         model.train()
-        x, y, first, four, dist = (t.to(device) for t in batch(step, rows, windows, seed, corpus, natural_train, window, within_specs))
+        x, y, first, four, dist = (t.to(device) for t in batch(step, rows, windows, seed, corpus, natural_train, window, within_specs,
+                                                                phases))
         logits = _logits(model, x, windows, window)
         loss, answer_ce = objective(logits, y, four, answer_weight)
         report = gu.guarded_step(opt, model.parameters(), loss, clip_norm=1.0)
@@ -196,7 +206,7 @@ def train(out, *, arm, init, seed, steps, corpus, corpus_val, natural_train, nat
             return out
         if step % eval_every == 0 or step == steps:
             final = step == steps
-            b = battery(model, corpus_val, natural_val, windows, FINAL_D if final else EVAL_D, items, device, window)
+            b = battery(model, corpus_val, natural_val, windows, final_d if final else eval_d, items, device, window)
             sw.append_line(out / 'probe.jsonl', dict(step=step, eval=b))
             log('step %d loss %.4f naw held exact %s' % (step, row['loss'], {k: round(v['exact'], 3) for k, v in b['naw']['held'].items()}))
             if final:
@@ -255,6 +265,28 @@ def reading_objective(final, primary='natural'):
                 lm_bpb_by_window=e['lm_bpb_by_window'], lm_bpb_by_window_read_off=e.get('lm_bpb_by_window_read_off'))
 
 
+def reading_carry(final, primary='natural'):
+    """E-SC1's registered verdict (note 5.74) from the carry arm's final battery, primary cell held-out real words at d = 1 (the
+    trained distance; d = 2, two window boundaries, is descriptive):
+    STATE CARRIES         exact four >= 0.8 and >= 0.5 above the carry-off control
+    STATE CARRIES PARTLY  not the above, first digit >= 0.5 and >= 0.3 above the carry-off control's first digit
+    STATE DOES NOT CARRY  first digit <= 0.2 (chance 0.1)
+    INCONCLUSIVE          otherwise"""
+    e = final['eval']
+    on, off = e['naw'][primary]['1'], e['naw_read_off'][primary]['1']
+    if on['exact'] >= 0.8 and on['exact'] - off['exact'] >= 0.5:
+        label = 'STATE CARRIES'
+    elif on['first'] >= 0.5 and on['first'] - off['first'] >= 0.3:
+        label = 'STATE CARRIES PARTLY'
+    elif on['first'] <= 0.2:
+        label = 'STATE DOES NOT CARRY'
+    else:
+        label = 'INCONCLUSIVE'
+    return dict(label=label, first_d1=on['first'], exact_d1=on['exact'], first_d1_off=off['first'], exact_d1_off=off['exact'],
+                exact={d: c['exact'] for d, c in e['naw'][primary].items()}, first={d: c['first'] for d, c in e['naw'][primary].items()},
+                lm_bpb_by_window=e['lm_bpb_by_window'], lm_bpb_by_window_carry_off=e.get('lm_bpb_by_window_read_off'))
+
+
 def main():
     p = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     p.add_argument('--arm', choices=ARMS)
@@ -271,9 +303,19 @@ def main():
     p.add_argument('--answer-weight', type=float, default=0.0, help='weight of the cross-window answer bytes in the loss (objective; E-RM1W)')
     p.add_argument('--ckpt-every', type=int, default=250)
     p.add_argument('--reading-objective', default=None, help="one B_ds final.json -> E-RM1W's verdict (note 5.73)")
+    p.add_argument('--reading-carry', default=None, help="the carry arm's final.json -> E-SC1's verdict (note 5.74)")
+    p.add_argument('--windows', type=int, default=4, help='windows of 512 bytes per training row')
+    p.add_argument('--phases', default='stage1', choices=tuple(PHASE_SETS), help='the mixture schedule (d1: every fact one window back)')
+    p.add_argument('--eval-d', default=','.join(map(str, EVAL_D)), help='distances of the battery every eval_every updates')
+    p.add_argument('--final-d', default=','.join(map(str, FINAL_D)), help='distances of the final battery')
     a = p.parse_args()
+    run_kw = dict(windows=a.windows, phases=PHASE_SETS[a.phases], answer_weight=a.answer_weight, ckpt_every=a.ckpt_every,
+                  eval_d=tuple(int(v) for v in a.eval_d.split(',')), final_d=tuple(int(v) for v in a.final_d.split(',')))
     if a.reading_objective:
         print(json.dumps(reading_objective(json.loads(Path(a.reading_objective).read_bytes().decode('utf8'))), indent=1, default=float))
+        return
+    if a.reading_carry:
+        print(json.dumps(reading_carry(json.loads(Path(a.reading_carry).read_bytes().decode('utf8'))), indent=1, default=float))
         return
     if a.reading:
         finals = {str(Path(f).parent.name): json.loads(Path(f).read_bytes().decode('utf8')) for f in a.reading}
@@ -290,11 +332,10 @@ def main():
     if a.smoke:
         sw.write_json(Path(a.out) / 'smoke.json', smoke(a.out, a.smoke, arm=a.arm, init=a.init, seed=a.seed, steps=a.steps, corpus=corpus,
                                                        corpus_val=corpus_val, natural_train=natural_train, natural_val=natural_val,
-                                                       items=a.items, device=a.device, ut_chunk=a.ut_chunk, d=a.d))
+                                                       items=a.items, device=a.device, ut_chunk=a.ut_chunk, d=a.d, **run_kw))
         return
     train(a.out, arm=a.arm, init=a.init, seed=a.seed, steps=a.steps, corpus=corpus, corpus_val=corpus_val, natural_train=natural_train,
-          natural_val=natural_val, items=a.items, device=a.device, ut_chunk=a.ut_chunk, d=a.d, answer_weight=a.answer_weight,
-          ckpt_every=a.ckpt_every)
+          natural_val=natural_val, items=a.items, device=a.device, ut_chunk=a.ut_chunk, d=a.d, **run_kw)
 
 
 def smoke(out, updates, **kw):

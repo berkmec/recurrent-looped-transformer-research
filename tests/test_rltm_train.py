@@ -18,10 +18,10 @@ KEYS = [b'river', b'bridge', b'mayor', b'streets', b'families', b'evening', b'Tu
 TINY = [lr._spec('tiny', 1.0, 2, 2, (0, 4), key_length=(2, 2), key_alphabet='wide')]
 
 
-def _tiny_train(d, arm, steps, init, stop_at=None):
+def _tiny_train(d, arm, steps, init, stop_at=None, windows=3, **kw):
     return rt.train(d, arm=arm, init=init, seed=1, steps=steps, corpus=CORPUS, corpus_val=CORPUS, natural_train=KEYS, natural_val=KEYS,
-                    rows=4, windows=3, window=160, d=8, write_chunk=4, eval_every=3, ckpt_every=5, items=4, device='cpu',
-                    within_specs=TINY, width=32, heads=2, log=lambda *_: None, stop_at=stop_at)
+                    rows=4, windows=windows, window=160, d=8, write_chunk=4, eval_every=3, ckpt_every=5, items=4, device='cpu',
+                    within_specs=TINY, width=32, heads=2, log=lambda *_: None, stop_at=stop_at, **kw)
 
 
 class Stage1Tests(unittest.TestCase):
@@ -117,6 +117,22 @@ class Stage1Tests(unittest.TestCase):
         self.assertAlmostEqual(float(rt.objective(logits, y, none, 0.5)[0]), float(ce.mean()), places=6)
         self.assertIsNone(rt.objective(logits, y, none, 0.5)[1])
 
+    def test_the_carry_arm_trains_on_two_windows_with_its_carry_off_control(self):
+        with tempfile.TemporaryDirectory() as d:
+            init = Path(d, 'l1.pt')
+            ck.save(init, ml.build('plain', width=32, heads=2, seed=401), None, 0)
+            out = Path(d, 'C')
+            _tiny_train(out, 'C', 2, init, windows=2, phases=rt.PHASES_D1, eval_d=(1,), final_d=(1, 2), answer_weight=0.5)
+            final = json.loads((out / 'final.json').read_text(encoding='utf8'))
+            self.assertEqual(set(final['eval']['naw']['natural']), {'1', '2'})
+            self.assertIn('naw_read_off', final['eval'])
+            self.assertNotIn('gamma_abs_mean', final['eval'])
+            self.assertEqual(len(final['eval']['lm_bpb_by_window']), 2)
+            rows = [json.loads(l) for l in (out / 'train.jsonl').read_text(encoding='utf8').splitlines()]
+            self.assertTrue(all(set(k for k in r if k.startswith('naw_first_d')) <= {'naw_first_d1'} for r in rows))
+            self.assertEqual(rt.phase_at(1, rt.PHASES_D1)[1], (1,))
+            self.assertEqual(rt.phase_at(1), rt.phase_at(1, rt.PHASES))                           # the default stays stage 1's
+
     def test_the_objective_reading(self):
         def final(first1, exact2, off2):
             cells = {'1': dict(first=first1, exact=exact2), '2': dict(first=first1, exact=exact2)}
@@ -127,6 +143,17 @@ class Stage1Tests(unittest.TestCase):
         self.assertEqual(rt.reading_objective(final(0.6, 0.3, 0.0))['label'], 'OBJECTIVE FIX PARTIAL')
         self.assertEqual(rt.reading_objective(final(0.12, 0.0, 0.0))['label'], 'OBJECTIVE FIX FAILS')
         self.assertEqual(rt.reading_objective(final(0.35, 0.0, 0.0))['label'], 'INCONCLUSIVE')
+
+    def test_the_carry_reading(self):
+        def final(first, exact, first_off, exact_off):
+            on = {'1': dict(first=first, exact=exact), '2': dict(first=0.1, exact=0.0)}
+            return dict(eval=dict(naw={'natural': on}, naw_read_off={'natural': {'1': dict(first=first_off, exact=exact_off)}},
+                                  lm_bpb_by_window=[1.2, 1.1], lm_bpb_by_window_read_off=[1.2, 1.2]))
+        self.assertEqual(rt.reading_carry(final(1.0, 0.9, 0.1, 0.0))['label'], 'STATE CARRIES')
+        self.assertEqual(rt.reading_carry(final(1.0, 0.9, 0.9, 0.6))['label'], 'INCONCLUSIVE')          # the control does it too
+        self.assertEqual(rt.reading_carry(final(0.6, 0.2, 0.1, 0.0))['label'], 'STATE CARRIES PARTLY')
+        self.assertEqual(rt.reading_carry(final(0.15, 0.0, 0.1, 0.0))['label'], 'STATE DOES NOT CARRY')
+        self.assertEqual(rt.reading_carry(final(0.4, 0.0, 0.1, 0.0))['label'], 'INCONCLUSIVE')
 
 
 if __name__ == '__main__':

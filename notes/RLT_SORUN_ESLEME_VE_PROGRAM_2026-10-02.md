@@ -2599,6 +2599,34 @@ Hüküm tohum başına okunur. İki tohum aynı hükmü verirse genel hüküm od
 **Metin çapraz entropisi** iki kolda düz (L1 1,09-1,11, A0F 1,12-1,15). Her güncelleme uygulandı (applied 1,000).
 **Okuma:** ≈ 1.000 güncellemeye kadar iki kol aynı hızda öğreniyor. A0F 1.100'den sonra ani bir geçiş yapıyor (1,13 → 0,31); L1 düzgün ama yavaş inmeye devam ediyor, geçişe 2.000 güncellemede ulaşmadı. Kırık bir gradyan yolu belirtisi yok. "L1 öğrenmedi" (§5.68.1), "bu bütçede geçişe ulaşmadı" demek. Geçişin geri beslemeyle gecikip gecikmediği tek tohumla söylenemez [H]. E-RL1 bunu ayırt edecekti (CNN kuralıyla durdu, §5.70); yeni korpusta yeniden kurulacak.
 
+### 5.74 E-SC1 ön-kaydı (koşudan ÖNCE yazıldı 2026-10-24 11:17): RLT'nin kendi durumu, pencereler arası tek kanal olarak, bir olguyu taşıyabiliyor mu
+**Soru:** Makalenin vaadi: taşınan durum uzun bağlamı taşır. L1'in eğitimi bunu hiç istemedi (§5.71(b)); E-L1X-F'nin "durum ≈ 6 adımda unutuyor" sonucu o kurulumun beklenen sonucuydu. Eğitim durumdan doğrudan isteyince, durum bir olguyu pencere sınırının ötesine taşımayı öğreniyor mu?
+**Model** (`mline/carry.py`, 4 test; `mline.rltm_train --arm C`):
+- *Yapı:* mühürlü Core; satır 2 pencere × 512 bayt.
+- *Bellek (K2):* her pencerede kodlayıcı yalnız o pencereyi görüyor; bellek pencereyle sınırlı.
+- *Durum (K1):* kod çözücünün belirteç durumu, bir pencerenin son konumundan sonrakinin ilk konumuna geçiyor. Kod çözücünün 4 konumluk öz-dikkat önbelleği ve konumu her pencerede sıfırlanıyor.
+- *Kanal:* pencereler arası tek yol durum; gradyan pencereler boyunca tam geri yayılıyor. Yeni parametre yok.
+- *Denetimler (test edildi):* durum kapalıyken (her pencere `initial`'dan) model, her pencerede ayrı çalışan Core'un kendisi; geri beslemesiz eş durumu yok sayıyor.
+**Eğitim** (E-RM1W'nin tarifi):
+- *Aynı:* taban L1 (CNN ile eğitildi; bu eğitim FineWeb-Edu), cevap ağırlığı 0,5, lr 3e-4, ısınma 100, 8 satır, tohum 1, 2.000 güncelleme; karışım aşamaları aynı paylarla (300 / 1.000 / sonrası).
+- *Fark:* satırlar 2 pencere, her olgu 1 pencere geride (`--windows 2 --phases d1`; E-RM1W: 4 pencere, d = 1-3).
+- *Neden 2 pencere:* durumlu satırda pencereler sırayla çalışır; 4 pencere, güncelleme başına E-RM1W'nin ≈ 4 katı süre isterdi.
+- *Değerlendirme:* her 500 güncellemede d = 1, 2; son pil d = 1, 2, 3; durum kapalı denetimi d = 1, 2.
+**Duman testi:** betik içinde, 10 güncelleme; saniye/güncelleme ve VRAM kuyruk günlüğüne yazılır, kayıtlı sayı görülmez.
+**Kural** (birincil hücre: doğrulamanın tutulmuş gerçek kelimeleri, d = 1; `rltm_train.reading_carry`, test edildi):
+- *STATE CARRIES:* tam dört ≥ 0,8 ve durum kapalı denetimden ≥ 0,5 yüksek.
+- *STATE CARRIES PARTLY:* yukarıdaki değil, ilk rakam ≥ 0,5 ve denetimin ilk rakamından ≥ 0,3 yüksek.
+- *STATE DOES NOT CARRY:* ilk rakam ≤ 0,2 (şans 0,1).
+- *INCONCLUSIVE:* diğerleri.
+**Betimleyici:** d = 2 ve 3 (eğitilmemiş sınır sayısı); pencere başına dil bit/baytı durum açık ve kapalı (taşınan durum 2. pencerenin dil kaybını düşürüyor mu: L2'nin küçük sorusu); `answer_bits`.
+**Öngörüler [H]:**
+- STATE DOES NOT CARRY %45, PARTLY %35, CARRIES %20. Gerekçe: durum, sonraki baytı tahmin eden gizli vektörün kendisi (s = z). Olguyu orada ≈ 500 adım tutmak, aynı vektörün her adımdaki tahmin işiyle yarışıyor; L1'de ≈ 6 adımda unutuyordu.
+- Dil: durum açıkken 2. pencerenin bit/baytı kapalıdan ≥ 0,005 düşük (%50).
+**Kuyruk:** `scripts/run_esc1.sh`, E-RM1W'nin kuyruğu bitip GPU boşalınca başlar. 18:00 duraklaması öldürür, `resume_after_user.sh` sürdürür.
+**Karşılaştırma notu:** E-RM1W bellek kanalını, E-SC1 RLT'nin kendi durum kanalını sınıyor; aynı tarif, aynı veri, aynı taban. Fark pencere sayısı ve mesafe kümesi (yukarıda).
+**Kod notu:** `mline/rltm_train.py` E-RM1W koşarken değişti (C kolu, ayarlanabilir aşamalar ve mesafeler). Varsayılanlar aynı kaldı (test: `phase_at` varsayılanı Aşama 1'inki), yani E-RM1W 18:00'den sonra bu kodla sürerse aynı yolu izler.
+**DÜZELTME (§5.73'ün duman testi):** E-RM1W'nin duman testi ağırlıksız koştu: `smoke()` o sırada `answer_weight`'i iletmiyordu. Ölçü yalnız süreydi ve kayıp ağırlığı süreyi değiştirmez; iletim düzeltildi.
+
 ## 6. Gerçek model yolu
 
 1. **Ne iddia edilir:** "küçük, bayt-düzeyi bir RLT, durum-izleme/çok-adımlı görevlerde eşit-parametre ve eşit-token bir transformer'a yapısal bir üstünlük gösteriyor mu". LM kaybında üstünlük iddia edilmez (bağımsız değerlendirme bulamadı).
