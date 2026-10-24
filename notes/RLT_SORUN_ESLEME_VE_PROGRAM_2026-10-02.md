@@ -2364,6 +2364,34 @@ Her anlık görüntüde aynı ölçü; JSON'lardan yeniden hesaplandı (S ve G o
 - G eğitimle büyüyor (6k'da +0,001, son modelde +0,0125): model pencerenin içindeki ek dikkat bağlamını giderek daha iyi kullanıyor.
 - §5.66.1'in okuması [H] eğriyle tutarlı: durum yalnız dikkatin veremediğini öğrenir ve eğitimde dikkatin veremediği uzak bilgi yoktu.
 
+### 5.69 E-RL1 ön-kaydı: E-RL0, makalenin toplama bütçesiyle, GPU'da (kod `mline/rl0.py --config rl1`, 12 test; betik `scripts/run_rl1.sh`; koşudan ÖNCE yazıldı 2026-10-24 07:48)
+**Neden.**
+- *Bütçe açığı:* E-RL0'ın SFT bütçesi makalenin 21'de biriydi. E-RL0'da 2.000 güncelleme × 24 problem = 48 bin problem vardı; makalede 2.000 adım × 512'lik parti ≈ 1,02 milyon problem (§J, satır 293-294: AdamW (0,9, 0,95), ağırlık sönümü 0,1, 200 adımda 10⁻⁴'e ısınma; addition 2.000 adım).
+- *Sonuç:* E-RL0'da L1'in SFT sonrası tam eşleşmesi 1 basamakta 0,525, 4 ve 8 basamakta 0. E{1, 4, 8} = 0,175 < 0,5, yani L1 kolu kendi kuralıyla VACUOUS olacak. RL ortalama ödülü 0,055; SFT kaybı 2.000'de hâlâ düşüyordu (1,75 → 0,99).
+- *Açıklama:* E-RL0'ın SFT değerlendirmesine, hükmünden önce bu teşhis için bakıldı. E-RL0'ın kuralı ve koşusu değişmedi; kendi sonuna kadar koşar ve olduğu gibi kaydedilir.
+- *Ders:* "önce tavanı hesapla" kuralı E-RL0'ın tasarımında uygulanmadı. Makalenin bütçesi yazılmadan önce okunmalıydı.
+
+**Tavan denetimi.** Makalede altı mimarinin altısı da bu bütçeyle, sıfırdan, 1-8 basamakta öğretmen zorlamalı belirteç doğruluğunda %100'e ulaştı. Bizim modeller bir bayt dil modelinden başlıyor. Bütçenin aralık-içi öğrenmeye yetmesi beklenir, ama garanti değil.
+**Tasarım (E-RL0'dan farkı yalnız bütçe ve optimizör).**
+- *SFT:* 2.000 güncelleme × 512 problem (her işlenen 1-8 basamak) + 128 adet 64 baytlık korpus parçası (satırların beşte biri). Kayıp ağırlıkları aynı (0,75 / 0,25).
+- *Optimizör (makaleninki):* AdamW (0,9, 0,95), ağırlık sönümü 0,1, 200 güncelleme ısınma, 10⁻⁴'ten 5×10⁻⁶'ya kosinüs, kırpma 1.
+- *Mikro partiler:* 4 parça (128 problem + 32 parça). Gradyanlar tam partininkiyle aynı; testli.
+- *RL:* 500 adım × 32 problem × 8 örnek (E-RL0'da 8 problem).
+- *Aynı kalanlar:* ödül, avantaj, KL, makalenin yeniden oynatma kuralı, değerlendirme (7 genişlik × 200 problem), kollar (L1 ve A0F), tohum 1.
+
+**Kural.** E-RL0'ınkiyle aynı (`rl0.reading`, §5.68): SFT LEARNED, S1 (RL HELPS ⇔ Δ ≥ +0,05, aralık > 0, 1-10 basamak), S2 (FEEDBACK HELPS LENGTH ⇔ RL sonrası 9-12 basamakta L1 − A0F ≥ +0,10, aralık > 0).
+**Öngörüler [H].**
+- SFT LEARNED: L1 ≈ %75, A0F ≈ %75.
+- S1 (L1): RL HELPS ≈ %35, NO EFFECT ≈ %35, INCONCLUSIVE ≈ %25, HURTS ≈ %5.
+- S2: FEEDBACK HELPS LENGTH ≈ %25, NO DIFFERENCE ≈ %40, INCONCLUSIVE ≈ %30, HURTS ≈ %5.
+- Betimleyici: 9 basamakta öğretmen zorlamalı belirteç doğruluğu, makalenin %68'iyle karşılaştırılır.
+
+**Kaynak ve sıra.** GPU, kol başına tek süreç; önce L1, sonra A0F. Her kolun başında kayıt dışı hücrelerde süre ölçen bir duman testi; tahmin ≈ 3-4 GPU-saat.
+- *Varsayılan sıra:* Aşama 1 kuyruğu bittikten sonra, E-X1'den önce. E-X1'in koşucusu artık iki kuyruğun da bitiş satırını bekler.
+- *Kullanıcı isterse:* Aşama 1'in ilk koşusundan hemen sonra araya girer (`between` kipi), bitince Aşama 1'i kayıtlı kapıyla sürdürür.
+- *Duraklatma:* 18:00 duraklaması bunu da durdurur; sürdürme betiği yeniden kuyruğa alır.
+- *Sınırlar:* E-RL0'ınkiler (tek tohum, 20M bayt modeli, tek görev).
+
 ## 6. Gerçek model yolu
 
 1. **Ne iddia edilir:** "küçük, bayt-düzeyi bir RLT, durum-izleme/çok-adımlı görevlerde eşit-parametre ve eşit-token bir transformer'a yapısal bir üstünlük gösteriyor mu". LM kaybında üstünlük iddia edilmez (bağımsız değerlendirme bulamadı).

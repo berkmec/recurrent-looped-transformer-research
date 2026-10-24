@@ -55,8 +55,13 @@ NEWLINE = 10
 SFT_WIDTHS, RL_WIDTHS = (1, 8), (1, 10)
 EVAL_WIDTHS, EVAL_N = (1, 4, 8, 9, 10, 12, 16), 200
 IN_RANGE, RL_RANGE, OUT_RANGE = (1, 4, 8), (1, 4, 8, 9, 10), (9, 10, 12)
-SFT = dict(steps=2000, problems=24, snippets=8, snippet_bytes=64, lr=1e-4, warmup=100, answer_weight=0.75, ckpt_every=250)
+SFT = dict(steps=2000, problems=24, snippets=8, snippet_bytes=64, lr=1e-4, warmup=100, answer_weight=0.75, ckpt_every=250,
+           schedule='constant', lr_min=0.0, betas=(0.9, 0.999), weight_decay=0.01, micro=None)
 RL = dict(steps=500, prompts=8, group=8, temperature=1.0, beta=0.02, lr=3e-5, ckpt_every=50)
+# E-RL1 (note 5.69): E-RL0 with the paper's addition budget on the GPU (global batch 512, AdamW (0.9, 0.95), weight decay 0.1, warm-up 200,
+# cosine decay to 5e-6), the snippet share kept at a fifth of the rows, micro-batches of 128 problems + 32 snippets; RL with 32 prompts x 8 samples
+SFT_RL1 = dict(SFT, problems=512, snippets=128, warmup=200, schedule='cosine', lr_min=5e-6, betas=(0.9, 0.95), weight_decay=0.1, micro=4)
+RL_RL1 = dict(RL, prompts=32)
 LEARNED, Q1_EFFECT, Q2_EFFECT, DRAWS = 0.5, 0.05, 0.10, 2000
 
 
@@ -81,22 +86,26 @@ def eval_set(width, n=EVAL_N):
     return [problem(number(rng, width), number(rng, width)) for _ in range(n)]
 
 
-def grid(rows):
+def device_of(model):
+    return next(model.parameters()).device
+
+
+def grid(rows, device=None):
     """(B, T) int64 tensor of right-padded byte rows (padding 0) and the row lengths; causal models ignore the padding."""
     g = np.zeros((len(rows), max(len(r) for r in rows)), dtype=np.int64)
     for i, r in enumerate(rows):
         g[i, :len(r)] = np.frombuffer(bytes(r), dtype=np.uint8)
-    return torch.from_numpy(g), [len(r) for r in rows]
+    return torch.from_numpy(g).to(device or 'cpu'), [len(r) for r in rows]
 
 
 def answer_logprobs(model, prompts, answers):
     """[(len(answer),) log-probabilities in nats of every answer byte given the separator and its prompt]: one teacher-forced forward over
     the whole history, which is the paper's replay of a sampled response under the current parameters."""
-    x, _ = grid([SEP + p + a for p, a in zip(prompts, answers)])
+    x, _ = grid([SEP + p + a for p, a in zip(prompts, answers)], device_of(model))
     logp = F.log_softmax(ml.forward_logits(model, x[:, :-1]).float(), -1)
     out = []
     for i, (p, a) in enumerate(zip(prompts, answers)):
-        idx = torch.arange(len(SEP) + len(p) - 1, len(SEP) + len(p) - 1 + len(a))
+        idx = torch.arange(len(SEP) + len(p) - 1, len(SEP) + len(p) - 1 + len(a), device=x.device)
         out.append(logp[i, idx, x[i, idx + 1]])
     return out
 
@@ -108,9 +117,10 @@ def generate(model, prompts, max_new, greedy=False, generator=None, temperature=
         for _ in range(max_new):
             if not live:
                 break
-            x, lengths = grid([rows[i] for i in live])
-            last = ml.forward_logits(model, x)[torch.arange(len(live)), torch.tensor(lengths) - 1].float()
-            nxt = last.argmax(-1) if greedy else torch.multinomial(F.softmax(last / temperature, -1), 1, generator=generator).squeeze(1)
+            x, lengths = grid([rows[i] for i in live], device_of(model))
+            last = ml.forward_logits(model, x)[torch.arange(len(live), device=x.device), torch.tensor(lengths, device=x.device) - 1].float()
+            # sampling on the CPU: one seeded generator gives the same samples on either device
+            nxt = last.argmax(-1) if greedy else torch.multinomial(F.softmax(last / temperature, -1).cpu(), 1, generator=generator).squeeze(1)
             for k, i in enumerate(live):
                 rows[i].append(int(nxt[k]))
                 out[i].append(int(nxt[k]))
@@ -124,17 +134,64 @@ def advantages(rewards, group):
     return ((r - r.mean(1, keepdim=True)) / (r.std(1, keepdim=True, unbiased=False) + 1e-6)).view(-1)
 
 
-def sft_loss(model, problems, snippets, answer_weight=SFT['answer_weight']):
+def sft_terms(model, problems, snippets):
+    """Summed cross-entropy (nats) of the answer bytes and of the snippet bytes of one batch, and their counts."""
     rows = [SEP + p + a for p, a in problems] + list(snippets)
-    x, _ = grid(rows)
+    x, _ = grid(rows, device_of(model))
     ce = F.cross_entropy(ml.forward_logits(model, x[:, :-1]).float().transpose(1, 2), x[:, 1:], reduction='none')
     answer, text = torch.zeros_like(ce, dtype=torch.bool), torch.zeros_like(ce, dtype=torch.bool)
     for i, (p, a) in enumerate(problems):
         answer[i, len(SEP) + len(p) - 1:len(SEP) + len(p) - 1 + len(a)] = True
     for j, s in enumerate(snippets):
         text[len(problems) + j, :len(s) - 1] = True
-    a, t = ce[answer].mean(), ce[text].mean() if text.any() else ce.new_zeros(())
+    return ce[answer].sum(), int(answer.sum()), ce[text].sum(), int(text.sum())
+
+
+def sft_loss(model, problems, snippets, answer_weight=SFT['answer_weight']):
+    a_sum, a_n, t_sum, t_n = sft_terms(model, problems, snippets)
+    a, t = a_sum / a_n, t_sum / t_n if t_n else a_sum.new_zeros(())
     return answer_weight * a + (1 - answer_weight) * t, float(a), float(t)
+
+
+def sft_step(model, opt, problems, snips, cfg):
+    """One guarded SFT update -> (report, mean answer CE, mean snippet CE). With cfg['micro'] = m > 1 the batch is cut into m micro-batches
+    (every m-th problem and snippet), each backpropagated at once, the loss normalised by the full batch's byte counts so the gradients add up
+    to the full batch's; the guards are horizon.guards.guarded_step's (finite loss and gradients, raw norm, clip, then the step)."""
+    w, m = cfg['answer_weight'], cfg.get('micro') or 1
+    if m == 1:
+        loss, a, t = sft_loss(model, problems, snips, w)
+        return gu.guarded_step(opt, model.parameters(), loss, clip_norm=1.0), a, t
+    params = list(model.parameters())
+    opt.zero_grad(set_to_none=True)
+    a_total, t_total = sum(len(a) for _, a in problems), sum(len(s) - 1 for s in snips)
+    a_acc = t_acc = 0.0
+    report = dict(applied=False, finite=False, loss=None, grad_norm_before_clip=None, clipped=False)
+    for k in range(m):
+        a_sum, _, t_sum, _ = sft_terms(model, problems[k::m], snips[k::m])
+        loss = w * a_sum / a_total + ((1 - w) * t_sum / t_total if t_total else 0.0)
+        if not bool(torch.isfinite(loss.detach())):
+            for p in params:
+                p.grad = None
+            report['reason'] = 'nonfinite_loss'
+            return report, float('nan'), float('nan')
+        loss.backward()
+        a_acc, t_acc = a_acc + float(a_sum), t_acc + float(t_sum)
+    a, t = a_acc / a_total, (t_acc / t_total if t_total else 0.0)
+    report['loss'] = w * a + (1 - w) * t
+    grads = [p.grad for p in params if p.grad is not None]
+    if not grads or not all(bool(torch.isfinite(g).all()) for g in grads):
+        for p in params:
+            p.grad = None
+        report['reason'] = 'nonfinite_gradient'
+        return report, a, t
+    norm = math.sqrt(sum(float(g.detach().double().square().sum()) for g in grads))
+    report.update(finite=True, grad_norm_before_clip=norm)
+    if norm > 1.0:
+        torch.nn.utils.clip_grad_norm_(params, 1.0)
+        report['clipped'] = True
+    opt.step()
+    report['applied'] = True
+    return report, a, t
 
 
 def rl_step(model, ref, opt, rng, generator, cfg=RL):
@@ -149,7 +206,7 @@ def rl_step(model, ref, opt, rng, generator, cfg=RL):
     logps = answer_logprobs(model, prompts, samples)
     with torch.no_grad():
         refs = answer_logprobs(ref, prompts, samples)
-    pg = torch.stack([-adv[i] * lp.mean() for i, lp in enumerate(logps)]).mean()
+    pg = torch.stack([-float(adv[i]) * lp.mean() for i, lp in enumerate(logps)]).mean()
     kl = torch.stack([(torch.exp(r - lp) - (r - lp) - 1).mean() for r, lp in zip(refs, logps)]).mean()
     report = gu.guarded_step(opt, model.parameters(), pg + cfg['beta'] * kl, clip_norm=1.0)
     widths = [max(len(p.split(b'+')[0]), len(p.split(b'+')[1]) - 1) for p in prompts]
@@ -163,7 +220,7 @@ def bits(model, rows, batch=16):
     total, count = 0.0, 0
     with torch.no_grad():
         for at in range(0, len(rows), batch):
-            x = torch.from_numpy(rows[at:at + batch])
+            x = torch.from_numpy(rows[at:at + batch]).to(device_of(model))
             total += float(F.cross_entropy(ml.forward_logits(model, x[:, :-1]).float().transpose(1, 2), x[:, 1:], reduction='sum'))
             count += x[:, 1:].numel()
     return total / count / LN2
@@ -178,7 +235,7 @@ def evaluate(model, val_rows=None, widths=None, n=EVAL_N, batch=100):
             chunk = probs[at:at + batch]
             gen = generate(model, [p for p, _ in chunk], max(len(a) for _, a in chunk) + 1, greedy=True)
             exact += [int(g == a) for g, (_, a) in zip(gen, chunk)]
-            x, _ = grid([SEP + p + a for p, a in chunk])
+            x, _ = grid([SEP + p + a for p, a in chunk], device_of(model))
             with torch.no_grad():
                 pred = ml.forward_logits(model, x[:, :-1]).argmax(-1)
             for i, (p, a) in enumerate(chunk):
@@ -199,7 +256,16 @@ def snippets(corpus, rng, n, length):
     return [bytes(np.asarray(corpus[s:s + length + 1])) for s in starts]
 
 
-def run(weights, out, seed=1, corpus=None, val_rows=None, model=None, arm=None, sft=SFT, rl=RL, log=print, eval_n=EVAL_N, widths=None):
+def sft_lr(cfg, step):
+    """Linear warm-up, then constant (E-RL0) or cosine decay to lr_min over the remaining updates (E-RL1, the paper's schedule)."""
+    if step <= cfg['warmup'] or cfg.get('schedule', 'constant') == 'constant':
+        return cfg['lr'] * min(1.0, step / cfg['warmup'])
+    done = (step - cfg['warmup']) / max(1, cfg['steps'] - cfg['warmup'])
+    return cfg['lr_min'] + 0.5 * (cfg['lr'] - cfg['lr_min']) * (1 + math.cos(math.pi * min(1.0, done)))
+
+
+def run(weights, out, seed=1, corpus=None, val_rows=None, model=None, arm=None, sft=SFT, rl=RL, log=print, eval_n=EVAL_N, widths=None,
+        device='cpu'):
     """Base evaluation, SFT, its evaluation, RL, its evaluation; every stage resumes from its own checkpoint or result file."""
     widths = EVAL_WIDTHS if widths is None else widths
     out = Path(out)
@@ -208,6 +274,7 @@ def run(weights, out, seed=1, corpus=None, val_rows=None, model=None, arm=None, 
         return json.loads((out / 'final.json').read_bytes().decode('utf8'))
     if model is None:
         model, _, arm = bl.load(weights)
+    model = model.to(device)
     started = time.perf_counter()
 
     def stage_eval(name):
@@ -219,7 +286,7 @@ def run(weights, out, seed=1, corpus=None, val_rows=None, model=None, arm=None, 
         return json.loads(path.read_bytes().decode('utf8'))
 
     base = stage_eval('base')
-    opt = torch.optim.AdamW(model.parameters(), lr=sft['lr'], weight_decay=0.01)
+    opt = torch.optim.AdamW(model.parameters(), lr=sft['lr'], betas=tuple(sft.get('betas', (0.9, 0.999))), weight_decay=sft.get('weight_decay', 0.01))
     start, resume = 1, ck.load_latest(out / 'sft')
     if resume is not None and resume['step']:
         model.load_state_dict(resume['model'])
@@ -227,12 +294,12 @@ def run(weights, out, seed=1, corpus=None, val_rows=None, model=None, arm=None, 
         start = int(resume['step']) + 1
     for step in range(start, sft['steps'] + 1):
         for g in opt.param_groups:
-            g['lr'] = sft['lr'] * min(1.0, step / sft['warmup'])
+            g['lr'] = sft_lr(sft, step)
         rng = np.random.default_rng([seed, 1, step])
         problems = [draw(rng, SFT_WIDTHS) for _ in range(sft['problems'])]
         model.train()
-        loss, a, t = sft_loss(model, problems, snippets(corpus, rng, sft['snippets'], sft['snippet_bytes']) if sft['snippets'] else [])
-        report = gu.guarded_step(opt, model.parameters(), loss, clip_norm=1.0)
+        snips = snippets(corpus, rng, sft['snippets'], sft['snippet_bytes']) if sft['snippets'] else []
+        report, a, t = sft_step(model, opt, problems, snips, sft)
         sw.append_line(out / 'sft.jsonl', dict(step=step, answer_ce=a, text_ce=t, applied=bool(report['applied']),
                                               seconds=round(time.perf_counter() - started, 2)))
         if step % sft['ckpt_every'] == 0 or step == sft['steps']:
@@ -317,6 +384,8 @@ def main():
     r.add_argument('--seed', type=int, default=1)
     r.add_argument('--threads', type=int, default=2)
     r.add_argument('--smoke', action='store_true', help='a few steps of every stage, small evaluation, for timing and memory only')
+    r.add_argument('--config', choices=('rl0', 'rl1'), default='rl0', help='rl0: note 5.68 (CPU budget); rl1: note 5.69 (the paper\'s budget)')
+    r.add_argument('--device', default='cpu')
     g = sub.add_parser('reading')
     g.add_argument('l1')
     g.add_argument('a0')
@@ -329,13 +398,13 @@ def main():
     from mline import train as mt
     protocol = mt.protocol()
     corpus, val = md.load(protocol['data'], 'train'), md.load(protocol['data'], 'validation')
-    sft, rl = dict(SFT), dict(RL)
+    sft, rl = (dict(SFT), dict(RL)) if a.config == 'rl0' else (dict(SFT_RL1), dict(RL_RL1))
     if a.smoke:
         sft.update(steps=6, ckpt_every=3)
         rl.update(steps=4, ckpt_every=2)
     # the smoke test times the stages on unregistered cells (widths 1 and 2, 5 problems) so no registered number is seen before the run
     run(a.weights, a.out, seed=a.seed, corpus=corpus, val_rows=validation_rows(val, n=8 if a.smoke else 64), sft=sft, rl=rl,
-        log=lambda m: print(m, flush=True), eval_n=5 if a.smoke else EVAL_N, widths=(1, 2) if a.smoke else None)
+        log=lambda m: print(m, flush=True), eval_n=5 if a.smoke else EVAL_N, widths=(1, 2) if a.smoke else None, device=a.device)
 
 
 if __name__ == '__main__':

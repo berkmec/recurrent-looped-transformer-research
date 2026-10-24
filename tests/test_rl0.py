@@ -99,6 +99,34 @@ class Objectives(unittest.TestCase):
         self.assertEqual(row['pg'], 0.0)
         self.assertAlmostEqual(row['kl'], 0.0, places=6)
 
+    def test_micro_batches_give_the_full_batch_gradient(self):
+        rng = np.random.default_rng(4)
+        problems = [rl0.draw(rng, (1, 4)) for _ in range(6)]
+        snips = [bytes(rng.integers(32, 120, size=n).tolist()) for n in (9, 14, 11)]
+        grads, ce = [], []
+        for micro in (None, 3):
+            model = tiny(seed=8)
+            opt = torch.optim.SGD(model.parameters(), lr=0.0)                     # the step leaves the weights as they are
+            report, a, t = rl0.sft_step(model, opt, problems, snips, dict(rl0.SFT, micro=micro))
+            self.assertTrue(report['applied'])
+            grads.append([p.grad.clone() for p in model.parameters() if p.grad is not None])
+            ce.append((a, t))
+        self.assertAlmostEqual(ce[0][0], ce[1][0], places=5)
+        self.assertAlmostEqual(ce[0][1], ce[1][1], places=5)
+        self.assertEqual(len(grads[0]), len(grads[1]))
+        for g0, g1 in zip(*grads):
+            self.assertTrue(torch.allclose(g0, g1, atol=1e-6, rtol=1e-4))
+
+    def test_the_learning_rate_schedules(self):
+        const = dict(rl0.SFT)
+        self.assertAlmostEqual(rl0.sft_lr(const, 50), 0.5e-4)
+        self.assertAlmostEqual(rl0.sft_lr(const, 2000), 1e-4)
+        cos = dict(rl0.SFT_RL1)
+        self.assertAlmostEqual(rl0.sft_lr(cos, 100), 0.5e-4)
+        self.assertAlmostEqual(rl0.sft_lr(cos, 200), 1e-4)
+        self.assertAlmostEqual(rl0.sft_lr(cos, 2000), 5e-6)
+        self.assertAlmostEqual(rl0.sft_lr(cos, 1100), 5e-6 + 0.5 * (1e-4 - 5e-6), places=9)
+
 
 def fake_stage(rates, n=200, seed=0):
     rng = np.random.default_rng(seed)

@@ -18,13 +18,13 @@ CMD="python -B -m mline.longrun --out $OUT --recipe m2-draft --tokens 500000000 
 log() { echo "[$(date +%H:%M:%S)] [x1] $*" >> "$LOG"; }
 busy() {   # long-run processes (a venv run shows twice: the launcher and its interpreter); an empty answer counts as none, the E-L1C line is the primary gate
   local n
-  n=$(powershell.exe -NoProfile -Command "@(Get-CimInstance Win32_Process -Filter \"Name='python.exe'\" | Where-Object { \$_.CommandLine -match 'mline\.(longrun|rltm_train)' }).Count" 2>/dev/null | tr -d '\r ')
+  n=$(powershell.exe -NoProfile -Command "@(Get-CimInstance Win32_Process -Filter \"Name='python.exe'\" | Where-Object { \$_.CommandLine -match 'mline\.(longrun|rltm_train)|mline\.rl0 .*--device cuda' }).Count" 2>/dev/null | tr -d '\r ')
   echo "${n:-0}"
 }
 
 if [ -f "$OUT/complete.json" ]; then log "ATLA E-X1 (complete.json var)"; exit 0; fi
-log "E-X1 bekliyor: yeni E-RM Asama 1 kuyrugu ([erm1b]) bitince (ya da durunca) ve GPU'da baska uzun kosu kalmayinca kontrol noktasindan surer"
-until grep -q -E "\[erm1b\] (E-RM Asama 1 kuyrugu BITTI|Asama 1 DURDU|HATA Asama 1)" "$LOG"; do sleep 120; done
+log "E-X1 bekliyor: E-RM Asama 1 ([erm1b]) ve E-RL1 ([rl1], not 5.69) kuyruklari bitince ve GPU bosalinca kontrol noktasindan surer"
+until grep -q -E "\[erm1b\] (E-RM Asama 1 kuyrugu BITTI|Asama 1 DURDU|HATA Asama 1)" "$LOG" && grep -q "\[rl1\] E-RL1 kuyruk BITTI" "$LOG"; do sleep 120; done
 until [ "$(busy)" = "0" ]; do sleep 60; done
 mkdir -p "$OUT"
 "$PY" -B -c "from horizon.run_manifest import quick; import sys; print(quick(*sys.argv[1:]))" \
