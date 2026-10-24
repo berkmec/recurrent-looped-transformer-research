@@ -979,3 +979,31 @@ manifest exists: results\L1-long-doc\E-L1X-F-L1-scratch-w928-s401.manifest.json 
 [00:00:31] [l1xf] BASLA E-L1X-F step030518 (4096 bayt, 32 makale; win512 / winreset512 / chunk512; CPU)
 [00:26:51] [l1xf] BITTI E-L1X-F step030518 reading: NO STATE CONTEXT {'1024-2048': [-0.0, 0.0], '2048-4096': [-0.0, 0.0]}
 [00:26:51] [l1xf] BASLA E-L1X-F step024000 (4096 bayt, 32 makale; win512 / winreset512 / chunk512; CPU)
+results\RL0\E-RL0-L1-A0F.manifest.json
+[00:29:09] [rl0] E-RL0 L1 bekliyor: '\[blimp\] E-BLIMP kuyruk BITTI' satiri
+[00:29:09] [rl0] E-RL0 A0F bekliyor: '\[ecrot\] E-C-ROT kuyrugu BITTI' satiri
+[00:51:45] [l1xf] BITTI E-L1X-F step024000 reading: NO STATE CONTEXT {'1024-2048': [0.0, 0.0], '2048-4096': [0.0, 0.0]}
+[00:51:46] [l1xf] BASLA E-L1X-F step018000 (4096 bayt, 32 makale; win512 / winreset512 / chunk512; CPU)
+[01:16:12] [l1xf] BITTI E-L1X-F step018000 reading: NO STATE CONTEXT {'1024-2048': [-0.0, 0.0], '2048-4096': [0.0, 0.0]}
+[01:16:12] [l1xf] BASLA E-L1X-F step012000 (4096 bayt, 32 makale; win512 / winreset512 / chunk512; CPU)
+[01:40:34] [l1xf] BITTI E-L1X-F step012000 reading: NO STATE CONTEXT {'1024-2048': [-0.0, 0.0], '2048-4096': [-0.0, 0.0]}
+[01:40:34] [l1xf] BASLA E-L1X-F step006000 (4096 bayt, 32 makale; win512 / winreset512 / chunk512; CPU)
+[02:05:00] [l1xf] BITTI E-L1X-F step006000 reading: NO STATE CONTEXT {'1024-2048': [0.0, 0.0], '2048-4096': [0.0, 0.0]}
+[02:05:00] [l1xf] BASLA E-L1X-F step030518 (8192 bayt, 16 makale; win512 / winreset512 / chunk512; CPU)
+[02:31:49] [l1xf] BITTI E-L1X-F step030518-8192 reading: NO STATE CONTEXT {'1024-2048': [-0.0, 0.0], '2048-4096': [0.0, 0.0], '4096-8192': [0.0, 0.0]}
+[02:31:49] [l1xf] E-L1X-F kuyruk BITTI
+manifest exists: results\BLIMP\E-BLIMP-L1-A0F.manifest.json exists: a run manifest is written once (baslangic beyani)
+[02:32:54] [blimp] BASLA E-BLIMP L1 (67 x 1.000 cift; CPU, 2 is parcacigi)
+[02:34:20] [blimp] HATA E-BLIMP L1 (bkz results/BLIMP/L1-30518.txt)
+[02:34:20] [blimp] BASLA E-BLIMP A0F (67 x 1.000 cift; CPU, 2 is parcacigi)
+[02:35:54] [blimp] HATA E-BLIMP A0F (bkz results/BLIMP/A0F-30518.txt)
+[02:35:54] [blimp] E-BLIMP kuyruk BITTI
+[02:40:06] [rl0] E-RL0 L1 duman testi (kayit disi hucreler): SFT 6.37 s/guncelleme, RL 23.75 s/adim -> egitim ~6.8 sa (degerlendirmeler haric)
+[02:40:06] [rl0] BASLA E-RL0 L1 (SFT 2.000 + RL 500; CPU, 2 is parcacigi)
+[06:41:23] [ecrot] BITTI E-C-ROT count8_32-core-w64-s1
+[06:43:45] [ecrot] BITTI E-C-ROT count8_32-core_rotq-w64-s1
+[06:46:57] [ecrot] BITTI E-C-ROT count8_32-core_rot-w64-s1
+[06:47:04] [ecrot] E-C-ROT okuma: NO EXTRAPOLATION GAIN {'core': (True, 1.0), 'core_rotq': (True, 0.5), 'core_rot': (True, 1.0)}
+[06:47:04] [ecrot] E-C-ROT kuyrugu BITTI
+[06:48:44] [rl0] E-RL0 A0F duman testi (kayit disi hucreler): SFT 2.39 s/guncelleme, RL 12.76 s/adim -> egitim ~3.1 sa (degerlendirmeler haric)
+[06:48:44] [rl0] BASLA E-RL0 A0F (SFT 2.000 + RL 500; CPU, 2 is parcacigi)

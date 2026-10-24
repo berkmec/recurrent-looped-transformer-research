@@ -2319,6 +2319,13 @@ Denetim 1,1×10⁻⁵ (< 10⁻³). ≥ 1.024'teki her kutuda |S| ≤ 0,003; ger�
 **Kullanım (kayıtlı, §5.66).** NO STATE CONTEXT ⇒ L1'in etkin bağlamı pencereyle (512 bayt) sınırlı. Uzun bağlam ya daha uzun eğitim uzunluğu (donanım) ya da bellek modülü ister. Eğri (24k / 18k / 12k / 6k) ve 8.192 baytlık koşu sürüyor; ayrıca eklenecek.
 - *Sınırlar:* tek tohum; haber metni; 32 makale; profil 4 makaleden. S, o ≥ 256 adımın ötesini ölçer. Daha kısa geçmişe dair durum katkısı S'yle ölçülmedi, ama profil bu katkının ≈ 30 adımda söndüğünü gösteriyor.
 
+### 5.67.1 E-BLIMP'in ilk koşusu çöktü; veri okuma düzeltildi (işlendi 2026-10-24 07:19; kural, skor ve veri değişmedi)
+- *Ne oldu:* 02:32-02:35'te iki kol da 1,5 dakikada boş çıktıyla düştü (kuyrukta "HATA"). Hata yeniden üretildi: `load_pairs` parquet dosyalarını pyarrow ile okurken yorumlayıcı **segmentation fault** ile ölüyor (çıkış kodu 139).
+- *Neden [H]:* pyarrow 24.0.0 venv'de değil, kullanıcı site-packages'ında; numpy da ayrı bir yerden (`E:\laya`) yükleniyor. pyarrow torch ve proje modülleri yüklüyken çöküyor, tek başına dosyaları sorunsuz okuyor. İki ayrı kurulumun ikili çakışması olası.
+- *Düzeltme:* `scripts/blimp_to_jsonl.py` torch'suz bir süreçte 67 parquet dosyasını tek bir JSONL'ye çevirir (67 × 1.000 = 67.000 çift) ve her parquet dosyasının sha256'sını yan dosyaya yazar. `blimp.load_pairs` artık yalnız bu JSONL'yi okur; pyarrow yolu kaldırıldı, test JSONL yoluna göre güncellendi (6/6). Gerçek veri torch yüklüyken çökmeden okunuyor.
+- *Etkisi:* hiçbir cümle skorlanmamıştı; kural, skor ve veri aynı kalıyor.
+- *Not:* veri kümesinin kendisinde sözdizimi-anlambilim alanı iki yazımla geçiyor (`syntax/semantics`, `syntax_semantics`). Alan dökümü betimleyici; hüküm 67 olgunun ortalamasında.
+
 ## 6. Gerçek model yolu
 
 1. **Ne iddia edilir:** "küçük, bayt-düzeyi bir RLT, durum-izleme/çok-adımlı görevlerde eşit-parametre ve eşit-token bir transformer'a yapısal bir üstünlük gösteriyor mu". LM kaybında üstünlük iddia edilmez (bağımsız değerlendirme bulamadı).

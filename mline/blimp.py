@@ -20,7 +20,6 @@ A tie (equal scores) counts as wrong and is reported. Descriptive: each model ag
   python -B -m mline.blimp reading results/BLIMP/L1.json results/BLIMP/A0F.json
 """
 import argparse
-import hashlib
 import json
 import math
 import time
@@ -39,15 +38,18 @@ EFFECT, DRAWS, CI = 1.0, 2000, 0.95
 
 
 def load_pairs(directory, paradigms=PARADIGMS, pairs=PAIRS):
-    """{paradigm: [{'good', 'bad', 'field', 'term', 'pair_id'}]} from the dataset's one parquet file per paradigm, and their sha256."""
-    import pyarrow.parquet as pq
-    files = sorted(Path(directory).glob('*/*.parquet'))
-    out, digests = {}, {}
-    for f in files:
-        rows = pq.read_table(f).to_pylist()
-        out[f.parent.name] = [dict(good=r['sentence_good'], bad=r['sentence_bad'], field=r['field'], term=r['linguistics_term'],
-                                   pair_id=int(r['pair_id'])) for r in rows]
-        digests[f.parent.name] = hashlib.sha256(f.read_bytes()).hexdigest()
+    """{paradigm: [{'good', 'bad', 'field', 'term', 'pair_id'}]} and the sha256 of each paradigm's parquet file, from the JSONL that
+    scripts/blimp_to_jsonl.py writes next to the parquet files (in this environment pyarrow segfaults once torch is loaded, note 5.67.1)."""
+    path = Path(directory) / 'blimp.jsonl'
+    if not path.exists():
+        raise FileNotFoundError(f'{path} is missing: run python -P scripts/blimp_to_jsonl.py {directory}')
+    out = {}
+    for line in path.read_bytes().decode('utf8').splitlines():
+        if line.strip():
+            r = json.loads(line)
+            out.setdefault(r['paradigm'], []).append(dict(good=r['sentence_good'], bad=r['sentence_bad'], field=r['field'],
+                                                           term=r['linguistics_term'], pair_id=int(r['pair_id'])))
+    digests = json.loads((Path(directory) / 'blimp.sha256.json').read_bytes().decode('utf8'))
     if len(out) != paradigms or any(len(v) != pairs for v in out.values()):
         raise ValueError(f'expected {paradigms} paradigms x {pairs} pairs, found {len(out)} with sizes {sorted({len(v) for v in out.values()})}')
     return out, digests

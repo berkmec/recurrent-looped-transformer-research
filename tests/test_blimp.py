@@ -53,14 +53,16 @@ class Loading(unittest.TestCase):
                 self.assertTrue(torch.equal(loaded.state_dict()[k], v), k)
 
     def test_pairs_are_read_and_counted(self):
-        import pyarrow as pa
-        import pyarrow.parquet as pq
         with tempfile.TemporaryDirectory() as d:
+            lines = []
             for name in ('alpha', 'beta'):
-                os.makedirs(os.path.join(d, name))
-                rows = dict(sentence_good=['a b.', 'c d.', 'e f.'], sentence_bad=['b a.', 'd c.', 'f e.'], field=['syntax'] * 3,
-                            linguistics_term=['x'] * 3, UID=[name] * 3, pair_id=[0, 1, 2])
-                pq.write_table(pa.table(rows), os.path.join(d, name, 'train-00000-of-00001.parquet'))
+                for i, (g, b) in enumerate((('a b.', 'b a.'), ('c d.', 'd c.'), ('e f.', 'f e.'))):
+                    lines.append(json.dumps(dict(paradigm=name, sentence_good=g, sentence_bad=b, field='syntax', linguistics_term='x',
+                                                 UID=name, pair_id=i)))
+            with open(os.path.join(d, 'blimp.jsonl'), 'w', encoding='utf8') as f:
+                f.write('\n'.join(lines) + '\n')
+            with open(os.path.join(d, 'blimp.sha256.json'), 'w', encoding='utf8') as f:
+                json.dump(dict(alpha='0' * 64, beta='1' * 64), f)
             pairs, digests = bl.load_pairs(d, paradigms=2, pairs=3)
             self.assertEqual(sorted(pairs), ['alpha', 'beta'])
             self.assertEqual(pairs['beta'][1], dict(good='c d.', bad='d c.', field='syntax', term='x', pair_id=1))
