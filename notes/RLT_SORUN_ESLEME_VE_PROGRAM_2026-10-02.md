@@ -2587,6 +2587,18 @@ Hüküm tohum başına okunur. İki tohum aynı hükmü verirse genel hüküm od
 **Risk:** N/d ≈ 2'de girişim; E-RM0R8 bunu aynı anda sınıyor. FAILS çıkar ve E-RM0R8 INTERFERENCE REPRODUCED / CLOSED WRITE FIXES IT derse, sonraki gerçek ölçek koşusu kapalı yazma kapısıyla yapılır.
 **Bu deney L2 değildir:** sıfırdan FineWeb-Edu eğitimi (durumun satırlar arası taşınması dahil, §5.71(b)) ayrı ön-kayıtla gelecek.
 
+### 5.71.3 HATA AVI SONUCU 3 (§5.71(e)'nin devamı; `results/RL0/{L1,A0F}/sft.jsonl`'den yeniden hesaplandı; işlendi 2026-10-24 10:53): E-RL0'da L1'in SFT yolu bozuk değil, yavaş
+**Cevap çapraz entropisi, 100 güncellemelik bloklarda** (L1 / A0F):
+- 0-100: 2,355 / 2,449
+- 100-200: 1,651 / 1,767
+- 250-350: 1,409 / 1,576
+- 500-600: 1,316 / 1,405
+- 1.000-1.100: 1,153 / 1,126
+- 1.500-1.600: 1,067 / 0,766
+- 1.900-2.000: 1,027 / 0,311
+**Metin çapraz entropisi** iki kolda düz (L1 1,09-1,11, A0F 1,12-1,15). Her güncelleme uygulandı (applied 1,000).
+**Okuma:** ≈ 1.000 güncellemeye kadar iki kol aynı hızda öğreniyor. A0F 1.100'den sonra ani bir geçiş yapıyor (1,13 → 0,31); L1 düzgün ama yavaş inmeye devam ediyor, geçişe 2.000 güncellemede ulaşmadı. Kırık bir gradyan yolu belirtisi yok. "L1 öğrenmedi" (§5.68.1), "bu bütçede geçişe ulaşmadı" demek. Geçişin geri beslemeyle gecikip gecikmediği tek tohumla söylenemez [H]. E-RL1 bunu ayırt edecekti (CNN kuralıyla durdu, §5.70); yeni korpusta yeniden kurulacak.
+
 ## 6. Gerçek model yolu
 
 1. **Ne iddia edilir:** "küçük, bayt-düzeyi bir RLT, durum-izleme/çok-adımlı görevlerde eşit-parametre ve eşit-token bir transformer'a yapısal bir üstünlük gösteriyor mu". LM kaybında üstünlük iddia edilmez (bağımsız değerlendirme bulamadı).
