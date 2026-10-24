@@ -234,6 +234,8 @@ def main():
     from mline import mqar_eval as me
     from mline import train as mt
     protocol = mt.protocol()
+    from mline import corpus_rule
+    corpus_rule.check_trainable(protocol['data'])          # user rule 2026-10-24: no training on the CNN corpus (note 5.71)
     corpus, corpus_val = md.load(protocol['data'], 'train'), md.load(protocol['data'], 'validation')
     natural_train, natural_val = me.natural_key_sets(corpus, corpus_val, n_train=2000, n_val=300, seed=7)
     if a.smoke:

@@ -374,6 +374,8 @@ def main():
     from mline import mqar_eval as me
     from mline import train as mt
     protocol = mt.protocol()
+    from mline import corpus_rule
+    corpus_rule.check_trainable(protocol['data'])          # user rule 2026-10-24: no training on the CNN corpus (note 5.71)
     steps = int(round(args.tokens / (args.batch * args.length)))
     phases = RECIPES[args.recipe]
     check_recipe(phases, args.length)

@@ -397,6 +397,8 @@ def main():
     torch.set_num_threads(a.threads)
     from mline import train as mt
     protocol = mt.protocol()
+    from mline import corpus_rule
+    corpus_rule.check_trainable(protocol['data'])          # user rule 2026-10-24: the SFT snippets are training data too (note 5.71)
     corpus, val = md.load(protocol['data'], 'train'), md.load(protocol['data'], 'validation')
     sft, rl = (dict(SFT), dict(RL)) if a.config == 'rl0' else (dict(SFT_RL1), dict(RL_RL1))
     if a.smoke:

@@ -2479,6 +2479,46 @@ N2 açık; bu, ayrı ön-kayıt isteyen bir sonraki adım.
 
 - *Sınırlar:* tek tohum; SFT bütçesi makalenin 21'de biri (tasarım hatası, §5.69); CPU.
 
+### 5.70 KULLANICI KURALI (2026-10-24 ≈ 10:10; işlendi 2026-10-24 10:33): CNN korpusuyla bir daha model eğitilmez, veri kümesi amaca göre seçilir
+**Kural** (kullanıcı, sözcüğü sözcüğüne): "1 yasak CNN verileri ile model eğitilmeyecek bidaha (hugginface de veri mi kalmadı da CNN verisi ile minicik şeyi eğitiyoruz) amaca göre dataset bulup eğiteceksin doğal dilse doğal dil dataseti bulup eğiticeksin". Kapsam: ön-eğitim, ince ayar, karışıma katılan parçalar dahil her eğitim. CNN-eğitimli modelleri ölçmek eğitim değildir, yasak değil; o sonuçlar "CNN ile eğitildi" kaydını taşır: L1, A0F, E-L1C (§5.50.1), E-BLIMP (§5.67.2), E-L1X-F (§5.66), Aşama 1 B_ds s1 (§5.61.3), E-RL0 (§5.68.1). Yapay oyuncak görevler etkilenmez.
+**Etkilenen koşular:**
+- *E-RL1* (§5.69) ≈ 10:19'da durduruldu: SFT karışımının 1/5'i CNN satırlarıydı. Sonuç yok; `results/RL1/` kısmi ve okunmadı.
+- *Aşama 1'in kalan koşuları* (A s1, B_ds s2) iptal. `scripts/run_erm_stage1_ut_resume.sh` kullanılmayacak. Aşama 1 yeni korpusta yeniden kurulacak.
+- *E-X1* adım 1000'de duraklatıldı (CNN üzerindeydi); L2 planının parçası olarak yeni korpusta yeniden tasarlanacak.
+- `scripts/resume_after_user.sh` bu üçünü artık başlatmıyor; yalnız yapay veriyle eğitilen kuyrukları (E-RM0R8) geri getiriyor.
+**Kodla uygulanması:** `mline/corpus_rule.py`: `check_trainable(dizin)`, korpusun `corpus.json`'undaki `source` `cnn_dailymail` ise ya da dizin adında `cnn` geçiyorsa durduruyor. Üç eğitim giriş noktası (`mline.longrun`, `mline.rltm_train`, `mline.rl0`) veriyi yüklemeden önce çağırıyor. Korpus `MLINE_DATA` ile seçiliyor, yani M1 protokolünün dondurulmuş dosyalarına dokunulmadı. Testler: `tests/test_corpus_rule.py` (2 test: CNN korpusu kapalı, başka korpus açık, adı değişse de manifest kararı veriyor; protokolün varsayılan korpusu reddediliyor).
+**Yeni doğal dil korpusu:**
+- Kaynak: `HuggingFaceFW/fineweb-edu`, yapılandırma sample-10BT, dosya `sample/10BT/000_00000.parquet` (2.152.819.114 bayt), Hub revizyonu `87f09149ef4734204d70ed1d046ddc9ca3f2b8f9`, lisans ODC-By 1.0. İndirme dizini `__RLT_ROOT__/datasets/HuggingFaceFW__fineweb-edu`.
+- Neden: genel İngilizce web metni, veri kartına göre eğitsel değer sınıflandırıcısıyla süzülmüş; konu ve üslup çeşitliliği tek kaynaklı haber metninden çok daha geniş; açık lisans; Hub'da sürümlü.
+- Bayt korpusu: `__RLT_ROOT__/mline-data/fineweb-edu-bytes`, `scripts/build_fineweb_edu_bytes.py` ile (torch'suz süreç). Dosyanın satır sırasıyla ayrık önekler: doğrulama ilk ≈ 16 MB belge, test sonraki ≈ 16 MB (son değerlendirmeye kadar açılmaz), train kalan 2.048 MB'a kadar. Hiçbir belge iki bölüme bölünmez. Parquet ve her çıktının sha256'sı `corpus.json`'da.
+- 2.048 MB train, L1'in 500 M baytlık programının 4 katı: L2 veriyi tekrarlamadan eğitilebilir (L1 CNN'i ≈ 2,4 kez okumuştu, §5.71).
+- Bu korpusla ilk eğitimden önce L2 ön-kaydı ayrı bir bölüm olarak yazılacak (RLT, geri beslemesiz eşi, transformer tabanı).
+
+### 5.71 HATA AVI ÖN-KAYDI (kullanıcı isteği 2026-10-24 ≈ 10:25; ölçümden ÖNCE yazıldı 2026-10-24 10:33): CNN doğrulama sızıntısı, kayıtlı L1-A0F farkı ve gözden kaçan tasarım boşlukları
+**İstek** (kullanıcı): "bak belkide istediğimiz sonuçları kalitesiz veri yüzünden alamadık senden ricam hata aramasıda yap belki kritik şeyleri gözden kaçırıyoruzdur".
+**Bu oturumda ham veriden ölçülenler** (koşudan önce):
+- *(a) Doğrulama sızıntısı:* CNN doğrulamasının 2.336 belgesinden 323'ü (%14,68) train'de bayt bayt aynı; 200 baytlık önek eşleşmesiyle 344 (%14,73). Train'in kendi içinde 1.883 birebir kopya (%3,39). L1 ve A0F 500 M bayt okudu, train 209,7 MB: veri ≈ 2,38 kez tekrarlandı. Kayıtlı doğrulama bit/bayt değerlerinin bir kısmı modelin eğitimde gördüğü belgelerde ölçülmüş. İki kol aynı satırlarda ölçüldüğü için fark adil olabilir, ama bu varsayıldı, ölçülmedi.
+- *(b) Tasarım boşluğu (kod hatası değil):* Mühürlü `core/model.py`'nin `forward`'ında kodlayıcı belleği satırın tamamını nedensel olarak kapsıyor. Her 512 baytlık eğitim satırı aynı öğrenilmiş başlangıç durumuyla (`initial`) başlıyor. Bu yüzden eğitimde taşınan durumun satırın ötesine bilgi taşıması için hiçbir gradyan yok. E-L1X-F'nin her anlık görüntüde NO STATE CONTEXT bulması (§5.66.1-2) bu kurulumun beklenen sonucu. Makalenin vaadi (durumla uzun bağlam) bu eğitimle sınanamazdı. Durumu uzun bağlama zorlamak için satırlar arası durum taşıma ya da belleği pencereyle sınırlayıp daha uzun satır gerekir → L2 tasarımına girer.
+- *(c) Aşama 1'de bellek yolu ölü değil:* B_ds s1'in 4.000 güncellemesinde okuma çıkışı `Wo` 0'dan ‖·‖ = 14,32'ye çıktı; `Wq`, `Wk`, `Wv` başlangıç normlarının 2,1-2,7 katına büyüdü; Core'un ağırlıkları göreli %9,1 değişti. Yol eğitildi ama pencereler arası olguyu öğrenmedi (§5.61.3). Sıradaki denetim: okuma ve yazma hizası; olgu değeri değişince bellek durumu ve okunan vektör değişiyor mu [H].
+- *(d) Karışım:* L1 ve A0F'nin eğitim satırlarının %25'i yapay anahtar-değer satırıydı (`needle_rate` 0,25). Dil modelinin dörtte biri yapay; L2'de yeniden düşünülmeli.
+- *(e) SFT kırpması hata değil:* E-RL0'ın taban ağırlıklarında SFT gradyan normu L1'de 11,6-12,6, A0F'de 23,2-24,3 (kırpma eşiği 1,0). Adam güncellemesi gradyanın sabit ölçeğinden bağımsız olduğu için bu tek başına L1'in SFT'de öğrenmemesini açıklamaz.
+**Ölçüm:** `scripts/diag_cnn_contamination.py`; testler `tests/test_diag_cnn_contamination.py` (2 test). Eğitim yok, yalnız ölçüm.
+- Modeller: iki son ağırlık, L1 = `results/L1-scratch-w928-s401/latest.pt`, A0F = `results/L1-a0-w928-s401/latest.pt`.
+- Satırlar `mline.train.validate`'in çektiği gibi: `md.batch`, tohum 991, 32 satır × 512 bayt, 24 yığın.
+- Üç akış: özgün doğrulama, train'de olmayan belgeleri ("temiz") ve olan belgeleri ("görülmüş").
+- Satır başına baytlarının ortalama biti; akış başına iki modelin bit/baytı, eşli fark Δ = A0F − L1 ve satırlar üzerinde 10.000 örneklemli önyükleme aralığı.
+- Özgün akışın ilk 8 yığını pilin kullandığı satırlar. Her satır, baytlarının görülmüş belgelerden gelen payıyla etiketlenir; kayıtlı fark bu etiketle ayrıştırılır.
+**Kapı:** L1'in pil satırlarındaki değeri kayıtlı 1,37449'u (adım 30.518, `train.log`) ±0,002 içinde yeniden üretmeli; üretmezse ölçüm INVALID ve önce nedeni bulunur.
+**Kural** (temiz akışta Δ ve aralığı, özgün akışın 24 yığınındaki Δ ile):
+- *GAIN HOLDS ON CLEAN:* aralığın alt ucu > 0 ve Δ_temiz ≥ 0,75 × Δ_özgün.
+- *GAIN SHRINKS ON CLEAN:* alt uç > 0 ama Δ_temiz < 0,75 × Δ_özgün.
+- *GAIN IS MEMORISATION:* alt uç ≤ 0.
+**Öngörüler [H]:**
+- Ö1: iki model de görülmüş belgelerde temizden düşük bit/bayt verir, fark 0,02-0,10 (%65).
+- Ö2: GAIN HOLDS ON CLEAN (%80).
+- Ö3: |Δ_görülmüş − Δ_temiz| ≤ 0,02 (%60).
+BLiMP sonucu (§5.67.2) bu sızıntıdan etkilenmez (dış veri), ama "CNN ile eğitildi" kaydını taşır.
+
 ## 6. Gerçek model yolu
 
 1. **Ne iddia edilir:** "küçük, bayt-düzeyi bir RLT, durum-izleme/çok-adımlı görevlerde eşit-parametre ve eşit-token bir transformer'a yapısal bir üstünlük gösteriyor mu". LM kaybında üstünlük iddia edilmez (bağımsız değerlendirme bulamadı).
