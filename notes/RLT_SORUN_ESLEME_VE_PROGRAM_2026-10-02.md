@@ -2432,6 +2432,27 @@ Her anlık görüntüde aynı ölçü; JSON'lardan yeniden hesaplandı (S ve G o
 **Anlamı.** Geri beslemenin dil kazancı (+0,066 bit/bayt, §5.50.1) bağımsız ve standart bir ölçüte de taşınıyor: aynı veri ve aynı adımda dilbilgisi yargısında +2,9 puan. Çekince 2'ye (§5.65) ilk dış kanıt; eşit hesap ve transformer karşılaştırması (E-X1) hâlâ yok.
 - *Sınırlar:* tek tohum çifti; bayt düzeyi modelde toplam log-olasılık; L1 eğitim verisinin dörtte biri yapay getirme görevi (iki kolda aynı); eşit güncellemede, eşit hesapta değil.
 
+### 5.63.2 E-C-ROT tanısı (§5.63.1'deki borç; betimleyici; işlendi 2026-10-24 09:46): temsil tam ama yanlış frekansta, okuma görmediği açılara genelleyemiyor
+Açı kaydı yerine öğrenilen adım ağırlıkları okundu (`count8_32-core_rotq-w64-s1.pt`, `step.weight`, 2 belirteç × 10 frekans). Yuvarlanmış kolda açılar yalnız belirteç sayımlarının ve bu ağırlıkların deterministik fonksiyonu: θ_k = ω_k (s_k(itme) · #itme + s_k(çekme) · #çekme). Bu yüzden temsilin tanısı ağırlıklardan tamdır.
+**core_rotq**, frekans başına yuvarlanmış adım (itme / çekme):
+- k = 0-3 (periyot 4-32): 0 / 0, kullanılmıyor.
+- **k = 4 (periyot 64): −1 / +1, net sayım, iptal tam.**
+- k = 5 (periyot 128): 0 / −1; k = 6 (256): 0 / +1; k = 9 (2.048): 0 / +1. Yalnız çekmeleri sayıyor.
+- k = 7 (512): +1 / +1, toplam adım sayısı; k = 8 (1.024): −1 / 0, yalnız itmeleri sayıyor.
+
+**Okuma.**
+- *Temsil:* net sayımı taşıyan tek kanal periyodu 64 olan kanal; açı 64'te başa döner. Yavaş kanallar net sayımı değil tek belirteç sayımlarını taşıyor; net sayım yalnız iki açının doğrusal olmayan bir birleşimiyle okunabilir.
+- *Okuma:* eğitim derinliği ≤ 32, yani okuma bu kanalın açısını yalnız [0, π] aralığında gördü. Derinlik 32'yi aşınca görmediği açılarla karşılaşıyor. İlk-iniş doğruluğu D = 64'te 0,40, D = 128'de şans.
+- Bu, kayıtlı kullanımın "sınırlayan temsil değil okuma" yargısını nicel olarak doğruluyor. Ek olarak frekans seçimi de sorunlu: tek net kanal eğitim derinliğinin iki katı periyotta.
+
+**core_rot (sürekli adım):** iptal kusurlu. Örneğin k = 4'te itme −0,695, çekme +0,504; k = 2'de +0,392 ve −0,429; k = 8'de −0,667 ve +0,580. Her adımda bir artık kalıyor ve sapma derinlikle birikiyor.
+**Sonraki tasarım için [H].**
+- İşaretli sayaç: s_k(çekme) = −s_k(itme), yapı gereği bağlanır.
+- Net sayımı en yavaş frekanslara (periyot ≥ 512) koymak.
+- Açıya göre eşdeğişken bir okuma (açıdan sayıma doğrusal çözüm), ki görülmemiş açılara genelleyebilsin.
+
+N2 açık; bu, ayrı ön-kayıt isteyen bir sonraki adım.
+
 ## 6. Gerçek model yolu
 
 1. **Ne iddia edilir:** "küçük, bayt-düzeyi bir RLT, durum-izleme/çok-adımlı görevlerde eşit-parametre ve eşit-token bir transformer'a yapısal bir üstünlük gösteriyor mu". LM kaybında üstünlük iddia edilmez (bağımsız değerlendirme bulamadı).
